@@ -34,7 +34,7 @@ requirements = [
     'singledispatch==3.4.0.3',
     'six==1.12.0',
     'tqdm==4.31.1',
-    'urllib3==1.24.1',
+    'urllib3>=1.24.2',
     'Whoosh==2.7.4',
 ]
 
