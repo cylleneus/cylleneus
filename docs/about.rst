@@ -1,13 +1,13 @@
-=========
-Cylleneus
-=========
+=====
+About
+=====
 
 Towards a semantic and syntactic search engine for electronic corpora of Greek and Latin
-----------------------------------------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 William Michael Short
+`````````````````````
 The University of Exeter, Department of Classics & Ancient History
-
 
 Existing applications for browsing and searching electronic corpora of Greek and Latin fall into
 two broad categories. The first comprises basic textual search tools using ‘regular expression’
