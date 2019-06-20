@@ -68,7 +68,7 @@ Searching
 
 Two interfaces are provided for conducting searches. A handy (but not fully functional) command-line interface permits quick-and-dirty single-term queries:
 
-$ cylleneus --query "<virtus>" --corpus lasla
+``$ cylleneus --query "<virtus>" --corpus lasla``
 
 NB. Click's argument parser interferes with Cyelleneus's query parsing, so all queries must be surrounded by double-quotes on the command line -- therefore making adjacency and proximity searches impossible using this tool.
 
@@ -77,28 +77,41 @@ Run ``shell.py`` for a more robust, but slightly more clunky search interface. I
 Currently, Cylleneus enables the following query types:
 
 Word-form queries
+~~~~~~~~~~~~~~~~~
 :Form: '...'
 :Example: 'virtutem'
 :Description: matches a literal string
+
 Lemma-based queries
+~~~~~~~~~~~~~~~~~~~
 :Form: <...>
 :Example: <virtus>
 :Description: matches any form of the specified lemma
+
 Gloss-based queries
+~~~~~~~~~~~~~~~~~~~
 :Form: [...]
 :Example: [en?courage]
 :Description: matches any word with the same meaning as the specified gloss. Can be 'en', 'it', 'es', or 'fr'.
 :Example: [n#05595229]
 :Description: matches any word with the meaning defined by the specified synset offset ID
+
 Domain-based queries
+~~~~~~~~~~~~~~~~~~~~
 :Form: {...}
 :Example: {611}, {Anatomy}
 :Description: matches any word of any part of speech whose meaning falls within the specified domain. Cylleneus uses the Dewey Decimal Classification System as a general topic index.
+
 Morphology-based queries
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 :Form: :...
 :Example: :ACC.SG.
 :Description: matches any word with the specified morphological properties, given in Leipzig notation. Annotations can be given as distinct query terms, or can be used as filters for lemma- or gloss-based queries. (For example, ``<virtus>:PL.`` will match only plural forms of this word).
+
 Morphology-based filtering
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 :Form: <...>:...
 :Example: <virtus>:GEN.SG.
 :Description: filters results for only genitive singular forms
@@ -108,17 +121,26 @@ Morphology-based filtering
 :Form: {...}:...
 :Example: {Anatomy}:ACC.
 :Description: filters results for only accusative forms
+
 Lexical-relation queries
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 :Form: <?=...>
 :Example: </=virtus>
 :Description: matches any word with the specified lexical relation to the given lemma
+
 Semantic-relation queries
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
 :Form: [?=...]
 :Example: [@=en?courage]
 :Description: matches any word with the specified semantic relation to the given gloss
 :Example: [@=n#05595229]
 :Description: matches any word with the specified semantic relation to the given synset
+
 Syntax-based queries
+~~~~~~~~~~~~~~~~~~~~
+
 :Form: /.../
 :Example: /ablative absolute/
 :Description: syntactical constructions (currently, only the LASLA corpus supports this)
@@ -127,42 +149,60 @@ Gloss-based searches enable searching by the meanings of words, and queries can 
 It is also possible to search by synset ID number: this capability is exposed for future development of an interface where users can search for a specific sense. Normally, queries will be specified as English terms, which resolve to sets of synsets.
 Queries involving lexical and semantic relations depend on information available from the Latin Wordnet 2.0. As this project is on-going, rich relational information may be available only for a subset of vocabulary. However, as new information becomes available, search results should become more comprehensive and more accurate.
 
-:Types of lexical relations:
-`\=`      derives from (e.g., `<\=femina>` would match any lemma derived from *femina*, namely, *femineus*)
-`/=`      relates to (the converse of *derives from*)
-`+c=`     composed of (e.g., `<+c=cum>` would match any lemma composed by *cum*)
-`-c=`     composes (e.g., `<-c=compono>` would match lexical elements that compose *compono*, namely, *cum* and *pono*).
-`<=`      participle (verbs only)
+Types of lexical relations
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Types of semantic relations:
-`!=`      antonym of (e.g., `[!=en?courage]` will match any lemma roughly having the meaning of English *fear*)
-`@=`      hypernym of
-`~=`      hyponym of
-`|=`      nearest to
-`*=`      entails
-`#m=`     member of
-`#p=`     part of
-`#s=`     substance of
-`+r=`     has role
-`%m=`     has member
-`%p=`     has part
-`%s=`     has substance
-`-r=`     is role of
-`>=`      causes
-`^=`      see also
-`$=`     verb group
-`==`      attribute
+=====      ================
+Code       Description
+=====      ================
+``\=``       derives from (e.g., `<\=femina>` would match any lemma derived from *femina*, namely, *femineus*)
+``/=``       relates to (the converse of *derives from*)
+``+c=``      composed of (e.g., `<+c=cum>` would match any lemma composed by *cum*)
+``-c=``      composes (e.g., `<-c=compono>` would match lexical elements that compose *compono*, namely, *cum* and *pono*).
+``<=``       participle (verbs only)
+=====      ================
 
+Types of semantic relations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=====      ================
+Code       Description
+=====      ================
+``!=``     antonym of
+``@=``     hypernym of
+``~=``     hyponym of
+``|=``     nearest to
+``*=``     entails
+``#m=``    member of
+``#p=``    part of
+``#s=``    substance of
+``+r=``    has role
+``%m=``    has member
+``%p=``    has part
+``%s=``    has substance
+``-r=``    is role of
+``>=``     causes
+``^=``     see also
+``$=``     verb group
+``==``     attribute
+=====      ================
 Query types can be combined into complex adjacency or proximity searches. An adjacency search specifies a particular ordering of the query terms (typically, but not necessarily, sequential); a proximity search simply finds contexts where all the query terms occur, regardless of order.
 Adjacency searches must be enclosed with double quotes ("..."), optionally specifying a degree of 'slop', that is, the number of words that may intervene between matched terms, using '~' followed by the number of permissible intervening words.
 
-Examples:
-`"cui dono"`              match the literal string 'cui dono'
-`"si quid <habeo>"`       match 'si' followed by 'quid' followed by any form of *habeo*
-`"cum :ABL."`             match 'cum' followed by any word in the ablative causes
-`"in <ager>:PL."`         match 'in' followed by any plural form of *ager*
-`"<magnus> <animus>"~2`   match any form of *magnus* followed by any form of *animus*, including if separated by a single word
-`<honos> <virtus>`        match any context including both any form of *honos* and any form of *virtus*
+Examples
+~~~~~~~~
+
+``"cui dono"``              matches the literal string 'cui dono'
+
+``"si quid <habeo>"``       matches 'si' followed by 'quid' followed by any form of *habeo*
+
+``"cum :ABL."``             matches 'cum' followed by any word in the ablative causes
+
+``"in <ager>:PL."``         matches 'in' followed by any plural form of *ager*
+
+``"<magnus> <animus>"~2``   matches any form of *magnus* followed by any form of *animus*, including if separated by a single word
+
+``<honos> <virtus>``        matches any context including both any form of *honos* and any form of *virtus*
 
 
 To Do
