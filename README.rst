@@ -76,19 +76,28 @@ Run ``shell.py`` for a more robust, but slightly more clunky search interface. I
 
 Currently, Cylleneus enables the following query types:
 
-    ======              =======                 ===========
-    Format              Example                 Description
-    ======              =======                 ===========
+Word-form queries
     '...'               'virtutem'              matches a literal string
+Lemma-based queries
     <...>               <virtus>                matches any form of the specified lemma
+Gloss-based queries
     [...]               [en?courage]            matches any word with the same meaning as the specified gloss. Can be 'en', 'it', 'es', or 'fr'.
                         [n#05595229]            matches any word with the meaning defined by the specified synset offset ID
+Domain-based queries
     {...}               {611}, {Anatomy}        matches any word of any part of speech whose meaning falls within the specified domain. Cylleneus uses the Dewey Decimal Classification System as a general topic index.
+Morphology-based queries
     :...                :ACC.SG.                matches any word with the specified morphological properties, given in Leipzig notation. Annotations can be given as distinct query terms, or can be used as filters for lemma- or gloss-based queries. (For example, ``<virtus>:PL.`` will match only plural forms of this word).
-                        </=virtus>              matches any word with the specified lexical relation to the given lemma
+Morphology-based filtering
+    <...>:...           <virtus>:GEN.SG.        filters results for only genitive singular forms
+    [...]:...           [en?attack]:VB.PL.      filters results for only plural verb forms
+    {...}:...           {Anatomy}:ACC.          filters results for only accusative forms
+Lexical-relation queries
+    <?=...>             </=virtus>              matches any word with the specified lexical relation to the given lemma
+Semantic-relation queries
+    [?=...]             [@=en?courage]          matches any word with the specified semantic relation to the given gloss
                         [@=n#05595229]          matches any word with the specified semantic relation to the given synset
+Syntax-based queries
     /.../               /ablative absolute/     syntactical constructions (currently, only the LASLA corpus supports this)
-    ======              ========                ===========
 
 Gloss-based searches enable searching by the meanings of words, and queries can be specified in English (en?), Italian (it?), Spanish (es?), or French (fr?). (NB. The vocabulary for Italian, Spanish, and French is significantly smaller than English).
 It is also possible to search by synset ID number: this capability is exposed for future development of an interface where users can search for a specific sense. Normally, queries will be specified as English terms, which resolve to sets of synsets.
