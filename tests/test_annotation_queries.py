@@ -50,10 +50,6 @@ class TestAnnotationQueries(unittest.TestCase):
         c = Corpus(choice(['lasla', 'perseus']))
         e = Searcher(c)
 
-        hits_and_matches = []
         for k, v in queries.items():
             results = list(e.search(v, debug=False).results)
-            hits = len(set([hit.docnum for hit, _, _ in results]))
-            matches = len(results)
-            hits_and_matches.append(hits and matches)
-        assert any(hits_and_matches)
+            assert results
