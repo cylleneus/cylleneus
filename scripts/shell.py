@@ -35,7 +35,7 @@ def main():
                     for docnum, fields in corpus.index.reader().iter_docs():
                         print(f"{docnum}.", fields['author'].title(), fields['title'].title())
                 else:
-                    if index.exists_in(f"../index/{new_corpus}"):
+                    if index.exists_in(f"index/{new_corpus}"):
                         s_ = spinner.Spinner('simpleDotsScrolling')
                         s_.start()
                         corpus = Corpus(new_corpus)
