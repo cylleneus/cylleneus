@@ -47,7 +47,7 @@ class TestAnnotationQueries(unittest.TestCase):
             #"<habeo>:SBJV.",
             ]
 
-        c = Corpus(choice(['lasla', 'perseus', 'latin_library']))
+        c = Corpus(choice(['lasla', 'perseus']))
         e = Searcher(c)
 
         results = list(e.search(choice(queries), debug=False).results)

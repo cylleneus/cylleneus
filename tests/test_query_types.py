@@ -47,7 +47,7 @@ class TestQueryTypes(unittest.TestCase):
             "[@=n#04478900]",
         ]
 
-        c = Corpus(choice(['lasla', 'perseus', 'latin_library']))
+        c = Corpus(choice(['lasla', 'perseus']))
         e = Searcher(c)
 
         results = list(e.search(choice(queries), debug=False).results)
