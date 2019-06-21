@@ -1,32 +1,49 @@
-import re
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-# from search.proiel import CachedPROIELXmlTokenizer
-from cltk.corpus.readers import get_corpus_reader
+"""Tests for `cylleneus` package."""
+
+import unittest
+from random import choice
+import codecs
+import pathlib
+import re
 
 from engine.analysis.tokenizers import CachedPlainTextTokenizer
 
-c = get_corpus_reader(language='latin', corpus_name='latin_text_latin_library')
-doc = list(c.docs())[447]
-doc = re.sub(r"\.,", ".", doc)
-doc = re.sub(r"([\w])\.([\w])", r"\1. \2", doc)
-doc = re.sub(r",([\w])", r", \1", doc)
-doc = re.sub(r"(?<=\w)\.\.", r" . .", doc)
-doc = re.sub(r"([.,;:])([.,;:])", r"\1 \2", doc)
-doc = re.sub(r"[\t\r\n ]+", " ", doc)
-doc = re.sub(r'\.\"', '\"\.', doc)
-doc = re.sub(r' ,', ',', doc)
-doc = re.sub(r'\[ \d+ \] ', '', doc)
-doc = re.sub(r' \[,', '[,', doc)
-doc = re.sub(r'\]\.', '.]', doc)
 
+class TestPlaintextTokenizer(unittest.TestCase):
+    """Tests for `cylleneus` package."""
 
-for i, c in enumerate(doc):
-    print(f"{i:10} {c}")
-T = CachedPlainTextTokenizer()
+    def setUp(self):
+        """Set up test fixtures, if any."""
 
-# T = CachedPROIELXmlTokenizer()
-# with open('proiel-treebank/cic-off.xml', 'rb') as f:
-#     doc = f.read()
+    def tearDown(self):
+        """Tear down test fixtures, if any."""
 
-for t in T(doc):
-    print(f"{t.startchar}-{t.original} | {t.text}-{t.endchar}")
+    def test_plaintext_tokenizer(self):
+        """Test the plaintext tokenizer."""
+
+        latin_library = pathlib.Path('text/latin_library/')
+        files = latin_library.glob('*.txt')
+
+        with codecs.open(choice(files), 'r', 'utf8') as fp:
+            doc = fp.read()
+
+        # Clean the text
+        doc = re.sub(r"\.,", ".", doc)
+        doc = re.sub(r"([\w])\.([\w])", r"\1. \2", doc)
+        doc = re.sub(r",([\w])", r", \1", doc)
+        doc = re.sub(r"(?<=\w)\.\.", r" . .", doc)
+        doc = re.sub(r"([.,;:])([.,;:])", r"\1 \2", doc)
+        doc = re.sub(r"[\t\r\n ]+", " ", doc)
+        doc = re.sub(r'\.\"', '\"\.', doc)
+        doc = re.sub(r' ,', ',', doc)
+        doc = re.sub(r'\[ \d+ \] ', '', doc)
+        doc = re.sub(r' \[,', '[,', doc)
+        doc = re.sub(r'\]\.', '.]', doc)
+
+        T = CachedPlainTextTokenizer()
+
+        for t in T(doc):
+            assert t

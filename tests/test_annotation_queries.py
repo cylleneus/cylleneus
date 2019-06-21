@@ -1,9 +1,27 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""Tests for `cylleneus` package."""
+
+
+import unittest
 from search import Searcher
 from corpus import Corpus
-import datetime
+from random import choice
 
-corpora = ['lasla', 'perseus', 'latin_library']
-queries = {
+class TestAnnotationQueries(unittest.TestCase):
+    """Tests for `cylleneus` package."""
+
+    def setUp(self):
+        """Set up test fixtures, if any."""
+
+    def tearDown(self):
+        """Tear down test fixtures, if any."""
+
+    def test_annotation_queries(self):
+        """Test possible annotation queries."""
+
+        queries = {
             'verb': ":VB.",
             'noun': ":NN.",
             'adjective': ":ADJ.",
@@ -23,16 +41,11 @@ queries = {
             'verb, subjunctive plural': ":VB.PL.SBJV.",
             'cum + ablative': '"cum :ABL."',  # adjacency
             }
-for corpus in corpora:
-    c = Corpus(corpus)
-    e = Searcher(c)
-    print('searching in:', corpus)
-    for k, v in queries.items():
-        print('    ', k, end='... ')
-        start = datetime.datetime.now()
-        # set debug to True to see how annotation queries resolve
-        results = list(e.search(v, debug=False).results)
-        end = datetime.datetime.now()
-        hits = len(set([hit.docnum for hit, _, _ in results]))
-        matches = len(results)
-        print(f"{matches} matches in {hits} docs in {end - start} secs")
+
+        c = Corpus(choice('lasla', 'perseus', 'latin_library'))
+        e = Searcher(c)
+        for k, v in queries.items():
+            results = list(e.search(v, debug=False).results)
+            hits = len(set([hit.docnum for hit, _, _ in results]))
+            matches = len(results)
+            assert hits and matches

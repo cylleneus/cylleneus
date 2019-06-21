@@ -7,8 +7,8 @@
 import unittest
 from click.testing import CliRunner
 
-from temp import cylleneus
-from temp import cli
+from cylleneus import cylleneus
+from cylleneus import cli
 
 
 class TestCylleneus(unittest.TestCase):

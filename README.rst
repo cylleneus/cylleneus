@@ -78,18 +78,21 @@ Currently, Cylleneus enables the following query types:
 
 Word-form queries
 ~~~~~~~~~~~~~~~~~
+
 :Form: '...'
 :Example: 'virtutem'
 :Description: matches a literal string
 
 Lemma-based queries
 ~~~~~~~~~~~~~~~~~~~
+
 :Form: <...>
 :Example: <virtus>
 :Description: matches any form of the specified lemma
 
 Gloss-based queries
 ~~~~~~~~~~~~~~~~~~~
+
 :Form: [...]
 :Example: [en?courage]
 :Description: matches any word with the same meaning as the specified gloss. Can be 'en', 'it', 'es', or 'fr'.
@@ -98,6 +101,7 @@ Gloss-based queries
 
 Domain-based queries
 ~~~~~~~~~~~~~~~~~~~~
+
 :Form: {...}
 :Example: {611}, {Anatomy}
 :Description: matches any word of any part of speech whose meaning falls within the specified domain. Cylleneus uses the Dewey Decimal Classification System as a general topic index.
@@ -152,40 +156,41 @@ Queries involving lexical and semantic relations depend on information available
 Types of lexical relations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=====      ================
-Code       Description
-=====      ================
+=======      ================
+Code         Description
+=======      ================
 ``\=``       derives from (e.g., `<\=femina>` would match any lemma derived from *femina*, namely, *femineus*)
 ``/=``       relates to (the converse of *derives from*)
 ``+c=``      composed of (e.g., `<+c=cum>` would match any lemma composed by *cum*)
 ``-c=``      composes (e.g., `<-c=compono>` would match lexical elements that compose *compono*, namely, *cum* and *pono*).
 ``<=``       participle (verbs only)
-=====      ================
+=======      ================
 
 Types of semantic relations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=====      ================
-Code       Description
-=====      ================
-``!=``     antonym of
-``@=``     hypernym of
-``~=``     hyponym of
-``|=``     nearest to
-``*=``     entails
-``#m=``    member of
-``#p=``    part of
-``#s=``    substance of
-``+r=``    has role
-``%m=``    has member
-``%p=``    has part
-``%s=``    has substance
-``-r=``    is role of
-``>=``     causes
-``^=``     see also
-``$=``     verb group
-``==``     attribute
-=====      ================
+=======      ================
+Code         Description
+=======      ================
+``!=``       antonym of
+``@=``       hypernym of
+``~=``       hyponym of
+``|=``       nearest to
+``*=``       entails
+``#m=``      member of
+``#p=``      part of
+``#s=``      substance of
+``+r=``      has role
+``%m=``      has member
+``%p=``      has part
+``%s=``      has substance
+``-r=``      is role of
+``>=``       causes
+``^=``       see also
+``$=``       verb group
+``==``       attribute
+=======      ================
+
 Query types can be combined into complex adjacency or proximity searches. An adjacency search specifies a particular ordering of the query terms (typically, but not necessarily, sequential); a proximity search simply finds contexts where all the query terms occur, regardless of order.
 Adjacency searches must be enclosed with double quotes ("..."), optionally specifying a degree of 'slop', that is, the number of words that may intervene between matched terms, using '~' followed by the number of permissible intervening words.
 

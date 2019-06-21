@@ -1,14 +1,33 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""Tests for `cylleneus` package."""
+
+import unittest
+from random import choice
 import codecs
 import pathlib
 import lxml.etree as et
 
 from engine.analysis.tokenizers import CachedPerseusTEITokenizer
 
-if __name__=='__main__':
-    perseus = pathlib.Path('../text/perseus-tei/data/phi0119/phi001/')
-    files = perseus.glob('*lat*.xml')
-    for file in files:
-        with codecs.open(file, 'rb') as f:
+
+class TestPerseusTEITokenizer(unittest.TestCase):
+    """Tests for `cylleneus` package."""
+
+    def setUp(self):
+        """Set up test fixtures, if any."""
+
+    def tearDown(self):
+        """Tear down test fixtures, if any."""
+
+    def test_perseus_json_tokenizer(self):
+        """Test the Perseus TEI XML tokenizer."""
+
+        perseus = pathlib.Path('text/perseus-tei/data/')
+        files = perseus.glob('*/*/*lat*.xml')
+
+        with codecs.open(choice(files), 'rb') as f:
             value = f.read()
 
             parser = et.XMLParser(encoding='UTF-8')
@@ -19,6 +38,4 @@ if __name__=='__main__':
         T = CachedPerseusTEITokenizer()
 
         for t in T({'text': doc, 'meta': meta}):
-            print(t)
-            # tags = ', '.join([f"{div.lower()}={t.meta[div.lower()]}" for div in divs.values()])
-            # print(f"{t.startchar}-{t.original} | {t.text}-{t.endchar}\t\t{tags}")
+            assert t
