@@ -16,6 +16,10 @@ class TestAnnotationQueries(unittest.TestCase):
     def setUp(self):
         """Set up test fixtures, if any."""
 
+        from multiwordnet.db import compile
+        for language in ['common', 'latin', 'italian', 'spanish', 'french', 'hebrew']:
+            compile(language)
+
     def tearDown(self):
         """Tear down test fixtures, if any."""
 
