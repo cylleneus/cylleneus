@@ -68,7 +68,7 @@ Searching
 
 Two interfaces are provided for conducting searches. A handy (but not fully functional) command-line interface permits quick-and-dirty single-term queries:
 
-``$ cylleneus --query "<virtus>" --corpus lasla``
+``$ cylleneus --query "<virtus>" --corpus latin_library``
 
 NB. Click's argument parser interferes with Cyelleneus's query parsing, so all queries must be surrounded by double-quotes on the command line -- therefore making adjacency and proximity searches impossible using this tool.
 
