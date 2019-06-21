@@ -16,6 +16,7 @@ requirements = [
     'certifi==2019.3.9',
     'chardet==3.0.4',
     'cltk==0.1.107',
+    'cursor==1.3.4',
     'future==0.17.1',
     'idna==2.8',
     'isodate==0.6.0',
