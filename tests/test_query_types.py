@@ -26,31 +26,29 @@ class TestAnnotationQueries(unittest.TestCase):
     def test_annotation_queries(self):
         """Test possible annotation queries."""
 
-        queries = {
-            'form': "'ius'",
-            'annotation': ":ACC.PL.",
-            'lemma': "<virtus>",
-            'lemma with annotation': "<animus>:PL.ABL.",
-            'gloss (en)': "[en?war]",
-            'gloss (it)': "[it?guerra]",
-            'gloss (es)': "[es?guerra]",
-            'gloss (fr)': "[fr?guerre]",
-            'gloss with annotation': "[en?courage]:GEN.SG.",
-            'semfield': "{611}",
-            'form + lemma': '"cum <virtus>"',
-            'form + lemma with annotation': '"cum <virtus>:SG."',
-            'form + annotation': "'milites' :VB.",
-            'annotation + form': ":VB. 'milites'",
-            'annotation + lemma': ":VB. <miles>",
-            'lexical relation (lemma)': "</=bellum>",
-            'semantic relation (gloss)': "[!=en?love]",
-            'semantic relation (synset)': "[@=n#04478900]",
-        }
+        queries = [
+            "'ius'",
+            ":ACC.PL.",
+            "<virtus>",
+            "<animus>:PL.ABL.",
+            "[en?war]",
+            "[it?guerra]",
+            "[es?guerra]",
+            "[fr?guerre]",
+            "[en?courage]:GEN.SG.",
+            "{611}",
+            '"cum <virtus>"',
+            '"cum <virtus>:SG."',
+            "'milites' :VB.",
+            ":VB. 'milites'",
+            ":VB. <miles>",
+            "</=bellum>",
+            "[!=en?love]",
+            "[@=n#04478900]",
+        ]
 
         c = Corpus(choice(['lasla', 'perseus']))
         e = Searcher(c)
-        for k, v in queries.items():
-            results = list(e.search(v, debug=False).results)
-            hits = len(set([hit.docnum for hit, _, _ in results]))
-            matches = len(results)
-            assert hits and matches
+
+        results = list(e.search(choice(queries), debug=False).results)
+        assert results
