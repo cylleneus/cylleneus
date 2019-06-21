@@ -43,7 +43,7 @@ class TestAnnotationQueries(unittest.TestCase):
             'semantic relation (synset)': "[@=n#04478900]",
         }
 
-        c = Corpus(choice('lasla', 'perseus', 'latin_library'))
+        c = Corpus(choice(['lasla', 'perseus', 'latin_library']))
         e = Searcher(c)
         for k, v in queries.items():
             results = list(e.search(v, debug=False).results)

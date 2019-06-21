@@ -50,15 +50,10 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
-    description="Next generation search engine for electronic corpora of Greek and Latin",
+    description="Next-generation search engine for electronic corpora of Greek and Latin",
     entry_points={
         'console_scripts': [
             'cylleneus=cylleneus.cli:main',

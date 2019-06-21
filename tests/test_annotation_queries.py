@@ -9,6 +9,7 @@ from search import Searcher
 from corpus import Corpus
 from random import choice
 
+
 class TestAnnotationQueries(unittest.TestCase):
     """Tests for `cylleneus` package."""
 
@@ -42,7 +43,7 @@ class TestAnnotationQueries(unittest.TestCase):
             'cum + ablative': '"cum :ABL."',  # adjacency
             }
 
-        c = Corpus(choice('lasla', 'perseus', 'latin_library'))
+        c = Corpus(choice(['lasla', 'perseus', 'latin_library']))
         e = Searcher(c)
         for k, v in queries.items():
             results = list(e.search(v, debug=False).results)
