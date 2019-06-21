@@ -10,7 +10,7 @@ from corpus import Corpus
 from random import choice
 
 
-class TestAnnotationQueries(unittest.TestCase):
+class TestQueryTypes(unittest.TestCase):
     """Tests for `cylleneus` package."""
 
     def setUp(self):
@@ -23,8 +23,8 @@ class TestAnnotationQueries(unittest.TestCase):
     def tearDown(self):
         """Tear down test fixtures, if any."""
 
-    def test_annotation_queries(self):
-        """Test possible annotation queries."""
+    def test_query_types(self):
+        """Test query types."""
 
         queries = [
             "'ius'",
@@ -51,4 +51,4 @@ class TestAnnotationQueries(unittest.TestCase):
         e = Searcher(c)
 
         results = list(e.search(choice(queries), debug=False).results)
-        assert results
+        assert results is not None
