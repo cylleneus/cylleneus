@@ -24,7 +24,7 @@ class TestPerseusTEITokenizer(unittest.TestCase):
     def test_perseus_json_tokenizer(self):
         """Test the Perseus TEI XML tokenizer."""
 
-        perseus = pathlib.Path('text/perseus-tei/data/')
+        perseus = pathlib.Path('tests/text/perseus-tei/data/')
         files = list(perseus.glob('*/*/*lat*.xml'))
 
         with codecs.open(choice(files), 'rb') as f:

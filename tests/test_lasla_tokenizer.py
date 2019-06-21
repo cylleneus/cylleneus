@@ -25,7 +25,7 @@ class TestLASLATokenizer(unittest.TestCase):
     def test_lasla_tokenizer(self):
         """Test the LASLA tokenizer."""
         pass
-        # lasla = pathlib.Path('text/lasla/')
+        # lasla = pathlib.Path('tests/text/lasla/')
         # files = list(lasla.glob('*.BPN'))
         #
         # with codecs.open(choice(files), 'r', 'utf8') as f:

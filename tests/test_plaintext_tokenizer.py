@@ -24,7 +24,7 @@ class TestPlaintextTokenizer(unittest.TestCase):
     def test_plaintext_tokenizer(self):
         """Test the plaintext tokenizer."""
 
-        latin_library = pathlib.Path('text/latin_library/')
+        latin_library = pathlib.Path('tests/text/latin_library/')
         files = list(latin_library.glob('*.txt'))
 
         with codecs.open(choice(files), 'r', 'utf8') as fp:

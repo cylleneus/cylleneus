@@ -24,7 +24,7 @@ class TestPerseusJSONTokenizer(unittest.TestCase):
     def test_perseus_json_tokenizer(self):
         """Test the Perseus JSON tokenizer."""
 
-        perseus = pathlib.Path('text/perseus')
+        perseus = pathlib.Path('tests/text/perseus')
         files = list(perseus.glob('*.json'))
 
         with codecs.open(choice(files), 'r', 'utf8') as f:

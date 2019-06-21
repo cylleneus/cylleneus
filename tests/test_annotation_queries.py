@@ -43,7 +43,7 @@ class TestAnnotationQueries(unittest.TestCase):
             'cum + ablative': '"cum :ABL."',  # adjacency
             }
 
-        c = Corpus(choice(['lasla', 'perseus', 'latin_library']))
+        c = Corpus(choice(['lasla', 'perseus']))
         e = Searcher(c)
         for k, v in queries.items():
             results = list(e.search(v, debug=False).results)
