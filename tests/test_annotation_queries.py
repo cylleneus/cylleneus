@@ -36,15 +36,15 @@ class TestAnnotationQueries(unittest.TestCase):
             'present subjunctive': ":PRS.SBJV.",
             '3rd person singular': ":3SG.",
             'masculine plural': ":M.PL.",
-            'virtus, singular': "<virtus>:SG.",
-            'virtus, plural': "<virtus>:PL.",
-            'virtus, ablative': "<virtus>:ABL.",
-            'virtus, ablative plural': "<virtus>:PL.ABL.",
-            'habeo, 3rd person plural': "<habeo>:3PL.",
             'verb, plural': ":VB.PL.",
-            'habeo, subjunctive': "<habeo>:SBJV.",
             'verb, subjunctive': ":VB.SBJV.",
             'cum + ablative': '"cum :ABL."',  # adjacency
+            # 'virtus, singular': "<virtus>:SG.",
+            # 'virtus, plural': "<virtus>:PL.",
+            # 'virtus, ablative': "<virtus>:ABL.",
+            # 'virtus, ablative plural': "<virtus>:PL.ABL.",
+            # 'habeo, 3rd person plural': "<habeo>:3PL.",
+            # 'habeo, subjunctive': "<habeo>:SBJV.",
             }
 
         c = Corpus(choice(['lasla', 'perseus']))
