@@ -563,7 +563,8 @@ class CachedLemmaFilter(Filter):
                                 self._cache.append(copy.copy(t))
                                 yield t
                 elif t.mode == 'query':
-                    if '=' in t.text:
+                    # Lexical relation
+                    if t.text[1] == '=' or t.text[2] == '=':
                         reltype, query = t.text.rsplit('=', 1)  # for handling '=='
                         t.reltype = reltype
                         t.text = query
@@ -593,13 +594,20 @@ class CachedLemmaFilter(Filter):
                                             t.text = f"{relation['lemma']}={relation['morpho']}"
                                             yield t
                         else:
-                            results = list(latinwordnet.lemmas(text, '*'))
-                            if results:
-                                for result in results:
-                                    t.text = f"{result['lemma']}={result['morpho']}"
-                                    yield t
-                            else:
+                            # If the query has been provided as a morphologically
+                            # tagged lemma, we don't need to fetch WordNet data
+                            if '=' in text:
+                                t.text = text
                                 yield t
+                            else:
+                                results = list(latinwordnet.lemmas(text, pos='*'))
+
+                                if results:
+                                    for result in results:
+                                        t.text = f"{result['lemma']}={result['morpho']}"
+                                        yield t
+                                else:
+                                    yield t
 
 
 class AnnotationFilter(Filter):

@@ -63,7 +63,7 @@ class Corpus:
         if self.name == 'perseus':
             # TODO: remove
             filename = Path(filename).name
-            with codecs.open(f'text/perseus/{filename}', 'r', 'utf8') as fp:
+            with codecs.open(f'corpus/text/perseus/{filename}', 'r', 'utf8') as fp:
                 doc = json.load(fp)
             return Work(self.name, filename, doc)
 
@@ -103,7 +103,7 @@ class Work:
 
     @property
     def divs(self):
-        return [d.title() for d in self.meta.split('-')]
+        return [d.lower() for d in self.meta.split('-')]
 
     @property
     def text(self):
@@ -113,7 +113,7 @@ class Work:
         # TODO: collect all text from start to end
         item = self.text
         for div in self.meta.split('-'):
-            item = item[start[div]]
+            item = item[start[div.lower()]]
         return item
 
 class Reference:

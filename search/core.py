@@ -19,6 +19,7 @@ class Searcher:
         self._searches = []
         self._corpus = corpus
 
+
     @property
     def corpus(self):
         return self._corpus
@@ -28,13 +29,13 @@ class Searcher:
         self._corpus = c
 
     # TODO: Add concurrency
-    def search(self, param: str, corpus=None, debug=False):
+    def search(self, param: str, corpus=None, debug=False, minscore=None):
         """ Execute the specified search parameters """
 
         if param:
             parser = CylleneusQueryParser("form", self.corpus.schema)
             query = parser.parse(param, debug=debug)
-            search = Search(query, self.corpus)
+            search = Search(query, self.corpus, minscore=minscore)
             matches, docs = search.exec()
             if matches > 0:
                 self.searches.append(search)
@@ -50,9 +51,10 @@ class Searcher:
 
 
 class Search:
-    def __init__(self, query: Query, corpus: Corpus):
+    def __init__(self, query: Query, corpus: Corpus, minscore=None):
         self._query = query
         self._corpus = corpus
+        self._minscore = minscore
 
         self._start_time = None
         self._end_time = None
@@ -87,7 +89,12 @@ class Search:
                         # TODO: Retrieve multi-line, extended passages using
                         #   'start' and 'end'
                         urn = hit.get('urn', None)
-                        ref = '.'.join([meta['start'][div]
+                        if 'line' in meta['meta'] and len(meta['meta'].split('-')) <= 2:
+                            ref = '.'.join([meta['start'][div]
+                                            for div in meta['meta'].split('-')
+                                            ]).replace('t1', '')
+                        else:
+                            ref = '.'.join([meta['start'][div]
                                         for div in meta['meta'].split('-')
                                         if div != 'line'
                                         ]).replace('t1', '')
@@ -165,6 +172,10 @@ class Search:
         else:
             return 0, 0
 
+    @property
+    def minscore(self):
+        return self._minscore
+
     def exec(self):
         self.start_time = datetime.now()
         with CylleneusSearcher(self.corpus.reader) as searcher:
@@ -178,7 +189,7 @@ class Search:
                 results.scorer = CylleneusBasicFragmentScorer()
 
                 for hit in sorted(results, key=lambda x: (x['author'], x['title'])):
-                    highlights = list(hit.highlights('content', top=10000000))
+                    highlights = list(hit.highlights('content', top=10000000, minscore=self.minscore))
 
                     # TODO: Sort results based on meta values
                     for meta, fragment in highlights:

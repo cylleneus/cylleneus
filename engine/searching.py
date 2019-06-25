@@ -1781,15 +1781,18 @@ class CylleneusHit(Hit):
         ]))
         return finalists
 
-    def highlights(self, fieldname, text=None, top=1000000, minscore=1):
-        minscore = min_score(self.results.q)
+    def highlights(self, fieldname, text=None, top=1000000, minscore=None):
+        minscore = minscore or min_score(self.results.q)
 
         # Filter fragments for complex queries with annotations
         hlites = self.filter_fragments(self.results.q, minscore)
 
         # Attach collated meta data to fragments
         if self.get('meta', False):
-            divs = [div for div in self['meta'].lower().split('-') if div != 'line']
+            if 'line' in self['meta'].lower() and len(self['meta'].lower().split('-')) <= 2:
+                divs = [div for div in self['meta'].lower().split('-')]
+            else:
+                divs = [div for div in self['meta'].lower().split('-') if div != 'line']
             for score, fragment in hlites:
                 meta = {
                     'meta': self['meta'].lower()

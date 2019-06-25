@@ -551,7 +551,7 @@ class CachedPlainTextTokenizer(Tokenizer):
 
                         if temp_tokens:
                             if temp_tokens[0].replace('j', 'i').replace('v', 'u') not in proper_names.proper_names:
-                                temp_tokens[0] = temp_tokens[0].lower()
+                                temp_tokens[0] = temp_tokens[0]
 
                             if temp_tokens[-1].endswith('.'):
                                 final_word = temp_tokens[-1][:-1]
@@ -604,7 +604,7 @@ class CachedPlainTextTokenizer(Tokenizer):
                         if token not in exceptions:
                             if t.original in replacements:
                                 for subtoken in replacements[t.original]:
-                                    t.text = subtoken.lower()
+                                    t.text = subtoken
                                     t.startchar = start_char
                                     t.endchar = start_char + original_length
                                     if mode == 'index': self._cache.append(copy.copy(t))
@@ -675,7 +675,7 @@ class CachedPlainTextTokenizer(Tokenizer):
                                             if mode == 'index': self._cache.append(copy.copy(t))
                                             yield t
                                     elif enclitic == "'s":
-                                        t.text = token.lower() + 's'
+                                        t.text = token + 's'
                                         t.startchar = start_char
                                         t.endchar = start_char + len(token)
                                         if mode == 'index': self._cache.append(copy.copy(t))
@@ -686,7 +686,7 @@ class CachedPlainTextTokenizer(Tokenizer):
                                         if mode == 'index': self._cache.append(copy.copy(t))
                                         yield t
                                     else:
-                                        t.text = (token[:-len(enclitic)]).lower()
+                                        t.text = (token[:-len(enclitic)])
                                         t.startchar = start_char
                                         t.endchar = start_char + len(token[:-len(enclitic)])
                                         if mode == 'index': self._cache.append(copy.copy(t))
@@ -699,7 +699,7 @@ class CachedPlainTextTokenizer(Tokenizer):
                                     is_enclitic = True
                                     break
                         if not is_enclitic:
-                            t.text = token.lower()
+                            t.text = token
                             if chars:
                                 t.startchar = start_char + ldiff
                                 t.endchar = start_char + original_length - rdiff  # - ndiff - rdiff
