@@ -795,9 +795,7 @@ class CachedSynsetFilter(Filter):
                         lemma, morpho = text.split('=')
                         results = latinwordnet.lemmas(lemma, morpho[0], morpho).synsets
                         for result in results:
-                            for synset in chain(result['synsets']['literal'],
-                                                result['synsets']['metonymic'],
-                                                result['synsets']['metaphoric']):
+                            for synset in result['synsets']:
                                 t.code = ' '.join([semfield['code'] for semfield in synset['semfield']]) ## kludgy
                                 t.text = f"{synset['pos']}#{synset['offset']}"
                                 self._cache.append(copy.copy(t))
