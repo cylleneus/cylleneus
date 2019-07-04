@@ -18,7 +18,7 @@ class Searcher:
     def __init__(self, corpus: Corpus):
         self._searches = []
         self._corpus = corpus
-
+        self._docs = set(corpus.reader.all_doc_ids())
 
     @property
     def corpus(self):
@@ -28,14 +28,26 @@ class Searcher:
     def corpus(self, c):
         self._corpus = c
 
+    @property
+    def docs(self):
+        return list(self._docs)
+
+    @docs.setter
+    def docs(self, doc_ids: list):
+        self._docs = set(doc_ids)
+
     # TODO: Add concurrency
-    def search(self, param: str, corpus=None, debug=False, minscore=None):
+    def search(self, param: str, corpus=None, doc_ids: list = None, minscore=None, debug=False):
         """ Execute the specified search parameters """
 
         if param:
             parser = CylleneusQueryParser("form", self.corpus.schema)
             query = parser.parse(param, debug=debug)
-            search = Search(query, self.corpus, minscore=minscore)
+            if not corpus:
+                corpus = self.corpus
+            if not doc_ids:
+                doc_ids = self.docs
+            search = Search(param, query, corpus, doc_ids, minscore=minscore)
             matches, docs = search.exec()
             if matches > 0:
                 self.searches.append(search)
@@ -51,14 +63,21 @@ class Searcher:
 
 
 class Search:
-    def __init__(self, query: Query, corpus: Corpus, minscore=None):
+    def __init__(self, param: str, query: Query, corpus: Corpus, doc_ids: list = None, minscore=None):
+        self._param = param
         self._query = query
         self._corpus = corpus
+        self._docs = set(doc_ids)
         self._minscore = minscore
 
         self._start_time = None
         self._end_time = None
         self._results = None
+
+    @property
+    def docs(self):
+        return self._docs
+
 
     @property
     def results(self):
@@ -132,6 +151,10 @@ class Search:
                 fragment_counter += 1
 
     @property
+    def param(self):
+        return self._param
+
+    @property
     def corpus(self):
         return self._corpus
 
@@ -179,7 +202,7 @@ class Search:
     def exec(self):
         self.start_time = datetime.now()
         with CylleneusSearcher(self.corpus.reader) as searcher:
-            results = searcher.search(self.query, terms=True, limit=None)
+            results = searcher.search(self.query, terms=True, limit=None, filter=self.docs)
 
             self.results = []
             if results:
@@ -200,5 +223,9 @@ class Search:
         self.end_time = datetime.now()
         return self.count
 
+    def __repr__(self):
+        return f"Search(param={self.param}, query={self.query}, corpus={self.corpus})"
+
     def __str__(self):
-        return f"{self.query}, {self.count} results ({self.start_time})"
+        hits, docs = self.count
+        return f"{self.param} in '{self.corpus}' ({len(self.docs)} docs), {hits} results in {docs} texts ({self.start_time})"
