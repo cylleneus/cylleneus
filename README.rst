@@ -53,8 +53,7 @@ Setup
 
 The Cylleneus engine requires texts to be indexed before they can be searched. For convenience and testing, this repository comes configured with three pre-indexed mini-corpora: the texts of Caesar from the LASLA corpus, the texts of Vergil from the Perseus Digital Library as made available in JSON format by the Classical Language Tool Kit, and some of the works of Seneca the Younger from the Latin Library (excluding *Nat. quaest.* and *Ep. mor.*). Ready-made scripts are provided for indexing texts from the Perseus Digital Library (in JSON or TEI XML format), the LASLA corpus, the PHI5 corpus, and from plain-text sources (for instance, the Latin Library). To index a corpus (or part of one), the raw source should be placed in an appropriately named directory within ``/corpus/text/<name>``. Then you can use any of the ready-made scripts in the ``scripts`` directory, modifying it for your own needs. The script for indexing texts from the Latin Library should be suitable for any plain-text source document. If you want to use texts from another corpus entirely, you will need to create an indexing pipeline tailored to the structure of that corpus. See the documentation for instructions.
 
-To enable gloss-based searches, Cylleneus relies on the MultiWordNet. The setup process should install the latest version of the ``multiwordnet`` package from PyPI, and also compile the necessary databases, but in case this step has been omitted you can do it manually.
-To prepare the MultiWordNet for use, launch the Python REPL and enter the following commands.
+To enable gloss-based searches, Cylleneus relies on the MultiWordNet. The setup process should install the latest version of the ``multiwordnet`` package from PyPI, and also compile the necessary databases, but in case this step has been omitted you can do it manually. To do so, launch the Python REPL and enter the following commands.
 
 >>> from multiwordnet.db import compile
 >>> for language in ['common', 'english', 'latin', 'french', 'spanish', 'italian', 'hebrew']:
@@ -76,7 +75,7 @@ For the present, the preferable option is to use the shell
 
 ``$ python scripts/shell.py``
 
-which provides a more robust search interface. It can accommodate the full range of query types.
+which provides a more robust search interface accommodating the full range of query types.
 
 Currently, Cylleneus enables the following query types:
 
@@ -219,8 +218,7 @@ To Do
 
 In no particular order...
 
-* functionality for incremental indexing and user-specifiable subcorpora
-* CLI matching functionality of shell
+* functionality for incremental indexing
 * fix ordering of matches in results based on available metadata
 * improve morphological annotation matching: at indexing, tokens should indicate _only_ a form's variance from the base (lemma's) morphology; for searching, 'bald' annotation queries need to generate tokens capturing all possible variations for a given part of speech (see ``morphology.from_leipzig``, ``analysis.filtering.AnnotationFilter``)
 * fix CTS sourcing for multi-line results
