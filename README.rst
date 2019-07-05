@@ -42,11 +42,10 @@ Installation
 
 Clone this repository, navigate to the appropriate directory, and run the following command from your command line:
 
-``python setup.py install``
+``$ cd cylleneus``
+``$ python setup.py install``
 
-To setup a development environment, instead use:
-
-``pip install -r requirements_dev.txt``
+It is also possible to ``pip install cylleneus``, but in this case you need to manage your own indexing.
 
 
 Setup
@@ -72,7 +71,11 @@ Two interfaces are provided for conducting searches. A handy (but not fully func
 
 NB. Click's argument parser interferes with Cyelleneus's query parsing, so all queries must be surrounded by double-quotes on the command line -- therefore making adjacency and proximity searches impossible using this tool.
 
-Run ``shell.py`` for a more robust, but slightly more clunky search interface. It can accommodate the full range of query types.
+For the present, the preferable option is to use the shell
+
+``$ python scripts/shell.py``
+
+which provides a more robust search interface accommodating the full range of query types.
 
 Currently, Cylleneus enables the following query types:
 
