@@ -218,8 +218,7 @@ To Do
 
 In no particular order...
 
-* functionality for incremental indexing and user-specifiable subcorpora
-* CLI matching functionality of shell
+* functionality for incremental indexing
 * fix ordering of matches in results based on available metadata
 * improve morphological annotation matching: at indexing, tokens should indicate _only_ a form's variance from the base (lemma's) morphology; for searching, 'bald' annotation queries need to generate tokens capturing all possible variations for a given part of speech (see ``morphology.from_leipzig``, ``analysis.filtering.AnnotationFilter``)
 * fix CTS sourcing for multi-line results
