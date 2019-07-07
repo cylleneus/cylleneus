@@ -84,3 +84,13 @@ class LASLADocumentSchema(engine.fields.SchemaClass):
 #     annotation = engine.fields.ANNOTATION(analyzer=PlainTextTokenizer | LemmaFilter | AnnotationFilter, stored=True, sortable=True, vector=True)
 #     synset = engine.fields.SYNSET(analyzer=PlainTextTokenizer | LemmaFilter | SynsetFilter, stored=True, sortable=True, vector=True)
 #     semfield = engine.fields.SEMFIELD(analyzer=PlainTextTokenizer | LemmaFilter | SynsetFilter | SemfieldFilter, stored=True, sortable=True, vector=True)
+
+
+schemas = {
+    'plain_text': PlainTextDocumentSchema,
+    'lasla': LASLADocumentSchema,
+    'latin_library': PlainTextDocumentSchema,
+    'proiel': None,
+    'phi5': PHI5DocumentSchema,
+    'perseus': PerseusJSONDocumentSchema,
+}

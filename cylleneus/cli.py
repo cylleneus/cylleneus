@@ -4,45 +4,89 @@
 import sys
 import click
 
-from search import Searcher
+from index import Indexer
 from corpus import Corpus
+from pathlib import Path
 
+@click.group()
+def main():
+    """Indexing commands for Cylleneus."""
+    pass
 
-QUERY_TYPES = """
-Queries can be any of the following possible forms:
-    'virtutem'          form
-    <virtus>            lemma
-    [en?courage]        gloss
-    {Anatomy}           domain
-    :ACC.SG.            morphology
-    </=virtus>          lexical relation
-    [@=n#05595229]      semantic relations
-    /ablative absolute/ syntactic constructions
-"""
-
-
-@click.command()
-@click.option('--query', '-q', 'query')
+@main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
-@click.option('--list', '-l', 'list', is_flag=True)
-def main(query, corpus, list):
-    """Console script for Cylleneus."""
+def index(corpus):
+    indexer = Indexer(Corpus(corpus))
+    for docnum, doc in indexer.docs:
+        click.echo(f"[{docnum}] {doc['author']}, {doc['title']}")
 
-    if list:
-        s = '\n'.join([f"{docnum}. {fields['author'].title()}, {fields['title'].title()}"
-                       for docnum, fields in Corpus(corpus).index.reader().iter_docs()])
-        click.echo(s)
-    else:
-        if query:
-            searcher = Searcher(Corpus(corpus))
+@main.command()
+@click.option('--corpus', '-c', 'corpus', required=True)
+def clear(corpus):
+    indexer = Indexer(Corpus(corpus))
+    indexer.clear()
 
-            # TODO: fix query parsing
-            search = searcher.search(query)
-            click.echo_via_pager(search.highlights)
-        else:
-            click.echo(QUERY_TYPES)
-    return 0
+@main.command()
+@click.option('--corpus', '-c', 'corpus', required=True)
+def create(corpus):
+    indexer = Indexer(Corpus(corpus))
+    indexer.create()
 
+@main.command()
+@click.option('--corpus', '-c', 'corpus', required=True)
+def optimize(corpus):
+    indexer = Indexer(Corpus(corpus))
+    indexer.optimize()
+
+@main.command()
+@click.option('--corpus', '-c', 'corpus', required=True)
+@click.option('--docnum', '-d', 'docnum', required=True)
+def delete(corpus, docnum):
+    indexer = Indexer(Corpus(corpus))
+    indexer.delete(int(docnum))
+
+@main.command()
+@click.option('--corpus', '-c', 'corpus', required=True)
+@click.option('--author', '-a', 'author')
+@click.option('--title', '-t', 'title')
+def deleteby(corpus, author, title):
+    indexer = Indexer(Corpus(corpus))
+    indexer.delete_by(author=author, title=title)
+
+
+@main.command()
+@click.option('--corpus', '-c', 'corpus', required=True)
+@click.option('--author', '-a', 'author')
+@click.option('--title', '-t', 'title')
+def deleteby(corpus, author, title):
+    indexer = Indexer(Corpus(corpus))
+    indexer.delete_by(author=author, title=title)
+
+@main.command()
+@click.option('--corpus', '-c', 'corpus', required=True)
+@click.option('--docnum', '-d', 'docnum', required=True)
+@click.option('--path', '-p', 'path', required=True)
+def update(corpus, docnum, file):
+    indexer = Indexer(Corpus(corpus))
+    indexer.update(docnum=docnum, path=Path(file))
+
+@main.command()
+@click.option('--corpus', '-c', 'corpus', required=True)
+@click.option('--author', '-a', 'author')
+@click.option('--title', '-t', 'title')
+@click.option('--path', '-p', 'path', required=True)
+def updateby(corpus, author, title, path):
+    indexer = Indexer(Corpus(corpus))
+    indexer.update_by(author=author, title=title, path=Path(path))
+
+@main.command()
+@click.option('--corpus', '-c', 'corpus', required=True)
+@click.option('--path', '-p', 'path', required=True)
+@click.option('--author', '-a', 'author')
+@click.option('--title', '-t', 'title')
+def add(corpus, path, author, title):
+    indexer = Indexer(Corpus(corpus))
+    indexer.add(Path(path), author, title)
 
 if __name__ == "__main__":
     sys.exit(main())  # pragma: no cover
