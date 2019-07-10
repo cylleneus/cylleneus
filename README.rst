@@ -233,8 +233,7 @@ In no particular order...
 * fix CTS sourcing for multi-line results
 * variable context-length specification
 * disentangle annotation-based results filtering from results highlighting
-* remove `content` field from any document schema not associated with a plain-text corpus. Corpora for which referencing metadata is available should not store the original text along with the index. In these cases, the text should be sourced from an external text repository using only the supplied URN and ``meta`` information: global sentence ID, local sentence ID (e.g., within a passage), and word position within the local reference context. Standardize ``meta`` as a series of tuples: (PHI5 author ID, PHI5 work ID, PHI5 meta string), (a, b, c), (x, y, z . . .), (...). Except for plain-text corpora, results should not include the ``hit`` object or ``content``! Corpus-specific referencing metadata (e.g., annotations for speaker turns, section subtitles) should be included as a variable-length tuple following the standard referencing information.
-* /= returns results for the target lemma?
+* remove `content` field from any document schema not associated with a plain-text corpus
 * use Scaife Viewer as search front-end
 * Perseus CTS text alignment
 * complete PROIEL indexing pipeline
