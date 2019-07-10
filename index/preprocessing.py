@@ -71,4 +71,5 @@ preprocessors = {
     'proiel': None,
     'phi5': None,
     'perseus': None,
+    'default': DefaultPreprocessor,
 }

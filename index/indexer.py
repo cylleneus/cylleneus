@@ -43,13 +43,13 @@ class Indexer:
         self._schema = s
 
     @property
-    def index(self):
-        return self._index
-
-    @property
     def docs(self):
         if self.index:
             return self.index.reader().iter_docs()
+
+    @property
+    def index(self):
+        return self._index
 
     @index.setter
     def index(self, ix: engine.index.Index):
@@ -161,3 +161,22 @@ class Indexer:
                     kwargs['title'] = title
                 writer.add_document(docix=docix, **kwargs)
             writer.commit()
+
+    def adds(self, s: str, author=None, title=None):
+        if s:
+            ndocs = self.index.doc_count_all()
+
+            writer = self.index.writer(
+                limitmb=512,
+                procs=1,
+                multisegment=False,
+            )
+
+            docix = ndocs
+            kwargs = preprocessing.preprocessors['default']().parse(s)
+            if author:
+                kwargs['author'] = author
+            if title:
+                kwargs['title'] = title
+            writer.add_document(docix=docix, **kwargs)
+        writer.commit()

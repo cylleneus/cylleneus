@@ -27,10 +27,10 @@
 
 from __future__ import division
 
-import engine.matching.mcore
+from . import mcore
 
 
-class WrappingMatcher(engine.matching.mcore.Matcher):
+class WrappingMatcher(mcore.Matcher):
     """Base class for matchers that wrap sub-matchers.
     """
 
@@ -115,7 +115,7 @@ class WrappingMatcher(engine.matching.mcore.Matcher):
         return self.child.score() * self.boost
 
 
-class MultiMatcher(engine.matching.mcore.Matcher):
+class MultiMatcher(mcore.Matcher):
     """Serializes the results of a list of sub-matchers.
     """
 
@@ -176,7 +176,7 @@ class MultiMatcher(engine.matching.mcore.Matcher):
                 m._next_matcher()
 
         if not m.is_active():
-            return engine.matching.mcore.NullMatcher()
+            return mcore.NullMatcher()
 
         # TODO: Possible optimization: if the last matcher is current, replace
         # this with the last matcher, but wrap it with a matcher that adds the
@@ -207,7 +207,7 @@ class MultiMatcher(engine.matching.mcore.Matcher):
 
     def next(self):
         if not self.is_active():
-            raise engine.matching.mcore.ReadTooFar
+            raise mcore.ReadTooFar
 
         self.matchers[self.current].next()
         if not self.matchers[self.current].is_active():
@@ -215,7 +215,7 @@ class MultiMatcher(engine.matching.mcore.Matcher):
 
     def skip_to(self, id):
         if not self.is_active():
-            raise engine.matching.mcore.ReadTooFar
+            raise mcore.ReadTooFar
         if id <= self.id():
             return
 
@@ -397,17 +397,17 @@ class InverseMatcher(WrappingMatcher):
         return self._id
 
     def all_ids(self):
-        return engine.matching.mcore.Matcher.all_ids(self)
+        return mcore.Matcher.all_ids(self)
 
     def next(self):
         if self._id >= self.limit:
-            raise engine.matching.mcore.ReadTooFar
+            raise mcore.ReadTooFar
         self._id += 1
         self._find_next()
 
     def skip_to(self, id):
         if self._id >= self.limit:
-            raise engine.matching.mcore.ReadTooFar
+            raise mcore.ReadTooFar
         if id < self._id:
             return
         self._id = id
@@ -441,16 +441,16 @@ class RequireMatcher(WrappingMatcher):
     def replace(self, minquality=0):
         if not self.child.is_active():
             # If one of the sub-matchers is inactive, go inactive
-            return engine.matching.mcore.NullMatcher()
+            return mcore.NullMatcher()
         elif minquality and self.a.max_quality() < minquality:
             # If the required matcher doesn't have a high enough max quality
             # to possibly contribute, return an inactive matcher
-            return engine.matching.mcore.NullMatcher()
+            return mcore.NullMatcher()
 
         new_a = self.a.replace(minquality)
         new_b = self.b.replace()
         if not new_a.is_active():
-            return engine.matching.mcore.NullMatcher()
+            return mcore.NullMatcher()
         elif new_a is not self.a or new_b is not self.b:
             # If one of the sub-matchers changed, return a new Require
             return self.__class__(new_a, self.b)

@@ -218,9 +218,9 @@ MORPHS = [
         "0": "-",  # Ignore (We had one for an agendis annotation)
         "1": "a",
         "2": "f",
-        "3": "c",  # mf
+        "3": "m/f",  # c
         "4": "m",
-        "5": "c",  # mn
+        "5": "m/n",  # c
         "6": "n",
     },
 ]
@@ -312,7 +312,7 @@ def bpn2lwn(morph_code: str) -> str:
             morpho.append(MORPHS[i].get(morph_char, "-"))
         else:
             morpho.append("-")
-    if pos in "ar":
+    if pos in "ar":  #aps---mn1-
         desc = f"{pos}{morpho[2]}{morpho[1]}{morpho[4]}{morpho[3]}{morpho[5]}{morpho[7]}{morpho[0]}{group['group']}{group['stem']}"
     else:
         desc = f"{pos}{morpho[6]}{morpho[1]}{morpho[4]}{morpho[3]}{morpho[5]}{morpho[7]}{morpho[0]}{group['group']}{group['stem']}"

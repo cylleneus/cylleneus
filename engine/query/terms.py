@@ -599,8 +599,9 @@ class Annotation(CylleneusTerm):
 
     __inittypes__ = dict(fieldname=str, text=whoosh.compat.text_type, boost=float, annotation=qcore.Query, meta=bool)
 
-    def __init__(self, fieldname, text, boost=2.0, minquality=None, annotation=None, meta=False):
-        super(Annotation, self).__init__(fieldname, text, boost=2.0, minquality=None)
+    # FIXME: boost=2.0?
+    def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
+        super(Annotation, self).__init__(fieldname, text, boost=1.0, minquality=None)
         self.fieldname = fieldname
         self.text = text
         self.boost = boost
@@ -709,8 +710,9 @@ class Morphosyntax(CylleneusTerm):
 
     __inittypes__ = dict(fieldname=str, text=whoosh.compat.text_type, boost=float, annotation=qcore.Query, meta=bool)
 
-    def __init__(self, fieldname, text, boost=2.0, minquality=None, annotation=None, meta=False):
-        super(Morphosyntax, self).__init__(fieldname, text, boost=2.0, minquality=None)
+    # FIXME: boost=2.0?
+    def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
+        super(Morphosyntax, self).__init__(fieldname, text, boost=1.0, minquality=None)
         self.fieldname = fieldname
         self.text = text
         self.boost = boost
