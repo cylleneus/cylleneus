@@ -14,8 +14,14 @@ def main():
     pass
 
 @main.command()
+def shell():
+    from .shell import repl
+    repl.run()
+
+@main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
 def index(corpus):
+    click.echo(f"Index of {corpus}")
     indexer = Indexer(Corpus(corpus))
     for docnum, doc in indexer.docs:
         click.echo(f"[{docnum}] {doc['author']}, {doc['title']}")
@@ -23,20 +29,32 @@ def index(corpus):
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
 def clear(corpus):
+    click.echo(f"Clearing {corpus}... ", nl=False)
     indexer = Indexer(Corpus(corpus))
     indexer.clear()
+    if indexer.index.doc_count_all() == 0:
+        click.echo('ok')
+    else:
+        click.echo('failed')
 
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
 def create(corpus):
+    click.echo(f"Creating {corpus}... ", nl=False)
     indexer = Indexer(Corpus(corpus))
     indexer.create()
+    if indexer.index:
+        click.echo('ok')
+    else:
+        click.echo('failed')
 
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
 def optimize(corpus):
+    click.echo(f"Optimizing {corpus}...", nl=False)
     indexer = Indexer(Corpus(corpus))
     indexer.optimize()
+    click.echo("ok")
 
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
@@ -85,8 +103,14 @@ def updateby(corpus, author, title, path):
 @click.option('--author', '-a', 'author')
 @click.option('--title', '-t', 'title')
 def add(corpus, path, author, title):
+    click.echo(f"Adding {path}... ", nl=False)
     indexer = Indexer(Corpus(corpus))
+    n = indexer.index.doc_count_all()
     indexer.add(Path(path), author, title)
+    if indexer.index.doc_count_all() > n:
+        click.echo("ok")
+    else:
+        click.echo("failed")
 
 if __name__ == "__main__":
     sys.exit(main())  # pragma: no cover
