@@ -230,7 +230,6 @@ To Do
 In no particular order...
 
 * fix ordering of matches in results based on available metadata
-* improve morphological annotation matching: at indexing, tokens should indicate _only_ a form's variance from the base (lemma's) morphology; for searching, 'bald' annotation queries need to generate tokens capturing all possible variations for a given part of speech (see ``morphology.from_leipzig``, ``analysis.filtering.AnnotationFilter``)
 * fix CTS sourcing for multi-line results
 * variable context-length specification
 * disentangle annotation-based results filtering from results highlighting
