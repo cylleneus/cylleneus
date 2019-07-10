@@ -68,7 +68,8 @@ Indexing
 Basic indexing functionality is provided through a command-line interface. To add a document or documents to a corpus, you must provide the original source files and indicate the correct path.
 
 ``$ cylleneus index --corpus perseus``
-``$ cylleneus add --corpus lasla --path "index/text/Catullus_Catullus_Catul.BPN  # only for example``
+
+``$ cylleneus add --corpus lasla --path "index/text/Catullus_Catullus_Catul.BPN"  # only for example``
 
 ``$ cylleneus --help`` displays the complete list of available indexing commands.
 
