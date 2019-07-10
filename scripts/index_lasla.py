@@ -15,6 +15,8 @@ if __name__ == '__main__':
 
     files = lasla.glob('*.BPN')
 
+    prev_work_code = None
+    prev_author_code = None
     for docix, file in enumerate(tqdm(files, ncols=80, desc='Indexing')):
         filename = file.name
         file_author, file_title, abbrev = filename.rstrip('.BPN').split('_')
@@ -38,6 +40,7 @@ if __name__ == '__main__':
         with codecs.open(file, 'r', 'utf8') as f:
             doc = f.readlines()
         data = { 'text': doc, 'meta': meta }
+
         writer.add_document(docix=docix,
                             author=author,
                             title=title,
@@ -49,4 +52,6 @@ if __name__ == '__main__':
                             annotation=data,
                             semfield=data,
                             morphosyntax=data)
+        prev_work_code = work_code
+        prev_author_code = author_code
     writer.commit()

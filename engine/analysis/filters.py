@@ -33,6 +33,7 @@ from whoosh.compat import next, xrange
 from engine.analysis.acore import Composable
 from whoosh.util.text import rcompile
 import corpus.utils.lasla
+import re
 
 # Default list of stop words (words so common it's usually wasteful to index
 # them). This list is used by the StopFilter class, which allows you to supply
@@ -631,91 +632,23 @@ class AnnotationFilter(Filter):
                 annotation = from_leipzig(t.original)
 
                 if annotation == '----------':
-                    t.text = ''
-                    yield t
-                    # or continue?
-                elif annotation[0] == 'n':
-                    if annotation[2] == '-' and annotation[7] == '-':  # neither case nor number specified
-                        for number in 'sp':
-                            for case in 'ngdablv':
-                                t.text = '-' + annotation[1:2] + number + annotation[3:7] + case + annotation[8:]
-                                yield t
-                    elif annotation[2] == '-' and annotation[7] != '-': # case specified, no number
-                        for number in 'sp':
-                            t.text = '-' + annotation[1:2] + number + annotation[3:]
-                            yield t
-                    elif annotation[2] in 'sp' and annotation[7] == '-': # number specified, no case
-                        for case in 'ngdablv':
-                            t.text = '-' + annotation[1:7] + case + annotation[8:]
-                            yield t
-                    elif annotation[2] in 'sp' and annotation[7] in 'ngdablv':
-                        t.text = '-' + annotation[1:]
-                        yield t
-                # VERB
-                elif annotation[0] == 'v':
-                    if annotation[1] == '-' and annotation[2] == '-': # neither number nor person specified
-                        for person in '123':
-                            for number in 'sp':
-                                t.text = '-' + person + number + annotation[3:]
-                                yield t
-                    elif annotation[1] in '123' and annotation[2] == '-': # person specified, no number
-                        for number in 'sp':
-                            t.text = annotation[:2] + number + annotation[3:]
-                            yield t
-                    elif annotation[1] == '-' and annotation[2] in 'sp' and annotation[7] == '-': # number specified, no person
-                        for person in '123':
-                            t.text = '-' + person + annotation[2:]
-                            yield t
-                    elif annotation[1] == '-':
-                        for person in '123':
-                            for number in 'sp':
-                                for tense in 'pifrlu':
-                                    for mood in 'isnmpgds':
-                                        for voice in 'apd':
-                                            t.text = '-' + person + number + tense + mood + voice + annotation[6:]
-                                            yield t
-                # ADJECTIVE
-                elif annotation[0] == 'a':
-                    if annotation[1] == '-':
-                        degrees = '-cs'
-                    else:
-                        degrees = annotation[1]
-                    if annotation[2] == '-':
-                        numbers = 'sp'
-                    else:
-                        numbers = annotation[2]
-                    if annotation[6] in 'mnfca':
-                        genders = annotation[6]
-                    else:
-                        genders = 'mnfca'
-                    if annotation[7] in 'ngdablv':
-                        cases = annotation[7]
-                    else:
-                        cases = 'ngdablv'
-                    for degree in degrees:
-                        for number in numbers:
-                            for gender in genders:
-                                for case in cases:
-                                    t.text = f'-{degree}{number}---{gender}{case}--'
-                                    yield t
-                elif annotation[0] == 'r':
-                    if annotation[1] == '-': # no degree specified
-                        for degree in '-cs':
-                            t.text = '-' + degree + annotation[2:]
-                            yield t
+                    continue
                 else:
-                    t.text = annotation
-                    yield t
+                    for i, v in enumerate(annotation):
+                        if v != '-':
+                            text = f"{'-' * i}{v}{'-' * (9 - i)}"
+                            t.text = text
+                            yield t
             elif t.mode == 'index':
                 text = t.morpho
                 if text:
                     morpho, annotations = text.split('>')
                     for annotation in annotations.split(' '):
-                        t.text = str(Morph(morpho) - Morph(annotation))
-                        yield t
-                else:
-                    t.text = ''
-                    yield t
+                        for i, v in enumerate(annotation):
+                            if v != '-':
+                                text = f"{'-' * i}{v}{'-' * (9 - i)}"
+                                t.text = text
+                                yield t
 
 
 class SemfieldFilter(Filter):
@@ -933,12 +866,22 @@ class CachedLASLALemmaFilter(Filter):
 
                         for morpho in morphos:
                             if annotation is not None:
-                                t.morpho = f"{morpho}>{annotation}"
+                                if '/' in annotation:  # n-s---m/nn3-     n-s---m  nn3-
+                                    head, *alts, tail = re.search(
+                                        r'^(.*?)([a-z1-9\-])/([a-z1-9\-])(.*?)$', annotation).groups()
+                                    annotations = [f"{head}{alt}{tail}" for alt in alts]
+                                else:
+                                    annotations = [annotation,]
+                                for annotation in annotations:
+                                    t.morpho = f"{morpho}>{annotation}"
+                                    t.text = f"{lemma}={morpho}"
+                                    self._cache.append(copy.copy(t))
+                                    yield t
                             else:
                                 t.morpho = f"{morpho}>{morpho}"
-                            t.text = f"{lemma}={morpho}"
-                            self._cache.append(copy.copy(t))
-                            yield t
+                                t.text = f"{lemma}={morpho}"
+                                self._cache.append(copy.copy(t))
+                                yield t
                 elif t.mode == 'query':
                     if '=' in t.text:
                         reltype, query = t.text.rsplit('=', 1)  # for handling '=='

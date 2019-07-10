@@ -252,7 +252,7 @@ class AnnotationPlugin(whoosh.qparser.plugins.TaggingPlugin):
         for node in group:
             if isinstance(node, engine.qparser.syntax.AnnotationNode):
                 if newgroup and newgroup[-1]:
-                    # fail silently if the previous node is a FormNode
+                    # ignore annotation if the previous node is a FormNode
                     if isinstance(newgroup[-1], engine.qparser.syntax.FormNode):
                         pass
                     elif isinstance(newgroup[-1], engine.qparser.syntax.WordNetNode):

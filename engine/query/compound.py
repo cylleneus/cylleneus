@@ -293,8 +293,8 @@ class Or(CylleneusCompoundQuery):
     SPLIT_MATCHER = 2  # Use a different strategy for short and long queries
     ARRAY_MATCHER = 3  # Use a matcher that pre-loads docnums and scores
     matcher_type = AUTO_MATCHER
-
-    def __init__(self, subqueries, boost=2.0, minmatch=0, scale=None, annotation=None, meta=False):
+    # FIXME: boost=2.0?
+    def __init__(self, subqueries, boost=1.0, minmatch=0, scale=None, annotation=None, meta=False):
         """
         :param subqueries: a list of :class:`Query` objects to search for.
         :param boost: a boost factor to apply to the scores of all matching

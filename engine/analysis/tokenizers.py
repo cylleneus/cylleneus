@@ -1623,6 +1623,7 @@ class CachedLASLATokenizer(Tokenizer):
                                 else:
                                     form = parsed['form']
                                     t.morpho = parsed['morpho']
+
                                     if ' ' in form:
                                         t.original = added.sub('', form)
                                         text = form.translate(punctmap)

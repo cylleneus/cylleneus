@@ -62,22 +62,32 @@ To enable gloss-based searches, Cylleneus relies on the MultiWordNet. The setup 
 To test that everything is working properly, run the battery of query tests in ```tests/test_query_types.py``` over the packaged subcorpora.
 
 
+Indexing
+--------
+
+Basic indexing functionality is provided through a command-line interface. To add a document or documents to a corpus, you must provide the original source files and indicate the correct path.
+
+``$ cylleneus index --corpus perseus``
+``$ cylleneus add --corpus lasla --path "index/text/Catullus_Catullus_Catul.BPN  # only for example``
+
+``$ cylleneus --help`` displays the complete list of available indexing commands.
+
+
 Searching
 ---------
 
-Two interfaces are provided for conducting searches. A handy (but not fully functional) command-line interface permits quick-and-dirty single-term queries:
+For the present, the easiest way to perform searches is by using the included shell script.
 
-``$ cylleneus --query "<virtus>" --corpus latin_library``
+``$ cylleneus
+``$ python cylleneus/shell.py``
 
-NB. Click's argument parser interferes with Cyelleneus's query parsing, so all queries must be surrounded by double-quotes on the command line -- therefore making adjacency and proximity searches impossible using this tool.
+Until we are able to design something more user-friendly, this script provides a command-line interface that accommodates the full range of query types.
 
-For the present, the preferable option is to use the shell
 
-``$ python scripts/shell.py``
+Query Types
+-----------
 
-which provides a more robust search interface accommodating the full range of query types.
-
-Currently, Cylleneus enables the following query types:
+Currently, Cylleneus enables the following types of queries:
 
 Word-form queries
 ~~~~~~~~~~~~~~~~~
@@ -218,7 +228,6 @@ To Do
 
 In no particular order...
 
-* functionality for incremental indexing
 * fix ordering of matches in results based on available metadata
 * improve morphological annotation matching: at indexing, tokens should indicate _only_ a form's variance from the base (lemma's) morphology; for searching, 'bald' annotation queries need to generate tokens capturing all possible variations for a given part of speech (see ``morphology.from_leipzig``, ``analysis.filtering.AnnotationFilter``)
 * fix CTS sourcing for multi-line results

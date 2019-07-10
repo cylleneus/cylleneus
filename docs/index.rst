@@ -13,6 +13,7 @@ Welcome to Cylleneus's documentation!
    contributing
    authors
    history
+   examples
 
 Indices and tables
 ==================
