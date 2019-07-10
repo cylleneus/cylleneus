@@ -26,10 +26,9 @@ class TestLASLATokenizer(unittest.TestCase):
         """Test the annotation pipeline using a sample text from LASLA corpus."""
 
         file = pathlib.Path('text/lasla/Catullus_Catullus_Catul.BPN')
+        if file.exists():
+            doc = LASLAPreprocessor().parse(file)
 
-        doc = LASLAPreprocessor().parse(file)
-
-        analyzer = CompositeAnalyzer() | CachedLASLATokenizer() | CachedLASLALemmaFilter() | AnnotationFilter()
-        for token in analyzer(doc['annotation'], mode='index'):
-            print(token)
-            assert token
+            analyzer = CompositeAnalyzer() | CachedLASLATokenizer() | CachedLASLALemmaFilter() | AnnotationFilter()
+            for token in analyzer(doc['annotation'], mode='index'):
+                assert token
