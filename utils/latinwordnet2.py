@@ -67,6 +67,11 @@ class Synsets:
     def relations(self):
         return requests.request('GET', f"{self.host}/synsets/{self.pos}{self.offset}relations/?format=json").json()['relations']
 
+    @property
+    def sentiment(self):
+        return requests.request('GET', f"{self.host}/synsets/{self.pos}{self.offset}sentiment/?format=json").json()[
+            'sentiment']
+
 
 class Lemmas:
     def __init__(self, host, lemma=None, pos=None, morpho=None):
