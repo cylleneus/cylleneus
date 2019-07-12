@@ -16,6 +16,8 @@ class Corpus:
         else:
             if index.exists_in(f"index/{name}"):
                 self._index = index.open_dir(f"index/{name}")
+            else:
+                self._index = None
 
         if schema and isinstance(schema, fields.Schema):
             self._schema = schema

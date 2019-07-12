@@ -49,6 +49,8 @@ class Indexer:
 
     @property
     def index(self):
+        if not self._index:
+            self.open()
         return self._index
 
     @index.setter
