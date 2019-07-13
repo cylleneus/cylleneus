@@ -5,6 +5,7 @@ from engine import writing
 from pathlib import Path
 from engine.qparser.default import QueryParser
 from . import preprocessing
+from engine import schemas
 
 
 class IndexingError(Exception):
@@ -36,6 +37,8 @@ class Indexer:
 
     @property
     def schema(self):
+        if not self._schema:
+            self._schema = schemas.schemas.get(self.corpus.name)()
         return self._schema
 
     @schema.setter
