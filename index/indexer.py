@@ -13,8 +13,8 @@ class IndexingError(Exception):
 class Indexer:
     def __init__(self, corpus: Corpus):
         self._corpus = corpus
-        self._index = corpus.index or None
-        self._schema = corpus.index.schema or None
+        self._index = corpus.index
+        self._schema = corpus.index.schema if corpus.index else None
         self._preprocessor = preprocessing.preprocessors.get(corpus.name,
                                                              preprocessing.DefaultPreprocessor)()
 

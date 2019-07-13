@@ -24,6 +24,8 @@ class Corpus:
         else:
             if self._index:
                 self._schema = self._index.schema
+            else:
+                self._schema = None
 
     @property
     def name(self):
