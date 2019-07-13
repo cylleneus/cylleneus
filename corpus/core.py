@@ -1,6 +1,7 @@
 from engine import index
 from engine import fields
 from pathlib import Path
+from engine import schemas
 import codecs
 import json
 
@@ -25,7 +26,7 @@ class Corpus:
             if self._index:
                 self._schema = self._index.schema
             else:
-                self._schema = None
+                self._schema = schemas.schemas.get(name)
 
     @property
     def name(self):
