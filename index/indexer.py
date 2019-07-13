@@ -146,7 +146,7 @@ class Indexer:
             ndocs = self.index.doc_count_all()
 
             if path.is_dir():
-                files = path.glob('*.*')
+                files = list(path.glob('*.*'))
             elif path.is_file():
                 files = [path,]
             else:
