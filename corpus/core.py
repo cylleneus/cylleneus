@@ -26,7 +26,7 @@ class Corpus:
             if self._index:
                 self._schema = self._index.schema
             else:
-                self._schema = schemas.schemas.get(name)
+                self._schema = schemas.schemas.get(name)()
 
     @property
     def name(self):
