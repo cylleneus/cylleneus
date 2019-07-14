@@ -92,8 +92,8 @@ def corpus(corpus_name: str = None):
         _searcher.corpus = _corpus
         repl.success(f"corpus '{_corpus.name}', {_corpus.index.doc_count_all()} indexed")
     else:
-        repl.info(Palette.GREEN.format("available corpora: " + ", ".join(
-            [f"'{path.name}'" for path in Path('index/').glob('*/')])))
+        repl.info(Palette.GREEN.format("Available corpora: " + ", ".join(
+            [f"'{path.name}'" for path in Path('index/').glob('**')])))
 
 
 @repl.command("save")
