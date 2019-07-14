@@ -31,7 +31,7 @@ class CustomRiposte(Riposte):
 
 
 repl = CustomRiposte(
-    splash='Cylleneus v0.0.1: Next-gen corpus search for ancient languages',
+    #splash='Cylleneus v0.0.1: Next-gen corpus search for ancient languages',
     prompt='cylleneus:~ $ '
 )
 
