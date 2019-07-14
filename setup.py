@@ -32,6 +32,7 @@ requirements = [
     'rdflib-jsonld==0.4.0',
     'regex==2019.3.12',
     'requests==2.21.0',
+    'riposte>=0.2.2',
     'singledispatch==3.4.0.3',
     'six==1.12.0',
     'tqdm==4.31.1',
