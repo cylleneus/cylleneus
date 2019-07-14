@@ -8,14 +8,13 @@ import json
 class Corpus:
     def __init__(self, name: str, ix: index.FileIndex = None,
                  schema: fields.Schema = None):
-        # self._authors = {doc['author']: Author(doc['author'], self.reader) for doc in reader.docs()}
         self._name = name
 
         if ix and isinstance(ix, index.FileIndex):
             self._index = ix
         else:
-            if index.exists_in(f"index/{name}"):
-                self._index = index.open_dir(f"index/{name}")
+            if index.exists_in(f"index/{name}", indexname=self.name):
+                self._index = index.open_dir(f"index/{name}", indexname=self.name)
             else:
                 self._index = None
 
