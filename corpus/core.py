@@ -13,8 +13,10 @@ class Corpus:
         if ix and isinstance(ix, index.FileIndex):
             self._index = ix
         else:
-            if index.exists_in(f"index/{name}", indexname=self.name):
-                self._index = index.open_dir(f"index/{name}", indexname=self.name)
+            import os
+            print(os.getcwd())
+            if index.exists_in(f"index/{name}"):
+                self._index = index.open_dir(f"index/{name}")
             else:
                 self._index = None
 

@@ -70,16 +70,13 @@ class Indexer:
 
     def create(self):
         self.index = engine.index.create_in(f'index/{self.corpus.name}',
-                                            schema=self.schema,
-                                            indexname=self.corpus.name)
+                                            schema=self.schema)
 
     def open(self):
-        if not engine.index.exists_in(f'index/{self.corpus.name}',
-                                      indexname=self.corpus.name):
+        if not engine.index.exists_in(f'index/{self.corpus.name}'):
             self.create()
         self.index = engine.index.open_dir(f'index/{self.corpus.name}',
-                                     schema=self.schema,
-                                     indexname=self.corpus.name)
+                                     schema=self.schema)
 
     def delete(self, docnum: int=None):
         if docnum:
