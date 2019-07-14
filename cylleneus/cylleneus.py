@@ -93,7 +93,8 @@ def corpus(corpus_name: str = None):
         repl.success(f"corpus '{_corpus.name}', {_corpus.index.doc_count_all()} indexed")
     else:
         repl.info(Palette.GREEN.format("Available corpora: " + ", ".join(
-            [f"'{path.name}'" for path in Path('index/').glob('**')])))
+            [f"'{path.name}'" for path in Path('index/').iterdir()
+             if path.is_dir() and index.exists_in(str(path))])))
 
 
 @repl.command("save")
