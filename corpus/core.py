@@ -14,7 +14,6 @@ class Corpus:
         if ix and isinstance(ix, index.FileIndex):
             self._index = ix
         else:
-            print(config.ROOT_DIR + f'/index/{name}')
             if index.exists_in(config.ROOT_DIR + f"/index/{name}"):
                 self._index = index.open_dir(config.ROOT_DIR + f"/index/{name}")
             else:

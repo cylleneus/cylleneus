@@ -51,6 +51,10 @@ class Indexer:
             return self.index.reader().iter_docs()
 
     @property
+    def path(self):
+        return Path(f'index/{self.corpus.name}')
+
+    @property
     def index(self):
         if not self._index:
             self.open()
@@ -61,8 +65,14 @@ class Indexer:
         self._index = ix
 
     def clear(self):
-        with self.index.writer() as writer:
-            writer.commit(mergetype=writing.CLEAR)
+        if self.index:
+            with self.index.writer() as writer:
+                writer.commit(mergetype=writing.CLEAR)
+
+    def destroy(self):
+        if engine.index.exists_in(self.path):
+            for file in self.path.glob('*'):
+                file.unlink()
 
     def optimize(self):
         if self.index:

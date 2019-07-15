@@ -54,6 +54,17 @@ def create(corpus):
 
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
+def destroy(corpus):
+    if click.confirm(f"Destroy {corpus}: are you sure?", default=False):
+        indexer = Indexer(Corpus(corpus))
+        indexer.destroy()
+        if indexer.index:
+            click.echo('[-] failed')
+        else:
+            click.echo('[+] ok')
+
+@main.command()
+@click.option('--corpus', '-c', 'corpus', required=True)
 def optimize(corpus):
     click.echo(f"Optimizing {corpus}...", nl=False)
     indexer = Indexer(Corpus(corpus))
