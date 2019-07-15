@@ -73,6 +73,7 @@ class Indexer:
         if engine.index.exists_in(self.path):
             for file in self.path.glob('*'):
                 file.unlink()
+            self.index = None
 
     def optimize(self):
         if self.index:
