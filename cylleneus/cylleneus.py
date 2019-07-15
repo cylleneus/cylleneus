@@ -11,7 +11,7 @@ from riposte.printer import Palette
 import sys
 from pathlib import Path
 
-from cylleneus import config
+import config
 from engine import index
 from search import Searcher
 from corpus import Corpus

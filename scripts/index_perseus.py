@@ -1,7 +1,7 @@
 import pathlib
 from index import Indexer
 from corpus import Corpus
-from cylleneus import config
+import config
 
 if __name__ == '__main__':
     perseus = pathlib.Path(config.ROOT_DIR / '/index/texts/perseus/')

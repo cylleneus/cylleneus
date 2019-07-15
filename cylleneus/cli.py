@@ -25,7 +25,7 @@ def index(corpus):
     click.echo(f"Index of {corpus}")
     indexer = Indexer(Corpus(corpus))
     for docnum, doc in indexer.docs:
-        if not (doc['author'] and doc['title']):
+        if 'author' in doc and 'title' in doc:
             click.echo(f"[{docnum}] {doc['author']}, {doc['title']}")
         else:
             click.echo(f"[{docnum}] {doc['filename']}")
