@@ -6,7 +6,7 @@ from pathlib import Path
 from engine.qparser.default import QueryParser
 from . import preprocessing
 from engine import schemas
-
+import config
 
 class IndexingError(Exception):
     pass
@@ -52,7 +52,7 @@ class Indexer:
 
     @property
     def path(self):
-        return Path(f'index/{self.corpus.name}')
+        return Path(config.ROOT_DIR + f'/index/{self.corpus.name}')
 
     @property
     def index(self):
