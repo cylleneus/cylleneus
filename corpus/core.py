@@ -3,6 +3,7 @@ from engine import fields
 from pathlib import Path
 import codecs
 import json
+from cylleneus import config
 
 
 class Corpus:
@@ -13,8 +14,8 @@ class Corpus:
         if ix and isinstance(ix, index.FileIndex):
             self._index = ix
         else:
-            if index.exists_in(f"index/{name}"):
-                self._index = index.open_dir(f"index/{name}")
+            if index.exists_in(config.ROOT_DIR + f"/index/{name}"):
+                self._index = index.open_dir(config.ROOT_DIR + f"/index/{name}")
             else:
                 self._index = None
 
@@ -66,7 +67,7 @@ class Corpus:
         if self.name == 'perseus':
             # TODO: remove
             filename = Path(filename).name
-            with codecs.open(f'corpus/text/perseus/{filename}', 'r', 'utf8') as fp:
+            with codecs.open(config.ROOT_DIR + f'/corpus/text/perseus/{filename}', 'r', 'utf8') as fp:
                 doc = json.load(fp)
             return Work(self.name, filename, doc)
 

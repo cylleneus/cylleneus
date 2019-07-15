@@ -11,6 +11,7 @@ from riposte.printer import Palette
 import sys
 from pathlib import Path
 
+from cylleneus import config
 from engine import index
 from search import Searcher
 from corpus import Corpus
@@ -49,7 +50,7 @@ def search(query: str):
 
 @repl.command("credits")
 def credits():
-    repl.info(Palette.BLUE.format("Cylleneus v0.0.1"))
+    repl.info(Palette.BLUE.format("Cylleneus v0.0.1: Next-gen search for ancient languages"))
     repl.info(Palette.GREY.format("(c) 2019 William Michael Short"))
 
 
@@ -93,7 +94,7 @@ def corpus(corpus_name: str = None):
         repl.success(f"corpus '{_corpus.name}', {_corpus.index.doc_count_all()} indexed")
     else:
         repl.info(Palette.GREEN.format("Available corpora: " + ", ".join(
-            [f"'{path.name}'" for path in Path('index/').iterdir()
+            [f"'{path.name}'" for path in Path(config.ROOT_DIR / 'index/').iterdir()
              if path.is_dir() and index.exists_in(str(path))])))
 
 
