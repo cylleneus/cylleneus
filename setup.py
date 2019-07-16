@@ -25,6 +25,7 @@ requirements = [
     'multiwordnet>=0.0.2',
     'nltk==3.4',
     'pyparsing==2.3.1',
+    'pyreadline>=2.1',
     'pyrsistent==0.14.11',
     'python-crfsuite==0.9.6',
     'pyuca==1.2',
