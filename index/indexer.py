@@ -5,7 +5,8 @@ from engine import writing
 from pathlib import Path
 from engine.qparser.default import QueryParser
 from . import preprocessing
-
+from engine import schemas
+import config
 
 class IndexingError(Exception):
     pass
@@ -13,8 +14,8 @@ class IndexingError(Exception):
 class Indexer:
     def __init__(self, corpus: Corpus):
         self._corpus = corpus
-        self._index = corpus.index or None
-        self._schema = corpus.index.schema or None
+        self._index = corpus.index
+        self._schema = corpus.index.schema if corpus.index else None
         self._preprocessor = preprocessing.preprocessors.get(corpus.name,
                                                              preprocessing.DefaultPreprocessor)()
 
@@ -36,6 +37,8 @@ class Indexer:
 
     @property
     def schema(self):
+        if not self._schema:
+            self._schema = schemas.schemas.get(self.corpus.name)()
         return self._schema
 
     @schema.setter
@@ -48,7 +51,13 @@ class Indexer:
             return self.index.reader().iter_docs()
 
     @property
+    def path(self):
+        return Path(config.ROOT_DIR + f'/index/{self.corpus.name}')
+
+    @property
     def index(self):
+        if not self._index:
+            self.open()
         return self._index
 
     @index.setter
@@ -56,8 +65,15 @@ class Indexer:
         self._index = ix
 
     def clear(self):
-        with self.index.writer() as writer:
-            writer.commit(mergetype=writing.CLEAR)
+        if self.index:
+            with self.index.writer() as writer:
+                writer.commit(mergetype=writing.CLEAR)
+
+    def destroy(self):
+        if engine.index.exists_in(self.path):
+            for file in self.path.glob('*'):
+                file.unlink()
+            self.index = None
 
     def optimize(self):
         if self.index:
@@ -65,16 +81,13 @@ class Indexer:
 
     def create(self):
         self.index = engine.index.create_in(f'index/{self.corpus.name}',
-                                            schema=self.schema,
-                                            indexname=self.corpus.name)
+                                            schema=self.schema)
 
     def open(self):
-        if not engine.index.exists_in(f'index/{self.corpus.name}',
-                                      indexname=self.corpus.name):
+        if not engine.index.exists_in(f'index/{self.corpus.name}'):
             self.create()
         self.index = engine.index.open_dir(f'index/{self.corpus.name}',
-                                     schema=self.schema,
-                                     indexname=self.corpus.name)
+                                     schema=self.schema)
 
     def delete(self, docnum: int=None):
         if docnum:
@@ -141,7 +154,7 @@ class Indexer:
             ndocs = self.index.doc_count_all()
 
             if path.is_dir():
-                files = path.glob('*.*')
+                files = list(path.glob('*.*'))
             elif path.is_file():
                 files = [path,]
             else:

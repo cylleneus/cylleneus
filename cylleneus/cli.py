@@ -7,6 +7,8 @@ import click
 from index import Indexer
 from corpus import Corpus
 from pathlib import Path
+from cylleneus import cylleneus
+
 
 @click.group()
 def main():
@@ -15,8 +17,7 @@ def main():
 
 @main.command()
 def shell():
-    from .shell import repl
-    repl.run()
+    cylleneus.repl.run()
 
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
@@ -24,7 +25,10 @@ def index(corpus):
     click.echo(f"Index of {corpus}")
     indexer = Indexer(Corpus(corpus))
     for docnum, doc in indexer.docs:
-        click.echo(f"[{docnum}] {doc['author']}, {doc['title']}")
+        if 'author' in doc and 'title' in doc:
+            click.echo(f"[{docnum}] {doc['author']}, {doc['title']}")
+        else:
+            click.echo(f"[{docnum}] {doc['filename']}")
 
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
@@ -47,6 +51,17 @@ def create(corpus):
         click.echo('ok')
     else:
         click.echo('failed')
+
+@main.command()
+@click.option('--corpus', '-c', 'corpus', required=True)
+def destroy(corpus):
+    if click.confirm(f"Destroy {corpus}: are you sure?", default=False):
+        indexer = Indexer(Corpus(corpus))
+        indexer.destroy()
+        if indexer.index:
+            click.echo('[-] failed')
+        else:
+            click.echo('[+] ok')
 
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)

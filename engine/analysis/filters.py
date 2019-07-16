@@ -560,6 +560,8 @@ class CachedLemmaFilter(Filter):
                         if results:
                             for result in results:
                                 t.morpho = f"{result['lemma']['morpho']}>{' '.join(result['morpho'])}"
+
+                                # TODO: indicate lemmas with URIs, as in virtus:u0800=n-s---fn3-
                                 t.text = f"{result['lemma']['lemma']}={result['lemma']['morpho']}"
                                 self._cache.append(copy.copy(t))
                                 yield t
@@ -874,6 +876,8 @@ class CachedLASLALemmaFilter(Filter):
                                     annotations = [annotation,]
                                 for annotation in annotations:
                                     t.morpho = f"{morpho}>{annotation}"
+
+                                    # TODO: indicate lemmas with URIs, as in virtus:u0800=n-s---fn3-
                                     t.text = f"{lemma}={morpho}"
                                     self._cache.append(copy.copy(t))
                                     yield t

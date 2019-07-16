@@ -3,25 +3,29 @@ from engine import fields
 from pathlib import Path
 import codecs
 import json
+import config
 
 
 class Corpus:
     def __init__(self, name: str, ix: index.FileIndex = None,
                  schema: fields.Schema = None):
-        # self._authors = {doc['author']: Author(doc['author'], self.reader) for doc in reader.docs()}
         self._name = name
 
         if ix and isinstance(ix, index.FileIndex):
             self._index = ix
         else:
-            if index.exists_in(f"index/{name}"):
-                self._index = index.open_dir(f"index/{name}")
+            if index.exists_in(config.ROOT_DIR + f"/index/{name}"):
+                self._index = index.open_dir(config.ROOT_DIR + f"/index/{name}")
+            else:
+                self._index = None
 
         if schema and isinstance(schema, fields.Schema):
             self._schema = schema
         else:
             if self._index:
                 self._schema = self._index.schema
+            else:
+                self._schema = None
 
     @property
     def name(self):
@@ -63,7 +67,7 @@ class Corpus:
         if self.name == 'perseus':
             # TODO: remove
             filename = Path(filename).name
-            with codecs.open(f'corpus/text/perseus/{filename}', 'r', 'utf8') as fp:
+            with codecs.open(config.ROOT_DIR + f'/corpus/text/perseus/{filename}', 'r', 'utf8') as fp:
                 doc = json.load(fp)
             return Work(self.name, filename, doc)
 
