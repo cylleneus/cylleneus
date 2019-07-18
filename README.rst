@@ -43,6 +43,7 @@ Installation
 Clone this repository, navigate to the appropriate directory, and run the following command from your command line:
 
 ``$ cd cylleneus``
+
 ``$ python setup.py install``
 
 It is also possible to ``pip install cylleneus``, but in this case you need to manage your own indexing.
@@ -79,7 +80,8 @@ Searching
 
 For the present, the easiest way to perform searches is by using the included shell script.
 
-``$ cylleneus
+``$ cylleneus``
+
 ``$ python cylleneus/shell.py``
 
 Until we are able to design something more user-friendly, this script provides a command-line interface that accommodates the full range of query types.
