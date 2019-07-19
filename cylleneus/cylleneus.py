@@ -22,6 +22,16 @@ _searcher = Searcher(_corpus)
 _search = None
 
 
+BANNER = """
+  ____      _ _                           
+ / ___|   _| | | ___ _ __   ___ _   _ ___ 
+| |  | | | | | |/ _ \ '_ \ / _ \ | | / __|
+| |__| |_| | | |  __/ | | |  __/ |_| \__ \
+ \____\__, |_|_|\___|_| |_|\___|\__,_|___/ 
+      |___/                               
+Next-gen corpus search for Greek and Latin
+"""
+
 class CustomRiposte(Riposte):
     @property
     def prompt(self):
@@ -32,7 +42,7 @@ class CustomRiposte(Riposte):
 
 
 repl = CustomRiposte(
-    #splash='Cylleneus v0.0.1: Next-gen corpus search for ancient languages',
+    # banner=BANNER,
     prompt='cylleneus:~ $ '
 )
 
@@ -50,7 +60,7 @@ def search(query: str):
 
 @repl.command("credits")
 def credits():
-    repl.info(Palette.BLUE.format("Cylleneus v0.0.1: Next-gen search for ancient languages"))
+    repl.info(Palette.BLUE.format("Cylleneus v0.0.1: Next-gen corpus search for Greek and Latin"))
     repl.info(Palette.GREY.format("(c) 2019 William Michael Short"))
 
 
@@ -79,7 +89,6 @@ def selectby(author: str = None, title: str = None):
     if title:
         kwargs['title'] = title
 
-    # TODO: Is docix really the same as docnum?
     if 'author' in _corpus.schema and 'title' in _corpus.schema:
         _searcher.docs = [doc['docix'] for doc in _corpus.index.searcher().documents(**kwargs)]
 
