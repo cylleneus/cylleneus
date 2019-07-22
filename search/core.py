@@ -18,7 +18,7 @@ class Searcher:
     def __init__(self, corpus: Corpus):
         self._searches = []
         self._corpus = corpus
-        self._docs = set(corpus.reader.all_doc_ids())
+        self._docs = None
 
     @property
     def corpus(self):
@@ -30,13 +30,14 @@ class Searcher:
 
     @property
     def docs(self):
-        return list(self._docs)
+        if self._docs is None:
+            self._docs = set(self.corpus.reader.all_doc_ids())
+        return self._docs
 
     @docs.setter
     def docs(self, doc_ids: list):
         self._docs = set(doc_ids)
 
-    # TODO: Add concurrency
     def search(self, param: str, corpus=None, doc_ids: list = None, minscore=None, debug=False):
         """ Execute the specified search parameters """
 
@@ -202,6 +203,7 @@ class Search:
     def exec(self):
         self.start_time = datetime.now()
         with CylleneusSearcher(self.corpus.reader) as searcher:
+            print(list(searcher.lexicon('lemma')))
             results = searcher.search(self.query, terms=True, limit=None, filter=self.docs)
 
             self.results = []
