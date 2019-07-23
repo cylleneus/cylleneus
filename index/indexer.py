@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 
 import config
@@ -71,8 +72,7 @@ class Indexer:
 
     def destroy(self):
         if engine.index.exists_in(self.path):
-            for file in self.path.glob('*'):
-                file.unlink()
+            shutil.rmtree(self.path)
             self.index = None
 
     @property

@@ -1832,12 +1832,12 @@ class CylleneusHit(Hit):
         if self.get('meta', False):
             fragments = sorted(
                 list(fragments),
-                key=lambda x: x.meta.pop('meta').values()
+                key=lambda x: tuple(int(n) for n in x[1].meta['start'].values())
             )
         else:
             fragments = sorted(
                 list(fragments),
-                key=lambda x: x.startchar,
+                key=lambda x: x[1].startchar,
             )
         formatted = self.results.highlighter.formatter.format(fragments)
 

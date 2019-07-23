@@ -120,8 +120,8 @@ def save(n: int = None, filename: str = None):
 
     if target.results:
         with codecs.open(f"{filename}.txt", "w", "utf8") as fp:
-            for hlite in target.highlights:
-                fp.write(hlite)
+            for author, title, reference, text in target.highlights:
+                fp.write(f"{author}, {title} {reference}\n{text}\n\n")
             repl.success(f"saved results as '{filename}.txt'")
     else:
         repl.error("nothing to save")
@@ -194,8 +194,8 @@ def slugify(value, allow_unicode=False):
         value = unicodedata.normalize('NFKC', value)
     else:
         value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
-    value = re.sub(r'[^\w\s-]', '', value).strip().lower()
-    return re.sub(r'[-\s]+', '-', value)
+    value = re.sub(r'[^\w\s-]', '', re.sub(r'[:=]', '-', value).strip().lower())
+    return re.sub(r'[\s]+', '-', value)
 
 
 if __name__ == "__main__":
