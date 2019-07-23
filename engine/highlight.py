@@ -2,13 +2,12 @@ import statistics
 from heapq import nlargest
 from itertools import groupby
 
-import whoosh.highlight
-import whoosh.query
-from whoosh.compat import htmlescape
-
 import engine.analysis
 import engine.query
 import engine.searching
+import whoosh.highlight
+import whoosh.query
+from whoosh.compat import htmlescape
 
 
 class CylleneusFragment(object):
@@ -565,7 +564,14 @@ class CylleneusFormatter(object):
                 return "[%s]" % ttext
     """
 
-    between = "..."
+    between = "\nEOF\n"
+
+    def __init__(self, between="\nEOF\n"):
+        """
+        :param between: the text to add between fragments.
+        """
+
+        self.between = between
 
     def _text(self, text):
         return text
@@ -627,20 +633,23 @@ class CylleneusFormatter(object):
         return self.format(fragments)
 
 
+class CylleneusDefaultFormatter(CylleneusFormatter):
+    """Returns a string in which the matched terms are as given.
+    """
+
+    def format_token(self, text, token, replace=False):
+        ttxt = get_text(text, token, replace)
+        return ttxt
+
+
 class CylleneusUppercaseFormatter(CylleneusFormatter):
     """Returns a string in which the matched terms are in UPPERCASE.
     """
 
-    def __init__(self, between="..."):
-        """
-        :param between: the text to add between fragments.
-        """
-
-        self.between = between
-
     def format_token(self, text, token, replace=False):
         ttxt = get_text(text, token, replace)
         return ttxt.upper()
+
 
 class CylleneusHtmlFormatter(CylleneusFormatter):
     """Returns a string containing HTML formatting around the matched terms.

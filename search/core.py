@@ -5,8 +5,7 @@ from MyCapytain.common.constants import Mimetypes
 from MyCapytain.resolvers.cts.api import HttpCtsResolver
 from MyCapytain.retrievers.cts5 import HttpCtsRetriever as CTS
 from corpus.core import Corpus
-from engine.highlight import CylleneusBasicFragmentScorer, CylleneusPinpointFragmenter, \
-    CylleneusUppercaseFormatter
+from engine.highlight import CylleneusBasicFragmentScorer, CylleneusDefaultFormatter, CylleneusPinpointFragmenter
 from engine.qparser.default import CylleneusQueryParser
 from engine.query.qcore import Query
 from engine.searching import CylleneusSearcher
@@ -63,12 +62,13 @@ class Searcher:
 
 
 class Search:
-    def __init__(self, param: str, query: Query, corpus: Corpus, doc_ids: list = None, minscore=None):
+    def __init__(self, param: str, query: Query, corpus: Corpus, doc_ids: list = None, top=None, minscore=None):
         self._param = param
         self._query = query
         self._corpus = corpus
         self._docs = set(doc_ids)
         self._minscore = minscore
+        self._top = top
 
         self._start_time = None
         self._end_time = None
@@ -216,43 +216,33 @@ class Search:
     def minscore(self):
         return self._minscore
 
+    @property
+    def top(self):
+        return self._top
+
     def exec(self):
         self.start_time = datetime.now()
         with CylleneusSearcher(self.corpus.reader) as searcher:
             results = searcher.search(self.query, terms=True, limit=None, filter=self.docs)
 
-            # TODO: Disentangle match generation from fragmenter
             self.results = []
             if results:
-                results.fragmenter = CylleneusPinpointFragmenter(autotrim=True, maxchars=self.maxchars,
-                                                                 surround=self.surround)
-                results.fragmenter.charlimit = None
-                results.formatter = CylleneusUppercaseFormatter(between='\nEOF\n')
+                results.fragmenter = CylleneusPinpointFragmenter(
+                    autotrim=True,
+                    charlimit=None,
+                    maxchars=self.maxchars,
+                    surround=self.surround
+                )
                 results.scorer = CylleneusBasicFragmentScorer()
-
-                # hit.matches?
+                results.formatter = CylleneusDefaultFormatter()
                 for hit in sorted(results, key=lambda x: (x['author'], x['title'])):
-                    highlights = list(hit.highlights('content', top=10000000, minscore=self.minscore))
+                    self.results.extend(
+                        hit.highlights(
+                            top=self.top,
+                            minscore=self.minscore
+                        )
+                    )
 
-                    for meta, fragment in sorted(
-                        highlights,
-                        key=lambda x, y: x.pop('meta').values()
-                    ):
-                        if 'content' in hit:
-                            self.results.append(
-                                (
-                                    hit,
-                                    meta,
-                                    '\n'.join(textwrap.wrap(fragment, width=70))
-                                )
-                            )
-                        else:
-                            self.results.append(
-                                (
-                                    hit,
-                                    meta,
-                                    None)
-                            )
         self.end_time = datetime.now()
         return self.count
 

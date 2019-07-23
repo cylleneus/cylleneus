@@ -4,18 +4,18 @@
 
 
 import codecs
-import unicodedata
 import re
-from riposte import Riposte
-from riposte.printer import Palette
 import sys
+import textwrap
+import unicodedata
 from pathlib import Path
 
 import config
-from engine import index
-from search import Searcher
 from corpus import Corpus
-
+from engine import index
+from riposte import Riposte
+from riposte.printer import Palette
+from search import Searcher
 
 _corpus = Corpus('lasla')
 _searcher = Searcher(_corpus)
@@ -138,7 +138,7 @@ def show(n: int = None):
 
     if target.results:
         for hlite in target.highlights:
-            repl.print(hlite.strip('\n'))
+            repl.print(textwrap.wrap(hlite.strip('\n'), width=70))
     else:
         repl.error("nothing to show")
 
