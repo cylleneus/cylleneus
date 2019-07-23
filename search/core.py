@@ -1,15 +1,10 @@
-import textwrap
 from datetime import datetime
 
-from MyCapytain.common.constants import Mimetypes
-from MyCapytain.resolvers.cts.api import HttpCtsResolver
-from MyCapytain.retrievers.cts5 import HttpCtsRetriever as CTS
 from corpus.core import Corpus
 from engine.highlight import CylleneusBasicFragmentScorer, CylleneusDefaultFormatter, CylleneusPinpointFragmenter
 from engine.qparser.default import CylleneusQueryParser
 from engine.query.qcore import Query
 from engine.searching import CylleneusSearcher
-from requests.exceptions import HTTPError
 
 
 class Searcher:
@@ -109,63 +104,9 @@ class Search:
     @property
     def highlights(self):
         if self.results:
-            current_hit = ''
-            fragment_counter = 1
             for hit, meta, fragment in self.results:
-                if meta and meta.get('meta', False):
-                    divs = meta['meta'].split('-')
-                else:
-                    divs = []
-
-                # TODO: each corpus should have its own 'get' function
-                if 'content' not in hit:
-                    if 'urn' in hit:
-                        resolver = HttpCtsResolver(CTS("http://scaife-cts.perseus.org/api/cts"))
-
-                        # TODO: Retrieve multi-line, extended passages using
-                        #   'start' and 'end' with variable context
-                        urn = hit.get('urn', None)
-                        if 'line' in meta['meta'] and len(meta['meta'].split('-')) <= 2:
-                            ref = '.'.join([meta['start'][div]
-                                            for div in meta['meta'].split('-')
-                                            ]).replace('t1', '')
-                        else:
-                            ref = '.'.join([meta['start'][div]
-                                        for div in meta['meta'].split('-')
-                                        if div != 'line'
-                                        ]).replace('t1', '')
-                        try:
-                            passage = resolver.getTextualNode(urn, subreference=ref)
-                        except HTTPError:
-                            fragment = "can't resolve url!"
-                        else:
-                            fragment = passage.export(Mimetypes.PLAINTEXT)
-                    elif 'filename' in hit:
-                        filename = hit['filename']
-                        work = self.corpus.load(filename)
-                        fragment = work.get(meta['start'], meta['end'])
-                if current_hit != hit['title']:
-                    yield '\n'
-                    if hit.get('author', False):
-                        yield f"{hit['author'].upper()}, {hit['title'].upper()}\n"
-                    else:
-                        yield f"{hit['title'].upper()}\n"
-                    current_hit = hit['title']
-                    fragment_counter = 1
-                if hit.get('meta', False):
-                    start = ', '.join([f"{item}: {meta['start'][item]}" for item in meta['start'] if item in
-                                       divs])
-                    end = ', '.join([f"{item}: {meta['end'][item]}" for item in meta['end'] if item in divs])
-                    ref = '-'.join([start, end]) if end != start else start
-                else:
-                    ref = fragment_counter
-
-                yield f"{ref}\n"
-                if fragment:
-                    for line in textwrap.wrap(fragment, width=70):
-                        yield f"    {line}\n"
-                    yield '\n'
-                fragment_counter += 1
+                author, title, reference, text = self.corpus.fetch(hit, meta, fragment)
+                yield author, title, reference, text
 
     @property
     def param(self):
@@ -238,6 +179,7 @@ class Search:
                 for hit in sorted(results, key=lambda x: (x['author'], x['title'])):
                     self.results.extend(
                         hit.highlights(
+                            fieldname='content',
                             top=self.top,
                             minscore=self.minscore
                         )

@@ -97,13 +97,13 @@ def selectby(author: str = None, title: str = None):
 def corpus(corpus_name: str = None):
     global _corpus, _searcher, _search
 
-    if corpus_name and index.exists_in(f"index/{corpus_name}"):
+    if corpus_name and index.exists_in(config.ROOT_DIR + f"/index/{corpus_name}"):
         _corpus = Corpus(corpus_name)
         _searcher.corpus = _corpus
         repl.success(f"corpus '{_corpus.name}', {_corpus.index.doc_count_all()} indexed")
     else:
         repl.info(Palette.GREEN.format("Available corpora: " + ", ".join(
-            [f"'{path.name}'" for path in Path(config.ROOT_DIR + 'index/').iterdir()
+            [f"'{path.name}'" for path in Path(config.ROOT_DIR + '/index/').iterdir()
              if path.is_dir() and index.exists_in(str(path))])))
 
 
@@ -137,10 +137,26 @@ def show(n: int = None):
         target = _search
 
     if target.results:
-        for hlite in target.highlights:
-            repl.print(textwrap.wrap(hlite.strip('\n'), width=70))
+        ctitle = None
+        counter = 1
+        for author, title, reference, text in target.highlights:
+            if ctitle != title:
+                repl.success(Palette.BOLD.format(f"{author}, {title}"))
+                ctitle = title
+                counter = 1
+            if not reference:
+                reference = counter
+            repl.info(Palette.GREY.format(f"{reference}:", end=' '))
+
+            if text:
+                for line in textwrap.wrap(text.strip('\n'), width=70):
+                    repl.print(Palette.WHITE.format(line))
+            else:
+                repl.error(f"could not resolve")
+            repl.print('\n')
+            counter += 1
     else:
-        repl.error("nothing to show")
+        repl.error("no results")
 
 
 @repl.command("history")
