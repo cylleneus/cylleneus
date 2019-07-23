@@ -3,7 +3,9 @@
 
 """The setup script."""
 
-from setuptools import setup, find_packages
+import sys
+
+from setuptools import find_packages, setup
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -26,7 +28,6 @@ requirements = [
     'multiwordnet>=0.0.2',
     'nltk==3.4',
     'pyparsing==2.3.1',
-    'pyreadline>=2.1',
     'pyrsistent==0.14.11',
     'python-crfsuite==0.9.6',
     'pyuca==1.2',
@@ -41,6 +42,9 @@ requirements = [
     'urllib3<1.25,>=1.21.1',
     'Whoosh==2.7.4',
 ]
+
+if sys.platform == 'win32':
+    requirements.append('pyreadline>=2.1')
 
 setup_requirements = [ ]
 
