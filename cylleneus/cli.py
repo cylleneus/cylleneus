@@ -156,5 +156,20 @@ def add(corpus, path, **kwargs):
         click.echo('[-] failed')
 
 
+@main.command()
+@click.option('--corpus', '-c', 'corpus', required=True)
+@click.option('--field', '-f', 'fieldname', required=True)
+def lexicon(corpus, fieldname):
+    c = Corpus(corpus)
+
+    if c.index:
+        with CylleneusSearcher(c.reader) as searcher:
+            lex = list(searcher.lexicon(fieldname))
+            click.echo(f"[+] lexicon '{fieldname}' of '{corpus}': {len(lex)} items")
+            click.echo_via_pager('\n'.join([str(i) for i in lex]))
+    else:
+        click.echo(f'[-] failed')
+
+
 if __name__ == "__main__":
     sys.exit(main())  # pragma: no cover
