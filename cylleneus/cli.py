@@ -24,14 +24,16 @@ def shell():
 @click.option('--corpus', '-c', 'corpus', required=True)
 def index(corpus):
     indexer = Indexer(Corpus(corpus))
-    if indexer.index:
-        for docnum, doc in indexer.docs:
+    docs = list(indexer.docs)
+
+    if docs:
+        for docnum, doc in docs:
             if 'author' in doc and 'title' in doc:
                 click.echo(f"[{docnum}] {doc['author']}, {doc['title']}")
             else:
                 click.echo(f"[{docnum}] {doc['filename']}")
     else:
-        click.echo(f"[-] no index of '{corpus}'")
+        click.echo(f"[-] nothing indexed in '{corpus}'")
 
 
 @main.command()
@@ -60,7 +62,7 @@ def destroy(corpus):
     if click.confirm(f"Are you sure?", default=False):
         indexer = Indexer(Corpus(corpus))
         indexer.destroy()
-        if indexer.index.doc_count_all() != 0:
+        if indexer.exists:
             click.echo('[-] failed')
         else:
             click.echo(f"[+] destroyed '{corpus}'")

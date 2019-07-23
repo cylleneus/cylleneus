@@ -146,7 +146,7 @@ def show(n: int = None):
                 counter = 1
             if not reference:
                 reference = counter
-            repl.info(Palette.GREY.format(f"{reference}:", end=' '))
+            repl.info(Palette.GREY.format(f"{reference}:"))
 
             if text:
                 for line in textwrap.wrap(text.strip('\n'), width=70):
