@@ -593,7 +593,7 @@ class CylleneusFormatter(object):
 
     def format_fragment(self, fragment, replace=False):
         """Returns a formatted version of the given text, using the "token"
-        objects in the given :class:`Fragment`.
+        objects in the given :class:`Fragment`, along with its meta data.
 
         :param fragment: a :class:`Fragment` object representing a list of
             matches in the text.
@@ -616,9 +616,9 @@ class CylleneusFormatter(object):
             index = t.endchar
         output.append(self._text(text[index:fragment.endchar]))
 
-        out_string = "".join(output)
+        text = "".join(output)
         meta = fragment.meta if hasattr(fragment, 'meta') else None
-        return meta, out_string
+        return meta, text
 
     def format(self, fragments, replace=False):
         """Returns a formatted version of the given text, using a list of

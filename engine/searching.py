@@ -1834,25 +1834,22 @@ class CylleneusHit(Hit):
                 list(fragments),
                 key=lambda x: x.meta.pop('meta').values()
             )
+        else:
+            fragments = sorted(
+                list(fragments),
+                key=lambda x: x.startchar,
+            )
         formatted = self.results.highlighter.formatter.format(fragments)
 
         hlites = []
-        for fragment in formatted:
-            if 'content' in self:
-                hlites.append(
-                    (
-                        self,
-                        fragment.meta,
-                        '\n'.join(fragment)
-                    )
+        for meta, text in formatted:
+            hlites.append(
+                (
+                    self,
+                    meta,
+                    text if 'content' in self else None,
                 )
-            else:
-                hlites.append(
-                    (
-                        self,
-                        fragment.meta,
-                        None)
-                )
+            )
         if top and isinstance(top, int):
             return hlites[:top]
         else:
