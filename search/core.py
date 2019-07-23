@@ -4,14 +4,13 @@ from datetime import datetime
 from MyCapytain.common.constants import Mimetypes
 from MyCapytain.resolvers.cts.api import HttpCtsResolver
 from MyCapytain.retrievers.cts5 import HttpCtsRetriever as CTS
-from requests.exceptions import HTTPError
-
 from corpus.core import Corpus
 from engine.highlight import CylleneusBasicFragmentScorer, CylleneusPinpointFragmenter, \
     CylleneusUppercaseFormatter
 from engine.qparser.default import CylleneusQueryParser
 from engine.query.qcore import Query
 from engine.searching import CylleneusSearcher
+from requests.exceptions import HTTPError
 
 
 class Searcher:
@@ -75,9 +74,30 @@ class Search:
         self._end_time = None
         self._results = None
 
+        # FIXME: relevant to Fragmenter, so only settable at search-time
+        #   but corpora without content should use this at display-time
+        self._maxchars = 200
+        self._surround = 20
+
     @property
     def docs(self):
         return self._docs
+
+    @property
+    def maxchars(self):
+        return self._maxchars
+
+    @maxchars.setter
+    def maxchars(self, n):
+        self._results = n
+
+    @property
+    def surround(self):
+        return self._surround
+
+    @surround.setter
+    def surround(self, n):
+        self._results = n
 
 
     @property
@@ -86,8 +106,6 @@ class Search:
             self.exec()
         return self._results
 
-    # TODO: Resolve text from external sources rather than index,
-    #   regardless of corpus type, except raw text corpora
     @property
     def highlights(self):
         if self.results:
@@ -99,15 +117,13 @@ class Search:
                 else:
                     divs = []
 
-                # For corpora without 'content', use urn to
-                # resolve the text from an external CTS server
-                # or load text from local file
+                # TODO: each corpus should have its own 'get' function
                 if 'content' not in hit:
                     if 'urn' in hit:
                         resolver = HttpCtsResolver(CTS("http://scaife-cts.perseus.org/api/cts"))
 
                         # TODO: Retrieve multi-line, extended passages using
-                        #   'start' and 'end'
+                        #   'start' and 'end' with variable context
                         urn = hit.get('urn', None)
                         if 'line' in meta['meta'] and len(meta['meta'].split('-')) <= 2:
                             ref = '.'.join([meta['start'][div]
@@ -203,25 +219,40 @@ class Search:
     def exec(self):
         self.start_time = datetime.now()
         with CylleneusSearcher(self.corpus.reader) as searcher:
-            print(list(searcher.lexicon('lemma')))
             results = searcher.search(self.query, terms=True, limit=None, filter=self.docs)
 
+            # TODO: Disentangle match generation from fragmenter
             self.results = []
             if results:
-                results.fragmenter = CylleneusPinpointFragmenter(autotrim=True, maxchars=50, surround=100)
+                results.fragmenter = CylleneusPinpointFragmenter(autotrim=True, maxchars=self.maxchars,
+                                                                 surround=self.surround)
                 results.fragmenter.charlimit = None
                 results.formatter = CylleneusUppercaseFormatter(between='\nEOF\n')
                 results.scorer = CylleneusBasicFragmentScorer()
 
+                # hit.matches?
                 for hit in sorted(results, key=lambda x: (x['author'], x['title'])):
                     highlights = list(hit.highlights('content', top=10000000, minscore=self.minscore))
 
-                    # TODO: Sort results based on meta values
-                    for meta, fragment in highlights:
+                    for meta, fragment in sorted(
+                        highlights,
+                        key=lambda x, y: x.pop('meta').values()
+                    ):
                         if 'content' in hit:
-                            self.results.append((hit, meta, '\n'.join(textwrap.wrap(fragment, width=70))))
+                            self.results.append(
+                                (
+                                    hit,
+                                    meta,
+                                    '\n'.join(textwrap.wrap(fragment, width=70))
+                                )
+                            )
                         else:
-                            self.results.append((hit, meta, None))
+                            self.results.append(
+                                (
+                                    hit,
+                                    meta,
+                                    None)
+                            )
         self.end_time = datetime.now()
         return self.count
 
