@@ -1,9 +1,13 @@
-from engine import index
-from engine import fields
-from pathlib import Path
 import codecs
 import json
+from pathlib import Path
+
 import config
+from MyCapytain.common.constants import Mimetypes
+from MyCapytain.resolvers.cts.api import HttpCtsResolver
+from MyCapytain.retrievers.cts5 import HttpCtsRetriever as CTS
+from engine import fields, index
+from requests.exceptions import HTTPError
 
 
 class Corpus:
@@ -54,22 +58,76 @@ class Corpus:
     def __str__(self):
         return self.name
 
-    # @property
-    # def authors(self):
-    #     return self._authors
+    def fetch(self, hit, meta, fragment):
+        """ Fetch corpus data for a given match in a document
+        :param: hit         The hit object, representing a specific author's work
+                            or part of it
+        :param: meta        Meta data for citation referencing
+        :param: fragment    Text fragment, only for raw plaintext corpora
+        :returns:           author, title, reference, text
+        """
 
-    # def remove(self, s: str) # remove an author or work from the corpus (move to unused)
-    # def add(self, s: str) # move an unused author or work back into the corpus
-    # def reset(self) # reset the corpus to its original state
-    # def list(self) # list all authors or works in corpus currently
+        if 'content' not in hit:
+            if 'urn' in hit:
+                # TODO: move to Work
+                resolver = HttpCtsResolver(CTS("http://scaife-cts.perseus.org/api/cts"))
+
+                # TODO: Retrieve multi-line, extended passages using
+                #   'start' and 'end' with variable context
+                urn = hit.get('urn', None)
+                if 'line' in meta['meta'] and len(meta['meta'].split('-')) <= 2:
+                    cite = '.'.join([meta['start'][div]
+                                    for div in meta['meta'].split('-')
+                                    ]).replace('t1', '')
+                else:
+                    cite = '.'.join([meta['start'][div]
+                                    for div in meta['meta'].split('-')
+                                    if div != 'line'
+                                    ]).replace('t1', '')
+                try:
+                    passage = resolver.getTextualNode(urn, subreference=cite)
+                except HTTPError:
+                    text = None
+                else:
+                    text = passage.export(Mimetypes.PLAINTEXT)
+            elif 'filename' in hit:
+                filename = hit['filename']
+                work = self.load(filename)
+                text = work.get(meta['start'], meta['end'])
+        else:
+            text = fragment
+
+        if meta and meta.get('meta', False):
+            divs = meta['meta'].split('-')
+        else:
+            divs = []
+        if hit.get('meta', False):
+            start = ', '.join([f"{item}: {meta['start'][item]}" for item in meta['start'] if item in
+                               divs])
+            end = ', '.join([f"{item}: {meta['end'][item]}" for item in meta['end'] if item in divs])
+            reference = '-'.join([start, end]) if end != start else start
+        else:
+            reference = None
+
+        if hit.get('author', False):
+            author = hit['author']
+        else:
+            author = None
+
+        if hit.get('title', False):
+            title = hit['title']
+        else:
+            title = None
+
+        return author, title, reference, text
 
     def load(self, filename):
         if self.name == 'perseus':
-            # TODO: remove
             filename = Path(filename).name
             with codecs.open(config.ROOT_DIR + f'/corpus/text/perseus/{filename}', 'r', 'utf8') as fp:
                 doc = json.load(fp)
             return Work(self.name, filename, doc)
+
 
 class Author:
     def __init__(self, name, reader):
@@ -83,6 +141,7 @@ class Author:
     @property
     def works(self):
         return self._works
+
 
 class Work:
     def __init__(self, corpus, filename, doc):
@@ -119,6 +178,7 @@ class Work:
         for div in self.meta.split('-'):
             item = item[start[div.lower()]]
         return item
+
 
 class Reference:
     def __init__(self):

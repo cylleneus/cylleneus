@@ -212,7 +212,7 @@ class FormPlugin(whoosh.qparser.plugins.TaggingPlugin):
 class LemmaPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify lemmas by enclosing them in guillemets."""
 
-    expr = r'<(?P<text>[\w=!@~#%msp=|+-rc\/*>^$&<]+?)>'  # r'(^|(?<=\W))<(?P<text>[\w]+?)>(?=\s|\]|[)}]|:|"|$)'
+    expr = r'<(?P<text>[\w\d=:!@~#%msp|+-rc\/*>^$&<]+?)>'  # r'(^|(?<=\W))<(?P<text>[\w]+?)>(?=\s|\]|[)}]|:|"|$)'
     nodetype = engine.qparser.syntax.LemmaNode
 
 # []

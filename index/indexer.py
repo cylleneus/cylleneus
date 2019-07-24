@@ -1,12 +1,14 @@
-from corpus import Corpus
-import engine.index
-from engine import fields
-from engine import writing
+import shutil
 from pathlib import Path
-from engine.qparser.default import QueryParser
-from . import preprocessing
-from engine import schemas
+
 import config
+import engine.index
+from corpus import Corpus
+from engine import fields, schemas, writing
+from engine.qparser.default import QueryParser
+
+from . import preprocessing
+
 
 class IndexingError(Exception):
     pass
@@ -47,8 +49,7 @@ class Indexer:
 
     @property
     def docs(self):
-        if self.index:
-            return self.index.reader().iter_docs()
+        return self.index.reader().iter_docs()
 
     @property
     def path(self):
@@ -71,22 +72,27 @@ class Indexer:
 
     def destroy(self):
         if engine.index.exists_in(self.path):
-            for file in self.path.glob('*'):
-                file.unlink()
+            shutil.rmtree(self.path)
             self.index = None
+
+    @property
+    def exists(self):
+        return engine.index.exists_in(self.path)
 
     def optimize(self):
         if self.index:
             self.index.optimize()
 
     def create(self):
-        self.index = engine.index.create_in(f'index/{self.corpus.name}',
+        if not self.path.exists():
+            self.path.mkdir(parents=True)
+        self.index = engine.index.create_in(self.path,
                                             schema=self.schema)
 
     def open(self):
-        if not engine.index.exists_in(f'index/{self.corpus.name}'):
+        if not engine.index.exists_in(self.path):
             self.create()
-        self.index = engine.index.open_dir(f'index/{self.corpus.name}',
+        self.index = engine.index.open_dir(self.path,
                                      schema=self.schema)
 
     def delete(self, docnum: int=None):
@@ -192,4 +198,4 @@ class Indexer:
             if title:
                 kwargs['title'] = title
             writer.add_document(docix=docix, **kwargs)
-        writer.commit()
+            writer.commit()

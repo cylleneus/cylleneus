@@ -4,23 +4,34 @@
 
 
 import codecs
-import unicodedata
 import re
-from riposte import Riposte
-from riposte.printer import Palette
 import sys
+import textwrap
+import unicodedata
 from pathlib import Path
 
 import config
-from engine import index
-from search import Searcher
 from corpus import Corpus
-
+from engine import index
+from riposte import Riposte
+from riposte.printer import Palette
+from search import Searcher
 
 _corpus = Corpus('lasla')
 _searcher = Searcher(_corpus)
 _search = None
 
+
+BANNER = """
+  ____      _ _                           
+ / ___|   _| | | ___ _ __   ___ _   _ ___ 
+| |  | | | | | |/ _ \ '_ \ / _ \ | | / __|
+| |__| |_| | | |  __/ | | |  __/ |_| \__ \
+ \____\__, |_|_|\___|_| |_|\___|\__,_|___/ 
+      |___/                         v0.0.2     
+Next-gen corpus search for Greek and Latin
+
+"""
 
 class CustomRiposte(Riposte):
     @property
@@ -32,7 +43,7 @@ class CustomRiposte(Riposte):
 
 
 repl = CustomRiposte(
-    #splash='Cylleneus v0.0.1: Next-gen corpus search for ancient languages',
+    # banner=BANNER,
     prompt='cylleneus:~ $ '
 )
 
@@ -50,7 +61,7 @@ def search(query: str):
 
 @repl.command("credits")
 def credits():
-    repl.info(Palette.BLUE.format("Cylleneus v0.0.1: Next-gen search for ancient languages"))
+    repl.info(Palette.BLUE.format("Cylleneus v0.0.1: Next-gen corpus search for Greek and Latin"))
     repl.info(Palette.GREY.format("(c) 2019 William Michael Short"))
 
 
@@ -61,7 +72,7 @@ def select(doc_ids: list = None):
     if doc_ids:
         _searcher.docs = doc_ids
     else:
-        repl.info(Palette.WHITE.format(f"corpus '{_corpus.name}', {_corpus.index.doc_count_all()} indexed"))
+        repl.info(Palette.WHITE.format(f"corpus '{_corpus.name}', {_corpus.index.doc_count_all()} documents indexed"))
         for docnum, fields in _corpus.index.reader().iter_docs():
             if docnum in _searcher.docs:
                 repl.info(Palette.BOLD.format(f"{docnum}. {fields['author'].title()}, {fields['title'].title()}"))
@@ -79,7 +90,6 @@ def selectby(author: str = None, title: str = None):
     if title:
         kwargs['title'] = title
 
-    # TODO: Is docix really the same as docnum?
     if 'author' in _corpus.schema and 'title' in _corpus.schema:
         _searcher.docs = [doc['docix'] for doc in _corpus.index.searcher().documents(**kwargs)]
 
@@ -88,13 +98,13 @@ def selectby(author: str = None, title: str = None):
 def corpus(corpus_name: str = None):
     global _corpus, _searcher, _search
 
-    if corpus_name and index.exists_in(f"index/{corpus_name}"):
+    if corpus_name and index.exists_in(config.ROOT_DIR + f"/index/{corpus_name}"):
         _corpus = Corpus(corpus_name)
         _searcher.corpus = _corpus
         repl.success(f"corpus '{_corpus.name}', {_corpus.index.doc_count_all()} indexed")
     else:
         repl.info(Palette.GREEN.format("Available corpora: " + ", ".join(
-            [f"'{path.name}'" for path in Path(config.ROOT_DIR / 'index/').iterdir()
+            [f"'{path.name}'" for path in Path(config.ROOT_DIR + '/index/').iterdir()
              if path.is_dir() and index.exists_in(str(path))])))
 
 
@@ -111,8 +121,8 @@ def save(n: int = None, filename: str = None):
 
     if target.results:
         with codecs.open(f"{filename}.txt", "w", "utf8") as fp:
-            for hlite in target.highlights:
-                fp.write(hlite)
+            for author, title, reference, text in target.highlights:
+                fp.write(f"{author}, {title} {reference}\n{text}\n\n")
             repl.success(f"saved results as '{filename}.txt'")
     else:
         repl.error("nothing to save")
@@ -128,10 +138,26 @@ def show(n: int = None):
         target = _search
 
     if target.results:
-        for hlite in target.highlights:
-            repl.print(hlite.strip('\n'))
+        ctitle = None
+        counter = 1
+        for author, title, reference, text in target.highlights:
+            if ctitle != title:
+                repl.success(Palette.BOLD.format(f"{author}, {title}"))
+                ctitle = title
+                counter = 1
+            if not reference:
+                reference = counter
+            repl.info(Palette.GREY.format(f"{reference}:"))
+
+            if text:
+                for line in textwrap.wrap(text.strip('\n'), width=70):
+                    repl.print(Palette.WHITE.format(line))
+            else:
+                repl.error(f"could not resolve")
+            repl.print('\n')
+            counter += 1
     else:
-        repl.error("nothing to show")
+        repl.error("no results")
 
 
 @repl.command("history")
@@ -169,8 +195,8 @@ def slugify(value, allow_unicode=False):
         value = unicodedata.normalize('NFKC', value)
     else:
         value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
-    value = re.sub(r'[^\w\s-]', '', value).strip().lower()
-    return re.sub(r'[-\s]+', '-', value)
+    value = re.sub(r'[^\w\s-]', '', re.sub(r'[:=]', '-', value).strip().lower())
+    return re.sub(r'[\s]+', '-', value)
 
 
 if __name__ == "__main__":

@@ -3,7 +3,9 @@
 
 """The setup script."""
 
-from setuptools import setup, find_packages
+import sys
+
+from setuptools import find_packages, setup
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -13,33 +15,36 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'Click>=6.0',
-    'certifi==2019.3.9',
-    'chardet==3.0.4',
-    'cltk==0.1.107',
-    'cursor==1.3.4',
-    'future==0.17.1',
-    'idna==2.8',
-    'isodate==0.6.0',
-    'lxml==4.3.2',
-    'MyCapytain==2.0.10',
+    'certifi>=2019.3.9',
+    'chardet>=3.0.4',
+    'cltk>=0.1.107',
+    'cursor>=1.3.4',
+    'future>=0.17.1',
+    'idna>=2.8',
+    'isodate>=0.6.0',
+    'latinwordnet>=0.0.6',
+    'lxml>=4.3.2',
+    'MyCapytain>=2.0.10',
     'multiwordnet>=0.0.2',
-    'nltk==3.4',
-    'pyparsing==2.3.1',
-    'pyreadline>=2.1',
-    'pyrsistent==0.14.11',
-    'python-crfsuite==0.9.6',
-    'pyuca==1.2',
-    'rdflib==4.2.2',
-    'rdflib-jsonld==0.4.0',
-    'regex==2019.3.12',
-    'requests==2.21.0',
+    'nltk>=3.4',
+    'pyparsing>=2.3.1',
+    'pyrsistent>=0.14.11',
+    'python-crfsuite>=0.9.6',
+    'pyuca>=1.2',
+    'rdflib>=4.2.2',
+    'rdflib-jsonld>=0.4.0',
+    'regex>=2019.3.12',
+    'requests>=2.21.0',
     'riposte>=0.2.2',
-    'singledispatch==3.4.0.3',
-    'six==1.12.0',
-    'tqdm==4.31.1',
+    'singledispatch>=3.4.0.3',
+    'six>=1.12.0',
+    'tqdm>=4.31.1',
     'urllib3<1.25,>=1.21.1',
-    'Whoosh==2.7.4',
+    'Whoosh>=2.7.4',
 ]
+
+if sys.platform == 'win32':
+    requirements.append('pyreadline>=2.1')
 
 setup_requirements = [ ]
 
@@ -73,6 +78,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/wmshort/cylleneus',
-    version='0.0.1.post2',
+    version='0.0.2',
     zip_safe=False,
 )

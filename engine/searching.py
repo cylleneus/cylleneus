@@ -34,19 +34,18 @@ from __future__ import division
 import copy
 import weakref
 from itertools import product
-from math import ceil
-
-import whoosh.classify
-import whoosh.query
-import whoosh.scoring
-from whoosh.compat import iteritems, itervalues, iterkeys, xrange
-from whoosh.idsets import DocIdSet, BitSet
-from whoosh.reading import TermNotFound
-from whoosh.util.cache import lru_cache
 
 import engine.collectors
 import engine.highlight
 import engine.query.positional
+import whoosh.classify
+import whoosh.query
+import whoosh.scoring
+from math import ceil
+from whoosh.compat import iteritems, iterkeys, itervalues, xrange
+from whoosh.idsets import BitSet, DocIdSet
+from whoosh.reading import TermNotFound
+from whoosh.util.cache import lru_cache
 
 
 class NoTermsException(Exception):
@@ -1645,6 +1644,8 @@ def min_score(query):
 
 
 class CylleneusHit(Hit):
+    """ Hit object for Cylleneus searches """
+
     def annotation_filter(self, query):
         """ Filter results of a query by its morphological annotation, if any """
         if isinstance(query, engine.query.compound.CylleneusCompoundQuery):
@@ -1781,19 +1782,20 @@ class CylleneusHit(Hit):
         ]))
         return finalists
 
-    def highlights(self, fieldname, text=None, top=1000000, minscore=None):
+    def fragments(self, minscore=None):
         minscore = minscore or min_score(self.results.q)
 
         # Filter fragments for complex queries with annotations
-        hlites = self.filter_fragments(self.results.q, minscore)
+        filtered = self.filter_fragments(self.results.q, minscore)
 
-        # Attach collated meta data to fragments
+        # Attach collated meta data to fragments, if available
         if self.get('meta', False):
             if 'line' in self['meta'].lower() and len(self['meta'].lower().split('-')) <= 2:
                 divs = [div for div in self['meta'].lower().split('-')]
             else:
                 divs = [div for div in self['meta'].lower().split('-') if div != 'line']
-            for score, fragment in hlites:
+
+            for score, fragment in filtered:
                 meta = {
                     'meta': self['meta'].lower()
                 }
@@ -1810,7 +1812,6 @@ class CylleneusHit(Hit):
                     endmeta['sent_id'] = getattr(fragment.matches[-1], 'meta')['sent_id']
                     endmeta['sent_pos'] = getattr(fragment.matches[-1], 'meta')['sent_pos']
 
-                # TODO: Remove as extraneous?
                 if 'sect_pos' in getattr(fragment.matches[0], 'meta'):
                     startmeta['sect_pos'] = getattr(fragment.matches[0], 'meta')['sect_pos']
                 if 'sect_pos' in getattr(fragment.matches[-1], 'meta'):
@@ -1824,7 +1825,35 @@ class CylleneusHit(Hit):
                 meta['start'] = startmeta
                 meta['end'] = endmeta
                 fragment.meta = meta
-        return self.results.highlighter.formatter.format(hlites)
+        return filtered
+
+    def highlights(self, fieldname, text=None, top=1000000, minscore=None):
+        fragments = self.fragments(minscore)
+        if self.get('meta', False):
+            fragments = sorted(
+                list(fragments),
+                key=lambda x: tuple(int(n) for n in x[1].meta['start'].values())
+            )
+        else:
+            fragments = sorted(
+                list(fragments),
+                key=lambda x: x[1].startchar,
+            )
+        formatted = self.results.highlighter.formatter.format(fragments)
+
+        hlites = []
+        for meta, text in formatted:
+            hlites.append(
+                (
+                    self,
+                    meta,
+                    text if 'content' in self else None,
+                )
+            )
+        if top and isinstance(top, int):
+            return hlites[:top]
+        else:
+            return hlites
 
 
 class CylleneusSearcher(Searcher):

@@ -27,13 +27,20 @@
 # those of the authors and should not be interpreted as representing official
 # policies, either expressed or implied, of Matt Chaput.
 
+import copy
+import re
 from itertools import chain
 
-from whoosh.compat import next, xrange
-from engine.analysis.acore import Composable
-from whoosh.util.text import rcompile
 import corpus.utils.lasla
-import re
+from engine.analysis.acore import Composable
+from lang.latin.morphology import from_leipzig
+from latinwordnet import LatinWordNet
+from multiwordnet.wordnet import WordNet
+from whoosh.compat import next
+from whoosh.util.text import rcompile
+
+LWN = LatinWordNet()
+
 
 # Default list of stop words (words so common it's usually wasteful to index
 # them). This list is used by the StopFilter class, which allows you to supply
@@ -480,11 +487,6 @@ class SubstitutionFilter(Filter):
             yield t
 
 
-import copy
-from utils.latinwordnet2 import LatinWordNet
-from lang.latin.morphology import from_leipzig, Morph
-from multiwordnet.wordnet import WordNet
-
 _iso_639 = {
         'en': 'english',
         'la': 'latin',
@@ -493,9 +495,6 @@ _iso_639 = {
         'it': 'italian',
         'fr': 'french'
     }
-
-latinwordnet = LatinWordNet()
-
 
 relation_types = {
     '!': 'antonyms',
@@ -511,16 +510,16 @@ relation_types = {
     '|': 'nearest',
     '+r': 'has-role',
     '-r': 'is-role-of',
-    '+c': 'composed-of',
-    '-c': 'composes',
-    '\\': 'derived-from',
-    '/': 'related-to',
     '*': 'entails',
     '>': 'causes',
     '^': 'also-see',
     '$': 'verb-group',
     '&': 'similar-to',
     '<': 'participle',
+    '+c': 'composed-of',
+    '-c': 'composes',
+    '\\': 'derived-from',
+    '/': 'related-to',
     }
 
 
@@ -556,19 +555,17 @@ class CachedLemmaFilter(Filter):
                 if t.mode == 'index':
                     if t.text:
                         text = t.text
-                        results = latinwordnet.lemmatize(text)
+                        results = LWN.lemmatize(text)
                         if results:
                             for result in results:
                                 t.morpho = f"{result['lemma']['morpho']}>{' '.join(result['morpho'])}"
-
-                                # TODO: indicate lemmas with URIs, as in virtus:u0800=n-s---fn3-
-                                t.text = f"{result['lemma']['lemma']}={result['lemma']['morpho']}"
+                                t.text = f"{result['lemma']['lemma']}:{result['lemma']['uri']}={result['lemma']['morpho']}"
                                 self._cache.append(copy.copy(t))
                                 yield t
                 elif t.mode == 'query':
                     # Lexical relation
-                    if t.text[1] == '=' or t.text[2] == '=':
-                        reltype, query = t.text.rsplit('=', 1)  # for handling '=='
+                    if '::' in t.text:
+                        reltype, query = t.text.split('::')
                         t.reltype = reltype
                         t.text = query
 
@@ -587,27 +584,62 @@ class CachedLemmaFilter(Filter):
                     else:
                         if hasattr(t, 'reltype'):
                             if t.reltype in ['\\', '/', '+c', '-c']:
-                                results = latinwordnet.lemmas(text, '*').relations
+                                keys = ['lemma', 'uri', 'morpho']
+                                kwargs = {
+                                    k: v
+                                    for k, v in zip(
+                                        keys,
+                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                    )
+                                }
+                                if kwargs['uri'] is not None:
+                                    results = LWN.lemmas_by_uri(kwargs['uri']).relations
+                                else:
+                                    kwargs.pop('uri')
+                                    results = LWN.lemmas(**kwargs).relations
                             else:
-                                results = latinwordnet.lemmas(text, '*').synsets_relations
+                                keys = ['lemma', 'uri', 'morpho']
+                                kwargs = {
+                                    k: v
+                                    for k, v in zip(
+                                        keys,
+                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                    )
+                                }
+                                if kwargs['uri'] is not None:
+                                    results = LWN.lemmas_by_uri(kwargs['uri']).synsets_relations
+                                else:
+                                    kwargs.pop('uri')
+                                    results = LWN.lemmas(**kwargs).synsets_relations
                             if results:
                                 for result in results:
                                     if relation_types[t.reltype] in result['relations'].keys():
                                         for relation in result['relations'][relation_types[t.reltype]]:
-                                            t.text = f"{relation['lemma']}={relation['morpho']}"
+                                            t.text = f"{relation['lemma']}:{relation['uri']}={relation['morpho']}"
                                             yield t
                         else:
-                            # If the query has been provided as a morphologically
-                            # tagged lemma, we don't need to fetch WordNet data
-                            if '=' in text:
+                            # query may be provided as lemma:uri=morpho
+                            if all(re.match(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()):
                                 t.text = text
                                 yield t
                             else:
-                                results = list(latinwordnet.lemmas(text, pos='*'))
+                                keys = ['lemma', 'uri', 'morpho']
+                                kwargs = {
+                                    k: v
+                                    for k, v in zip(
+                                        keys,
+                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                    )
+                                }
+                                if kwargs['uri'] is not None:
+                                    results = LWN.lemmas_by_uri(kwargs['uri'])
+                                else:
+                                    kwargs.pop('uri')
+                                    results = LWN.lemmas(**kwargs)
 
                                 if results:
                                     for result in results:
-                                        t.text = f"{result['lemma']}={result['morpho']}"
+                                        t.text = f"{result['lemma']}:{result['uri']}={result['morpho']}"
                                         yield t
                                 else:
                                     yield t
@@ -646,6 +678,9 @@ class AnnotationFilter(Filter):
                 if text:
                     morpho, annotations = text.split('>')
                     for annotation in annotations.split(' '):
+                        t.text = annotation
+                        yield t
+
                         for i, v in enumerate(annotation):
                             if v != '-':
                                 text = f"{'-' * i}{v}{'-' * (9 - i)}"
@@ -684,9 +719,9 @@ class SemfieldFilter(Filter):
                 text = t.original
                 if text:
                     if text.isnumeric():
-                        results = latinwordnet.semfields(code=text)
+                        results = LWN.semfields(code=text)
                     else:
-                        results = latinwordnet.semfields(english=text).search()
+                        results = LWN.semfields(english=text).search()
                     if results:
                         for result in results:
                             t.text = result['code']
@@ -727,8 +762,19 @@ class CachedSynsetFilter(Filter):
                 if t.mode == 'index':
                     text = t.text
                     if text:
-                        lemma, morpho = text.split('=')
-                        results = latinwordnet.lemmas(lemma, morpho[0], morpho).synsets
+                        keys = ['lemma', 'uri', 'morpho']
+                        kwargs = {
+                            k: v
+                            for k, v in zip(
+                                keys,
+                                re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                            )
+                        }
+                        if kwargs['uri'] is not None:
+                            results = LWN.lemmas_by_uri(kwargs['uri']).synsets
+                        else:
+                            kwargs.pop('uri')
+                            results = LWN.lemmas(**kwargs).synsets
                         for result in results:
                             for synset in chain(result['synsets']['literal'],
                                                 result['synsets']['metonymic'],
@@ -772,7 +818,7 @@ class CachedSynsetFilter(Filter):
                     elif '#' in t.text:  # raw synset
                         if hasattr(t, 'reltype'):
                             pos, offset = t.text.split('#')
-                            result = latinwordnet.synsets(pos, offset).relations
+                            result = LWN.synsets(pos, offset).relations
                             if relation_types[t.reltype] in result.keys():
                                 for relation in result[relation_types[t.reltype]]:
                                     t.text = f"{relation['pos']}#{relation['offset']}"
@@ -859,7 +905,9 @@ class CachedLASLALemmaFilter(Filter):
                     if t.lemma is not None:
                         lemma = t.lemma
                         ix = t.lemma_n if t.lemma_n.strip() else '-'
-                        morphos = corpus.utils.lasla.morpho[lemma][ix]
+                        morphos = corpus.utils.lasla.mapping[lemma][ix]['morpho']
+                        uris = corpus.utils.lasla.mapping[lemma][ix]['uri']
+
                         if t.morpho is not None:
                             annotation = corpus.utils.lasla.bpn2lwn(t.morpho)
                         else:
@@ -868,7 +916,7 @@ class CachedLASLALemmaFilter(Filter):
 
                         for morpho in morphos:
                             if annotation is not None:
-                                if '/' in annotation:  # n-s---m/nn3-     n-s---m  nn3-
+                                if '/' in annotation:  # n-s---m/nn3-
                                     head, *alts, tail = re.search(
                                         r'^(.*?)([a-z1-9\-])/([a-z1-9\-])(.*?)$', annotation).groups()
                                     annotations = [f"{head}{alt}{tail}" for alt in alts]
@@ -877,18 +925,21 @@ class CachedLASLALemmaFilter(Filter):
                                 for annotation in annotations:
                                     t.morpho = f"{morpho}>{annotation}"
 
-                                    # TODO: indicate lemmas with URIs, as in virtus:u0800=n-s---fn3-
-                                    t.text = f"{lemma}={morpho}"
-                                    self._cache.append(copy.copy(t))
-                                    yield t
+                                    for uri in uris:
+                                        t.text = f"{lemma}:{uri}={morpho}"
+                                        self._cache.append(copy.copy(t))
+                                        yield t
                             else:
                                 t.morpho = f"{morpho}>{morpho}"
-                                t.text = f"{lemma}={morpho}"
-                                self._cache.append(copy.copy(t))
-                                yield t
+
+                                for uri in uris:
+                                    t.text = f"{lemma}:{uri}={morpho}"
+                                    self._cache.append(copy.copy(t))
+                                    yield t
                 elif t.mode == 'query':
-                    if '=' in t.text:
-                        reltype, query = t.text.rsplit('=', 1)  # for handling '=='
+                    # Lexical relation
+                    if '::' in t.text:
+                        reltype, query = t.text.split('::')
                         t.reltype = reltype
                         t.text = query
 
@@ -907,24 +958,65 @@ class CachedLASLALemmaFilter(Filter):
                     else:
                         if hasattr(t, 'reltype'):
                             if t.reltype in ['\\', '/', '+c', '-c']:
-                                results = latinwordnet.lemmas(text, '*').relations
+                                keys = ['lemma', 'uri', 'morpho']
+                                kwargs = {
+                                    k: v
+                                    for k, v in zip(
+                                        keys,
+                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                    )
+                                }
+                                if kwargs['uri'] is not None:
+                                    results = LWN.lemmas_by_uri(kwargs['uri']).relations
+                                else:
+                                    kwargs.pop('uri')
+                                    results = LWN.lemmas(**kwargs).relations
                             else:
-                                results = latinwordnet.lemmas(text, '*').synsets_relations
+                                keys = ['lemma', 'uri', 'morpho']
+                                kwargs = {
+                                    k: v
+                                    for k, v in zip(
+                                        keys,
+                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                    )
+                                }
+                                if kwargs['uri'] is not None:
+                                    results = LWN.lemmas_by_uri(kwargs['uri']).synsets_relations
+                                else:
+                                    kwargs.pop('uri')
+                                    results = LWN.lemmas(**kwargs).synsets_relations
                             if results:
                                 for result in results:
                                     if relation_types[t.reltype] in result['relations'].keys():
                                         for relation in result['relations'][relation_types[t.reltype]]:
-                                            t.text = f"{relation['lemma']}={relation['morpho']}"
+                                            t.text = f"{relation['lemma']}:{relation['uri']}={relation['morpho']}"
                                             yield t
                         else:
-                            results = list(latinwordnet.lemmas(text, '*'))
-                            if len(results) != 0:
-                                for result in results:
-                                    t.text = f"{result['lemma']}={result['morpho']}"
-                                    yield t
-                            else:
+                            # query may be provided as lemma:uri=morpho
+                            if all(re.match(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()):
+                                t.text = text
                                 yield t
+                            else:
+                                keys = ['lemma', 'uri', 'morpho']
+                                kwargs = {
+                                    k: v
+                                    for k, v in zip(
+                                        keys,
+                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                    )
+                                }
+                                if kwargs['uri'] is not None:
+                                    results = LWN.lemmas_by_uri(kwargs['uri'])
+                                else:
+                                    kwargs.pop('uri')
+                                    results = LWN.lemmas(**kwargs)
 
+                                if results:
+                                    for result in results:
+                                        t.text = f"{result['lemma']}:{result['uri']}={result['morpho']}"
+                                        yield t
+                                else:
+                                    yield t
 
 # class CachedPROIELXmlLemmaFilter(Filter):
 #     is_morph = True
@@ -959,7 +1051,7 @@ class CachedLASLALemmaFilter(Filter):
 #                     lemma = t.lemma
 #                     morpho = t.morpho
 #                     if morpho[0] in 'nvar':
-#                         results = latinwordnet.lemmas(lemma, morpho[0], morpho).synsets
+#                         results = LWN.lemmas(lemma, morpho[0], morpho).synsets
 #                         if results:
 #                             for result in results:
 #                                 t.morpho = f"{result['lemma']['morpho']}>{morpho}"
@@ -989,7 +1081,7 @@ class CachedLASLALemmaFilter(Filter):
 #                     elif text.isnumeric():
 #                         yield t
 #                     else:
-#                         results = latinwordnet.lemmatize(text)
+#                         results = LWN.lemmatize(text)
 #                         if results:
 #                             for result in results:
 #                                 t.text = f"{result['lemma']['lemma']}={result['lemma']['morpho']}"
@@ -1078,7 +1170,7 @@ class CachedLASLALemmaFilter(Filter):
 #                 text = t.text
 #                 if text:
 #                     pos, offset = t.text.split('#')
-#                     synset = latinwordnet.synsets(pos, offset).get()
+#                     synset = LWN.synsets(pos, offset).get()
 #                     if synset:
 #                         for semfield in synset['semfield']:
 #                             t.text = semfield['code']
@@ -1092,7 +1184,7 @@ class CachedLASLALemmaFilter(Filter):
 #             elif t.mode == 'query':
 #                 text = t.original
 #                 if text:
-#                     results = latinwordnet.semfields(text)
+#                     results = LWN.semfields(text)
 #                     if results:
 #                         for result in results:
 #                             t.text = result['code']

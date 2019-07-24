@@ -2,13 +2,12 @@ import statistics
 from heapq import nlargest
 from itertools import groupby
 
-import whoosh.highlight
-import whoosh.query
-from whoosh.compat import htmlescape
-
 import engine.analysis
 import engine.query
 import engine.searching
+import whoosh.highlight
+import whoosh.query
+from whoosh.compat import htmlescape
 
 
 class CylleneusFragment(object):
@@ -565,7 +564,14 @@ class CylleneusFormatter(object):
                 return "[%s]" % ttext
     """
 
-    between = "..."
+    between = "\nEOF\n"
+
+    def __init__(self, between="\nEOF\n"):
+        """
+        :param between: the text to add between fragments.
+        """
+
+        self.between = between
 
     def _text(self, text):
         return text
@@ -587,7 +593,7 @@ class CylleneusFormatter(object):
 
     def format_fragment(self, fragment, replace=False):
         """Returns a formatted version of the given text, using the "token"
-        objects in the given :class:`Fragment`.
+        objects in the given :class:`Fragment`, along with its meta data.
 
         :param fragment: a :class:`Fragment` object representing a list of
             matches in the text.
@@ -610,9 +616,9 @@ class CylleneusFormatter(object):
             index = t.endchar
         output.append(self._text(text[index:fragment.endchar]))
 
-        out_string = "".join(output)
+        text = "".join(output)
         meta = fragment.meta if hasattr(fragment, 'meta') else None
-        return meta, out_string
+        return meta, text
 
     def format(self, fragments, replace=False):
         """Returns a formatted version of the given text, using a list of
@@ -627,20 +633,23 @@ class CylleneusFormatter(object):
         return self.format(fragments)
 
 
+class CylleneusDefaultFormatter(CylleneusFormatter):
+    """Returns a string in which the matched terms are as given.
+    """
+
+    def format_token(self, text, token, replace=False):
+        ttxt = get_text(text, token, replace)
+        return ttxt
+
+
 class CylleneusUppercaseFormatter(CylleneusFormatter):
     """Returns a string in which the matched terms are in UPPERCASE.
     """
 
-    def __init__(self, between="..."):
-        """
-        :param between: the text to add between fragments.
-        """
-
-        self.between = between
-
     def format_token(self, text, token, replace=False):
         ttxt = get_text(text, token, replace)
         return ttxt.upper()
+
 
 class CylleneusHtmlFormatter(CylleneusFormatter):
     """Returns a string containing HTML formatting around the matched terms.
