@@ -34,8 +34,8 @@ from itertools import chain
 import corpus.utils.lasla
 from engine.analysis.acore import Composable
 from lang.latin.morphology import from_leipzig
-from multiwordnet.wordnet import WordNet
 from latinwordnet import LatinWordNet
+from multiwordnet.wordnet import WordNet
 from whoosh.compat import next
 from whoosh.util.text import rcompile
 
@@ -678,6 +678,9 @@ class AnnotationFilter(Filter):
                 if text:
                     morpho, annotations = text.split('>')
                     for annotation in annotations.split(' '):
+                        t.text = annotation
+                        yield t
+
                         for i, v in enumerate(annotation):
                             if v != '-':
                                 text = f"{'-' * i}{v}{'-' * (9 - i)}"
