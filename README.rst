@@ -42,24 +42,25 @@ Installation
 
 Clone this repository, navigate to the appropriate directory, and run the following command from your command line:
 
-``$ cd cylleneus``
-``$ python setup.py install``
+`$ cd cylleneus`
 
-It is also possible to ``pip install cylleneus``, but in this case you need to manage your own indexing.
+`$ python setup.py install`
+
+It is also possible to `pip install cylleneus`, but in this case you need to manage your own indexing.
 
 
 Setup
 -----
 
-The Cylleneus engine requires texts to be indexed before they can be searched. For convenience and testing, this repository comes configured with three pre-indexed mini-corpora: the texts of Caesar from the LASLA corpus, the texts of Vergil from the Perseus Digital Library as made available in JSON format by the Classical Language Tool Kit, and some of the works of Seneca the Younger from the Latin Library (excluding *Nat. quaest.* and *Ep. mor.*). Ready-made scripts are provided for indexing texts from the Perseus Digital Library (in JSON or TEI XML format), the LASLA corpus, the PHI5 corpus, and from plain-text sources (for instance, the Latin Library). To index a corpus (or part of one), the raw source should be placed in an appropriately named directory within ``/corpus/text/<name>``. Then you can use any of the ready-made scripts in the ``scripts`` directory, modifying it for your own needs. The script for indexing texts from the Latin Library should be suitable for any plain-text source document. If you want to use texts from another corpus entirely, you will need to create an indexing pipeline tailored to the structure of that corpus. See the documentation for instructions.
+The Cylleneus engine requires texts to be indexed before they can be searched. For convenience and testing, this repository comes configured with three pre-indexed mini-corpora: the texts of Caesar from the LASLA corpus, the texts of Vergil from the Perseus Digital Library as made available in JSON format by the Classical Language Tool Kit, and some of the works of Seneca the Younger from the Latin Library (excluding *Nat. quaest.* and *Ep. mor.*). Ready-made scripts are provided for indexing texts from the Perseus Digital Library (in JSON or TEI XML format), the LASLA corpus, the PHI5 corpus, and from plain-text sources (for instance, the Latin Library). To index a corpus (or part of one), the raw source should be placed in an appropriately named directory within `/corpus/text/<name>`. Then you can use any of the ready-made scripts in the `scripts` directory, modifying it for your own needs. The script for indexing texts from the Latin Library should be suitable for any plain-text source document. If you want to use texts from another corpus entirely, you will need to create an indexing pipeline tailored to the structure of that corpus. See the documentation for instructions.
 
-To enable gloss-based searches, Cylleneus relies on the MultiWordNet. The setup process should install the latest version of the ``multiwordnet`` package from PyPI, and also compile the necessary databases, but in case this step has been omitted you can do it manually. To do so, launch the Python REPL and enter the following commands.
+To enable gloss-based searches, Cylleneus relies on the MultiWordNet. The setup process should install the latest version of the `multiwordnet` package from PyPI, and also compile the necessary databases, but in case this step has been omitted you can do it manually. To do so, launch the Python REPL and enter the following commands.
 
 >>> from multiwordnet.db import compile
 >>> for language in ['common', 'english', 'latin', 'french', 'spanish', 'italian', 'hebrew']:
 ...     compile(language)
 
-To test that everything is working properly, run the battery of query tests in ```tests/test_query_types.py``` over the packaged subcorpora.
+To test that everything is working properly, run the battery of query tests in `tests/test_query_types.py` over the packaged subcorpora.
 
 
 Indexing
@@ -67,10 +68,11 @@ Indexing
 
 Basic indexing functionality is provided through a command-line interface. To add a document or documents to a corpus, you must provide the original source files and indicate the correct path.
 
-``$ cylleneus index --corpus perseus``
-``$ cylleneus add --corpus lasla --path "index/text/Catullus_Catullus_Catul.BPN  # only for example``
+`$ cylleneus index --corpus perseus  # display the current index of corpus 'perseus'`
 
-``$ cylleneus --help`` displays the complete list of available indexing commands.
+`$ cylleneus add --corpus lasla --path "index/texts/Catullus_Catullus_Catul.BPN  # only for example`
+
+`$ cylleneus --help # displays the complete list of available indexing commands`
 
 
 Searching
@@ -78,8 +80,9 @@ Searching
 
 For the present, the easiest way to perform searches is by using the included shell script.
 
-``$ cylleneus
-``$ python cylleneus/shell.py``
+`$ cd cylleneus`
+
+`$ cylleneus shell`
 
 Until we are able to design something more user-friendly, this script provides a command-line interface that accommodates the full range of query types.
 
@@ -103,6 +106,8 @@ Lemma-based queries
 :Example: <virtus>
 :Description: matches any form of the specified lemma
 
+More precision can be introduced by using LEMLAT URIs, along with morphological tagging. For example, in the Cylleneus shell `search <dico>` will match occurrences both of *dico*, *dicere* and of *dico*, *dicare*. To distinguish between them, you can use the relevant URIs: `<dico:d1349>` (*dicare*) or `<dico:d1350>`. Alternatively, you can specify an appropriate morphological tag: `<dico=v1spia--3->` or <dico=v1spia--1->`.
+
 Gloss-based queries
 ~~~~~~~~~~~~~~~~~~~
 
@@ -124,7 +129,7 @@ Morphology-based queries
 
 :Form: :...
 :Example: :ACC.SG.
-:Description: matches any word with the specified morphological properties, given in Leipzig notation. Annotations can be given as distinct query terms, or can be used as filters for lemma- or gloss-based queries. (For example, ``<virtus>:PL.`` will match only plural forms of this word).
+:Description: matches any word with the specified morphological properties, given in Leipzig notation. Annotations can be given as distinct query terms, or can be used as filters for lemma- or gloss-based queries. (For example, `<virtus>:PL.` will match only plural forms of this word).
 
 Morphology-based filtering
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -142,17 +147,17 @@ Morphology-based filtering
 Lexical-relation queries
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Form: <?=...>
-:Example: </=virtus>
+:Form: <?::...>
+:Example: </::virtus>
 :Description: matches any word with the specified lexical relation to the given lemma
 
 Semantic-relation queries
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Form: [?=...]
-:Example: [@=en?courage]
+:Form: [?::...]
+:Example: [@::en?courage]
 :Description: matches any word with the specified semantic relation to the given gloss
-:Example: [@=n#05595229]
+:Example: [@::n#05595229]
 :Description: matches any word with the specified semantic relation to the given synset
 
 Syntax-based queries
@@ -172,37 +177,37 @@ Types of lexical relations
 =======      ================
 Code         Description
 =======      ================
-``\=``       derives from (e.g., `<\=femina>` would match any lemma derived from *femina*, namely, *femineus*)
-``/=``       relates to (the converse of *derives from*)
-``+c=``      composed of (e.g., `<+c=cum>` would match any lemma composed by *cum*)
-``-c=``      composes (e.g., `<-c=compono>` would match lexical elements that compose *compono*, namely, *cum* and *pono*).
-``<=``       participle (verbs only)
+`\`          derives from (e.g., `<\::femina>` would match any lemma derived from *femina*, namely, *femineus*)
+`/`          relates to (the converse of *derives from*)
+`+c`         composed of (e.g., `<+c::cum>` would match any lemma composed by *cum*)
+`-c`         composes (e.g., `<-c::compono>` would match lexical elements that compose *compono*, namely, *cum* and *pono*).
+`<`          participle (verbs only)
 =======      ================
 
 Types of semantic relations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=======      ================
-Code         Description
-=======      ================
-``!=``       antonym of
-``@=``       hypernym of
-``~=``       hyponym of
-``|=``       nearest to
-``*=``       entails
-``#m=``      member of
-``#p=``      part of
-``#s=``      substance of
-``+r=``      has role
-``%m=``      has member
-``%p=``      has part
-``%s=``      has substance
-``-r=``      is role of
-``>=``       causes
-``^=``       see also
-``$=``       verb group
-``==``       attribute
-=======      ================
+=======   ================
+Code      Description
+=======   ================
+`!`       antonym of
+`@`       hypernym of
+`~`       hyponym of
+`|`       nearest to
+`*`       entails
+`#m`      member of
+`#p`      part of
+`#s`      substance of
+`+r`      has role
+`%m`      has member
+`%p`      has part
+`%s`      has substance
+`-r`      is role of
+`>`       causes
+`^`       see also
+`$`       verb group
+`=`       attribute
+=======   ================
 
 Query types can be combined into complex adjacency or proximity searches. An adjacency search specifies a particular ordering of the query terms (typically, but not necessarily, sequential); a proximity search simply finds contexts where all the query terms occur, regardless of order.
 Adjacency searches must be enclosed with double quotes ("..."), optionally specifying a degree of 'slop', that is, the number of words that may intervene between matched terms, using '~' followed by the number of permissible intervening words.
@@ -210,17 +215,17 @@ Adjacency searches must be enclosed with double quotes ("..."), optionally speci
 Examples
 ~~~~~~~~
 
-``"cui dono"``              matches the literal string 'cui dono'
+`"cui dono"`              matches the literal string 'cui dono'
 
-``"si quid <habeo>"``       matches 'si' followed by 'quid' followed by any form of *habeo*
+`"si quid <habeo>"`       matches 'si' followed by 'quid' followed by any form of *habeo*
 
-``"cum :ABL."``             matches 'cum' followed by any word in the ablative causes
+`"cum :ABL."`             matches 'cum' followed by any word in the ablative causes
 
-``"in <ager>:PL."``         matches 'in' followed by any plural form of *ager*
+`"in <ager>:PL."`         matches 'in' followed by any plural form of *ager*
 
-``"<magnus> <animus>"~2``   matches any form of *magnus* followed by any form of *animus*, including if separated by a single word
+`"<magnus> <animus>"~2`   matches any form of *magnus* followed by any form of *animus*, including if separated by a single word
 
-``<honos> <virtus>``        matches any context including both any form of *honos* and any form of *virtus*
+`<honos> <virtus>`        matches any context including both any form of *honos* and any form of *virtus*
 
 
 To Do
@@ -228,19 +233,16 @@ To Do
 
 In no particular order...
 
-* fix ordering of matches in results based on available metadata
-* improve morphological annotation matching: at indexing, tokens should indicate _only_ a form's variance from the base (lemma's) morphology; for searching, 'bald' annotation queries need to generate tokens capturing all possible variations for a given part of speech (see ``morphology.from_leipzig``, ``analysis.filtering.AnnotationFilter``)
 * fix CTS sourcing for multi-line results
 * variable context-length specification
-* disentangle annotation-based results filtering from results highlighting
-* remove `content` field from any document schema not associated with a plain-text corpus. Corpora for which referencing metadata is available should not store the original text along with the index. In these cases, the text should be sourced from an external text repository using only the supplied URN and ``meta`` information: global sentence ID, local sentence ID (e.g., within a passage), and word position within the local reference context. Standardize ``meta`` as a series of tuples: (PHI5 author ID, PHI5 work ID, PHI5 meta string), (a, b, c), (x, y, z . . .), (...). Except for plain-text corpora, results should not include the ``hit`` object or ``content``! Corpus-specific referencing metadata (e.g., annotations for speaker turns, section subtitles) should be included as a variable-length tuple following the standard referencing information.
-* /= returns results for the target lemma?
+* externally source `content` for any schema not associated with a plain-text corpus
+* /:: returns results for the target lemma
 * use Scaife Viewer as search front-end
-* Perseus CTS text alignment
+* Perseus CTS alignment for corpora with non-standard text annotations
 * complete PROIEL indexing pipeline
-* implement high-order syntactic search for treebank data
-* sembanking: manually-curated semantic mark-up for Greek and Latin texts
-* Greek!
+* implement high-order syntactic search for different annotation schemes
+* manually-curated WordNet-based semantic mark-up ('sembanks') for texts
+* Greek
 
 
 Credits

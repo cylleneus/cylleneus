@@ -28,8 +28,9 @@ BANNER = """
 | |  | | | | | |/ _ \ '_ \ / _ \ | | / __|
 | |__| |_| | | |  __/ | | |  __/ |_| \__ \
  \____\__, |_|_|\___|_| |_|\___|\__,_|___/ 
-      |___/                               
+      |___/                         v0.0.2     
 Next-gen corpus search for Greek and Latin
+
 """
 
 class CustomRiposte(Riposte):
