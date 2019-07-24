@@ -71,7 +71,7 @@ def select(doc_ids: list = None):
     if doc_ids:
         _searcher.docs = doc_ids
     else:
-        repl.info(Palette.WHITE.format(f"corpus '{_corpus.name}', {_corpus.index.doc_count_all()} indexed"))
+        repl.info(Palette.WHITE.format(f"corpus '{_corpus.name}', {_corpus.index.doc_count_all()} documents indexed"))
         for docnum, fields in _corpus.index.reader().iter_docs():
             if docnum in _searcher.docs:
                 repl.info(Palette.BOLD.format(f"{docnum}. {fields['author'].title()}, {fields['title'].title()}"))
