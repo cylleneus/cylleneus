@@ -1,14 +1,15 @@
 import codecs
-from pathlib import Path
 import re
 from abc import abstractmethod
 from datetime import datetime
+from pathlib import Path
 
 
 class Preprocessor:
     @abstractmethod
     def parse(self, file: Path):
         pass
+
 
 class DefaultPreprocessor(Preprocessor):
     def parse(self, file: Path):
@@ -24,9 +25,10 @@ class DefaultPreprocessor(Preprocessor):
             'datetime': datetime.now()
         }
 
+
 class LASLAPreprocessor(Preprocessor):
     def parse(self, file: Path):
-        from corpus.utils.lasla import FILE_TAB, AUTHOR_TAB
+        from corpus.lasla import FILE_TAB, AUTHOR_TAB
 
         filename = file.name
         file_author, file_title, abbrev = filename.rstrip('.BPN').split('_')
@@ -71,7 +73,7 @@ class LASLAPreprocessor(Preprocessor):
 
 class PHI5Preprocessor(Preprocessor):
     def parse(self, file: Path):
-        from corpus.utils.phi5 import AUTHOR_TAB
+        from corpus.phi5 import AUTHOR_TAB
 
         code = file.name.lstrip('LAT').rstrip('.txt')
         auth_code, work_code = code.split('-')
@@ -123,7 +125,7 @@ class PerseusJSONPreprocessor(Preprocessor):
 class PerseusXMLPreprocessor(Preprocessor):
     def parse(self, file: Path):
         import lxml.etree as et
-        from corpus.utils.phi5 import AUTHOR_TAB
+        from corpus.phi5 import AUTHOR_TAB
 
         auth_code, work_code, _, _ = file.name.split('.')
         urn = 'urn:cts:latinLit:' + f"{auth_code}.{work_code}"
@@ -184,10 +186,50 @@ class PlainTextPreprocessor(Preprocessor):
             'datetime': datetime.now()
         }
 
+class LatinLibraryPreprocessor(Preprocessor):
+    def parse(self, file: Path):
+        from corpus.latin_library import FILE_TAB
+
+        author = FILE_TAB[file.relative_to('corpus/latin_library/text')]['author']
+        title = FILE_TAB[file.relative_to('corpus/latin_library/text')]['title']
+
+        with codecs.open(file, 'r', 'utf8') as fp:
+            doc = fp.read()
+
+        # Do some tidying up
+        subs = [
+            (r"\.,", "."),
+            (r"([\w])\.([\w])", r"\1. \2"),
+            (r",([\w])", r", \1"),
+            (r"(?<=\w)\.\.", r" . ."),
+            (r"([.,;:])([.,;:])", r"\1 \2"),
+            (r"[\t\r\n ]+", " "),
+            (r'\.\"', r'\"\.'),
+            (r' ,', ','),
+            (r'\[ \d+ \] ', ''),
+            (r' \[,', '[,'),
+            (r'\]\.', '.]')
+        ]
+        for pattern, repl in subs:
+            doc = re.sub(pattern, repl, doc)
+        return {
+            'author': author,
+            'title': title,
+            'content': doc,
+            'form': doc,
+            'lemma': doc,
+            'synset': doc,
+            'annotation': doc,
+            'semfield': doc,
+            'filename': file.name,
+            'datetime': datetime.now()
+        }
+
+
 preprocessors = {
     'plain_text': PlainTextPreprocessor,
     'lasla': LASLAPreprocessor,
-    'latin_library': PlainTextPreprocessor,
+    'latin_library': LatinLibraryPreprocessor,
     'proiel': None,
     'phi5': PHI5Preprocessor,
     'perseus': PerseusJSONPreprocessor,

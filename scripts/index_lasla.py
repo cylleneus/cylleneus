@@ -1,10 +1,10 @@
 import pathlib
-from index import Indexer
-from corpus import Corpus
 
+from corpus import Corpus
+from index import Indexer
 
 if __name__ == '__main__':
-    lasla = pathlib.Path('index/texts/lasla/')
+    lasla = pathlib.Path('corpus/lasla/text/')
     indexer = Indexer(Corpus('lasla'))
     indexer.destroy()
 

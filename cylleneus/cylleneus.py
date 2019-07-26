@@ -48,15 +48,17 @@ repl = CustomRiposte(
 )
 
 
+# TODO: Add concurrency
 @repl.command("search")
 def search(query: str):
     global _searcher, _search
 
     _search = _searcher.search(query)
+
     if _search.results:
-        repl.success(f"{query}: {_search.time} secs, {_search.count[0]} results")
+       repl.success(f"{query}: {_search.time} secs, {_search.count[0]} results")
     else:
-        repl.error(f"{query}: {_search.time} secs, nothing found")
+       repl.error(f"{query}: {_search.time} secs, nothing found")
 
 
 @repl.command("credits")

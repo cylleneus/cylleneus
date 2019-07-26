@@ -1,3 +1,24 @@
+import codecs
+import json
+from pathlib import Path
+
+import config
+
+
+def get(hit, meta, fragment):
+    filename = Path(hit['filename']).name
+    with codecs.open(
+        config.ROOT_DIR + f'/corpus/perseus/text/{filename}', 'r', 'utf8'
+    ) as fp:
+        doc = json.load(fp)
+
+    # TODO: collect all text from start to end
+    text = doc['text']
+    for div in meta['meta'].split('-'):
+        text = text[meta['start'][div.lower()]]
+    return text
+
+
 index = {0: {'author': 'Ammianus Marcellinus',
              'work': {'title': 'Rerum Gestarum',
                       'meta': 'book-chapter-section',

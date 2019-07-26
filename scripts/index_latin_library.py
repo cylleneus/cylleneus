@@ -1,13 +1,12 @@
 import pathlib
-from index import Indexer
-from corpus import Corpus
 
+from corpus import Corpus
+from index import Indexer
 
 if __name__ == '__main__':
-    latin_library = pathlib.Path('index/texts/latin_library/')
+    latin_library = pathlib.Path('corpus/latin_library/text/')
     indexer = Indexer(Corpus('latin_library'))
     indexer.destroy()
 
     for file in latin_library.glob('*.txt'):
-        author, title, _ = file.name.split('.')
-        indexer.add(file, author=author, title=title)
+        indexer.add(file)

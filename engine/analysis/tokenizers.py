@@ -25,25 +25,20 @@
 # those of the authors and should not be interpreted as representing official
 # policies, either expressed or implied, of Matt Chaput.
 
-from whoosh.compat import u, text_type
-from engine.analysis.acore import Composable, CylleneusToken
-from whoosh.util.text import rcompile
-
 import copy
 import re
 import string
-from collections import abc
-from collections import deque
-import engine.analysis
-import lxml.etree as et
-from cltk.tokenize.latin_exceptions import latin_exceptions
-from nltk.tokenize.punkt import PunktLanguageVars
-from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktParameters
+from collections import abc, deque
 
+import engine.analysis
+from cltk.tokenize.latin_exceptions import latin_exceptions
+from corpus.lasla import parse_bpn
+from engine.analysis.acore import Composable, CylleneusToken
 from lang.latin import compound, proper_names
-from lang.latin.morphology import from_proiel
-from utils import roman_to_arabic, flatten
-from corpus.utils.lasla import parse_bpn, digraphs
+from nltk.tokenize.punkt import PunktLanguageVars, PunktParameters, PunktSentenceTokenizer
+from utils import flatten, roman_to_arabic
+from whoosh.compat import text_type, u
+from whoosh.util.text import rcompile
 
 jvmap = str.maketrans('jv', 'iu', '')
 punctuation = str.maketrans("", "", string.punctuation)
