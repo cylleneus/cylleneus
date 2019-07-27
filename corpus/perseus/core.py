@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 import config
+from utils import nrange
 
 
 def get(hit, meta, fragment):
@@ -12,11 +13,27 @@ def get(hit, meta, fragment):
     ) as fp:
         doc = json.load(fp)
 
-    # TODO: collect all text from start to end
     text = doc['text']
-    for div in meta['meta'].split('-'):
-        text = text[meta['start'][div.lower()]]
-    return text
+
+    start = [int(i) for i in meta['start'].values()]
+    end = [int(i) for i in meta['end'].values()]
+
+    if start[-1] >= config.LINES_OF_CONTEXT:
+        start[-1] -= config.LINES_OF_CONTEXT
+
+    parent = end[:-1]
+    for div in parent:
+      text = text[str(div)]
+    if len(text) > end[-1] + config.LINES_OF_CONTEXT:
+        end[-1] += config.LINES_OF_CONTEXT
+
+    parts = []
+    for ref in nrange(start, end):
+        text = doc['text']
+        for div in ref:
+            text = text[str(div)]
+        parts.append(text)
+    return '\n'.join(parts)  # FIXME: text divisions
 
 
 index = {0: {'author': 'Ammianus Marcellinus',

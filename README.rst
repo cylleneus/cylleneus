@@ -235,7 +235,6 @@ In no particular order...
 
 * fix CTS sourcing for multi-line results
 * variable context-length specification
-* externally source ``content`` for any schema not associated with a plain-text corpus
 * ``/::`` returns results for the target lemma
 * use Scaife Viewer as search front-end
 * Perseus CTS alignment for corpora with non-standard text annotations

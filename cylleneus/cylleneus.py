@@ -48,7 +48,6 @@ repl = CustomRiposte(
 )
 
 
-# TODO: Add concurrency
 @repl.command("search")
 def search(query: str):
     global _searcher, _search
@@ -152,7 +151,7 @@ def show(n: int = None):
             repl.info(Palette.GREY.format(f"{reference}:"))
 
             if text:
-                for line in textwrap.wrap(text.strip('\n'), width=70):
+                for line in textwrap.wrap(text, width=70):
                     repl.print(Palette.WHITE.format(line))
             else:
                 repl.error(f"could not resolve")

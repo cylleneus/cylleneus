@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import config
 from corpus.core import Corpus
 from engine.highlight import CylleneusBasicFragmentScorer, CylleneusDefaultFormatter, CylleneusPinpointFragmenter
 from engine.qparser.default import CylleneusQueryParser
@@ -69,10 +70,9 @@ class Search:
         self._end_time = None
         self._results = None
 
-        # FIXME: relevant to Fragmenter, so only settable at search-time
-        #   but corpora without content should use this at display-time
-        self._maxchars = 200
-        self._surround = 20
+        # FIXME: how much context?
+        self._maxchars = 200 if 200 > config.CHARS_OF_CONTEXT else config.CHARS_OF_CONTEXT
+        self._surround = 20 if 20 > config.CHARS_OF_CONTEXT else config.CHARS_OF_CONTEXT
 
     @property
     def docs(self):
@@ -92,7 +92,7 @@ class Search:
 
     @surround.setter
     def surround(self, n):
-        self._results = n
+        self._surround = n
 
 
     @property
