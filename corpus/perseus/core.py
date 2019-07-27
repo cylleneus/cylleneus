@@ -18,22 +18,39 @@ def get(hit, meta, fragment):
     start = [int(i) for i in meta['start'].values()]
     end = [int(i) for i in meta['end'].values()]
 
-    if start[-1] >= config.LINES_OF_CONTEXT:
-        start[-1] -= config.LINES_OF_CONTEXT
-
-    parent = end[:-1]
-    for div in parent:
-      text = text[str(div)]
-    if len(text) > end[-1] + config.LINES_OF_CONTEXT:
-        end[-1] += config.LINES_OF_CONTEXT
+    pre_start = start[:-1] + [(start[-1] - config.LINES_OF_CONTEXT),]
+    pre_end = start[:-1] + [(start[-1] - 1),]
+    pre = []
+    for ref in nrange(pre_start, pre_end):
+        text = doc['text']
+        for div in ref:
+            try:
+                text = text[str(div)]
+            except KeyError:
+                break
+        pre.append(text)
 
     parts = []
     for ref in nrange(start, end):
         text = doc['text']
+
         for div in ref:
             text = text[str(div)]
         parts.append(text)
-    return '\n'.join(parts)  # FIXME: text divisions
+
+    post_start = end[:-1] + [(end[-1] + 1), ]
+    post_end = end[:-1] + [(end[-1] + config.LINES_OF_CONTEXT), ]
+    post = []
+    for ref in nrange(post_start, post_end):
+        text = doc['text']
+
+        for div in ref:
+            try:
+                text = text[str(div)]
+            except KeyError:
+                break
+        post.append(text)
+    return '\n'.join([*pre, *parts, *post])  # FIXME: text divisions
 
 
 index = {0: {'author': 'Ammianus Marcellinus',

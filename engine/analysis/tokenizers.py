@@ -523,6 +523,8 @@ class CachedPlainTextTokenizer(Tokenizer):
             if t.mode == 'query':
                 t.original = t.text = value
                 yield t
+                t.text = value.translate(jvmap)
+                yield t
             else:
                 if not tokenize:
                     t.original = t.text = value
@@ -723,7 +725,7 @@ class CachedPHI5Tokenizer(Tokenizer):
             t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
 
             if t.mode == 'query':
-                t.original = t.text = data
+                t.original = t.text = data.translate(jvmap)
                 yield t
             else:
                 if not tokenize:
@@ -1107,6 +1109,8 @@ class CachedPerseusJSONTokenizer(Tokenizer):
             if t.mode == 'query':
                 t.original = t.text = data
                 yield t
+                t.text = data.translate(jvmap)
+                yield t
             elif t.mode == 'index':
                 if not tokenize:
                     t.original = t.text = '\n'.join([el for el in flatten(data['text'])])
@@ -1313,7 +1317,7 @@ class CachedPerseusTEITokenizer(Tokenizer):
         else:
             t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
             if t.mode == 'query':
-                t.original = t.text = data
+                t.original = t.text = data.translate(jvmap)
                 yield t
             else:
                 if not tokenize:
@@ -1556,7 +1560,7 @@ class CachedLASLATokenizer(Tokenizer):
             t = engine.analysis.acore.CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
 
             if t.mode == 'query':
-                t.original = t.text = data
+                t.original = t.text = data.translate(jvmap)
                 yield t
             else:
                 if not tokenize:

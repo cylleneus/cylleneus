@@ -2,29 +2,66 @@ from MyCapytain.common.constants import Mimetypes
 from MyCapytain.resolvers.cts.api import HttpCtsResolver
 from MyCapytain.retrievers.cts5 import HttpCtsRetriever as CTS
 from requests.exceptions import HTTPError
+import config
+from utils import nrange
 
 
 def get(hit, meta, fragment):
     resolver = HttpCtsResolver(CTS("http://scaife-cts.perseus.org/api/cts"))
-
-    # FIXME: collect all text from start to end
     urn = hit.get('urn', None)
-    if 'line' in meta['meta'] and len(meta['meta'].split('-')) <= 2:
-        cite = '.'.join([meta['start'][div]
-                         for div in meta['meta'].split('-')
-                         ]).replace('t1', '')
-    else:
-        cite = '.'.join([meta['start'][div]
-                         for div in meta['meta'].split('-')
-                         if div != 'line'
-                         ]).replace('t1', '')
-    try:
-        passage = resolver.getTextualNode(urn, subreference=cite)
-    except HTTPError:
-        text = None
-    else:
-        text = passage.export(Mimetypes.PLAINTEXT)
-    return text
+
+    divs = meta['meta'].split('-')
+    if 'line' in divs and len(divs) <= 2:
+        divs.pop('line')
+        divs.pop('line')
+    start = [
+        int(meta['start'][div])
+        for div in divs
+        if div != 'line'
+    ]
+    end = [
+        int(meta['end'][div])
+        for div in divs
+        if div != 'line'
+    ]
+
+    pre = []
+    pre_start = start[:-1] + [(start[-1] - config.LINES_OF_CONTEXT),]
+    pre_end = start[:-1] + [(start[-1] - 1),]
+    for ref in nrange(pre_start, pre_end):
+        cite = '.'.join([str(i) for i in ref])
+        try:
+            passage = resolver.getTextualNode(urn, subreference=cite)
+        except HTTPError:
+            continue
+        else:
+            text = passage.export(Mimetypes.PLAINTEXT)
+            pre.append(text)
+
+    parts = []
+    for ref in nrange(start, end):
+        cite = '.'.join([str(i) for i in ref])
+        try:
+            passage = resolver.getTextualNode(urn, subreference=cite)
+        except HTTPError:
+            text = "NULL"
+        else:
+            text = passage.export(Mimetypes.PLAINTEXT)
+        parts.append(text)
+
+    post = []
+    post_start = end[:-1] + [(end[-1] + 1),]  # to avoid overlap
+    post_end = end[:-1] + [(end[-1] + config.LINES_OF_CONTEXT),]
+    for ref in nrange(post_start, post_end):
+        cite = '.'.join([str(i) for i in ref])
+        try:
+            passage = resolver.getTextualNode(urn, subreference=cite)
+        except HTTPError:
+            continue
+        else:
+            text = passage.export(Mimetypes.PLAINTEXT)
+            post.append(text)
+    return "\n".join([*pre, *parts, *post])
 
 
 subord = {"main clause": ["00"], "paratactic subjunctive": ["AA"], "paratactic subjunctive in interrogative clause": ["AB"], "ablative absolute": ["AD", "AE"], "infinitive clause": ["AG"], "AC": ["AK"], "ATQVE": ["AK"], "AN": ["AW"], "ANNE": ["BD"], "ANTEQVAM": ["BK"], "ANTEAQVAM": ["BK"], "adverbial or subordinating conjunction,": ["BL"], "CEV": ["BL"], "CVIVS": ["BM"], "CVIVSMODI": ["BM"], "CVM": ["BN"], "CVICVIMODI": ["BO"], "CVMCVMQVE": ["BS"], "interrogative": ["BX", "DG", "FN", "GA", "GF", "GK", "GS", "HG", "JG", "JJ", "JN", "JX", "KG", "KS", "LD", "LK", "PA", "PS", "RG", "RS", "WX", "YA"], "CVR": ["BX"], "DONEC": ["CA"], "DVM": ["CD"], "DVMMODO": ["CG"], "ECQVIS": ["CL"], "ECQVID": ["CL"], "ECQVISNAM": ["CM"], "ECQVIDNAM": ["CM"], "ETIAMSI": ["CN"], "ECQVANDO": ["CR"], "ETSI": ["CS"], "LICET": ["CX"], "MODO": ["DA"], "subordinating conjunction": ["DD", "HX", "KX", "LE", "MK", "NN", "SX", "TB", "WK", "XK", "ZE"], "NE": ["DD", "DG"], "NECNE": ["DP", "DS"], "NEC": ["DR"], "NECVBI": ["DT"], "NEDVM": ["DX"], "NEVE": ["EA"], "NEV": ["EA"], "NI": ["ED"], "NISI": ["EG"], "NONNE": ["EK"], "NVM": ["EN"], "NVMQVIS": ["EP"], "NVMQVID": ["EP"], "NVMQVANDO": ["EQ"], "POSTQVAM": ["ES"], "POSTEAQVAM": ["ES"], "PRAETERQVAM": ["EY"], "PRAEVT": ["EZ"], "PRIVSQVAM": ["FA"], "PROQVAM": ["FD"], "PROVT": ["FG"], "relative": ["FK", "FX", "GE", "GG", "GN", "HD", "JF", "JH", "JK", "JS", "KD", "KN", "LA", "LG", "NX", "PN", "RD", "RN", "SG", "WS", "XX"], "QVA": ["FK", "FN"], "QVACVMQVE": ["FS"], "QVALIS": ["FX", "GA"], "QVALISCVMQVE": ["GD"], "QVALITER": ["GE", "GF"], "QVAM": ["GG", "GK"], "QVAMDIV": ["GN", "GS"], "QVAMDVDVM": ["GX"], "QVAMLIBET": ["HA"], "QVAMOBREM": ["HD", "HG"], "QVAMQVAM": ["HK"], "QVAMVIS": ["HN"], "QVANAM": ["HP"], "interrogative adverb": ["HS", "MA", "SW", "WG", "XG"], "QVANDO": ["HS", "HX"], "QVANDOCVMQVE": ["JA"], "QVANDOQVE": ["JD"], "QVANDOQVIDEM": ["JE"], "QVANTILLVS": ["JF", "JG"], "QVANTO": ["JH", "JJ"], "QVANTOPERE": ["JK", "JN"], "QVANTVLVS": ["JS", "JX"], "QVANTVLVSLIBET": ["JZ"], "QVANTVLVSCVMQVE": ["KA"], "QVANTVS": ["KD", "KG"], "QVANTVM": ["KD", "KG"], "QVANTVSCVMQVE": ["KK"], "QVAPROPTER": ["KL"], "QVARE": ["KN", "KS"], "relative adverb": ["KW", "LX", "TA", "WD", "XD"], "QVASI": ["KW", "KX"], "QVATENVS": ["LA", "LD", "LE"], "QVEMADMODVM": ["LG", "LK"], "pronom relative": ["LN"], "QVI": ["LN", "LS", "LX", "MA"], "pronom interrogative": ["LS"], "QVIA": ["MD"], "QVICVMQVE": ["MG"], "QVIN": ["MK"], "quin": ["ML"], "NON": ["ML"], "QVIPPE": ["MN"], "QVIS": ["MS"], "QVID": ["MS"], "QVISNAM": ["MX"], "QVIDNAM": ["MX"], "QVISQVE": ["MY"], "QVISQVIS": ["NA"], "adv. lieu relative": ["ND"], "QVO": ["ND", "NG", "NK", "NN"], "adv. lieu interrogative": ["NG"], "abl. diff. mes.": ["NK"], "QVOAD": ["NX", "PA"], "QVOADVSQVE": ["PC"], "QVOCVMQVE": ["PD"], "QVOD": ["PG"], "QVOMINVS": ["PK"], "QVOMODO": ["PN", "PS"], "QVOMODOCVMQVE": ["PT"], "QVONAM": ["PU"], "QVONIAM": ["PX"], "QVOQVO": ["RA"], "QVORSVS": ["RB"], "QVOT": ["RD", "RG"], "QVOTCVMQVE": ["RK"], "QVOTIENS": ["RN", "RS"], "QVOTIENSCVMQVE": ["RX"], "QVOTQVOT": ["SA"], "QVOTVS": ["SD"], "QVOTVSCVMQVE": ["SG"], "QVOTVSQVISQVE": ["SK"], "QVOVSQVE": ["SN"], "SEV": ["SS"], "SI": ["SW", "SX"], "SICVBI": ["SY"], "SICVNDE": ["SZ"], "SICVT": ["TA", "TB"], "SICVTI": ["TA", "TB"], "SIMVL": ["TC"], "SIMVLAC": ["TD"], "SIMVLATQVE": ["TD"], "SIN": ["TG"], "SIQVIDEM": ["TK"], "SIVE": ["TN"], "TAMENETSI": ["TR"], "TAMETSI": ["TS"], "TAMQVAM": ["TX"], "VBI": ["WD", "WG", "WK"], "VBICVMQVE": ["WN"], "VBINAM": ["WP"], "VBIVBI": ["WQ"], "VNDE": ["WS", "WX"], "VNDECVMQVE": ["XA"], "VSQVEQVO": ["XC"], "VT": ["XD", "XG", "XK"], "VTI": ["XD", "XG", "XK"], "VTCVMQVE": ["XS"], "VTER": ["XX", "YA"], "VTERCVMQVE": ["YD"], "VTQVI": ["YS"], "VTRVM": ["YW"], "VTRVMNE": ["YZ"], "adverbial": ["ZD"], "VELVT": ["ZD", "ZE"], "VELVTI": ["ZD", "ZE"]}

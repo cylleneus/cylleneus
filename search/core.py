@@ -43,7 +43,7 @@ class Searcher:
             if not doc_ids:
                 doc_ids = self.docs
             search = Search(param, query, corpus, doc_ids, minscore=minscore)
-            matches, docs = search.exec()
+            matches, docs = search.run()
             if matches > 0:
                 self.searches.append(search)
             return search
@@ -70,8 +70,7 @@ class Search:
         self._end_time = None
         self._results = None
 
-        # FIXME: how much context?
-        self._maxchars = 200 if 200 > config.CHARS_OF_CONTEXT else config.CHARS_OF_CONTEXT
+        self._maxchars = 200
         self._surround = 20 if 20 > config.CHARS_OF_CONTEXT else config.CHARS_OF_CONTEXT
 
     @property
@@ -98,7 +97,7 @@ class Search:
     @property
     def results(self):
         if self._results is None and self.query:
-            self.exec()
+            self.run()
         return self._results
 
     @property
@@ -161,7 +160,7 @@ class Search:
     def top(self):
         return self._top
 
-    def exec(self):
+    def run(self):
         self.start_time = datetime.now()
         with CylleneusSearcher(self.corpus.reader) as searcher:
             results = searcher.search(self.query, terms=True, limit=None, filter=self.docs)
