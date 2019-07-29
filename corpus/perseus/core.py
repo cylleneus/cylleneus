@@ -14,6 +14,7 @@ def get(hit, meta, fragment):
         doc = json.load(fp)
 
     text = doc['text']
+    divs = meta['meta'].split('-')
 
     start = [int(i) for i in meta['start'].values()]
     end = [int(i) for i in meta['end'].values()]
@@ -50,7 +51,12 @@ def get(hit, meta, fragment):
             except KeyError:
                 break
         post.append(text)
-    return '\n'.join([*pre, *parts, *post])  # FIXME: text divisions
+
+    if 'poem' in divs or divs[-1] == 'verse':
+        joiner = '\n\n'
+    else:
+        joiner = ' '
+    return f'{joiner}'.join([*pre, *parts, *post])  # FIXME: text divisions
 
 
 index = {0: {'author': 'Ammianus Marcellinus',

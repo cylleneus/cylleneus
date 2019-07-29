@@ -27,6 +27,7 @@ requirements = [
     'MyCapytain>=2.0.10',
     'multiwordnet>=0.0.2',
     'nltk>=3.4',
+    'parawrap>=1.0',
     'pyparsing>=2.3.1',
     'pyrsistent>=0.14.11',
     'python-crfsuite>=0.9.6',

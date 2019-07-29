@@ -6,11 +6,11 @@
 import codecs
 import re
 import sys
-import textwrap
 import unicodedata
 from pathlib import Path
 
 import config
+import parawrap
 from corpus import Corpus
 from engine import index
 from riposte import Riposte
@@ -22,16 +22,16 @@ _searcher = Searcher(_corpus)
 _search = None
 
 
-BANNER = """
+BANNER = r"""
   ____      _ _                           
  / ___|   _| | | ___ _ __   ___ _   _ ___ 
 | |  | | | | | |/ _ \ '_ \ / _ \ | | / __|
 | |__| |_| | | |  __/ | | |  __/ |_| \__ \
- \____\__, |_|_|\___|_| |_|\___|\__,_|___/ 
-      |___/                         v0.0.2     
+ \____\__, |_|_|\___|_| |_|\___|\__,_|___/
+      |___/                         v0.0.2
 Next-gen corpus search for Greek and Latin
-
 """
+
 
 class CustomRiposte(Riposte):
     @property
@@ -43,15 +43,17 @@ class CustomRiposte(Riposte):
 
 
 repl = CustomRiposte(
-    # banner=BANNER,
-    prompt='cylleneus:~ $ '
+    prompt='cylleneus:~ $ ',
+    banner=BANNER,
+    posix=False
 )
 
-
+# FIXME: string parsing for "" and ''
 @repl.command("search")
-def search(query: str):
+def search(*args):
     global _searcher, _search
 
+    query = ' '.join(args)
     _search = _searcher.search(query)
 
     if _search.results:
@@ -62,7 +64,7 @@ def search(query: str):
 
 @repl.command("credits")
 def credits():
-    repl.info(Palette.BLUE.format("Cylleneus v0.0.1: Next-gen corpus search for Greek and Latin"))
+    repl.info(Palette.BLUE.format("Cylleneus v0.0.2: Next-gen corpus search for Greek and Latin"))
     repl.info(Palette.GREY.format("(c) 2019 William Michael Short"))
 
 
@@ -151,11 +153,9 @@ def show(n: int = None):
             repl.info(Palette.GREY.format(f"{reference}:"))
 
             if text:
-                for line in textwrap.wrap(text, width=70):
-                    repl.print(Palette.WHITE.format(line))
-            else:
-                repl.error(f"could not resolve")
-            repl.print('\n')
+                for line in parawrap.wrap(text):
+                    if line:
+                        repl.print(Palette.WHITE.format(line))
             counter += 1
     else:
         repl.error("no results")
