@@ -35,6 +35,7 @@ import copy
 import weakref
 from itertools import product
 
+import config
 import engine.collectors
 import engine.highlight
 import engine.query.positional
@@ -44,6 +45,7 @@ import whoosh.scoring
 from math import ceil
 from whoosh.compat import iteritems, iterkeys, itervalues, xrange
 from whoosh.idsets import BitSet, DocIdSet
+from whoosh.qparser.common import print_debug
 from whoosh.reading import TermNotFound
 from whoosh.util.cache import lru_cache
 
@@ -1701,6 +1703,10 @@ class CylleneusHit(Hit):
         # any query is annotated
         results = sorted(self.annotation_filter(query), key=lambda x: x.startchar)
 
+        if config.DEBUG:
+            print_debug(1, "Query:", query)
+            print_debug(1, "Pre-filtered fragments: {}".format(results))
+
         # TODO: Merge fragments based on referencing values when char positions
         #   are unavailable?
         # Merge overlapping and adjacent (multi-field) fragments
@@ -1780,6 +1786,9 @@ class CylleneusHit(Hit):
             for score, fragment in scored
             if score >= minscore
         ]))
+
+        if config.DEBUG:
+            print_debug(1, "Filtered fragments: {}".format(finalists))
         return finalists
 
     def fragments(self, minscore=None):

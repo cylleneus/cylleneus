@@ -45,10 +45,10 @@ class CustomRiposte(Riposte):
 repl = CustomRiposte(
     prompt='cylleneus:~ $ ',
     banner=BANNER,
-    posix=False
+    # posix=False
 )
 
-# FIXME: string parsing for "" and ''
+
 @repl.command("search")
 def search(*args):
     global _searcher, _search

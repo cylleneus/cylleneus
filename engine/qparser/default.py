@@ -27,15 +27,15 @@
 
 import sys
 
-import whoosh.query
-from whoosh.compat import text_type
-from whoosh.qparser import syntax
-from whoosh.qparser.common import print_debug, QueryParserError
-
+import config
 import engine.qparser.plugins
 import engine.qparser.syntax
 import engine.query.compound
 import engine.query.terms
+import whoosh.query
+from whoosh.compat import text_type
+from whoosh.qparser import syntax
+from whoosh.qparser.common import QueryParserError, print_debug
 
 
 # Query parser object
@@ -260,7 +260,7 @@ class QueryParser(object):
 
         return self._priorized("filters")
 
-    def tag(self, text, pos=0, debug=False):
+    def tag(self, text, pos=0, debug=config.DEBUG):
         """Returns a group of syntax nodes corresponding to the given text,
         created by matching the Taggers provided by the parser's plugins.
 
@@ -321,7 +321,7 @@ class QueryParser(object):
             print_debug(debug, "Tagged group: %r" % group)
         return group
 
-    def filterize(self, nodes, debug=False):
+    def filterize(self, nodes, debug=config.DEBUG):
         """Takes a group of nodes and runs the filters provided by the parser's
         plugins.
         """
@@ -339,7 +339,7 @@ class QueryParser(object):
                 raise Exception("Filter %r did not return anything" % f)
         return nodes
 
-    def process(self, text, pos=0, debug=False):
+    def process(self, text, pos=0, debug=config.DEBUG):
         """Returns a group of syntax nodes corresponding to the given text,
         tagged by the plugin Taggers and filtered by the plugin filters.
 
@@ -351,7 +351,7 @@ class QueryParser(object):
         nodes = self.filterize(nodes, debug=debug)
         return nodes
 
-    def parse(self, text, normalize=True, debug=False):
+    def parse(self, text, normalize=True, debug=config.DEBUG):
         """Parses the input string and returns a :class:`whoosh.query.Query`
         object/tree.
 
@@ -562,7 +562,7 @@ class CylleneusQueryParser(QueryParser):
             meta = None
         return termclass(fieldname, text, boost=boost, annotation=annotation, meta=meta)
 
-    def parse(self, text, normalize=True, debug=False):
+    def parse(self, text, normalize=True, debug=config.DEBUG):
         """Parses the input string and returns a :class:`whoosh.query.Query`
         object/tree.
         :param text: the unicode string to parse.
