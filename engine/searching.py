@@ -1704,8 +1704,8 @@ class CylleneusHit(Hit):
         results = sorted(self.annotation_filter(query), key=lambda x: x.startchar)
 
         if config.DEBUG:
-            print_debug(1, "Query:", query)
-            print_debug(1, "Pre-filtered fragments: {}".format(results))
+            print_debug(config.DEBUG, "Query:", query)
+            print_debug(config.DEBUG, "Pre-filtered fragments: {}".format(results))
 
         # TODO: Merge fragments based on referencing values when char positions
         #   are unavailable?
@@ -1788,7 +1788,7 @@ class CylleneusHit(Hit):
         ]))
 
         if config.DEBUG:
-            print_debug(1, "Filtered fragments: {}".format(finalists))
+            print_debug(config.DEBUG, "Filtered fragments: {}".format(finalists))
         return finalists
 
     def fragments(self, minscore=None):

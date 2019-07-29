@@ -31,13 +31,12 @@ import copy
 import fnmatch
 import re
 
-import whoosh
-from whoosh.compat import bytes_type, text_type, u
-from whoosh.lang.morph_en import variations
-
 import engine.matching
+import whoosh
 from engine.analysis.acore import CylleneusToken
 from engine.query import qcore
+from whoosh.compat import bytes_type, text_type, u
+from whoosh.lang.morph_en import variations
 
 
 class CylleneusTerm(qcore.Query):
@@ -183,9 +182,9 @@ class Form(CylleneusTerm):
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("%s:%s") % (self.fieldname, text)
-        if self.boost != 1:
-            t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+        t = whoosh.compat.u("'%s'") % text
+        # if self.boost != 1:
+        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -294,9 +293,11 @@ class Lemma(CylleneusTerm):
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("%s:%s") % (self.fieldname, text)
-        if self.boost != 1:
-            t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+        t = whoosh.compat.u("<%s>") % text
+        if self.annotation:
+            t += whoosh.compat.u(":") + whoosh.compat.text_type(self.annotation)
+        # if self.boost != 1:
+        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -409,9 +410,11 @@ class Semfield(CylleneusTerm):
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("%s:%s") % (self.fieldname, text)
-        if self.boost != 1:
-            t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+        t = whoosh.compat.u("{%s}") % text
+        if self.annotation:
+            t += whoosh.compat.u(":") + whoosh.compat.text_type(self.annotation)
+        # if self.boost != 1:
+        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -520,9 +523,11 @@ class Gloss(CylleneusTerm):
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("%s:%s") % (self.fieldname, text)
-        if self.boost != 1:
-            t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+        t = whoosh.compat.u("[%s]") % text
+        if self.annotation:
+            t += whoosh.compat.u(":") + whoosh.compat.text_type(self.annotation)
+        # if self.boost != 1:
+        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -631,9 +636,9 @@ class Annotation(CylleneusTerm):
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("%s:%s") % (self.fieldname, text)
-        if self.boost != 1:
-            t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+        t = whoosh.compat.u(":%s") % text
+        # if self.boost != 1:
+        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__

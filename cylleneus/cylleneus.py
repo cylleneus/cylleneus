@@ -57,15 +57,17 @@ def search(*args):
     _search = _searcher.search(query)
 
     if _search.results:
-       repl.success(f"{query}: {_search.time} secs, {_search.count[0]} results")
+       repl.success(f"{_search.param}: {_search.time} secs, {_search.count[0]} matches")
     else:
-       repl.error(f"{query}: {_search.time} secs, nothing found")
+       repl.error(f"{_search.param}: {_search.time} secs, nothing found")
 
 
 @repl.command("credits")
 def credits():
-    repl.info(Palette.BLUE.format("Cylleneus v0.0.2: Next-gen corpus search for Greek and Latin"))
-    repl.info(Palette.GREY.format("(c) 2019 William Michael Short"))
+    repl.info(
+        Palette.BLUE.format("Cylleneus v0.0.2: Next-gen corpus search for Greek and Latin"),
+        Palette.GREY.format("(c) 2019 William Michael Short")
+    )
 
 
 @repl.command("select")
@@ -104,12 +106,15 @@ def corpus(corpus_name: str = None):
     if corpus_name and index.exists_in(config.ROOT_DIR + f"/index/{corpus_name}"):
         _corpus = Corpus(corpus_name)
         _searcher.corpus = _corpus
-        repl.success(f"corpus '{_corpus.name}', {_corpus.index.doc_count_all()} indexed")
+        repl.success(f"'{_corpus.name}', {_corpus.index.doc_count_all()} docs")
     else:
-        repl.info(Palette.GREEN.format("Available corpora: " + ", ".join(
-            [f"'{path.name}'" for path in Path(config.ROOT_DIR + '/index/').iterdir()
-             if path.is_dir() and index.exists_in(str(path))])))
-
+        for path in Path(config.ROOT_DIR + '/index/').iterdir():
+            if path.is_dir() and index.exists_in(str(path)):
+                repl.info(
+                    Palette.GREEN.format(
+                        f"'{path.name}'"
+                    )
+                )
 
 @repl.command("save")
 def save(n: int = None, filename: str = None):
@@ -126,7 +131,7 @@ def save(n: int = None, filename: str = None):
         with codecs.open(f"{filename}.txt", "w", "utf8") as fp:
             for author, title, reference, text in target.highlights:
                 fp.write(f"{author}, {title} {reference}\n{text}\n\n")
-            repl.success(f"saved results as '{filename}.txt'")
+            repl.success(f"saved: '{filename}.txt'")
     else:
         repl.error("nothing to save")
 
@@ -165,8 +170,13 @@ def show(n: int = None):
 def history():
     global _searcher, _search
 
-    for i, query in enumerate(_searcher.history):
-        repl.print(f"{i + 1}.\t{query}")
+    for i, search in enumerate(_searcher.history):
+        hits, docs = search.count
+        repl.print(
+            Palette.YELLOW.format(f"[{i + 1}]"),
+            Palette.WHITE.format(f"{search.query} ['{search.corpus}']"),
+            Palette.BOLD.format(f"{hits} matches in {docs} docs")
+        )
 
 
 @repl.command("quit")
