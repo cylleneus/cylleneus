@@ -9,10 +9,10 @@ from engine.searching import CylleneusSearcher
 
 
 class Searcher:
-    def __init__(self, corpus: Corpus):
+    def __init__(self, corpus: Corpus, doc_ids: list = None):
         self._searches = []
         self._corpus = corpus
-        self._docs = None
+        self._docs = set(doc_ids) if doc_ids else None
 
     @property
     def corpus(self):
@@ -25,14 +25,15 @@ class Searcher:
     @property
     def docs(self):
         if self._docs is None:
-            self._docs = set(self.corpus.reader.all_doc_ids())
-        return self._docs
+            return set(self.corpus.reader.all_doc_ids())
+        else:
+            return set(self._docs)
 
     @docs.setter
     def docs(self, doc_ids: list):
         self._docs = set(doc_ids)
 
-    def search(self, param: str, corpus=None, doc_ids: list = None, minscore=None, debug=False):
+    def search(self, param: str, corpus=None, doc_ids: list = None, minscore=None, debug=config.DEBUG):
         """ Execute the specified search parameters """
 
         if param:
@@ -42,7 +43,7 @@ class Searcher:
                 corpus = self.corpus
             if not doc_ids:
                 doc_ids = self.docs
-            search = Search(param, query, corpus, doc_ids, minscore=minscore)
+            search = Search(param, query, corpus, doc_ids=doc_ids, minscore=minscore)
             matches, docs = search.run()
             if matches > 0:
                 self.searches.append(search)
@@ -62,7 +63,7 @@ class Search:
         self._param = param
         self._query = query
         self._corpus = corpus
-        self._docs = set(doc_ids)
+        self._docs = set(doc_ids) if doc_ids else None
         self._minscore = minscore
         self._top = top
 
@@ -70,8 +71,8 @@ class Search:
         self._end_time = None
         self._results = None
 
-        self._maxchars = 200
-        self._surround = 20 if 20 > config.CHARS_OF_CONTEXT else config.CHARS_OF_CONTEXT
+        self._maxchars = 70     # width of one line
+        self._surround = 70 if 70 > config.CHARS_OF_CONTEXT else config.CHARS_OF_CONTEXT
 
     @property
     def docs(self):
@@ -188,8 +189,7 @@ class Search:
         return self.count
 
     def __repr__(self):
-        return f"Search(param={self.param}, query={self.query}, corpus={self.corpus})"
+        return f"Search(query={self.query}, corpus={self.corpus}, results={self.count})"
 
     def __str__(self):
-        hits, docs = self.count
-        return f"{self.param} in '{self.corpus}' ({len(self.docs)} docs), {hits} results in {docs} texts ({self.start_time})"
+        return self.param

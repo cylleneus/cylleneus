@@ -523,7 +523,7 @@ class CachedPlainTextTokenizer(Tokenizer):
             if t.mode == 'query':
                 t.original = t.text = value
                 yield t
-                t.text = value.translate(jvmap)
+                t.original = t.text = value.translate(jvmap)
                 yield t
             else:
                 if not tokenize:
@@ -716,7 +716,7 @@ class CachedPHI5Tokenizer(Tokenizer):
     def cache(self):
         return copy.deepcopy(self._cache)
 
-    def __call__(self, data, positions=True, chars=True,
+    def __call__(self, value, positions=True, chars=True,
                  keeporiginal=True, removestops=True, tokenize=True,
                  start_pos=0, start_char=0, mode='', **kwargs):
         if self._cache and kwargs.get('docix', None) == self._docix:
@@ -725,17 +725,19 @@ class CachedPHI5Tokenizer(Tokenizer):
             t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
 
             if t.mode == 'query':
-                t.original = t.text = data.translate(jvmap)
+                t.original = t.text = value
+                yield t
+                t.original = t.text = value.translate(jvmap)
                 yield t
             else:
                 if not tokenize:
-                    t.original = t.text = data['text']
+                    t.original = t.text = value['text']
                     t.boost = 1.0
                     if positions:
                         t.pos = start_pos
                     if chars:
                         t.startchar = start_char
-                        t.endchar = start_char + len(data['text'])
+                        t.endchar = start_char + len(value['text'])
                     yield t
                 else:
                     self._cache = []
@@ -745,9 +747,9 @@ class CachedPHI5Tokenizer(Tokenizer):
                     stopchars = str.maketrans('', '',
                                               string.punctuation.replace('&', '').replace('^', '') + "†“”—\n\ŕ")
 
-                    divs = { i: div.lower() for i, div in enumerate(data['meta'].split('-')) }
+                    divs = { i: div.lower() for i, div in enumerate(value['meta'].split('-')) }
 
-                    lines = iter(data['text'].split('\n'))
+                    lines = iter(value['text'].split('\n'))
                     tpos = start_pos
                     xtitle = ytitle = ztitle = speaker = ''
                     buffer = deque()
@@ -880,8 +882,8 @@ class CachedPHI5Tokenizer(Tokenizer):
                                 line_pos -= notoken
 
                                 meta = {}
-                                #extra['meta'] = data['meta'].lower()
-                                #setattr(t, 'meta', data['meta'].lower())
+                                #extra['meta'] = value['meta'].lower()
+                                #setattr(t, 'meta', value['meta'].lower())
                                 for i in range(len(divs)):
                                     meta[divs[len(divs) - (i + 1)]] = ref[-(5 - (5 - (i + 1)))].strip('t')
                                     #setattr(t, divs[len(divs) - (i + 1)], ref[-(5 - (5 - (i + 1)))].strip('t'))
@@ -1098,7 +1100,7 @@ class CachedPerseusJSONTokenizer(Tokenizer):
     def cache(self):
         return copy.deepcopy(self._cache)
 
-    def __call__(self, data, positions=True, chars=True,
+    def __call__(self, value, positions=True, chars=True,
                  keeporiginal=True, removestops=True, tokenize=True,
                  start_pos=0, start_char=0, mode='', **kwargs):
         if self._cache and kwargs.get('docix', None) == self._docix:
@@ -1107,13 +1109,13 @@ class CachedPerseusJSONTokenizer(Tokenizer):
             t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
 
             if t.mode == 'query':
-                t.original = t.text = data
+                t.original = t.text = value
                 yield t
-                t.text = data.translate(jvmap)
+                t.original = t.text = value.translate(jvmap)
                 yield t
             elif t.mode == 'index':
                 if not tokenize:
-                    t.original = t.text = '\n'.join([el for el in flatten(data['text'])])
+                    t.original = t.text = '\n'.join([el for el in flatten(value['text'])])
                     t.boost = 1.0
                     if positions:
                         t.pos = start_pos
@@ -1128,9 +1130,9 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                     word_tokenizer = PunktLatinCharsVars()
                     stopchars = str.maketrans('', '', string.punctuation + "“”—\n")
 
-                    divs = { i: div.lower() for i, div in enumerate(data['meta'].split('-')) }
+                    divs = { i: div.lower() for i, div in enumerate(value['meta'].split('-')) }
 
-                    for path, value in nested_dict_iter(data['text']):
+                    for path, value in nested_dict_iter(value['text']):
                         tokens = []
 
                         temp_tokens = word_tokenizer.word_tokenize(value)
@@ -1159,7 +1161,7 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                             else:
                                 pos += 2
                             meta = {
-                                'meta': data['meta'].lower()
+                                'meta': value['meta'].lower()
                             }
                             for i in range(len(divs)):
                                 meta[divs[i]] = str(int(path[i]))
@@ -1309,7 +1311,7 @@ class CachedPerseusTEITokenizer(Tokenizer):
     def cache(self):
         return copy.deepcopy(self._cache)
 
-    def __call__(self, data, positions=True, chars=True,
+    def __call__(self, value, positions=True, chars=True,
                  keeporiginal=True, removestops=True, tokenize=True,
                  start_pos=0, start_char=0, mode='', **kwargs):
         if self._cache and kwargs.get('docix', None) == self._docix:
@@ -1317,11 +1319,13 @@ class CachedPerseusTEITokenizer(Tokenizer):
         else:
             t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
             if t.mode == 'query':
-                t.original = t.text = data.translate(jvmap)
+                t.original = t.text = value
+                yield t
+                t.original = t.text = value.translate(jvmap)
                 yield t
             else:
                 if not tokenize:
-                    text = '\n'.join([el for el in flatten(data['text'])])
+                    text = '\n'.join([el for el in flatten(value['text'])])
                     t.original = t.text = text
                     t.boost = 1.0
                     if positions:
@@ -1334,7 +1338,7 @@ class CachedPerseusTEITokenizer(Tokenizer):
                     self._cache = []
                     self._docix = kwargs.get('docix', 0)
 
-                    divs = { i: div for i, div in enumerate(data['meta'].split('-')) }
+                    divs = { i: div for i, div in enumerate(value['meta'].split('-')) }
 
                     curr_divs = {}
                     for div in divs:
@@ -1343,7 +1347,7 @@ class CachedPerseusTEITokenizer(Tokenizer):
                     word_tokenizer = PunktLatinCharsVars()
                     stopchars = str.maketrans('', '', string.punctuation + "“”—\n")
 
-                    for el in data['text'].find('.//{http://www.tei-c.org/ns/1.0}body').\
+                    for el in value['text'].find('.//{http://www.tei-c.org/ns/1.0}body').\
                             find(".//{http://www.tei-c.org/ns/1.0}div[@type='edition']").iter():
                         if el.tag == '{http://www.tei-c.org/ns/1.0}milestone':
                             curr_divs[el.get('unit')] = el.get('n')
@@ -1551,7 +1555,7 @@ class CachedLASLATokenizer(Tokenizer):
     def cache(self):
         return copy.deepcopy(self._cache)
 
-    def __call__(self, data: dict, positions=False, chars=False,
+    def __call__(self, value: dict, positions=False, chars=False,
                  keeporiginal=True, removestops=True, tokenize=True,
                  start_pos=0, start_char=0, mode='', **kwargs):
         if self._cache and kwargs.get('docix', None) == self._docix:
@@ -1560,17 +1564,19 @@ class CachedLASLATokenizer(Tokenizer):
             t = engine.analysis.acore.CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
 
             if t.mode == 'query':
-                t.original = t.text = data.translate(jvmap)
+                t.original = t.text = value
+                yield t
+                t.original = t.text = value.translate(jvmap)
                 yield t
             else:
                 if not tokenize:
-                    t.original = t.text = '\n'.join([el for el in data['text']])
+                    t.original = t.text = '\n'.join([el for el in value['text']])
                     t.boost = 1.0
                     if positions:
                         t.pos = start_pos
                     if chars:
                         t.startchar = start_char
-                        t.endchar = start_char + len(data['text'])
+                        t.endchar = start_char + len(value['text'])
                     yield t
                 else:
                     self._cache = []
@@ -1586,10 +1592,10 @@ class CachedLASLATokenizer(Tokenizer):
                     sent_id = '0001'
                     sect_pos = 1   # word pos within passage
                     sent_pos = 1    # word pos within sentence
-                    current_refs = tuple(['0'] * len(data['meta']))
+                    current_refs = tuple(['0'] * len(value['meta']))
                     nflag = None
                     morpho_buffer = None
-                    for pos, line in enumerate(data['text']):
+                    for pos, line in enumerate(value['text']):
                         t.pos = pos
                         parsed = parse_bpn(line)
 
@@ -1611,14 +1617,16 @@ class CachedLASLATokenizer(Tokenizer):
                                 t.original = parsed['form']
                         t.stopped = False
 
-                        if parsed['form_code'] == '&' or parsed['form_code'] == '+':
+                        if parsed['form_code'] in '&+':
                             if parsed['lemma'] != '#':
                                 if parsed['lemma'] == '_SVM':
-                                    t.text = parsed['form'].translate(punctmap)
                                     t.morpho = None
                                     t.lemma = parsed['lemma']
                                     t.lemma_n = parsed['lemma_n']
                                     t.original = added.sub('', parsed['form'])
+                                    t.text = t.original
+                                    yield t  # make elements searchable
+                                    t.text = parsed['form'].translate(punctmap)
                                 else:
                                     form = parsed['form']
                                     t.morpho = parsed['morpho']
@@ -1629,11 +1637,13 @@ class CachedLASLATokenizer(Tokenizer):
                                     else:
                                         t.original = form
                                         text = form
-                                    t.text = text.translate(punctmap)
                                     t.lemma = parsed['lemma']
                                     t.lemma_n = parsed['lemma_n']
                                     if added.search(parsed['form']):
                                         t.original = added.sub('', parsed['form'])
+                                    t.text = t.original
+                                    yield t  # make elements searchable
+                                    t.text = text.translate(punctmap)
                                     nflag = False
                             else:
                                 # could be a Greek form, do we index it?
@@ -1664,9 +1674,9 @@ class CachedLASLATokenizer(Tokenizer):
                             sect_pos -= 1
                             nflag = False
                         meta = {
-                            'meta': data['meta'].lower()
+                            'meta': value['meta'].lower()
                         }
-                        tags = data['meta'].split('-')
+                        tags = value['meta'].split('-')
                         if len(tags) > 2 and 'line' in tags:
                             tags.pop(tags.index('line'))
                         divs = {i: div.lower() for i, div in enumerate(tags)}
