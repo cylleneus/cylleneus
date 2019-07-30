@@ -42,9 +42,9 @@ class TestQueryTypes(unittest.TestCase):
             '"cum <virtus>:SG."',
             ":VB. 'milites'",
             ":VB. <miles>",
-            "</=bellum>",
-            "[!=en?love]",
-            "[@=n#04478900]",
+            "</::bellum>",
+            "[!::en?love]",
+            "[@::n#04478900]",
         ]
 
         c = Corpus(choice(['lasla', 'perseus', 'latin_library']))
