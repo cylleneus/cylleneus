@@ -28,7 +28,7 @@ BANNER = r"""
 | |  | | | | | |/ _ \ '_ \ / _ \ | | / __|
 | |__| |_| | | |  __/ | | |  __/ |_| \__ \
  \____\__, |_|_|\___|_| |_|\___|\__,_|___/
-      |___/                         v0.0.2
+      |___/                         
 Next-gen corpus search for Greek and Latin
 """
 
@@ -66,7 +66,7 @@ def search(*args):
 @repl.command("credits")
 def credits():
     repl.info(
-        Palette.BLUE.format("Cylleneus v0.0.2: Next-gen corpus search for Greek and Latin"),
+        Palette.BLUE.format(f"Cylleneus v{config.__version__}: Next-gen corpus search for Greek and Latin"),
         Palette.GREY.format("(c) 2019 William Michael Short")
     )
 

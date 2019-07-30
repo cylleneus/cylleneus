@@ -5,6 +5,7 @@
 
 import sys
 
+import config
 from setuptools import find_packages, setup
 
 with open('README.rst') as readme_file:
@@ -79,6 +80,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/wmshort/cylleneus',
-    version='0.0.2',
+    version=config.__version__,
     zip_safe=False,
 )
