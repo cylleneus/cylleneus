@@ -109,7 +109,6 @@ class Indexer:
         if author and title:
             if 'author' in self.schema and 'title' in self.schema:
                 parser = QueryParser("form", self.schema)
-                # TODO: possibly add '' around {author} and {title}?
                 query = parser.parse(f"(author:{author} AND title:{title})")
                 self.index.writer().delete_by_query(query)
         elif author:
@@ -136,7 +135,6 @@ class Indexer:
         if author and title:
             if 'author' in self.schema and 'title' in self.schema:
                 parser = QueryParser("form", self.schema)
-                # TODO: possibly add '' around {author} and {title}?
                 query = parser.parse(f"(author:{author} AND title:{title})")
                 writer = self.index.writer()
                 writer.delete_by_query(query)

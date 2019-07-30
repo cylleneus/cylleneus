@@ -1,3 +1,14 @@
+def get(hit, meta, fragment):
+    if 'line' in meta['meta'] and len(meta['meta'].split('-')) <= 2:
+        cite = '.'.join([meta['start'][div]
+                         for div in meta['meta'].split('-')
+                         ]).replace('t1', '')
+    else:
+        cite = '.'.join([meta['start'][div]
+                         for div in meta['meta'].split('-')
+                         if div != 'line'
+                         ]).replace('t1', '')
+
 AUTHOR_TAB = {'phi2000': {'author': 'Ablabius',
           'works': {'phi001': {'title': 'epigramma',
                             'source': 'Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, ed. W. Morel, 1927',

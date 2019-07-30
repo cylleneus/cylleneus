@@ -25,16 +25,17 @@
 # those of the authors and should not be interpreted as representing official
 # policies, either expressed or implied, of Matt Chaput.
 
-import sys, weakref
+import sys
+import weakref
 
+import engine.query.compound
+import engine.query.positional
+import engine.query.qcore
+import engine.query.terms
+import engine.query.wrappers
 import whoosh.qparser.common
 import whoosh.query
-import engine.query.terms
-import engine.query.qcore
-import engine.query.positional
-import engine.query.wrappers
-import engine.query.compound
-from whoosh.qparser import TextNode, MarkerNode
+from whoosh.qparser import MarkerNode, TextNode
 from whoosh.qparser.common import attach
 
 
@@ -237,7 +238,7 @@ class CylleneusGroupNode(CylleneusSyntaxNode):
         return c
 
     def set_fieldname(self, name, override=False):
-        SyntaxNode.set_fieldname(self, name, override=override)
+        CylleneusSyntaxNode.set_fieldname(self, name, override=override)
         for node in self.nodes:
             node.set_fieldname(name, override=override)
 
@@ -289,7 +290,7 @@ class CylleneusGroupNode(CylleneusSyntaxNode):
     # Navigation methods
 
     def bake(self, parent):
-        SyntaxNode.bake(self, parent)
+        CylleneusSyntaxNode.bake(self, parent)
         for node in self.nodes:
             node.bake(self)
 
@@ -442,7 +443,7 @@ class AnnotationNode(TextNode):
     def __init__(self, text):
         self.fieldname = 'annotation'
         self.text = text
-        self.boost = 1.0  # FIXME: 2.0?
+        self.boost = 1.0
 
     def __repr__(self):
         r = "<"
@@ -466,7 +467,7 @@ class MorphosyntaxNode(TextNode):
     def __init__(self, text):
         self.fieldname = 'morphosyntax'
         self.text = text
-        self.boost = 1.0  # FIXME: 2.0?
+        self.boost = 1.0
 
     def __repr__(self):
         r = "<"
@@ -647,5 +648,5 @@ class RangeNode(CylleneusSyntaxNode):
                                                self.endexcl, boost=self.boost)
         return attach(q, self)
 
-# SyntaxNode = CylleneusSyntaxNode
+# CylleneusSyntaxNode = CylleneusSyntaxNode
 # GroupNode = CylleneusGroupNode

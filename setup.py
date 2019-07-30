@@ -5,6 +5,7 @@
 
 import sys
 
+import config
 from setuptools import find_packages, setup
 
 with open('README.rst') as readme_file:
@@ -27,6 +28,7 @@ requirements = [
     'MyCapytain>=2.0.10',
     'multiwordnet>=0.0.2',
     'nltk>=3.4',
+    'parawrap>=1.0',
     'pyparsing>=2.3.1',
     'pyrsistent>=0.14.11',
     'python-crfsuite>=0.9.6',
@@ -35,7 +37,7 @@ requirements = [
     'rdflib-jsonld>=0.4.0',
     'regex>=2019.3.12',
     'requests>=2.21.0',
-    'riposte>=0.2.2',
+    'riposte>=0.3.0',
     'singledispatch>=3.4.0.3',
     'six>=1.12.0',
     'tqdm>=4.31.1',
@@ -78,6 +80,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/wmshort/cylleneus',
-    version='0.0.2',
+    version=config.__version__,
     zip_safe=False,
 )

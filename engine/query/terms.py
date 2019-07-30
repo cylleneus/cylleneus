@@ -31,13 +31,12 @@ import copy
 import fnmatch
 import re
 
-import whoosh
-from whoosh.compat import bytes_type, text_type, u
-from whoosh.lang.morph_en import variations
-
 import engine.matching
+import whoosh
 from engine.analysis.acore import CylleneusToken
 from engine.query import qcore
+from whoosh.compat import bytes_type, text_type, u
+from whoosh.lang.morph_en import variations
 
 
 class CylleneusTerm(qcore.Query):
@@ -183,9 +182,9 @@ class Form(CylleneusTerm):
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("%s:%s") % (self.fieldname, text)
-        if self.boost != 1:
-            t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+        t = whoosh.compat.u("'%s'") % text
+        # if self.boost != 1:
+        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -294,9 +293,11 @@ class Lemma(CylleneusTerm):
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("%s:%s") % (self.fieldname, text)
-        if self.boost != 1:
-            t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+        t = whoosh.compat.u("<%s>") % text
+        if self.annotation:
+            t += whoosh.compat.u(":") + whoosh.compat.text_type(self.annotation)
+        # if self.boost != 1:
+        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -409,9 +410,11 @@ class Semfield(CylleneusTerm):
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("%s:%s") % (self.fieldname, text)
-        if self.boost != 1:
-            t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+        t = whoosh.compat.u("{%s}") % text
+        if self.annotation:
+            t += whoosh.compat.u(":") + whoosh.compat.text_type(self.annotation)
+        # if self.boost != 1:
+        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -520,9 +523,11 @@ class Gloss(CylleneusTerm):
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("%s:%s") % (self.fieldname, text)
-        if self.boost != 1:
-            t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+        t = whoosh.compat.u("[%s]") % text
+        if self.annotation:
+            t += whoosh.compat.u(":") + whoosh.compat.text_type(self.annotation)
+        # if self.boost != 1:
+        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -599,7 +604,6 @@ class Annotation(CylleneusTerm):
 
     __inittypes__ = dict(fieldname=str, text=whoosh.compat.text_type, boost=float, annotation=qcore.Query, meta=bool)
 
-    # FIXME: boost=2.0?
     def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
         super(Annotation, self).__init__(fieldname, text, boost=1.0, minquality=None)
         self.fieldname = fieldname
@@ -631,9 +635,9 @@ class Annotation(CylleneusTerm):
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("%s:%s") % (self.fieldname, text)
-        if self.boost != 1:
-            t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+        t = whoosh.compat.u(":%s") % text
+        # if self.boost != 1:
+        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -710,7 +714,6 @@ class Morphosyntax(CylleneusTerm):
 
     __inittypes__ = dict(fieldname=str, text=whoosh.compat.text_type, boost=float, annotation=qcore.Query, meta=bool)
 
-    # FIXME: boost=2.0?
     def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
         super(Morphosyntax, self).__init__(fieldname, text, boost=1.0, minquality=None)
         self.fieldname = fieldname

@@ -1,3 +1,64 @@
+import codecs
+import json
+from pathlib import Path
+
+import config
+from utils import nrange
+
+
+def get(hit, meta, fragment):
+    filename = Path(hit['filename']).name
+    with codecs.open(
+        config.ROOT_DIR + f'/corpus/perseus/text/{filename}', 'r', 'utf8'
+    ) as fp:
+        doc = json.load(fp)
+
+    text = doc['text']
+    divs = meta['meta'].split('-')
+
+    start = [int(i) for i in meta['start'].values()]
+    end = [int(i) for i in meta['end'].values()]
+
+    pre_start = start[:-1] + [(start[-1] - config.LINES_OF_CONTEXT),]
+    pre_end = start[:-1] + [(start[-1] - 1),]
+    pre = []
+    for ref in nrange(pre_start, pre_end):
+        text = doc['text']
+        for div in ref:
+            try:
+                text = text[str(div)]
+            except KeyError:
+                break
+        pre.append(text)
+
+    parts = []
+    for ref in nrange(start, end):
+        text = doc['text']
+
+        for div in ref:
+            text = text[str(div)]
+        parts.append(text)
+
+    post_start = end[:-1] + [(end[-1] + 1), ]
+    post_end = end[:-1] + [(end[-1] + config.LINES_OF_CONTEXT), ]
+    post = []
+    for ref in nrange(post_start, post_end):
+        text = doc['text']
+
+        for div in ref:
+            try:
+                text = text[str(div)]
+            except KeyError:
+                break
+        post.append(text)
+
+    if 'poem' in divs or divs[-1] == 'verse':
+        joiner = '\n\n'
+    else:
+        joiner = ' '
+    return f'{joiner}'.join([*pre, *parts, *post])
+
+
 index = {0: {'author': 'Ammianus Marcellinus',
              'work': {'title': 'Rerum Gestarum',
                       'meta': 'book-chapter-section',

@@ -5,9 +5,6 @@
 
 
 import unittest
-import codecs
-import pathlib
-from corpus.utils.lasla import FILE_TAB, AUTHOR_TAB
 import re
 from engine.analysis.tokenizers import CachedLASLATokenizer
 from random import choice

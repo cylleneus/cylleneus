@@ -1,5 +1,8 @@
 from collections.abc import Iterable
+from itertools import chain, zip_longest
+
 import math
+
 
 def depth(l):
     if type(l) is dict and l:
@@ -7,6 +10,7 @@ def depth(l):
     if type(l) is list and l:
         return 1 + max(depth(el) for el in l)
     return 0
+
 
 def flatten(l, max_depth=math.inf):
     if isinstance(l, dict):
@@ -23,6 +27,24 @@ def flatten(l, max_depth=math.inf):
                     yield el
         else:
             yield l
+
+
+def nrange(start, end):
+    start, end = zip(*zip_longest(start, end, fillvalue=0))
+    base = max(max(chain(start, end)), 9) + 1
+
+    def _toint(seq, base):
+        return sum(base ** n * val for n, val in enumerate(reversed(seq)))
+
+    def _totuple(num, base, length):
+        ret = []
+        for n in (base ** i for i in reversed(range(length))):
+            res, num = divmod(num, n)
+            ret.append(res)
+        return tuple(ret)
+
+    for se in range(_toint(start, base), _toint(end, base) + 1):
+        yield _totuple(se, base, len(start))
 
 
 def roman_to_arabic(n: str):

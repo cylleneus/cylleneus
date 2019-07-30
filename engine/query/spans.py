@@ -43,7 +43,8 @@ For example, to find documents containing "whoosh" at most 5 positions before
 
 """
 
-from whoosh.util import make_binary_tree
+import re
+from difflib import SequenceMatcher
 
 import engine.matching.binary
 import engine.matching.combo
@@ -52,7 +53,7 @@ import engine.matching.wrappers
 import engine.query.compound
 import engine.query.qcore
 import engine.query.terms
-import re
+from whoosh.util import make_binary_tree
 
 
 # Span class
@@ -562,8 +563,7 @@ class SpanNear(SpanQuery):
                                 diffs.append(int(b) - int(a))
                             elif a.isalpha() and b.isalpha():
                                 if len(a) > 1 and len(b) > 1:
-                                    # TODO: By how much is 'bb' 'greater than' 'ba'?
-                                    diffs.append(0)
+                                    diffs.append(SequenceMatcher(None, a, b).ratio())
                                 else:
                                     diffs.append(ord(b) - ord(a))
                         if (diffs[-1] > slop

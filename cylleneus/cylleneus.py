@@ -6,11 +6,11 @@
 import codecs
 import re
 import sys
-import textwrap
 import unicodedata
 from pathlib import Path
 
 import config
+import parawrap
 from corpus import Corpus
 from engine import index
 from riposte import Riposte
@@ -22,16 +22,16 @@ _searcher = Searcher(_corpus)
 _search = None
 
 
-BANNER = """
+BANNER = r"""
   ____      _ _                           
  / ___|   _| | | ___ _ __   ___ _   _ ___ 
 | |  | | | | | |/ _ \ '_ \ / _ \ | | / __|
 | |__| |_| | | |  __/ | | |  __/ |_| \__ \
- \____\__, |_|_|\___|_| |_|\___|\__,_|___/ 
-      |___/                         v0.0.2     
+ \____\__, |_|_|\___|_| |_|\___|\__,_|___/
+      |___/                         
 Next-gen corpus search for Greek and Latin
-
 """
+
 
 class CustomRiposte(Riposte):
     @property
@@ -42,27 +42,33 @@ class CustomRiposte(Riposte):
             return self._prompt  # reference to `prompt` parameter.
 
 
+# TODO: add posix switch in Riposte for raw argument parsing
 repl = CustomRiposte(
-    # banner=BANNER,
-    prompt='cylleneus:~ $ '
+    prompt='cylleneus:~ $ ',
+    banner=BANNER,
+    # posix=False
 )
 
 
 @repl.command("search")
-def search(query: str):
+def search(*args):
     global _searcher, _search
 
+    query = ' '.join(args)
     _search = _searcher.search(query)
+
     if _search.results:
-        repl.success(f"{query}: {_search.time} secs, {_search.count[0]} results")
+       repl.success(f"{_search.param}: {_search.time} secs, {_search.count[0]} matches")
     else:
-        repl.error(f"{query}: {_search.time} secs, nothing found")
+       repl.error(f"{_search.param}: {_search.time} secs, nothing found")
 
 
 @repl.command("credits")
 def credits():
-    repl.info(Palette.BLUE.format("Cylleneus v0.0.1: Next-gen corpus search for Greek and Latin"))
-    repl.info(Palette.GREY.format("(c) 2019 William Michael Short"))
+    repl.info(
+        Palette.BLUE.format(f"Cylleneus v{config.__version__}: Next-gen corpus search for Greek and Latin"),
+        Palette.GREY.format("(c) 2019 William Michael Short")
+    )
 
 
 @repl.command("select")
@@ -101,12 +107,15 @@ def corpus(corpus_name: str = None):
     if corpus_name and index.exists_in(config.ROOT_DIR + f"/index/{corpus_name}"):
         _corpus = Corpus(corpus_name)
         _searcher.corpus = _corpus
-        repl.success(f"corpus '{_corpus.name}', {_corpus.index.doc_count_all()} indexed")
+        repl.success(f"'{_corpus.name}', {_corpus.index.doc_count_all()} docs")
     else:
-        repl.info(Palette.GREEN.format("Available corpora: " + ", ".join(
-            [f"'{path.name}'" for path in Path(config.ROOT_DIR + '/index/').iterdir()
-             if path.is_dir() and index.exists_in(str(path))])))
-
+        for path in Path(config.ROOT_DIR + '/index/').iterdir():
+            if path.is_dir() and index.exists_in(str(path)):
+                repl.info(
+                    Palette.GREEN.format(
+                        f"'{path.name}'"
+                    )
+                )
 
 @repl.command("save")
 def save(n: int = None, filename: str = None):
@@ -123,7 +132,7 @@ def save(n: int = None, filename: str = None):
         with codecs.open(f"{filename}.txt", "w", "utf8") as fp:
             for author, title, reference, text in target.highlights:
                 fp.write(f"{author}, {title} {reference}\n{text}\n\n")
-            repl.success(f"saved results as '{filename}.txt'")
+            repl.success(f"saved: '{filename}.txt'")
     else:
         repl.error("nothing to save")
 
@@ -150,11 +159,9 @@ def show(n: int = None):
             repl.info(Palette.GREY.format(f"{reference}:"))
 
             if text:
-                for line in textwrap.wrap(text.strip('\n'), width=70):
-                    repl.print(Palette.WHITE.format(line))
-            else:
-                repl.error(f"could not resolve")
-            repl.print('\n')
+                for line in parawrap.wrap(text):
+                    if line:
+                        repl.print(Palette.WHITE.format(line))
             counter += 1
     else:
         repl.error("no results")
@@ -164,8 +171,13 @@ def show(n: int = None):
 def history():
     global _searcher, _search
 
-    for i, query in enumerate(_searcher.history):
-        repl.print(f"{i + 1}.\t{query}")
+    for i, search in enumerate(_searcher.history):
+        hits, docs = search.count
+        repl.print(
+            Palette.YELLOW.format(f"[{i + 1}]"),
+            Palette.WHITE.format(f"{search.query} ['{search.corpus}']"),
+            Palette.BOLD.format(f"{hits} matches in {docs} docs")
+        )
 
 
 @repl.command("quit")

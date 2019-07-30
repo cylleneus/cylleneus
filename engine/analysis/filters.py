@@ -31,7 +31,7 @@ import copy
 import re
 from itertools import chain
 
-import corpus.utils.lasla
+import corpus.lasla
 from engine.analysis.acore import Composable
 from lang.latin.morphology import from_leipzig
 from latinwordnet import LatinWordNet
@@ -856,17 +856,17 @@ class LASLAMorphosyntaxFilter(Filter):
                 if text:
                     if text.startswith('?'):
                         text = text[1:].replace('u', 'v').upper()
-                        if text in corpus.utils.lasla.subord:
-                            for code in corpus.utils.lasla.subord[text]:
+                        if text in corpus.lasla.subord:
+                            for code in corpus.lasla.subord[text]:
                                 t.text = code
                                 yield t
                     else:
-                        if text in corpus.utils.lasla.subord_codes:
+                        if text in corpus.lasla.subord_codes:
                             t.text = text
                             yield t
                         else:
-                            if text in corpus.utils.lasla.subord:
-                                for code in corpus.utils.lasla.subord[text]:
+                            if text in corpus.lasla.subord:
+                                for code in corpus.lasla.subord[text]:
                                     t.text = code
                                     yield t
 
@@ -905,11 +905,11 @@ class CachedLASLALemmaFilter(Filter):
                     if t.lemma is not None:
                         lemma = t.lemma
                         ix = t.lemma_n if t.lemma_n.strip() else '-'
-                        morphos = corpus.utils.lasla.mapping[lemma][ix]['morpho']
-                        uris = corpus.utils.lasla.mapping[lemma][ix]['uri']
+                        morphos = corpus.lasla.mapping[lemma][ix]['morpho']
+                        uris = corpus.lasla.mapping[lemma][ix]['uri']
 
                         if t.morpho is not None:
-                            annotation = corpus.utils.lasla.bpn2lwn(t.morpho)
+                            annotation = corpus.lasla.bpn2lwn(t.morpho)
                         else:
                             annotation = None
                         lemma = lemma.lower().strip('_').translate(jvmap)

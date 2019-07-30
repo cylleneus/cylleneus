@@ -26,13 +26,12 @@
 # policies, either expressed or implied, of Matt Chaput.
 
 
-import whoosh.qparser
-from whoosh.compat import u, xrange
-from whoosh.qparser.taggers import RegexTagger, FnTagger
-
 import engine.qparser.syntax
 import engine.query
 import engine.query.positional
+import whoosh.qparser
+from whoosh.compat import u, xrange
+from whoosh.qparser.taggers import FnTagger, RegexTagger
 
 
 class WhitespacePlugin(whoosh.qparser.plugins.TaggingPlugin):
@@ -264,8 +263,6 @@ class AnnotationPlugin(whoosh.qparser.plugins.TaggingPlugin):
             else:
                 newgroup.append(node)
         return newgroup
-
-
 
 
 class GroupPlugin(whoosh.qparser.plugins.Plugin):

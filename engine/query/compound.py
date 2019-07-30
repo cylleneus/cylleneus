@@ -27,15 +27,14 @@
 
 from __future__ import division
 
-import whoosh.query.qcore
-from whoosh.compat import text_type, u
-from whoosh.util import make_binary_tree, make_weighted_tree
-
 import engine.matching.binary
 import engine.matching.combo
 import engine.matching.mcore
 import engine.matching.wrappers
 import engine.query.qcore
+import whoosh.query.qcore
+from whoosh.compat import text_type, u
+from whoosh.util import make_binary_tree, make_weighted_tree
 
 
 class CylleneusCompoundQuery(engine.query.qcore.Query):
@@ -293,7 +292,7 @@ class Or(CylleneusCompoundQuery):
     SPLIT_MATCHER = 2  # Use a different strategy for short and long queries
     ARRAY_MATCHER = 3  # Use a matcher that pre-loads docnums and scores
     matcher_type = AUTO_MATCHER
-    # FIXME: boost=2.0?
+
     def __init__(self, subqueries, boost=1.0, minmatch=0, scale=None, annotation=None, meta=False):
         """
         :param subqueries: a list of :class:`Query` objects to search for.

@@ -5,9 +5,10 @@
 
 
 import unittest
-from search import Searcher
-from corpus import Corpus
 from random import choice
+
+from corpus import Corpus
+from search import Searcher
 
 
 class TestQueryTypes(unittest.TestCase):
@@ -24,13 +25,13 @@ class TestQueryTypes(unittest.TestCase):
         """Tear down test fixtures, if any."""
 
     def test_query_types(self):
-        """Test query types."""
+        """Test permissible query types."""
 
         queries = [
-            "'ius'",
+            "'sed'",
             ":ACC.PL.",
-            "<virtus>",
-            "<animus>:PL.ABL.",
+            "<habeo>",
+            "<animus>:SG.ABL.",
             "[en?war]",
             "[it?guerra]",
             "[es?guerra]",
@@ -39,12 +40,11 @@ class TestQueryTypes(unittest.TestCase):
             "{611}",
             '"cum <virtus>"',
             '"cum <virtus>:SG."',
-            "'milites' :VB.",
             ":VB. 'milites'",
             ":VB. <miles>",
-            "</=bellum>",
-            "[!=en?love]",
-            "[@=n#04478900]",
+            "</::bellum>",
+            "[!::en?love]",
+            "[@::n#04478900]",
         ]
 
         c = Corpus(choice(['lasla', 'perseus', 'latin_library']))

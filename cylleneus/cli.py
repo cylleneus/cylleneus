@@ -18,7 +18,9 @@ def main():
 
 @main.command()
 def shell():
+    sys.argv = [sys.argv[0]]  # clear sys.argv to avoid pass-through
     cylleneus.repl.run()
+
 
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
