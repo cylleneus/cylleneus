@@ -59,7 +59,8 @@ class CylleneusFragment(object):
     def overlaps(self, fragment):
         if self.startchar == 0 and fragment.startchar == 0 \
             and self.endchar == 0 and fragment.endchar == 0:
-            # TODO: overlapping calculation for fragments without char support
+            # TODO: overlap for fragments without char support
+
             return False
         else:
             sc = self.startchar
@@ -269,9 +270,11 @@ class CylleneusHighlighter(object):
             #   to char positions
             if hasattr(t, 'meta'):
                 # divs = hitobj['meta'].split('-')
+                print('Pre-sort', tokens)
                 tokens.sort(key=lambda t: tuple([v for v in t.meta.values()]))
                 # TODO: or use only values corresponding to a div?
                 # v for k, v in t.meta.items() if k in divs
+                print('Post-sort', tokens)
             else:
                 tokens = [max(group, key=lambda t: t.endchar - t.startchar)
                           for key, group in groupby(tokens, lambda t: t.startchar)]
@@ -491,7 +494,7 @@ class CylleneusPinpointFragmenter(whoosh.highlight.Fragmenter):
         fragment.endchar = endchar
 
     def fragment_matches(self, text, tokens):
-        # For corpora without pinpoint support, simply return each token as a fragment
+        # For corpora without pinpoint support, return each token as a fragment
         if any([(token.pos == 0 and token.startchar == 0 and token.endchar == 0)
                 for token in tokens]):
             for token in tokens:

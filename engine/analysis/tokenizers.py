@@ -1132,10 +1132,10 @@ class CachedPerseusJSONTokenizer(Tokenizer):
 
                     divs = { i: div.lower() for i, div in enumerate(value['meta'].split('-')) }
 
-                    for path, value in nested_dict_iter(value['text']):
+                    for path, text in nested_dict_iter(value['text']):
                         tokens = []
 
-                        temp_tokens = word_tokenizer.word_tokenize(value)
+                        temp_tokens = word_tokenizer.word_tokenize(text)
                         if temp_tokens:
                             if temp_tokens[0].replace('j', 'i').replace('v', 'u') not in proper_names.proper_names:
                                 temp_tokens[0] = temp_tokens[0].lower()
