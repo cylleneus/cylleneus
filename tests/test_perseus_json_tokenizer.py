@@ -3,11 +3,11 @@
 
 """Tests for `cylleneus` package."""
 
-import unittest
-from random import choice
 import codecs
 import json
 import pathlib
+import unittest
+from random import choice
 
 from engine.analysis.tokenizers import CachedPerseusJSONTokenizer
 
@@ -34,5 +34,5 @@ class TestPerseusJSONTokenizer(unittest.TestCase):
 
         T = CachedPerseusJSONTokenizer()
 
-        for t in T(data=data, mode='index'):
+        for t in T(value=data, mode='index'):
             assert t
