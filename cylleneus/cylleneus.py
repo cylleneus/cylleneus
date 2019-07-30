@@ -42,6 +42,7 @@ class CustomRiposte(Riposte):
             return self._prompt  # reference to `prompt` parameter.
 
 
+# TODO: add posix switch in Riposte for raw argument parsing
 repl = CustomRiposte(
     prompt='cylleneus:~ $ ',
     banner=BANNER,

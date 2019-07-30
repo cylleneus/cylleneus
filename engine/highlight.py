@@ -59,7 +59,7 @@ class CylleneusFragment(object):
     def overlaps(self, fragment):
         if self.startchar == 0 and fragment.startchar == 0 \
             and self.endchar == 0 and fragment.endchar == 0:
-            # TODO: Figure out an overlap scheme for fragments with no character support
+            # TODO: overlapping calculation for fragments without char support
             return False
         else:
             sc = self.startchar
@@ -268,9 +268,10 @@ class CylleneusHighlighter(object):
             # Sort fragments by position in text, preferring standard references
             #   to char positions
             if hasattr(t, 'meta'):
-                # TODO: remove condition, use values()? but some refs are alphanumeric
-                divs = hitobj['meta'].split('-')
-                tokens.sort(key=lambda t: tuple([v for k, v in t.meta.items() if k in divs]))
+                # divs = hitobj['meta'].split('-')
+                tokens.sort(key=lambda t: tuple([v for v in t.meta.values()]))
+                # TODO: or use only values corresponding to a div?
+                # v for k, v in t.meta.items() if k in divs
             else:
                 tokens = [max(group, key=lambda t: t.endchar - t.startchar)
                           for key, group in groupby(tokens, lambda t: t.startchar)]

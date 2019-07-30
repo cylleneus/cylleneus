@@ -32162,7 +32162,7 @@ mapping = {
     "GALEO": {"-": {"morpho": ["v1spia--1-"], "uri": ["g0034"]}},
     "GALERVS": {"-": {"morpho": ["n-s---mn2-"], "uri": ["g0043"]}},
     "GALLA": {"-": {"morpho": ["n-s---fn1-"], "uri": ["g0045"]}, "N": {"morpho": ["n-s---fn2-"], "uri": []}},
-    "GALLI": {"N": {"morpho": ["n-p---mn2-"], "uri": []}}, "GALLIA": {"N": {"morpho": ["n-s---fn1-"], "uri": []}},
+    "GALLI": {"N": {"morpho": ["n-p---mn2-"], "uri": []}}, "GALLIA": {"N": {"morpho": ["n-s---fn1-"], "uri": ["23575"]}},
     "GALLICVS": {"N": {"morpho": ["aps---mn1-"], "uri": ["g0050"]}, "A": {"morpho": ["aps---mn1-"], "uri": ["g0050"]}},
     "GALLINA": {"-": {"morpho": ["n-s---fn1-"], "uri": ["g0057"]}, "N": {"morpho": ["n-s---fn2-"], "uri": []}},
     "GALLINACEVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["g0058"]}}, "GALLVS": {

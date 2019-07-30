@@ -1704,11 +1704,9 @@ class CylleneusHit(Hit):
         results = sorted(self.annotation_filter(query), key=lambda x: x.startchar)
 
         if config.DEBUG:
-            print_debug(config.DEBUG, "Query:", query)
+            print_debug(config.DEBUG, "Query: {}".format(query))
             print_debug(config.DEBUG, "Pre-filtered fragments: {}".format(results))
 
-        # TODO: Merge fragments based on referencing values when char positions
-        #   are unavailable?
         # Merge overlapping and adjacent (multi-field) fragments
         combined = []
         merged = []
