@@ -269,12 +269,14 @@ class CylleneusHighlighter(object):
             # Sort fragments by position in text, preferring standard references
             #   to char positions
             if hasattr(t, 'meta'):
-                # divs = hitobj['meta'].split('-')
-                print('Pre-sort', tokens)
-                tokens.sort(key=lambda t: tuple([v for v in t.meta.values()]))
-                # TODO: or use only values corresponding to a div?
-                # v for k, v in t.meta.items() if k in divs
-                print('Post-sort', tokens)
+                # FIXME: some refs may be alphanumeric?
+                tokens.sort(
+                    key=lambda t: tuple(
+                    [
+                        int(v)
+                        for k, v in t.meta.items()
+                        if k not in ['meta', 'sent_id']
+                    ]))
             else:
                 tokens = [max(group, key=lambda t: t.endchar - t.startchar)
                           for key, group in groupby(tokens, lambda t: t.startchar)]

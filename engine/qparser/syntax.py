@@ -443,7 +443,7 @@ class AnnotationNode(TextNode):
     def __init__(self, text):
         self.fieldname = 'annotation'
         self.text = text
-        self.boost = 1.0  # FIXME: 2.0?
+        self.boost = 1.0
 
     def __repr__(self):
         r = "<"
@@ -467,7 +467,7 @@ class MorphosyntaxNode(TextNode):
     def __init__(self, text):
         self.fieldname = 'morphosyntax'
         self.text = text
-        self.boost = 1.0  # FIXME: 2.0?
+        self.boost = 1.0
 
     def __repr__(self):
         r = "<"

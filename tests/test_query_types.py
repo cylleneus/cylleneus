@@ -25,7 +25,7 @@ class TestQueryTypes(unittest.TestCase):
         """Tear down test fixtures, if any."""
 
     def test_query_types(self):
-        """Test query types."""
+        """Test permissible query types."""
 
         queries = [
             "'sed'",

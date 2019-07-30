@@ -56,7 +56,7 @@ def get(hit, meta, fragment):
         joiner = '\n\n'
     else:
         joiner = ' '
-    return f'{joiner}'.join([*pre, *parts, *post])  # FIXME: text divisions
+    return f'{joiner}'.join([*pre, *parts, *post])
 
 
 index = {0: {'author': 'Ammianus Marcellinus',
