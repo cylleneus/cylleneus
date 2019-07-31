@@ -1140,14 +1140,14 @@ class CachedPerseusJSONTokenizer(Tokenizer):
 
                     divs = { i: div.lower() for i, div in enumerate(value['meta'].split('-')) }
 
-
                     sect_sent = 0
                     prev_sect = 0
                     sect_pos = 0
                     sent_id = 0
                     for i, (path, text) in enumerate(nested_dict_iter(value['text'])):
                         sent_id = i
-                        if path[-2] > prev_sect:
+                        print(path)
+                        if len(path) >= 2 and path[-2] > prev_sect:
                             sect_sent = 0
                             sect_pos = 0
                             prev_sect = path[-2]
@@ -1173,8 +1173,9 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                                     tokens.append(token)
 
                         pos = 0
-                        for j, token in enumerate(tokens):
-                            sent_pos = j
+                        sent_pos = 0
+                        for token in tokens:
+                            sent_pos += 1
                             sect_pos += 1
 
                             meta = {
@@ -1182,11 +1183,6 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                             }
                             for i in range(len(divs)):
                                 meta[divs[i]] = str(int(path[i]))
-                            meta['sect_sent'] = sect_sent
-                            meta['sect_pos'] = sect_pos
-                            meta['sent_id'] = sent_id
-                            meta['sent_pos'] = sent_pos
-                            t.meta = meta
 
                             t.boost = 1.0
                             if keeporiginal:
@@ -1215,8 +1211,16 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                             if ndiff:
                                 token = ntoken
                             if not token:
+                                sent_pos -= 1
+                                sect_pos -= 1
                                 start_char += original_length
                                 continue
+
+                            meta['sect_sent'] = sect_sent
+                            meta['sect_pos'] = sect_pos
+                            meta['sent_id'] = sent_id
+                            meta['sent_pos'] = sent_pos
+                            t.meta = meta
 
                             is_enclitic = False
                             if token not in exceptions:
