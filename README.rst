@@ -233,9 +233,6 @@ To Do
 
 In no particular order...
 
-* fix CTS sourcing for multi-line results
-* variable context-length specification
-* ``/::`` returns results for the target lemma
 * use Scaife Viewer as search front-end
 * Perseus CTS alignment for corpora with non-standard text annotations
 * complete PROIEL indexing pipeline
