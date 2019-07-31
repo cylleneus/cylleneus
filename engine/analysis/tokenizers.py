@@ -1624,8 +1624,6 @@ class CachedLASLATokenizer(Tokenizer):
                                     t.lemma = parsed['lemma']
                                     t.lemma_n = parsed['lemma_n']
                                     t.original = added.sub('', parsed['form'])
-                                    t.text = t.original
-                                    yield t  # make elements searchable
                                     t.text = parsed['form'].translate(punctmap)
                                 else:
                                     form = parsed['form']
@@ -1641,8 +1639,6 @@ class CachedLASLATokenizer(Tokenizer):
                                     t.lemma_n = parsed['lemma_n']
                                     if added.search(parsed['form']):
                                         t.original = added.sub('', parsed['form'])
-                                    t.text = t.original
-                                    yield t  # make elements searchable
                                     t.text = text.translate(punctmap)
                                     nflag = False
                             else:
@@ -1699,6 +1695,12 @@ class CachedLASLATokenizer(Tokenizer):
 
                         t.startchar = start_char
                         t.endchar = start_char + len(t.original)
+
+                        if t.text != t.original:
+                            tc = copy.deepcopy(t)
+                            tc.text = t.original
+                            yield tc
+
                         yield t
                         sent_pos += 1
                         start_char += len(t.original) + 1
