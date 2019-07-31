@@ -54,9 +54,9 @@ class Corpus:
 
     def fetch(self, hit, meta, fragment):
         work = Work(self, hit)
-        reference, text = work.get(meta, fragment)
+        (reference, hlite), text = work.get(meta, fragment)
 
-        return work.author, work.title, reference, text
+        return work.author, work.title, (reference, hlite), text
 
 
 get_router = {
@@ -123,9 +123,12 @@ class Work:
                 [f"{item}: {meta['end'][item]}" for item in meta['end'] if item in divs]
             )
             reference = '-'.join([start, end]) if end != start else start
+            hlite = [meta['start'][item] for item in meta['start'] if item not in divs], \
+                    [meta['end'][item] for item in meta['end'] if item not in divs]
         else:
             reference = None
-        return reference, text
+            hlite = None
+        return (reference, hlite), text
 
 
 # class Author:

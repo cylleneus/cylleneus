@@ -105,8 +105,8 @@ class Search:
     def highlights(self):
         if self.results:
             for hit, meta, fragment in self.results:
-                author, title, reference, text = self.corpus.fetch(hit, meta, fragment)
-                yield author, title, reference, text
+                author, title, (reference, hlite), text = self.corpus.fetch(hit, meta, fragment)
+                yield author, title, (reference, hlite), text
 
     @property
     def param(self):

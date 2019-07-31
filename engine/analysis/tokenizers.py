@@ -543,7 +543,9 @@ class CachedPlainTextTokenizer(Tokenizer):
                     stopchars = str.maketrans('', '', string.punctuation.replace('-', ''))
 
                     tokens = []
-                    for sent in sents:
+                    sent_id = 0
+                    for i, sent in enumerate(sents):
+                        sent_id += i
                         temp_tokens = word_tokenizer.word_tokenize(sent)
 
                         if temp_tokens:
@@ -573,6 +575,12 @@ class CachedPlainTextTokenizer(Tokenizer):
                                 else:
                                     skipflag = False
                     for pos, token in enumerate(tokens):
+                        sent_pos = pos
+
+                        t.meta = {
+                            'sent_id': sent_id,
+                            'sent_pos': sent_pos
+                        }
                         t.boost = 1.0
                         if keeporiginal:
                             t.original = token
@@ -1132,7 +1140,17 @@ class CachedPerseusJSONTokenizer(Tokenizer):
 
                     divs = { i: div.lower() for i, div in enumerate(value['meta'].split('-')) }
 
-                    for path, text in nested_dict_iter(value['text']):
+
+                    sect_sent = 0
+                    prev_sect = 0
+                    sect_pos = 0
+                    sent_id = 0
+                    for i, (path, text) in enumerate(nested_dict_iter(value['text'])):
+                        sent_id = i
+                        if path[-2] > prev_sect:
+                            sect_sent = 0
+                            sect_pos = 0
+                            prev_sect = path[-2]
                         tokens = []
 
                         temp_tokens = word_tokenizer.word_tokenize(text)
@@ -1155,21 +1173,30 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                                     tokens.append(token)
 
                         pos = 0
-                        for token in tokens:
-                            if token in (' ', '\n') or token in punctuation or token in stopchars:
-                                pos -= 1
-                            else:
-                                pos += 2
+                        for j, token in enumerate(tokens):
+                            sent_pos = j
+                            sect_pos += 1
+
                             meta = {
                                 'meta': value['meta'].lower()
                             }
                             for i in range(len(divs)):
                                 meta[divs[i]] = str(int(path[i]))
+                            meta['sect_sent'] = sect_sent
+                            meta['sect_pos'] = sect_pos
+                            meta['sent_id'] = sent_id
+                            meta['sent_pos'] = sent_pos
                             t.meta = meta
+
                             t.boost = 1.0
                             if keeporiginal:
                                 t.original = token
                             t.stopped = False
+
+                            if token in (' ', '\n') or token in punctuation or token in stopchars:
+                                pos -= 1
+                            else:
+                                pos += 2
                             if positions:
                                 t.pos = start_pos + pos
                             original_length = len(token)
@@ -1294,7 +1321,8 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                                 if chars:
                                     t.startchar = start_char + ldiff
                                     t.endchar = start_char + original_length - rdiff  # - ndiff - rdiff
-                                if mode == 'index': self._cache.append(copy.copy(t))
+                                if mode == 'index':
+                                    self._cache.append(copy.copy(t))
                                 yield t
                             start_char += original_length
                         start_char += 1
@@ -1588,15 +1616,16 @@ class CachedLASLATokenizer(Tokenizer):
                     t.boost = 1.0
                     t.pos = t.startchar = t.endchar = 0
 
-                    sect_sent = 1  # sentence count within passage
+                    sect_sent = 0  # sentence count within passage
                     sent_id = '0001'
-                    sect_pos = 1   # word pos within passage
-                    sent_pos = 1    # word pos within sentence
+                    sect_pos = 0   # word pos within passage
+                    sent_pos = 0    # word pos within sentence
                     current_refs = tuple(['0'] * len(value['meta']))
                     nflag = None
                     morpho_buffer = None
                     for pos, line in enumerate(value['text']):
                         t.pos = pos
+
                         parsed = parse_bpn(line)
 
                         if not parsed:
@@ -1605,8 +1634,9 @@ class CachedLASLATokenizer(Tokenizer):
                         if int(parsed['sent_id']) > int(sent_id):
                             sent_pos = 1
                             sent_id = parsed['sent_id']
-                            if tuple(parsed['refs'].split(',')) > current_refs:
+                            if tuple([int(i) for i in parsed['refs'].split(',')]) > current_refs:
                                 sect_sent = 1
+                                sect_pos = 1
                             else:
                                 sect_sent += 1
 
@@ -1643,9 +1673,11 @@ class CachedLASLATokenizer(Tokenizer):
                                     nflag = False
                             else:
                                 # could be a Greek form, do we index it?
-                                sent_pos += 1
-                                sect_pos += 1
-                                continue
+                                t.morpho = ''
+                                t.lemma = ''
+                                t.lemma_n = ''
+                                t.original = added.sub('', parsed['form'])
+                                t.text = parsed['form'].translate(punctmap)
                         elif parsed['form_code'] == '@':  # combined forms
                             if parsed['lemma'] != '#':
                                 t.lemma = parsed['lemma']
@@ -1679,20 +1711,16 @@ class CachedLASLATokenizer(Tokenizer):
                         refs = tuple(parsed['refs'].strip().split(','))
                         for i in range(len(divs)):
                             meta[divs[i]] = refs[i]
-                        _meta = meta.copy()
-                        if tuple(ref for ref in _meta.values()) > current_refs:
-                            sect_pos = 1
-                        else:
-                            sect_pos += 1
 
-                        current_refs = tuple(ref for ref in refs)
-                        meta['sent_id'] = parsed['sent_id']
-                        meta['sect_sent'] = str(sect_sent)
-                        meta['sect_pos'] = str(sect_pos)
-                        meta['sent_pos'] = str(sent_pos)
-                        t.meta = meta
+                        current_refs = tuple([int(ref) for ref in refs])
+
                         t.morphosyntax = parsed['subord']
 
+                        meta['sect_sent'] = str(sect_sent)
+                        meta['sect_pos'] = str(sect_pos)
+                        meta['sent_id'] = parsed['sent_id']
+                        meta['sent_pos'] = str(sent_pos)
+                        t.meta = meta
                         t.startchar = start_char
                         t.endchar = start_char + len(t.original)
 
@@ -1703,6 +1731,7 @@ class CachedLASLATokenizer(Tokenizer):
 
                         yield t
                         sent_pos += 1
+                        sect_pos += 1
                         start_char += len(t.original) + 1
 
 
