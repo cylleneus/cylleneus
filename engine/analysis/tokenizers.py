@@ -1146,7 +1146,6 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                     sent_id = 0
                     for i, (path, text) in enumerate(nested_dict_iter(value['text'])):
                         sent_id = i
-                        print(path)
                         if len(path) >= 2 and int(path[-2]) > prev_sect:
                             sect_sent = 0
                             sect_pos = 0
