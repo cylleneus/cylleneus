@@ -1812,17 +1812,57 @@ class CylleneusHit(Hit):
                 for div in divs:
                     startmeta[div] = getattr(fragment.matches[0], 'meta')[div]
                     endmeta[div] = getattr(fragment.matches[-1], 'meta')[div]
-                if 'sent_id' in getattr(fragment.matches[0], 'meta'):
-                    startmeta['sent_id'] = getattr(fragment.matches[0], 'meta')['sent_id']
-                    startmeta['sent_pos'] = getattr(fragment.matches[0], 'meta')['sent_pos']
-                if 'sent_id' in getattr(fragment.matches[-1], 'meta'):
-                    endmeta['sent_id'] = getattr(fragment.matches[-1], 'meta')['sent_id']
-                    endmeta['sent_pos'] = getattr(fragment.matches[-1], 'meta')['sent_pos']
 
+                # Sentence in section
+                if 'sect_sent' in getattr(fragment.matches[0], 'meta'):
+                    startmeta['sect_sent'] = getattr(fragment.matches[0], 'meta')['sect_pos']
+                else:
+                    startmeta['sect_sent'] = None
+                if 'sect_sent' in getattr(fragment.matches[-1], 'meta'):
+                    endmeta['sect_sent'] = getattr(fragment.matches[-1], 'meta')['sect_pos']
+                else:
+                    endmeta['sect_sent'] = None
+
+                # Position in section
                 if 'sect_pos' in getattr(fragment.matches[0], 'meta'):
                     startmeta['sect_pos'] = getattr(fragment.matches[0], 'meta')['sect_pos']
+                else:
+                    startmeta['sect_pos'] = None
                 if 'sect_pos' in getattr(fragment.matches[-1], 'meta'):
                     endmeta['sect_pos'] = getattr(fragment.matches[-1], 'meta')['sect_pos']
+                else:
+                    endmeta['sect_pos'] = None
+
+                # Sentence id
+                if 'sent_id' in getattr(fragment.matches[0], 'meta'):
+                    startmeta['sent_id'] = getattr(fragment.matches[0], 'meta')['sent_id']
+                else:
+                    startmeta['sent_id'] = None
+                if 'sent_id' in getattr(fragment.matches[-1], 'meta'):
+                    endmeta['sent_id'] = getattr(fragment.matches[-1], 'meta')['sent_id']
+                else:
+                    endmeta['sent_id'] = None
+
+                # Position in sentence
+                if 'sent_pos' in getattr(fragment.matches[0], 'meta'):
+                    startmeta['sent_pos'] = getattr(fragment.matches[0], 'meta')['sent_pos']
+                else:
+                    startmeta['sent_pos'] = None
+                if 'sent_pos' in getattr(fragment.matches[-1], 'meta'):
+                    endmeta['sent_pos'] = getattr(fragment.matches[-1], 'meta')['sent_pos']
+                else:
+                    endmeta['sent_pos'] = None
+
+                # Absolute position
+                startmeta['startchar'] = getattr(fragment.matches[0], 'startchar', None)
+                startmeta['endchar'] = getattr(fragment.matches[0], 'endchar', None)
+                startmeta['pos'] = getattr(fragment.matches[0], 'pos', None)
+
+                endmeta['startchar'] = getattr(fragment.matches[-1], 'startchar', None)
+                endmeta['endchar'] = getattr(fragment.matches[-1], 'endchar', None)
+                endmeta['pos'] = getattr(fragment.matches[-1], 'pos', None)
+
+                # Extra
                 if 'act' in getattr(fragment.matches[0], 'meta'):
                     startmeta['act'] = getattr(fragment.matches[0], 'meta')['act']
                     startmeta['scene'] = getattr(fragment.matches[0], 'meta')['scene']
@@ -1839,7 +1879,10 @@ class CylleneusHit(Hit):
         if self.get('meta', False):
             fragments = sorted(
                 list(fragments),
-                key=lambda x: tuple(int(n) for n in x[1].meta['start'].values())
+                key=lambda x: tuple(
+                    int(n) if n is not None else 0
+                    for n in x[1].meta['start'].values()
+                )
             )
         else:
             fragments = sorted(

@@ -13,11 +13,18 @@ def get(hit, meta, fragment):
     ) as fp:
         doc = json.load(fp)
 
-    text = doc['text']
     divs = meta['meta'].split('-')
 
-    start = [int(i) for i in meta['start'].values()]
-    end = [int(i) for i in meta['end'].values()]
+    start = [
+        int(v)
+        for k, v in meta['start'].items()
+        if k in divs
+    ]
+    end = [
+        int(v)
+        for k, v in meta['end'].items()
+        if k in divs
+    ]
 
     pre_start = start[:-1] + [(start[-1] - config.LINES_OF_CONTEXT),]
     pre_end = start[:-1] + [(start[-1] - 1),]
@@ -28,35 +35,38 @@ def get(hit, meta, fragment):
             try:
                 text = text[str(div)]
             except KeyError:
+                text = None
                 break
-        pre.append(text)
+        if text:
+            pre.append(f"<pre>{text}</pre>")
 
-    parts = []
+    match = []
     for ref in nrange(start, end):
         text = doc['text']
 
         for div in ref:
             text = text[str(div)]
-        parts.append(text)
+        match.append(f"<match>{text}</match>")
 
     post_start = end[:-1] + [(end[-1] + 1), ]
     post_end = end[:-1] + [(end[-1] + config.LINES_OF_CONTEXT), ]
     post = []
     for ref in nrange(post_start, post_end):
         text = doc['text']
-
         for div in ref:
             try:
                 text = text[str(div)]
             except KeyError:
+                text = None
                 break
-        post.append(text)
+        if text:
+            post.append(f"<post>{text}</post>")
 
     if 'poem' in divs or divs[-1] == 'verse':
         joiner = '\n\n'
     else:
         joiner = ' '
-    return f'{joiner}'.join([*pre, *parts, *post])
+    return f'{joiner}'.join([*pre, *match, *post])
 
 
 index = {0: {'author': 'Ammianus Marcellinus',

@@ -5,9 +5,6 @@
 
 
 import unittest
-import re
-from engine.analysis.tokenizers import CachedLASLATokenizer
-from random import choice
 
 
 class TestLASLATokenizer(unittest.TestCase):
@@ -25,24 +22,22 @@ class TestLASLATokenizer(unittest.TestCase):
         # lasla = pathlib.Path('tests/text/lasla/')
         # files = list(lasla.glob('*.BPN'))
         #
-        # with codecs.open(choice(files), 'r', 'utf8') as f:
-        #     doc = f.readlines()
+        # with codecs.open(choice(files), 'r', 'utf8') as file:
+        #     doc = file.readlines()
         #
-        # file_author, file_title, abbrev = file.name.rstrip('.BPN').split('_')
+        # filename = pathlib.Path(file.name).name
+        # file_author, file_title, abbrev = filename.rstrip('.BPN').split('_')
         #
-        # uids = FILE_TAB[file_author][file_title]
+        # uids = corpus.lasla.FILE_TAB[file_author][file_title]
         # if len(uids) > 1 and abbrev[-1].isdigit():
         #     i = int(re.search(r"(\d+)$", abbrev).group(1)) - 1
         #     uid = uids[i]
         # else:
         #     uid = uids[0]
-        # author = AUTHOR_TAB[uid[0]]['author']
-        # codes = AUTHOR_TAB[uid[0]]['code']
+        # codes = corpus.lasla.AUTHOR_TAB[uid[0]]['code']
         # for code in codes:
-        #     if uid[1:] in AUTHOR_TAB[uid[0]][code]:
-        #         joined_code = code + '.' + AUTHOR_TAB[uid[0]][code][uid[1:]]['code']
-        #         title = AUTHOR_TAB[uid[0]][code][uid[1:]]['title']
-        #         meta = AUTHOR_TAB[uid[0]][code][uid[1:]]['meta']
+        #     if uid[1:] in corpus.lasla.AUTHOR_TAB[uid[0]][code]:
+        #         meta = corpus.lasla.AUTHOR_TAB[uid[0]][code][uid[1:]]['meta']
         #
         # T = CachedLASLATokenizer()
         # for t in T({"text": doc, "meta": meta}, mode='index'):
