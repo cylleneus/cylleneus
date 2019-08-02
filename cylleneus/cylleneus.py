@@ -149,7 +149,7 @@ def show(n: int = None):
     if target.results:
         ctitle = None
         counter = 1
-        for author, title, (reference, hlite), text in target.highlights:
+        for author, title, reference, text in target.highlights:
             if ctitle != title:
                 repl.success(Palette.BOLD.format(f"{author}, {title}"))
                 ctitle = title
@@ -158,42 +158,34 @@ def show(n: int = None):
                 reference = counter
             repl.info(Palette.GREY.format(f"{reference}:"))
 
-            if hlite:
-                start, end = hlite
-            else:
-                start = end = [None,]
             if text:
+                # Process pre-match context
                 text = re.sub(
                     r"<pre>(.*?)</pre>",
                     r"\1",
-                    text
+                    text,
+                    flags=re.DOTALL
                 )
+                # Process post-match context
                 text = re.sub(
                     r"<post>(.*?)</post>",
                     r"\1",
-                    text
-                )
-                match = re.search(
-                    r"<match>(.*?)</match>",
                     text,
                     flags=re.DOTALL
-                ).group(1)
-                print(start, end)
-                hlited = ' '.join([
-                    Palette.CYAN.format(t)
-                    if (
-                           start[-4] and i + 1 == int(start[-4])
-                       )
-                       or (
-                           end[-4] and i + 1 == int(end[-4])
-                       )
-                    else t
-                    for i, t in enumerate(match.split())
-                ])
+                )
+                # Process match
                 text = re.sub(
-                    r"<match>.*?</match>",
-                    hlited,
-                    text
+                    r"<match>(.*?)</match>",
+                    r"\1",
+                    text,
+                    flags=re.DOTALL
+                )
+                # Highlight emphasized matching text
+                text = re.sub(
+                    r"<em>(.*?)</em>",
+                    Palette.CYAN.format(r"\1"),
+                    text,
+                    flags=re.DOTALL
                 )
                 for line in parawrap.wrap(text):
                     if line:

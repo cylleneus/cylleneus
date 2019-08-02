@@ -6,9 +6,10 @@ from pathlib import Path
 
 import click
 from corpus import Corpus
-from cylleneus import cylleneus
 from index import Indexer
 from search import CylleneusSearcher
+
+from cylleneus import cylleneus
 
 
 @click.group()
@@ -31,7 +32,7 @@ def index(corpus):
     if docs:
         for docnum, doc in docs:
             if 'author' in doc and 'title' in doc:
-                click.echo(f"[{docnum}] {doc['author']}, {doc['title']}")
+                click.echo(f"[{docnum}] {doc['author']}, {doc['title']} [{doc['filename']}]")
             else:
                 click.echo(f"[{docnum}] {doc['filename']}")
     else:

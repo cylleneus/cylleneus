@@ -12,6 +12,18 @@ def get(hit, meta, fragment):
 
     divs = meta['meta'].split('-')
 
+    # Reference and hlite values
+    ref_start = ', '.join(
+        [f"{item}: {meta['start'][item]}" for item in meta['start'] if item in divs]
+    )
+    ref_end = ', '.join(
+        [f"{item}: {meta['end'][item]}" for item in meta['end'] if item in divs]
+    )
+    reference = '-'.join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    hlite_start = [meta['start'][item] for item in meta['start'] if item not in divs]
+    hlite_end = [meta['end'][item] for item in meta['end'] if item not in divs]
+
+    # Collect text and context
     start = [
         int(meta['start'][div])
         for div in divs
@@ -45,7 +57,15 @@ def get(hit, meta, fragment):
             text = "NULL"
         else:
             text = passage.export(Mimetypes.PLAINTEXT)
-        match.append(f"<match>{text}</match>")
+        if text != "NULL":
+            text = [
+                f"<em>{t}</em"
+                if (hlite_start[-4] and i + 1 == int(hlite_start[-4]))
+                or (hlite_end[-4] and i + 1 == int(hlite_end[-4]))
+                else t
+                for i, t in enumerate(text.split())
+            ]
+        match.append(f"<match>{' '.join(text)}</match>")
 
     post = []
     post_start = end[:-1] + [(end[-1] + 1),]  # to avoid overlap
@@ -60,12 +80,13 @@ def get(hit, meta, fragment):
             text = passage.export(Mimetypes.PLAINTEXT)
             post.append(f"<post>{text}</post>")
 
-    if 'poem' in divs or divs[-1] == 'verse':
+    if 'poem' in divs or (len(divs) == 2 and divs[-1] in ['line', 'verse']):
         joiner = '\n\n'
     else:
         joiner = ' '
-    return f'{joiner}'.join([*pre, *match, *post])
+    text = f'{joiner}'.join([*pre, *match, *post])
 
+    return reference, text
 
 subord = {"main clause": ["00"], "paratactic subjunctive": ["AA"], "paratactic subjunctive in interrogative clause": ["AB"], "ablative absolute": ["AD", "AE"], "infinitive clause": ["AG"], "AC": ["AK"], "ATQVE": ["AK"], "AN": ["AW"], "ANNE": ["BD"], "ANTEQVAM": ["BK"], "ANTEAQVAM": ["BK"], "adverbial or subordinating conjunction,": ["BL"], "CEV": ["BL"], "CVIVS": ["BM"], "CVIVSMODI": ["BM"], "CVM": ["BN"], "CVICVIMODI": ["BO"], "CVMCVMQVE": ["BS"], "interrogative": ["BX", "DG", "FN", "GA", "GF", "GK", "GS", "HG", "JG", "JJ", "JN", "JX", "KG", "KS", "LD", "LK", "PA", "PS", "RG", "RS", "WX", "YA"], "CVR": ["BX"], "DONEC": ["CA"], "DVM": ["CD"], "DVMMODO": ["CG"], "ECQVIS": ["CL"], "ECQVID": ["CL"], "ECQVISNAM": ["CM"], "ECQVIDNAM": ["CM"], "ETIAMSI": ["CN"], "ECQVANDO": ["CR"], "ETSI": ["CS"], "LICET": ["CX"], "MODO": ["DA"], "subordinating conjunction": ["DD", "HX", "KX", "LE", "MK", "NN", "SX", "TB", "WK", "XK", "ZE"], "NE": ["DD", "DG"], "NECNE": ["DP", "DS"], "NEC": ["DR"], "NECVBI": ["DT"], "NEDVM": ["DX"], "NEVE": ["EA"], "NEV": ["EA"], "NI": ["ED"], "NISI": ["EG"], "NONNE": ["EK"], "NVM": ["EN"], "NVMQVIS": ["EP"], "NVMQVID": ["EP"], "NVMQVANDO": ["EQ"], "POSTQVAM": ["ES"], "POSTEAQVAM": ["ES"], "PRAETERQVAM": ["EY"], "PRAEVT": ["EZ"], "PRIVSQVAM": ["FA"], "PROQVAM": ["FD"], "PROVT": ["FG"], "relative": ["FK", "FX", "GE", "GG", "GN", "HD", "JF", "JH", "JK", "JS", "KD", "KN", "LA", "LG", "NX", "PN", "RD", "RN", "SG", "WS", "XX"], "QVA": ["FK", "FN"], "QVACVMQVE": ["FS"], "QVALIS": ["FX", "GA"], "QVALISCVMQVE": ["GD"], "QVALITER": ["GE", "GF"], "QVAM": ["GG", "GK"], "QVAMDIV": ["GN", "GS"], "QVAMDVDVM": ["GX"], "QVAMLIBET": ["HA"], "QVAMOBREM": ["HD", "HG"], "QVAMQVAM": ["HK"], "QVAMVIS": ["HN"], "QVANAM": ["HP"], "interrogative adverb": ["HS", "MA", "SW", "WG", "XG"], "QVANDO": ["HS", "HX"], "QVANDOCVMQVE": ["JA"], "QVANDOQVE": ["JD"], "QVANDOQVIDEM": ["JE"], "QVANTILLVS": ["JF", "JG"], "QVANTO": ["JH", "JJ"], "QVANTOPERE": ["JK", "JN"], "QVANTVLVS": ["JS", "JX"], "QVANTVLVSLIBET": ["JZ"], "QVANTVLVSCVMQVE": ["KA"], "QVANTVS": ["KD", "KG"], "QVANTVM": ["KD", "KG"], "QVANTVSCVMQVE": ["KK"], "QVAPROPTER": ["KL"], "QVARE": ["KN", "KS"], "relative adverb": ["KW", "LX", "TA", "WD", "XD"], "QVASI": ["KW", "KX"], "QVATENVS": ["LA", "LD", "LE"], "QVEMADMODVM": ["LG", "LK"], "pronom relative": ["LN"], "QVI": ["LN", "LS", "LX", "MA"], "pronom interrogative": ["LS"], "QVIA": ["MD"], "QVICVMQVE": ["MG"], "QVIN": ["MK"], "quin": ["ML"], "NON": ["ML"], "QVIPPE": ["MN"], "QVIS": ["MS"], "QVID": ["MS"], "QVISNAM": ["MX"], "QVIDNAM": ["MX"], "QVISQVE": ["MY"], "QVISQVIS": ["NA"], "adv. lieu relative": ["ND"], "QVO": ["ND", "NG", "NK", "NN"], "adv. lieu interrogative": ["NG"], "abl. diff. mes.": ["NK"], "QVOAD": ["NX", "PA"], "QVOADVSQVE": ["PC"], "QVOCVMQVE": ["PD"], "QVOD": ["PG"], "QVOMINVS": ["PK"], "QVOMODO": ["PN", "PS"], "QVOMODOCVMQVE": ["PT"], "QVONAM": ["PU"], "QVONIAM": ["PX"], "QVOQVO": ["RA"], "QVORSVS": ["RB"], "QVOT": ["RD", "RG"], "QVOTCVMQVE": ["RK"], "QVOTIENS": ["RN", "RS"], "QVOTIENSCVMQVE": ["RX"], "QVOTQVOT": ["SA"], "QVOTVS": ["SD"], "QVOTVSCVMQVE": ["SG"], "QVOTVSQVISQVE": ["SK"], "QVOVSQVE": ["SN"], "SEV": ["SS"], "SI": ["SW", "SX"], "SICVBI": ["SY"], "SICVNDE": ["SZ"], "SICVT": ["TA", "TB"], "SICVTI": ["TA", "TB"], "SIMVL": ["TC"], "SIMVLAC": ["TD"], "SIMVLATQVE": ["TD"], "SIN": ["TG"], "SIQVIDEM": ["TK"], "SIVE": ["TN"], "TAMENETSI": ["TR"], "TAMETSI": ["TS"], "TAMQVAM": ["TX"], "VBI": ["WD", "WG", "WK"], "VBICVMQVE": ["WN"], "VBINAM": ["WP"], "VBIVBI": ["WQ"], "VNDE": ["WS", "WX"], "VNDECVMQVE": ["XA"], "VSQVEQVO": ["XC"], "VT": ["XD", "XG", "XK"], "VTI": ["XD", "XG", "XK"], "VTCVMQVE": ["XS"], "VTER": ["XX", "YA"], "VTERCVMQVE": ["YD"], "VTQVI": ["YS"], "VTRVM": ["YW"], "VTRVMNE": ["YZ"], "adverbial": ["ZD"], "VELVT": ["ZD", "ZE"], "VELVTI": ["ZD", "ZE"]}
 
@@ -321,7 +342,7 @@ GROUP = {
     "5": { "group": "3", "stem": "-" },
     "6": { "group": "-", "stem": "-" },  # irregulars
     "7": { "group": "1", "stem": "g" },  # greek decl in -os, -on
-    " ": { "group": "-", "stem": "-" },  # unspecified 
+    " ": { "group": "-", "stem": "-" },  # unspecified
 },
 "D": {
 "1": { "group": "-", "stem": "-" },  # indecl except for unus, duo, tres
@@ -329,7 +350,7 @@ GROUP = {
 "3": { "group": "1", "stem": "-" },  # -eni
 "4": { "group": "3", "stem": "-" },  # -ex
 "5": { "group": "-", "stem": "-" },  # adverbs
-"6": { "group": "-", "stem": "-" }, 
+"6": { "group": "-", "stem": "-" },
 },
 }
 

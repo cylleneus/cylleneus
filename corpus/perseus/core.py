@@ -15,6 +15,18 @@ def get(hit, meta, fragment):
 
     divs = meta['meta'].split('-')
 
+    # Reference and hlite values
+    ref_start = ', '.join(
+        [f"{item}: {meta['start'][item]}" for item in meta['start'] if item in divs]
+    )
+    ref_end = ', '.join(
+        [f"{item}: {meta['end'][item]}" for item in meta['end'] if item in divs]
+    )
+    reference = '-'.join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    hlite_start = [meta['start'][item] for item in meta['start'] if item not in divs]
+    hlite_end = [meta['end'][item] for item in meta['end'] if item not in divs]
+
+    # Collect text and context
     start = [
         int(v)
         for k, v in meta['start'].items()
@@ -30,43 +42,52 @@ def get(hit, meta, fragment):
     pre_end = start[:-1] + [(start[-1] - 1),]
     pre = []
     for ref in nrange(pre_start, pre_end):
-        text = doc['text']
+        content = doc['text']
         for div in ref:
             try:
-                text = text[str(div)]
+                content = content[str(div)]
             except KeyError:
-                text = None
+                content = None
                 break
-        if text:
-            pre.append(f"<pre>{text}</pre>")
+        if content:
+            pre.append(f"<pre>{content}</pre>")
 
     match = []
     for ref in nrange(start, end):
-        text = doc['text']
+        content = doc['text']
 
         for div in ref:
-            text = text[str(div)]
-        match.append(f"<match>{text}</match>")
+            content = content[str(div)]
+        content = [
+            f"<em>{t}</em>"
+            if (hlite_start[-1] and i + 1 == int(hlite_start[-1]))
+               or (hlite_end[-1] and i + 1 == int(hlite_end[-1]))
+            else t
+            for i, t in enumerate(content.split())
+        ]
+        match.append(f"<match>{' '.join(content)}</match>")
 
     post_start = end[:-1] + [(end[-1] + 1), ]
     post_end = end[:-1] + [(end[-1] + config.LINES_OF_CONTEXT), ]
     post = []
     for ref in nrange(post_start, post_end):
-        text = doc['text']
+        content = doc['text']
         for div in ref:
             try:
-                text = text[str(div)]
+                content = content[str(div)]
             except KeyError:
-                text = None
+                content = None
                 break
-        if text:
-            post.append(f"<post>{text}</post>")
+        if content:
+            post.append(f"<post>{content}</post>")
 
-    if 'poem' in divs or divs[-1] == 'verse':
+    if 'poem' in divs or (len(divs) == 2 and divs[-1] in ['line', 'verse']):
         joiner = '\n\n'
     else:
         joiner = ' '
-    return f'{joiner}'.join([*pre, *match, *post])
+    text = f'{joiner}'.join([*pre, *match, *post])
+
+    return reference, text
 
 
 index = {0: {'author': 'Ammianus Marcellinus',

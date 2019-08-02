@@ -75,7 +75,7 @@ setup(
     include_package_data=True,
     keywords='cylleneus',
     name='cylleneus',
-    packages=find_packages(),
+    packages=find_packages(exclude=['corpus/lasla/text']),
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
