@@ -133,7 +133,8 @@ class Work:
                 [f"{k}: {v}" for k, v in meta['end'].items() if v]
             )
             reference = '-'.join([start, end]) if end != start else start
-            hlite = meta['start'].values(), meta['end'].values()
+            hlite = [v for v in meta['start'].values()], \
+                    [v for v in meta['end'].values()]
         else:
             reference = None
             hlite = None
