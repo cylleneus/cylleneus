@@ -8,5 +8,5 @@ if __name__ == '__main__':
     indexer = Indexer(Corpus('latin_library'))
     indexer.destroy()
 
-    for file in latin_library.glob('*.txt'):
+    for file in latin_library.glob('*/*.txt'):
         indexer.add(file)

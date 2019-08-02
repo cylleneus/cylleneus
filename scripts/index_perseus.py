@@ -7,5 +7,6 @@ if __name__ == '__main__':
     perseus = pathlib.Path('corpus/perseus/text/')
     indexer = Indexer(Corpus('perseus'))
     indexer.destroy()
-
-    indexer.add(perseus)
+    
+    for file in perseus.glob('*.json'):
+        indexer.add(file)

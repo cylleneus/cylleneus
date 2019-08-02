@@ -178,6 +178,7 @@ def show(n: int = None):
                     text,
                     flags=re.DOTALL
                 ).group(1)
+                print(start, end)
                 hlited = ' '.join([
                     Palette.CYAN.format(t)
                     if (

@@ -190,8 +190,8 @@ class LatinLibraryPreprocessor(Preprocessor):
     def parse(self, file: Path):
         from corpus.latin_library import FILE_TAB
 
-        author = FILE_TAB[file.relative_to('corpus/latin_library/text')]['author']
-        title = FILE_TAB[file.relative_to('corpus/latin_library/text')]['title']
+        author = FILE_TAB[str(file.relative_to('corpus/latin_library/text'))]['author']
+        title = FILE_TAB[str(file.relative_to('corpus/latin_library/text'))]['title']
 
         with codecs.open(file, 'r', 'utf8') as fp:
             doc = fp.read()
