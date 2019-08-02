@@ -1875,20 +1875,19 @@ class CylleneusHit(Hit):
         else:
             for score, fragment in filtered:
                 meta = {
-                    'meta': "sent-pos"
+                    'meta': None,
                 }
                 startmeta = {}
                 endmeta = {}
 
-                # Sentence id
-                if 'sent_id' in getattr(fragment.matches[0], 'meta'):
-                    startmeta['sent'] = getattr(fragment.matches[0], 'meta')['sent_id']
-                else:
-                    startmeta['sent'] = None
-                if 'sent_id' in getattr(fragment.matches[-1], 'meta'):
-                    endmeta['sent'] = getattr(fragment.matches[-1], 'meta')['sent_id']
-                else:
-                    endmeta['sent'] = None
+                startmeta['sect_sent'] = None
+                startmeta['sect_pos'] = None
+                startmeta['sent_id'] = None
+                startmeta['sent_pos'] = None
+                endmeta['sect_sent'] = None
+                endmeta['sect_pos'] = None
+                endmeta['sent_id'] = None
+                endmeta['sent_pos'] = None
 
                 # Absolute position
                 startmeta['startchar'] = getattr(fragment.matches[0], 'startchar', None)

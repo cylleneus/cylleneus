@@ -125,6 +125,15 @@ class Work:
             reference = '-'.join([start, end]) if end != start else start
             hlite = [meta['start'][item] for item in meta['start'] if item not in divs], \
                     [meta['end'][item] for item in meta['end'] if item not in divs]
+        elif meta:
+            start = ', '.join(
+                [f"{k}: {v}" for k, v in meta['start'].items() if v]
+            )
+            end = ', '.join(
+                [f"{k}: {v}" for k, v in meta['end'].items() if v]
+            )
+            reference = '-'.join([start, end]) if end != start else start
+            hlite = meta['start'].values(), meta['end'].values()
         else:
             reference = None
             hlite = None
