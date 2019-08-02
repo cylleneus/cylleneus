@@ -262,8 +262,8 @@ class CylleneusHighlighter(object):
                                                                   startchar=startchar, endchar=endchar, boost=boost,
                                                                   fieldname=field.__class__.__name__.lower())
 
-                    if hitobj.get('meta', False):
-                        t.meta = { item.split('=')[0]: item.split('=')[1] for item in meta[0] }
+                    # if hitobj.get('meta', False):
+                    t.meta = { item.split('=')[0]: item.split('=')[1] for item in meta[0] }
                     tokens.append(t)
 
             # Sort fragments by position in text, preferring standard references
