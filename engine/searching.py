@@ -1872,6 +1872,36 @@ class CylleneusHit(Hit):
                 meta['start'] = startmeta
                 meta['end'] = endmeta
                 fragment.meta = meta
+        else:
+            for score, fragment in filtered:
+                meta = {
+                    'meta': "sent-pos"
+                }
+                startmeta = {}
+                endmeta = {}
+
+                # Sentence id
+                if 'sent_id' in getattr(fragment.matches[0], 'meta'):
+                    startmeta['sent'] = getattr(fragment.matches[0], 'meta')['sent_id']
+                else:
+                    startmeta['sent'] = None
+                if 'sent_id' in getattr(fragment.matches[-1], 'meta'):
+                    endmeta['sent'] = getattr(fragment.matches[-1], 'meta')['sent_id']
+                else:
+                    endmeta['sent'] = None
+
+                # Absolute position
+                startmeta['startchar'] = getattr(fragment.matches[0], 'startchar', None)
+                startmeta['endchar'] = getattr(fragment.matches[0], 'endchar', None)
+                startmeta['pos'] = getattr(fragment.matches[0], 'pos', None)
+
+                endmeta['startchar'] = getattr(fragment.matches[-1], 'startchar', None)
+                endmeta['endchar'] = getattr(fragment.matches[-1], 'endchar', None)
+                endmeta['pos'] = getattr(fragment.matches[-1], 'pos', None)
+
+                meta['start'] = startmeta
+                meta['end'] = endmeta
+                fragment.meta = meta
         return filtered
 
     def highlights(self, fieldname, text=None, top=1000000, minscore=None):
