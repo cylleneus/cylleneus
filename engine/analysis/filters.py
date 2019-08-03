@@ -902,7 +902,7 @@ class CachedLASLALemmaFilter(Filter):
             jvmap = str.maketrans('jv', 'iu', '')
             for t in tokens:
                 if t.mode == 'index':
-                    if t.lemma is not None:
+                    if t.lemma:
                         lemma = t.lemma
                         ix = t.lemma_n if t.lemma_n.strip() else '-'
                         morphos = corpus.lasla.mapping[lemma][ix]['morpho']
