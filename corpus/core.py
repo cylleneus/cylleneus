@@ -111,34 +111,7 @@ class Work:
         return [d.lower() for d in self.meta.split('-')]
 
     def get(self, meta, fragment):
-        text = get_router[self.corpus.name](self.hit, meta, fragment)
-
-        if self.meta and meta:
-            divs = self.divs
-
-            start = ', '.join(
-                [f"{item}: {meta['start'][item]}" for item in meta['start'] if item in divs]
-            )
-            end = ', '.join(
-                [f"{item}: {meta['end'][item]}" for item in meta['end'] if item in divs]
-            )
-            reference = '-'.join([start, end]) if end != start else start
-            hlite = [meta['start'][item] for item in meta['start'] if item not in divs], \
-                    [meta['end'][item] for item in meta['end'] if item not in divs]
-        elif meta:
-            start = ', '.join(
-                [f"{k}: {v}" for k, v in meta['start'].items() if v]
-            )
-            end = ', '.join(
-                [f"{k}: {v}" for k, v in meta['end'].items() if v]
-            )
-            reference = '-'.join([start, end]) if end != start else start
-            hlite = [v for v in meta['start'].values()], \
-                    [v for v in meta['end'].values()]
-        else:
-            reference = None
-            hlite = None
-        return (reference, hlite), text
+        return get_router[self.corpus.name](self.hit, meta, fragment)
 
 
 # class Author:
