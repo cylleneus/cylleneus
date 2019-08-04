@@ -221,7 +221,7 @@ class LatinLibraryPreprocessor(Preprocessor):
             'synset': doc,
             'annotation': doc,
             'semfield': doc,
-            'filename': file.name,
+            'filename': str(file.relative_to('corpus/latin_library/text')),
             'datetime': datetime.now()
         }
 
