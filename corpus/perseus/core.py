@@ -58,6 +58,7 @@ def get(hit, meta, fragment):
 
         for div in ref:
             content = content[str(div)]
+
         content = [
             f"<em>{t}</em>"
             if (hlite_start[-1] and i + 1 == int(hlite_start[-1]))
