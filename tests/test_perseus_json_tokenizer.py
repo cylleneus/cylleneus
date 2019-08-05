@@ -4,6 +4,11 @@
 """Tests for `cylleneus` package."""
 
 import unittest
+# import pathlib
+# import codecs
+# from random import choice
+# import json
+# from engine.analysis.tokenizers import CachedPerseusJSONTokenizer
 
 
 class TestPerseusJSONTokenizer(unittest.TestCase):
@@ -18,7 +23,7 @@ class TestPerseusJSONTokenizer(unittest.TestCase):
     def test_perseus_json_tokenizer(self):
         """Test the Perseus JSON tokenizer."""
         pass
-        # perseus = pathlib.Path('tests/text/perseus')
+        # perseus = pathlib.Path('text/perseus')
         # files = list(perseus.glob('*.json'))
         #
         # with codecs.open(choice(files), 'r', 'utf8') as f:
