@@ -1174,9 +1174,6 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                         pos = 0
                         sent_pos = 0
                         for token in tokens:
-                            sent_pos += 1
-                            sect_pos += 1
-
                             meta = {
                                 'meta': value['meta'].lower()
                             }
@@ -1210,8 +1207,6 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                             if ndiff:
                                 token = ntoken
                             if not token:
-                                sent_pos -= 1
-                                sect_pos -= 1
                                 start_char += original_length
                                 continue
 
@@ -1328,7 +1323,10 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                                     self._cache.append(copy.copy(t))
                                 yield t
                             start_char += original_length
+                            sent_pos += 1
+                            sect_pos += 1
                         start_char += 1
+
 
 
 class CachedPerseusTEITokenizer(Tokenizer):

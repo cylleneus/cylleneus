@@ -54,9 +54,9 @@ class Corpus:
 
     def fetch(self, hit, meta, fragment):
         work = Work(self, hit)
-        (reference, hlite), text = work.get(meta, fragment)
+        reference, text = work.get(meta, fragment)
 
-        return work.author, work.title, (reference, hlite), text
+        return work.author, work.title, reference, text
 
 
 get_router = {

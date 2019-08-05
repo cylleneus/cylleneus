@@ -23,8 +23,8 @@ def get(hit, meta, fragment):
         [f"{item}: {meta['end'][item]}" for item in meta['end'] if item in divs]
     )
     reference = '-'.join([ref_start, ref_end]) if ref_end != ref_start else ref_start
-    hlite = [meta['start'][item] for item in meta['start'] if item not in divs], \
-            [meta['end'][item] for item in meta['end'] if item not in divs]
+    hlite_start = [meta['start'][item] for item in meta['start'] if item not in divs]
+    hlite_end = [meta['end'][item] for item in meta['end'] if item not in divs]
 
     # Collect text and context
     start = [
@@ -58,7 +58,15 @@ def get(hit, meta, fragment):
 
         for div in ref:
             content = content[str(div)]
-        match.append(f"<match>{content}</match>")
+
+        content = [
+            f"<em>{t}</em>"
+            if (hlite_start[-1] and i + 1 == int(hlite_start[-1]))
+               or (hlite_end[-1] and i + 1 == int(hlite_end[-1]))
+            else t
+            for i, t in enumerate(content.split())
+        ]
+        match.append(f"<match>{' '.join(content)}</match>")
 
     post_start = end[:-1] + [(end[-1] + 1), ]
     post_end = end[:-1] + [(end[-1] + config.LINES_OF_CONTEXT), ]
@@ -74,13 +82,13 @@ def get(hit, meta, fragment):
         if content:
             post.append(f"<post>{content}</post>")
 
-    if 'poem' in divs or divs[-1] == 'verse':
+    if 'poem' in divs or (len(divs) == 2 and divs[-1] in ['line', 'verse']):
         joiner = '\n\n'
     else:
         joiner = ' '
     text = f'{joiner}'.join([*pre, *match, *post])
 
-    return (reference, hlite), text
+    return reference, text
 
 
 index = {0: {'author': 'Ammianus Marcellinus',
