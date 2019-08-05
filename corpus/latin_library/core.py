@@ -8,7 +8,7 @@ import config
 def get(hit, meta, fragment):
     with codecs.open(
         Path(
-            config.ROOT_DIR + '/corpus/latin_library/text/sen/' + hit['filename']
+            config.ROOT_DIR + '/corpus/latin_library/text/' + hit['filename']
         )
     ) as fp:
         content = fp.read()

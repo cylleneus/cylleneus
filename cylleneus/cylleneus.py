@@ -148,14 +148,11 @@ def show(n: int = None):
 
     if target.results:
         ctitle = None
-        counter = 1
+
         for author, title, reference, text in target.highlights:
             if ctitle != title:
                 repl.success(Palette.BOLD.format(f"{author}, {title}"))
                 ctitle = title
-                counter = 1
-            if not reference:
-                reference = counter
             repl.info(Palette.GREY.format(f"{reference}:"))
 
             if text:
@@ -173,14 +170,14 @@ def show(n: int = None):
                     text,
                     flags=re.DOTALL
                 )
-                # Process match
+                # Process matched text
                 text = re.sub(
                     r"<match>(.*?)</match>",
                     r"\1",
                     text,
                     flags=re.DOTALL
                 )
-                # Highlight emphasized matching text
+                # Highlight pinpointed text
                 text = re.sub(
                     r"<em>(.*?)</em>",
                     Palette.CYAN.format(r"\1"),
@@ -190,7 +187,7 @@ def show(n: int = None):
                 for line in parawrap.wrap(text):
                     if line:
                         repl.print(line)
-            counter += 1
+            repl.print()
     else:
         repl.error("no results")
 
