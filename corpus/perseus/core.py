@@ -58,11 +58,12 @@ def get(hit, meta, fragment):
 
         for div in ref:
             content = content[str(div)]
-
+         
+        # FIXME: tokenizer erroneously adds 1 to sent_pos?
         content = [
             f"<em>{t}</em>"
-            if (hlite_start[-1] and i + 1 == int(hlite_start[-1]))
-               or (hlite_end[-1] and i + 1 == int(hlite_end[-1]))
+            if (hlite_start[-4] and i + 1 == int(hlite_start[-4]))
+               or (hlite_end[-4] and i + 1 == int(hlite_end[-4]))
             else t
             for i, t in enumerate(content.split())
         ]
