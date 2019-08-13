@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 import settings
-from engine.analysis.tokenizers import PunktLatinCharsVars
+import engine.analysis.tokenizers
 from lang.latin import compound
 from lang.latin.proper_names import proper_names
 from utils import nrange
@@ -12,7 +12,7 @@ from utils import nrange
 def tokenize(content: str):
     tokens = []
 
-    temp_tokens = PunktLatinCharsVars().word_tokenize(content)
+    temp_tokens = engine.analysis.tokenizers.PunktLatinCharsVars().word_tokenize(content)
     if temp_tokens:
         if temp_tokens[0].replace('j', 'i').replace('v', 'u') not in proper_names:
             temp_tokens[0] = temp_tokens[0].lower()
