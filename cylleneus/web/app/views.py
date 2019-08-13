@@ -2,7 +2,7 @@ from pathlib import Path
 
 import settings
 from corpus import Corpus
-from display import as_html
+from cylleneus.web.display import as_html
 from engine import index as ix
 from flask import render_template, request
 from search import Searcher
