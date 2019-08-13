@@ -9,8 +9,8 @@ import sys
 import unicodedata
 from pathlib import Path
 
-import config
 import parawrap
+import settings
 from corpus import Corpus
 from engine import index
 from riposte import Riposte
@@ -66,7 +66,7 @@ def search(*args):
 @repl.command("credits")
 def credits():
     repl.info(
-        Palette.BLUE.format(f"Cylleneus v{config.__version__}: Next-gen corpus search for Greek and Latin"),
+        Palette.BLUE.format(f"Cylleneus v{settings.__version__}: Next-gen corpus search for Greek and Latin"),
         Palette.GREY.format("(c) 2019 William Michael Short")
     )
 
@@ -104,12 +104,12 @@ def selectby(author: str = None, title: str = None):
 def corpus(corpus_name: str = None):
     global _corpus, _searcher, _search
 
-    if corpus_name and index.exists_in(config.ROOT_DIR + f"/index/{corpus_name}"):
+    if corpus_name and index.exists_in(settings.ROOT_DIR + f"/index/{corpus_name}"):
         _corpus = Corpus(corpus_name)
         _searcher.corpus = _corpus
         repl.success(f"'{_corpus.name}', {_corpus.index.doc_count_all()} docs")
     else:
-        for path in Path(config.ROOT_DIR + '/index/').iterdir():
+        for path in Path(settings.ROOT_DIR + '/index/').iterdir():
             if path.is_dir() and index.exists_in(str(path)):
                 repl.success(
                     Palette.GREEN.format(
@@ -130,15 +130,15 @@ def save(n: int = None, filename: str = None):
 
     if target.results:
         with codecs.open(f"{filename}.txt", "w", "utf8") as fp:
-            for author, title, reference, text in target.highlights:
-                fp.write(f"{author}, {title} {reference}\n{text}\n\n")
+            for author, title, urn, reference, text in target.to_text():
+                fp.write(f"{author}, {title} [{urn}] {reference}\n{text}\n\n")
             repl.success(f"saved: '{filename}.txt'")
     else:
         repl.error("nothing to save")
 
 
-@repl.command("show")
-def show(n: int = None):
+@repl.command("display")
+def display(n: int = None):
     global _searcher, _search
 
     if n:
@@ -149,18 +149,18 @@ def show(n: int = None):
     if target.results:
         ctitle = None
 
-        for author, title, reference, text in target.highlights:
-            if ctitle != title:
-                repl.success(Palette.BOLD.format(f"{author}, {title}"))
-                ctitle = title
-            repl.info(Palette.GREY.format(f"{reference}:"))
+        for href in target.highlights:
+            if ctitle != href.title:
+                repl.success(Palette.BOLD.format(f"{href.author}, {href.title}"))
+                ctitle = href.title
+            repl.info(Palette.GREY.format(f"{href.reference}:"))
 
-            if text:
+            if href.text:
                 # Process pre-match context
                 text = re.sub(
                     r"<pre>(.*?)</pre>",
                     r"\1",
-                    text,
+                    href.text,
                     flags=re.DOTALL
                 )
                 # Process post-match context
@@ -216,7 +216,7 @@ def help():
     repl.info('''    search <query>              execute a query over the current corpus              
     history                     list search history
     save [<#>] [<filename>]     save search results to disk
-    show [<#>]                  show search results
+    display [<#>]                  display search results
     corpus [<name>]             load corpus index by name
     select ["[1, 2...]"]        select documents or list currently selected''')
 

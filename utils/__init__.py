@@ -1,7 +1,40 @@
+import datetime
+import math
 from collections.abc import Iterable
 from itertools import chain, zip_longest
 
-import math
+
+def dtformat(dt):
+    """Converts a datetime object to more human-readable format."""
+
+    D = str(datetime.now() - dt)
+    if D.find(',') > 0:
+        days, hours = D.split(',')
+        days = int(days.split()[0].strip())
+        hours, minutes = hours.split(':')[0:2]
+    else:
+        hours, minutes = D.split(':')[0:2]
+        days = 0
+    days, hours, minutes = int(days), int(hours), int(minutes)
+    datelets =[]
+    years, months, xdays = None, None, None
+    plural = lambda x: 's' if x != 1 else ''
+    if days >= 365:
+        years = days // 365
+        datelets.append('%d year%s' % (years, plural(years)))
+        days = days % 365
+    if days >= 30 and days < 365:
+        months = days // 30
+        datelets.append('%d month%s' % (months, plural(months)))
+        days = days % 30
+    if not years and days > 0 and days < 30:
+        xdays = days
+        datelets.append('%d day%s' % (xdays, plural(xdays)))
+    if not (months or years) and hours != 0:
+        datelets.append('%d hour%s' % (hours, plural(hours)))
+    if not (xdays or months or years):
+        datelets.append('%d minute%s' % (minutes, plural(minutes)))
+    return ', '.join(datelets) + ' ago.'
 
 
 def depth(l):

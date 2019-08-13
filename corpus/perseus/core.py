@@ -2,7 +2,7 @@ import codecs
 import json
 from pathlib import Path
 
-import config
+import settings
 from engine.analysis.tokenizers import PunktLatinCharsVars
 from lang.latin import compound
 from lang.latin.proper_names import proper_names
@@ -36,7 +36,7 @@ def tokenize(content: str):
 def get(hit, meta, fragment):
     filename = Path(hit['filename']).name
     with codecs.open(
-        config.ROOT_DIR + f'/corpus/perseus/text/{filename}', 'r', 'utf8'
+        settings.ROOT_DIR + f'/corpus/perseus/text/{filename}', 'r', 'utf8'
     ) as fp:
         doc = json.load(fp)
 
@@ -65,7 +65,7 @@ def get(hit, meta, fragment):
         if k in divs
     ]
 
-    pre_start = start[:-1] + [(start[-1] - config.LINES_OF_CONTEXT),]
+    pre_start = start[:-1] + [(start[-1] - settings.LINES_OF_CONTEXT),]
     pre_end = start[:-1] + [(start[-1] - 1),]
     pre = []
     for ref in nrange(pre_start, pre_end):
@@ -96,7 +96,7 @@ def get(hit, meta, fragment):
         match.append(f"<match>{' '.join(content)}</match>")
 
     post_start = end[:-1] + [(end[-1] + 1), ]
-    post_end = end[:-1] + [(end[-1] + config.LINES_OF_CONTEXT), ]
+    post_end = end[:-1] + [(end[-1] + settings.LINES_OF_CONTEXT), ]
     post = []
     for ref in nrange(post_start, post_end):
         content = doc['text']
@@ -115,7 +115,9 @@ def get(hit, meta, fragment):
         joiner = ' '
     text = f'{joiner}'.join([*pre, *match, *post])
 
-    return reference, text
+    urn = hit.get('urn', None)
+
+    return urn, reference, text
 
 
 index = {0: {'author': 'Ammianus Marcellinus',

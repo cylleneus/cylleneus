@@ -1,8 +1,8 @@
 import shutil
 from pathlib import Path
 
-import config
 import engine.index
+import settings
 from corpus import Corpus
 from engine import fields, schemas, writing
 from engine.qparser.default import QueryParser
@@ -53,7 +53,7 @@ class Indexer:
 
     @property
     def path(self):
-        return Path(config.ROOT_DIR + f'/index/{self.corpus.name}')
+        return Path(settings.ROOT_DIR + f'/index/{self.corpus.name}')
 
     @property
     def index(self):

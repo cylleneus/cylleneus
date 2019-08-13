@@ -33,21 +33,33 @@ from __future__ import division
 
 import copy
 import weakref
+from collections import namedtuple
 from itertools import product
+from math import ceil
 
-import config
 import engine.collectors
 import engine.highlight
 import engine.query.positional
+import settings
 import whoosh.classify
 import whoosh.query
 import whoosh.scoring
-from math import ceil
 from whoosh.compat import iteritems, iterkeys, itervalues, xrange
 from whoosh.idsets import BitSet, DocIdSet
 from whoosh.qparser.common import print_debug
 from whoosh.reading import TermNotFound
 from whoosh.util.cache import lru_cache
+
+HitRef = namedtuple(
+    "HitRef",
+    [
+        "author",
+        "title",
+        "urn",
+        "reference",
+        "text"
+    ]
+)
 
 
 class NoTermsException(Exception):
@@ -1703,9 +1715,9 @@ class CylleneusHit(Hit):
         # any query is annotated
         results = sorted(self.annotation_filter(query), key=lambda x: x.startchar)
 
-        if config.DEBUG:
-            print_debug(config.DEBUG, "Query: {}".format(query))
-            print_debug(config.DEBUG, "Pre-filtered fragments: {}".format(results))
+        if settings.DEBUG:
+            print_debug(settings.DEBUG, "Query: {}".format(query))
+            print_debug(settings.DEBUG, "Pre-filtered fragments: {}".format(results))
 
         # Merge overlapping and adjacent (multi-field) fragments
         combined = []
@@ -1785,8 +1797,8 @@ class CylleneusHit(Hit):
             if score >= minscore
         ]))
 
-        if config.DEBUG:
-            print_debug(config.DEBUG, "Filtered fragments: {}".format(finalists))
+        if settings.DEBUG:
+            print_debug(settings.DEBUG, "Filtered fragments: {}".format(finalists))
         return finalists
 
     def fragments(self, minscore=None):
