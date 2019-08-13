@@ -3,8 +3,6 @@ import json
 from pathlib import Path
 
 import settings
-from lang.latin import compound
-from lang.latin.proper_names import proper_names
 from utils import nrange
 
 
@@ -60,7 +58,7 @@ def get(hit, meta, fragment):
 
         for div in ref:
             content = content[str(div)]
-         
+
         # FIXME: tokenizer erroneously adds 1 to sent_pos?
         content = [
             f"<em>{t}</em>"
