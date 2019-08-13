@@ -27,7 +27,7 @@
                         <div class="form-group">
                             <input type="text"
                                    class="form-control"
-                                   name="q"
+                                   name="query"
                                    autocomplete="off"
                                    value="{{ search_text }}"
                                    placeholder=""
@@ -35,7 +35,7 @@
                         </div>
                         <p class="h6 font-weight-bold">Corpus</p>
                         <div class="form-group">
-                            <select class="form-control" name="c" id="corpus">
+                            <select class="form-control" name="corpus" id="corpus">
                                 {% for corpus in corpora %}
                                 <option value="{{ corpus }}">{{ corpus }}</option>
                                 {% endfor %}

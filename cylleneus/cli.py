@@ -24,6 +24,13 @@ def shell():
 
 
 @main.command()
+def web():
+    from .web.app import server
+    import webbrowser
+    server.run()
+    webbrowser.open_new('')
+
+@main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
 def index(corpus):
     indexer = Indexer(Corpus(corpus))
