@@ -1,11 +1,12 @@
+import json
 from datetime import datetime
 
-import config
+import settings
 from corpus.core import Corpus
 from engine.highlight import CylleneusBasicFragmentScorer, CylleneusDefaultFormatter, CylleneusPinpointFragmenter
 from engine.qparser.default import CylleneusQueryParser
 from engine.query.qcore import Query
-from engine.searching import CylleneusSearcher
+from engine.searching import CylleneusSearcher, HitRef
 
 
 class Searcher:
@@ -33,7 +34,7 @@ class Searcher:
     def docs(self, doc_ids: list):
         self._docs = set(doc_ids)
 
-    def search(self, param: str, corpus=None, doc_ids: list = None, minscore=None, debug=config.DEBUG):
+    def search(self, param: str, corpus=None, doc_ids: list = None, minscore=None, debug=settings.DEBUG):
         """ Execute the specified search parameters """
 
         if param:
@@ -72,7 +73,7 @@ class Search:
         self._results = None
 
         self._maxchars = 70     # width of one line
-        self._surround = 70 if 70 > config.CHARS_OF_CONTEXT else config.CHARS_OF_CONTEXT
+        self._surround = 70 if 70 > settings.CHARS_OF_CONTEXT else settings.CHARS_OF_CONTEXT
 
     @property
     def docs(self):
@@ -94,7 +95,6 @@ class Search:
     def surround(self, n):
         self._surround = n
 
-
     @property
     def results(self):
         if self._results is None and self.query:
@@ -105,8 +105,39 @@ class Search:
     def highlights(self):
         if self.results:
             for hit, meta, fragment in self.results:
-                author, title, reference, text = self.corpus.fetch(hit, meta, fragment)
-                yield author, title, reference, text
+                author, title, urn, reference, text = self.corpus.fetch(hit, meta, fragment)
+                href = HitRef(author, title, urn, reference, text)
+                yield href
+
+    def to_json(self):
+        if self.results:
+            s = {
+                "query": self.query,
+                "corpus": self.corpus,
+                "docs": self.docs,
+                "minscore": self.minscore,
+                "top": self.top,
+                "start_time": self.start_time,
+                "end_time": self.end_time,
+                "maxchars": self.maxchars,
+                "surround": self.surround
+            }
+            results = []
+            for href in self.highlights:
+                r = {
+                    "author": href.author,
+                    "title": href.title,
+                    "urn": href.urn,
+                    "reference": href.reference,
+                    "text": href.text
+                }
+            s["results"] = results
+            return json.dumps(s)
+
+    def to_text(self):
+        if self.results:
+            for href in self.highlights:
+                yield href.author, href.title, href.urn, href.reference, href.text
 
     @property
     def param(self):
@@ -193,3 +224,7 @@ class Search:
 
     def __str__(self):
         return self.param
+
+    def __iter__(self):
+        if self.results:
+            yield from self.highlights

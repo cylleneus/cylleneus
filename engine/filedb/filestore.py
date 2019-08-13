@@ -33,7 +33,7 @@ import sys
 import tempfile
 from threading import Lock
 
-import config
+import settings
 from whoosh.compat import BytesIO, memoryview_
 from whoosh.filedb.structfile import BufferFile, StructFile
 from whoosh.index import EmptyIndexError, _DEF_INDEX_NAME
@@ -362,7 +362,7 @@ class FileStorage(Storage):
 
     supports_mmap = True
 
-    def __init__(self, path, supports_mmap=True, readonly=False, debug=config.DEBUG):
+    def __init__(self, path, supports_mmap=True, readonly=False, debug=settings.DEBUG):
         """
         :param path: a path to a directory.
         :param supports_mmap: if True (the default), use the ``mmap`` module to

@@ -5,7 +5,7 @@
 
 import sys
 
-import config
+import settings
 from setuptools import find_packages, setup
 
 with open('README.rst') as readme_file:
@@ -20,7 +20,9 @@ requirements = [
     'chardet>=3.0.4',
     'cltk>=0.1.107',
     'cursor>=1.3.4',
+    'flask>=1.1.1',
     'future>=0.17.1',
+    'html3>=1.17',
     'idna>=2.8',
     'isodate>=0.6.0',
     'latinwordnet>=0.0.9',
@@ -80,6 +82,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/wmshort/cylleneus',
-    version=config.__version__,
+    version=settings.__version__,
     zip_safe=False,
 )

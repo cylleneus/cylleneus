@@ -1,4 +1,4 @@
-import config
+import settings
 from engine import fields, index
 
 from . import lasla, latin_library, perseus
@@ -12,8 +12,8 @@ class Corpus:
         if ix and isinstance(ix, index.FileIndex):
             self._index = ix
         else:
-            if index.exists_in(config.ROOT_DIR + f"/index/{name}"):
-                self._index = index.open_dir(config.ROOT_DIR + f"/index/{name}")
+            if index.exists_in(settings.ROOT_DIR + f"/index/{name}"):
+                self._index = index.open_dir(settings.ROOT_DIR + f"/index/{name}")
             else:
                 self._index = None
 
@@ -54,9 +54,9 @@ class Corpus:
 
     def fetch(self, hit, meta, fragment):
         work = Work(self, hit)
-        reference, text = work.get(meta, fragment)
+        urn, reference, text = work.get(meta, fragment)
 
-        return work.author, work.title, reference, text
+        return work.author, work.title, urn, reference, text
 
 
 get_router = {
@@ -112,106 +112,3 @@ class Work:
 
     def get(self, meta, fragment):
         return get_router[self.corpus.name](self.hit, meta, fragment)
-
-
-# class Author:
-#     def __init__(self, name, reader):
-#         self._name = name
-#         self._works = {doc['originalTitle']: Work(doc) for doc in reader.docs() if doc['author'] == self.name}
-#
-#     @property
-#     def name(self):
-#         return self._name
-#
-#     @property
-#     def works(self):
-#         return self._works
-#
-#
-# class Reference:
-#     def __init__(self):
-#         self._work_id: int = 0
-#         self._chapter: int = 0
-#         self._paragraph: int = 0 # verse for poetry
-#         self._line_in_paragraph: int = 0
-#         self._word_in_line: int = 0
-#         self._book: int = 0
-#         self._order_in_work: int = 0
-#
-#     def __str__(self):
-#         return f"{self.work_id} {self.chapter:3} {self.paragraph:4} {self.line_in_paragraph:3} {self.word_in_line:3}"
-#         # does it include book refs too? order_in_work?
-#
-#     def __gt__(self, other):
-#         if self.chapter < other.chapter:
-#             return False
-#         elif self.chapter == other.chapter:
-#             if self.paragraph < other.paragraph:
-#                 return False
-#             elif self.paragraph == other.paragraph:
-#                 if self.line_in_paragraph < other.line_in_graph:
-#                     return False
-#                 elif self.line_in_paragraph == other.line_in_paragraph:
-#                     if self.word_in_line < other.word_in_line:
-#                         return False
-#         return True
-#
-#     def __lt__(self, other):
-#         if self.chapter > other.chapter:
-#             return False
-#         elif self.chapter == other.chapter:
-#             if self.paragraph > other.paragraph:
-#                 return False
-#             elif self.paragraph == other.paragraph:
-#                 if self.line_in_paragraph > other.line_in_graph:
-#                     return False
-#                 elif self.line_in_paragraph == other.line_in_paragraph:
-#                     if self.word_in_line > other.word_in_line:
-#                         return False
-#         return True
-#
-#     def __eq__(self, other):
-#         if self.chapter == other.chapter and self.paragraph == other.paragraph and \
-#                 self.line_in_paragraph == other.line_in_paragraph and self.word_in_line == other.word_in_line:
-#             return True
-#         else:
-#             return False
-#
-#
-# class Token:
-#     def __init__(self, form, lemma=None, index=None, reference=None, morphology=None, syntax=None, raw_index=None):
-#         self._lemma = lemma
-#         self._index = index
-#         self._form = form
-#         self._morphology = morphology
-#         self._reference = reference
-#         self._syntax = syntax
-#         self._raw_index = raw_index
-#
-#     @property
-#     def raw_index(self):
-#         return self._raw_index
-#
-#     @property
-#     def form(self):
-#         return self._form
-#
-#     @property
-#     def morphology(self):
-#         return self._morphology
-#
-#     @property
-#     def lemma(self):
-#         return self._lemma
-#
-#     @property
-#     def index(self):
-#         return self._index
-#
-#     @property
-#     def reference(self):
-#         return self._reference
-#
-#     @property
-#     def refs(self):
-#         return Reference(*self.reference.split(' ')) if self.reference else None
