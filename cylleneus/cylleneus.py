@@ -216,7 +216,7 @@ def help():
     repl.info('''    search <query>              execute a query over the current corpus              
     history                     list search history
     save [<#>] [<filename>]     save search results to disk
-    display [<#>]                  display search results
+    display [<#>]               display search results
     corpus [<name>]             load corpus index by name
     select ["[1, 2...]"]        select documents or list currently selected''')
 

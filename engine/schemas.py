@@ -20,6 +20,19 @@ class PlainTextDocumentSchema(engine.fields.SchemaClass):
     semfield = engine.fields.SEMFIELD(analyzer=PlainTextTokenizer | LemmaFilter | SynsetFilter | SemfieldFilter, vector=True)
 
 
+class PlainTextDocumentSchema(engine.fields.SchemaClass):
+    author = engine.fields.STORED()
+    title = engine.fields.STORED()
+    content = engine.fields.STORED()
+    filename = engine.fields.STORED()
+    datetime = engine.fields.STORED()
+    form = engine.fields.FORM(analyzer=PlainTextTokenizer, vector=True)
+    lemma = engine.fields.LEMMA(analyzer=PlainTextTokenizer | LemmaFilter, vector=True)
+    annotation = engine.fields.ANNOTATION(analyzer=PlainTextTokenizer | LemmaFilter | AnnotationFilter, vector=True)
+    synset = engine.fields.SYNSET(analyzer=PlainTextTokenizer | LemmaFilter | SynsetFilter, vector=True)
+    semfield = engine.fields.SEMFIELD(analyzer=PlainTextTokenizer | LemmaFilter | SynsetFilter | SemfieldFilter, vector=True)
+
+
 PHI5Tokenizer = engine.analysis.tokenizers.CachedPHI5Tokenizer(chars=True)
 class PHI5DocumentSchema(engine.fields.SchemaClass):
     author = engine.fields.STORED()
@@ -97,7 +110,7 @@ class LASLADocumentSchema(engine.fields.SchemaClass):
 
 
 schemas = {
-    'plain_text': PlainTextDocumentSchema,
+    'imported': PlainTextDocumentSchema,
     'lasla': LASLADocumentSchema,
     'latin_library': PlainTextDocumentSchema,
     'proiel': None,

@@ -179,7 +179,7 @@ class Indexer:
                 writer.add_document(docix=docix, **kwargs)
             writer.commit()
 
-    def adds(self, s: str, author=None, title=None):
+    def adds(self, s: str, author=None, title=None, file=None):
         if s:
             ndocs = self.index.doc_count_all()
 
@@ -195,5 +195,7 @@ class Indexer:
                 kwargs['author'] = author
             if title:
                 kwargs['title'] = title
+            if file:
+                kwargs['filename'] = file
             writer.add_document(docix=docix, **kwargs)
             writer.commit()

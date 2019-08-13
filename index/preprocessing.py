@@ -12,7 +12,7 @@ class Preprocessor:
 
 
 class DefaultPreprocessor(Preprocessor):
-    def parse(self, file: Path):
+    def parse(self, file: Path, **kwargs):
         with codecs.open(file, 'r', 'utf8') as fp:
             data = fp.read()
         return {
@@ -24,6 +24,35 @@ class DefaultPreprocessor(Preprocessor):
             'filename': file.name,
             'datetime': datetime.now()
         }
+
+class ImportedPreprocessor(Preprocessor):
+    def parse(self, data: str=None):
+        if data:
+            # Do some tidying up
+            subs = [
+                (r"\.,", "."),
+                (r"([\w])\.([\w])", r"\1. \2"),
+                (r",([\w])", r", \1"),
+                (r"(?<=\w)\.\.", r" . ."),
+                (r"([.,;:])([.,;:])", r"\1 \2"),
+                (r"[\t\r\n ]+", " "),
+                (r'\.\"', r'\"\.'),
+                (r' ,', ','),
+                (r'\[ \d+ \] ', ''),
+                (r' \[,', '[,'),
+                (r'\]\.', '.]')
+            ]
+            for pattern, repl in subs:
+                data = re.sub(pattern, repl, data)
+
+            return {
+                'form': data,
+                'lemma': data,
+                'synset': data,
+                'annotation': data,
+                'semfield': data,
+                'datetime': datetime.now()
+            }
 
 
 class LASLAPreprocessor(Preprocessor):
@@ -227,7 +256,8 @@ class LatinLibraryPreprocessor(Preprocessor):
 
 
 preprocessors = {
-    'plain_text': PlainTextPreprocessor,
+    'plaintext': PlainTextPreprocessor,
+    'imported': ImportedPreprocessor,
     'lasla': LASLAPreprocessor,
     'latin_library': LatinLibraryPreprocessor,
     'proiel': None,
