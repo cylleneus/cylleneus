@@ -3,34 +3,9 @@ import json
 from pathlib import Path
 
 import settings
-import engine.analysis.tokenizers
 from lang.latin import compound
 from lang.latin.proper_names import proper_names
 from utils import nrange
-
-
-def tokenize(content: str):
-    tokens = []
-
-    temp_tokens = engine.analysis.tokenizers.PunktLatinCharsVars().word_tokenize(content)
-    if temp_tokens:
-        if temp_tokens[0].replace('j', 'i').replace('v', 'u') not in proper_names:
-            temp_tokens[0] = temp_tokens[0].lower()
-
-        for ix, token in enumerate(temp_tokens):
-            ppp = compound.is_ppp(token)
-            if ppp and ix < len(temp_tokens) - 2:
-                copula = compound.is_copula(temp_tokens[ix + 2])  # whitespace
-                if copula and ppp[1] == copula[2]:
-                    tense, mood, number, i = copula
-                    token = f"{token} {compound.copula[tense][mood][number][i]}"
-                    del temp_tokens[ix + 1:ix + 3]
-                    tokens.insert(ix, token)
-                else:
-                    tokens.append(token)
-            else:
-                tokens.append(token)
-    return tokens
 
 
 def get(hit, meta, fragment):
@@ -85,13 +60,14 @@ def get(hit, meta, fragment):
 
         for div in ref:
             content = content[str(div)]
+         
         # FIXME: tokenizer erroneously adds 1 to sent_pos?
         content = [
             f"<em>{t}</em>"
-            if (hlite_start[-4] and i + 1 == int(hlite_start[-4]))  #
+            if (hlite_start[-4] and i + 1 == int(hlite_start[-4]))
                or (hlite_end[-4] and i + 1 == int(hlite_end[-4]))
             else t
-            for i, t in enumerate(tokenize(content))
+            for i, t in enumerate(content.split())
         ]
         match.append(f"<match>{' '.join(content)}</match>")
 

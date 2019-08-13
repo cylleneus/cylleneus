@@ -29,7 +29,6 @@ def get(hit, meta, fragment):
     ]
     for pattern, repl in subs:
         content = re.sub(pattern, repl, content)
-
     offset = content.find(fragment)
 
     # Reference and hlite values
