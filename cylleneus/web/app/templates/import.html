@@ -32,56 +32,36 @@
                     <div class="form-group">
                         <p class="h6 font-weight-bold">Filename</p>
                         <div class="input-group">
-                            <input type="file" required="required" class="form-control-file" name="file" id="file"
-                                   aria-describedby="file">
-                            <label id="file-label" class="custom-file-label" for="file"></label>
+                            <div class="custom-file">
+  <input type="file" class="custom-file-input" id="file-input" onchange="$('#file-label').html($(this)[0].files[0].name); $('#filename').val($(this)[0].files[0].name); var file = $(this)[0].files[0]; var reader = new FileReader(); reader.onload = function(event) { $('#content').text(event.target.result) }; reader.readAsText(file);">
+  <label id="file-label" class="custom-file-label" for="file-input">{{ filename }}</label>
+</div>
                         </div>
                         <div class="input-group">
-                            <input name="content" type="text" id="content" value="{{ content }}" style="display:none;"/>
+                            <textarea name="content" id="content" value="{{ content }}" style="display:none;"></textarea>
                             <input name="filename" type="text" id="filename" value="{{ filename }}"
                                    style="display:none;"/>
                         </div>
                     </div>
+                    <div class="float-left invisible">
+                        <div id="spinner" class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
                     {% if success %}
                     <div class="alert alert-warning alert-dismissible show" role="alert">
-                        <strong>Success!</strong> {{ file}} has been added.
+                        <strong>Success!</strong> {{ file }} has been added.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     {% endif %}
                     <div class="form-group float-right pt-2">
-                        <button type="submit" id="submit" value="Import" class="btn btn-primary">Import</button>
+                        <button type="submit" id="submit" value="Import" class="btn btn-primary" onclick="document.getElementById('spinner').className = 'float-left visible';">Import</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
-<script>
-document.getElementById('file').addEventListener('change', getFile);
-function getFile(event) {
-	const input = event.target;
-  var selectedFile = input.files[0];
-  document.getElementById('file-label').innerHTML = selectedFile.name;
-  document.getElementById('filename').value = selectedFile.name;
-	  placeFileContent(
-      document.getElementById('content'),
-      selectedFile)
-}
-function placeFileContent(target, file) {
-	readFileContent(file).then(content => {
-  	target.value = content
-  })
-}
-function readFileContent(file) {
-	const reader = new FileReader();
-    return new Promise((resolve, reject) => {
-    reader.onload = event => resolve(event.target.result);
-    reader.onerror = error => reject(error);
-    reader.readAsText(file);
-  })
-}
-</script>

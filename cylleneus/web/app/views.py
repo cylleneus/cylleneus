@@ -2,14 +2,14 @@ from pathlib import Path
 
 import settings
 from corpus import Corpus
-from index import Indexer
-from cylleneus.web.display import as_html
 from engine import index as ix
 from flask import render_template, request
+from index import Indexer
 from search import Searcher
-from .db import db, Search, SearchResult
+
+from .db import Search, SearchResult, db
+from .display import as_html
 from .server import app
-from utils import dtformat
 
 corpora = []
 for path in Path(settings.ROOT_DIR + '/index/').iterdir():
@@ -17,10 +17,11 @@ for path in Path(settings.ROOT_DIR + '/index/').iterdir():
         corpora.append(path.name)
 
 
-def import_text(author, title, text):
+def import_text(author, title, filename, text):
     kwargs = {
         'author': author,
         'title': title,
+        'filename': filename,
     }
 
     indexer = Indexer(Corpus('imported'))
@@ -33,6 +34,7 @@ def import_text(author, title, text):
     else:
         success = False
     return success
+
 
 # TODO: add pagination
 def search_request(corpus, query):
@@ -75,19 +77,19 @@ def corpus():
 @app.route('/import', methods=['POST', 'GET'])
 def _import():
     form = request.form
-    print(form)
+
     author = form.get('author', None)
     title = form.get('title', None)
     filename = form.get('filename', None)
     content = form.get('content', None)
 
     if filename is not None and content is not None:
-        success = import_text(author, title, content)
+        success = import_text(author, title, filename, content)
     else:
         success = False
 
     response = {
-            'filename': filename if filename else "",
+            'filename': filename if filename else "Choose file...",
             'author': author if author else "",
             'title': title if title else "",
             'content': content if content else "",

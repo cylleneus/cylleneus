@@ -179,7 +179,7 @@ class Indexer:
                 writer.add_document(docix=docix, **kwargs)
             writer.commit()
 
-    def adds(self, s: str, author=None, title=None):
+    def adds(self, s: str, **kwargs):
         if s:
             ndocs = self.index.doc_count_all()
 
@@ -190,10 +190,8 @@ class Indexer:
             )
 
             docix = ndocs
-            kwargs = preprocessing.preprocessors['default']().parse(s)
-            if author:
-                kwargs['author'] = author
-            if title:
-                kwargs['title'] = title
+            parsed = preprocessing.preprocessors['imported']().parse(s)
+            kwargs.update(parsed)
+
             writer.add_document(docix=docix, **kwargs)
             writer.commit()
