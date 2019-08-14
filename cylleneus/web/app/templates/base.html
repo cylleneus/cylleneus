@@ -10,23 +10,25 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Cylleneus</title>
 </head>
-<body>
-<nav class="navbar navbar-dark bg-primary pb-4">
+<nav class="navbar navbar-dark bg-primary pb-4 fixed-top">
+    <div class="container-fluid">
     <a class="navbar-brand" href="#">
         <h1 class="display-4 font-weight-bold">Cylleneus</h1>
         <h3 class="text-light">Next-gen corpus search for ancient languages</h3>
     </a>
+    </div>
 </nav>
-<div class="container-fluid pt-4">
+<body style="padding-top: 180px;">
+
+<div class="container-fluid pb-4">
 {% block search %}
 {% endblock %}
 </div>
 
-<div id="container body-content">
-    {% block content %}
-    {% endblock %}
+<div class="container-fluid pb-4">
+{% block content %}
+{% endblock %}
 </div>
-
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

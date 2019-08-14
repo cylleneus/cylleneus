@@ -84,7 +84,8 @@ def get(hit, meta, fragment):
         joiner = '\n\n'
     else:
         joiner = ' '
-    text = f'{joiner}'.join([*pre, *match, *post])
+    parts = pre + match + post
+    text = f'{joiner}'.join(parts)
 
     return urn, reference, text
 

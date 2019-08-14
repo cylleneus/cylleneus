@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 import math
 import unicodedata
 import re
@@ -51,7 +51,7 @@ def dtformat(dt):
         datelets.append('%d hour%s' % (hours, plural(hours)))
     if not (xdays or months or years):
         datelets.append('%d minute%s' % (minutes, plural(minutes)))
-    return ', '.join(datelets) + ' ago.'
+    return ', '.join(datelets) + ' ago'
 
 
 def depth(l):

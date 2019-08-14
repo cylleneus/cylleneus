@@ -13,38 +13,51 @@ def as_html(highlights):
         htm.div(href.title, klass='h5 card-title font-italic')
         if href.urn:
             htm.a(text=r"more &rarr;", href=href.urn, klass="card-link")
-        htm.div(href.reference, klass='h6 card-subtitle mb-2 text-muted')
+        htm.div(href.reference, klass='h6 card-subtitle mb-2 text-muted pt-1')
 
+        d = htm.div(klass="pt-1")
         # Process post-match context
         pre_text = re.search(
-                r"<pre>(.*?)</pre>",
+                r"<pre>(.*?)</pre>(\n\n)?",
                 href.text,
                 flags=re.DOTALL
             )
         if pre_text:
-            htm.span(pre_text.group(1), klass='card-text')
+            if pre_text.group(2):
+                klass = 'card-text d-block'
+            else:
+                klass = 'card-text'
+            d.span(pre_text.group(1), klass=f'{klass}')
 
         # Process matched text
         text = re.search(
-                r"<match>(.*?)</match>",
+                r"<match>(.*?)</match>(\n\n)?",
                 href.text,
                 flags=re.DOTALL
-        ).group(1)
-        text = re.sub(
+        )
+        t = re.sub(
             r"<em>(.*?)</em>",
             r"\1",
-            text,
+            text.group(1),
             flags=re.DOTALL
         )
-        htm.span(text, klass='card-text')
+        if text.group(2):
+            klass = 'card-text d-block'
+        else:
+            klass = 'card-text'
+        d.span(t, klass=f'{klass}')
 
         # Process post-match context
         post_text = re.search(
-                r"<post>(.*?)</post>",
+                r"<post>(.*?)</post>(\n\n)?",
                 href.text,
                 flags=re.DOTALL
             )
         if post_text:
-            htm.span(post_text.group(1), klass='card-text')
+            if post_text.group(2):
+                klass = 'card-text d-block'
+            else:
+                klass = 'card-text'
+            d.span(post_text.group(1), klass=f'{klass}')
 
         yield str(htm)
