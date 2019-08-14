@@ -78,13 +78,15 @@ Basic indexing functionality is provided through a command-line interface. To ad
 Searching
 ---------
 
-For the present, the easiest way to perform searches is by using the included shell script.
+The best way to search the available corpora (or to import new files individually) is to use the Flask-based web app.
 
 ``$ cd cylleneus``
 
-``$ cylleneus shell``
+``$ cylleneus web``
 
-Until we are able to design something more user-friendly, this script provides a command-line interface that accommodates the full range of query types.
+Then point your browser at http://127.0.0.1:5000. The web app can accommodate the full range of query types, and has functionality for viewing available corpora, importing next plain-text files, and exporting results.
+
+A shell script is also available that (``$ cylleneus shell``) provides a command-line interface to much of the same functionality.
 
 
 Query Types
