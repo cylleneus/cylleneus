@@ -2,22 +2,12 @@ import engine.analysis.filters
 import engine.analysis.tokenizers
 import engine.fields
 
+
 PlainTextTokenizer = engine.analysis.tokenizers.CachedPlainTextTokenizer(chars=True)
 LemmaFilter = engine.analysis.filters.CachedLemmaFilter()
 SynsetFilter = engine.analysis.filters.CachedSynsetFilter()
 AnnotationFilter = engine.analysis.filters.AnnotationFilter()
 SemfieldFilter = engine.analysis.filters.SemfieldFilter()
-class PlainTextDocumentSchema(engine.fields.SchemaClass):
-    author = engine.fields.STORED()
-    title = engine.fields.STORED()
-    content = engine.fields.STORED()
-    filename = engine.fields.STORED()
-    datetime = engine.fields.STORED()
-    form = engine.fields.FORM(analyzer=PlainTextTokenizer, vector=True)
-    lemma = engine.fields.LEMMA(analyzer=PlainTextTokenizer | LemmaFilter, vector=True)
-    annotation = engine.fields.ANNOTATION(analyzer=PlainTextTokenizer | LemmaFilter | AnnotationFilter, vector=True)
-    synset = engine.fields.SYNSET(analyzer=PlainTextTokenizer | LemmaFilter | SynsetFilter, vector=True)
-    semfield = engine.fields.SEMFIELD(analyzer=PlainTextTokenizer | LemmaFilter | SynsetFilter | SemfieldFilter, vector=True)
 
 
 class PlainTextDocumentSchema(engine.fields.SchemaClass):

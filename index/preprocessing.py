@@ -12,47 +12,47 @@ class Preprocessor:
 
 
 class DefaultPreprocessor(Preprocessor):
-    def parse(self, file: Path, **kwargs):
+    def parse(self, file: Path):
         with codecs.open(file, 'r', 'utf8') as fp:
-            data = fp.read()
+            content = fp.read()
         return {
-            'form': data,
-            'lemma': data,
-            'synset': data,
-            'annotation': data,
-            'semfield': data,
+            'form': content,
+            'lemma': content,
+            'synset': content,
+            'annotation': content,
+            'semfield': content,
             'filename': file.name,
             'datetime': datetime.now()
         }
 
 class ImportedPreprocessor(Preprocessor):
-    def parse(self, data: str=None):
-        if data:
-            # Do some tidying up
-            subs = [
-                (r"\.,", "."),
-                (r"([\w])\.([\w])", r"\1. \2"),
-                (r",([\w])", r", \1"),
-                (r"(?<=\w)\.\.", r" . ."),
-                (r"([.,;:])([.,;:])", r"\1 \2"),
-                (r"[\t\r\n ]+", " "),
-                (r'\.\"', r'\"\.'),
-                (r' ,', ','),
-                (r'\[ \d+ \] ', ''),
-                (r' \[,', '[,'),
-                (r'\]\.', '.]')
-            ]
-            for pattern, repl in subs:
-                data = re.sub(pattern, repl, data)
+    def parse(self, content: str):
+        # Do some tidying up
+        subs = [
+            (r"\.,", "."),
+            (r"([\w])\.([\w])", r"\1. \2"),
+            (r",([\w])", r", \1"),
+            (r"(?<=\w)\.\.", r" . ."),
+            (r"([.,;:])([.,;:])", r"\1 \2"),
+            (r"[\t\r\n ]+", " "),
+            (r'\.\"', r'\"\.'),
+            (r' ,', ','),
+            (r'\[ \d+ \] ', ''),
+            (r' \[,', '[,'),
+            (r'\]\.', '.]')
+        ]
+        for pattern, repl in subs:
+            content = re.sub(pattern, repl, content)
 
-            return {
-                'form': data,
-                'lemma': data,
-                'synset': data,
-                'annotation': data,
-                'semfield': data,
-                'datetime': datetime.now()
-            }
+        return {
+            'content': content,
+            'form': content,
+            'lemma': content,
+            'synset': content,
+            'annotation': content,
+            'semfield': content,
+            'datetime': datetime.now()
+        }
 
 
 class LASLAPreprocessor(Preprocessor):

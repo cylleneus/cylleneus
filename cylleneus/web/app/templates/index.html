@@ -29,8 +29,11 @@
                                 {% endfor %}
                             </select>
                         </div>
+                        <div class="float-left pr-3">
+                            <a class="btn btn-secondary" href="corpora">Corpora</a>
+                        </div>
                         <div class="float-left">
-                            <a class="btn btn-secondary" href="corpus">Corpora</a>
+                            <a class="btn btn-secondary" href="import">Import</a>
                         </div>
                         <div class="form-group float-right">
                             <button type="submit" id="submit" value="Search" class="btn btn-primary">Search</button>
@@ -46,7 +49,7 @@
                 <h5 class="card-header">Search history
                     {% if history %}
                     <button type="button" class="close" data-toggle="collapse" data-target="#search-history"
-                            aria-expanded="true" aria-controls="search-history"/>
+                            aria-expanded="true" aria-controls="search-history">
                     <span class="text-dark" aria-hidden="true">&plus;</span></button>
 {% endif %}
                 </h5>
@@ -70,7 +73,7 @@
             <div class="card text-white bg-dark mb-3">
                 <h5 class="card-header" id="how-to-search">How to search
                     <button type="button" class="close" data-toggle="collapse" data-target="#query-types"
-                            aria-expanded="true" aria-controls="query-types"/>
+                            aria-expanded="true" aria-controls="query-types">
                     <span class="text-light" aria-hidden="true">&plus;</span></button>
                 </h5>
                 <div class="card-body collapse" id="query-types" aria-labelledby="how-to-search"
@@ -112,7 +115,7 @@
 <div class="container-fluid pb-4">
     <div class="row justify-content-center">
         <div class="col-md-9">
-            <div class="card">
+            <div class="card result">
                 <div class="card-body">
                     {{ item|safe }}
                 </div>
@@ -121,5 +124,52 @@
     </div>
 </div>
 {% endfor %}
+<div class="container-fluid pb-4">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+<div class="float-right pt-2">
+    <div class="h3 float-left pr-2">
+    <a download id="save-link" style="display: none"><i class="fa fa-file-text text-dark" aria-hidden="true"></i></a>
+    </div>
+    <div class="float-right">
+        <button id="save-all" class="btn btn-primary btn-block">Save All</button>
+    </div>
+    </div>
+</div>
+        </div>
+</div>
 {% endif %}
+<script>
+(function () {
+var textFile = null,
+  createTextFile = function (content) {
+    var data = new Blob([content], {type: 'text/plain'});
+
+    if (textFile !== null) {
+      window.URL.revokeObjectURL(textFile);
+    }
+    textFile = window.URL.createObjectURL(data);
+    return textFile;
+  };
+
+  var save = document.getElementById('save-all');
+  var results = document.getElementsByClassName("result");
+  var content = '';
+  for (var i = 0; i < results.length; i++)
+  {
+      result = results[i];
+      elements = result.getElementsByClassName("exportable");
+      for (var j = 0; j < elements.length; j++)
+      {
+       content += elements[j].innerHTML.replace(/<.*?>/, '') + '\n';
+      }
+      content += '\n\n'
+}
+  save.addEventListener('click', function () {
+    var link = document.getElementById('save-link');
+    link.href = createTextFile(content);
+    link.style.display = 'block';
+  }, false);
+})();
+</script>
 {% endblock %}

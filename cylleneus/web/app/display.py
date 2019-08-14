@@ -9,13 +9,14 @@ def as_html(highlights):
     for href in highlights:
         htm = HTML()
 
-        htm.div(href.author, klass='h5 card-title font-weight-bold')
-        htm.div(href.title, klass='h5 card-title font-italic')
+        htm.div(href.author, klass='h5 card-title font-weight-bold exportable')
+        htm.div(href.title, klass='h5 card-title font-italic exportable')
         if href.urn:
-            htm.a(text=r"more &rarr;", href=href.urn, klass="card-link")
-        htm.div(href.reference, klass='h6 card-subtitle mb-2 text-muted pt-1')
+            htm.a(text=r"more &rarr;", href=href.urn, klass="card-link exportable")
+        if href.reference:
+            htm.div(href.reference, klass='h6 card-subtitle mb-2 text-muted pt-1 exportable')
 
-        d = htm.div(klass="pt-1")
+        d = htm.div(klass="pt-1 exportable")
         # Process post-match context
         pre_text = re.search(
                 r"<pre>(.*?)</pre>(\n\n)?",
@@ -37,7 +38,7 @@ def as_html(highlights):
         )
         t = re.sub(
             r"<em>(.*?)</em>",
-            r"\1",
+            r" \1 ",
             text.group(1),
             flags=re.DOTALL
         )
