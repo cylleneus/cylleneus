@@ -8,84 +8,29 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Font-Awesome -->
+    <script src="https://use.fontawesome.com/bdfd8bd570.js"></script>
     <title>Cylleneus</title>
 </head>
-<body>
-<nav class="navbar navbar-dark bg-primary">
+<nav class="navbar navbar-dark bg-primary pb-4 fixed-top">
+    <div class="container-fluid">
     <a class="navbar-brand" href="#">
         <h1 class="display-4 font-weight-bold">Cylleneus</h1>
         <h3 class="text-light">Next-gen corpus search for ancient languages</h3>
     </a>
+    </div>
 </nav>
-<div class="container-fluid pt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-9">
-            <div class="card mb3">
-                <div class="card-body">
-                    <p class="h6 font-weight-bold">Query</p>
-                    <form action="/search" method="GET">
-                        <div class="form-group">
-                            <input type="text"
-                                   class="form-control"
-                                   name="query"
-                                   autocomplete="off"
-                                   value="{{ search_text }}"
-                                   placeholder=""
-                                   id="text"/>
-                        </div>
-                        <p class="h6 font-weight-bold">Corpus</p>
-                        <div class="form-group">
-                            <select class="form-control" name="corpus" id="corpus">
-                                {% for corpus in corpora %}
-                                <option value="{{ corpus }}">{{ corpus }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="form-group float-right">
-                            <button type="submit" id="submit" value="Search" class="btn btn-primary">Search</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center pt-4">
-        <div class="col-md-9">
-            <div class="card text-white bg-dark mb-3">
-                <h5 class="card-header" id="how-to-search">How to search
-                    <button type="button" class="close" data-toggle="collapse" data-target="#query-types" aria-expanded="true" aria-controls="query-types"/>
-                    <span class="text-light" aria-hidden="true">&plus;</span></button>
-                </h5>
-                <div class="card-body collapse" id="query-types" aria-labelledby="how-to-search"
-                     data-parent="#accordion">
-                    <table class="w-100">
-                        <tr>
-                            <td><p class="card-text"><kbd>'...'</kbd> form</p></td>
-                            <td><p class="card-text"><kbd>&lt;...&gt;</kbd> lemma</p>
-                            <td><p class="card-text"><kbd>[en?...]</kbd> gloss</p></td>
-                        </tr>
-                        <tr>
-                            <td><p class="card-text"><kbd>{...}</kbd> semfield</p></td>
-                            <td><p class="card-text"><kbd>/.../</kbd> syntax</p></td>
-                            <td><p class="card-text"><kbd>:...</kbd> morphology</p></td>
-                        </tr>
-                        <tr><td><p class="card-text"><kbd>&lt;/::...&gt;</kbd> lexical relation</p></td>
-                            <td><p class="card-text"><kbd>[!::...]</kbd> semantic relation</p></td></tr>
-                    </table>
-                    <p class="card-text">Queries can be combined to form complex proximity
-                        and adjacency searches. Enclosing queries within double quotes <kbd>"..."</kbd> requires that matching words occur
-                        in the specified order.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+<body style="padding-top: 180px;">
+
+<div class="container-fluid pb-4">
+{% block search %}
+{% endblock %}
 </div>
 
-<div id="container body-content">
-    {% block content %}
-    {% endblock %}
+<div class="container-fluid pb-4">
+{% block content %}
+{% endblock %}
 </div>
-
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

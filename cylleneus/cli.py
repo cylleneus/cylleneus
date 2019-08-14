@@ -27,8 +27,9 @@ def shell():
 def web():
     from .web.app import server
     import webbrowser
+
     server.run()
-    webbrowser.open_new('')
+    webbrowser.open_new('http://127.0.0.1:5000/')
 
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)

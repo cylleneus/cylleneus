@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center pt-4">
+    <div class="col-md-9">
+        <div class="card">
+            <h5 class="card-header font-weight-bold">Import</h5>
+            <div class="card-body">
+                <form action="/import" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="h6 font-weight-bold" for="author">Author</label>
+                        <input type="text"
+                               class="form-control"
+                               name="author"
+                               autocomplete="off"
+                               value="{{ author }}"
+                               placeholder=""
+                               required="required"
+                               id="author"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="h6 font-weight-bold" for="title">Title</label>
+                        <input type="text"
+                               class="form-control"
+                               name="title"
+                               autocomplete="off"
+                               value="{{ title }}"
+                               placeholder=""
+                               required="required"
+                               id="title"/>
+                    </div>
+                    <div class="form-group">
+                        <p class="h6 font-weight-bold">Filename</p>
+                        <div class="input-group">
+                            <div class="custom-file">
+  <input type="file" class="custom-file-input" id="file-input" onchange="$('#file-label').html($(this)[0].files[0].name); $('#filename').val($(this)[0].files[0].name); var file = $(this)[0].files[0]; var reader = new FileReader(); reader.onload = function(event) { $('#content').text(event.target.result) }; reader.readAsText(file);">
+  <label id="file-label" class="custom-file-label" for="file-input">{{ filename }}</label>
+</div>
+                        </div>
+                        <div class="input-group">
+                            <textarea name="content" id="content" value="{{ content }}" style="display:none;"></textarea>
+                            <input name="filename" type="text" id="filename" value="{{ filename }}"
+                                   style="display:none;"/>
+                        </div>
+                    </div>
+                    <div name="spinner" id="spinner" class="float-left d-none">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Importing...</span>
+                        </div>
+                    </div>
+                    {% if success %}
+                    <div class="alert alert-success alert-dismissible show" role="alert">
+                        <strong>Success!</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    <div class="form-group float-right pt-2">
+                        <button type="submit" id="submit" value="Import" class="btn btn-primary" onclick="$('#spinner').className='float-left d-block';">Import</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

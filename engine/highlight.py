@@ -549,7 +549,6 @@ def get_text(original, token, replace):
     ``token.startchar`` and ``token.endchar``. If ``replace`` is True, returns
     ``token.text``.
     """
-
     if replace:
         return token.text
     else:

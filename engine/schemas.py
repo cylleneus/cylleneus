@@ -2,11 +2,14 @@ import engine.analysis.filters
 import engine.analysis.tokenizers
 import engine.fields
 
+
 PlainTextTokenizer = engine.analysis.tokenizers.CachedPlainTextTokenizer(chars=True)
 LemmaFilter = engine.analysis.filters.CachedLemmaFilter()
 SynsetFilter = engine.analysis.filters.CachedSynsetFilter()
 AnnotationFilter = engine.analysis.filters.AnnotationFilter()
 SemfieldFilter = engine.analysis.filters.SemfieldFilter()
+
+
 class PlainTextDocumentSchema(engine.fields.SchemaClass):
     author = engine.fields.STORED()
     title = engine.fields.STORED()
@@ -97,7 +100,7 @@ class LASLADocumentSchema(engine.fields.SchemaClass):
 
 
 schemas = {
-    'plain_text': PlainTextDocumentSchema,
+    'imported': PlainTextDocumentSchema,
     'lasla': LASLADocumentSchema,
     'latin_library': PlainTextDocumentSchema,
     'proiel': None,

@@ -6,7 +6,6 @@
 import codecs
 import re
 import sys
-import unicodedata
 from pathlib import Path
 
 import parawrap
@@ -16,6 +15,7 @@ from engine import index
 from riposte import Riposte
 from riposte.printer import Palette
 from search import Searcher
+from utils import slugify
 
 _corpus = Corpus('lasla')
 _searcher = Searcher(_corpus)
@@ -216,24 +216,9 @@ def help():
     repl.info('''    search <query>              execute a query over the current corpus              
     history                     list search history
     save [<#>] [<filename>]     save search results to disk
-    display [<#>]                  display search results
+    display [<#>]               display search results
     corpus [<name>]             load corpus index by name
     select ["[1, 2...]"]        select documents or list currently selected''')
-
-
-def slugify(value, allow_unicode=False):
-    """
-    Convert to ASCII if 'allow_unicode' is False. Convert spaces to hyphens.
-    Remove characters that aren't alphanumerics, underscores, or hyphens.
-    Convert to lowercase. Also strip leading and trailing whitespace.
-    """
-    value = str(value)
-    if allow_unicode:
-        value = unicodedata.normalize('NFKC', value)
-    else:
-        value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
-    value = re.sub(r'[^\w\s-]', '', re.sub(r'[:=]', '-', value).strip().lower())
-    return re.sub(r'[\s]+', '-', value)
 
 
 if __name__ == "__main__":
