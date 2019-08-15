@@ -203,9 +203,6 @@ class W3PerDocWriter(base.PerDocWriterWithColumns):
     def start_doc(self, docnum):
         if self._indoc:
             raise Exception("Called start_doc when already in a doc")
-        if docnum != self._doccount:
-            raise Exception("Called start_doc(%r) was expecting %r"
-                            % (docnum, self._doccount))
 
         self._docnum = docnum
         self._doccount += 1
@@ -411,10 +408,6 @@ class W3PerDocReader(base.PerDocumentReader):
             return reader
 
     def doc_field_length(self, docnum, fieldname, default=0):
-        if docnum > self._doccount:
-            raise IndexError("Asked for docnum %r of %d"
-                             % (docnum, self._doccount))
-
         lenfield = _lenfield(fieldname)
         reader = self._cached_reader(lenfield, LENGTHS_COLUMN)
         if reader is None:

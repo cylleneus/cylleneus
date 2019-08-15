@@ -26,7 +26,7 @@ class Searcher:
     @property
     def docs(self):
         if self._docs is None:
-            return set([reader.all_doc_ids() for reader in self.corpus.readers])
+            return set([doc_id for reader in self.corpus.readers for doc_id in reader.all_doc_ids()])
         else:
             return set(self._docs)
 
@@ -42,7 +42,7 @@ class Searcher:
         """ Execute the specified search parameters """
 
         if param:
-            parser = CylleneusQueryParser("form", self.corpus.schema)
+            parser = CylleneusQueryParser("form", self.corpus.indexer.schema)
             query = parser.parse(param, debug=debug)
             if not corpus:
                 corpus = self.corpus

@@ -27,8 +27,7 @@ class Corpus:
 
     @property
     def readers(self):
-        for ix in self.indices:
-            return ix.reader()
+        return [ix.reader() for ix in self.indices]
 
     def readers_for(self, author: str='*', title: str='*'):
         return [ix.reader() for ix in self.indices_for(author, title)]

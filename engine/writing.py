@@ -683,7 +683,7 @@ class SegmentWriter(IndexWriter):
         self._check_state()
         perdocwriter = self.perdocwriter
         schema = self.schema
-        docnum = self.docnum
+        docnum = docix
         add_post = self.pool.add
 
         docboost = self._doc_boost(fields)

@@ -19,13 +19,6 @@ class Indexer:
         self._schema = schemas.get(self.corpus.name)()
         self._preprocessor = preprocessors.get(corpus.name, DefaultPreprocessor)()
 
-        self._indices = []
-        for author in self.path.glob('*'):
-            for title in author.glob('*'):
-                if index.exists_in(title):
-                    ix = index.open_dir(title, schema=self.schema)
-                    self._indices.append(ix)
-
     @property
     def corpus(self):
         return self._corpus
@@ -40,7 +33,11 @@ class Indexer:
 
     @property
     def doc_count_all(self):
-        return len(self.indices)
+        return sum([ix.reader().doc_count_all() for ix in self.indices])
+
+    def iter_docs(self):
+        for ix in self.indices:
+            yield from ix.reader().iter_docs()
 
     @corpus.setter
     def corpus(self, p: Preprocessor):
@@ -61,11 +58,17 @@ class Indexer:
 
     @property
     def indices(self):
-        return self._indices
+        ixs = []
+        for author in self.path.glob('*'):
+            for title in author.glob('*'):
+                if index.exists_in(title):
+                    ix = index.open_dir(title, schema=self.schema)
+                    ixs.append(ix)
+        return ixs
 
     def indices_for(self, author: str='*', title: str='*'):
         ixs = []
-        for d in Path.glob(self.path / slugify(author) / slugify(title)):
+        for d in self.path.glob(f"{slugify(author)}/{slugify(title)}"):
             if index.exists_in(d):
                 ix = index.open_dir(d, schema=self.schema)
                 ixs.append(ix)
@@ -81,10 +84,8 @@ class Indexer:
                 writer.commit(mergetype=CLEAR)
 
     def destroy(self):
-        for path in self.corpus.path.glob('*'):
-            if index.exists_in(path):
-                shutil.rmtree(path)
-                self._indices = []
+        shutil.rmtree(self.path)
+        self._indices = []
 
     def optimize(self):
         for ix in self.indices:
@@ -96,7 +97,6 @@ class Indexer:
             d.mkdir(parents=True)
         index.create_in(str(d), schema=self.schema)
 
-    # e.g. /lasla/caesar/bg
     def open(self, path: Path):
         d = Path(self.path / path)
         if not index.exists_in(str(path)):
@@ -110,20 +110,21 @@ class Indexer:
             shutil.rmtree(str(d))
 
     def delete_by(self, author: str = '*', title: str = '*'):
-        paths = Path.glob(f"{str(self.path)}/{slugify(author)}/{slugify(title)}")
+        paths = self.path.glob(f"{slugify(author)}/{slugify(title)}")
         for path in paths:
             self.delete(path)
 
     def update(self, author: str, title: str, path: Path):
         a_slug = slugify(author)
         t_slug = slugify(title)
-        d = Path(f"{str(self.path)}/index/{a_slug}/{t_slug}")
+        d = Path(self.path / a_slug / t_slug)
         self.delete(d)
         self.add(path, author, title)
 
     def add(self, path: Path, author: str = None, title: str = None):
         if path.exists():
-            docix = self.doc_count_all + 1
+            docix = self.doc_count_all
+
             kwargs = self.preprocessor.parse(path)
             if 'author' not in kwargs and author:
                 kwargs['author'] = author
@@ -133,7 +134,7 @@ class Indexer:
             a_slug = slugify(kwargs['author'])
             t_slug = slugify(kwargs['title'])
 
-            d = Path(f"{str(self.path)}/index/{a_slug}/{t_slug}")
+            d = Path(self.path / a_slug / t_slug)
             ix = self.open(d)
 
             writer = ix.writer(

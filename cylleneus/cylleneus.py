@@ -78,8 +78,8 @@ def select(doc_ids: list = None):
     if doc_ids:
         _searcher.docs = doc_ids
     else:
-        repl.info(Palette.WHITE.format(f"corpus '{_corpus.name}', {_corpus.index.doc_count_all()} documents indexed"))
-        for docnum, fields in _corpus.index.reader().iter_docs():
+        repl.info(Palette.WHITE.format(f"corpus '{_corpus.name}', {_corpus.indexer.doc_count_all} documents indexed"))
+        for docnum, fields in _corpus.indexer.iter_docs():
             if docnum in _searcher.docs:
                 repl.info(Palette.BOLD.format(f"{docnum}. {fields['author'].title()}, {fields['title'].title()}"))
             else:
@@ -104,10 +104,10 @@ def selectby(author: str = None, title: str = None):
 def corpus(corpus_name: str = None):
     global _corpus, _searcher, _search
 
-    if corpus_name and index.exists_in(settings.ROOT_DIR + f"/index/{corpus_name}"):
+    if corpus_name:
         _corpus = Corpus(corpus_name)
         _searcher.corpus = _corpus
-        repl.success(f"'{_corpus.name}', {_corpus.index.doc_count_all()} docs")
+        repl.success(f"'{_corpus.name}', {_corpus.indexer.doc_count_all} docs")
     else:
         for path in Path(settings.ROOT_DIR + '/index/').iterdir():
             if path.is_dir() and index.exists_in(str(path)):

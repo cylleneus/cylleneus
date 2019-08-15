@@ -1178,7 +1178,7 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                                 'meta': value['meta'].lower()
                             }
                             for i in range(len(divs)):
-                                meta[divs[i]] = str(int(path[i]))
+                                meta[divs[i]] = str(int(path[i]) + 1)
 
                             t.boost = 1.0
                             if keeporiginal:
