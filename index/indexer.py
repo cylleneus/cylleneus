@@ -1,25 +1,31 @@
 import shutil
 from pathlib import Path
 
-import engine.index
-import settings
+from engine import index
 from corpus import Corpus
-from engine import fields, schemas, writing
-from engine.qparser.default import QueryParser
-
-from . import preprocessing
+from engine.fields import Schema
+from engine.schemas import schemas
+from engine.writing import CLEAR
+from utils import slugify
+from .preprocessing import *
 
 
 class IndexingError(Exception):
     pass
 
+
 class Indexer:
     def __init__(self, corpus: Corpus):
         self._corpus = corpus
-        self._index = corpus.index
-        self._schema = corpus.index.schema if corpus.index else None
-        self._preprocessor = preprocessing.preprocessors.get(corpus.name,
-                                                             preprocessing.DefaultPreprocessor)()
+        self._schema = schemas.get(self.corpus.name)()
+        self._preprocessor = preprocessors.get(corpus.name, DefaultPreprocessor)()
+
+        self._indices = []
+        for author in self.corpus.path.glob('*'):
+            for title in author.glob('*'):
+                if index.exists_in(title):
+                    ix = index.open_dir(title, schema=self.schema)
+                    self._indices.append(ix)
 
     @property
     def corpus(self):
@@ -33,150 +39,95 @@ class Indexer:
     def preprocessor(self):
         return self._preprocessor
 
+    @property
+    def doc_count_all(self):
+        return len(self.indices)
+
     @corpus.setter
-    def corpus(self, p: preprocessing.Preprocessor):
+    def corpus(self, p: Preprocessor):
         self._preprocessor = p
 
     @property
     def schema(self):
-        if not self._schema:
-            self._schema = schemas.schemas.get(self.corpus.name)()
         return self._schema
 
     @schema.setter
-    def schema(self, s: fields.Schema):
+    def schema(self, s: Schema):
         self._schema = s
 
     @property
     def docs(self):
-        return self.index.reader().iter_docs()
+        for ix in self.indices:
+            yield from ix.reader().iter_docs()
 
     @property
-    def path(self):
-        return Path(settings.ROOT_DIR + f'/index/{self.corpus.name}')
-
-    @property
-    def index(self):
-        if not self._index:
-            self.open()
-        return self._index
-
-    @index.setter
-    def index(self, ix: engine.index.Index):
-        self._index = ix
+    def indices(self):
+        return self._indices
 
     def clear(self):
-        if self.index:
-            with self.index.writer() as writer:
-                writer.commit(mergetype=writing.CLEAR)
+        for ix in self.indices:
+            with ix.writer() as writer:
+                writer.commit(mergetype=CLEAR)
 
     def destroy(self):
-        if engine.index.exists_in(self.path):
-            shutil.rmtree(self.path)
-            self.index = None
-
-    @property
-    def exists(self):
-        return engine.index.exists_in(self.path)
+        for path in self.corpus.path.glob('*'):
+            if index.exists_in(path):
+                shutil.rmtree(path)
+                self._indices = []
 
     def optimize(self):
-        if self.index:
-            self.index.optimize()
+        for ix in self.indices:
+            ix.optimize()
 
-    def create(self):
-        if not self.path.exists():
-            self.path.mkdir(parents=True)
-        self.index = engine.index.create_in(self.path,
-                                            schema=self.schema)
+    def create_in(self, path: Path):
+        d = Path(self.corpus.path + path)
+        if not d.exists():
+            d.mkdir(parents=True)
+        index.create_in(str(d), schema=self.schema)
 
-    def open(self):
-        if not engine.index.exists_in(self.path):
-            self.create()
-        self.index = engine.index.open_dir(self.path,
-                                     schema=self.schema)
+    # e.g. /lasla/caesar/bg
+    def open(self, path: Path):
+        d = Path(self.corpus.path + path)
+        if not index.exists_in(str(path)):
+            self.create_in(d)
+        ix = index.open_dir(str(d), schema=self.schema)
+        return ix
 
-    def delete(self, docnum: int=None):
-        if docnum:
-            writer = self.index.writer()
-            writer.delete_document(docnum)
-            writer.commit()
-        else:
-            self.clear()
+    def delete(self, path: Path):
+        d = Path(self.corpus.path + path)
+        if index.exists_in(str(d)):
+            shutil.rmtree(str(d))
 
-    def delete_by(self, author: str = None, title: str = None):
-        if not self.index:
-            self.open()
-        if author and title:
-            if 'author' in self.schema and 'title' in self.schema:
-                parser = QueryParser("form", self.schema)
-                query = parser.parse(f"(author:{author} AND title:{title})")
-                self.index.writer().delete_by_query(query)
-        elif author:
-            if 'author' in self.schema:
-                writer = self.index.writer()
-                writer.delete_by_term("author", author)
-                writer.commit()
-        elif title:
-            if 'title' in self.schema:
-                writer = self.index.writer()
-                writer.delete_by_term("title", title)
-                writer.commit()
+    def delete_by(self, author: str = '*', title: str = '*'):
+        paths = Path.glob(f"{str(self.corpus.path)}/{slugify(author)}/{slugify(title)}")
+        for path in paths:
+            self.delete(path)
 
-    def update(self, docnum: int, path: Path):
-        if not self.index:
-            self.open()
-        else:
-            self.delete(docnum)
-        self.add(path)
+    def update(self, author: str, title: str, path: Path):
+        a_slug = slugify(author)
+        t_slug = slugify(title)
+        d = Path(f"{str(self.corpus.path)}/{a_slug}/{t_slug}")
+        self.delete(d)
+        self.add(path, author, title)
 
-    def update_by(self, author: str, title: str, path: Path):
-        if not self.index:
-            self.open()
-        if author and title:
-            if 'author' in self.schema and 'title' in self.schema:
-                parser = QueryParser("form", self.schema)
-                query = parser.parse(f"(author:{author} AND title:{title})")
-                writer = self.index.writer()
-                writer.delete_by_query(query)
-                writer.commit()
-        elif author:
-            if 'author' in self.schema:
-                writer = self.index.writer()
-                writer.delete_by_term("author", author)
-                writer.commit()
-        elif title:
-            if 'title' in self.schema:
-                writer = self.index.writer()
-                writer.delete_by_term("title", title)
-                writer.commit()
-        self.add(path)
-
-    def add(self, path: Path, author=None, title=None):
+    def add(self, path: Path, author: str = None, title: str = None):
         if path.exists():
-            if not self.index:
-                self.open()
-            ndocs = self.index.doc_count_all()
+            a_slug = slugify(author)
+            t_slug = slugify(title)
 
-            if path.is_dir():
-                files = list(path.glob('*.*'))
-            elif path.is_file():
-                files = [path,]
-            else:
-                files = []
+            d = Path(f"{str(self.corpus.path)}/{a_slug}/{t_slug}")
+            ix = self.open(d)
 
-            writer = self.index.writer(
-                limitmb=512,
-                procs=4 if len(files) > 1 else 1,
-                multisegment=True if len(files) > 1 else False
+            writer = ix.writer(
+                limitmb=1024,
             )
-            for i, file in enumerate(files):
-                docix = i + ndocs
-                kwargs = self.preprocessor.parse(file)
-                if author:
-                    kwargs['author'] = author
-                if title:
-                    kwargs['title'] = title
-                writer.add_document(docix=docix, **kwargs)
+            docix = self.doc_count_all + 1
+            kwargs = self.preprocessor.parse(path)
+            if 'author' not in kwargs and author:
+                kwargs['author'] = author
+            if 'title' not in kwargs and title:
+                kwargs['title'] = title
+            writer.add_document(docix=docix, **kwargs)
             writer.commit()
 
     def adds(self, content: str, **kwargs):

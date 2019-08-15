@@ -8,4 +8,5 @@ if __name__ == '__main__':
     indexer = Indexer(Corpus('lasla'))
     indexer.destroy()
 
-    indexer.add(lasla)
+    for file in lasla.glob('*.BPN'):
+        indexer.add(file)

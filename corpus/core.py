@@ -1,53 +1,31 @@
 import settings
-from engine import fields, index
+from engine.fields import Schema
+from index import Indexer
+from pathlib import Path
 
 from . import lasla, latin_library, perseus
 
 
 class Corpus:
-    def __init__(self, name: str, ix: index.FileIndex = None,
-                 schema: fields.Schema = None):
+    def __init__(self, name: str):
         self._name = name
-
-        if ix and isinstance(ix, index.FileIndex):
-            self._index = ix
-        else:
-            if index.exists_in(settings.ROOT_DIR + f"/index/{name}"):
-                self._index = index.open_dir(settings.ROOT_DIR + f"/index/{name}")
-            else:
-                self._index = None
-
-        if schema and isinstance(schema, fields.Schema):
-            self._schema = schema
-        else:
-            if self._index:
-                self._schema = self._index.schema
-            else:
-                self._schema = None
+        self._indexer = Indexer(self)
 
     @property
     def name(self):
         return self._name
 
     @property
+    def path(self):
+        return Path(f"{settings.ROOT_DIR}/corpus/{self.name}")
+
+    @property
     def index(self):
-        return self._index
+        return self._indexer
 
     @index.setter
-    def index(self, i):
-        self._index = i
-
-    @property
-    def schema(self):
-        return self._schema
-
-    @schema.setter
-    def schema(self, s):
-        self._schema = s
-
-    @property
-    def reader(self):
-        return self.index.reader()
+    def index(self, ix):
+        self._indexer = ix
 
     def __str__(self):
         return self.name
