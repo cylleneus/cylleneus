@@ -149,8 +149,9 @@ def search():
 
     if results:
         db.connect()
-        s = Search.get(query=query, corpus=results.corpus.name)
-        if s is None:
+        try:
+            s = Search.get(query=query, corpus=results.corpus.name)
+        except Search.DoesNotExist:
             s = Search.create(
                 query=query,
                 corpus=results.corpus.name,
@@ -163,13 +164,14 @@ def search():
                 surround=results.surround
             )
             s.save()
-        for href in results.highlights:
-            r = SearchResult.get_or_create(
-                search=s,
-                html=next(as_html([href,]))
-            )
-            if r[1]:
-                r[0].save()
+        finally:
+            for href in results.highlights:
+                r = SearchResult.get_or_create(
+                    search=s,
+                    html=next(as_html([href,]))
+                )
+                if r[1]:
+                    r[0].save()
         db.close()
 
     db.connect()
