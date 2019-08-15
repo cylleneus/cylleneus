@@ -1,1 +1,2 @@
-from .core import *
+from .core import Corpus
+from .indexer import Indexer

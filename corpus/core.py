@@ -1,31 +1,46 @@
 import settings
 from engine.fields import Schema
-from index import Indexer
 from pathlib import Path
-
+from . import indexer
 from . import lasla, latin_library, perseus
 
 
 class Corpus:
     def __init__(self, name: str):
         self._name = name
-        self._indexer = Indexer(self)
+        self._indexer = indexer.Indexer(self)
 
     @property
     def name(self):
         return self._name
 
     @property
-    def path(self):
-        return Path(f"{settings.ROOT_DIR}/corpus/{self.name}")
-
-    @property
-    def index(self):
+    def indexer(self):
         return self._indexer
 
-    @index.setter
-    def index(self, ix):
-        self._indexer = ix
+    @property
+    def indices(self):
+        return self.indexer.indices
+
+    def indices_for(self, author: str = '*', title: str = '*'):
+        return self.indexer.indices_for(author, title)
+
+    @property
+    def readers(self):
+        for ix in self.indices:
+            return ix.reader()
+
+    def readers_for(self, author: str='*', title: str='*'):
+        return [ix.reader() for ix in self.indices_for(author, title)]
+
+    def reader_for_docid(self, doc_id: int):
+        for reader in self.readers:
+            if doc_id in reader.all_doc_ids():
+                return reader
+
+    @property
+    def path(self):
+        return Path(f"{settings.ROOT_DIR}/corpus/{self.name}")
 
     def __str__(self):
         return self.name

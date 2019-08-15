@@ -26,9 +26,13 @@ class Searcher:
     @property
     def docs(self):
         if self._docs is None:
-            return set(self.corpus.reader.all_doc_ids())
+            return set([reader.all_doc_ids() for reader in self.corpus.readers])
         else:
             return set(self._docs)
+
+    def docs_for(self, author: str='*', title: str='*'):
+        return set([reader.all_doc_ids() for reader in self.corpus.readers_for(author, title)])
+
 
     @docs.setter
     def docs(self, doc_ids: list):
@@ -194,28 +198,30 @@ class Search:
 
     def run(self):
         self.start_time = datetime.now()
-        with CylleneusSearcher(self.corpus.reader) as searcher:
-            results = searcher.search(self.query, terms=True, limit=None, filter=self.docs)
 
-            self.results = []
-            if results:
-                results.fragmenter = CylleneusPinpointFragmenter(
-                    autotrim=True,
-                    charlimit=None,
-                    maxchars=self.maxchars,
-                    surround=self.surround
-                )
-                results.scorer = CylleneusBasicFragmentScorer()
-                results.formatter = CylleneusDefaultFormatter()
-                for hit in sorted(results, key=lambda x: (x['author'], x['title'])):
-                    self.results.extend(
-                        hit.highlights(
-                            fieldname='content',
-                            top=self.top,
-                            minscore=self.minscore
-                        )
+        self.results = []
+        for doc_id in self.docs:
+            reader = self.corpus.reader_for_docid(doc_id)
+            with CylleneusSearcher(reader) as searcher:
+                results = searcher.search(self.query, terms=True, limit=None)
+
+                if results:
+                    results.fragmenter = CylleneusPinpointFragmenter(
+                        autotrim=True,
+                        charlimit=None,
+                        maxchars=self.maxchars,
+                        surround=self.surround
                     )
-
+                    results.scorer = CylleneusBasicFragmentScorer()
+                    results.formatter = CylleneusDefaultFormatter()
+                    for hit in sorted(results, key=lambda x: (x['author'], x['title'])):
+                        self.results.extend(
+                            hit.highlights(
+                                fieldname='content',
+                                top=self.top,
+                                minscore=self.minscore
+                            )
+                        )
         self.end_time = datetime.now()
         return self.count
 
