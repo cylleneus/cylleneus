@@ -43,8 +43,8 @@
                                    style="display:none;"/>
                         </div>
                     </div>
-                    <div name="spinner" id="spinner" class="float-left d-none">
-                        <div class="spinner-border" role="status">
+                    <div class="float-left">
+                        <div id="spinner" class="spinner-border d-none" role="status">
                             <span class="sr-only">Importing...</span>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                     </div>
                     {% endif %}
                     <div class="form-group float-right pt-2">
-                        <button type="submit" id="submit" value="Import" class="btn btn-primary" onclick="$('#spinner').className='float-left d-block';">Import</button>
+                        <button type="submit" id="submit" value="Import" class="btn btn-primary" onclick="document.getElementById('spinner').className = 'spinner-border d-block';">Import</button>
                     </div>
                 </form>
             </div>

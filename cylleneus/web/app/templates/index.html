@@ -10,22 +10,26 @@
         <div class="col-md-9">
             <div class="card mb3">
                 <div class="card-body">
-                    <p class="h6 font-weight-bold">Query</p>
                     <form action="/search" method="GET">
                         <div class="form-group">
+                            <label class="h6 font-weight-bold" for="query">Query</label>
                             <input type="text"
                                    class="form-control"
                                    name="query"
                                    autocomplete="off"
                                    value="{{ query }}"
                                    placeholder=""
-                                   id="text"/>
+                                   id="query"/>
                         </div>
-                        <p class="h6 font-weight-bold">Corpus</p>
                         <div class="form-group">
+                            <label class="h6 font-weight-bold" for="corpus">Corpus</label>
                             <select class="form-control" name="corpus" id="corpus">
-                                {% for corpus in corpora %}
-                                <option value="{{ corpus }}" selected="{{ corpus }}">{{ corpus }}</option>
+                                {% for c in corpora %}
+                                {% if c == corpus %}
+                                    <option value="{{ c }}" selected>{{ c }}</option>
+                                {% else %}
+                                    <option value="{{ c }}">{{ c }}</option>
+                                {% endif %}
                                 {% endfor %}
                             </select>
                         </div>
@@ -58,9 +62,9 @@
                     <table class="table w-100">
                         {% for h in history %}
                         <tr>
-                            <td><p class="card-text font-weight-bold"><a href="/history?id={{ h.id }}">{{ h.query }}</a></td>
+                            <td><p class="card-text font-weight-bold"><a href="history?id={{ h.id }}">{{ h.query }}</a></td>
                             <td><p class="card-text">{{ h.corpus }}</p>
-                            <td><p id="st" class="card-text">{{ h.start_time }}</p></td>
+                            <td><p id="st" class="card-text">{{ h.dt }}</p></td>
                         </tr>
                         {% endfor %}
                     </table>
@@ -90,10 +94,10 @@
                             <td><p class="card-text"><kbd>:GEN.PL.</kbd> morphology (Leipzig notation)</p></td>
                         </tr>
                         <tr>
-                            <td><p class="card-text"><kbd>&lt;/::...&gt;</kbd> lexical relation (/, \, +c, -c, or <)</p>
+                            <td><p class="card-text"><kbd>&lt;/::...&gt;</kbd> lexical relation (/, \, +c, -c, <)</p>
                             </td>
                             <td colspan="2"><p class="card-text"><kbd>[!::en?...]</kbd> semantic relation (!, @, ~, |,
-                                *, #m, #p, #s, +r, %m, %p, %s, -r, >, ^, $, or =)</p></td>
+                                *, #m, #p, #s, +r, %m, %p, %s, -r, >, ^, $, =)</p></td>
                         </tr>
                     </table>
                     <p class="card-text">Queries can be combined to form complex proximity
@@ -111,7 +115,7 @@
 
 {% block content %}
 {% if results %}
-    {% for item in results %}
+{% for item in results %}
 <div class="container-fluid pb-4">
     <div class="row justify-content-center">
         <div class="col-md-9">
@@ -127,27 +131,27 @@
 <div class="container-fluid pb-4">
     <div class="row justify-content-center">
         <div class="col-md-9">
-<div class="float-right pt-2">
-    <div class="h3 float-left pr-2">
-    <a download id="save-link" style="display: none"><i class="fa fa-file-text text-dark" aria-hidden="true"></i></a>
-    </div>
-    <div class="float-right">
-        <button id="save-all" class="btn btn-primary btn-block">Save All</button>
-    </div>
-    </div>
-</div>
+            <div class="float-right pt-2">
+                <div class="h3 float-left pr-2">
+                    <a download="{{ query }}-{{ corpus }}.txt" id="save-link" style="display: none"><i class="fa fa-file-text text-dark" aria-hidden="true"></i></a>
+                </div>
+                <div class="float-right">
+                    <button id="save-all" class="btn btn-primary btn-block">Export</button>
+                </div>
+            </div>
         </div>
+    </div>
 </div>
 {% endif %}
 <script>
 (function () {
-var textFile = null,
-  createTextFile = function (content) {
-    var data = new Blob([content], {type: 'text/plain'});
+    var textFile = null,
+    createTextFile = function (content) {
+        var data = new Blob([content], {type: 'text/plain'});
 
-    if (textFile !== null) {
-      window.URL.revokeObjectURL(textFile);
-    }
+        if (textFile !== null) {
+            window.URL.revokeObjectURL(textFile);
+        }
     textFile = window.URL.createObjectURL(data);
     return textFile;
   };
@@ -166,9 +170,10 @@ var textFile = null,
       content += '\n\n'
 }
   save.addEventListener('click', function () {
-    var link = document.getElementById('save-link');
-    link.href = createTextFile(content);
-    link.style.display = 'block';
+    var saveLink = document.getElementById('save-link');
+    var textFile = createTextFile(content);
+    saveLink.setAttribute('href', textFile);
+    saveLink.style.display = 'block'
   }, false);
 })();
 </script>

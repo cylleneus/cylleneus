@@ -1,7 +1,7 @@
 import peewee
 
 import settings
-
+from utils import dtformat
 
 db = peewee.SqliteDatabase(settings.ROOT_DIR + "/cylleneus/web/history.db")
 
@@ -21,6 +21,10 @@ class Search(peewee.Model):
     end_time = peewee.DateTimeField()
     maxchars = peewee.IntegerField(null=True)
     surround = peewee.IntegerField(null=True)
+
+    @property
+    def dt(self):
+        return dtformat(self.start_time)
 Search.create_table(fail_silently=True)
 
 
