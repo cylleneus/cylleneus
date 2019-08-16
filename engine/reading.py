@@ -309,12 +309,17 @@ class IndexReader(object):
 
         raise NotImplementedError
 
+    def all_doc_nums(self):
+        is_deleted = self.is_deleted
+        return (fields['docnum'] for docnum, fields in self.iter_docs()
+                if not is_deleted(docnum))
+
     def all_doc_ids(self):
         """Returns an iterator of all (undeleted) document IDs in the reader.
         """
 
         is_deleted = self.is_deleted
-        return (docnum for docnum in xrange(self.doc_count_all())
+        return (docnum for docnum, _ in self.iter_docs()
                 if not is_deleted(docnum))
 
     def iter_docs(self):
@@ -323,7 +328,7 @@ class IndexReader(object):
         """
 
         for docnum in self.all_doc_ids():
-            yield docnum, self.stored_fields(docnum)
+            yield self.stored_fields(docnum)['docnum'], self.stored_fields(docnum)
 
     @abstractmethod
     def is_deleted(self, docnum):

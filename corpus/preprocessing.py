@@ -141,6 +141,7 @@ class PerseusJSONPreprocessor(Preprocessor):
             'author': data['author'].title(),
             'title': data['originalTitle'].title(),
             'meta': data['meta'].lower(),
+            'urn': data['original-urn'].rsplit('.', maxsplit=1)[0] if 'original-urn' in data else "",
             'form': data,
             'lemma': data,
             'synset': data,

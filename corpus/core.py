@@ -22,8 +22,15 @@ class Corpus:
     def indices(self):
         return self.indexer.indices
 
-    def indices_for(self, author: str = '*', title: str = '*'):
-        return self.indexer.indices_for(author, title)
+    def indices_for(self, author: str = None, title: str = None):
+        if author and title:
+            ixs = self.indexer.indices_for(author, title)
+        elif author:
+            ixs = self.indexer.indices_for(author=author)
+        else:
+            ixs = self.indexer.indices_for(title=title)
+        return ixs
+
 
     @property
     def readers(self):
@@ -32,9 +39,10 @@ class Corpus:
     def readers_for(self, author: str='*', title: str='*'):
         return [ix.reader() for ix in self.indices_for(author, title)]
 
-    def reader_for_docid(self, doc_id: int):
+    def reader_for_docnum(self, docnum: int):
         for reader in self.readers:
-            if doc_id in reader.all_doc_ids():
+            ids = list(reader.all_doc_nums())
+            if docnum in ids:
                 return reader
 
     @property

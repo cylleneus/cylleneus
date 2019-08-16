@@ -66,12 +66,40 @@ class Indexer:
                     ixs.append(ix)
         return ixs
 
-    def indices_for(self, author: str='*', title: str='*'):
+    def all_doc_nums(self):
+        docnums = []
+        for ix in self.indices:
+            docnums.extend(ix.reader().all_doc_nums())
+        return docnums
+
+    def indices_for(self, author: str=None, title: str=None):
         ixs = []
-        for d in self.path.glob(f"{slugify(author)}/{slugify(title)}"):
-            if index.exists_in(d):
-                ix = index.open_dir(d, schema=self.schema)
+
+        if author and title:
+            try:
+                ix = index.open_dir(str(self.path / author / title))
+            except index.EmptyIndexError:
+                pass
+            else:
                 ixs.append(ix)
+        elif author:
+            for d in self.path.glob(f"{slugify(author)}/*"):
+                if index.exists_in(d):
+                    try:
+                        ix = index.open_dir(d, schema=self.schema)
+                    except index.EmptyIndexError:
+                        continue
+                    else:
+                        ixs.append(ix)
+        else:
+            for d in self.path.glob(f'*/{slugify(title)}'):
+                if index.exists_in(d):
+                    try:
+                        ix = index.open_dir(d, schema=self.schema)
+                    except index.EmptyIndexError:
+                        continue
+                    else:
+                        ixs.append(ix)
         return ixs
 
     @property
@@ -84,8 +112,9 @@ class Indexer:
                 writer.commit(mergetype=CLEAR)
 
     def destroy(self):
-        shutil.rmtree(self.path)
-        self._indices = []
+        if self.path.exists():
+            shutil.rmtree(self.path)
+            self._indices = []
 
     def optimize(self):
         for ix in self.indices:
@@ -106,13 +135,17 @@ class Indexer:
 
     def delete(self, path: Path):
         d = Path(self.path / path)
-        if index.exists_in(str(d)):
-            shutil.rmtree(str(d))
+        shutil.rmtree(str(d))
 
     def delete_by(self, author: str = '*', title: str = '*'):
         paths = self.path.glob(f"{slugify(author)}/{slugify(title)}")
         for path in paths:
             self.delete(path)
+
+    def delete_by_num(self, docnum: int):
+        for ix in self.indices:
+            if docnum in ix.reader().all_doc_nums():
+                ix.storage.destroy()
 
     def update(self, author: str, title: str, path: Path):
         a_slug = slugify(author)
@@ -130,6 +163,7 @@ class Indexer:
                 kwargs['author'] = author
             if 'title' not in kwargs and title:
                 kwargs['title'] = title
+            kwargs['docnum'] = docix
 
             a_slug = slugify(kwargs['author'])
             t_slug = slugify(kwargs['title'])
@@ -137,7 +171,7 @@ class Indexer:
             d = Path(self.path / a_slug / t_slug)
             ix = self.open(d)
 
-            writer = ix.writer(
+            writer = ix.writer(docbase=docix,
                 limitmb=1024,
             )
             writer.add_document(docix=docix, **kwargs)

@@ -502,7 +502,7 @@ class SegmentWriter(IndexWriter):
                                 limitmb=limitmb)
 
         # Set up writers
-        self.perdocwriter = codec.per_document_writer(self.storage, newsegment)
+        self.perdocwriter = codec.per_document_writer(self.storage, newsegment, docbase=self.docbase)
         self.fieldwriter = codec.field_writer(self.storage, newsegment)
 
         self.merge = True
@@ -755,7 +755,7 @@ class SegmentWriter(IndexWriter):
 
     def get_segment(self):
         newsegment = self.newsegment
-        newsegment.set_doc_count(self.docnum)
+        newsegment.set_doc_count(self.docnum - self.docbase)
         return newsegment
 
     def per_document_reader(self):

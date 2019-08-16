@@ -34,7 +34,7 @@ from array import array
 from collections import defaultdict
 
 from whoosh import columns
-from whoosh.codec import base
+from engine.codec import base
 from whoosh.compat import b, bytes_type, string_type, integer_types
 from whoosh.compat import dumps, loads, iteritems, xrange
 from whoosh.filedb import compound, filetables
@@ -84,8 +84,8 @@ class W3Codec(base.Codec):
     # def automata(self):
 
     # Per-document value writer
-    def per_document_writer(self, storage, segment):
-        return W3PerDocWriter(self, storage, segment)
+    def per_document_writer(self, storage, segment, docbase=0):
+        return W3PerDocWriter(self, storage, segment, docbase=docbase)
 
     # Inverted index writer
     def field_writer(self, storage, segment):
@@ -156,10 +156,11 @@ def _lenfield(fieldname):
 # Per-doc information writer
 
 class W3PerDocWriter(base.PerDocWriterWithColumns):
-    def __init__(self, codec, storage, segment):
+    def __init__(self, codec, storage, segment, docbase=0):
         self._codec = codec
         self._storage = storage
         self._segment = segment
+        self._docbase = docbase
 
         tempst = storage.temp_storage("%s.tmp" % segment.indexname)
         self._cols = compound.CompoundWriter(tempst)
@@ -203,7 +204,9 @@ class W3PerDocWriter(base.PerDocWriterWithColumns):
     def start_doc(self, docnum):
         if self._indoc:
             raise Exception("Called start_doc when already in a doc")
-
+        if docnum != self._doccount + self._docbase:
+            raise Exception("Called start_doc(%r) was expecting %r"
+                            % (docnum, self._doccount))
         self._docnum = docnum
         self._doccount += 1
         self._storedfields = {}
@@ -408,6 +411,10 @@ class W3PerDocReader(base.PerDocumentReader):
             return reader
 
     def doc_field_length(self, docnum, fieldname, default=0):
+        if docnum > self._doccount:
+            raise IndexError("Asked for docnum %r of %d"
+                             % (docnum, self._doccount))
+
         lenfield = _lenfield(fieldname)
         reader = self._cached_reader(lenfield, LENGTHS_COLUMN)
         if reader is None:

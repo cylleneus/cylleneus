@@ -39,9 +39,9 @@ def index(corpus):
     if docs:
         for docnum, doc in docs:
             if 'author' in doc and 'title' in doc:
-                click.echo(f"[{docnum}] {doc['author']}, {doc['title']} [{doc['filename']}]")
+                click.echo(f"[{doc['docnum']}] {doc['author']}, {doc['title']} [{doc['filename']}]")
             else:
-                click.echo(f"[{docnum}] {doc['filename']}")
+                click.echo(f"[{doc['docnum']}] {doc['filename']}")
     else:
         click.echo(f"[-] nothing indexed in '{corpus}'")
 
@@ -90,8 +90,8 @@ def optimize(corpus):
 @click.option('--docnum', '-d', 'docnum', required=True)
 def delete(corpus, docnum):
     indexer = Indexer(Corpus(corpus))
-    indexer.delete(int(docnum))
-    if docnum in [n for n, _ in indexer.docs]:
+    indexer.delete_by_num(int(docnum))
+    if docnum in list(indexer.all_doc_nums()):
         click.echo(f'[-] failed')
     else:
         click.echo(f"[+] deleted document {docnum} of '{corpus}'")

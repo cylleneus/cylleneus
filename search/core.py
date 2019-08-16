@@ -24,15 +24,17 @@ class Searcher:
         self._corpus = c
 
     @property
+    def doc_nums(self):
+        return set([docnum for reader in self.corpus.readers for docnum, _ in reader.iter_docs()])
+
+    @property
     def docs(self):
         if self._docs is None:
-            return set([doc_id for reader in self.corpus.readers for doc_id in reader.all_doc_ids()])
-        else:
-            return set(self._docs)
+            self._docs = self.doc_nums
+        return set(self._docs)
 
     def docs_for(self, author: str='*', title: str='*'):
         return set([reader.all_doc_ids() for reader in self.corpus.readers_for(author, title)])
-
 
     @docs.setter
     def docs(self, doc_ids: list):
@@ -47,7 +49,7 @@ class Searcher:
             if not corpus:
                 corpus = self.corpus
             if not doc_ids:
-                doc_ids = self.docs
+                doc_ids = self.doc_nums
             search = Search(param, query, corpus, doc_ids=doc_ids, minscore=minscore)
             matches, docs = search.run()
             if matches > 0:
@@ -200,8 +202,9 @@ class Search:
         self.start_time = datetime.now()
 
         self.results = []
-        for doc_id in self.docs:
-            reader = self.corpus.reader_for_docid(doc_id)
+
+        for docnum in self.docs:
+            reader = self.corpus.reader_for_docnum(docnum)
             with CylleneusSearcher(reader) as searcher:
                 results = searcher.search(self.query, terms=True, limit=None)
 

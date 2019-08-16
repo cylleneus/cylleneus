@@ -10,12 +10,16 @@ AnnotationFilter = engine.analysis.filters.AnnotationFilter()
 SemfieldFilter = engine.analysis.filters.SemfieldFilter()
 
 
-class PlainTextDocumentSchema(engine.fields.SchemaClass):
+class BaseSchema(engine.fields.SchemaClass):
+    docnum = engine.fields.STORED()
     author = engine.fields.STORED()
     title = engine.fields.STORED()
-    content = engine.fields.STORED()
     filename = engine.fields.STORED()
     datetime = engine.fields.STORED()
+
+
+class PlainTextDocumentSchema(BaseSchema):
+    content = engine.fields.STORED()
     form = engine.fields.FORM(analyzer=PlainTextTokenizer, vector=True)
     lemma = engine.fields.LEMMA(analyzer=PlainTextTokenizer | LemmaFilter, vector=True)
     annotation = engine.fields.ANNOTATION(analyzer=PlainTextTokenizer | LemmaFilter | AnnotationFilter, vector=True)
@@ -24,14 +28,10 @@ class PlainTextDocumentSchema(engine.fields.SchemaClass):
 
 
 PHI5Tokenizer = engine.analysis.tokenizers.CachedPHI5Tokenizer(chars=True)
-class PHI5DocumentSchema(engine.fields.SchemaClass):
-    author = engine.fields.STORED()
-    title = engine.fields.STORED()
+class PHI5DocumentSchema(BaseSchema):
     urn = engine.fields.STORED()
     meta = engine.fields.STORED()
     content = engine.fields.STORED()
-    filename = engine.fields.STORED()
-    datetime = engine.fields.STORED()
     form = engine.fields.FORM(analyzer=PHI5Tokenizer, vector=True)
     lemma = engine.fields.LEMMA(analyzer=PHI5Tokenizer | LemmaFilter, vector=True)
     annotation = engine.fields.ANNOTATION(analyzer=PHI5Tokenizer | LemmaFilter | AnnotationFilter, vector=True)
@@ -40,13 +40,9 @@ class PHI5DocumentSchema(engine.fields.SchemaClass):
 
 
 PerseusJSONTokenizer = engine.analysis.tokenizers.CachedPerseusJSONTokenizer(chars=True)
-class PerseusJSONDocumentSchema(engine.fields.SchemaClass):
-    author = engine.fields.STORED()
-    title = engine.fields.STORED()
-    filename = engine.fields.STORED()
+class PerseusJSONDocumentSchema(BaseSchema):
+    urn = engine.fields.STORED()
     meta = engine.fields.STORED()
-    filename = engine.fields.STORED()
-    datetime = engine.fields.STORED()
     form = engine.fields.FORM(analyzer=PerseusJSONTokenizer, vector=True)
     lemma = engine.fields.LEMMA(analyzer=PerseusJSONTokenizer | LemmaFilter, vector=True)
     annotation = engine.fields.ANNOTATION(analyzer=PerseusJSONTokenizer | LemmaFilter | AnnotationFilter, vector=True)
@@ -55,13 +51,9 @@ class PerseusJSONDocumentSchema(engine.fields.SchemaClass):
 
 
 PerseusTEITokenizer = engine.analysis.tokenizers.CachedPerseusTEITokenizer(chars=True)
-class PerseusTEIDocumentSchema(engine.fields.SchemaClass):
-    author = engine.fields.STORED()
-    title = engine.fields.STORED()
+class PerseusTEIDocumentSchema(BaseSchema):
     urn = engine.fields.STORED()
     meta = engine.fields.STORED()
-    filename = engine.fields.STORED()
-    datetime = engine.fields.STORED()
     form = engine.fields.FORM(analyzer=PerseusTEITokenizer, vector=True)
     lemma = engine.fields.LEMMA(analyzer=PerseusTEITokenizer | LemmaFilter, vector=True)
     annotation = engine.fields.ANNOTATION(analyzer=PerseusTEITokenizer | LemmaFilter | AnnotationFilter, vector=True)
@@ -71,13 +63,9 @@ class PerseusTEIDocumentSchema(engine.fields.SchemaClass):
 
 LASLATokenizer = engine.analysis.tokenizers.CachedLASLATokenizer(chars=True)
 LASLALemmaFilter = engine.analysis.filters.CachedLASLALemmaFilter(chars=True)
-class LASLADocumentSchema(engine.fields.SchemaClass):
-    author = engine.fields.STORED()
-    title = engine.fields.STORED()
+class LASLADocumentSchema(BaseSchema):
     urn = engine.fields.STORED()
     meta = engine.fields.STORED()
-    filename = engine.fields.STORED()
-    datetime = engine.fields.STORED()
     form = engine.fields.FORM(analyzer=LASLATokenizer, vector=True)
     lemma = engine.fields.LEMMA(analyzer=LASLATokenizer | LASLALemmaFilter, vector=True)
     annotation = engine.fields.ANNOTATION(analyzer=LASLATokenizer | LASLALemmaFilter | AnnotationFilter, vector=True)

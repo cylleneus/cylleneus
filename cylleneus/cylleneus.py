@@ -72,32 +72,37 @@ def credits():
 
 
 @repl.command("select")
-def select(doc_ids: list = None):
+def select(doc_ids: list=None):
     global _searcher
 
     if doc_ids:
         _searcher.docs = doc_ids
+        repl.success(f"selected {len(_searcher.docs)} of {_corpus.indexer.doc_count_all} docs")
     else:
         repl.info(Palette.WHITE.format(f"corpus '{_corpus.name}', {_corpus.indexer.doc_count_all} documents indexed"))
+
         for docnum, fields in _corpus.indexer.iter_docs():
-            if docnum in _searcher.docs:
-                repl.info(Palette.BOLD.format(f"{docnum}. {fields['author'].title()}, {fields['title'].title()}"))
+            if fields['docnum'] in _searcher.docs:
+                repl.info(Palette.BOLD.format(f"{fields['docnum']}. {fields['author'].title()},"
+                                              f" {fields['title'].title()}"))
             else:
-                repl.info(Palette.GREY.format(f"{docnum}. {fields['author'].title()}, {fields['title'].title()}"))
+                repl.info(Palette.GREY.format(f"{fields['docnum']}. {fields['author'].title()},"
+                                              f" {fields['title'].title()}"))
 
 
 @repl.command("selectby")
-def selectby(author: str = None, title: str = None):
+def selectby(author: str ='*', title: str = '*'):
     global _corpus, _searcher
 
-    kwargs = {}
-    if author:
-        kwargs['author'] = author
-    if title:
-        kwargs['title'] = title
+    docs = []
+    for ix in _corpus.indices_for(slugify(author), slugify(title)):
+        docs.extend(list(ix.reader().all_doc_nums()))
+    _searcher.docs = docs
 
-    if 'author' in _corpus.schema and 'title' in _corpus.schema:
-        _searcher.docs = [doc['docix'] for doc in _corpus.index.searcher().documents(**kwargs)]
+@repl.command("selectall")
+def selectall():
+    global _searcher
+    _searcher.docs = _searcher.doc_nums
 
 
 @repl.command("corpus")
@@ -107,10 +112,11 @@ def corpus(corpus_name: str = None):
     if corpus_name:
         _corpus = Corpus(corpus_name)
         _searcher.corpus = _corpus
+        _searcher._docs = None
         repl.success(f"'{_corpus.name}', {_corpus.indexer.doc_count_all} docs")
     else:
-        for path in Path(settings.ROOT_DIR + '/index/').iterdir():
-            if path.is_dir() and index.exists_in(str(path)):
+        for path in Path(settings.ROOT_DIR + '/corpus/').glob('*'):
+            if path.is_dir():
                 repl.success(
                     Palette.GREEN.format(
                         f"'{path.name}'"
@@ -218,7 +224,7 @@ def help():
     save [<#>] [<filename>]     save search results to disk
     display [<#>]               display search results
     corpus [<name>]             load corpus index by name
-    select ["[1, 2...]"]        select documents or list currently selected''')
+    select ["[1,2...]"]        select documents or list currently selected''')
 
 
 if __name__ == "__main__":
