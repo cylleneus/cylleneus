@@ -411,10 +411,6 @@ class W3PerDocReader(base.PerDocumentReader):
             return reader
 
     def doc_field_length(self, docnum, fieldname, default=0):
-        if docnum > self._doccount:
-            raise IndexError("Asked for docnum %r of %d"
-                             % (docnum, self._doccount))
-
         lenfield = _lenfield(fieldname)
         reader = self._cached_reader(lenfield, LENGTHS_COLUMN)
         if reader is None:
@@ -450,9 +446,6 @@ class W3PerDocReader(base.PerDocumentReader):
         self._vpostfile = f
 
     def _vector_extent(self, docnum, fieldname):
-        if docnum > self._doccount:
-            raise IndexError("Asked for document %r of %d"
-                             % (docnum, self._doccount))
         vecfield = _vecfield(fieldname)  # Compute vector column name
 
         # Get the offset from the vector offset column
