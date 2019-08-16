@@ -12,7 +12,7 @@
             <div class="card">
                 <h5 class="card-header font-weight-bold">{{ indexer.corpus.name }}</h5>
                 <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">{{ indexer.index.doc_count_all() }} documents</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ indexer.doc_count_all }} documents</h6>
                     {% for docnum, doc in indexer.docs %}
                     <p><span class="card-text font-weight-bold">[{{ docnum }}] </span><span class="card-text">{{ doc.author }} </span><span class="card-text font-italic">{{ doc.title }}</span></p>
                     {% endfor %}

@@ -1,10 +1,9 @@
 from pathlib import Path
 
 import settings
-from corpus import Corpus
+from corpus import Corpus, Indexer
 from engine import index as ix
 from flask import render_template, request
-from index import Indexer
 from search import Searcher
 
 from .db import Search, SearchResult, db
@@ -12,8 +11,8 @@ from .display import as_html
 from .server import app
 
 _corpora = []
-for path in Path(settings.ROOT_DIR + '/index/').iterdir():
-    if path.is_dir() and ix.exists_in(str(path)):
+for path in Path(settings.ROOT_DIR + '/corpus').glob('*'):
+    if path.is_dir() and Path(path / 'index').exists():
         _corpora.append(path.name)
 
 
@@ -26,16 +25,15 @@ def import_text(author, title, filename, content):
 
     try:
         indexer = Indexer(Corpus('imported'))
-        n = indexer.index.doc_count_all()
+        n = indexer.doc_count_all
         indexer.adds(content, **kwargs)
 
-        ndocs = indexer.index.doc_count_all()
+        ndocs = indexer.doc_count_all
         if ndocs > n:
             success = True
         else:
             success = False
     except Exception as e:
-        print(e)
         success = False
     return success
 
@@ -67,8 +65,8 @@ def index():
 @app.route('/corpora', methods=['GET'])
 def corpora():
     indexers = []
-    for path in Path(settings.ROOT_DIR + '/index/').iterdir():
-        if path.is_dir() and ix.exists_in(str(path)):
+    for path in Path(settings.ROOT_DIR + '/corpus/').glob('*'):
+        if path.is_dir() and Path(path / 'index').exists():
             indexers.append(Indexer(Corpus(path.name)))
 
         response = {
@@ -136,11 +134,6 @@ def search():
         form = request.form
     else:
         form = request.args
-
-    corpora = []
-    for path in Path(settings.ROOT_DIR + '/index/').iterdir():
-        if path.is_dir() and ix.exists_in(str(path)):
-            corpora.append(path.name)
 
     corpus = form.get('corpus')
     query = form.get('query')

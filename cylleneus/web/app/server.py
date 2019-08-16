@@ -12,7 +12,7 @@ def run():
     app.run(
         host=HOST_ADDR,
         port=HOST_PORT,
-        debug=DEBUG,
+        debug=True,
         threaded=not PROCESSES > 1,
         processes=PROCESSES
     )

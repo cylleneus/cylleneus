@@ -179,13 +179,18 @@ class Indexer:
 
     def adds(self, content: str, **kwargs):
         if content:
-            ndocs = self.index.doc_count_all()
-
-            writer = self.index.writer(limitmb=512)
+            ndocs = self.doc_count_all
 
             docix = ndocs
             parsed = self.preprocessor.parse(content)
             kwargs.update(parsed)
 
+            a_slug = slugify(kwargs['author'])
+            t_slug = slugify(kwargs['title'])
+
+            d = Path(self.path / a_slug / t_slug)
+            ix = self.open(d)
+
+            writer = ix.writer(docbase=docix, limitmb=1024)
             writer.add_document(docix=docix, **kwargs)
             writer.commit()
