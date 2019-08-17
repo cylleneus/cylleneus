@@ -8,7 +8,7 @@ Cylleneus
 .. image:: https://img.shields.io/pypi/v/cylleneus.svg
         :target: https://pypi.python.org/pypi/cylleneus
 
-.. image:: https://img.shields.io/travis/wmshort/cylleneus.svg
+.. image:: https://img.shields.io/travis/wmshort/cylleneus.svg?branch=master
         :target: https://travis-ci.org/wmshort/cylleneus
 
 .. image:: https://readthedocs.org/projects/cylleneus/badge/?version=latest
