@@ -57,10 +57,11 @@ def search(*args):
     query = ' '.join(args)
     _search = _searcher.search(query)
 
-    if _search.results:
-       repl.success(f"{_search.param}: {_search.time} secs, {_search.count[0]} matches")
-    else:
-       repl.error(f"{_search.param}: {_search.time} secs, nothing found")
+    if _search:
+        if _search.results:
+            repl.success(f"{_search.param}: {_search.time} secs, {_search.count[0]} matches")
+        else:
+            repl.error(f"{_search.param}: {_search.time} secs, nothing found")
 
 
 @repl.command("credits")

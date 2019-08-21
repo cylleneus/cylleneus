@@ -3,7 +3,7 @@ import pathlib
 from corpus import Corpus, Indexer
 
 if __name__ == '__main__':
-    perseus = pathlib.Path('../corpus/perseus/text/')
+    perseus = pathlib.Path('corpus/perseus/text/')
     indexer = Indexer(Corpus('perseus'))
     indexer.destroy()
 

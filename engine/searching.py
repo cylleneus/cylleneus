@@ -33,7 +33,7 @@ from __future__ import division
 
 import copy
 import weakref
-from collections import namedtuple
+from collections import namedtuple, defaultdict
 from itertools import product
 from math import ceil
 
@@ -43,7 +43,7 @@ import engine.query.positional
 import settings
 import whoosh.classify
 import whoosh.query
-import whoosh.scoring
+import engine.scoring
 from whoosh.compat import iteritems, iterkeys, itervalues, xrange
 from whoosh.idsets import BitSet, DocIdSet
 from whoosh.qparser.common import print_debug
@@ -124,7 +124,7 @@ class Searcher(object):
     methods for searching the index.
     """
 
-    def __init__(self, reader, weighting=whoosh.scoring.BM25F, closereader=True,
+    def __init__(self, reader, weighting=engine.scoring.BM25F, closereader=True,
                  fromindex=None, parent=None):
         """
         :param reader: An :class:`~whoosh.reading.IndexReader` object for
@@ -1660,8 +1660,19 @@ def min_score(query):
 class CylleneusHit(Hit):
     """ Hit object for Cylleneus searches """
 
+    def fields(self):
+        """Returns a dictionary of the stored fields of the document this
+        object represents.
+        """
+
+        # TODO: make sure docnum is always 0!
+        if self._fields is None:
+            self._fields = self.searcher.stored_fields(0)
+        return self._fields
+
     def annotation_filter(self, query):
         """ Filter results of a query by its morphological annotation, if any """
+
         if isinstance(query, engine.query.compound.CylleneusCompoundQuery):
             results = []
 
@@ -1673,6 +1684,8 @@ class CylleneusHit(Hit):
                 results += subresults
             return set(results)
         else:
+            results = []
+
             # Compare every query match to every annotation match, keeping only
             # fragments whose matches occur at the same position
             if hasattr(query, 'annotation') and query.annotation:
@@ -1689,14 +1702,60 @@ class CylleneusHit(Hit):
                     for fragment in self.results.highlighter.fragment_hit(hit, query.annotation.field())
                     for match in fragment.matches
                 }
-                results = set([
-                    query_matches[query_match]
-                    for query_match, annotation_match in product(query_matches, annotation_matches)
-                    if query_match.docnum == annotation_match.docnum
-                       and query_match.pos == annotation_match.pos
-                       and query_match.startchar == annotation_match.startchar
-                       and query_match.endchar == annotation_match.endchar
-                ])
+                matches = set()
+                for query_match, annotation_match in product(query_matches, annotation_matches):
+                    if query_match.docnum == annotation_match.docnum \
+                        and query_match.pos == annotation_match.pos \
+                        and query_match.startchar == annotation_match.startchar \
+                        and query_match.endchar == annotation_match.endchar:
+                        matches.update([query_match, annotation_match])
+
+                matches = list(matches)
+
+                if not any(
+                    [
+                        (match.fieldname, match.text) == (query.fieldname, query.text)
+                        for match in matches
+                    ]
+                ):
+                    matches = []
+                if isinstance(
+                    query.annotation, engine.query.terms.Annotation
+                ):
+                    if not any(
+                        [
+                            (match.fieldname, match.text) == (query.annotation.fieldname,
+                                                                  query.annotation.text)
+                            for match in matches
+                        ]
+                    ):
+                        matches = []
+                elif isinstance(
+                    query.annotation, engine.query.compound.And
+                ):
+                    if not all(
+                    [
+                        any(
+                            [
+                                (match.fieldname, match.text) == (subquery.field, subquery.text)
+                                for match in matches
+                            ]
+                        )
+                        for subquery in query.annotation.subqueries
+                    ]
+                ):
+                        matches = []
+
+                if matches:
+                    # Create a new fragment
+                    fragment = engine.highlight.CylleneusFragment(
+                        text=matches[0].text,   # FIXME: OK for 'content' corpora?
+                        startchar=matches[0].startchar,
+                        endchar=matches[0].endchar,
+                        matches=matches
+                    )
+                    fragment.matched_terms = set([(match.fieldname, match.text) for match in matches]),
+                    results.append(fragment)
             else:
                 if isinstance(query, engine.query.terms.PatternQuery):
                     terms = [t for f, t in query.iter_all_terms(self.searcher.ixreader)]
@@ -1708,7 +1767,12 @@ class CylleneusHit(Hit):
                     for fragment_match in fragment.matches
                     if fragment_match.text in terms
                 ])
-            return results
+
+        # Squash duplicate matches
+        for result in results:
+            result.matches = list(set(result.matches))
+
+        return results
 
     def filter_fragments(self, query, minscore: int = 1):
         # Filter out any matches that do not having matching annotations, if
@@ -1718,6 +1782,55 @@ class CylleneusHit(Hit):
         if settings.DEBUG:
             print_debug(settings.DEBUG, "Query: {}".format(query))
             print_debug(settings.DEBUG, "Pre-filtered fragments: {}".format(results))
+
+        # For compound annotation queries, keep same-analysis groups
+        # TODO: similar annotation matches may be for different lemmas
+        if isinstance(query, engine.query.compound.And) \
+            and all(
+            [
+                isinstance(subquery, engine.query.terms.Annotation)
+                for subquery in query.subqueries
+            ]
+        ):
+            for fragment in results:
+                terms = [term.text.split(':')[0] for term in query.subqueries]
+                morphos = []
+                groups = defaultdict(list)
+                matches_by_group = defaultdict(list)
+                matches_by_text = {}
+                for match in fragment.matches:
+                    matches_by_text[match.text] = match
+                    matches_by_group[match.text.split(':')[1]].append(match)
+                    annotation, n = match.text.split(':')
+                    groups[n].append(annotation)
+                for group, annotations in groups.items():
+                    if len(annotations) == len(terms) \
+                        and all(
+                        [annotation in terms for annotation in annotations]
+                    ):
+                        morphos.append(group)
+                candidates = []
+                for n in morphos:
+                    group = matches_by_group[n]
+                    group_meta = [t.meta for t in group]
+
+                    # guarantee that the meta data for all matches is the same
+                    if group_meta.count(group_meta[0]) == len(group_meta):
+                        candidates.append(n)
+                finalists = []
+                for group in candidates:
+                    finalists.extend(matches_by_group[group])
+                fragment.matches = finalists
+
+        # Squash matches with identical meta data
+        for fragment in results:
+            seen = []
+            squashed = []
+            for match in fragment.matches:
+                if match.meta not in seen:
+                    seen.append(match.meta)
+                    squashed.append(match)
+            fragment.matches = squashed
 
         # Merge overlapping and adjacent (multi-field) fragments
         combined = []
@@ -1821,17 +1934,27 @@ class CylleneusHit(Hit):
                 startmeta = {}
                 endmeta = {}
 
+                hlites = [
+                    [v
+                     for k, v in match.meta.items()
+                     if k not in match.meta['meta'].split('-')
+                     and k != 'meta'
+                     ]
+                    for match in fragment.matches
+                ]
+                meta['hlites'] = hlites
+
                 for div in divs:
                     startmeta[div] = getattr(fragment.matches[0], 'meta')[div]
                     endmeta[div] = getattr(fragment.matches[-1], 'meta')[div]
 
                 # Sentence in section
                 if 'sect_sent' in getattr(fragment.matches[0], 'meta'):
-                    startmeta['sect_sent'] = getattr(fragment.matches[0], 'meta')['sect_pos']
+                    startmeta['sect_sent'] = getattr(fragment.matches[0], 'meta')['sect_sent']
                 else:
                     startmeta['sect_sent'] = None
                 if 'sect_sent' in getattr(fragment.matches[-1], 'meta'):
-                    endmeta['sect_sent'] = getattr(fragment.matches[-1], 'meta')['sect_pos']
+                    endmeta['sect_sent'] = getattr(fragment.matches[-1], 'meta')['sect_sent']
                 else:
                     endmeta['sect_sent'] = None
 

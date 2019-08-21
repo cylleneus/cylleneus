@@ -258,7 +258,7 @@ class CylleneusHighlighter(object):
                 for pos, startchar, endchar, meta in chars:
                     if charlimit and endchar > charlimit:
                         break
-                    t = engine.analysis.acore.CylleneusToken(docnum=hitobj.docnum, text=word, pos=pos,
+                    t = engine.analysis.acore.CylleneusToken(docnum=hitobj['docnum'], text=word, pos=pos,
                                                                   startchar=startchar, endchar=endchar, boost=boost,
                                                                   fieldname=field.__class__.__name__.lower())
 
@@ -332,7 +332,7 @@ class CylleneusHighlighter(object):
                         if term[0] == fieldname)
 
             # Grab the word->[(startchar, endchar)] map for this docnum
-            cmap = results._char_cache[fieldname][hitobj.docnum]
+            cmap = results._char_cache[fieldname][hitobj['docnum']]
             # A list of Token objects for matched words
             tokens = []
             charlimit = self.fragmenter.charlimit
@@ -341,7 +341,7 @@ class CylleneusHighlighter(object):
                 for pos, startchar, endchar in chars:
                     if charlimit and endchar > charlimit:
                         break
-                    tokens.append(engine.analysis.acore.CylleneusToken(docnum=hitobj.docnum, text=word, pos=pos,
+                    tokens.append(engine.analysis.acore.CylleneusToken(docnum=hitobj['docnum'], text=word, pos=pos,
                                                                             startchar=startchar, endchar=endchar))
             tokens.sort(key=lambda t: t.startchar)
             tokens = [max(group, key=lambda t: t.endchar - t.startchar)
@@ -427,13 +427,14 @@ class CylleneusBasicFragmentScorer(whoosh.highlight.FragmentScorer):
                                 if x.pos == 0 and y.pos == 0:  # ? to avoid div by zero
                                     dists.append(-1)
                                 else:
-                                    if ordering[(x.fieldname, x.text)] < ordering[(y.fieldname, y.text)]:
-                                        dists.append(y.pos - x.pos)
+                                    if x.fieldname != 'annotation':
+                                        if ordering[(x.fieldname, x.text)] < ordering[(y.fieldname, y.text)]:
+                                            dists.append(y.pos - x.pos)
                             x = y
                     try:
                         m = statistics.mean(dists)
                     except statistics.StatisticsError:
-                        m = -1  # to avoid div by zero?
+                        m = -1  # to avoid div by zero
                     if m == 0:
                         m = 1
                     if dists:

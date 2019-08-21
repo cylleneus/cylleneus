@@ -176,6 +176,7 @@ class Indexer:
             )
             writer.add_document(docix=docix, **kwargs)
             writer.commit()
+        self.optimize()
 
     def adds(self, content: str, **kwargs):
         if content:
@@ -194,3 +195,4 @@ class Indexer:
             writer = ix.writer(docbase=docix, limitmb=1024)
             writer.add_document(docix=docix, **kwargs)
             writer.commit()
+        self.optimize()

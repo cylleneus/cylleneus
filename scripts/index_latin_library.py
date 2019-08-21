@@ -1,7 +1,6 @@
 import pathlib
 
-from corpus import Corpus
-from index import Indexer
+from corpus import Corpus, Indexer
 
 if __name__ == '__main__':
     latin_library = pathlib.Path('corpus/latin_library/text/')
@@ -10,3 +9,4 @@ if __name__ == '__main__':
 
     for file in latin_library.glob('*/*.txt'):
         indexer.add(file)
+    indexer.optimize()

@@ -23,8 +23,6 @@ def get(hit, meta, fragment):
         [f"{item}: {meta['end'][item]}" for item in meta['end'] if item in divs]
     )
     reference = '-'.join([ref_start, ref_end]) if ref_end != ref_start else ref_start
-    hlite_start = [meta['start'][item] for item in meta['start'] if item not in divs]
-    hlite_end = [meta['end'][item] for item in meta['end'] if item not in divs]
 
     # Collect text and context
     start = [
@@ -51,7 +49,6 @@ def get(hit, meta, fragment):
                 break
         if content:
             pre.append(f"<pre>{content}</pre>")
-
     match = []
     for ref in nrange(start, end):
         content = doc['text']
@@ -59,13 +56,17 @@ def get(hit, meta, fragment):
         for div in ref:
             content = content[str(div - 1)]
 
-        content = [
-            f"<em>{t}</em>"
-            if (hlite_start[-4] and i == int(hlite_start[-4]))
-               or (hlite_end[-4] and i == int(hlite_end[-4]))
-            else t
-            for i, t in enumerate(content.split())
-        ]
+        if list(zip(divs, ref)) == [(k, int(meta['start'][k])) for k in divs]:
+            hlites = [int(hlite[-1]) for hlite in meta['hlites']]
+            content = [
+                f"<em>{t}</em>"
+                # use meta['hlites'] to match highlighted words
+                if i in hlites
+                else t
+                for i, t in enumerate(content.split())
+            ]
+        else:
+            content = [t for t in content.split()]
         match.append(f"<match>{' '.join(content)}</match>")
 
     post_start = end[:-1] + [(end[-1] + 1), ]

@@ -84,12 +84,12 @@ def from_leipzig(gloss: str):
                     pos = 'r'
             elif tag in ['NOM', 'GEN', 'DAT', 'ACC', 'ABL', 'LOC', 'VOC']:
                 case = _from_leipzig[tag]
-                if mood in 'pgds':
-                    pos = 'v'
-                elif person != '-':  # adjectives have degree
-                    pos = 'a'
-                else:
-                    pos = 'n'
+                # if mood in 'pgds':
+                #     pos = 'v'
+                # elif person != '-':  # adjectives have degree
+                #     pos = 'a'
+                # else:
+                #     pos = 'n'
         desc = f"{pos}{person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
         return desc
 

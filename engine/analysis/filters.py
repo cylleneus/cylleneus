@@ -671,19 +671,19 @@ class AnnotationFilter(Filter):
                     for i, v in enumerate(annotation):
                         if v != '-':
                             text = f"{'-' * i}{v}{'-' * (9 - i)}"
-                            t.text = text
+                            t.text = f'{text}:(\d+)$'
                             yield t
             elif t.mode == 'index':
                 text = t.morpho
                 if text:
                     morpho, annotations = text.split('>')
-                    for annotation in annotations.split(' '):
-                        t.text = annotation
+                    for i, annotation in enumerate(annotations.split(' ')):
+                        t.text = f"{annotation}:{i}"
                         yield t
 
-                        for i, v in enumerate(annotation):
+                        for j, v in enumerate(annotation):
                             if v != '-':
-                                text = f"{'-' * i}{v}{'-' * (9 - i)}"
+                                text = f"{'-' * j}{v}{'-' * (9 - j)}:{i}"
                                 t.text = text
                                 yield t
 

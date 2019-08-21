@@ -3,6 +3,7 @@ from datetime import datetime
 
 import settings
 from corpus.core import Corpus
+from engine import scoring
 from engine.highlight import CylleneusBasicFragmentScorer, CylleneusDefaultFormatter, CylleneusPinpointFragmenter
 from engine.qparser.default import CylleneusQueryParser
 from engine.query.qcore import Query
@@ -49,7 +50,7 @@ class Searcher:
             if not corpus:
                 corpus = self.corpus
             if not doc_ids:
-                doc_ids = self.doc_nums
+                doc_ids = self.docs
             search = Search(param, query, corpus, doc_ids=doc_ids, minscore=minscore)
             matches, docs = search.run()
             if matches > 0:
@@ -185,7 +186,8 @@ class Search:
     def count(self):
         if self.results and len(self.results) > 0:
             docs = len(set([hit.docnum for hit, _, _ in self.results]))
-            matches = len(self.results)
+            # matches = len(self.results)
+            matches = sum([len(meta['hlites']) for _, meta, _ in self.results])
             return matches, docs
         else:
             return 0, 0
@@ -205,8 +207,13 @@ class Search:
 
         for docnum in self.docs:
             reader = self.corpus.reader_for_docnum(docnum)
-            with CylleneusSearcher(reader) as searcher:
-                results = searcher.search(self.query, terms=True, limit=None)
+            with CylleneusSearcher(reader,
+                                   weighting=scoring.NullWeighting
+                                   ) as searcher:
+                results = searcher.search(self.query,
+                                          terms=True,
+                                          limit=None,
+                                          )
 
                 if results:
                     results.fragmenter = CylleneusPinpointFragmenter(
@@ -218,13 +225,14 @@ class Search:
                     results.scorer = CylleneusBasicFragmentScorer()
                     results.formatter = CylleneusDefaultFormatter()
                     for hit in sorted(results, key=lambda x: (x['author'], x['title'])):
-                        self.results.extend(
-                            hit.highlights(
-                                fieldname='content',
-                                top=self.top,
-                                minscore=self.minscore
+                        if hit['docnum'] in self.docs:
+                            self.results.extend(
+                                hit.highlights(
+                                    fieldname='content',
+                                    top=self.top,
+                                    minscore=self.minscore
+                                )
                             )
-                        )
         self.end_time = datetime.now()
         return self.count
 
