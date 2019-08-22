@@ -44,18 +44,19 @@ class Searcher:
     def search(self, param: str, corpus=None, doc_ids: list = None, minscore=None, debug=settings.DEBUG):
         """ Execute the specified search parameters """
 
-        if param:
-            parser = CylleneusQueryParser("form", self.corpus.indexer.schema)
-            query = parser.parse(param, debug=debug)
-            if not corpus:
-                corpus = self.corpus
-            if not doc_ids:
-                doc_ids = self.docs
-            search = Search(param, query, corpus, doc_ids=doc_ids, minscore=minscore)
-            matches, docs = search.run()
-            if matches > 0:
-                self.searches.append(search)
-            return search
+        if self.corpus.is_searchable:
+            if param:
+                parser = CylleneusQueryParser("form", self.corpus.indexer.schema)
+                query = parser.parse(param, debug=debug)
+                if not corpus:
+                    corpus = self.corpus
+                if not doc_ids:
+                    doc_ids = self.docs
+                search = Search(param, query, corpus, doc_ids=doc_ids, minscore=minscore)
+                matches, docs = search.run()
+                if matches and matches > 0:
+                    self.searches.append(search)
+                return search
 
     @property
     def searches(self):
@@ -180,7 +181,10 @@ class Search:
 
     @property
     def time(self):
-        return self.end_time - self.start_time
+        if self.end_time and self.start_time:
+            return self.end_time - self.start_time
+        else:
+            return None
 
     @property
     def count(self):
@@ -205,36 +209,39 @@ class Search:
 
         self.results = []
 
-        for docnum in self.docs:
-            reader = self.corpus.reader_for_docnum(docnum)
-            with CylleneusSearcher(reader,
-                                   weighting=scoring.NullWeighting
-                                   ) as searcher:
-                results = searcher.search(self.query,
-                                          terms=True,
-                                          limit=None,
-                                          )
+        if self.corpus.is_searchable:
+            for docnum in self.docs:
+                reader = self.corpus.reader_for_docnum(docnum)
+                with CylleneusSearcher(reader,
+                                       weighting=scoring.NullWeighting
+                                       ) as searcher:
+                    results = searcher.search(self.query,
+                                              terms=True,
+                                              limit=None,
+                                              )
 
-                if results:
-                    results.fragmenter = CylleneusPinpointFragmenter(
-                        autotrim=True,
-                        charlimit=None,
-                        maxchars=self.maxchars,
-                        surround=self.surround
-                    )
-                    results.scorer = CylleneusBasicFragmentScorer()
-                    results.formatter = CylleneusDefaultFormatter()
-                    for hit in sorted(results, key=lambda x: (x['author'], x['title'])):
-                        if hit['docnum'] in self.docs:
-                            self.results.extend(
-                                hit.highlights(
-                                    fieldname='content',
-                                    top=self.top,
-                                    minscore=self.minscore
+                    if results:
+                        results.fragmenter = CylleneusPinpointFragmenter(
+                            autotrim=True,
+                            charlimit=None,
+                            maxchars=self.maxchars,
+                            surround=self.surround
+                        )
+                        results.scorer = CylleneusBasicFragmentScorer()
+                        results.formatter = CylleneusDefaultFormatter()
+                        for hit in sorted(results, key=lambda x: (x['author'], x['title'])):
+                            if hit['docnum'] in self.docs:
+                                self.results.extend(
+                                    hit.highlights(
+                                        fieldname='content',
+                                        top=self.top,
+                                        minscore=self.minscore
+                                    )
                                 )
-                            )
-        self.end_time = datetime.now()
-        return self.count
+            self.end_time = datetime.now()
+            return self.count
+        else:
+            return None, None
 
     def __repr__(self):
         return f"Search(query={self.query}, corpus={self.corpus}, results={self.count})"

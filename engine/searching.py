@@ -1702,6 +1702,10 @@ class CylleneusHit(Hit):
                     for fragment in self.results.highlighter.fragment_hit(hit, query.annotation.field())
                     for match in fragment.matches
                 }
+                if settings.DEBUG:
+                    print_debug(settings.DEBUG, "Query matches: {}".format(query_matches))
+                    print_debug(settings.DEBUG, "Annotation matches: {}".format(annotation_matches))
+
                 matches = set()
                 for query_match, annotation_match in product(query_matches, annotation_matches):
                     if query_match.docnum == annotation_match.docnum \
@@ -1709,8 +1713,10 @@ class CylleneusHit(Hit):
                         and query_match.startchar == annotation_match.startchar \
                         and query_match.endchar == annotation_match.endchar:
                         matches.update([query_match, annotation_match])
-
                 matches = list(matches)
+
+                if settings.DEBUG:
+                    print_debug(settings.DEBUG, "Overlapping matches: {}".format(matches))
 
                 if not any(
                     [
@@ -1719,13 +1725,20 @@ class CylleneusHit(Hit):
                     ]
                 ):
                     matches = []
+
+                if settings.DEBUG:
+                    print_debug(settings.DEBUG, "Post-query check: {}".format(matches))
+
                 if isinstance(
                     query.annotation, engine.query.terms.Annotation
                 ):
+                    if settings.DEBUG:
+                        print_debug(settings.DEBUG, "Single-term annotation: {}".format(query.annotation))
+
                     if not any(
                         [
-                            (match.fieldname, match.text) == (query.annotation.fieldname,
-                                                                  query.annotation.text)
+                            (match.fieldname, match.text.split(':')[0]) == (query.annotation.fieldname,
+                                                                  query.annotation.text.split(':')[0])
                             for match in matches
                         ]
                     ):
@@ -1733,11 +1746,15 @@ class CylleneusHit(Hit):
                 elif isinstance(
                     query.annotation, engine.query.compound.And
                 ):
+                    if settings.DEBUG:
+                        print_debug(settings.DEBUG, "Multi-term annotation: {}".format(query.annotation))
+
                     if not all(
                     [
                         any(
                             [
-                                (match.fieldname, match.text) == (subquery.field, subquery.text)
+                                (match.fieldname, match.text.split(':')[0]) == (subquery.fieldname, subquery.text.split(
+                                    ':')[0])
                                 for match in matches
                             ]
                         )
@@ -1745,6 +1762,9 @@ class CylleneusHit(Hit):
                     ]
                 ):
                         matches = []
+
+                if settings.DEBUG:
+                    print_debug(settings.DEBUG, "Post-annotation check: {}".format(matches))
 
                 if matches:
                     # Create a new fragment
@@ -1768,23 +1788,64 @@ class CylleneusHit(Hit):
                     if fragment_match.text in terms
                 ])
 
+        # For compound annotation queries, keep only same-analysis groups
+        # TODO: similar annotation matches may be for different lemmas
+        if isinstance(query.annotation, engine.query.compound.And):
+            for fragment in results:
+                terms = [term.text.split(':')[0] for term in query.annotation.subqueries]
+                morphos = []
+                groups = defaultdict(list)
+                matches_by_group = defaultdict(list)
+                matches_by_text = {}
+                for match in fragment.matches:
+                    matches_by_text[match.text] = match
+                    matches_by_group[match.text.split(':')[1]].append(match)
+                    annotation, n = match.text.split(':')
+                    groups[n].append(annotation)
+                for group, annotations in groups.items():
+                    if len(annotations) == len(terms) \
+                        and all(
+                        [annotation in terms for annotation in annotations]
+                    ):
+                        morphos.append(group)
+                candidates = []
+                for n in morphos:
+                    group = matches_by_group[n]
+                    group_meta = [t.meta for t in group]
+
+                    # guarantee that the meta data for all matches is the same
+                    if group_meta.count(group_meta[0]) == len(group_meta):
+                        candidates.append(n)
+                finalists = []
+                for group in candidates:
+                    finalists.extend(matches_by_group[group])
+                fragment.matches = finalists
+
+        if settings.DEBUG:
+            print_debug(settings.DEBUG, "Keep only same-group annotations: {}".format(results))
+            for fragment in results:
+                print_debug(settings.DEBUG, fragment.matches)
+
         # Squash duplicate matches
-        for result in results:
-            result.matches = list(set(result.matches))
+        for fragment in results:
+            fragment.matches = list(set(fragment.matches))
 
         return results
 
     def filter_fragments(self, query, minscore: int = 1):
+        if settings.DEBUG:
+            print_debug(settings.DEBUG, "Query: {}".format(query))
+
         # Filter out any matches that do not having matching annotations, if
         # any query is annotated
         results = sorted(self.annotation_filter(query), key=lambda x: x.startchar)
 
         if settings.DEBUG:
-            print_debug(settings.DEBUG, "Query: {}".format(query))
             print_debug(settings.DEBUG, "Pre-filtered fragments: {}".format(results))
 
         # For compound annotation queries, keep same-analysis groups
         # TODO: similar annotation matches may be for different lemmas
+        # add another annotation field for the lemma #
         if isinstance(query, engine.query.compound.And) \
             and all(
             [

@@ -11,13 +11,12 @@ from pathlib import Path
 import parawrap
 import settings
 from corpus import Corpus
-from engine import index
 from riposte import Riposte
 from riposte.printer import Palette
 from search import Searcher
 from utils import slugify
 
-_corpus = Corpus('lasla')
+_corpus = None
 _searcher = Searcher(_corpus)
 _search = None
 
@@ -57,8 +56,8 @@ def search(*args):
     query = ' '.join(args)
     _search = _searcher.search(query)
 
-    if _search:
-        if _search.results:
+    if _search is not None:
+        if len(_search.results) > 0:
             repl.success(f"{_search.param}: {_search.time} secs, {_search.count[0]} matches")
         else:
             repl.error(f"{_search.param}: {_search.time} secs, nothing found")

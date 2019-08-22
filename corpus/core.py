@@ -1,5 +1,4 @@
 import settings
-from engine.fields import Schema
 from pathlib import Path
 from . import indexer
 from . import lasla, latin_library, perseus
@@ -31,6 +30,10 @@ class Corpus:
             ixs = self.indexer.indices_for(title=title)
         return ixs
 
+
+    @property
+    def is_searchable(self):
+        return self.indexer.schema and self.indexer.indices
 
     @property
     def readers(self):
