@@ -168,7 +168,7 @@ def add(corpus, path, **kwargs):
 
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
-@click.option('--field', '-f', 'fieldname', required=True)
+@click.option('--fieldname', '-f', 'fieldname', required=True)
 def lexicon(corpus, fieldname):
     indexer = Indexer(Corpus(corpus))
 
