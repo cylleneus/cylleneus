@@ -639,11 +639,12 @@ class SegmentWriter(IndexWriter):
 
         for docnum, stored in reader.iter_docs():
             if docmap is not None:
-                docmap[docnum] = self.docnum
+                docmap[docnum] = docnum
 
-            pdw.start_doc(self.docnum)
+            pdw.start_doc(docnum)
             for fieldname in fieldnames:
                 fieldobj = schema[fieldname]
+
                 length = reader.doc_field_length(docnum, fieldname)
                 pdw.add_field(fieldname, fieldobj,
                               stored.get(fieldname), length)

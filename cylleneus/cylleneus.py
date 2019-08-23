@@ -13,11 +13,12 @@ import settings
 from corpus import Corpus
 from riposte import Riposte
 from riposte.printer import Palette
-from search import Searcher
+from search import Searcher, Collection
 from utils import slugify
 
+_collection = None
+_searcher = Searcher(_collection)
 _corpus = None
-_searcher = Searcher(_corpus)
 _search = None
 
 
@@ -35,8 +36,8 @@ Next-gen corpus search for Greek and Latin
 class CustomRiposte(Riposte):
     @property
     def prompt(self):
-        if _corpus:
-            return f"cylleneus ({_corpus.name}):~ $ "
+        if _collection and _collection.count > 0:
+            return f"cylleneus ({_collection.count} docs):~ $ "
         else:
             return self._prompt  # reference to `prompt` parameter.
 
@@ -51,16 +52,17 @@ repl = CustomRiposte(
 
 @repl.command("search")
 def search(*args):
-    global _searcher, _search
+    global _searcher, _search, _collection
 
     query = ' '.join(args)
+    _searcher.collection = _collection
     _search = _searcher.search(query)
 
     if _search is not None:
         if len(_search.results) > 0:
-            repl.success(f"{_search.param}: {_search.time} secs, {_search.count[0]} matches")
+            repl.success(f"{_search.spec}: {_search.time} secs, {_search.count[0]} matches")
         else:
-            repl.error(f"{_search.param}: {_search.time} secs, nothing found")
+            repl.error(f"{_search.spec}: {_search.time} secs, nothing found")
 
 
 @repl.command("credits")
@@ -72,26 +74,38 @@ def credits():
 
 
 @repl.command("select")
-def select(doc_ids: list=None):
-    global _searcher
+def select(docixs: list=None):
+    global _collection, _corpus
+
+    if not _collection:
+        _collection = Collection()
+
+    if docixs and isinstance(docixs, list):
+        if _corpus:
+            ndocs = _collection.count
+            for docix in docixs:
+                _collection.add(_corpus.work_by_docix(docix))
+            repl.success(f"added {_collection.count - ndocs} docs to search collection")
+        else:
+            repl.error(f"no corpus selected")
+    else:
+        repl.info(Palette.BOLD.format(f"{_collection.count} documents selected"))
+
+        for work in _collection:
+            repl.info(Palette.GREY.format(f"- {work.doc['author'].title()},"
+                                              f" {work.doc['title'].title()} [{work.corpus.name}]"))
+
+
+@repl.command("index")
+def index():
+    global _corpus
 
     if _corpus:
-        if doc_ids and isinstance(doc_ids, list):
-            _searcher.docs = doc_ids
-            repl.success(f"selected {len(_searcher.docs)} of {_corpus.indexer.doc_count_all} docs")
-        else:
-            repl.info(Palette.WHITE.format(f"corpus '{_corpus.name}', {_corpus.indexer.doc_count_all} documents indexed"))
-
-            for docix, fields in _corpus.indexer.iter_docs():
-                if fields['docix'] in _searcher.docs:
-                    repl.info(Palette.BOLD.format(f"{fields['docix']}. {fields['author'].title()},"
-                                                  f" {fields['title'].title()}"))
-                else:
-                    repl.info(Palette.GREY.format(f"{fields['docix']}. {fields['author'].title()},"
-                                                  f" {fields['title'].title()}"))
+        repl.info(Palette.BOLD.format(f"corpus '{_corpus.name}', {_corpus.doc_count_all} documents indexed"))
+        for docix, doc in _corpus.iter_docs():
+            repl.info(Palette.GREY.format(f"{docix}. {doc['author'].title()}, {doc['title'].title()}"))
     else:
-        repl.error(f"no corpus selected")
-
+        repl.error("no corpus selected")
 
 @repl.command("selectby")
 def selectby(author: str ='*', title: str = '*'):
@@ -102,10 +116,19 @@ def selectby(author: str ='*', title: str = '*'):
         docs.extend(list(ix.reader().all_doc_nums()))
     _searcher.docs = docs
 
+
 @repl.command("selectall")
 def selectall():
-    global _searcher
-    _searcher.docs = _searcher.doc_nums
+    global _collection, _corpus
+
+    if not _collection:
+        _collection = Collection()
+
+    ndocs = _collection.count
+    for work in _corpus.works:
+        _collection.add(work)
+
+    repl.success(f"added {_collection.count - ndocs} docs to search collection")
 
 
 @repl.command("corpus")
@@ -116,7 +139,7 @@ def corpus(corpus_name: str = None):
         _corpus = Corpus(corpus_name)
         _searcher.corpus = _corpus
         _searcher._docs = None
-        repl.success(f"'{_corpus.name}', {_corpus.indexer.doc_count_all} docs")
+        repl.success(f"'{_corpus.name}', {_corpus.doc_count_all} docs")
     else:
         for path in Path(settings.ROOT_DIR + '/corpus/').glob('*'):
             if path.is_dir():
@@ -139,8 +162,8 @@ def save(n: int = None, filename: str = None):
 
     if target.results:
         with codecs.open(f"{filename}.txt", "w", "utf8") as fp:
-            for author, title, urn, reference, text in target.to_text():
-                fp.write(f"{author}, {title} [{urn}] {reference}\n{text}\n\n")
+            for corpus, author, title, urn, reference, text in target.to_text():
+                fp.write(f"{author}, {title} [{corpus}] [{urn}] {reference}\n{text}\n\n")
             repl.success(f"saved: '{filename}.txt'")
     else:
         repl.error("nothing to save")
@@ -160,7 +183,7 @@ def display(n: int = None):
 
         for href in target.highlights:
             if ctitle != href.title:
-                repl.success(Palette.BOLD.format(f"{href.author}, {href.title}"))
+                repl.success(Palette.BOLD.format(f"{href.author}, {href.title} [{href.corpus}]"))
                 ctitle = href.title
             repl.info(Palette.GREY.format(f"{href.reference}:"))
 
@@ -205,12 +228,12 @@ def display(n: int = None):
 def history():
     global _searcher, _search
 
-    for i, search in enumerate(_searcher.history):
-        hits, docs = search.count
+    for i, s in enumerate(_searcher.history):
+        hits, docs, corpora = s.count
         repl.print(
             Palette.YELLOW.format(f"[{i + 1}]"),
-            Palette.WHITE.format(f"{search.query} ['{search.corpus}']"),
-            Palette.BOLD.format(f"{hits} matches in {docs} docs")
+            Palette.WHITE.format(f"{s.spec}"),
+            Palette.BOLD.format(f"{hits} matches in {docs} docs in {corpora} corpora")
         )
 
 

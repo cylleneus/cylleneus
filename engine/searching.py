@@ -53,6 +53,7 @@ from whoosh.util.cache import lru_cache
 HitRef = namedtuple(
     "HitRef",
     [
+        "corpus",
         "author",
         "title",
         "urn",

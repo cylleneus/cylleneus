@@ -1,11 +1,11 @@
-import pathlib
+from pathlib import Path
 
-from corpus import Corpus, Indexer
+from corpus import Corpus, Work
 
 if __name__ == '__main__':
-    perseus = pathlib.Path('corpus/perseus/text/')
-    indexer = Indexer(Corpus('perseus'))
-    indexer.destroy()
+    perseus = Corpus('perseus')
+    path = Path('corpus/perseus/text/')
 
-    for file in perseus.glob('*.json'):
-        indexer.add(file)
+    for file in path.glob('*.json'):
+        w = Work(corpus=perseus)
+        w.indexer.from_file(file)
