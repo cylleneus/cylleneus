@@ -210,8 +210,8 @@ class Search:
         self.results = []
 
         if self.corpus.is_searchable:
-            for docnum in self.docs:
-                reader = self.corpus.reader_for_docnum(docnum)
+            for docix in self.docs:
+                reader = self.corpus.reader_for_docix(docix)
                 with CylleneusSearcher(reader,
                                        weighting=scoring.NullWeighting
                                        ) as searcher:
@@ -230,7 +230,7 @@ class Search:
                         results.scorer = CylleneusBasicFragmentScorer()
                         results.formatter = CylleneusDefaultFormatter()
                         for hit in sorted(results, key=lambda x: (x['author'], x['title'])):
-                            if hit['docnum'] in self.docs:
+                            if hit['docix'] in self.docs:
                                 self.results.extend(
                                     hit.highlights(
                                         fieldname='content',

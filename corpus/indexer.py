@@ -66,11 +66,11 @@ class Indexer:
                     ixs.append(ix)
         return ixs
 
-    def all_doc_nums(self):
-        docnums = []
+    def all_doc_ixs(self):
+        docixs = []
         for ix in self.indices:
-            docnums.extend(ix.reader().all_doc_nums())
-        return docnums
+            docixs.extend(ix.reader().all_doc_ixs())
+        return docixs
 
     def indices_for(self, author: str=None, title: str=None):
         ixs = []
@@ -142,9 +142,9 @@ class Indexer:
         for path in paths:
             self.delete(path)
 
-    def delete_by_num(self, docnum: int):
+    def delete_by_ix(self, docix: int):
         for ix in self.indices:
-            if docnum in ix.reader().all_doc_nums():
+            if docix in ix.reader().all_doc_ixs():
                 ix.storage.destroy()
 
     def update(self, author: str, title: str, path: Path):
@@ -163,7 +163,6 @@ class Indexer:
                 kwargs['author'] = author
             if 'title' not in kwargs and title:
                 kwargs['title'] = title
-            kwargs['docnum'] = docix
 
             a_slug = slugify(kwargs['author'])
             t_slug = slugify(kwargs['title'])
@@ -171,18 +170,15 @@ class Indexer:
             d = Path(self.path / a_slug / t_slug)
             ix = self.open(d)
 
-            writer = ix.writer(docbase=docix,
-                limitmb=1024,
-            )
-            writer.add_document(docix=docix, **kwargs)
+            writer = ix.writer(limitmb=1024)
+            writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
             writer.commit()
         self.optimize()
 
     def adds(self, content: str, **kwargs):
         if content:
-            ndocs = self.doc_count_all
+            docix = self.doc_count_all
 
-            docix = ndocs
             parsed = self.preprocessor.parse(content)
             kwargs.update(parsed)
 
@@ -192,7 +188,7 @@ class Indexer:
             d = Path(self.path / a_slug / t_slug)
             ix = self.open(d)
 
-            writer = ix.writer(docbase=docix, limitmb=1024)
-            writer.add_document(docix=docix, **kwargs)
+            writer = ix.writer(limitmb=1024)
+            writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
             writer.commit()
         self.optimize()

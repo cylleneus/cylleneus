@@ -309,9 +309,9 @@ class IndexReader(object):
 
         raise NotImplementedError
 
-    def all_doc_nums(self):
+    def all_doc_ixs(self):
         is_deleted = self.is_deleted
-        return (fields['docnum'] for docnum, fields in self.iter_docs()
+        return (fields['docix'] for docnum, fields in self.iter_docs()
                 if not is_deleted(docnum))
 
     def all_doc_ids(self):
@@ -328,7 +328,7 @@ class IndexReader(object):
         """
 
         for docnum in self.all_doc_ids():
-            yield self.stored_fields(docnum)['docnum'], self.stored_fields(docnum)
+            yield self.stored_fields(docnum)['docix'], self.stored_fields(docnum)
 
     @abstractmethod
     def is_deleted(self, docnum):
@@ -437,10 +437,12 @@ class IndexReader(object):
     def postings(self, fieldname, text):
         """Returns a :class:`~whoosh.matching.Matcher` for the postings of the
         given term.
+
         >>> pr = reader.postings("content", "render")
         >>> pr.skip_to(10)
         >>> pr.id
         12
+
         :param fieldname: the field name or field number of the term.
         :param text: the text of the term.
         :rtype: :class:`whoosh.matching.Matcher`
@@ -459,10 +461,12 @@ class IndexReader(object):
     def vector(self, docnum, fieldname, format_=None):
         """Returns a :class:`~whoosh.matching.Matcher` object for the
         given term vector.
+
         >>> docnum = searcher.document_number(path=u'/a/b/c')
         >>> v = searcher.vector(docnum, "content")
         >>> v.all_as("frequency")
         [(u"apple", 3), (u"bear", 2), (u"cab", 2)]
+
         :param docnum: the document number of the document for which you want
             the term vector.
         :param fieldname: the field name or field number of the field for which
@@ -476,9 +480,11 @@ class IndexReader(object):
         given term vector. This is a convenient shortcut to calling vector()
         and using the Matcher object when all you want are the terms and/or
         values.
+
         >>> docnum = searcher.document_number(path=u'/a/b/c')
         >>> searcher.vector_as("frequency", docnum, "content")
         [(u"apple", 3), (u"bear", 2), (u"cab", 2)]
+
         :param docnum: the document number of the document for which you want
             the term vector.
         :param fieldname: the field name or field number of the field for which
@@ -513,12 +519,14 @@ class IndexReader(object):
         """
         Returns a generator of words in the given field within ``maxdist``
         Damerau-Levenshtein edit distance of the given text.
+
         Important: the terms are returned in **no particular order**. The only
         criterion is that they are within ``maxdist`` edits of ``text``. You
         may want to run this method multiple times with increasing ``maxdist``
         values to ensure you get the closest matches first. You may also have
         additional information (such as term frequency or an acoustic matching
         algorithm) you can use to rank terms with the same edit distance.
+
         :param maxdist: the maximum edit distance.
         :param prefix: require suggestions to share a prefix of this length
             with the given word. This is often justifiable since most
@@ -572,6 +580,7 @@ class IndexReader(object):
     def column_reader(self, fieldname, column=None, reverse=False,
                       translate=False):
         """
+
         :param fieldname: the name of the field for which to get a reader.
         :param column: if passed, use this Column object instead of the one
             associated with the field in the Schema.
@@ -820,7 +829,7 @@ class SegmentReader(IndexReader):
         if self.is_closed:
             raise ReaderClosed
         if fieldname not in self.schema:
-            raise TermNotFound("No  field %r" % fieldname)
+            raise TermNotFound("No field %r" % fieldname)
         vformat = format_ or self.schema[fieldname].vector
         if not vformat:
             raise Exception("No vectors are stored for field %r" % fieldname)

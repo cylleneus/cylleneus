@@ -416,7 +416,7 @@ class PerDocumentReader(object):
 
     def iter_docs(self):
         for docnum in self.all_doc_ids():
-            yield self.stored_fields(docnum)['docnum'], self.stored_fields(docnum)
+            yield self.stored_fields(docnum)['docix'], self.stored_fields(docnum)
 
     # Columns
 

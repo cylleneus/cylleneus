@@ -75,19 +75,22 @@ def credits():
 def select(doc_ids: list=None):
     global _searcher
 
-    if doc_ids:
-        _searcher.docs = doc_ids
-        repl.success(f"selected {len(_searcher.docs)} of {_corpus.indexer.doc_count_all} docs")
-    else:
-        repl.info(Palette.WHITE.format(f"corpus '{_corpus.name}', {_corpus.indexer.doc_count_all} documents indexed"))
+    if _corpus:
+        if doc_ids and isinstance(doc_ids, list):
+            _searcher.docs = doc_ids
+            repl.success(f"selected {len(_searcher.docs)} of {_corpus.indexer.doc_count_all} docs")
+        else:
+            repl.info(Palette.WHITE.format(f"corpus '{_corpus.name}', {_corpus.indexer.doc_count_all} documents indexed"))
 
-        for docnum, fields in _corpus.indexer.iter_docs():
-            if fields['docnum'] in _searcher.docs:
-                repl.info(Palette.BOLD.format(f"{fields['docnum']}. {fields['author'].title()},"
-                                              f" {fields['title'].title()}"))
-            else:
-                repl.info(Palette.GREY.format(f"{fields['docnum']}. {fields['author'].title()},"
-                                              f" {fields['title'].title()}"))
+            for docix, fields in _corpus.indexer.iter_docs():
+                if fields['docix'] in _searcher.docs:
+                    repl.info(Palette.BOLD.format(f"{fields['docix']}. {fields['author'].title()},"
+                                                  f" {fields['title'].title()}"))
+                else:
+                    repl.info(Palette.GREY.format(f"{fields['docix']}. {fields['author'].title()},"
+                                                  f" {fields['title'].title()}"))
+    else:
+        repl.error(f"no corpus selected")
 
 
 @repl.command("selectby")

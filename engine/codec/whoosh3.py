@@ -33,21 +33,18 @@ import struct
 from array import array
 from collections import defaultdict
 
-from whoosh import columns
-from engine.codec import base
-from whoosh.compat import b, bytes_type, string_type, integer_types
-from whoosh.compat import dumps, loads, iteritems, xrange
-from whoosh.filedb import compound, filetables
-from whoosh.system import _SHORT_SIZE, _INT_SIZE, _LONG_SIZE, _FLOAT_SIZE
-from whoosh.system import emptybytes
-from whoosh.system import pack_int, unpack_int, pack_long, unpack_long
-from whoosh.system import pack_ushort, unpack_ushort
-from whoosh.util.numeric import length_to_byte, byte_to_length
-from whoosh.util.numlists import delta_encode, delta_decode
-
 import engine.formats
-from engine.matching.mcore import ListMatcher, ReadTooFar, LeafMatcher
+from engine.codec import base
+from engine.matching.mcore import LeafMatcher, ListMatcher, ReadTooFar
 from engine.reading import TermInfo, TermNotFound
+from whoosh import columns
+from whoosh.compat import b, bytes_type, dumps, integer_types, iteritems, loads, string_type, xrange
+from whoosh.filedb import compound, filetables
+from whoosh.system import _FLOAT_SIZE, _INT_SIZE, _LONG_SIZE, _SHORT_SIZE, emptybytes, pack_int, pack_long, \
+    pack_ushort, \
+    unpack_int, unpack_long, unpack_ushort
+from whoosh.util.numeric import byte_to_length, length_to_byte
+from whoosh.util.numlists import delta_decode, delta_encode
 
 try:
     import zlib
@@ -84,8 +81,8 @@ class W3Codec(base.Codec):
     # def automata(self):
 
     # Per-document value writer
-    def per_document_writer(self, storage, segment, docbase=0):
-        return W3PerDocWriter(self, storage, segment, docbase=docbase)
+    def per_document_writer(self, storage, segment):
+        return W3PerDocWriter(self, storage, segment)
 
     # Inverted index writer
     def field_writer(self, storage, segment):
@@ -156,11 +153,10 @@ def _lenfield(fieldname):
 # Per-doc information writer
 
 class W3PerDocWriter(base.PerDocWriterWithColumns):
-    def __init__(self, codec, storage, segment, docbase=0):
+    def __init__(self, codec, storage, segment):
         self._codec = codec
         self._storage = storage
         self._segment = segment
-        self._docbase = docbase
 
         tempst = storage.temp_storage("%s.tmp" % segment.indexname)
         self._cols = compound.CompoundWriter(tempst)
@@ -204,9 +200,10 @@ class W3PerDocWriter(base.PerDocWriterWithColumns):
     def start_doc(self, docnum):
         if self._indoc:
             raise Exception("Called start_doc when already in a doc")
-        if docnum != self._doccount + self._docbase:
+        if docnum != self._doccount:
             raise Exception("Called start_doc(%r) was expecting %r"
                             % (docnum, self._doccount))
+
         self._docnum = docnum
         self._doccount += 1
         self._storedfields = {}
@@ -224,6 +221,10 @@ class W3PerDocWriter(base.PerDocWriterWithColumns):
             self._fieldlengths[fieldname] += length
 
     def add_vector_items(self, fieldname, fieldobj, items):
+        if not items:
+            # Don't do anything if the list of items is empty
+            return
+
         if self._vpostfile is None:
             self._prep_vectors()
 
@@ -238,6 +239,7 @@ class W3PerDocWriter(base.PerDocWriterWithColumns):
         # Add row to vector lookup column
         vecfield = _vecfield(fieldname)  # Compute vector column name
         offset, length = vinfo.extent()
+        assert offset != 0
         self.add_column_value(vecfield, VECTOR_COLUMN, offset)
         self.add_column_value(vecfield + "L", VECTOR_LEN_COLUMN, length)
 
@@ -411,6 +413,10 @@ class W3PerDocReader(base.PerDocumentReader):
             return reader
 
     def doc_field_length(self, docnum, fieldname, default=0):
+        if docnum > self._doccount:
+            raise IndexError("Asked for docnum %r of %d"
+                             % (docnum, self._doccount))
+
         lenfield = _lenfield(fieldname)
         reader = self._cached_reader(lenfield, LENGTHS_COLUMN)
         if reader is None:
@@ -446,6 +452,9 @@ class W3PerDocReader(base.PerDocumentReader):
         self._vpostfile = f
 
     def _vector_extent(self, docnum, fieldname):
+        if docnum > self._doccount:
+            raise IndexError("Asked for document %r of %d"
+                             % (docnum, self._doccount))
         vecfield = _vecfield(fieldname)  # Compute vector column name
 
         # Get the offset from the vector offset column
@@ -455,20 +464,25 @@ class W3PerDocReader(base.PerDocumentReader):
         # -1 for the length (backwards compatibility with old dev versions)
         lreader = self._cached_reader(vecfield + "L", VECTOR_COLUMN)
         if lreader:
-            length = [docnum]
+            length = lreader[docnum]
         else:
             length = -1
 
         return offset, length
 
     def has_vector(self, docnum, fieldname):
-        return (self.has_column(_vecfield(fieldname))
-                and self._vector_extent(docnum, fieldname))
+        if self.has_column(_vecfield(fieldname)):
+            offset, length = self._vector_extent(docnum, fieldname)
+            return offset != 0
+        return False
 
     def vector(self, docnum, fieldname, format_):
         if self._vpostfile is None:
             self._prep_vectors()
         offset, length = self._vector_extent(docnum, fieldname)
+        if not offset:
+            raise Exception("Field %r has no vector in docnum %s" %
+                            (fieldname, docnum))
         m = W3LeafMatcher(self._vpostfile, offset, length, format_,
                           byteids=True)
         return m
@@ -746,7 +760,7 @@ class W3PostingsWriter(base.PostingsWriter):
         # Minify the IDs, weights, and values, and put them in a tuple
         data = (self._mini_ids(), self._mini_weights(), self._mini_values())
         # Pickle the tuple
-        databytes = dumps(data)
+        databytes = dumps(data, 2)
         # If the pickle is less than 20 bytes, don't bother compressing
         if len(databytes) < 20:
             comp = 0
@@ -769,7 +783,7 @@ class W3PostingsWriter(base.PostingsWriter):
         infobytes = dumps((len(ids), ids[-1], self._maxweight, comp,
                            length_to_byte(self._minlength),
                            length_to_byte(self._maxlength),
-                           ))
+                           ), 2)
 
         # Write block length
         postfile = self._postfile
@@ -1176,7 +1190,7 @@ class W3TermInfo(TermInfo):
 
         if isinlined:
             # Postings are inlined - dump them using the pickle protocol
-            postbytes = dumps(self._inlined, -1)
+            postbytes = dumps(self._inlined, 2)
         else:
             postbytes = pack_long(self._offset) + pack_int(self._length)
         st += postbytes

@@ -42,10 +42,10 @@ class Corpus:
     def readers_for(self, author: str='*', title: str='*'):
         return [ix.reader() for ix in self.indices_for(author, title)]
 
-    def reader_for_docnum(self, docnum: int):
+    def reader_for_docix(self, docix: int):
         for reader in self.readers:
-            ids = list(reader.all_doc_nums())
-            if docnum in ids:
+            ids = list(reader.all_doc_ixs())
+            if docix in ids:
                 return reader
 
     @property
@@ -108,24 +108,27 @@ get_router = {
 
 
 class Work:
-    def __init__(self, corpus, hit):
+    def __init__(self, corpus, doc):
         self._corpus = corpus
-        self._hit = hit
+        self._doc = doc
 
-        if hit.get('author', False):
-            self._author = hit['author']
+        if doc.get('author', False):
+            self._author = doc['author']
         else:
             self._author = None
 
-        if hit.get('title', False):
-            self._title = hit['title']
+        if doc.get('title', False):
+            self._title = doc['title']
         else:
             self._title = None
 
-        if hit.get('meta', False):
-            self._meta = hit['meta']
+        if doc.get('meta', False):
+            self._meta = doc['meta']
         else:
             self._meta = None
+
+        if doc.get('docix', False):
+            self._docix = doc['docix']
 
     @property
     def author(self):
@@ -140,8 +143,12 @@ class Work:
         return self._corpus
 
     @property
-    def hit(self):
-        return self._hit
+    def doc(self):
+        return self._doc
+
+    @property
+    def docix(self):
+        return self._docix
 
     @property
     def meta(self):
@@ -152,4 +159,10 @@ class Work:
         return [d.lower() for d in self.meta.split('-')]
 
     def get(self, meta, fragment):
-        return get_router[self.corpus.name](self.hit, meta, fragment)
+        return get_router[self.corpus.name](self.doc, meta, fragment)
+
+    def __str__(self):
+        return f"{self.author}, {self.title}"
+
+    def __repr__(self):
+        return f"Work(corpus={self.corpus}, docix={self.docix})"

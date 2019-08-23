@@ -258,7 +258,7 @@ class CylleneusHighlighter(object):
                 for pos, startchar, endchar, meta in chars:
                     if charlimit and endchar > charlimit:
                         break
-                    t = engine.analysis.acore.CylleneusToken(docnum=hitobj['docnum'], text=word, pos=pos,
+                    t = engine.analysis.acore.CylleneusToken(docnum=hitobj['docix'], text=word, pos=pos,
                                                                   startchar=startchar, endchar=endchar, boost=boost,
                                                                   fieldname=field.__class__.__name__.lower())
 

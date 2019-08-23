@@ -11,7 +11,8 @@ SemfieldFilter = engine.analysis.filters.SemfieldFilter()
 
 
 class BaseSchema(engine.fields.SchemaClass):
-    docnum = engine.fields.STORED()
+    corpus = engine.fields.STORED()
+    docix = engine.fields.STORED()
     author = engine.fields.STORED()
     title = engine.fields.STORED()
     filename = engine.fields.STORED()
