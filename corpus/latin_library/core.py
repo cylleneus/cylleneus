@@ -39,6 +39,7 @@ def get(hit, meta, fragment):
         [f"{k}: {v}" for k, v in meta['end'].items() if v]
     )
     reference = '-'.join([start, end]) if end != start else start
+    hlites = set([(int(hlite[-2]), int(hlite[-1])) for hlite in meta['hlites']])
     hlite_start = [
         v - offset
         if k != 'pos' and v is not None else v
@@ -58,6 +59,8 @@ def get(hit, meta, fragment):
     post = f"<post>{fragment[rbound + 1:]}</post>"
 
     endchar = lbound + 1 + (hlite_start[-2] - hlite_start[-3])
+
+    # TODO: use hlites to highlight all matches by line and word position
     hlite = f"<em>{fragment[lbound + 1:endchar]}</em>" + fragment[endchar:rbound]
     match = f"<match>{hlite}</match>"
 
