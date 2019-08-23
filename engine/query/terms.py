@@ -1160,21 +1160,22 @@ class Annotation(Regex):
                 and self.boost == other.boost)
 
     def __repr__(self):
-        r = "%s(%r, %r" % (self.__class__.__name__, self.fieldname, self.text)
+        text = self.text.split('::')[0]
+        r = "%s(%r, %r" % (self.__class__.__name__, self.fieldname, text)
         if self.boost != 1.0:
             r += ", boost=%s" % self.boost
         r += ")"
         return r
 
     def __unicode__(self):
-        text = self.text
+        text = self.text.split('::')[0]
         if isinstance(text, whoosh.compat.bytes_type):
             try:
                 text = text.decode("ascii")
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u(":%s") % text
+        t = whoosh.compat.u("%s") % text
         # if self.boost != 1:
         #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
         return t

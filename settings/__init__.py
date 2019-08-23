@@ -3,7 +3,7 @@
 import os
 
 # Debugging settings
-DEBUG = True
+DEBUG = False
 
 # Package settings
 ROOT_DIR = os.path.dirname(os.path.abspath(__path__[0]))

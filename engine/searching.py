@@ -1737,8 +1737,12 @@ class CylleneusHit(Hit):
 
                     if not any(
                         [
-                            (match.fieldname, match.text.split(':')[0]) == (query.annotation.fieldname,
-                                                                  query.annotation.text.split(':')[0])
+                            (
+                                match.fieldname, match.text.split('::')[0]
+                            ) == (
+                                query.annotation.fieldname,
+                                query.annotation.text.split('::')[0]
+                            )
                             for match in matches
                         ]
                     ):
@@ -1753,8 +1757,12 @@ class CylleneusHit(Hit):
                     [
                         any(
                             [
-                                (match.fieldname, match.text.split(':')[0]) == (subquery.fieldname, subquery.text.split(
-                                    ':')[0])
+                                (
+                                    match.fieldname, match.text.split('::')[0]
+                                ) == (
+                                    subquery.fieldname,
+                                    subquery.text.split('::')[0]
+                                )
                                 for match in matches
                             ]
                         )
@@ -1788,43 +1796,48 @@ class CylleneusHit(Hit):
                     if fragment_match.text in terms
                 ])
 
-        # For compound annotation queries, keep only same-analysis groups
-        # TODO: similar annotation matches may be for different lemmas
-        if isinstance(query.annotation, engine.query.compound.And):
-            for fragment in results:
-                terms = [term.text.split(':')[0] for term in query.annotation.subqueries]
-                morphos = []
-                groups = defaultdict(list)
-                matches_by_group = defaultdict(list)
-                matches_by_text = {}
-                for match in fragment.matches:
-                    matches_by_text[match.text] = match
-                    matches_by_group[match.text.split(':')[1]].append(match)
-                    annotation, n = match.text.split(':')
-                    groups[n].append(annotation)
-                for group, annotations in groups.items():
-                    if len(annotations) == len(terms) \
-                        and all(
-                        [annotation in terms for annotation in annotations]
-                    ):
-                        morphos.append(group)
-                candidates = []
-                for n in morphos:
-                    group = matches_by_group[n]
-                    group_meta = [t.meta for t in group]
+            # For compound annotation queries, keep only same-analysis groups
+            if isinstance(query.annotation, engine.query.compound.And):
+                for fragment in results:
+                    terms = [term.text.split('::')[0] for term in query.annotation.subqueries]
+                    morphos = []
+                    lemma_groups = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+                    matches_by_lemma = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+                    matches_by_group = defaultdict(list)
+                    matches_by_text = {}
 
-                    # guarantee that the meta data for all matches is the same
-                    if group_meta.count(group_meta[0]) == len(group_meta):
-                        candidates.append(n)
-                finalists = []
-                for group in candidates:
-                    finalists.extend(matches_by_group[group])
-                fragment.matches = finalists
+                    # ----------::X:Y
+                    for match in fragment.matches:
+                        if match.fieldname == 'annotation':
+                            annotation, lemma_group = match.text.split('::')
+                            uri, n, g = lemma_group.split(':')
+                            matches_by_text[match.text] = match
+                            matches_by_group[g].append(match)
+                            matches_by_lemma[uri][n][g].append(match)
+                            lemma_groups[uri][n][g].append(annotation)
+                    for uri in lemma_groups.keys():
+                        for lemma, grouping in lemma_groups[uri].items():
+                            for group, annotations in grouping.items():
+                                if len(annotations) == len(terms) \
+                                    and all(
+                                    [annotation in terms for annotation in annotations]
+                                ):
+                                    morphos.append((uri, lemma, group))
 
-        if settings.DEBUG:
-            print_debug(settings.DEBUG, "Keep only same-group annotations: {}".format(results))
-            for fragment in results:
-                print_debug(settings.DEBUG, fragment.matches)
+                    candidates = []
+                    for uri, lemma, group in morphos:
+                        grouping = matches_by_lemma[uri][lemma][group]
+                        group_meta = [t.meta for t in grouping]
+                        # guarantee that the meta data for all matches is the same
+                        if group_meta.count(group_meta[0]) == len(group_meta):
+                            candidates.append((uri, lemma, group))
+                    finalists = []
+                    for uri, lemma, group in candidates:
+                        finalists.extend(matches_by_lemma[uri][lemma][group])
+                    fragment.matches = finalists
+
+            if settings.DEBUG:
+                print_debug(settings.DEBUG, "Keep only same-group annotations: {}".format(results))
 
         # Squash duplicate matches
         for fragment in results:
@@ -1842,56 +1855,6 @@ class CylleneusHit(Hit):
 
         if settings.DEBUG:
             print_debug(settings.DEBUG, "Pre-filtered fragments: {}".format(results))
-
-        # For compound annotation queries, keep same-analysis groups
-        # TODO: similar annotation matches may be for different lemmas
-        # add another annotation field for the lemma #
-        if isinstance(query, engine.query.compound.And) \
-            and all(
-            [
-                isinstance(subquery, engine.query.terms.Annotation)
-                for subquery in query.subqueries
-            ]
-        ):
-            for fragment in results:
-                terms = [term.text.split(':')[0] for term in query.subqueries]
-                morphos = []
-                groups = defaultdict(list)
-                matches_by_group = defaultdict(list)
-                matches_by_text = {}
-                for match in fragment.matches:
-                    matches_by_text[match.text] = match
-                    matches_by_group[match.text.split(':')[1]].append(match)
-                    annotation, n = match.text.split(':')
-                    groups[n].append(annotation)
-                for group, annotations in groups.items():
-                    if len(annotations) == len(terms) \
-                        and all(
-                        [annotation in terms for annotation in annotations]
-                    ):
-                        morphos.append(group)
-                candidates = []
-                for n in morphos:
-                    group = matches_by_group[n]
-                    group_meta = [t.meta for t in group]
-
-                    # guarantee that the meta data for all matches is the same
-                    if group_meta.count(group_meta[0]) == len(group_meta):
-                        candidates.append(n)
-                finalists = []
-                for group in candidates:
-                    finalists.extend(matches_by_group[group])
-                fragment.matches = finalists
-
-        # Squash matches with identical meta data
-        for fragment in results:
-            seen = []
-            squashed = []
-            for match in fragment.matches:
-                if match.meta not in seen:
-                    seen.append(match.meta)
-                    squashed.append(match)
-            fragment.matches = squashed
 
         # Merge overlapping and adjacent (multi-field) fragments
         combined = []
@@ -1918,6 +1881,9 @@ class CylleneusHit(Hit):
                         f.text += yf.text[yf.text.find(f.text):]
                         merged.extend([xf, yf])
                 combined.append(f)
+
+        if settings.DEBUG:
+            print_debug(settings.DEBUG, "Merged fragments: {}".format(results))
 
         # Preserve ordering in sequential (adjacency) queries
         if isinstance(query, engine.query.positional.Sequence):
@@ -1958,6 +1924,62 @@ class CylleneusHit(Hit):
         else:
             for fragment in combined:
                 fragment.matches = sorted(fragment.matches, key=lambda m: m.startchar)
+
+        # For compound annotation queries, keep same-analysis groups
+        if isinstance(query, engine.query.compound.And) \
+            and all(
+            [
+                isinstance(subquery, engine.query.terms.Annotation)
+                for subquery in query.subqueries
+            ]
+        ):
+            for fragment in combined:
+                terms = [term.text.split('::')[0] for term in query.subqueries]
+                morphos = []
+                lemma_groups = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+                matches_by_lemma = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+                matches_by_group = defaultdict(list)
+                matches_by_text = {}
+
+                # ----------::X:Y
+                for match in fragment.matches:
+                    annotation, lemma_group = match.text.split('::')
+                    uri, n, g = lemma_group.split(':')
+                    matches_by_text[match.text] = match
+                    matches_by_group[g].append(match)
+                    matches_by_lemma[uri][n][g].append(match)
+                    lemma_groups[uri][n][g].append(annotation)
+
+                for uri in lemma_groups.keys():
+                    for lemma, grouping in lemma_groups[uri].items():
+                        for group, annotations in grouping.items():
+                            if len(annotations) == len(terms) \
+                                and all(
+                                [annotation in terms for annotation in annotations]
+                            ):
+                                morphos.append((uri, lemma, group))
+
+                candidates = []
+                for uri, lemma, group in morphos:
+                    grouping = matches_by_lemma[uri][lemma][group]
+                    group_meta = [t.meta for t in grouping]
+                    # guarantee that the meta data for all matches is the same
+                    if group_meta.count(group_meta[0]) == len(group_meta):
+                        candidates.append((uri, lemma, group))
+                finalists = []
+                for uri, lemma, group in candidates:
+                    finalists.extend(matches_by_lemma[uri][lemma][group])
+                fragment.matches = finalists
+
+        # Squash matches with identical meta data
+        for fragment in combined:
+            seen = []
+            squashed = []
+            for match in fragment.matches:
+                if match.meta not in seen:
+                    seen.append(match.meta)
+                    squashed.append(match)
+            fragment.matches = squashed
 
         # Keep only fragments that reach the minimum score threshold
         scored = set()
