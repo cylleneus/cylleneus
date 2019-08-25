@@ -54,16 +54,18 @@ repl = CustomRiposte(
 def search(*args):
     global _searcher, _search, _collection
 
-    query = ' '.join(args)
-    _searcher.collection = _collection
-    _search = _searcher.search(query)
+    if _collection is not None:
+        query = ' '.join(args)
+        _searcher.collection = _collection
+        _search = _searcher.search(query)
 
-    if _search is not None:
-        if len(_search.results) > 0:
-            repl.success(f"{_search.spec}: {_search.time} secs, {_search.count[0]} matches")
-        else:
-            repl.error(f"{_search.spec}: {_search.time} secs, nothing found")
-
+        if _search is not None:
+            if len(_search.results) > 0:
+                repl.success(f"{_search.spec}: {_search.time} secs, {_search.count[0]} matches")
+            else:
+                repl.error(f"{_search.spec}: {_search.time} secs, nothing found")
+    else:
+        repl.error(f"no search collection")
 
 @repl.command("credits")
 def credits():

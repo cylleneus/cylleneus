@@ -39,7 +39,7 @@ def get(hit, meta, fragment):
         [f"{k}: {v}" for k, v in meta['end'].items() if v]
     )
     reference = '-'.join([start, end]) if end != start else start
-    hlites = set([(int(hlite[-2]), int(hlite[-1])) for hlite in meta['hlites']])
+
     hlite_start = [
         v - offset
         if k != 'pos' and v is not None else v

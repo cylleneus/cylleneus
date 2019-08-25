@@ -141,8 +141,8 @@ class Indexer:
             parsed = self.preprocessor.parse(content)
             kwargs.update(parsed)
 
-            ix = self.open()
+            self.open()
 
-            writer = ix.writer(limitmb=1024)
+            writer = self.index.writer(limitmb=1024)
             writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
             writer.commit()

@@ -35,10 +35,10 @@ def web():
 @click.option('--corpus', '-c', 'corpus', required=True)
 def index(corpus):
     c = Corpus(corpus)
-    docs = list(c.docs)
+    docs = list(c.iter_docs())
 
     if docs:
-        for docnum, doc in docs:
+        for docix, doc in docs:
             if 'author' in doc and 'title' in doc:
                 click.echo(f"[{doc['docix']}] {doc['author']}, {doc['title']} [{doc['filename']}]")
             else:

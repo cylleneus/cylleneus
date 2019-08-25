@@ -34,7 +34,7 @@ class Collection:
         yield from self.works
 
     def __str__(self):
-        return "; ".join(str(work) for work in self.works)
+        return str([str(work) for work in self.works])
 
     def __repr__(self):
         return f"Collection(works={self.works})"
@@ -193,7 +193,9 @@ class Search:
         if self.results and len(self.results) > 0:
             corpora = len(set([hit['corpus'] for hit, _, _ in self.results]))
             docs = len(set([hit['docix'] for hit, _, _ in self.results]))
-            matches = sum([len(meta['hlites']) for _, meta, _ in self.results])
+            matches = sum([len(meta['hlites']) for _, meta, _ in self.results if 'hlites' in meta])
+            if matches == 0:
+                matches = len(self.results)
             return matches, docs, corpora
         else:
             return 0, 0, 0
