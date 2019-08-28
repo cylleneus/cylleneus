@@ -2022,11 +2022,12 @@ class CylleneusHit(Hit):
                 endmeta = {}
 
                 hlites = [
-                    [v
-                     for k, v in match.meta.items()
-                     if k not in match.meta['meta'].split('-')
-                     and k != 'meta'
-                     ]
+                    [
+                        v
+                        for k, v in match.meta.items()
+                        if k in match.meta['meta'].split('-') \
+                        or k == 'sent_pos'
+                    ]
                     for match in fragment.matches
                 ]
                 meta['hlites'] = hlites
@@ -2101,6 +2102,12 @@ class CylleneusHit(Hit):
                 }
                 startmeta = {}
                 endmeta = {}
+
+                hlites = [
+                        (match.startchar, match.endchar, match.pos)
+                    for match in fragment.matches
+                ]
+                meta['hlites'] = hlites
 
                 startmeta['sect_sent'] = None
                 startmeta['sect_pos'] = None

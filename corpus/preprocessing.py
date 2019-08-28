@@ -219,9 +219,10 @@ class PlainTextPreprocessor(Preprocessor):
 class LatinLibraryPreprocessor(Preprocessor):
     def parse(self, file: Path):
         from corpus.latin_library import FILE_TAB
+        path = str(file.relative_to('corpus/latin_library/text')).replace('\\', '/')
 
-        author = FILE_TAB[str(file.relative_to('corpus/latin_library/text'))]['author']
-        title = FILE_TAB[str(file.relative_to('corpus/latin_library/text'))]['title']
+        author = FILE_TAB[path]['author']
+        title = FILE_TAB[path]['title']
 
         with codecs.open(file, 'r', 'utf8') as fp:
             doc = fp.read()

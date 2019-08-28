@@ -93,10 +93,24 @@ def select(docixs: list=None):
     else:
         repl.info(Palette.BOLD.format(f"{_collection.count} documents selected"))
 
-        for work in _collection:
-            repl.info(Palette.GREY.format(f"- {work.doc['author'].title()},"
+        for i, work in enumerate(_collection):
+            repl.info(Palette.GREY.format(f"[{i + 1}] {work.doc['author'].title()},"
                                               f" {work.doc['title'].title()} [{work.corpus.name}]"))
 
+
+@repl.command("unselect")
+def unselect(docixs: list=None):
+    global _collection, _corpus
+
+    if _collection:
+        n = _collection.count
+        if docixs and isinstance(docixs, list):
+            for ix in docixs:
+                _collection.works.pop(ix - 1)
+        if n - _collection.count > 0:
+            repl.success(f"removed {n - _collection.count} docs from search collection")
+    else:
+        repl.error(f"no search collection")
 
 @repl.command("index")
 def index():
@@ -252,8 +266,9 @@ def help():
     save [<#>] [<filename>]     save search results to disk
     display [<#>]               display search results
     corpus [<name>]             load corpus index by name
-    select ["[1,2...]"]        select documents or list currently selected''')
-
+    select ["[1,2...]"]         select documents for or list currently selected search collection
+    select["[1,2...]"]          unselect documents from search collection
+    selectall                   add all docs of current corpus to search collection''')
 
 if __name__ == "__main__":
     sys.exit(repl.run())
