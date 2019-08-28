@@ -1713,7 +1713,7 @@ class CachedLASLATokenizer(Tokenizer):
                         for i in range(len(divs)):
                             meta[divs[i]] = refs[i]
 
-                        current_refs = tuple([ref for ref in refs]) # int(ref)?
+                        current_refs = tuple([int(ref) for ref in refs]) # int(ref)?
 
                         t.morphosyntax = parsed['subord']
 
