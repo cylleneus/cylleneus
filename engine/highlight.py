@@ -268,7 +268,7 @@ class CylleneusHighlighter(object):
 
             # Sort fragments by position in text, preferring standard references
             #   to char positions
-            if hasattr(t, 'meta'):
+            if hitobj.get('meta', False):
                 # FIXME: some refs may be alphanumeric?
                 tokens.sort(
                     key=lambda t: tuple(
