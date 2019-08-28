@@ -51,7 +51,7 @@ def get(hit, meta, fragment):
             pre.append(f"<pre>{content}</pre>")
     match = []
 
-    hlites = set([int(hlite[-1]) for hlite in meta['hlites']])
+    hlites = set([(int(hlite[-2]), int(hlite[-1])) for hlite in meta['hlites']])
 
     for ref in nrange(start, end):
         content = doc['text']
@@ -65,8 +65,8 @@ def get(hit, meta, fragment):
         if refs >= start_refs:
             content = [
                 f"<em>{t}</em>"
-                # use meta['hlites'] to match highlighted words
-                if i in hlites
+                # TODO: fix matching highlighted words
+                if (ref[-1] - 1, i) in hlites
                 else t
                 for i, t in enumerate(content.split())
             ]
