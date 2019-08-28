@@ -46,8 +46,7 @@ class TestQueryTypes(unittest.TestCase):
             "[!::en?love]",
             "[@::n#04478900]",
         ]
-        for name in 'lasla', 'perseus', 'latin_library':
-            c = Corpus(name)
-            e = Searcher(Collection(list(c.works)))
-            results = list(e.search(choice(queries), debug=False).results)
-            assert results is not None
+        c = Corpus(choice(['lasla', 'perseus', 'latin_library']))
+        e = Searcher(Collection(list(c.works)))
+        results = list(e.search(choice(queries), debug=False).results)
+        assert results is not None
