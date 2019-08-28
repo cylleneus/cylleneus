@@ -192,11 +192,14 @@ class Work:
             if 'docix' in self.doc:
                 self._docix = self.doc['docix']
         else:
-            doc = list(indexer.Indexer.docs_for(corpus, author, title))[0][1]
-            self._doc = doc
-            self._docix = doc['docix']
-            self._author = doc['author']
-            self._title = doc['title']
+            if author and title:
+                doc = list(indexer.Indexer.docs_for(corpus, author, title))[0][1]
+                self._doc = doc
+                self._docix = doc['docix']
+                self._author = doc['author']
+                self._title = doc['title']
+            else:
+                self._doc = self._author = self._title = None
         self._indexer = indexer.Indexer(corpus, self)
 
 

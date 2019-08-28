@@ -1832,9 +1832,11 @@ class CylleneusHit(Hit):
                         # guarantee that the meta data for all matches is the same
                         if group_meta.count(group_meta[0]) == len(group_meta):
                             candidates.append((uri, lemma, group))
+
                     finalists = []
                     for uri, lemma, group in candidates:
                         finalists.extend(matches_by_lemma[uri][lemma][group])
+
                     fragment.matches = finalists
 
             if settings.DEBUG:
@@ -1967,6 +1969,7 @@ class CylleneusHit(Hit):
                     # guarantee that the meta data for all matches is the same
                     if group_meta.count(group_meta[0]) == len(group_meta):
                         candidates.append((uri, lemma, group))
+
                 finalists = []
                 for uri, lemma, group in candidates:
                     finalists.extend(matches_by_lemma[uri][lemma][group])
