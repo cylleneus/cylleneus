@@ -16,7 +16,7 @@ LINES_OF_CONTEXT = 2
 CHARS_OF_CONTEXT = LINES_OF_CONTEXT * 70
 
 # Version settings
-__version__ = "0.0.6"
+__version__ = "0.0.7"
 
 # Miscellaneous settings
 LONG_DATE_FORMAT = '%A, %B %d, %Y %I:%M%p'
