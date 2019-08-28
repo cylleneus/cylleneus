@@ -400,7 +400,7 @@ class IndexWriter(object):
                          if name in fields and field.unique]
         return unique_fields
 
-    def update_document(self, docix=0, **fields):
+    def update_document(self, **fields):
         """The keyword arguments map field names to the values to index/store.
         This method adds a new document to the index, and automatically deletes
         any documents with the same values in any fields marked "unique" in the
@@ -449,7 +449,7 @@ class IndexWriter(object):
                     self.delete_document(docnum)
 
         # Add the given fields
-        self.add_document(docix=docix, **fields)
+        self.add_document(**fields)
 
     def commit(self):
         """Finishes writing and unlocks the index.
@@ -639,11 +639,12 @@ class SegmentWriter(IndexWriter):
 
         for docnum, stored in reader.iter_docs():
             if docmap is not None:
-                docmap[docnum] = self.docnum
+                docmap[docnum] = docnum
 
-            pdw.start_doc(self.docnum)
+            pdw.start_doc(docnum)
             for fieldname in fieldnames:
                 fieldobj = schema[fieldname]
+
                 length = reader.doc_field_length(docnum, fieldname)
                 pdw.add_field(fieldname, fieldobj,
                               stored.get(fieldname), length)
@@ -679,7 +680,7 @@ class SegmentWriter(IndexWriter):
                 raise UnknownFieldError("No field named %r in %s"
                                         % (name, schema))
 
-    def add_document(self, docix=0, **fields):
+    def add_document(self, **fields):
         self._check_state()
         perdocwriter = self.perdocwriter
         schema = self.schema
@@ -705,7 +706,7 @@ class SegmentWriter(IndexWriter):
                 fieldboost = self._field_boost(fields, fieldname, docboost)
                 # Ask the field to return a list of (text, weight, vbytes)
                 # tuples
-                items = field.index(value, docix=docix)
+                items = field.index(value)
 
                 # Only store the length if the field is marked scorable
                 scorable = field.scorable
@@ -727,7 +728,7 @@ class SegmentWriter(IndexWriter):
             if vformat:
                 analyzer = field.analyzer
                 # Call the format's word_values method to get posting values
-                vitems = vformat.word_values(value, analyzer, mode="index", docix=docix)
+                vitems = vformat.word_values(value, analyzer, mode="index")
                 # Remove unused frequency field from the tuple
                 vitems = sorted((text, weight, vbytes)
                                 for text, _, weight, vbytes in vitems)
@@ -1177,19 +1178,19 @@ class BufferedWriter(IndexWriter):
         self.writer.add_reader(reader)
         self.commit()
 
-    def add_document(self, docix=0, **fields):
+    def add_document(self, **fields):
         with self.lock:
             # Hijack a writer to make the calls into the codec
             with self.codec.writer(self.writer.schema) as w:
-                w.add_document(docix=docix, **fields)
+                w.add_document(**fields)
 
             self.bufferedcount += 1
             if self.bufferedcount >= self.limit:
                 self.commit()
 
-    def update_document(self, docix=0, **fields):
+    def update_document(self, **fields):
         with self.lock:
-            IndexWriter.update_document(self, docix=docix, **fields)
+            IndexWriter.update_document(self, **fields)
 
     def delete_document(self, docnum, delete=True):
         with self.lock:

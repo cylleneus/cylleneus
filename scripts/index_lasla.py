@@ -1,11 +1,11 @@
-import pathlib
+from pathlib import Path
 
-from corpus import Corpus
-from index import Indexer
+from corpus import Corpus, Work
 
 if __name__ == '__main__':
-    lasla = pathlib.Path('corpus/lasla/text/')
-    indexer = Indexer(Corpus('lasla'))
-    indexer.destroy()
+    lasla = Corpus('lasla')
+    path = Path('corpus/lasla/text/')
 
-    indexer.add(lasla)
+    for file in path.glob('*.BPN'):
+        w = Work(corpus=lasla)
+        w.indexer.from_file(file)

@@ -23,8 +23,6 @@ def get(hit, meta, fragment):
         [f"{item}: {meta['end'][item]}" for item in meta['end'] if item in divs]
     )
     reference = '-'.join([ref_start, ref_end]) if ref_end != ref_start else ref_start
-    hlite_start = [meta['start'][item] for item in meta['start'] if item not in divs]
-    hlite_end = [meta['end'][item] for item in meta['end'] if item not in divs]
 
     # Collect text and context
     start = [
@@ -51,22 +49,29 @@ def get(hit, meta, fragment):
                 break
         if content:
             pre.append(f"<pre>{content}</pre>")
-
     match = []
+
+    hlites = set([(int(hlite[-2]), int(hlite[-1])) for hlite in meta['hlites']])
+
     for ref in nrange(start, end):
         content = doc['text']
 
         for div in ref:
-            content = content[str(div)]
+            content = content[str(div - 1)]
 
-        # FIXME: tokenizer erroneously adds 1 to sent_pos?
-        content = [
-            f"<em>{t}</em>"
-            if (hlite_start[-4] and i + 1 == int(hlite_start[-4]))
-               or (hlite_end[-4] and i + 1 == int(hlite_end[-4]))
-            else t
-            for i, t in enumerate(content.split())
-        ]
+        refs = list(zip(divs, ref))
+        start_refs = [(k, int(meta['start'][k])) for k in divs]
+
+        if refs >= start_refs:
+            content = [
+                f"<em>{t}</em>"
+                # use meta['hlites'] to match highlighted words
+                if (ref[-1] - 1, i) in hlites
+                else t
+                for i, t in enumerate(content.split())
+            ]
+        else:
+            content = [t for t in content.split()]
         match.append(f"<match>{' '.join(content)}</match>")
 
     post_start = end[:-1] + [(end[-1] + 1), ]

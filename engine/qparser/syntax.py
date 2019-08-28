@@ -35,7 +35,7 @@ import engine.query.terms
 import engine.query.wrappers
 import whoosh.qparser.common
 import whoosh.query
-from whoosh.qparser import MarkerNode, TextNode
+from whoosh.qparser import MarkerNode, TextNode, RegexPlugin
 from whoosh.qparser.common import attach
 
 
@@ -435,7 +435,7 @@ class SemfieldNode(WordNetNode):
         return repr(self)
 
 
-class AnnotationNode(TextNode):
+class AnnotationNode(WordNetNode):
     qclass = engine.query.terms.Annotation
     tokenize = True
     removestops = False

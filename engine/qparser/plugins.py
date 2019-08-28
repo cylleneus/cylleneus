@@ -237,6 +237,26 @@ class MorphosyntaxPlugin(whoosh.qparser.plugins.TaggingPlugin):
     nodetype = engine.qparser.syntax.MorphosyntaxNode
 
 
+class RegexPlugin(whoosh.qparser.plugins.TaggingPlugin):
+    """Adds the ability to specify regular expression term queries.
+
+    The default syntax for a regular expression term is ``r"termexpr"``.
+
+    >>> qp = qparser.QueryParser("content", myschema)
+    >>> qp.add_plugin(qparser.RegexPlugin())
+    >>> q = qp.parse('foo title:r"bar+"')
+    """
+
+    class RegexNode(whoosh.qparser.syntax.TextNode):
+        qclass = whoosh.query.terms.Regex
+
+        def r(self):
+            return "Regex %r" % self.text
+
+    expr = 'r"(?P<text>[^"]*)"'
+    nodetype = RegexNode
+
+
 class AnnotationPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify annotations for WordNet nodes following a colon."""
 

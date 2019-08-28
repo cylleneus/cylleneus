@@ -2,53 +2,64 @@ import json
 from datetime import datetime
 
 import settings
-from corpus.core import Corpus
+from corpus.core import Corpus, Work
+from engine import scoring
 from engine.highlight import CylleneusBasicFragmentScorer, CylleneusDefaultFormatter, CylleneusPinpointFragmenter
 from engine.qparser.default import CylleneusQueryParser
-from engine.query.qcore import Query
 from engine.searching import CylleneusSearcher, HitRef
+from typing import List
 
+
+class Collection:
+    def __init__(self, works: List[Work] = None):
+        self._works = works or []
+
+    def add(self, work):
+        if work not in self._works:
+            self._works.append(work)
+
+    def remove(self, work):
+        if work in self._works:
+            self._works.remove(work)
+
+    @property
+    def count(self):
+        return len(self._works)
+
+    @property
+    def works(self):
+        return self._works
+
+    def __iter__(self):
+        yield from self.works
+
+    def __str__(self):
+        return str([str(work) for work in self.works])
+
+    def __repr__(self):
+        return f"Collection(works={self.works})"
 
 class Searcher:
-    def __init__(self, corpus: Corpus, doc_ids: list = None):
+    def __init__(self, collection: Collection=None):
         self._searches = []
-        self._corpus = corpus
-        self._docs = set(doc_ids) if doc_ids else None
+        self._collection = collection
 
     @property
-    def corpus(self):
-        return self._corpus
+    def collection(self):
+        return self._collection
 
-    @corpus.setter
-    def corpus(self, c):
-        self._corpus = c
+    @collection.setter
+    def collection(self, c):
+        self._collection = c
 
-    @property
-    def docs(self):
-        if self._docs is None:
-            return set(self.corpus.reader.all_doc_ids())
-        else:
-            return set(self._docs)
+    def search(self, spec: str, minscore=None, debug=settings.DEBUG):
+        """ Execute the specified search specification """
 
-    @docs.setter
-    def docs(self, doc_ids: list):
-        self._docs = set(doc_ids)
-
-    def search(self, param: str, corpus=None, doc_ids: list = None, minscore=None, debug=settings.DEBUG):
-        """ Execute the specified search parameters """
-
-        if param:
-            parser = CylleneusQueryParser("form", self.corpus.schema)
-            query = parser.parse(param, debug=debug)
-            if not corpus:
-                corpus = self.corpus
-            if not doc_ids:
-                doc_ids = self.docs
-            search = Search(param, query, corpus, doc_ids=doc_ids, minscore=minscore)
-            matches, docs = search.run()
-            if matches > 0:
-                self.searches.append(search)
-            return search
+        search = Search(spec, self.collection, minscore=minscore, debug=debug)
+        matches, docs, corpora = search.run()
+        if matches and matches > 0:
+            self.searches.append(search)
+        return search
 
     @property
     def searches(self):
@@ -60,11 +71,9 @@ class Searcher:
 
 
 class Search:
-    def __init__(self, param: str, query: Query, corpus: Corpus, doc_ids: list = None, top=None, minscore=None):
-        self._param = param
-        self._query = query
-        self._corpus = corpus
-        self._docs = set(doc_ids) if doc_ids else None
+    def __init__(self, spec: str, collection: Collection, minscore=None, top=None, debug=False):
+        self._spec = spec
+        self._collection = collection
         self._minscore = minscore
         self._top = top
 
@@ -76,8 +85,16 @@ class Search:
         self._surround = 70 if 70 > settings.CHARS_OF_CONTEXT else settings.CHARS_OF_CONTEXT
 
     @property
+    def collection(self):
+        return self._collection
+
+    @property
+    def docixs(self):
+        return [(work.doc['corpus'], work.docix) for work in self.collection]
+
+    @property
     def docs(self):
-        return self._docs
+        yield from self.collection
 
     @property
     def maxchars(self):
@@ -97,7 +114,7 @@ class Search:
 
     @property
     def results(self):
-        if self._results is None and self.query:
+        if self._results is None:
             self.run()
         return self._results
 
@@ -105,16 +122,16 @@ class Search:
     def highlights(self):
         if self.results:
             for hit, meta, fragment in self.results:
-                author, title, urn, reference, text = self.corpus.fetch(hit, meta, fragment)
-                href = HitRef(author, title, urn, reference, text)
+                c = Corpus(hit['corpus'])
+                corpus, author, title, urn, reference, text = c.fetch(hit, meta, fragment)
+                href = HitRef(corpus, author, title, urn, reference, text)
                 yield href
 
     def to_json(self):
         if self.results:
             s = {
-                "query": self.query,
-                "corpus": self.corpus,
-                "docs": self.docs,
+                "spec": self.spec,
+                "collection": self.collection,
                 "minscore": self.minscore,
                 "top": self.top,
                 "start_time": self.start_time,
@@ -125,6 +142,7 @@ class Search:
             results = []
             for href in self.highlights:
                 r = {
+                    "corpus": href.corpus,
                     "author": href.author,
                     "title": href.title,
                     "urn": href.urn,
@@ -137,23 +155,15 @@ class Search:
     def to_text(self):
         if self.results:
             for href in self.highlights:
-                yield href.author, href.title, href.urn, href.reference, href.text
+                yield href.corpus, href.author, href.title, href.urn, href.reference, href.text
 
     @property
-    def param(self):
-        return self._param
-
-    @property
-    def corpus(self):
-        return self._corpus
+    def spec(self):
+        return self._spec
 
     @results.setter
     def results(self, r):
         self._results = r
-
-    @property
-    def query(self):
-        return self._query
 
     @property
     def start_time(self):
@@ -173,16 +183,22 @@ class Search:
 
     @property
     def time(self):
-        return self.end_time - self.start_time
+        if self.end_time and self.start_time:
+            return self.end_time - self.start_time
+        else:
+            return None
 
     @property
     def count(self):
         if self.results and len(self.results) > 0:
-            docs = len(set([hit.docnum for hit, _, _ in self.results]))
-            matches = len(self.results)
-            return matches, docs
+            corpora = len(set([hit['corpus'] for hit, _, _ in self.results]))
+            docs = len(set([hit['docix'] for hit, _, _ in self.results]))
+            matches = sum([len(meta['hlites']) for _, meta, _ in self.results if 'hlites' in meta])
+            if matches == 0:
+                matches = len(self.results)
+            return matches, docs, corpora
         else:
-            return 0, 0
+            return 0, 0, 0
 
     @property
     def minscore(self):
@@ -192,38 +208,55 @@ class Search:
     def top(self):
         return self._top
 
-    def run(self):
+    def run(self, debug=False):
         self.start_time = datetime.now()
-        with CylleneusSearcher(self.corpus.reader) as searcher:
-            results = searcher.search(self.query, terms=True, limit=None, filter=self.docs)
+        self.results = []
 
-            self.results = []
-            if results:
-                results.fragmenter = CylleneusPinpointFragmenter(
-                    autotrim=True,
-                    charlimit=None,
-                    maxchars=self.maxchars,
-                    surround=self.surround
-                )
-                results.scorer = CylleneusBasicFragmentScorer()
-                results.formatter = CylleneusDefaultFormatter()
-                for hit in sorted(results, key=lambda x: (x['author'], x['title'])):
-                    self.results.extend(
-                        hit.highlights(
-                            fieldname='content',
-                            top=self.top,
-                            minscore=self.minscore
+        for work in self.collection:
+            if work.is_searchable:
+                parser = CylleneusQueryParser("form", work.corpus.schema)
+                query = parser.parse(self.spec, debug=debug)
+
+                reader = work.index.reader()
+                with CylleneusSearcher(reader,
+                                       weighting=scoring.NullWeighting
+                                       ) as searcher:
+                    results = searcher.search(query,
+                                              terms=True,
+                                              limit=None,
+                                              )
+
+                    if results:
+                        results.fragmenter = CylleneusPinpointFragmenter(
+                            autotrim=True,
+                            charlimit=None,
+                            maxchars=self.maxchars,
+                            surround=self.surround
                         )
-                    )
+                        results.scorer = CylleneusBasicFragmentScorer()
+                        results.formatter = CylleneusDefaultFormatter()
 
+                        for hit in sorted(results, key=lambda x: (x['corpus'], x['author'], x['title'])):
+                            if (hit['corpus'], hit['docix']) in self.docixs:
+                                self.results.extend(
+                                    hit.highlights(
+                                        fieldname='content',
+                                        top=self.top,
+                                        minscore=self.minscore
+                                    )
+                                )
         self.end_time = datetime.now()
-        return self.count
+
+        if self.results:
+            return self.count
+        else:
+            return None, None, None
 
     def __repr__(self):
-        return f"Search(query={self.query}, corpus={self.corpus}, results={self.count})"
+        return f"Search(spec={self.spec}, collection={self.collection}, results={self.count})"
 
     def __str__(self):
-        return self.param
+        return self.spec
 
     def __iter__(self):
         if self.results:

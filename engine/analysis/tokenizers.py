@@ -1155,7 +1155,7 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                         temp_tokens = word_tokenizer.word_tokenize(text)
                         if temp_tokens:
                             if temp_tokens[0].replace('j', 'i').replace('v', 'u') not in proper_names.proper_names:
-                                temp_tokens[0] = temp_tokens[0].lower()
+                                temp_tokens[0] = temp_tokens[0]
 
                             for ix, token in enumerate(temp_tokens):
                                 ppp = compound.is_ppp(token)
@@ -1178,7 +1178,7 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                                 'meta': value['meta'].lower()
                             }
                             for i in range(len(divs)):
-                                meta[divs[i]] = str(int(path[i]))
+                                meta[divs[i]] = str(int(path[i]) + 1)
 
                             t.boost = 1.0
                             if keeporiginal:
@@ -1220,7 +1220,7 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                             if token not in exceptions:
                                 if t.original in replacements:
                                     for subtoken in replacements[t.original]:
-                                        t.text = subtoken.lower()
+                                        t.text = subtoken
                                         t.startchar = start_char
                                         t.endchar = start_char + original_length
                                         if mode == 'index': self._cache.append(copy.copy(t))
@@ -1230,12 +1230,12 @@ class CachedPerseusJSONTokenizer(Tokenizer):
 
                                 if re.match(r"(?:\w+) (?:\w+)", token):
                                     ppp, copula = token.split(' ')
-                                    t.text = ppp.lower()
+                                    t.text = ppp
                                     t.startchar = start_char
                                     t.endchar = start_char + len(ppp) + 1
                                     if mode == 'index': self._cache.append(copy.copy(t))
                                     yield t
-                                    t.text = copula.lower()
+                                    t.text = copula
                                     t.startchar = start_char + len(ppp)
                                     t.endchar = start_char + len(ppp) + len(copula)
                                     if mode == 'index': self._cache.append(copy.copy(t))
@@ -1244,9 +1244,9 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                                     continue
 
                                 for enclitic in enclitics:
-                                    if token.lower().endswith(enclitic):
+                                    if token.endswith(enclitic):
                                         if enclitic == 'ne':
-                                            t.text = (token[:-len(enclitic)]).lower()
+                                            t.text = (token[:-len(enclitic)])
                                             t.startchar = start_char
                                             t.endchar = start_char + (len(token) - len(enclitic))
                                             if mode == 'index': self._cache.append(copy.copy(t))
@@ -1257,7 +1257,7 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                                             if mode == 'index': self._cache.append(copy.copy(t))
                                             yield t
                                         elif enclitic == 'n':
-                                            t.text = (token[:-len(enclitic)] + 's').lower()
+                                            t.text = (token[:-len(enclitic)] + 's')
                                             t.startchar = start_char
                                             t.endchar = start_char + len(token) - len(enclitic)
                                             if mode == 'index': self._cache.append(copy.copy(t))
@@ -1269,7 +1269,7 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                                             yield t
                                         elif enclitic == 'st':
                                             if token.endswith('ust'):
-                                                t.text = (token[:-len(enclitic)]).lower()
+                                                t.text = (token[:-len(enclitic)])
                                                 t.startchar = start_char
                                                 t.endchar = start_char + len(token[:-len(enclitic)]) - len(enclitic)
                                                 if mode == 'index': self._cache.append(copy.copy(t))
@@ -1280,7 +1280,7 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                                                 if mode == 'index': self._cache.append(copy.copy(t))
                                                 yield t
                                             else:
-                                                t.text = (token[:-len(enclitic)]).lower()
+                                                t.text = (token[:-len(enclitic)])
                                                 t.startchar = start_char
                                                 t.endchar = start_char + len(token[:-len(enclitic)]) - len(enclitic)
                                                 if mode == 'index': self._cache.append(copy.copy(t))
@@ -1291,7 +1291,7 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                                                 if mode == 'index': self._cache.append(copy.copy(t))
                                                 yield t
                                         elif enclitic == "'s":
-                                            t.text = token.lower() + 's'
+                                            t.text = token + 's'
                                             t.startchar = start_char
                                             t.endchar = start_char + len(token)
                                             if mode == 'index': self._cache.append(copy.copy(t))
@@ -1302,7 +1302,7 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                                             if mode == 'index': self._cache.append(copy.copy(t))
                                             yield t
                                         else:
-                                            t.text = (token[:-len(enclitic)]).lower()
+                                            t.text = (token[:-len(enclitic)])
                                             t.startchar = start_char
                                             t.endchar = start_char + len(token[:-len(enclitic)])
                                             if mode == 'index': self._cache.append(copy.copy(t))
@@ -1315,7 +1315,7 @@ class CachedPerseusJSONTokenizer(Tokenizer):
                                         is_enclitic = True
                                         break
                             if not is_enclitic:
-                                t.text = token.lower()
+                                t.text = token
                                 if chars:
                                     t.startchar = start_char + ldiff
                                     t.endchar = start_char + original_length - rdiff  # - ndiff - rdiff
@@ -1713,7 +1713,7 @@ class CachedLASLATokenizer(Tokenizer):
                         for i in range(len(divs)):
                             meta[divs[i]] = refs[i]
 
-                        current_refs = tuple([int(ref) for ref in refs])
+                        current_refs = tuple([ref for ref in refs]) # int(ref)?
 
                         t.morphosyntax = parsed['subord']
 

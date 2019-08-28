@@ -48,6 +48,8 @@ def get(hit, meta, fragment):
             text = passage.export(Mimetypes.PLAINTEXT)
             pre.append(f"<pre>{text}</pre>")
 
+    hlites = set([(int(hlite[0]), int(hlite[1])) for hlite in meta['hlites']])
+
     match = []
     for ref in nrange(start, end):
         cite = '.'.join([str(i) for i in ref])
@@ -60,8 +62,7 @@ def get(hit, meta, fragment):
         if text != "NULL":
             text = [
                 f"<em>{t}</em>"
-                if (hlite_start[-4] and i + 1 == int(hlite_start[-4]))
-                or (hlite_end[-4] and i + 1 == int(hlite_end[-4]))
+                if (ref[-1], i + 1) in hlites
                 else t
                 for i, t in enumerate(text.split())
             ]

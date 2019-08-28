@@ -14,7 +14,7 @@ class Search(peewee.Model):
 
     query = peewee.CharField()
     corpus = peewee.CharField()
-    docs = peewee.CharField()
+    collection = peewee.TextField()
     minscore = peewee.IntegerField(null=True)
     top = peewee.IntegerField(null=True)
     start_time = peewee.DateTimeField()
