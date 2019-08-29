@@ -12,7 +12,7 @@ from typing import List
 
 class Collection:
     def __init__(self, works: List[Work] = None):
-        self._works = set(works) or set()
+        self._works = set(works) if works else set()
 
     def add(self, work):
         if work not in self._works:
