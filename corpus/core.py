@@ -262,3 +262,6 @@ class Work:
 
     def __repr__(self):
         return f"Work(corpus={self.corpus}, docix={self.docix})"
+
+    def __eq__(self, other):
+        return self.docix == other.docix and self.corpus == other.corpus
