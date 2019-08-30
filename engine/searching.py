@@ -1679,8 +1679,8 @@ class CylleneusHit(Hit):
 
             # Recursively filter subqueries in a complex query
             for subquery in query:
-                if hasattr(query, 'annotation') and query.annotation:
-                    subquery.annotation = query.annotation
+                # if hasattr(query, 'annotation') and query.annotation:
+                #     subquery.annotation = query.annotation
                 subresults = self.annotation_filter(subquery)
                 results += subresults
             return set(results)
@@ -1704,8 +1704,8 @@ class CylleneusHit(Hit):
                     for match in fragment.matches
                 }
                 if settings.DEBUG:
-                    print_debug(settings.DEBUG, "Query matches: {}".format(query_matches))
-                    print_debug(settings.DEBUG, "Annotation matches: {}".format(annotation_matches))
+                    print_debug(settings.DEBUG, "Query matches: {}".format(len(query_matches)))
+                    print_debug(settings.DEBUG, "Annotation matches: {}".format(len(annotation_matches)))
 
                 matches = set()
                 for query_match, annotation_match in product(query_matches, annotation_matches):
@@ -1717,7 +1717,7 @@ class CylleneusHit(Hit):
                 matches = list(matches)
 
                 if settings.DEBUG:
-                    print_debug(settings.DEBUG, "Overlapping matches: {}".format(matches))
+                    print_debug(settings.DEBUG, "Overlapping matches: {}".format(len(matches)))
 
                 if not any(
                     [
@@ -1728,7 +1728,7 @@ class CylleneusHit(Hit):
                     matches = []
 
                 if settings.DEBUG:
-                    print_debug(settings.DEBUG, "Post-query check: {}".format(matches))
+                    print_debug(settings.DEBUG, "Post-query check: {}".format(len(matches)))
 
                 if isinstance(
                     query.annotation, engine.query.terms.Annotation
@@ -1773,7 +1773,7 @@ class CylleneusHit(Hit):
                         matches = []
 
                 if settings.DEBUG:
-                    print_debug(settings.DEBUG, "Post-annotation check: {}".format(matches))
+                    print_debug(settings.DEBUG, "Post-annotation check: {}".format(len(matches)))
 
                 if matches:
                     # Create a new fragment
@@ -1839,13 +1839,8 @@ class CylleneusHit(Hit):
 
                     fragment.matches = finalists
 
-            if settings.DEBUG:
-                print_debug(settings.DEBUG, "Keep only same-group annotations: {}".format(results))
-
-        # Squash duplicate matches
-        for fragment in results:
-            fragment.matches = list(set(fragment.matches))
-
+                if settings.DEBUG:
+                    print_debug(settings.DEBUG, "Keep only same-group annotations: {}".format(len(results)))
         return results
 
     def filter_fragments(self, query, minscore: int = 1):
@@ -1857,7 +1852,7 @@ class CylleneusHit(Hit):
         results = sorted(self.annotation_filter(query), key=lambda x: x.startchar)
 
         if settings.DEBUG:
-            print_debug(settings.DEBUG, "Pre-filtered fragments: {}".format(results))
+            print_debug(settings.DEBUG, "Pre-filtered fragments: {}".format(len(results)))
 
         # Merge overlapping and adjacent (multi-field) fragments
         combined = []
@@ -1886,7 +1881,7 @@ class CylleneusHit(Hit):
                 combined.append(f)
 
         if settings.DEBUG:
-            print_debug(settings.DEBUG, "Merged fragments: {}".format(results))
+            print_debug(settings.DEBUG, "Combined fragments: {}".format(len(combined)))
 
         # Preserve ordering in sequential (adjacency) queries
         if isinstance(query, engine.query.positional.Sequence):
@@ -1927,6 +1922,9 @@ class CylleneusHit(Hit):
         else:
             for fragment in combined:
                 fragment.matches = sorted(fragment.matches, key=lambda m: m.startchar)
+
+        if settings.DEBUG:
+            print_debug(settings.DEBUG, "Ordering: {}".format(len(combined)))
 
         # For compound annotation queries, keep same-analysis groups
         if isinstance(query, engine.query.compound.And) \
@@ -1973,10 +1971,19 @@ class CylleneusHit(Hit):
                 finalists = []
                 for uri, lemma, group in candidates:
                     finalists.extend(matches_by_lemma[uri][lemma][group])
+
                 fragment.matches = finalists
 
-        # Squash matches with identical meta data
+        filtered = []
         for fragment in combined:
+            if len(fragment.matches) != 0:
+                filtered.append(fragment)
+
+        if settings.DEBUG:
+            print_debug(settings.DEBUG, "Annotation filtering: {}".format(len(filtered)))
+
+        # Squash matches with identical meta data
+        for fragment in filtered:
             seen = []
             squashed = []
             for match in fragment.matches:
@@ -1985,12 +1992,19 @@ class CylleneusHit(Hit):
                     squashed.append(match)
             fragment.matches = squashed
 
+        if settings.DEBUG:
+            print_debug(settings.DEBUG, "Squashed fragments: {}".format(len(filtered)))
+
         # Keep only fragments that reach the minimum score threshold
         scored = set()
-        for fragment in combined:
+        for fragment in filtered:
             score = self.results.highlighter.scorer(query, fragment)
             if score:
                 scored.add((score, fragment))
+
+        if settings.DEBUG:
+            print_debug(settings.DEBUG, "Scored: {}".format(len(scored)))
+
         finalists = list(set([
             (score, fragment)
             for score, fragment in scored
@@ -1998,7 +2012,7 @@ class CylleneusHit(Hit):
         ]))
 
         if settings.DEBUG:
-            print_debug(settings.DEBUG, "Filtered fragments: {}".format(finalists))
+            print_debug(settings.DEBUG, "Filtered fragments: {}".format(len(finalists)))
         return finalists
 
     def fragments(self, minscore=None):

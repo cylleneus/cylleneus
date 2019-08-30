@@ -130,7 +130,11 @@ class Indexer:
             self.path = Path(self.corpus.index_dir / slugify(kwargs['author']) / slugify(kwargs['title']))
             self.open()
 
-            writer = self.index.writer(limitmb=1024)
+            writer = self.index.writer(
+                limitmb=512,
+                procs=4,
+                multisegment=True
+            )
             writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
             writer.commit()
 
@@ -143,6 +147,10 @@ class Indexer:
 
             self.open()
 
-            writer = self.index.writer(limitmb=1024)
+            writer = self.index.writer(
+                limitmb=512,
+                procs=4,
+                multisegment=True
+            )
             writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
             writer.commit()
