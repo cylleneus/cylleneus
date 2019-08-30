@@ -54,7 +54,7 @@ repl = CustomRiposte(
 def search(*args):
     global _searcher, _search, _collection
 
-    if _collection is not None:
+    if _collection is not None and _collection.works:
         query = ' '.join(args)
         _searcher.collection = _collection
         _search = _searcher.search(query)

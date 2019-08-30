@@ -12,11 +12,11 @@ from typing import List
 
 class Collection:
     def __init__(self, works: List[Work] = None):
-        self._works = set(works) if works else set()
+        self._works = works or list()
 
     def add(self, work):
         if work not in self._works:
-            self._works.add(work)
+            self._works.append(work)
 
     def remove(self, work):
         if work in self._works:
@@ -28,7 +28,7 @@ class Collection:
 
     @property
     def works(self):
-        return list(self._works)
+        return self._works
 
     def __iter__(self):
         yield from self.works
@@ -72,7 +72,7 @@ class Searcher:
 
 
 class Search:
-    def __init__(self, spec: str, collection: Collection, minscore=None, top=None, debug=False):
+    def __init__(self, spec: str, collection: Collection, minscore=None, top=1000000, debug=False):
         self._spec = spec
         self._collection = collection
         self._minscore = minscore
