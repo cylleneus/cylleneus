@@ -46,7 +46,7 @@ import whoosh.query
 import engine.scoring
 from whoosh.compat import iteritems, iterkeys, itervalues, xrange
 from whoosh.idsets import BitSet, DocIdSet
-from whoosh.qparser.common import print_debug
+from utils import print_debug
 from whoosh.reading import TermNotFound
 from whoosh.util.cache import lru_cache
 
@@ -90,7 +90,7 @@ class SearchContext(object):
     """
 
     def __init__(self, needs_current=False, weighting=None, top_query=None,
-                 limit=0):
+                 limit=None):
         """
         :param needs_current: if True, the search requires that the matcher
             tree be "valid" and able to access information about the current
@@ -652,7 +652,7 @@ class Searcher(object):
             for docnum in method(self):
                 yield docnum
 
-    def collector(self, limit=10, sortedby=None, reverse=False, groupedby=None,
+    def collector(self, limit=None, sortedby=None, reverse=False, groupedby=None,
                   collapse=None, collapse_limit=1, collapse_order=None,
                   optimize=True, filter=None, mask=None, terms=False,
                   maptype=None, scored=True):
@@ -678,35 +678,33 @@ class Searcher(object):
             results = mysearcher.search_with_collector(myquery, c)
         """
 
-        from whoosh import collectors
-
         if limit is not None and limit < 1:
             raise ValueError("limit must be >= 1")
 
         if not scored and not sortedby:
-            c = collectors.UnsortedCollector()
+            c = engine.collectors.CylleneusUnsortedCollector()
         elif sortedby:
-            c = collectors.SortingCollector(sortedby, limit=limit,
+            c = engine.collectors.CylleneusSortingCollector(sortedby, limit=limit,
                                             reverse=reverse)
         elif groupedby or reverse or not limit or limit >= self.doc_count():
             # A collector that gathers every matching document
-            c = collectors.UnlimitedCollector(reverse=reverse)
+            c = engine.collectors.CylleneusUnlimitedCollector(reverse=reverse)
         else:
             # A collector that uses block quality optimizations and a heap
             # queue to only collect the top N documents
-            c = collectors.TopCollector(limit, usequality=optimize)
+            c = engine.collectors.CylleneusTopCollector(limit, usequality=optimize)
 
         if groupedby:
-            c = collectors.FacetCollector(c, groupedby, maptype=maptype)
+            c = engine.collectors.CylleneusFacetCollector(c, groupedby, maptype=maptype)
         if terms:
-            c = collectors.TermsCollector(c)
+            c = engine.collectors.CylleneusTermsCollector(c)
         if collapse:
-            c = collectors.CollapseCollector(c, collapse, limit=collapse_limit,
+            c = engine.collectors.CylleneusCollapseCollector(c, collapse, limit=collapse_limit,
                                              order=collapse_order)
 
         # Filtering wraps last so it sees the docs first
         if filter or mask:
-            c = collectors.FilterCollector(c, filter, mask)
+            c = engine.collectors.CylleneusFilterCollector(c, filter, mask)
         return c
 
     def search(self, q, **kwargs):
@@ -1679,8 +1677,7 @@ class CylleneusHit(Hit):
 
             # Recursively filter subqueries in a complex query
             for subquery in query:
-                # if hasattr(query, 'annotation') and query.annotation:
-                #     subquery.annotation = query.annotation
+                print_debug(settings.DEBUG, '  Subquery: {}'.format(subquery))
                 subresults = self.annotation_filter(subquery)
                 results += subresults
             return set(results)
@@ -1690,6 +1687,7 @@ class CylleneusHit(Hit):
             # Compare every query match to every annotation match, keeping only
             # fragments whose matches occur at the same position
             if hasattr(query, 'annotation') and query.annotation:
+                print_debug(settings.DEBUG, "    - with annotation: {}".format(query.annotation))
                 query_matches = {
                     match: fragment
                     for fragment in
@@ -1703,9 +1701,8 @@ class CylleneusHit(Hit):
                     for fragment in self.results.highlighter.fragment_hit(hit, query.annotation.field())
                     for match in fragment.matches
                 }
-                if settings.DEBUG:
-                    print_debug(settings.DEBUG, "Query matches: {}".format(len(query_matches)))
-                    print_debug(settings.DEBUG, "Annotation matches: {}".format(len(annotation_matches)))
+                print_debug(settings.DEBUG, "    - matches: {}".format(len(query_matches)))
+                print_debug(settings.DEBUG, "    - annotation matches: {}".format(len(annotation_matches)))
 
                 matches = set()
                 for query_match, annotation_match in product(query_matches, annotation_matches):
@@ -1716,8 +1713,7 @@ class CylleneusHit(Hit):
                         matches.update([query_match, annotation_match])
                 matches = list(matches)
 
-                if settings.DEBUG:
-                    print_debug(settings.DEBUG, "Overlapping matches: {}".format(len(matches)))
+                print_debug(settings.DEBUG, "    - of which {} overlap".format(len(matches)))
 
                 if not any(
                     [
@@ -1726,16 +1722,11 @@ class CylleneusHit(Hit):
                     ]
                 ):
                     matches = []
-
-                if settings.DEBUG:
-                    print_debug(settings.DEBUG, "Post-query check: {}".format(len(matches)))
+                    print_debug(settings.DEBUG, "    - no matches corresponded to the query!")
 
                 if isinstance(
                     query.annotation, engine.query.terms.Annotation
                 ):
-                    if settings.DEBUG:
-                        print_debug(settings.DEBUG, "Single-term annotation: {}".format(query.annotation))
-
                     if not any(
                         [
                             (
@@ -1751,9 +1742,6 @@ class CylleneusHit(Hit):
                 elif isinstance(
                     query.annotation, engine.query.compound.And
                 ):
-                    if settings.DEBUG:
-                        print_debug(settings.DEBUG, "Multi-term annotation: {}".format(query.annotation))
-
                     if not all(
                     [
                         any(
@@ -1771,9 +1759,7 @@ class CylleneusHit(Hit):
                     ]
                 ):
                         matches = []
-
-                if settings.DEBUG:
-                    print_debug(settings.DEBUG, "Post-annotation check: {}".format(len(matches)))
+                        print_debug(settings.DEBUG, "    - no matches corresponded to the annotation!")
 
                 if matches:
                     # Create a new fragment
@@ -1785,6 +1771,45 @@ class CylleneusHit(Hit):
                     )
                     fragment.matched_terms = set([(match.fieldname, match.text) for match in matches]),
                     results.append(fragment)
+
+                # For compound annotation queries, keep only same-analysis groups
+                if isinstance(query.annotation, engine.query.compound.And):
+                    for fragment in results:
+                        terms = [term.text.split('::')[0] for term in query.annotation.subqueries]
+                        morphos = []
+                        lemma_groups = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+                        matches_by_lemma = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+
+                        # ----------::X:Y
+                        for match in fragment.matches:
+                            if match.fieldname == 'annotation':
+                                annotation, lemma_group = match.text.split('::')
+                                uri, n, g = lemma_group.split(':')
+                                matches_by_lemma[uri][n][g].append(match)
+                                lemma_groups[uri][n][g].append(annotation)
+                        for uri in lemma_groups.keys():
+                            for lemma, grouping in lemma_groups[uri].items():
+                                for group, annotations in grouping.items():
+                                    if len(annotations) == len(terms) \
+                                        and all(
+                                        [annotation in terms for annotation in annotations]
+                                    ):
+                                        morphos.append((uri, lemma, group))
+
+                        candidates = []
+                        for uri, lemma, group in morphos:
+                            grouping = matches_by_lemma[uri][lemma][group]
+                            group_meta = [t.meta for t in grouping]
+                            # guarantee that the meta data for all matches is the same
+                            if group_meta.count(group_meta[0]) == len(group_meta):
+                                candidates.append((uri, lemma, group))
+
+                        finalists = []
+                        for uri, lemma, group in candidates:
+                            finalists.extend(matches_by_lemma[uri][lemma][group])
+                        fragment.matches = finalists
+
+                    print_debug(settings.DEBUG, "    - keeping only matching annotations: {}".format(len(results)))
             else:
                 if isinstance(query, engine.query.terms.PatternQuery):
                     terms = [t for f, t in query.iter_all_terms(self.searcher.ixreader)]
@@ -1796,63 +1821,14 @@ class CylleneusHit(Hit):
                     for fragment_match in fragment.matches
                     if fragment_match.text in terms
                 ])
-
-            # For compound annotation queries, keep only same-analysis groups
-            if isinstance(query.annotation, engine.query.compound.And):
-                for fragment in results:
-                    terms = [term.text.split('::')[0] for term in query.annotation.subqueries]
-                    morphos = []
-                    lemma_groups = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
-                    matches_by_lemma = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
-                    matches_by_group = defaultdict(list)
-                    matches_by_text = {}
-
-                    # ----------::X:Y
-                    for match in fragment.matches:
-                        if match.fieldname == 'annotation':
-                            annotation, lemma_group = match.text.split('::')
-                            uri, n, g = lemma_group.split(':')
-                            matches_by_text[match.text] = match
-                            matches_by_group[g].append(match)
-                            matches_by_lemma[uri][n][g].append(match)
-                            lemma_groups[uri][n][g].append(annotation)
-                    for uri in lemma_groups.keys():
-                        for lemma, grouping in lemma_groups[uri].items():
-                            for group, annotations in grouping.items():
-                                if len(annotations) == len(terms) \
-                                    and all(
-                                    [annotation in terms for annotation in annotations]
-                                ):
-                                    morphos.append((uri, lemma, group))
-
-                    candidates = []
-                    for uri, lemma, group in morphos:
-                        grouping = matches_by_lemma[uri][lemma][group]
-                        group_meta = [t.meta for t in grouping]
-                        # guarantee that the meta data for all matches is the same
-                        if group_meta.count(group_meta[0]) == len(group_meta):
-                            candidates.append((uri, lemma, group))
-
-                    finalists = []
-                    for uri, lemma, group in candidates:
-                        finalists.extend(matches_by_lemma[uri][lemma][group])
-
-                    fragment.matches = finalists
-
-                if settings.DEBUG:
-                    print_debug(settings.DEBUG, "Keep only same-group annotations: {}".format(len(results)))
         return results
 
     def filter_fragments(self, query, minscore: int = 1):
-        if settings.DEBUG:
-            print_debug(settings.DEBUG, "Query: {}".format(query))
-
         # Filter out any matches that do not having matching annotations, if
         # any query is annotated
         results = sorted(self.annotation_filter(query), key=lambda x: x.startchar)
 
-        if settings.DEBUG:
-            print_debug(settings.DEBUG, "Pre-filtered fragments: {}".format(len(results)))
+        print_debug(settings.DEBUG, "  - Initial fragments: {}".format(len(results)))
 
         # Merge overlapping and adjacent (multi-field) fragments
         combined = []
@@ -1880,8 +1856,7 @@ class CylleneusHit(Hit):
                         merged.extend([xf, yf])
                 combined.append(f)
 
-        if settings.DEBUG:
-            print_debug(settings.DEBUG, "Combined fragments: {}".format(len(combined)))
+        print_debug(settings.DEBUG, "  - Merged fragments: {}".format(len(combined)))
 
         # Preserve ordering in sequential (adjacency) queries
         if isinstance(query, engine.query.positional.Sequence):
@@ -1923,9 +1898,6 @@ class CylleneusHit(Hit):
             for fragment in combined:
                 fragment.matches = sorted(fragment.matches, key=lambda m: m.startchar)
 
-        if settings.DEBUG:
-            print_debug(settings.DEBUG, "Ordering: {}".format(len(combined)))
-
         # For compound annotation queries, keep same-analysis groups
         if isinstance(query, engine.query.compound.And) \
             and all(
@@ -1939,15 +1911,11 @@ class CylleneusHit(Hit):
                 morphos = []
                 lemma_groups = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
                 matches_by_lemma = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
-                matches_by_group = defaultdict(list)
-                matches_by_text = {}
 
                 # ----------::X:Y
                 for match in fragment.matches:
                     annotation, lemma_group = match.text.split('::')
                     uri, n, g = lemma_group.split(':')
-                    matches_by_text[match.text] = match
-                    matches_by_group[g].append(match)
                     matches_by_lemma[uri][n][g].append(match)
                     lemma_groups[uri][n][g].append(annotation)
 
@@ -1971,7 +1939,6 @@ class CylleneusHit(Hit):
                 finalists = []
                 for uri, lemma, group in candidates:
                     finalists.extend(matches_by_lemma[uri][lemma][group])
-
                 fragment.matches = finalists
 
         filtered = []
@@ -1979,8 +1946,7 @@ class CylleneusHit(Hit):
             if len(fragment.matches) != 0:
                 filtered.append(fragment)
 
-        if settings.DEBUG:
-            print_debug(settings.DEBUG, "Annotation filtering: {}".format(len(filtered)))
+        print_debug(settings.DEBUG, "  - Filtered by annotation: {}".format(len(filtered)))
 
         # Squash matches with identical meta data
         for fragment in filtered:
@@ -1992,8 +1958,7 @@ class CylleneusHit(Hit):
                     squashed.append(match)
             fragment.matches = squashed
 
-        if settings.DEBUG:
-            print_debug(settings.DEBUG, "Squashed fragments: {}".format(len(filtered)))
+        print_debug(settings.DEBUG, "  - Filtered by duplicates: {}".format(len(filtered)))
 
         # Keep only fragments that reach the minimum score threshold
         scored = set()
@@ -2002,8 +1967,7 @@ class CylleneusHit(Hit):
             if score:
                 scored.add((score, fragment))
 
-        if settings.DEBUG:
-            print_debug(settings.DEBUG, "Scored: {}".format(len(scored)))
+        print_debug(settings.DEBUG, "  - Scored fragments: {}".format(len(scored)))
 
         finalists = list(set([
             (score, fragment)
@@ -2011,8 +1975,7 @@ class CylleneusHit(Hit):
             if score >= minscore
         ]))
 
-        if settings.DEBUG:
-            print_debug(settings.DEBUG, "Filtered fragments: {}".format(len(finalists)))
+        print_debug(settings.DEBUG, "  - Final count: {}".format(len(finalists)))
         return finalists
 
     def fragments(self, minscore=None):
@@ -2179,7 +2142,7 @@ class CylleneusHit(Hit):
 
 
 class CylleneusSearcher(Searcher):
-    def collector(self, limit=10, sortedby=None, reverse=False, groupedby=None,
+    def collector(self, limit=None, sortedby=None, reverse=False, groupedby=None,
                   collapse=None, collapse_limit=1, collapse_order=None,
                   optimize=True, filter=None, mask=None, terms=False,
                   maptype=None, scored=True):
@@ -2207,14 +2170,15 @@ class CylleneusSearcher(Searcher):
         if groupedby:
             c = engine.collectors.CylleneusFacetCollector(c, groupedby, maptype=maptype)
         if terms:
-            c = engine.collectors.CylleneusTermsCollector(c)
+            uc = engine.collectors.CylleneusUnlimitedCollector()
+            c = engine.collectors.CylleneusTermsCollector(uc)
         if collapse:
             c = engine.collectors.CylleneusCollapseCollector(c, collapse, limit=collapse_limit,
                                                                   order=collapse_order)
-
         # Filtering wraps last so it sees the docs first
         if filter or mask:
             c = engine.collectors.CylleneusFilterCollector(c, filter, mask)
+
         return c
 
     def search(self, q, **kwargs):
@@ -2225,20 +2189,16 @@ class CylleneusSearcher(Searcher):
 
         # Call the collector() method to build a collector based on the
         # parameters passed to this method
-        c = self.collector(**kwargs)
-        # If the query has an annotation, call the lower-level method
-        # to run the collector
-        if hasattr(q, 'annotation') and q.annotation:
-            self.search_with_collector(q.annotation, c)
-            q.annotation.results = c.results()
-        # If any of the query's subqueries has an annotation, call the lower-level
-        # method to run the collector
-        for ch in q.children():
-            if hasattr(ch, 'annotation') and ch.annotation:
-                self.search_with_collector(ch.annotation, c)
-                ch.annotation.results = c.results()
+        collector = self.collector(**kwargs)
+        c = engine.collectors.CylleneusCollector(collector)
+
+        for child in q.children():
+            if hasattr(child, 'annotation') and child.annotation:
+                self.search_with_collector(child.annotation, c)
+                child.annotation.results = c.results()
 
         # Call the lower-level method to run the collector
         self.search_with_collector(q, c)
+        print_debug(settings.DEBUG, "Matched in docs: {}".format(c.results().docs()))
         # Return the results object from the collector
         return c.results()

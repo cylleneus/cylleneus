@@ -35,7 +35,8 @@ import settings
 import whoosh.query
 from whoosh.compat import text_type
 from whoosh.qparser import syntax
-from whoosh.qparser.common import QueryParserError, print_debug
+from whoosh.qparser.common import QueryParserError
+from utils import print_debug
 
 
 # Query parser object

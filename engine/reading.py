@@ -311,7 +311,7 @@ class IndexReader(object):
 
     def all_doc_ixs(self):
         is_deleted = self.is_deleted
-        return (fields['docix'] for _, fields in self.iter_docs()
+        return (fields['docix'] for docnum, fields in self.iter_docs()
                 if not is_deleted(docnum))
 
     def all_doc_ids(self):
