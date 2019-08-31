@@ -8,6 +8,8 @@ from engine.highlight import CylleneusBasicFragmentScorer, CylleneusDefaultForma
 from engine.qparser.default import CylleneusQueryParser
 from engine.searching import CylleneusSearcher, HitRef
 from typing import List
+from utils import print_debug
+from settings import DEBUG
 
 
 class Collection:
@@ -217,6 +219,7 @@ class Search:
             if work.is_searchable:
                 parser = CylleneusQueryParser("form", work.corpus.schema)
                 query = parser.parse(self.spec, debug=debug)
+                print_debug(settings.DEBUG, "Query: {}".format(query))
 
                 reader = work.index.reader()
                 with CylleneusSearcher(reader,

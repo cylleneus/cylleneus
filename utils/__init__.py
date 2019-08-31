@@ -2,8 +2,14 @@ from datetime import datetime
 import math
 import unicodedata
 import re
+import sys
 from collections.abc import Iterable
 from itertools import chain, zip_longest
+
+
+def print_debug(level, msg, out=sys.stderr):
+    if level:
+        out.write("%s%s\n" % (" " * (level - 1), msg))
 
 
 def slugify(value, allow_unicode=False):
