@@ -54,6 +54,7 @@ def get(hit, meta, fragment):
     hlites = set([tuple(hlite) for hlite in meta['hlites']])
 
     for ref in nrange(start, end):
+        if 0 in ref: continue  # FIXME: nrange yields 0-numbered references
         content = doc['text']
 
         for div in ref:

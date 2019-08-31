@@ -1,6 +1,10 @@
 """ Configuration settings for Cylleneus """
 
 import os
+import sys
+
+# Platform
+PLATFORM = sys.platform
 
 # Debugging settings
 DEBUG = False
