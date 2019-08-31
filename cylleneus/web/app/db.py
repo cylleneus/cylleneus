@@ -13,8 +13,8 @@ class Search(peewee.Model):
         database = db
 
     query = peewee.CharField()
-    corpus = peewee.CharField()
     collection = peewee.TextField()
+    prettified = peewee.TextField()
     minscore = peewee.IntegerField(null=True)
     top = peewee.IntegerField(null=True)
     start_time = peewee.DateTimeField()

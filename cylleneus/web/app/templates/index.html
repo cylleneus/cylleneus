@@ -22,19 +22,16 @@
                                    id="query"/>
                         </div>
                         <div class="form-group">
-                            <label class="h6 font-weight-bold" for="corpus">Corpus</label>
-                            <select class="form-control" name="corpus" id="corpus">
-                                {% for c in corpora %}
-                                {% if c == corpus %}
-                                    <option value="{{ c }}" selected>{{ c }}</option>
-                                {% else %}
-                                    <option value="{{ c }}">{{ c }}</option>
-                                {% endif %}
-                                {% endfor %}
-                            </select>
+                            <textarea name="collection" id="collection" value="{{ collection }}" style="display: none;">{{ collection }}</textarea>
+                            <label class="h6 font-weight-bold" for="selected">in:</label>
+                            <div id="selected" class="border rounded pt-3 pb-3">
+                            {% for work in works %}
+                            <div class="pl-3"><span class="card-text">{{ work.author }}</span>, <span class="card-text font-italic">{{ work.title }}</span> <span class="card-text text-muted">({{ work.corpus.name }})</span></div>
+                            {% endfor %}
+                            </div>
                         </div>
                         <div class="float-left pr-3">
-                            <a class="btn btn-secondary" href="corpora">Corpora</a>
+                            <a class="btn btn-secondary" href="collection">Collection</a>
                         </div>
                         <div class="float-left">
                             <a class="btn btn-secondary" href="import">Import</a>
@@ -68,7 +65,7 @@
                         {% for h in history %}
                         <tr>
                             <td><p class="card-text font-weight-bold"><a href="history?id={{ h.id }}">{{ h.query }}</a></td>
-                            <td><p class="card-text">{{ h.corpus }}</p>
+                            <td><p class="card-text">{{ h.prettified|truncate(9, True) }}</p>
                             <td><p id="st" class="card-text">{{ h.dt }}</p></td>
                         </tr>
                         {% endfor %}
@@ -174,12 +171,13 @@
       }
       content += '\n\n'
 }
-  save.addEventListener('click', function () {
+  if (save) {
+    save.addEventListener('click', function () {
     var saveLink = document.getElementById('save-link');
     var textFile = createTextFile(content);
     saveLink.setAttribute('href', textFile);
     saveLink.style.display = 'block'
-  }, false);
+  }, false); }
 })();
 </script>
 {% endblock %}

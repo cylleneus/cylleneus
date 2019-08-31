@@ -39,17 +39,28 @@ def import_text(author, title, filename, content):
 
 
 # TODO: add pagination
-def search_request(corpus, query):
-    c = Corpus(corpus)
-    collection = Collection(list(c.works))
-    search = Searcher(collection).search(query)
+def search_request(collection, query):
+    c = Collection(collection)
+    search = Searcher(c).search(query)
 
     if search.results:
         return search
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
+    form = request.form
+    collection = form.get('collection', None)
+
+    works = []
+    if collection:
+        ids = json.loads(collection)
+        for id in ids:
+            corpus, n = id.split(',')
+            c = Corpus(corpus)
+            w = c.work_by_docix(int(n))
+            works.append(w)
+
     db.connect()
     history = []
     for h in Search.select():
@@ -59,17 +70,19 @@ def index():
     response = {
         'version': settings.__version__,
         'corpora': _corpora,
-        'history': history,
+        'works': works,
+        'collection': collection,
+        'history': history
     }
     return render_template('index.html', **response)
 
 
-@app.route('/corpora', methods=['GET'])
-def corpora():
+@app.route('/collection', methods=['GET'])
+def collection():
     response = {
             'corpora': [Corpus(corpus) for corpus in _corpora]
     }
-    return render_template('corpora.html', **response)
+    return render_template('collection.html', **response)
 
 
 @app.route('/import', methods=['POST', 'GET'])
@@ -110,13 +123,21 @@ def history():
     s = Search.get_by_id(id)
     db.close()
 
+    works = []
+    ids = json.loads(s.collection)
+    for id in ids:
+        corpus, n = id.split(',')
+        c = Corpus(corpus)
+        w = c.work_by_docix(int(n))
+        works.append(w)
+
     results = [r.html for r in SearchResult.select().where(SearchResult.search == s)]
 
     response = {
         'version': settings.__version__,
         'collection': s.collection,
+        'works': works,
         'corpora': _corpora,
-        'corpus': s.corpus,
         'query': s.query,
         'history': history,
         'results': results,
@@ -124,7 +145,7 @@ def history():
     }
     return render_template('index.html', **response)
 
-# TODO: implement collections
+
 @app.route('/search', methods=['POST', 'GET'])
 def search():
     if request.method == 'POST':
@@ -132,20 +153,29 @@ def search():
     else:
         form = request.args
 
-    corpus = form.get('corpus')
+    collection = form.get('collection')
     query = form.get('query')
 
-    results = search_request(corpus, query)
+    works = []
+    ids = json.loads(collection)
+    for id in ids:
+        corpus, n = id.split(',')
+        c = Corpus(corpus)
+        w = c.work_by_docix(int(n))
+        works.append(w)
+
+    results = search_request(works, query)
 
     if results:
         db.connect()
         try:
-            s = Search.get(query=query, collection=str(results.collection))
+            s = Search.get(query=query, collection=collection),
         except Search.DoesNotExist:
+            names = [f"{work.author}, {work.title}" for work in works]
             s = Search.create(
                 query=query,
-                corpus=corpus,
-                collection=json.dumps(str(results.collection)),
+                collection=collection,
+                prettified=f"{'; '.join(names)}",
                 minscore=results.minscore,
                 top=results.top,
                 start_time=results.start_time,
@@ -172,7 +202,8 @@ def search():
 
     response = {
         'version': settings.__version__,
-        'corpus': corpus,
+        'collection': collection,
+        'works': works,
         'corpora': _corpora,
         'query': query,
         'history': history,
