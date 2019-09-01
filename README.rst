@@ -2,7 +2,7 @@
 Cylleneus
 =========
 
-.. image:: https://img.shields.io/badge/cylleneus-next--gen%20search%20for%20electronic%20corpora%20of%20Greek%20and%20Latin-blue.svg
+.. image:: https://img.shields.io/badge/cylleneus-next--gen%20corpus%20search%20for%20Greek%20and%20Latin-blue.svg
         :target: https://github.com/wmshort/cylleneus
 
 .. image:: https://img.shields.io/pypi/v/cylleneus.svg
