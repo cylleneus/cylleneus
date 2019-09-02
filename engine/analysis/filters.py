@@ -558,8 +558,7 @@ class CachedLemmaFilter(Filter):
                         results = LWN.lemmatize(text)
                         if results:
                             for i, lemma in enumerate(results):
-                                t.morpho = f"{lemma['lemma']['morpho']}::" \
-                                           f"{lemma['lemma']['uri']}:{i}>{' '.join(lemma['morpho'])}"
+                                t.morpho = f"{lemma['lemma']['morpho']}::{lemma['lemma']['uri']}:{i}>{' '.join(lemma['morpho'])}"
                                 t.text = f"{lemma['lemma']['lemma']}:{lemma['lemma']['uri']}={lemma['lemma']['morpho']}"
                                 self._cache.append(copy.copy(t))
                                 yield t
@@ -677,11 +676,11 @@ class AnnotationFilter(Filter):
             elif t.mode == 'index':
                 text = t.morpho
                 if text:
-                    # '----------::uri:N', ['----------', ...]
+                    # ----------::uri:n>---------- ----------
                     morpho, annotations = text.split('>')
                     r = morpho.split('::')[1]
                     uri, n = r.split(':')
-                    for i, annotation in enumerate(annotations.split(' ')):
+                    for i, annotation in enumerate(annotations.split()):
                         t.text = f"{annotation}::{uri}:{n}:{i}"
                         yield t
 
@@ -919,7 +918,7 @@ class CachedLASLALemmaFilter(Filter):
                         lemma = lemma.lower().strip('_').translate(jvmap)
 
                         for uri in uris:
-                            for morpho in morphos:
+                            for i, morpho in enumerate(morphos):
                                 if annotation is not None:
                                     if '/' in annotation:  # n-s---m/nn3-
                                         head, *alts, tail = re.search(
@@ -928,17 +927,15 @@ class CachedLASLALemmaFilter(Filter):
                                     else:
                                         annotations = [annotation,]
                                     for annotation in annotations:
-                                        t.morpho = f"{morpho}::{uri}:0>{annotation}"
+                                        t.morpho = f"{morpho}::{uri}:{i}>{annotation}"
                                         t.text = f"{lemma}:{uri}={morpho}"
                                         self._cache.append(copy.copy(t))
                                         yield t
                                 else:
-                                    t.morpho = f"{morpho}::{uri}:0>{morpho}"
-
-                                    for uri in uris:
-                                        t.text = f"{lemma}:{uri}={morpho}"
-                                        self._cache.append(copy.copy(t))
-                                        yield t
+                                    t.morpho = f"{morpho}::{uri}:{i}>{morpho}"
+                                    t.text = f"{lemma}:{uri}={morpho}"
+                                    self._cache.append(copy.copy(t))
+                                    yield t
                 elif t.mode == 'query':
                     # Lexical relation
                     if '::' in t.text:

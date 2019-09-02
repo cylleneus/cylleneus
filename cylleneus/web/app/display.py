@@ -1,5 +1,4 @@
 import re
-
 from html3.html3 import HTML
 
 
@@ -9,12 +8,13 @@ def as_html(highlights):
     for href in highlights:
         htm = HTML()
 
-        htm.div(href.author, klass='h5 card-title font-weight-bold exportable')
-        htm.div(href.title, klass='h5 card-title font-italic exportable')
+        h = htm.div()
         if href.urn:
-            htm.a(text=r"more &rarr;", href=href.urn, klass="card-link exportable")
+            htm.a(text=r"more...", href=href.urn, klass="card-link exportable")
+        h.div(href.author, klass='h5 card-title font-weight-bold exportable')
+        h.div(href.title, klass='h5 card-title font-italic exportable')
         if href.reference:
-            htm.div(href.reference, klass='h6 card-subtitle mb-2 text-muted pt-1 exportable')
+            h.div(href.reference, klass='h6 card-subtitle mb-2 text-muted pt-1 exportable')
 
         d = htm.div(klass="pt-1 exportable")
         # Process post-match context

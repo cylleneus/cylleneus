@@ -109,7 +109,8 @@ class Corpus:
     @property
     def readers(self):
         for ixr in self.indexers:
-            yield ixr.index.reader()
+            if ixr.index:
+                yield ixr.index.reader()
 
     def readers_for(self, author: str='*', title: str='*'):
         for ixr in self.indexers_for(author, title):
@@ -192,11 +193,18 @@ class Work:
             if 'docix' in self.doc:
                 self._docix = self.doc['docix']
         else:
-            doc = list(indexer.Indexer.docs_for(corpus, author, title))[0][1]
-            self._doc = doc
-            self._docix = doc['docix']
-            self._author = doc['author']
-            self._title = doc['title']
+            if author and title:
+                docs = list(indexer.Indexer.docs_for(corpus, author, title))
+                if docs:
+                    doc = list(indexer.Indexer.docs_for(corpus, author, title))[0][1]
+                    self._doc = doc
+                    self._docix = doc['docix']
+                    self._author = doc['author']
+                    self._title = doc['title']
+                else:
+                    self._doc = self._author = self._title = None
+            else:
+                self._doc = self._author = self._title = None
         self._indexer = indexer.Indexer(corpus, self)
 
 
@@ -254,3 +262,6 @@ class Work:
 
     def __repr__(self):
         return f"Work(corpus={self.corpus}, docix={self.docix})"
+
+    def __eq__(self, other):
+        return self.docix == other.docix and self.corpus == other.corpus

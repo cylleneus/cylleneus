@@ -7,7 +7,7 @@ from engine.schemas import schemas
 from engine.writing import CLEAR
 from utils import slugify
 from .preprocessing import *
-
+import settings
 
 class IndexingError(Exception):
     pass
@@ -130,7 +130,11 @@ class Indexer:
             self.path = Path(self.corpus.index_dir / slugify(kwargs['author']) / slugify(kwargs['title']))
             self.open()
 
-            writer = self.index.writer(limitmb=1024)
+            writer = self.index.writer(
+                limitmb=4096,
+                procs=1 if settings.PLATFORM == 'win32' else 4,
+                multisegment=True
+            )
             writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
             writer.commit()
 
@@ -143,6 +147,10 @@ class Indexer:
 
             self.open()
 
-            writer = self.index.writer(limitmb=1024)
+            writer = self.index.writer(
+                limitmb=4096,
+                procs=1 if settings.PLATFORM == 'win32' else 4,
+                multisegment=True
+            )
             writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
             writer.commit()

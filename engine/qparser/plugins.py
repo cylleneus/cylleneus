@@ -26,7 +26,7 @@
 # policies, either expressed or implied, of Matt Chaput.
 
 
-import engine.qparser.syntax
+from engine.qparser.syntax import *
 import engine.query
 import engine.query.positional
 import whoosh.qparser
@@ -41,7 +41,7 @@ class WhitespacePlugin(whoosh.qparser.plugins.TaggingPlugin):
     whitespace) or higher than 500 (after removal of whitespace).
     """
 
-    nodetype = engine.qparser.syntax.Whitespace
+    nodetype = Whitespace
     priority = 100
 
     def __init__(self, expr=r"\s+"):
@@ -53,7 +53,7 @@ class WhitespacePlugin(whoosh.qparser.plugins.TaggingPlugin):
     def remove_whitespace(self, parser, group):
         newgroup = group.empty_copy()
         for node in group:
-            if isinstance(node, engine.qparser.syntax.CylleneusGroupNode):
+            if isinstance(node, CylleneusGroupNode):
                 newgroup.append(self.remove_whitespace(parser, node))
             elif not node.is_ws():
                 newgroup.append(node)
@@ -73,10 +73,10 @@ class SequencePlugin(whoosh.qparser.plugins.Plugin):
 
         self.expr = expr
 
-    class SequenceNode(engine.qparser.syntax.CylleneusGroupNode):
+    class SequenceNode(CylleneusGroupNode):
         qclass = engine.query.positional.Sequence
 
-    class QuoteNode(engine.qparser.syntax.MarkerNode):
+    class QuoteNode(MarkerNode):
         def __init__(self, slop=None):
             self.slop = int(slop) if slop else 1
 
@@ -98,7 +98,7 @@ class SequencePlugin(whoosh.qparser.plugins.Plugin):
         # the next (end) quote, put the buffered nodes into a SequenceNode
         # and add it to newgroup.
         for node in group:
-            if isinstance(node, engine.qparser.syntax.CylleneusGroupNode):
+            if isinstance(node, CylleneusGroupNode):
                 # Recurse
                 node = self.do_quotes(parser, node)
 
@@ -173,7 +173,7 @@ class WildcardPlugin(whoosh.qparser.plugins.TaggingPlugin):
                 else:
                     i += 1
             else:
-                if isinstance(node, engine.qparser.syntax.CylleneusGroupNode):
+                if isinstance(node, CylleneusGroupNode):
                     self.do_wildcards(parser, node)
                 i += 1
 
@@ -205,28 +205,28 @@ class WildcardPlugin(whoosh.qparser.plugins.TaggingPlugin):
 # ''
 class FormPlugin(whoosh.qparser.plugins.TaggingPlugin):
     expr = r"('(?P<text>.*?)')"  # r"(^|(?<=\W))'(?P<text>.*?)'(?=\s|\]|[)}]|\"|$)"
-    nodetype = engine.qparser.syntax.FormNode
+    nodetype = FormNode
 
 # <>
 class LemmaPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify lemmas by enclosing them in guillemets."""
 
     expr = r'<(?P<text>[\w\d=:!@~#%msp|+-rc\/*>^$&<]+?)>'  # r'(^|(?<=\W))<(?P<text>[\w]+?)>(?=\s|\]|[)}]|:|"|$)'
-    nodetype = engine.qparser.syntax.LemmaNode
+    nodetype = LemmaNode
 
 # []
 class GlossPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify glosses by enclosing them in square brackets."""
 
     expr = r'\[(?P<text>[\w?#=!@~#%msp=|+-rc\/*>^$&<]+?)\]'  # r'(^|(?<=\W))\[(?P<text>[\w#]+?)\](?=\s|\]|[)}]|:|"|$)'
-    nodetype = engine.qparser.syntax.GlossNode
+    nodetype = GlossNode
 
 # {}
 class SemfieldPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify semfields by enclosing them in curly brackets."""
 
     expr = r'{(?P<text>[\w\d ]+?)}'  # r'(^|(?<=\W)){(?P<text>[\w\d ]+?)}(?=\s|\]|[)}]|:|"|$)'
-    nodetype = engine.qparser.syntax.SemfieldNode
+    nodetype = SemfieldNode
 
 
 # //
@@ -234,7 +234,7 @@ class MorphosyntaxPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify morphosyntax queries by enclosing them in forward slashes."""
 
     expr = r'/(?P<text>[\w\d ]+?)/'  # r'(^|(?<=\W))/(?P<text>[\w\d ]+?)/(?=\s|\]|[)}]|:|"|$)'
-    nodetype = engine.qparser.syntax.MorphosyntaxNode
+    nodetype = MorphosyntaxNode
 
 
 class RegexPlugin(whoosh.qparser.plugins.TaggingPlugin):
@@ -261,7 +261,7 @@ class AnnotationPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify annotations for WordNet nodes following a colon."""
 
     expr = r":(?P<text>[\w.]+)"
-    nodetype = engine.qparser.syntax.AnnotationNode
+    nodetype = AnnotationNode
 
     def filters(self, parser):
         return [(self.do_annotation, 300)]
@@ -269,12 +269,12 @@ class AnnotationPlugin(whoosh.qparser.plugins.TaggingPlugin):
     def do_annotation(self, parser, group):
         newgroup = group.empty_copy()
         for node in group:
-            if isinstance(node, engine.qparser.syntax.AnnotationNode):
+            if isinstance(node, AnnotationNode):
                 if newgroup and newgroup[-1]:
                     # ignore annotation if the previous node is a FormNode
-                    if isinstance(newgroup[-1], engine.qparser.syntax.FormNode):
+                    if isinstance(newgroup[-1], FormNode):
                         pass
-                    elif isinstance(newgroup[-1], engine.qparser.syntax.WordNetNode):
+                    elif isinstance(newgroup[-1], (LemmaNode, GlossNode, SemfieldNode)):
                         newgroup[-1].annotation = node
                     else:
                         newgroup.append(node)
@@ -291,11 +291,11 @@ class GroupPlugin(whoosh.qparser.plugins.Plugin):
 
     # Marker nodes for open and close bracket
 
-    class OpenBracket(engine.qparser.syntax.CylleneusSyntaxNode):
+    class OpenBracket(CylleneusSyntaxNode):
         def r(self):
             return "("
 
-    class CloseBracket(engine.qparser.syntax.CylleneusSyntaxNode):
+    class CloseBracket(CylleneusSyntaxNode):
         def r(self):
             return ")"
 
@@ -340,7 +340,7 @@ class GroupPlugin(whoosh.qparser.plugins.Plugin):
             for ls in stack[1:]:
                 top.extend(ls)
 
-        if len(top) == 1 and isinstance(top[0], engine.qparser.syntax.CylleneusGroupNode):
+        if len(top) == 1 and isinstance(top[0], CylleneusGroupNode):
             boost = top.boost
             top = top[0]
             top.boost = boost
@@ -354,7 +354,7 @@ class BoostPlugin(whoosh.qparser.plugins.TaggingPlugin):
 
     expr = "\\^(?P<boost>[0-9]*(\\.[0-9]+)?)($|(?=[ \t\r\n)\"]))"
 
-    class BoostNode(engine.qparser.syntax.CylleneusSyntaxNode):
+    class BoostNode(CylleneusSyntaxNode):
         def __init__(self, original, boost):
             self.original = original
             self.boost = boost
@@ -370,7 +370,7 @@ class BoostPlugin(whoosh.qparser.plugins.TaggingPlugin):
         except ValueError:
             # The text after the ^ wasn't a valid number, so turn it into a
             # word
-            node = engine.qparser.syntax.FormNode(original)
+            node = FormNode(original)
         else:
             node = self.BoostNode(original, boost)
 
@@ -399,7 +399,7 @@ class BoostPlugin(whoosh.qparser.plugins.TaggingPlugin):
 
         newgroup = group.empty_copy()
         for node in group:
-            if isinstance(node, engine.qparser.syntax.CylleneusGroupNode):
+            if isinstance(node, CylleneusGroupNode):
                 node = self.do_boost(parser, node)
             elif isinstance(node, self.BoostNode):
                 if (newgroup and newgroup[-1].has_boost):
@@ -467,20 +467,20 @@ class OperatorsPlugin(whoosh.qparser.plugins.Plugin):
         if not clean:
             ot = self.OpTagger
             if Not:
-                ops.append((ot(Not, engine.qparser.syntax.NotGroup, whoosh.qparser.syntax.PrefixOperator,
+                ops.append((ot(Not, NotGroup, whoosh.qparser.syntax.PrefixOperator,
                                memo="not"), 0))
             if And:
-                ops.append((ot(And, engine.qparser.syntax.AndGroup, memo="and"), 0))
+                ops.append((ot(And, AndGroup, memo="and"), 0))
             if Or:
-                ops.append((ot(Or, engine.qparser.syntax.OrGroup, memo="or"), 0))
+                ops.append((ot(Or, OrGroup, memo="or"), 0))
             if AndNot:
-                ops.append((ot(AndNot, engine.qparser.syntax.AndNotGroup,
+                ops.append((ot(AndNot, AndNotGroup,
                                memo="anot"), -5))
             if AndMaybe:
-                ops.append((ot(AndMaybe, engine.qparser.syntax.AndMaybeGroup,
+                ops.append((ot(AndMaybe, AndMaybeGroup,
                                memo="amaybe"), -5))
             if Require:
-                ops.append((ot(Require, engine.qparser.syntax.RequireGroup,
+                ops.append((ot(Require, RequireGroup,
                                memo="req"), 0))
 
         self.ops = ops
@@ -523,7 +523,7 @@ class OperatorsPlugin(whoosh.qparser.plugins.Plugin):
 
         # Descend into the groups and recursively call do_operators
         for i, t in enumerate(group):
-            if isinstance(t, engine.qparser.syntax.CylleneusGroupNode):
+            if isinstance(t, CylleneusGroupNode):
                 group[i] = self.do_operators(parser, t)
 
         return group
@@ -563,13 +563,13 @@ class PlusMinusPlugin(whoosh.qparser.plugins.Plugin):
         and "banned" subgroups based on the presence of plus and minus nodes.
         """
 
-        required = engine.qparser.syntax.AndGroup()
-        optional = engine.qparser.syntax.OrGroup()
-        banned = engine.qparser.syntax.OrGroup()
+        required = AndGroup()
+        optional = OrGroup()
+        banned = OrGroup()
 
         # If the top-level group is an AndGroup we make everything "required" by default
-        if isinstance(group, engine.qparser.syntax.AndGroup):
-            optional = engine.qparser.syntax.AndGroup()
+        if isinstance(group, AndGroup):
+            optional = AndGroup()
 
         # Which group to put the next node we see into
         next = optional
@@ -588,7 +588,7 @@ class PlusMinusPlugin(whoosh.qparser.plugins.Plugin):
 
         group = optional
         if required:
-            group = engine.qparser.syntax.AndMaybeGroup([required, group])
+            group = AndMaybeGroup([required, group])
         if banned:
-            group = engine.qparser.syntax.AndNotGroup([group, banned])
+            group = AndNotGroup([group, banned])
         return group

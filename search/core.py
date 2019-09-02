@@ -8,11 +8,13 @@ from engine.highlight import CylleneusBasicFragmentScorer, CylleneusDefaultForma
 from engine.qparser.default import CylleneusQueryParser
 from engine.searching import CylleneusSearcher, HitRef
 from typing import List
+from utils import print_debug
+from settings import DEBUG
 
 
 class Collection:
     def __init__(self, works: List[Work] = None):
-        self._works = works or []
+        self._works = works or list()
 
     def add(self, work):
         if work not in self._works:
@@ -30,6 +32,10 @@ class Collection:
     def works(self):
         return self._works
 
+    @works.setter
+    def works(self, w: list):
+        self._works = w
+
     def __iter__(self):
         yield from self.works
 
@@ -38,6 +44,7 @@ class Collection:
 
     def __repr__(self):
         return f"Collection(works={self.works})"
+
 
 class Searcher:
     def __init__(self, collection: Collection=None):
@@ -71,7 +78,7 @@ class Searcher:
 
 
 class Search:
-    def __init__(self, spec: str, collection: Collection, minscore=None, top=None, debug=False):
+    def __init__(self, spec: str, collection: Collection, minscore=None, top=1000000, debug=False):
         self._spec = spec
         self._collection = collection
         self._minscore = minscore
@@ -208,7 +215,7 @@ class Search:
     def top(self):
         return self._top
 
-    def run(self, debug=False):
+    def run(self, debug=settings.DEBUG):
         self.start_time = datetime.now()
         self.results = []
 
@@ -216,6 +223,7 @@ class Search:
             if work.is_searchable:
                 parser = CylleneusQueryParser("form", work.corpus.schema)
                 query = parser.parse(self.spec, debug=debug)
+                print_debug(settings.DEBUG, "Query: {}".format(query))
 
                 reader = work.index.reader()
                 with CylleneusSearcher(reader,

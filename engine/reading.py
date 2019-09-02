@@ -327,8 +327,8 @@ class IndexReader(object):
         tuples for the undeleted documents in the reader.
         """
 
-        for docnum in self.all_doc_ids():
-            yield self.stored_fields(docnum)['docix'], self.stored_fields(docnum)
+        for docnum in range(self.doc_count_all()):
+             yield self.stored_fields(docnum)['docix'], self.stored_fields(docnum)
 
     @abstractmethod
     def is_deleted(self, docnum):

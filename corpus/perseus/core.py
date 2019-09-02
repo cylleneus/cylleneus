@@ -51,9 +51,10 @@ def get(hit, meta, fragment):
             pre.append(f"<pre>{content}</pre>")
     match = []
 
-    hlites = set([(int(hlite[-2]), int(hlite[-1])) for hlite in meta['hlites']])
+    hlites = set([tuple(hlite) for hlite in meta['hlites']])
 
     for ref in nrange(start, end):
+        if 0 in ref: continue  # FIXME: nrange yields 0-numbered references
         content = doc['text']
 
         for div in ref:
@@ -65,8 +66,7 @@ def get(hit, meta, fragment):
         if refs >= start_refs:
             content = [
                 f"<em>{t}</em>"
-                # use meta['hlites'] to match highlighted words
-                if (ref[-1] - 1, i) in hlites
+                if tuple([str(r) for r in ref] + [str(i),]) in hlites
                 else t
                 for i, t in enumerate(content.split())
             ]

@@ -45,6 +45,8 @@ from whoosh.system import _FLOAT_SIZE, _INT_SIZE, _LONG_SIZE, _SHORT_SIZE, empty
     unpack_int, unpack_long, unpack_ushort
 from whoosh.util.numeric import byte_to_length, length_to_byte
 from whoosh.util.numlists import delta_decode, delta_encode
+from utils import print_debug
+import settings
 
 try:
     import zlib
@@ -977,7 +979,6 @@ class W3LeafMatcher(LeafMatcher):
         # If we haven't loaded the block IDs yet, load them now
         if self._ids is None:
             self._read_ids()
-
         return self._ids[self._i]
 
     def weight(self):
@@ -995,7 +996,6 @@ class W3LeafMatcher(LeafMatcher):
         # If we haven't loaded the block values yet, load them now
         if self._values is None:
             self._read_values()
-
         return self._values[self._i]
 
     def next(self):

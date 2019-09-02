@@ -52,7 +52,7 @@ It is also possible to ``pip install cylleneus``, but in this case you need to m
 Setup
 -----
 
-The Cylleneus engine requires texts to be indexed before they can be searched. For convenience and testing, this repository comes configured with three pre-indexed mini-corpora: some texts of Caesar from the LASLA corpus, Vergil's *Eclogues* from the Perseus Digital Library, and Seneca's *De Ira* and *De Beneficiis* from the Digital Latin Library. Ready-made scripts are provided for indexing texts from the Perseus Digital Library (in JSON or TEI XML format), the LASLA corpus, the PHI5 corpus, and from plain-text sources (for instance, the Latin Library). To index a corpus (or part of one), the raw source should be placed in an appropriately named directory within ``/corpus/text/<name>``. Then you can use any of the ready-made scripts in the ``scripts`` directory, modifying it for your own needs. The script for indexing texts from the DLL can be adapted to any plain-text source document. If you want to use texts from another corpus entirely, you will need to create an indexing pipeline tailored to the structure of that corpus. See the documentation for instructions.
+The Cylleneus engine requires texts to be indexed before they can be searched. For convenience and testing, this repository comes configured with three pre-indexed mini-corpora: some texts of Caesar from the LASLA corpus, those of Vergil from the Perseus Digital Library, and Seneca's *De Ira* and *De Beneficiis* from the Digital Latin Library.
 
 To enable gloss-based searches, Cylleneus relies on the MultiWordNet. The setup process should install the latest version of the ``multiwordnet`` package from PyPI, and also compile the necessary databases, but in case this step has been omitted you can do it manually. To do so, launch the Python REPL and enter the following commands.
 
@@ -66,19 +66,25 @@ To test that everything is working properly, run the battery of query tests in `
 Indexing
 --------
 
-Basic indexing functionality is provided through a command-line interface. To add a document or documents to a corpus, you must provide the original source files and indicate the correct path.
+Ready-made scripts are provided for indexing texts from the Perseus Digital Library (in JSON or TEI XML format), the LASLA corpus, the PHI5 corpus, and from plain-text sources (for instance, the Latin Library). To index a corpus (or part of one), the raw source should be placed in an appropriately named directory within ``/corpus/<name>/text/``. Then you can use any of the scripts in the ``scripts`` directory, modifying it for your own needs. The script for indexing texts from the DLL can be adapted to any plain-text source document. If you want to use texts from another corpus entirely, you will need to create an indexing pipeline tailored to the structure of that corpus. See the documentation for instructions.
+
+Basic indexing functionality is also provided through a command-line interface. ``$ cylleneus --help`` displays the complete list of available indexing commands.
+
+To add a document or documents to a corpus, you must provide the original source files and indicate the correct path.
 
 ``$ cylleneus index --corpus perseus  # display the current index of corpus 'perseus'``
 
-``$ cylleneus add --corpus lasla --path "index/texts/Catullus_Catullus_Catul.BPN  # only for example``
+``$ cylleneus add --corpus lasla --path "corpus/lasla/texts/Catullus_Catullus_Catul.BPN"  # for plaintext corpora you will also need to specify --author and --title``
 
-``$ cylleneus --help # displays the complete list of available indexing commands``
+Indexes should probably always be optimized, though this process can be slow if the corpus is large.
+
+``$ cylleneus optimize --corpus latin_library``
 
 
 Searching
 ---------
 
-The best way to search the available corpora (or to import new files individually) is to use the Flask-based web app.
+The best way to search the available corpora (or to import new files individually) is to use the web app.
 
 ``$ cd cylleneus``
 
@@ -87,6 +93,18 @@ The best way to search the available corpora (or to import new files individuall
 Then point your browser at http://127.0.0.1:5000. The web app can accommodate the full range of query types, and has functionality for viewing available corpora, importing next plain-text files, and exporting results.
 
 A shell script is also available that (``$ cylleneus shell``) provides a command-line interface to much of the same functionality.
+
+Both the web app and the shell UI use the idea of a search collection, which is a grouping of texts from one or more corpora. This allows searches to be conducted across different corpus types, potentially filling gaps of text coverage. In the web app, click the ``Collection`` button to put together such a grouping before performing a search. In the shell UI, first select a corpus using ``corpus <name>`` and then use ``select``. This commands takes a list of document numbers as its argument, i.e. "[1,2...]". Alternatively, ``select-all`` will add all the documents of the currently selected corpus to the search collection. Thus, e.g.:
+
+``cylleneus:~ $ corpus perseus; select-all;  # selects the corpus and add all its documents to the search collection``
+
+``cylleneus:~ $ unselect "[1]"  # remove document id 1 from the collection``
+
+``cylleneus:~ $ corpus lasla; select "[1,2]"' search <virtus>:GEN.PL.  # add documents from a different corpus and execute a different query``
+
+You can display the list of documents within a corpus, with their id numbers, using the CLI.
+
+``$ cylleneus index --corpus perseus``
 
 
 Query Types

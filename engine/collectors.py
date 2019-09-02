@@ -76,7 +76,8 @@ from whoosh.compat import abstractmethod, iteritems, itervalues, xrange
 from whoosh.util import now
 
 import engine.searching
-
+from utils import print_debug
+import settings
 
 # Functions
 
@@ -1056,8 +1057,7 @@ class TimeLimitCollector(WrappingCollector):
 # Matched terms collector
 
 class TermsCollector(WrappingCollector):
-    """A collector that remembers which terms appeared in which terms appeared
-    in each matched document.
+    """A collector that remembers which terms appeared in each matched document.
     This collector is used if you specify ``terms=True`` in the
     :meth:`whoosh.searching.Searcher.search` method.
     If you have a reference to the collector can also use
@@ -1080,7 +1080,6 @@ class TermsCollector(WrappingCollector):
     def prepare(self, top_searcher, q, context):
         # This collector requires a valid matcher at each step
         self.child.prepare(top_searcher, q, context.set(needs_current=True))
-
         # A dictionary mapping (fieldname, text) pairs to arrays of docnums
         self.termdocs = defaultdict(lambda: array("I"))
         # A dictionary mapping docnums to lists of (fieldname, text) pairs
@@ -1091,12 +1090,14 @@ class TermsCollector(WrappingCollector):
 
         # Store a list of all the term matchers in the matcher tree
         self.termmatchers = list(self.child.matcher.term_matchers())
+        # Reset the term matchers if they have been made inactive
+        for tm in self.termmatchers:
+            tm.reset()
 
     def collect(self, sub_docnum):
         child = self.child
         termdocs = self.termdocs
         docterms = self.docterms
-
         child.collect(sub_docnum)
 
         global_docnum = child.offset + sub_docnum
@@ -1195,3 +1196,15 @@ class CylleneusFilterCollector(FilterCollector):
         r.runtime = self.runtime
         r.collector = self
         return r
+
+class CylleneusCollector(WrappingCollector):
+    def prepare(self, top_searcher, q, context):
+        # Modify the context object
+        context = context.set(needs_current=True)
+        # Pass the arguments down to the wrapped collector
+        self.child.prepare(top_searcher, q, context)
+
+    def collect(self, sub_docnum):
+        child = self.child
+        # Tell the wrapped collector about the match
+        child.collect(sub_docnum)

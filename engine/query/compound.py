@@ -291,7 +291,7 @@ class Or(CylleneusCompoundQuery):
     DEFAULT_MATCHER = 1  # Use a binary tree of UnionMatchers
     SPLIT_MATCHER = 2  # Use a different strategy for short and long queries
     ARRAY_MATCHER = 3  # Use a matcher that pre-loads docnums and scores
-    matcher_type = AUTO_MATCHER
+    matcher_type = DEFAULT_MATCHER  # Always use UnionMatcher, eschewing optimizations
 
     def __init__(self, subqueries, boost=1.0, minmatch=0, scale=None, annotation=None, meta=False):
         """

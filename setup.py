@@ -3,7 +3,6 @@
 
 """The setup script."""
 
-import sys
 
 import settings
 from setuptools import find_packages, setup
@@ -48,7 +47,7 @@ requirements = [
     'Whoosh>=2.7.4',
 ]
 
-if sys.platform == 'win32':
+if settings.PLATFORM == 'win32':
     requirements.append('pyreadline>=2.1')
 
 setup_requirements = [ ]

@@ -60,7 +60,7 @@ def get(hit, meta, fragment):
 
     endchar = lbound + 1 + (hlite_start[-2] - hlite_start[-3])
 
-    # TODO: use hlites to highlight all matches by line and word position
+    # TODO: use meta['hlites'] to highlight all matches by word position
     hlite = f"<em>{fragment[lbound + 1:endchar]}</em>" + fragment[endchar:rbound]
     match = f"<match>{hlite}</match>"
 

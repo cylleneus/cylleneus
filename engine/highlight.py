@@ -223,6 +223,7 @@ class CylleneusHighlighter(object):
                       if term[0] == fieldname)
         else:
             bterms = results.query_terms(expand=True, fieldname=fieldname)
+
         # Convert bytes to unicode
         words = frozenset(from_bytes(term[1]) for term in bterms)
 
@@ -297,8 +298,6 @@ class CylleneusHighlighter(object):
             tokens = whoosh.highlight.set_matched_filter(tokens, words)
             tokens = self._merge_matched_tokens(tokens)
             fragments = self.fragmenter.fragment_tokens(text, tokens)
-        # fragments = top_fragments(hitobj.results.q, fragments, top, self.scorer, self.order,
-        #                           minscore=minscore)
         return fragments
 
     def highlight_hit(self, hitobj, fieldname, text=None, top=3, minscore=1):

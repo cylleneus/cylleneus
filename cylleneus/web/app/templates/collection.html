@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block header %}
+<script src='/static/js/search.js'></script>
+{% endblock %}
+
+{% block content %}
+    {% for corpus in corpora %}
+    <div class="row justify-content-center pt-4">
+        <div class="col-md-9">
+            <div class="card">
+                <h5 class="card-header font-weight-bold">{{ corpus.name }}</h5>
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">{{ corpus.doc_count_all }} documents</h6>
+                    <select id="picker" class="custom-select" multiple="multiple" data-live-search="true">
+                    {% for docix, doc in corpus.iter_docs() %}
+                        <option value="{{ corpus.name }},{{ docix }}">{{ doc.author }}, {{ doc.title }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+<div class="row justify-content-center pt-4">
+    <div class="col-md-9">
+        <form action="/" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <textarea name="collection" id="collection" value="{{ collection }}" style="display:none;"></textarea>
+                            <input name="filename" type="text" id="filename" value="{{ filename }}"
+                                   style="display:none;"/>
+                        </div>
+                    </div>
+                    <div class="form-group float-right">
+                        <button type="submit" id="submit" value="Submit" class="btn btn-primary" onclick="document.getElementById('collection').value = function() { var selected = []; $('option:selected').each(function (index) { console.log(this); selected.push(this.value); }); return JSON.stringify(selected); }();">Submit</button>
+                    </div>
+                </form>
+            </div>
+    </div>
+{% endblock %}
+
+<script>
+$('#picker').multiselect({
+    templates: {
+        li: '<li><a href="javascript:void(0);"><label class="card-text"></label></a></li>'
+    },
+    selectAllValue: 'multiselect-all',
+    enableCaseInsensitiveFiltering: true,
+    enableFiltering: true
+});
+</script>

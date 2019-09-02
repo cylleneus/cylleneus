@@ -10,7 +10,7 @@ from pathlib import Path
 
 import parawrap
 import settings
-from corpus import Corpus
+from corpus import Corpus, Work
 from riposte import Riposte
 from riposte.printer import Palette
 from search import Searcher, Collection
@@ -37,7 +37,7 @@ class CustomRiposte(Riposte):
     @property
     def prompt(self):
         if _collection and _collection.count > 0:
-            return f"cylleneus ({_collection.count} docs):~ $ "
+            return f"cylleneus ({_collection.count} documents):~ $ "
         else:
             return self._prompt  # reference to `prompt` parameter.
 
@@ -54,7 +54,7 @@ repl = CustomRiposte(
 def search(*args):
     global _searcher, _search, _collection
 
-    if _collection is not None:
+    if _collection is not None and _collection.works:
         query = ' '.join(args)
         _searcher.collection = _collection
         _search = _searcher.search(query)
@@ -87,16 +87,30 @@ def select(docixs: list=None):
             ndocs = _collection.count
             for docix in docixs:
                 _collection.add(_corpus.work_by_docix(docix))
-            repl.success(f"added {_collection.count - ndocs} docs to search collection")
+            repl.success(f"added {_collection.count - ndocs} documents to collection")
         else:
             repl.error(f"no corpus selected")
     else:
         repl.info(Palette.BOLD.format(f"{_collection.count} documents selected"))
 
-        for work in _collection:
-            repl.info(Palette.GREY.format(f"- {work.doc['author'].title()},"
+        for i, work in enumerate(_collection):
+            repl.info(Palette.GREY.format(f"[{i + 1}] {work.doc['author'].title()},"
                                               f" {work.doc['title'].title()} [{work.corpus.name}]"))
 
+
+@repl.command("unselect")
+def unselect(docixs: list=None):
+    global _collection, _corpus
+
+    if _collection:
+        n = _collection.count
+        if docixs and isinstance(docixs, list):
+            for ix in docixs:
+                _collection.works.pop(ix - 1)
+        if n - _collection.count > 0:
+            repl.success(f"removed {n - _collection.count} documents from collection")
+    else:
+        repl.error(f"no search collection")
 
 @repl.command("index")
 def index():
@@ -109,28 +123,48 @@ def index():
     else:
         repl.error("no corpus selected")
 
-@repl.command("selectby")
+@repl.command("select-by")
 def selectby(author: str ='*', title: str = '*'):
-    global _corpus, _searcher
+    global _corpus, _collection
 
-    docs = []
+    ndocs = _collection.count
     for ix in _corpus.indices_for(slugify(author), slugify(title)):
-        docs.extend(list(ix.reader().all_doc_nums()))
-    _searcher.docs = docs
+        for docix in list(ix.reader().all_doc_nums()):
+            _collection.add(_corpus.work_by_docix(docix))
+
+    if _collection.count > ndocs:
+        repl.success(f"added {_collection.count - ndocs} documents to collection")
 
 
-@repl.command("selectall")
+@repl.command("select-all")
 def selectall():
     global _collection, _corpus
 
     if not _collection:
         _collection = Collection()
 
-    ndocs = _collection.count
-    for work in _corpus.works:
-        _collection.add(work)
+    if _corpus:
+        ndocs = _collection.count
+        for work in _corpus.works:
+            _collection.add(work)
 
-    repl.success(f"added {_collection.count - ndocs} docs to search collection")
+        if _collection.count > ndocs:
+            repl.success(f"added {_collection.count - ndocs} documents to collection")
+    else:
+        repl.error(f"no corpus selected")
+
+@repl.command("unselect-all")
+def unselectall():
+    global _collection
+
+    if not _collection:
+        _collection = Collection()
+
+    ndocs = _collection.count
+    _collection.works = []
+
+    if _collection.count == 0:
+        repl.success(f"removed {ndocs} documents from collection")
 
 
 @repl.command("corpus")
@@ -151,6 +185,7 @@ def corpus(corpus_name: str = None):
                     )
                 )
 
+
 @repl.command("save")
 def save(n: int = None, filename: str = None):
     global _searcher, _search
@@ -166,7 +201,12 @@ def save(n: int = None, filename: str = None):
         with codecs.open(f"{filename}.txt", "w", "utf8") as fp:
             for corpus, author, title, urn, reference, text in target.to_text():
                 fp.write(f"{author}, {title} [{corpus}] [{urn}] {reference}\n{text}\n\n")
-            repl.success(f"saved: '{filename}.txt'")
+            repl.success(
+                "saved:",
+                Palette.WHITE.format(
+                        f"'{filename}.txt'"
+                )
+            )
     else:
         repl.error("nothing to save")
 
@@ -235,7 +275,7 @@ def history():
         repl.print(
             Palette.YELLOW.format(f"[{i + 1}]"),
             Palette.WHITE.format(f"{s.spec}"),
-            Palette.BOLD.format(f"{hits} matches in {docs} docs in {corpora} corpora")
+            Palette.BOLD.format(f"{hits} results in {docs} docs in {corpora} corpora")
         )
 
 
@@ -252,8 +292,11 @@ def help():
     save [<#>] [<filename>]     save search results to disk
     display [<#>]               display search results
     corpus [<name>]             load corpus index by name
-    select ["[1,2...]"]        select documents or list currently selected''')
-
+    select                      list currently selected documents for searching
+    select "[1,2...]"           select documents from current corpus for searching
+    unselect "[1,2...]"         unselect documents for searching
+    select-all                  select all docs of current corpus for searching
+    unselect-all                unselect all documents for searching''')
 
 if __name__ == "__main__":
     sys.exit(repl.run())
