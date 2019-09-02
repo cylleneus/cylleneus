@@ -1641,7 +1641,7 @@ def min_score(query):
     """ Calculate the minimum score for a complex query """
 
     minscore = 0
-    if isinstance(query, (engine.query.compound.And, engine.query.positional.Position)):
+    if isinstance(query, (engine.query.compound.And, engine.query.positional.Collocation)):
         for t in query.children():
             minscore += min_score(t)
     elif isinstance(query, engine.query.compound.Or):
@@ -1773,7 +1773,7 @@ class CylleneusHit(Hit):
                     results.append(fragment)
 
                 # For compound annotation queries, keep only same-analysis groups
-                if isinstance(query.annotation, (engine.query.compound.And, engine.query.positional.Position)):
+                if isinstance(query.annotation, (engine.query.compound.And, engine.query.positional.Collocation)):
                     for fragment in results:
                         terms = [term.text.split('::')[0] for term in query.annotation.subqueries]
                         morphos = []
@@ -1913,7 +1913,7 @@ class CylleneusHit(Hit):
                 fragment.matches = sorted(fragment.matches, key=lambda m: m.startchar)
 
         # For compound annotation queries, keep same-analysis groups
-        if isinstance(query, (engine.query.compound.And, engine.query.positional.Position)) \
+        if isinstance(query, (engine.query.compound.And, engine.query.positional.Collocation)) \
             and all(
             [
                 isinstance(subquery, engine.query.terms.Annotation)

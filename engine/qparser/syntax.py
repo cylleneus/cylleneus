@@ -677,7 +677,7 @@ class RangeNode(CylleneusSyntaxNode):
 
 
 class LocalGroup(CylleneusGroupNode):
-    qclass = engine.query.positional.Position
+    qclass = engine.query.positional.Collocation
 
 
 # CylleneusSyntaxNode = CylleneusSyntaxNode
