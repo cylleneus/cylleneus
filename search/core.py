@@ -215,7 +215,7 @@ class Search:
     def top(self):
         return self._top
 
-    def run(self, debug=False):
+    def run(self, debug=settings.DEBUG):
         self.start_time = datetime.now()
         self.results = []
 

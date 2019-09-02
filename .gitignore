@@ -106,3 +106,5 @@ ENV/
 
 # Whoosh indexing files
 *_WRITELOCK
+/corpus/perseus/index/virgil/aeneid/
+/corpus/perseus/index/virgil/georgics/
