@@ -37,7 +37,7 @@ class CustomRiposte(Riposte):
     @property
     def prompt(self):
         if _collection and _collection.count > 0:
-            return f"cylleneus ({_collection.count} docs):~ $ "
+            return f"cylleneus ({_collection.count} documents):~ $ "
         else:
             return self._prompt  # reference to `prompt` parameter.
 
@@ -87,7 +87,7 @@ def select(docixs: list=None):
             ndocs = _collection.count
             for docix in docixs:
                 _collection.add(_corpus.work_by_docix(docix))
-            repl.success(f"selected {_collection.count - ndocs} documents")
+            repl.success(f"added {_collection.count - ndocs} documents to collection")
         else:
             repl.error(f"no corpus selected")
     else:
@@ -108,7 +108,7 @@ def unselect(docixs: list=None):
             for ix in docixs:
                 _collection.works.pop(ix - 1)
         if n - _collection.count > 0:
-            repl.success(f"unselected {n - _collection.count} documents")
+            repl.success(f"removed {n - _collection.count} documents from collection")
     else:
         repl.error(f"no search collection")
 
@@ -133,7 +133,7 @@ def selectby(author: str ='*', title: str = '*'):
             _collection.add(_corpus.work_by_docix(docix))
 
     if _collection.count > ndocs:
-        repl.success(f"selected {_collection.count - ndocs} documents")
+        repl.success(f"added {_collection.count - ndocs} documents to collection")
 
 
 @repl.command("select-all")
@@ -149,7 +149,7 @@ def selectall():
             _collection.add(work)
 
         if _collection.count > ndocs:
-            repl.success(f"selected {_collection.count - ndocs} documents")
+            repl.success(f"added {_collection.count - ndocs} documents to collection")
     else:
         repl.error(f"no corpus selected")
 
@@ -164,7 +164,7 @@ def unselectall():
     _collection.works = []
 
     if _collection.count == 0:
-        repl.success(f"unselected {ndocs} documents")
+        repl.success(f"removed {ndocs} documents from collection")
 
 
 @repl.command("corpus")
