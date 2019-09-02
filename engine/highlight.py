@@ -398,6 +398,10 @@ class CylleneusBasicFragmentScorer(whoosh.highlight.FragmentScorer):
                             return 0
                 if all(map(lambda m: (m.fieldname, m.text) in ordering, matches)):
                     score *= 2
+            elif isinstance(query, engine.query.compound.CylleneusCompoundQuery):
+                matches = sorted(fragment.matches, key=lambda m: m.startchar)
+                if all(map(lambda m: (m.fieldname, m.text.split('::')[0]) in query.iter_all_terms(), matches)):
+                    score *= 2
 
             # Favor term diversity
             score *= (len(fragment.matched_terms) / engine.searching.total_terms(query)) or 1

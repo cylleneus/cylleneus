@@ -57,8 +57,17 @@ def get(hit, meta, fragment):
         if 0 in ref: continue  # FIXME: nrange yields 0-numbered references
         content = doc['text']
 
+        i = 0
         for div in ref:
-            content = content[str(div - 1)]
+            try:
+                content = content[str(div - 1)]
+            except KeyError:
+                break
+            else:
+                i += 1
+        # Skip incomplete refs (e.g., missing lines)
+        if i < len(ref):
+            continue
 
         refs = list(zip(divs, ref))
         start_refs = [(k, int(meta['start'][k])) for k in divs]

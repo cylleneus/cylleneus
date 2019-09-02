@@ -35,6 +35,7 @@ import engine.matching
 import whoosh
 from engine.analysis.acore import CylleneusToken
 from engine.query import qcore
+import engine.query
 from whoosh.compat import bytes_type, text_type, u
 from whoosh.lang.morph_en import variations
 
@@ -1142,7 +1143,7 @@ class Annotation(Regex):
 
     __inittypes__ = dict(fieldname=str, text=whoosh.compat.text_type, boost=float, annotation=qcore.Query, meta=bool)
 
-    def __init__(self, fieldname, text, boost=1.0, constantscore=True, annotation=None, meta=False):
+    def __init__(self, fieldname, text, boost=2.0, constantscore=True, annotation=None, meta=False):
         super(Annotation, self).__init__(fieldname, text, constantscore=constantscore, annotation=annotation,
                                          meta=meta, boost=1.0)
         self.fieldname = fieldname
@@ -1190,23 +1191,5 @@ class Annotation(Regex):
 
     def terms(self, phrases=False):
         if self.field():
-            yield (self.field(), self.text)
-
-    def replace(self, fieldname, oldtext, newtext):
-        q = copy.copy(self)
-        if q.fieldname == fieldname and q.text == oldtext:
-            q.text = newtext
-        return q
-
-    def estimate_size(self, ixreader):
-        fieldname = self.fieldname
-        if fieldname not in ixreader.schema:
-            return 0
-
-        field = ixreader.schema[fieldname]
-        try:
-            text = field.to_bytes(self.text)
-        except ValueError:
-            return 0
-
-        return ixreader.doc_frequency(fieldname, text)
+            text = self.text.split('::')[0]
+            yield (self.field(), text)

@@ -188,8 +188,8 @@ class UnionMatcher(AdditiveBiMatcher):
 
     # Using sets is faster in most cases, but could potentially use a lot of
     # memory. Comment out this method override to not use sets.
-    #def all_ids(self):
-    #    return iter(sorted(set(self.a.all_ids()) | set(self.b.all_ids())))
+    def all_ids(self):
+        return iter(sorted(set(self.a.all_ids()) | set(self.b.all_ids())))
 
     def next(self):
         self._id = None
