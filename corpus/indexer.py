@@ -139,12 +139,16 @@ class Indexer:
             writer.commit()
 
     def from_string(self, content: str, **kwargs):
+        if self.path and self.path.exists():
+            self.destroy()
+
         if content:
             docix = self.corpus.doc_count_all
 
             parsed = self.preprocessor.parse(content)
             kwargs.update(parsed)
 
+            self.path = Path(self.corpus.index_dir / slugify(kwargs['author']) / slugify(kwargs['title']))
             self.open()
 
             writer = self.index.writer(

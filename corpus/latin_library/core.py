@@ -40,15 +40,13 @@ def get(hit, meta, fragment):
     )
     reference = '-'.join([start, end]) if end != start else start
 
-    hlite_start = [
-        v - offset
-        if k != 'pos' and v is not None else v
-        for k, v in meta['start'].items()
+    hlite_starts = [
+        startchar
+        for startchar, endchar, pos in meta['hlites']
     ]
-    hlite_end = [
-        v - offset
-        if k != 'pos' and v is not None else v
-        for k, v in meta['end'].items()
+    hlite_ends = [
+        endchar
+        for startchar, endchar, pos in meta['hlites']
     ]
 
     # Collect text and context
@@ -58,10 +56,18 @@ def get(hit, meta, fragment):
     pre = f"<pre>{fragment[:lbound]}</pre>"
     post = f"<post>{fragment[rbound + 1:]}</post>"
 
-    endchar = lbound + 1 + (hlite_start[-2] - hlite_start[-3])
-
-    # TODO: use meta['hlites'] to highlight all matches by word position
-    hlite = f"<em>{fragment[lbound + 1:endchar]}</em>" + fragment[endchar:rbound]
+    hlite = ''
+    cursor = lbound + offset - 1
+    for c in fragment[lbound + 1:rbound]:
+        if cursor in hlite_starts:
+            hlite += '<em>' + c
+        elif cursor in hlite_ends:
+            hlite += '</em>' + c
+        else:
+            hlite += c
+        cursor += 1
+    if cursor in hlite_ends:
+        hlite += '</em>'
     match = f"<match>{hlite}</match>"
 
     text = f' '.join([pre, match, post])

@@ -1667,7 +1667,6 @@ class CylleneusHit(Hit):
         object represents.
         """
 
-        # TODO: make sure docnum is always 0!
         if self._fields is None:
             self._fields = self.searcher.stored_fields(0)
         return self._fields
