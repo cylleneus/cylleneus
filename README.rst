@@ -23,7 +23,7 @@ Cylleneus
 Overview
 --------
 
-Cylleneus is a next-generation search engine for electronic corpora of Latin (and eventually Greek), which enables texts to be searched on the basis of their semantic and morpho-syntactic properties. This means that, for the first time, texts can be searched by the *meanings* of words as well as by the kinds of grammatical constructions they occur in. Semantic search takes advantage of the `Latin WordNet 2.0 <https://latinwordnet.exeter.ac.uk/>`_ and is fully implemented, and thus is available for any annotated or plain-text corpus. Syntactic search functionality is still under development and is available for only certain structured corpora.
+Cylleneus is a next-generation search engine for electronic corpora of Latin (and eventually Greek), which enables texts to be searched on the basis of their semantic and morpho-syntactic properties. This means that, for the first time, texts can be searched by the *meanings* of words as well as by the kinds of grammatical constructions they occur in. Semantic search takes advantage of the `Latin WordNet 2.0 <https://latinwordnet.exeter.ac.uk/>`_ and is fully implemented, and thus is available for any annotated or plain-text corpus. Syntactic search functionality is still under development and is available for only certain structured corpora. However morphological searching and query filtering will work with any corpus.
 
 
 Features
@@ -31,9 +31,10 @@ Features
 
 * Semantic search: find words based on their meanings in English, Italian, Spanish, or French
 * Syntactic search: finds words based on the kinds of grammatical constructions they appear in
-* Fast: once a corpus is indexed, searches are nearly instantaneous
+* Morphological search: find words, or filter the results of other queries, based on morphological properties
+* Fast: once a corpus is indexed, most query types produce results nearly instantaneously
 * Sophisticated: query types can be combined into complex search patterns
-* Extensible: indexing pipelines can be created for nearly any corpus type
+* Extensible: indexing pipelines can be created for any corpus type
 * Free: completely open-source and redistributable
 
 
@@ -52,9 +53,9 @@ It is also possible to ``pip install cylleneus``, but in this case you need to m
 Setup
 -----
 
-The Cylleneus engine requires texts to be indexed before they can be searched. For convenience and testing, this repository comes configured with three pre-indexed mini-corpora: some texts of Caesar from the LASLA corpus, those of Vergil from the Perseus Digital Library, and Seneca's *De Ira* and *De Beneficiis* from the Digital Latin Library.
+The Cylleneus engine requires texts to be indexed before they can be searched. For convenience and testing, this repository comes configured with three pre-indexed mini-corpora: some texts of Caesar from the LASLA corpus, Vergil's *Eclogues* from the Perseus Digital Library, and Seneca's *De Ira* and *De Beneficiis* from the Digital Latin Library.
 
-To enable gloss-based searches, Cylleneus relies on the MultiWordNet. The setup process should install the latest version of the ``multiwordnet`` package from PyPI, and also compile the necessary databases, but in case this step has been omitted you can do it manually. To do so, launch the Python REPL and enter the following commands.
+To enable gloss-based searches, Cylleneus relies on the MultiWordNet. The setup process should install the latest version of the ``multiwordnet`` library, and also compile the necessary databases, but in case this step has been omitted you can do it manually. To do so, launch the Python REPL and enter the following commands.
 
 >>> from multiwordnet.db import compile
 >>> for language in ['common', 'english', 'latin', 'french', 'spanish', 'italian', 'hebrew']:
@@ -74,7 +75,7 @@ To add a document or documents to a corpus, you must provide the original source
 
 ``$ cylleneus index --corpus perseus  # display the current index of corpus 'perseus'``
 
-``$ cylleneus add --corpus lasla --path "corpus/lasla/texts/Catullus_Catullus_Catul.BPN"  # for plaintext corpora you will also need to specify --author and --title``
+``$ cylleneus add --corpus lasla --path "/corpus/lasla/texts/Catullus_Catullus_Catul.BPN"  # for plaintext corpora you will also need to specify --author and --title, as this cannot be inferred from filenames or other metadata``
 
 Indexes should probably always be optimized, though this process can be slow if the corpus is large.
 
@@ -90,17 +91,17 @@ The best way to search the available corpora (or to import new files individuall
 
 ``$ cylleneus web``
 
-Then point your browser at http://127.0.0.1:5000. The web app can accommodate the full range of query types, and has functionality for viewing available corpora, importing next plain-text files, and exporting results.
+Then point your browser at http://127.0.0.1:5000. The web app can accommodate the full range of query types, and has functionality for viewing available corpora, importing new plain-text files, and exporting search results.
 
-A shell script is also available that (``$ cylleneus shell``) provides a command-line interface to much of the same functionality.
+A shell script, invoked by ``$ cylleneus shell``, is also available and provides a command-line interface to much of the same functionality.
 
-Both the web app and the shell UI use the idea of a search collection, which is a grouping of texts from one or more corpora. This allows searches to be conducted across different corpus types, potentially filling gaps of text coverage. In the web app, click the ``Collection`` button to put together such a grouping before performing a search. In the shell UI, first select a corpus using ``corpus <name>`` and then use ``select``. This commands takes a list of document numbers as its argument, i.e. "[1,2...]". Alternatively, ``select-all`` will add all the documents of the currently selected corpus to the search collection. Thus, e.g.:
+Both the web app and the shell UI use the idea of a search collection, which is a grouping of texts from one or more corpora. This allows searches to be conducted across different corpus types, potentially filling gaps of text coverage. In the web app, click the ``Collection`` button to put together such a grouping before performing a search. In the shell UI, first select a corpus using ``corpus <name>`` and then use ``select``. This commands takes a list of document numbers as its argument, i.e. ``"[1,2...]"``. Alternatively, ``select-all`` will add all the documents of the currently selected corpus to the search collection. Thus, e.g.:
 
 ``cylleneus:~ $ corpus perseus; select-all;  # selects the corpus and add all its documents to the search collection``
 
 ``cylleneus:~ $ unselect "[1]"  # remove document id 1 from the collection``
 
-``cylleneus:~ $ corpus lasla; select "[1,2]"' search <virtus>:GEN.PL.  # add documents from a different corpus and execute a different query``
+``cylleneus:~ $ corpus lasla; select "[1,2]"' search <virtus>|GEN.PL.  # add documents from a different corpus and execute a different query``
 
 You can display the list of documents within a corpus, with their id numbers, using the CLI.
 
@@ -154,14 +155,14 @@ Morphology-based queries
 Morphology-based filtering
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Form: <...>:...
-:Example: <virtus>:GEN.SG.
+:Form: <...>|...
+:Example: <virtus>|GEN.SG.
 :Description: filters results for only genitive singular forms
 :Form: [...]:...
-:Example: [en?attack]:VB.PL.
+:Example: [en?attack]¦VB.PL.
 :Description: filters results for only plural verb forms
 :Form: {...}:...
-:Example: {Anatomy}:ACC.
+:Example: {Anatomy}|ACC.
 :Description: filters results for only accusative forms
 
 Lexical-relation queries
