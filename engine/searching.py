@@ -2084,16 +2084,6 @@ class CylleneusSearcher(Searcher):
         # Call the collector() method to build a collector based on the
         # parameters passed to this method
         c = self.collector(**kwargs)
-        # c = engine.collectors.CylleneusCollector(collector)
-
-        # if hasattr(q, 'annotation') and q.annotation:
-        #     self.search_with_collector(q.annotation, c)
-        #     q.annotation.results = c.results()
-        #
-        # for child in q.children():
-        #     if hasattr(child, 'annotation') and child.annotation:
-        #         self.search_with_collector(child.annotation, c)
-        #         child.annotation.results = c.results()
 
         # Call the lower-level method to run the collector
         self.search_with_collector(q, c)
