@@ -212,7 +212,6 @@ class CylleneusGroupNode(CylleneusSyntaxNode):
             subq = node.query(parser)
             if subq is not None:
                 subs.append(subq)
-
         q = self.qclass(subs, boost=self.boost, **self.kwargs)
         return attach(q, self)
 
@@ -676,7 +675,7 @@ class RangeNode(CylleneusSyntaxNode):
         return attach(q, self)
 
 
-class LocalGroup(CylleneusGroupNode):
+class CollocationNode(CylleneusGroupNode):
     qclass = engine.query.positional.Collocation
 
 
