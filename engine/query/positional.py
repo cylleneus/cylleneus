@@ -80,7 +80,7 @@ class Sequence(engine.query.compound.CylleneusCompoundQuery):
 
 
 class Collocation(engine.query.compound.CylleneusCompoundQuery):
-    """Matches documents containing a list of sub-queries in adjacent
+    """Matches documents containing a list of sub-queries in identical
     positions.
     This object has no sanity check to prevent you from using queries in
     different fields.
