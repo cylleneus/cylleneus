@@ -268,10 +268,7 @@ def bm25(idf, tf, fl, avgfl, B, K1):
     # tf - term frequency in the current document
     # fl - field length in the current document
     # avgfl - average field length across documents in collection
-    # B, K1 - free paramters
-    # FIXME: why is fl sometimes None?
-    if not fl:
-        fl = 0
+    # B, K1 - free parameters
     return idf * ((tf * (K1 + 1)) / (tf + K1 * ((1 - B) + B * fl / avgfl)))
 
 

@@ -59,9 +59,11 @@ class CylleneusFragment(object):
     def overlaps(self, fragment):
         if self.startchar == 0 and fragment.startchar == 0 \
             and self.endchar == 0 and fragment.endchar == 0:
-            # TODO: overlap for fragments without char support
-
-            return False
+            s = self.start
+            e = self.end
+            fs = fragment.start
+            fe = fragment.end
+            return (s <= fs <= e) or (s <= fe <= e)
         else:
             sc = self.startchar
             ec = self.endchar

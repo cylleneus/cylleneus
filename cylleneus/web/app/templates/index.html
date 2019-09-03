@@ -65,7 +65,7 @@
                         {% for h in history %}
                         <tr>
                             <td><p class="card-text font-weight-bold"><a href="history?id={{ h.id }}">{{ h.query }}</a></td>
-                            <td><p class="card-text">{{ h.prettified|truncate(9, True) }}</p>
+                            <td><p class="card-text">{{ h.prettified|truncate(32, True) }}</p>
                             <td><p id="st" class="card-text">{{ h.dt }}</p></td>
                         </tr>
                         {% endfor %}

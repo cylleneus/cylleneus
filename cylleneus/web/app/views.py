@@ -27,9 +27,9 @@ def import_text(author, title, filename, content):
         c = Corpus('imported')
         w = Work(c, author=author, title=title)
         ndocs = c.doc_count_all
-        w.indexer.from_string(content, **kwargs)
+        w.indexer.from_string(content=content, **kwargs)
 
-        if ndocs > c.doc_count_all:
+        if c.doc_count_all > ndocs:
             success = True
         else:
             success = False
