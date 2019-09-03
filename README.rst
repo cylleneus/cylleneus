@@ -242,7 +242,7 @@ Examples
 
 ``"cum :ABL."``             matches 'cum' followed by any word in the ablative causes
 
-``"in <ager>:PL."``         matches 'in' followed by any plural form of *ager*
+``"in <ager>|PL."``         matches 'in' followed by any plural form of *ager*
 
 ``"<magnus> <animus>"~2``   matches any form of *magnus* followed by any form of *animus*, including if separated by a single word
 
@@ -254,9 +254,11 @@ To Do
 
 In no particular order...
 
+* Optimization
 * use Scaife Viewer as search front-end
 * Perseus CTS alignment for corpora with non-standard text annotations
 * complete PROIEL indexing pipeline
+* complete Perseus XML indexing pipeline
 * implement high-order syntactic search for different annotation schemes
 * manually-curated WordNet-based semantic mark-up ('sembanks') for texts
 * Greek
@@ -265,4 +267,4 @@ In no particular order...
 Credits
 -------
 
-The Cylleneus search engine is the creation of William Michael Short. It is (currently) based on the open-source Whoosh search engine by Matt Chaput, and makes extensive use of the Classical Language Tool Kit. This project does not distribute original text sources for any corpus, particularly when they fall under licensing agreements. Data from the Latin WordNet 2.0 is sourced from https://latinwordnet.exeter.ac.uk/ through a publicly accessible API. If any soruce code has not been properly attributed, please inform the maintainers of this repository immediately and omissions wil be rectified.
+© 2019 William Michael Short. Based on the open-source Whoosh search engine by Matt Chaput. 
