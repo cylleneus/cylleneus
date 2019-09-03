@@ -126,15 +126,21 @@ class Corpus:
     def path(self):
         return Path(f"{settings.ROOT_DIR}/corpus/{self.name}")
 
-    def __str__(self):
-        return self.name
-
     def fetch(self, hit, meta, fragment):
         work = Work(self, doc=hit)
         urn, reference, text = work.get(meta, fragment)
         return self.name, work.author, work.title, urn, reference, text
 
+    def __str__(self):
+        return self.name
 
+    def __eq__(self, other):
+        return self.name == other.name and \
+            self.schema == other.schema and \
+            self.path == other.path
+
+
+# Get function for generic 'imported' corpus
 def imported_get(hit, meta, fragment):
     content = hit['content']
     offset = content.find(fragment)
@@ -206,7 +212,6 @@ class Work:
             else:
                 self._doc = self._author = self._title = None
         self._indexer = indexer.Indexer(corpus, self)
-
 
     @property
     def is_searchable(self):

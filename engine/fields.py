@@ -39,6 +39,8 @@ from decimal import Decimal
 
 import whoosh.columns
 import engine.query.terms
+import engine.query.positional
+import engine.query.compound
 from whoosh.compat import bytes_type, string_type, text_type
 from whoosh.compat import itervalues, xrange
 from whoosh.compat import with_metaclass
@@ -1757,7 +1759,7 @@ class SYNSET(FieldType):
 
 class ANNOTATION(FieldType):
     def __init__(self, analyzer=None, phrase=True, chars=True, stored=False,
-                 field_boost=1.0, multitoken_query="and", spelling=False,
+                 field_boost=1.0, multitoken_query="collocation", spelling=False,
                  sortable=False, lang=None, vector=True,
                  spelling_prefix="spell_"):
 
@@ -1803,7 +1805,7 @@ class ANNOTATION(FieldType):
     def parse_query(self, fieldname, qstring, boost=1.0):
         terms = [engine.query.terms.Annotation(fieldname, g)
                  for g in self.process_text(qstring, mode='query')]
-        cls = engine.query.compound.And
+        cls = engine.query.positional.Collocation
 
         return cls(terms, boost=boost)
 

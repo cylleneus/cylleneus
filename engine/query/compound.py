@@ -44,7 +44,7 @@ class CylleneusCompoundQuery(engine.query.qcore.Query):
 
     def __init__(self, subqueries, boost=1.0, annotation=None, meta=False):
         for subq in subqueries:
-            if not isinstance(subq, (whoosh.query.qcore.Query, engine.query.qcore.Query)):
+            if not isinstance(subq, engine.query.qcore.Query):
                 raise engine.query.qcore.QueryError("%r is not a query" % subq)
         self.subqueries = subqueries
         self.boost = boost if boost > 1.0 else len(subqueries)

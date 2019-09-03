@@ -30,6 +30,7 @@ import sys
 import engine.qparser.plugins
 import engine.qparser.syntax
 import engine.query.compound
+import engine.query.positional
 import engine.query.terms
 import settings
 import whoosh.query
@@ -477,6 +478,7 @@ class CylleneusQueryParser(QueryParser):
                 engine.qparser.plugins.LemmaPlugin(),
                 engine.qparser.plugins.SemfieldPlugin(),
                 engine.qparser.plugins.AnnotationPlugin(),
+                engine.qparser.plugins.AnnotationFilterPlugin(),
                 engine.qparser.plugins.MorphosyntaxPlugin(),
                 engine.qparser.plugins.SequencePlugin(),
                 ]
@@ -507,6 +509,8 @@ class CylleneusQueryParser(QueryParser):
                 qclass = engine.query.compound.And
             elif spec == "or":
                 qclass = engine.query.compound.Or
+            elif spec == 'collocation':
+                qclass = engine.query.positional.Collocation
             else:
                 raise whoosh.qparser.QueryParserError("Unknown multitoken_query value %r"
                                        % spec)
@@ -538,8 +542,6 @@ class CylleneusQueryParser(QueryParser):
             # use to put the tokens together
 
             if len(texts) > 1:
-                if annotation:
-                    annotation = annotation.query(self).normalize()
                 if 'meta' in self.schema:
                     meta = True
                 else:
@@ -557,10 +559,6 @@ class CylleneusQueryParser(QueryParser):
                 meta = True
             else:
                 meta = False
-            if annotation:
-                annotation = annotation.query(self).normalize()
-        else:
-            meta = None
         return termclass(fieldname, text, boost=boost, annotation=annotation, meta=meta)
 
     def parse(self, text, normalize=True, debug=settings.DEBUG):

@@ -34,6 +34,7 @@ from whoosh.compat import u, xrange
 from whoosh.qparser.taggers import FnTagger, RegexTagger
 
 
+
 class WhitespacePlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Tags whitespace and removes it at priority 500. Depending on whether
     your plugin's filter wants to see where whitespace was in the original
@@ -260,22 +261,32 @@ class RegexPlugin(whoosh.qparser.plugins.TaggingPlugin):
 class AnnotationPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify annotations for WordNet nodes following a colon."""
 
-    expr = r":(?P<text>[\w.]+)"
+    expr = r":(?P<text>[A-Z0-9.]+)"
     nodetype = AnnotationNode
 
+
+class AnnotationFilterPlugin(whoosh.qparser.plugins.TaggingPlugin):
+    """Adds the ability to specify annotation filters for WordNet nodes following a colon."""
+
+    expr = r"\|(?P<text>[A-Z0-9.]+)"
+    nodetype = AnnotationFilterNode
+
     def filters(self, parser):
-        return [(self.do_annotation, 300)]
+        return [(self.do_annotation, 490)]
 
     def do_annotation(self, parser, group):
         newgroup = group.empty_copy()
         for node in group:
-            if isinstance(node, AnnotationNode):
+            if isinstance(node, AnnotationFilterNode):
                 if newgroup and newgroup[-1]:
                     # ignore annotation if the previous node is a FormNode
                     if isinstance(newgroup[-1], FormNode):
                         pass
                     elif isinstance(newgroup[-1], (LemmaNode, GlossNode, SemfieldNode)):
-                        newgroup[-1].annotation = node
+                        prev = newgroup.pop()
+                        collocation = CollocationNode()
+                        collocation.extend([prev, node])
+                        newgroup.append(collocation)
                     else:
                         newgroup.append(node)
                 else:

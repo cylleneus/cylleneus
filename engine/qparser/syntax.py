@@ -28,11 +28,14 @@
 import sys
 import weakref
 
-import engine.query.compound
-import engine.query.positional
-import engine.query.qcore
 import engine.query.terms
+import engine.query.spans
 import engine.query.wrappers
+import engine.query.positional
+import engine.query.ranges
+import engine.query.qcore
+import engine.query.nested
+import engine.query.compound
 import whoosh.qparser.common
 import whoosh.query
 from whoosh.qparser import MarkerNode, TextNode, RegexPlugin
@@ -459,6 +462,30 @@ class AnnotationNode(WordNetNode):
         return repr(self)
 
 
+class AnnotationFilterNode(WordNetNode):
+    qclass = engine.query.terms.Annotation
+    tokenize = True
+    removestops = False
+
+    def __init__(self, text):
+        self.fieldname = 'annotation'
+        self.text = text
+        self.boost = 1.0
+
+    def __repr__(self):
+        r = "<"
+        if self.has_fieldname:
+            r += "%r:" % self.fieldname
+        r += f"{self.text}"
+        if self.has_boost and self.boost != 1.0:
+            r += " ^%s" % self.boost
+        r += ">"
+        return r
+
+    def r(self):
+        return repr(self)
+
+
 class MorphosyntaxNode(TextNode):
     qclass = engine.query.terms.Morphosyntax
     tokenize = True
@@ -647,6 +674,11 @@ class RangeNode(CylleneusSyntaxNode):
         q = engine.query.ranges.TermRange(fieldname, start, end, self.startexcl,
                                                self.endexcl, boost=self.boost)
         return attach(q, self)
+
+
+class LocalGroup(CylleneusGroupNode):
+    qclass = engine.query.positional.Collocation
+
 
 # CylleneusSyntaxNode = CylleneusSyntaxNode
 # GroupNode = CylleneusGroupNode
