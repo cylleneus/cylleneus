@@ -430,7 +430,7 @@ class CylleneusBasicFragmentScorer(whoosh.highlight.FragmentScorer):
                                 if x.pos == 0 and y.pos == 0:  # ? to avoid div by zero
                                     dists.append(-1)
                                 else:
-                                    if x.fieldname != 'annotation':
+                                    if x.fieldname != 'annotation' and y.fieldname != 'annotation':
                                         if ordering[(x.fieldname, x.text)] < ordering[(y.fieldname, y.text)]:
                                             dists.append(y.pos - x.pos)
                             x = y

@@ -87,7 +87,9 @@ def select(docixs: list=None):
             ndocs = _collection.count
             for docix in docixs:
                 _collection.add(_corpus.work_by_docix(docix))
-            repl.success(f"added {_collection.count - ndocs} documents to collection")
+            n = _collection.count - ndocs
+            if n:
+                repl.success(f"added {n} documents to collection")
         else:
             repl.error(f"no corpus selected")
     else:
@@ -172,10 +174,11 @@ def corpus(corpus_name: str = None):
     global _corpus, _searcher, _search
 
     if corpus_name:
-        _corpus = Corpus(corpus_name)
-        _searcher.corpus = _corpus
-        _searcher._docs = None
-        repl.success(f"'{_corpus.name}', {_corpus.doc_count_all} docs")
+        if not _corpus or corpus_name != _corpus.name:
+            _corpus = Corpus(corpus_name)
+            _searcher.corpus = _corpus
+            _searcher._docs = None
+            repl.success(f"'{_corpus.name}', {_corpus.doc_count_all} docs")
     else:
         for path in Path(settings.ROOT_DIR + '/corpus/').glob('*'):
             if path.is_dir():

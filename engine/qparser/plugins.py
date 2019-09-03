@@ -32,7 +32,7 @@ import engine.query.positional
 import whoosh.qparser
 from whoosh.compat import u, xrange
 from whoosh.qparser.taggers import FnTagger, RegexTagger
-import copy
+
 
 
 class WhitespacePlugin(whoosh.qparser.plugins.TaggingPlugin):
@@ -284,9 +284,9 @@ class AnnotationFilterPlugin(whoosh.qparser.plugins.TaggingPlugin):
                         pass
                     elif isinstance(newgroup[-1], (LemmaNode, GlossNode, SemfieldNode)):
                         prev = newgroup.pop()
-                        localgroup = LocalGroup()
-                        localgroup.extend([prev, node])
-                        newgroup.append(localgroup)
+                        collocation = CollocationNode()
+                        collocation.extend([prev, node])
+                        newgroup.append(collocation)
                     else:
                         newgroup.append(node)
                 else:

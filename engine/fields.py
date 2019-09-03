@@ -1759,7 +1759,7 @@ class SYNSET(FieldType):
 
 class ANNOTATION(FieldType):
     def __init__(self, analyzer=None, phrase=True, chars=True, stored=False,
-                 field_boost=1.0, multitoken_query="position", spelling=False,
+                 field_boost=1.0, multitoken_query="collocation", spelling=False,
                  sortable=False, lang=None, vector=True,
                  spelling_prefix="spell_"):
 
@@ -1805,7 +1805,7 @@ class ANNOTATION(FieldType):
     def parse_query(self, fieldname, qstring, boost=1.0):
         terms = [engine.query.terms.Annotation(fieldname, g)
                  for g in self.process_text(qstring, mode='query')]
-        cls = engine.query.positional.Position
+        cls = engine.query.positional.Collocation
 
         return cls(terms, boost=boost)
 

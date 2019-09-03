@@ -509,7 +509,7 @@ class CylleneusQueryParser(QueryParser):
                 qclass = engine.query.compound.And
             elif spec == "or":
                 qclass = engine.query.compound.Or
-            elif spec == 'position':
+            elif spec == 'collocation':
                 qclass = engine.query.positional.Collocation
             else:
                 raise whoosh.qparser.QueryParserError("Unknown multitoken_query value %r"
