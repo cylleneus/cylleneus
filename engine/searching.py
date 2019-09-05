@@ -1692,32 +1692,30 @@ class CylleneusHit(Hit):
             if not fragment.matches:
                 results.remove(fragment)
 
+        # Sort for merging
+        results = sorted(results, key=lambda x: x.startchar)
+
         # Merge overlapping and adjacent (multi-field) fragments
         combined = []
-        merged = []
-        for xf in results:
-            if xf not in merged:
-                if hasattr(xf, 'meta'):
-                    f = engine.highlight.CylleneusFragment(xf.text, xf.matches, xf.startchar, xf.endchar,
-                                                                meta=xf.meta,
-                                                                start=xf.start, end=xf.end)
-                else:
-                    f = engine.highlight.CylleneusFragment(xf.text, xf.matches, xf.startchar, xf.endchar)
-                for yf in results:
-                    if f == yf:
-                        continue
-                    if (f.overlaps(yf) or yf.overlaps(f) or f.is_adjacent(yf)) and yf not in merged:
-                        f.matches.extend(yf.matches)
-                        f.matched_terms.update(yf.matched_terms)
-                        f.matches = sorted(set(f.matches), key=lambda x: x.startchar)
-                        if yf.startchar < f.startchar:
-                            f.startchar = yf.startchar
-                        if f.endchar < yf.endchar:
-                            f.endchar = yf.endchar
-                        f.text += yf.text[yf.text.find(f.text):]
-                        merged.extend([xf, yf])
+        merged = dict()
+        for i, xf in enumerate(results):
+            if not merged.get(xf, False):
+                f = copy.deepcopy(xf)
+                # TODO: what is the correct look-ahead threshold?
+                for yf in results[i + 1:i + 20]:
+                    if f != yf and \
+                        (f.overlaps(yf) or f.is_adjacent(yf)) and \
+                        not merged.get(yf, False):
+                                f.matches.extend(yf.matches)
+                                f.matched_terms.update(yf.matched_terms)
+                                f.matches = list(set(f.matches))
+                                if yf.startchar < f.startchar:
+                                    f.startchar = yf.startchar
+                                if f.endchar < yf.endchar:
+                                    f.endchar = yf.endchar
+                                f.text += yf.text[yf.text.find(f.text):]
+                                merged.update({xf: True, yf: True})
                 combined.append(f)
-
         print_debug(settings.DEBUG, "  - Merged fragments: {}".format(len(combined)))
 
         # Preserve ordering in sequential (adjacency) queries

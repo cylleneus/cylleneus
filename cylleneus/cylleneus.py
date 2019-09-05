@@ -223,51 +223,53 @@ def display(n: int = None):
     else:
         target = _search
 
-    if target.results:
-        ctitle = None
+    if target:
+        if target.results:
+            ctitle = None
 
-        for href in target.highlights:
-            if ctitle != href.title:
-                repl.success(Palette.BOLD.format(f"{href.author}, {href.title} [{href.corpus}]"))
-                ctitle = href.title
-            repl.info(Palette.GREY.format(f"{href.reference}:"))
+            for href in target.highlights:
+                if ctitle != href.title:
+                    repl.success(Palette.BOLD.format(f"{href.author}, {href.title} [{href.corpus}]"))
+                    ctitle = href.title
+                repl.info(Palette.GREY.format(f"{href.reference}:"))
 
-            if href.text:
-                # Process pre-match context
-                text = re.sub(
-                    r"<pre>(.*?)</pre>",
-                    r"\1",
-                    href.text,
-                    flags=re.DOTALL
-                )
-                # Process post-match context
-                text = re.sub(
-                    r"<post>(.*?)</post>",
-                    r"\1",
-                    text,
-                    flags=re.DOTALL
-                )
-                # Process matched text
-                text = re.sub(
-                    r"<match>(.*?)</match>",
-                    r"\1",
-                    text,
-                    flags=re.DOTALL
-                )
-                # Highlight pinpointed text
-                text = re.sub(
-                    r"<em>(.*?)</em>",
-                    Palette.CYAN.format(r"\1"),
-                    text,
-                    flags=re.DOTALL
-                )
-                for line in parawrap.wrap(text):
-                    if line:
-                        repl.print(line)
-            repl.print()
+                if href.text:
+                    # Process pre-match context
+                    text = re.sub(
+                        r"<pre>(.*?)</pre>",
+                        r"\1",
+                        href.text,
+                        flags=re.DOTALL
+                    )
+                    # Process post-match context
+                    text = re.sub(
+                        r"<post>(.*?)</post>",
+                        r"\1",
+                        text,
+                        flags=re.DOTALL
+                    )
+                    # Process matched text
+                    text = re.sub(
+                        r"<match>(.*?)</match>",
+                        r"\1",
+                        text,
+                        flags=re.DOTALL
+                    )
+                    # Highlight pinpointed text
+                    text = re.sub(
+                        r"<em>(.*?)</em>",
+                        Palette.CYAN.format(r"\1"),
+                        text,
+                        flags=re.DOTALL
+                    )
+                    for line in parawrap.wrap(text):
+                        if line:
+                            repl.print(line)
+                repl.print()
+        else:
+            repl.error("no results")
     else:
-        repl.error("no results")
-
+        repl.error("no search")
 
 @repl.command("history")
 def history():

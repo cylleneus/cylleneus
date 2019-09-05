@@ -217,9 +217,7 @@ class Collocation(engine.query.compound.CylleneusCompoundQuery):
         # Tell the sub-queries this matcher will need the current match to get
         # spans
         context = context.set(needs_current=True)
-        m = self._tree_matcher(subs, engine.query.spans.SpanAt.SpanAtMatcher, searcher,
-                               context, None, slop=self.slop,
-                               ordered=self.ordered)
+        m = engine.query.spans.SpanWith2(subs).matcher(searcher, context)
         return m
 
 

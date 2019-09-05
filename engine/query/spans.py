@@ -734,118 +734,6 @@ class SpanNear2(SpanQuery):
                 return []
 
 
-class SpanAt(SpanQuery):
-    """
-    Matches queries that occur at the same position as each other. By default, only matches
-    queries that occur right next to each other (slop=1) and in order
-    (ordered=True).
-    """
-
-    def __init__(self, a, b, slop=0, ordered=True, mindist=0):
-        """
-        :param a: the first query to match.
-        :param b: the second query that must occur within "slop" positions of
-            the first query.
-        :param slop: the number of positions within which the queries must
-            occur. Default is 1, meaning the queries must occur right next
-            to each other.
-        :param ordered: whether a must occur before b. Default is True.
-        :pram mindist: the minimum distance allowed between the queries.
-        """
-
-        self.q = engine.query.compound.And([a, b])
-        self.a = a
-        self.b = b
-        self.slop = slop
-        self.ordered = ordered
-        self.mindist = mindist
-
-    def __repr__(self):
-        return ("%s(%r, slop=%d, ordered=%s, mindist=%d)"
-                % (self.__class__.__name__, self.q, self.slop, self.ordered,
-                   self.mindist))
-
-    def __eq__(self, other):
-        return (other and self.__class__ == other.__class__
-                and self.q == other.q and self.slop == other.slop
-                and self.ordered == other.ordered
-                and self.mindist == other.mindist)
-
-    def __hash__(self):
-        return (hash(self.a) ^ hash(self.b) ^ hash(self.slop)
-                ^ hash(self.ordered) ^ hash(self.mindist))
-
-    def is_leaf(self):
-        return False
-
-    def apply(self, fn):
-        return self.__class__(fn(self.a), fn(self.b), slop=self.slop,
-                              ordered=self.ordered, mindist=self.mindist)
-
-    def matcher(self, searcher, context=None):
-        ma = self.a.matcher(searcher, context)
-        mb = self.b.matcher(searcher, context)
-        return SpanAt.SpanAtMatcher(ma, mb, slop=self.slop,
-                                        ordered=self.ordered,
-                                        mindist=self.mindist)
-
-    @classmethod
-    def phrase(cls, fieldname, terms, termclass, slop=0, ordered=True):
-        """Returns a tree of SpanNear queries to match a list of terms.
-
-        This class method is a convenience for constructing a phrase query
-        using a binary tree of SpanNear queries::
-
-            SpanNear.phrase("content", ["alfa", "bravo", "charlie", "delta"])
-
-        :param fieldname: the name of the field to search in.
-        :param words: a sequence of texts to search for.
-        :param slop: the number of positions within which the terms must
-            occur. Default is 1, meaning the terms must occur right next
-            to each other.
-        :param ordered: whether the terms must occur in order. Default is True.
-        """
-
-        terms = [termclass(fieldname, term) for term in terms]
-        return make_binary_tree(cls, terms, slop=slop, ordered=ordered)
-
-    class SpanAtMatcher(SpanWrappingMatcher):
-        def __init__(self, a, b, slop=0, ordered=True, mindist=0):
-            self.a = a
-            self.b = b
-            self.slop = slop
-            self.ordered = ordered
-            self.mindist = mindist
-            isect = engine.matching.binary.IntersectionMatcher(a, b)
-            super(SpanAt.SpanAtMatcher, self).__init__(isect)
-
-        def copy(self):
-            return self.__class__(self.a.copy(), self.b.copy(), slop=self.slop,
-                                  ordered=self.ordered, mindist=self.mindist)
-
-        def replace(self, minquality=0):
-            # TODO: fix this
-            if not self.is_active():
-                return engine.query.mcore.NullMatcher()
-            return self
-
-        def _get_spans(self):
-            slop = self.slop
-            mindist = self.mindist
-            ordered = self.ordered
-            spans = set()
-
-            bspans = self.b.spans()
-            for aspan in self.a.spans():
-                for bspan in bspans:
-                    if bspan.startchar == aspan.startchar and \
-                        bspan.endchar == aspan.endchar and \
-                        bspan.divs == aspan.divs:
-                        spans.add(aspan.to(bspan))
-
-            return sorted(spans)
-
-
 class SpanOr(SpanQuery):
     """Matches documents that match any of a list of sub-queries. Unlike
     query.Or, this class merges together matching spans from the different
@@ -1076,3 +964,120 @@ class SpanCondition(SpanBiQuery):
 
         def _get_spans(self):
             return self.a.spans()
+
+
+class SpanWith2(SpanQuery):
+    """
+    Matches queries that occur with each other.
+    """
+
+    def __init__(self, qs, slop=0, ordered=True, mindist=0):
+        """
+        :param qs: a sequence of sub-queries to match.
+        :param slop: the number of positions within which the queries must
+            occur. Default is 0, meaning the queries must occur at identical
+            positions.
+        :param ordered: whether a must occur before b. Default is True.
+        :pram mindist: the minimum distance allowed between the queries.
+        """
+
+        self.qs = qs
+        self.slop = slop
+        self.ordered = ordered
+        self.mindist = mindist
+
+    def __repr__(self):
+        return ("%s(%r, slop=%d, ordered=%s, mindist=%d)"
+                % (self.__class__.__name__, self.qs, self.slop, self.ordered,
+                   self.mindist))
+
+    def __eq__(self, other):
+        return (other and self.__class__ == other.__class__
+                and self.qs == other.qs and self.slop == other.slop
+                and self.ordered == other.ordered
+                and self.mindist == other.mindist)
+
+    def __hash__(self):
+        h = hash(self.slop) ^ hash(self.ordered) ^ hash(self.mindist)
+        for q in self.qs:
+            h ^= hash(q)
+        return h
+
+    def _and_query(self):
+        return engine.query.compound.And(self.qs)
+
+    def estimate_size(self, ixreader):
+        return self._and_query().estimate_size(ixreader)
+
+    def estimate_min_size(self, ixreader):
+        return self._and_query().estimate_min_size(ixreader)
+
+    def is_leaf(self):
+        return False
+
+    def children(self):
+        return self.qs
+
+    def apply(self, fn):
+        return self.__class__([fn(q) for q in self.qs], slop=self.slop,
+                              ordered=self.ordered, mindist=self.mindist)
+
+    def matcher(self, searcher, context=None):
+        ms = [q.matcher(searcher, context) for q in self.qs]
+        return self.SpanWith2Matcher(ms, slop=self.slop, ordered=self.ordered,
+                                     mindist=self.mindist)
+
+    class SpanWith2Matcher(SpanWrappingMatcher):
+        def __init__(self, ms, slop=1, ordered=True, mindist=1):
+            self.ms = ms
+            self.slop = slop
+            self.ordered = ordered
+            self.mindist = mindist
+            isect = make_binary_tree(engine.matching.binary.IntersectionMatcher, ms)
+            super(SpanWith2.SpanWith2Matcher, self).__init__(isect)
+
+        def copy(self):
+            return self.__class__([m.copy() for m in self.ms], slop=self.slop,
+                                  ordered=self.ordered, mindist=self.mindist)
+
+        def replace(self, minquality=0):
+            # TODO: fix this
+            if not self.is_active():
+                return engine.matching.mcore.NullMatcher()
+            return self
+
+        def _get_spans(self):
+            slop = self.slop
+            mindist = self.mindist
+            ordered = self.ordered
+            ms = self.ms
+
+            aspans = ms[0].spans()
+            i = 1
+            while i < len(ms) and aspans:
+                bspans = ms[i].spans()
+                spans = set()
+                for aspan in aspans:
+                    # Use a binary search to find the first position we should
+                    # start looking for possible matches
+                    if ordered:
+                        start = aspan.start
+                    else:
+                        start = max(0, aspan.start - slop)
+                    j = bisect_spans(bspans, start)
+
+                    while j < len(bspans):
+                        bspan = bspans[j]
+                        j += 1
+
+                        if bspan.startchar == aspan.startchar and \
+                            bspan.endchar == aspan.endchar and \
+                            bspan.divs == aspan.divs:
+                            spans.add(aspan.to(bspan))
+                aspans = sorted(spans)
+                i += 1
+
+            if i == len(ms):
+                return aspans
+            else:
+                return []
