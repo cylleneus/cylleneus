@@ -34,7 +34,6 @@ class Sequence(engine.query.compound.CylleneusCompoundQuery):
             subq.pos = i
         if any([subq.meta for subq in subqueries]):
             self.meta = True
-            self.slop = 2 if slop < 2 else slop
 
     def __eq__(self, other):
         return (other and type(self) is type(other)

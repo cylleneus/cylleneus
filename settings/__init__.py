@@ -2,6 +2,7 @@
 
 import os
 import sys
+from utils import DEBUG_HIGH, DEBUG_MEDIUM, DEBUG_LOW, DEBUG_OFF
 
 # Version settings
 __version__ = "0.0.8"
@@ -10,7 +11,7 @@ __version__ = "0.0.8"
 PLATFORM = sys.platform
 
 # Debugging settings
-DEBUG = False
+DEBUG = DEBUG_MEDIUM
 
 # Package settings
 ROOT_DIR = os.path.dirname(os.path.abspath(__path__[0]))

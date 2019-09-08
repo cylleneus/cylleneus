@@ -8,8 +8,7 @@ from engine.highlight import CylleneusBasicFragmentScorer, CylleneusDefaultForma
 from engine.qparser.default import CylleneusQueryParser
 from engine.searching import CylleneusSearcher, HitRef
 from typing import List
-from utils import print_debug
-from settings import DEBUG
+from utils import print_debug, DEBUG_HIGH, DEBUG_MEDIUM
 
 
 class Collection:
@@ -200,9 +199,7 @@ class Search:
         if self.results and len(self.results) > 0:
             corpora = len(set([hit['corpus'] for hit, _, _ in self.results]))
             docs = len(set([hit['docix'] for hit, _, _ in self.results]))
-            matches = sum([len(meta['hlites']) for _, meta, _ in self.results if 'hlites' in meta])
-            if matches == 0:
-                matches = len(self.results)
+            matches = len(self.results)
             return matches, docs, corpora
         else:
             return 0, 0, 0
@@ -215,7 +212,7 @@ class Search:
     def top(self):
         return self._top
 
-    def run(self, debug=settings.DEBUG):
+    def run(self, debug=DEBUG_HIGH):
         self.start_time = datetime.now()
         self.results = []
 
@@ -223,7 +220,7 @@ class Search:
             if work.is_searchable:
                 parser = CylleneusQueryParser("form", work.corpus.schema)
                 query = parser.parse(self.spec, debug=debug)
-                print_debug(settings.DEBUG, "Query: {}".format(query))
+                print_debug(DEBUG_MEDIUM, "Query: {}".format(query))
 
                 reader = work.index.reader()
                 with CylleneusSearcher(reader,

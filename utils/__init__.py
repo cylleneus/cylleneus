@@ -7,9 +7,17 @@ from collections.abc import Iterable
 from itertools import chain, zip_longest
 
 
+DEBUG_OFF = 0
+DEBUG_LOW = 1
+DEBUG_MEDIUM = 2
+DEBUG_HIGH = 3
+
+
 def print_debug(level, msg, out=sys.stderr):
-    if level:
-        out.write("%s%s\n" % (" " * (level - 1), msg))
+    from settings import DEBUG
+
+    if level <= DEBUG:
+        out.write("%s%s\n" % (" " * level, msg))
 
 
 def slugify(value, allow_unicode=False):

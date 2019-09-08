@@ -61,7 +61,7 @@ def search(*args):
 
         if _search is not None:
             if len(_search.results) > 0:
-                repl.success(f"{_search.spec}: {_search.time} secs, {_search.count[0]} matches")
+                repl.success(f"{_search.spec}: {_search.time} secs, {len(_search.results)} results")
             else:
                 repl.error(f"{_search.spec}: {_search.time} secs, nothing found")
     else:
@@ -120,7 +120,7 @@ def index():
 
     if _corpus:
         repl.info(Palette.BOLD.format(f"corpus '{_corpus.name}', {_corpus.doc_count_all} documents indexed"))
-        for docix, doc in _corpus.iter_docs():
+        for docix, doc in sorted(_corpus.iter_docs(), key=lambda x: x[0]):
             repl.info(Palette.GREY.format(f"{docix}. {doc['author'].title()}, {doc['title'].title()}"))
     else:
         repl.error("no corpus selected")
@@ -178,7 +178,7 @@ def corpus(corpus_name: str = None):
             _corpus = Corpus(corpus_name)
             _searcher.corpus = _corpus
             _searcher._docs = None
-            repl.success(f"'{_corpus.name}', {_corpus.doc_count_all} docs")
+            repl.success(f"'{_corpus.name}', {_corpus.doc_count_all} documents")
     else:
         for path in Path(settings.ROOT_DIR + '/corpus/').glob('*'):
             if path.is_dir():
@@ -200,18 +200,21 @@ def save(n: int = None, filename: str = None):
     if not filename:
         filename = slugify(target.query, allow_unicode=False)
 
-    if target.results:
-        with codecs.open(f"{filename}.txt", "w", "utf8") as fp:
-            for corpus, author, title, urn, reference, text in target.to_text():
-                fp.write(f"{author}, {title} [{corpus}] [{urn}] {reference}\n{text}\n\n")
-            repl.success(
-                "saved:",
-                Palette.WHITE.format(
-                        f"'{filename}.txt'"
+    if target:
+        if target.results:
+            with codecs.open(f"{filename}.txt", "w", "utf8") as fp:
+                for corpus, author, title, urn, reference, text in target.to_text():
+                    fp.write(f"{author}, {title} [{corpus}] [{urn}] {reference}\n{text}\n\n")
+                repl.success(
+                    "saved:",
+                    Palette.WHITE.format(
+                            f"'{filename}.txt'"
+                    )
                 )
-            )
+        else:
+            repl.error("no results")
     else:
-        repl.error("nothing to save")
+        repl.error("no search")
 
 
 @repl.command("display")
