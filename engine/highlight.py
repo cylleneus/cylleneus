@@ -6,9 +6,9 @@ import engine.analysis
 import engine.query
 import engine.searching
 import whoosh.highlight
-import whoosh.query
+import engine.query
 from whoosh.compat import htmlescape
-
+from utils import hdict
 
 class CylleneusFragment(object):
     """Represents a fragment (extract) from a hit document. This object is
@@ -53,11 +53,15 @@ class CylleneusFragment(object):
         return self.endchar - self.startchar
 
     def same_divs(self, other):
-        sdivs = [{div: match.meta[div] for div in match.meta['meta'].split('-')}
-                  for match in self.matches]
-        odivs = [{div: match.meta[div] for div in match.meta['meta'].split('-')}
-                  for match in other.matches]
-        return any([sdiv in odivs for sdiv in sdivs])
+        ssent = set()
+        for match in self.matches:
+            if 'sent_id' in match.meta:
+                ssent.add(match.meta['sent_id'])
+        osent = set()
+        for match in other.matches:
+            if 'sent_id' in match.meta:
+                osent.add(match.meta['sent_id'])
+        return any([sent in osent for sent in ssent])
 
     def is_adjacent(self, other):
         return (other.matches[0].pos - self.matches[-1].pos == 1) \
@@ -144,7 +148,7 @@ def highlight(text, terms, analyzer, fragmenter, formatter, top=3,
 
 
 def get_boost(q, word):
-    boost = 0
+    boost = 1
     for qt in q:
         if isinstance(qt, (engine.query.compound.CylleneusCompoundQuery, engine.query.spans.SpanQuery)):
             boost = get_boost(qt, word)

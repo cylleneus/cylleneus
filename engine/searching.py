@@ -1685,15 +1685,24 @@ def term_lists(q, ixreader):
     ts = []
     ors = []
     if isinstance(q, engine.query.compound.CylleneusCompoundQuery):
-        for sq in q:
-            if isinstance(sq, engine.query.compound.Or):
-                ors.extend(list(sq.iter_all_terms()))
-            elif isinstance(sq, engine.query.terms.PatternQuery):
-                ts.extend(set([(fieldname, text.split('::')[0]) for fieldname, text in sq.iter_all_terms(ixreader)]))
-            else:
-                ts.extend(list(sq.iter_all_terms()))
+        if isinstance(q, engine.query.compound.Or):
+            ors.extend(list(q.iter_all_terms()))
+        elif isinstance(q, engine.query.terms.PatternQuery):
+            ts.extend(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)]))
+        else:
+            for sq in q:
+                if isinstance(sq, engine.query.compound.Or):
+                    ors.extend(list(sq.iter_all_terms()))
+                elif isinstance(sq, engine.query.terms.PatternQuery):
+                    ts.extend(set([(fieldname, text.split('::')[0]) for fieldname, text in sq.iter_all_terms(ixreader)]))
+                else:
+                    ts.extend(list(sq.iter_all_terms()))
     else:
-        ts.extend(list(q.iter_all_terms()))
+        if isinstance(q, engine.query.compound.Or):
+            ors.extend(list(q.iter_all_terms()))
+        else:
+            ts.extend(list(q.iter_all_terms()))
+
     ls = []
     if ors:
         for or_ in ors:
@@ -1725,7 +1734,6 @@ class CylleneusHit(Hit):
                 for term in terms
             ]
         )
-        print(termlists, fieldnames)
         results = [
             fragment
             for fieldname in fieldnames
@@ -1743,13 +1751,13 @@ class CylleneusHit(Hit):
             if not seen.get(xf, False):
                 f = copy.deepcopy(xf)
                 # TODO: what is the correct look-ahead threshold?
-                for yf in results[i + 1:i + 20]:
+                for yf in results[i + 1:i + 100]:
                     if f != yf and \
                         (f.overlaps(yf) or f.is_adjacent(yf)) or f.same_divs(yf) and \
                         not seen.get(yf, False):
                         f.matches.extend(yf.matches)
                         f.matched_terms.update(yf.matched_terms)
-                        f.matches = list(set(f.matches))
+                        f.matches = sorted(set(f.matches), key=lambda x: (x.meta['sent_id'], x.meta['sent_pos']))
                         if yf.startchar < f.startchar:
                             f.startchar = yf.startchar
                         if f.endchar < yf.endchar:
@@ -1894,26 +1902,22 @@ class CylleneusHit(Hit):
                         x = newmatches[-1]
                         if (x.fieldname, x.text.split('::')[0]) in ordering \
                             and (y.fieldname, y.text.split('::')[0]) in ordering:
-                            if ordering[
-                                (y.fieldname,
-                                 y.text.split('::')[0])
-                            ] >= ordering[
-                                (x.fieldname,
-                                 x.text.split('::')[0])
-                            ]:
-                                if y.pos - x.pos <= query.slop + 1:
-                                    newmatches.append(y)
+                            if x.fieldname == 'annotation' \
+                                and y.fieldname == 'annotation' \
+                                and y.pos == x.pos:
+                                newmatches.append(y)
+                            else:
+                                if ordering[
+                                    (y.fieldname,
+                                     y.text.split('::')[0])
+                                ] >= ordering[
+                                    (x.fieldname,
+                                     x.text.split('::')[0])
+                                ]:
+                                    if y.pos - x.pos <= query.slop:
+                                        newmatches.append(y)
                 fragment.matches = newmatches
 
-        # unordered = []
-        # for subq in query:
-        #     if not isinstance(subq, engine.query.positional.Sequence):
-        #         if isinstance(subq, (engine.query.compound.CylleneusCompoundQuery,
-        #                           engine.query.positional.Collocation)):
-        #             for sq in subq:
-        #                 unordered.append((sq.fieldname, sq.text.split('::')[0]))
-        #         else:
-        #             unordered.append((subq.fieldname, subq.text.split('::')[0]))
         for subq in query:
             if isinstance(subq, engine.query.positional.Sequence):
                 ordered = {}
@@ -1934,15 +1938,21 @@ class CylleneusHit(Hit):
                             x = newmatches[-1]
                             if (x.fieldname, x.text.split('::')[0]) in ordered \
                                 and (y.fieldname, y.text.split('::')[0]) in ordered:
-                                if ordered[
-                                    (y.fieldname,
-                                     y.text.split('::')[0])
-                                ] >= ordered[
-                                    (x.fieldname,
-                                     x.text.split('::')[0])
-                                ]:
-                                    if y.pos - x.pos <= subq.slop + 1:
-                                        newmatches.append(y)
+                                if x.fieldname == 'annotation' \
+                                    and y.fieldname == 'annotation' \
+                                    and y.pos == x.pos:
+                                    newmatches.append(y)
+                                else:
+                                    if ordered[
+                                        (y.fieldname,
+                                         y.text.split('::')[0])
+                                    ] >= ordered[
+                                        (x.fieldname,
+                                         x.text.split('::')[0])
+                                    ]:
+                                        # FIXME: slop + 1?
+                                        if y.pos - x.pos <= subq.slop:
+                                            newmatches.append(y)
                             else:
                                 # If the match is unrelated to the ordering...
                                 newmatches.append(y)
@@ -1957,7 +1967,6 @@ class CylleneusHit(Hit):
                     (match.fieldname, match.text.split('::')[0])
                     for match in fragment.matches
                           ])
-
                 if len(fterms) != 0 and any(
                     [
                         all(
@@ -1997,6 +2006,10 @@ class CylleneusHit(Hit):
                 divs = [div for div in self['meta'].lower().split('-') if div != 'line']
 
             for score, fragment in filtered:
+                matches = sorted(fragment.matches, key=lambda x: (x.meta['sent_id'], x.meta['sent_pos']))
+                first = matches[0]
+                last = matches[-1]
+
                 meta = {
                     'meta': self['meta'].lower()
                 }
@@ -2010,75 +2023,79 @@ class CylleneusHit(Hit):
                         if k in match.meta['meta'].split('-') \
                         or k == 'sent_pos'
                     ]
-                    for match in fragment.matches
+                    for match in matches
                 ]
                 meta['hlites'] = hlites
 
                 for div in divs:
-                    startmeta[div] = getattr(fragment.matches[0], 'meta')[div]
-                    endmeta[div] = getattr(fragment.matches[-1], 'meta')[div]
+                    startmeta[div] = getattr(first, 'meta')[div]
+                    endmeta[div] = getattr(last, 'meta')[div]
 
                 # Sentence in section
-                if 'sect_sent' in getattr(fragment.matches[0], 'meta'):
-                    startmeta['sect_sent'] = getattr(fragment.matches[0], 'meta')['sect_sent']
+                if 'sect_sent' in getattr(first, 'meta'):
+                    startmeta['sect_sent'] = getattr(first, 'meta')['sect_sent']
                 else:
                     startmeta['sect_sent'] = None
-                if 'sect_sent' in getattr(fragment.matches[-1], 'meta'):
-                    endmeta['sect_sent'] = getattr(fragment.matches[-1], 'meta')['sect_sent']
+                if 'sect_sent' in getattr(last, 'meta'):
+                    endmeta['sect_sent'] = getattr(last, 'meta')['sect_sent']
                 else:
                     endmeta['sect_sent'] = None
 
                 # Position in section
-                if 'sect_pos' in getattr(fragment.matches[0], 'meta'):
-                    startmeta['sect_pos'] = getattr(fragment.matches[0], 'meta')['sect_pos']
+                if 'sect_pos' in getattr(first, 'meta'):
+                    startmeta['sect_pos'] = getattr(first, 'meta')['sect_pos']
                 else:
                     startmeta['sect_pos'] = None
-                if 'sect_pos' in getattr(fragment.matches[-1], 'meta'):
-                    endmeta['sect_pos'] = getattr(fragment.matches[-1], 'meta')['sect_pos']
+                if 'sect_pos' in getattr(last, 'meta'):
+                    endmeta['sect_pos'] = getattr(last, 'meta')['sect_pos']
                 else:
                     endmeta['sect_pos'] = None
 
                 # Sentence id
-                if 'sent_id' in getattr(fragment.matches[0], 'meta'):
-                    startmeta['sent_id'] = getattr(fragment.matches[0], 'meta')['sent_id']
+                if 'sent_id' in getattr(first, 'meta'):
+                    startmeta['sent_id'] = getattr(first, 'meta')['sent_id']
                 else:
                     startmeta['sent_id'] = None
-                if 'sent_id' in getattr(fragment.matches[-1], 'meta'):
-                    endmeta['sent_id'] = getattr(fragment.matches[-1], 'meta')['sent_id']
+                if 'sent_id' in getattr(last, 'meta'):
+                    endmeta['sent_id'] = getattr(last, 'meta')['sent_id']
                 else:
                     endmeta['sent_id'] = None
 
                 # Position in sentence
-                if 'sent_pos' in getattr(fragment.matches[0], 'meta'):
-                    startmeta['sent_pos'] = getattr(fragment.matches[0], 'meta')['sent_pos']
+                if 'sent_pos' in getattr(first, 'meta'):
+                    startmeta['sent_pos'] = getattr(first, 'meta')['sent_pos']
                 else:
                     startmeta['sent_pos'] = None
-                if 'sent_pos' in getattr(fragment.matches[-1], 'meta'):
-                    endmeta['sent_pos'] = getattr(fragment.matches[-1], 'meta')['sent_pos']
+                if 'sent_pos' in getattr(last, 'meta'):
+                    endmeta['sent_pos'] = getattr(last, 'meta')['sent_pos']
                 else:
                     endmeta['sent_pos'] = None
 
                 # Absolute position
-                startmeta['startchar'] = getattr(fragment.matches[0], 'startchar', None)
-                startmeta['endchar'] = getattr(fragment.matches[0], 'endchar', None)
-                startmeta['pos'] = getattr(fragment.matches[0], 'pos', None)
+                startmeta['startchar'] = getattr(first, 'startchar', None)
+                startmeta['endchar'] = getattr(first, 'endchar', None)
+                startmeta['pos'] = getattr(first, 'pos', None)
 
-                endmeta['startchar'] = getattr(fragment.matches[-1], 'startchar', None)
-                endmeta['endchar'] = getattr(fragment.matches[-1], 'endchar', None)
-                endmeta['pos'] = getattr(fragment.matches[-1], 'pos', None)
+                endmeta['startchar'] = getattr(last, 'startchar', None)
+                endmeta['endchar'] = getattr(last, 'endchar', None)
+                endmeta['pos'] = getattr(last, 'pos', None)
 
                 # Extra
-                if 'act' in getattr(fragment.matches[0], 'meta'):
-                    startmeta['act'] = getattr(fragment.matches[0], 'meta')['act']
-                    startmeta['scene'] = getattr(fragment.matches[0], 'meta')['scene']
-                if 'act' in getattr(fragment.matches[-1], 'meta'):
-                    endmeta['act'] = getattr(fragment.matches[-1], 'meta')['act']
-                    endmeta['scene'] = getattr(fragment.matches[-1], 'meta')['scene']
+                if 'act' in getattr(first, 'meta'):
+                    startmeta['act'] = getattr(first, 'meta')['act']
+                    startmeta['scene'] = getattr(first, 'meta')['scene']
+                if 'act' in getattr(last, 'meta'):
+                    endmeta['act'] = getattr(last, 'meta')['act']
+                    endmeta['scene'] = getattr(last, 'meta')['scene']
                 meta['start'] = startmeta
                 meta['end'] = endmeta
                 fragment.meta = meta
         else:
             for score, fragment in filtered:
+                matches = sorted(fragment.matches, key=lambda x: (x.meta['sent_id'], x.meta['sent_pos']))
+                first = matches[0]
+                last = matches[-1]
+
                 meta = {
                     'meta': None,
                 }
@@ -2087,7 +2104,7 @@ class CylleneusHit(Hit):
 
                 hlites = [
                         (match.startchar, match.endchar, match.pos)
-                    for match in fragment.matches
+                    for match in matches
                 ]
                 meta['hlites'] = hlites
 
@@ -2101,13 +2118,13 @@ class CylleneusHit(Hit):
                 endmeta['sent_pos'] = None
 
                 # Absolute position
-                startmeta['startchar'] = getattr(fragment.matches[0], 'startchar', None)
-                startmeta['endchar'] = getattr(fragment.matches[0], 'endchar', None)
-                startmeta['pos'] = getattr(fragment.matches[0], 'pos', None)
+                startmeta['startchar'] = getattr(first, 'startchar', None)
+                startmeta['endchar'] = getattr(first, 'endchar', None)
+                startmeta['pos'] = getattr(first, 'pos', None)
 
-                endmeta['startchar'] = getattr(fragment.matches[-1], 'startchar', None)
-                endmeta['endchar'] = getattr(fragment.matches[-1], 'endchar', None)
-                endmeta['pos'] = getattr(fragment.matches[-1], 'pos', None)
+                endmeta['startchar'] = getattr(last, 'startchar', None)
+                endmeta['endchar'] = getattr(last, 'endchar', None)
+                endmeta['pos'] = getattr(last, 'pos', None)
 
                 meta['start'] = startmeta
                 meta['end'] = endmeta

@@ -1143,7 +1143,7 @@ class Annotation(Regex):
 
     __inittypes__ = dict(fieldname=str, text=whoosh.compat.text_type, boost=float, annotation=qcore.Query, meta=bool)
 
-    def __init__(self, fieldname, text, boost=2.0, constantscore=True, annotation=None, meta=False):
+    def __init__(self, fieldname, text, boost=1.0, constantscore=True, annotation=None, meta=False):
         super(Annotation, self).__init__(fieldname, text, constantscore=constantscore, annotation=annotation,
                                          meta=meta, boost=1.0)
         self.fieldname = fieldname

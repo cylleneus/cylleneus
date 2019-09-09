@@ -7,13 +7,13 @@ from engine import scoring
 from engine.highlight import CylleneusBasicFragmentScorer, CylleneusDefaultFormatter, CylleneusPinpointFragmenter
 from engine.qparser.default import CylleneusQueryParser
 from engine.searching import CylleneusSearcher, HitRef
-from typing import List
+from typing import Iterable
 from utils import print_debug, DEBUG_HIGH, DEBUG_MEDIUM
 
 
 class Collection:
-    def __init__(self, works: List[Work] = None):
-        self._works = works or list()
+    def __init__(self, works: Iterable[Work] = None):
+        self._works = [work for work in works] if works else list()
 
     def add(self, work):
         if work not in self._works:
@@ -83,6 +83,7 @@ class Search:
         self._minscore = minscore
         self._top = top
 
+        self._query = None
         self._start_time = None
         self._end_time = None
         self._results = None
@@ -199,7 +200,14 @@ class Search:
         if self.results and len(self.results) > 0:
             corpora = len(set([hit['corpus'] for hit, _, _ in self.results]))
             docs = len(set([hit['docix'] for hit, _, _ in self.results]))
-            matches = len(self.results)
+            # The number of highlighted words in all fragments
+            matches = sum(
+                [
+                    len(set([tuple(hlite) for hlite in meta['hlites']]))
+                    for _, meta, _ in self.results
+                    if 'hlites' in meta
+                ]
+            )
             return matches, docs, corpora
         else:
             return 0, 0, 0
@@ -219,14 +227,14 @@ class Search:
         for work in self.collection:
             if work.is_searchable:
                 parser = CylleneusQueryParser("form", work.corpus.schema)
-                query = parser.parse(self.spec, debug=debug)
-                print_debug(DEBUG_MEDIUM, "Query: {}".format(query))
+                self.query = parser.parse(self.spec, debug=debug)
+                print_debug(DEBUG_MEDIUM, "Query: {}".format(self.query))
 
                 reader = work.index.reader()
                 with CylleneusSearcher(reader,
                                        weighting=scoring.NullWeighting
                                        ) as searcher:
-                    results = searcher.search(query,
+                    results = searcher.search(self.query,
                                               terms=True,
                                               limit=None,
                                               )
@@ -256,6 +264,14 @@ class Search:
             return self.count
         else:
             return None, None, None
+
+    @property
+    def query(self):
+        return self._query
+
+    @query.setter
+    def query(self, q):
+        self._query = q
 
     def __repr__(self):
         return f"Search(spec={self.spec}, collection={self.collection}, results={self.count})"

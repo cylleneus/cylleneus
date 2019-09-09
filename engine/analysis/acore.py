@@ -202,5 +202,12 @@ class CylleneusToken(object):
                     and getattr(self, 'endchar', None) == getattr(other, 'endchar', None) \
                     and getattr(self, 'fieldname', None) == getattr(other, 'fieldname', None)
 
+        def __lt__(self, other):
+            return self.docnum == other.docnum and \
+            ((getattr(self, 'pos', None), getattr(self, 'startchar', None)) \
+                   < (getattr(other, 'pos', None), getattr(other, 'startchar', None)))
+
+
+
 # Monkey patch
 Token = CylleneusToken

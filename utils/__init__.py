@@ -109,3 +109,9 @@ def nrange(start, end):
 
     for se in range(_toint(start, base), _toint(end, base) + 1):
         yield _totuple(se, base, len(start))
+
+
+# Hashable dict
+class hdict(dict):
+    def __hash__(self):
+        return hash(tuple(sorted(self.items())))
