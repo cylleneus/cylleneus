@@ -201,13 +201,13 @@ class Search:
             corpora = len(set([hit['corpus'] for hit, _, _ in self.results]))
             docs = len(set([hit['docix'] for hit, _, _ in self.results]))
             # The number of highlighted words in all fragments
-            matches = sum(
+            matches = (sum(
                 [
                     len(set([tuple(hlite) for hlite in meta['hlites']]))
                     for _, meta, _ in self.results
                     if 'hlites' in meta
                 ]
-            )
+            ) // self.query.nterms())
             return matches, docs, corpora
         else:
             return 0, 0, 0

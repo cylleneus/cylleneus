@@ -11,7 +11,7 @@ __version__ = "0.0.8"
 PLATFORM = sys.platform
 
 # Debugging settings
-DEBUG = DEBUG_MEDIUM
+DEBUG = DEBUG_OFF
 
 # Package settings
 ROOT_DIR = os.path.dirname(os.path.abspath(__path__[0]))

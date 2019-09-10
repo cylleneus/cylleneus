@@ -1914,7 +1914,9 @@ class CylleneusHit(Hit):
                                     (x.fieldname,
                                      x.text.split('::')[0])
                                 ]:
-                                    if y.pos - x.pos <= query.slop:
+                                    # For strict sequences, slop == 1
+                                    if y.pos - x.pos <= query.slop \
+                                        and y.startchar - x.endchar <= 1:
                                         newmatches.append(y)
                 fragment.matches = newmatches
 
@@ -1950,8 +1952,9 @@ class CylleneusHit(Hit):
                                         (x.fieldname,
                                          x.text.split('::')[0])
                                     ]:
-                                        # FIXME: slop + 1?
-                                        if y.pos - x.pos <= subq.slop:
+                                        # For strict sequences, slop == 1
+                                        if y.pos - x.pos <= subq.slop \
+                                            and y.startchar - x.endchar <= 1:
                                             newmatches.append(y)
                             else:
                                 # If the match is unrelated to the ordering...
