@@ -137,6 +137,7 @@ class Indexer:
             )
             writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
             writer.commit()
+            return docix
 
     def from_string(self, content: str, **kwargs):
         if self.path and self.path.exists():

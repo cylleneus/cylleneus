@@ -61,7 +61,7 @@ def search(*args):
 
         if _search is not None:
             if len(_search.results) > 0:
-                repl.success(f"{_search.spec}: {_search.time} secs, {_search.count[0]} matches")
+                repl.success(f"{_search.spec}: {_search.time} secs, {len(_search.results)} results")
             else:
                 repl.error(f"{_search.spec}: {_search.time} secs, nothing found")
     else:
@@ -120,7 +120,7 @@ def index():
 
     if _corpus:
         repl.info(Palette.BOLD.format(f"corpus '{_corpus.name}', {_corpus.doc_count_all} documents indexed"))
-        for docix, doc in _corpus.iter_docs():
+        for docix, doc in sorted(_corpus.iter_docs(), key=lambda x: x[0]):
             repl.info(Palette.GREY.format(f"{docix}. {doc['author'].title()}, {doc['title'].title()}"))
     else:
         repl.error("no corpus selected")
@@ -178,7 +178,7 @@ def corpus(corpus_name: str = None):
             _corpus = Corpus(corpus_name)
             _searcher.corpus = _corpus
             _searcher._docs = None
-            repl.success(f"'{_corpus.name}', {_corpus.doc_count_all} docs")
+            repl.success(f"'{_corpus.name}', {_corpus.doc_count_all} documents")
     else:
         for path in Path(settings.ROOT_DIR + '/corpus/').glob('*'):
             if path.is_dir():
@@ -200,18 +200,21 @@ def save(n: int = None, filename: str = None):
     if not filename:
         filename = slugify(target.query, allow_unicode=False)
 
-    if target.results:
-        with codecs.open(f"{filename}.txt", "w", "utf8") as fp:
-            for corpus, author, title, urn, reference, text in target.to_text():
-                fp.write(f"{author}, {title} [{corpus}] [{urn}] {reference}\n{text}\n\n")
-            repl.success(
-                "saved:",
-                Palette.WHITE.format(
-                        f"'{filename}.txt'"
+    if target:
+        if target.results:
+            with codecs.open(f"{filename}.txt", "w", "utf8") as fp:
+                for corpus, author, title, urn, reference, text in target.to_text():
+                    fp.write(f"{author}, {title} [{corpus}] [{urn}] {reference}\n{text}\n\n")
+                repl.success(
+                    "saved:",
+                    Palette.WHITE.format(
+                            f"'{filename}.txt'"
+                    )
                 )
-            )
+        else:
+            repl.error("no results")
     else:
-        repl.error("nothing to save")
+        repl.error("no search")
 
 
 @repl.command("display")
@@ -223,51 +226,53 @@ def display(n: int = None):
     else:
         target = _search
 
-    if target.results:
-        ctitle = None
+    if target:
+        if target.results:
+            ctitle = None
 
-        for href in target.highlights:
-            if ctitle != href.title:
-                repl.success(Palette.BOLD.format(f"{href.author}, {href.title} [{href.corpus}]"))
-                ctitle = href.title
-            repl.info(Palette.GREY.format(f"{href.reference}:"))
+            for href in target.highlights:
+                if ctitle != href.title:
+                    repl.success(Palette.BOLD.format(f"{href.author}, {href.title} [{href.corpus}]"))
+                    ctitle = href.title
+                repl.info(Palette.GREY.format(f"{href.reference}:"))
 
-            if href.text:
-                # Process pre-match context
-                text = re.sub(
-                    r"<pre>(.*?)</pre>",
-                    r"\1",
-                    href.text,
-                    flags=re.DOTALL
-                )
-                # Process post-match context
-                text = re.sub(
-                    r"<post>(.*?)</post>",
-                    r"\1",
-                    text,
-                    flags=re.DOTALL
-                )
-                # Process matched text
-                text = re.sub(
-                    r"<match>(.*?)</match>",
-                    r"\1",
-                    text,
-                    flags=re.DOTALL
-                )
-                # Highlight pinpointed text
-                text = re.sub(
-                    r"<em>(.*?)</em>",
-                    Palette.CYAN.format(r"\1"),
-                    text,
-                    flags=re.DOTALL
-                )
-                for line in parawrap.wrap(text):
-                    if line:
-                        repl.print(line)
-            repl.print()
+                if href.text:
+                    # Process pre-match context
+                    text = re.sub(
+                        r"<pre>(.*?)</pre>",
+                        r"\1",
+                        href.text,
+                        flags=re.DOTALL
+                    )
+                    # Process post-match context
+                    text = re.sub(
+                        r"<post>(.*?)</post>",
+                        r"\1",
+                        text,
+                        flags=re.DOTALL
+                    )
+                    # Process matched text
+                    text = re.sub(
+                        r"<match>(.*?)</match>",
+                        r"\1",
+                        text,
+                        flags=re.DOTALL
+                    )
+                    # Highlight pinpointed text
+                    text = re.sub(
+                        r"<em>(.*?)</em>",
+                        Palette.CYAN.format(r"\1"),
+                        text,
+                        flags=re.DOTALL
+                    )
+                    for line in parawrap.wrap(text):
+                        if line:
+                            repl.print(line)
+                repl.print()
+        else:
+            repl.error("no results")
     else:
-        repl.error("no results")
-
+        repl.error("no search")
 
 @repl.command("history")
 def history():

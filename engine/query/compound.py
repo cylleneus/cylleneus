@@ -39,7 +39,7 @@ from whoosh.util import make_binary_tree, make_weighted_tree
 
 class CylleneusCompoundQuery(engine.query.qcore.Query):
     """Abstract base class for queries that combine or manipulate the results
-    of multiple sub-queries .
+    of multiple sub-queries.
     """
 
     def __init__(self, subqueries, boost=1.0, annotation=None, meta=False):

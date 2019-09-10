@@ -6,9 +6,9 @@ import engine.analysis
 import engine.query
 import engine.searching
 import whoosh.highlight
-import whoosh.query
+import engine.query
 from whoosh.compat import htmlescape
-
+from utils import hdict
 
 class CylleneusFragment(object):
     """Represents a fragment (extract) from a hit document. This object is
@@ -51,6 +51,17 @@ class CylleneusFragment(object):
 
     def __len__(self):
         return self.endchar - self.startchar
+
+    def same_divs(self, other):
+        ssent = set()
+        for match in self.matches:
+            if 'sent_id' in match.meta:
+                ssent.add(match.meta['sent_id'])
+        osent = set()
+        for match in other.matches:
+            if 'sent_id' in match.meta:
+                osent.add(match.meta['sent_id'])
+        return any([sent in osent for sent in ssent])
 
     def is_adjacent(self, other):
         return (other.matches[0].pos - self.matches[-1].pos == 1) \
@@ -135,6 +146,16 @@ def highlight(text, terms, analyzer, fragmenter, formatter, top=3,
     fragments = top_fragments(fragments, top, scorer, order, minscore)
     return formatter(text, fragments)
 
+
+def get_boost(q, word):
+    boost = 1
+    for qt in q:
+        if isinstance(qt, (engine.query.compound.CylleneusCompoundQuery, engine.query.spans.SpanQuery)):
+            boost = get_boost(qt, word)
+        else:
+            if word.split('::')[0] == qt.text.split('::')[0]:
+                boost = qt.boost
+        return boost
 
 class CylleneusHighlighter(object):
     def __init__(self, fragmenter=None, scorer=None, formatter=None,
@@ -245,18 +266,21 @@ class CylleneusHighlighter(object):
             charlimit = self.fragmenter.charlimit
             for word in hitterms:
                 chars = cmap[word]
-                boost = 1
+                boost = None
 
-                for qt in hitobj.results.q:
-                    if isinstance(qt, (engine.query.compound.CylleneusCompoundQuery, whoosh.query.CompoundQuery)):
-                        for t in qt:
-                            if word == t.text:
-                                boost = t.boost
-                                break
-                    else:
-                        if word == qt.text:
-                            boost = qt.boost
-                            break
+                while boost is None:
+                    boost = get_boost(hitobj.results.q, word)
+
+                # for qt in hitobj.results.q:
+                #     if isinstance(qt, (engine.query.compound.CylleneusCompoundQuery, whoosh.query.CompoundQuery)):
+                #         for t in qt:
+                #             if word == t.text:
+                #                 boost = t.boost
+                #                 break
+                #     else:
+                #         if word == qt.text:
+                #             boost = qt.boost
+                #             break
 
                 for pos, startchar, endchar, meta in chars:
                     if charlimit and endchar > charlimit:
@@ -371,84 +395,97 @@ whoosh.highlight.top_fragments = top_fragments
 # Fragment scorers
 class CylleneusBasicFragmentScorer(whoosh.highlight.FragmentScorer):
     def __call__(self, query, fragment):
-        if fragment.matches:
-            if isinstance(query, (engine.query.positional.Sequence, whoosh.query.Sequence)):
-                ordering = {(subq.fieldname, subq.text): q.pos for q in query for subq in q if hasattr(q, 'pos')}
-            elif isinstance(query, (engine.query.compound.CylleneusCompoundQuery, whoosh.query.compound.CompoundQuery)):
-                ordering = {(subq.fieldname, subq.text): 0 for q in query for subq in q}
-            else:
-                ordering = {(q.fieldname, q.text): q.pos for q in query if hasattr(q, 'pos')}
-
-            # Add up the boosts for the matched terms in this passage
-            boosted = set()
-            score = 100
-            if len(fragment.matched_terms) > 1:
-                for t in fragment.matches:
-                    if t.text not in boosted:
-                        score *= t.boost
-                        boosted.add(t.text)
-            else:
-                score *= fragment.matches[0].boost
-
-            # Guarantee that sequential and compound queries get through
-            if isinstance(query, engine.query.positional.Sequence):
-                matches = sorted(fragment.matches, key=lambda m: m.startchar)
-                for i, m in enumerate(matches):
-                    if i + 1 < len(matches):
-                        o = matches[i+1]
-                        if ordering[(o.fieldname, o.text)] - ordering[(m.fieldname, m.text)] != 1:
-                            return 0
-                if all(map(lambda m: (m.fieldname, m.text) in ordering, matches)):
-                    score *= 2
-            elif isinstance(query, engine.query.compound.CylleneusCompoundQuery):
-                matches = sorted(fragment.matches, key=lambda m: m.startchar)
-                if all(map(lambda m: (m.fieldname, m.text.split('::')[0]) in query.iter_all_terms(), matches)):
-                    score *= 2
-
-            # Favor term diversity
-            score *= (len(fragment.matched_terms) / engine.searching.total_terms(query)) or 1
-
-            # Require adjacency in sequential searches
-            # Favor proximity in contextual searches, provided that the matched terms are different
-            if len(fragment.matched_terms) > 1:
-                if isinstance(query, engine.query.positional.Sequence):
-                    ordered = sorted(fragment.matches, key=lambda m: m.pos)
-                    for i, t in enumerate(ordered):
-                        if i + 1 < len(fragment.matches):
-                            if ordered[i+1].pos - t.pos != 1:
-                                return 0
-                elif isinstance(query, (engine.query.compound.CylleneusCompoundQuery,
-                                        whoosh.query.compound.CompoundQuery)):
-                    dists = []
-                    matches = iter(sorted(fragment.matches, key=lambda t: t.pos))
-                    x = next(matches)
-                    while True:
-                        try:
-                            y = next(matches)
-                        except StopIteration:
-                            break
-                        else:
-                            if hasattr(x, 'pos') and hasattr(y, 'pos') and x.text != y.text:
-                                if x.pos == 0 and y.pos == 0:  # ? to avoid div by zero
-                                    dists.append(-1)
-                                else:
-                                    if x.fieldname != 'annotation' and y.fieldname != 'annotation':
-                                        if ordering[(x.fieldname, x.text)] < ordering[(y.fieldname, y.text)]:
-                                            dists.append(y.pos - x.pos)
-                            x = y
-                    try:
-                        m = statistics.mean(dists)
-                    except statistics.StatisticsError:
-                        m = -1  # to avoid div by zero
-                    if m == 0:
-                        m = 1
-                    if dists:
-                        score *= (1 / m) * len(fragment.matches) / engine.searching.total_terms(query)
-                    else:
-                        score *= len(fragment.matched_terms) / engine.searching.total_terms(query)
-        else:
-            score = 0
-        return score
+        # if fragment.matches:
+        #     if isinstance(query, (engine.query.positional.Sequence, whoosh.query.Sequence)):
+        #         ordering = {
+        #             (subq.fieldname, subq.text.split('::')[0]): q.pos
+        #             for q in query
+        #             for subq in q
+        #             if hasattr(q, 'pos')
+        #         }
+        #     elif isinstance(query, (engine.query.compound.CylleneusCompoundQuery, whoosh.query.compound.CompoundQuery)):
+        #         ordering = {
+        #             (subq.fieldname, subq.text.split('::')[0]): 0
+        #             for q in query
+        #             for subq in q
+        #         }
+        #     else:
+        #         ordering = {
+        #             (q.fieldname, q.text.split('::')[0]): q.pos
+        #             for q in query
+        #             if hasattr(q, 'pos')
+        #         }
+        #
+        #     # Add up the boosts for the matched terms in this passage
+        #     boosted = set()
+        #     score = 100
+        #     if len(fragment.matched_terms) > 1:
+        #         for t in fragment.matches:
+        #             if t.text not in boosted:
+        #                 score *= t.boost
+        #                 boosted.add(t.text)
+        #     else:
+        #         score *= fragment.matches[0].boost
+        #
+        #     # Guarantee that sequential and compound queries get through
+        #     if isinstance(query, engine.query.positional.Sequence):
+        #         matches = sorted(fragment.matches, key=lambda m: m.startchar)
+        #         for i, m in enumerate(matches):
+        #             if i + 1 < len(matches):
+        #                 o = matches[i+1]
+        #                 if ordering[(o.fieldname, o.text.split('::')[0])] - ordering[(m.fieldname, m.text.split('::')[0])] != 1:
+        #                     return 0
+        #         if all(map(lambda m: (m.fieldname, m.text.split('::')[0]) in ordering, matches)):
+        #             score *= 2
+        #     elif isinstance(query, engine.query.compound.CylleneusCompoundQuery):
+        #         matches = sorted(fragment.matches, key=lambda m: m.startchar)
+        #         if all(map(lambda m: (m.fieldname, m.text.split('::')[0]) in query.iter_all_terms(), matches)):
+        #             score *= 2
+        #
+        #     # Favor term diversity
+        #     score *= (len(fragment.matched_terms) / engine.searching.total_terms(query)) or 1
+        #
+        #     # Require adjacency in sequential searches
+        #     # Favor proximity in contextual searches, provided that the matched terms are different
+        #     if len(fragment.matched_terms) > 1:
+        #         if isinstance(query, engine.query.positional.Sequence):
+        #             ordered = sorted(fragment.matches, key=lambda m: m.pos)
+        #             for i, t in enumerate(ordered):
+        #                 if i + 1 < len(fragment.matches):
+        #                     if ordered[i+1].pos - t.pos != 1:
+        #                         return 0
+        #         elif isinstance(query, (engine.query.compound.CylleneusCompoundQuery,
+        #                                 whoosh.query.compound.CompoundQuery)):
+        #             dists = []
+        #             matches = iter(sorted(fragment.matches, key=lambda t: t.pos))
+        #             x = next(matches)
+        #             while True:
+        #                 try:
+        #                     y = next(matches)
+        #                 except StopIteration:
+        #                     break
+        #                 else:
+        #                     if hasattr(x, 'pos') and hasattr(y, 'pos') and x.text != y.text:
+        #                         if x.pos == 0 and y.pos == 0:  # ? to avoid div by zero
+        #                             dists.append(-1)
+        #                         else:
+        #                             if x.fieldname != 'annotation' and y.fieldname != 'annotation':
+        #                                 if ordering[(x.fieldname, x.text)] < ordering[(y.fieldname, y.text)]:
+        #                                     dists.append(y.pos - x.pos)
+        #                     x = y
+        #             try:
+        #                 m = statistics.mean(dists)
+        #             except statistics.StatisticsError:
+        #                 m = -1  # to avoid div by zero
+        #             if m == 0:
+        #                 m = 1
+        #             if dists:
+        #                 score *= (1 / m) * len(fragment.matches) / engine.searching.total_terms(query)
+        #             else:
+        #                 score *= len(fragment.matched_terms) / engine.searching.total_terms(query)
+        # else:
+        #     score = 0
+        return engine.searching.total_terms(query) * 100
 
 
 class CylleneusPinpointFragmenter(whoosh.highlight.Fragmenter):

@@ -31,12 +31,12 @@ import string
 from collections import abc, deque
 
 import engine.analysis
-from cltk.tokenize.latin_exceptions import latin_exceptions
+from lang.latin.latin_exceptions import latin_exceptions
 from corpus.lasla import parse_bpn
 from engine.analysis.acore import Composable, CylleneusToken
-from lang.latin import compound, proper_names
+from lang.latin import compound, proper_names, roman_to_arabic
 from nltk.tokenize.punkt import PunktLanguageVars, PunktParameters, PunktSentenceTokenizer
-from utils import flatten, roman_to_arabic
+from utils import flatten
 from whoosh.compat import text_type, u
 from whoosh.util.text import rcompile
 

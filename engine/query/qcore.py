@@ -309,6 +309,40 @@ class Query(object):
 
         return set(self.iter_all_terms(phrases=phrases))
 
+    def nterms(self):
+        n = 0
+
+        if isinstance(self, engine.query.compound.CylleneusCompoundQuery):
+            if isinstance(self, engine.query.compound.Or):
+                n += 1
+            elif isinstance(self, engine.query.positional.Collocation):
+                n += 1
+            else:
+                for sq in self:
+                    if isinstance(sq, engine.query.compound.CylleneusCompoundQuery):
+                        if isinstance(sq, engine.query.compound.Or):
+                            n += 1
+                        elif isinstance(sq, engine.query.positional.Collocation):
+                            n += 1
+                        else:
+                            for qq in sq:
+                                n += 1
+                    else:
+                        n += 1
+        else:
+            for sq in self:
+                if isinstance(sq, engine.query.compound.CylleneusCompoundQuery):
+                    if isinstance(sq, engine.query.compound.Or):
+                        n += 1
+                    elif isinstance(sq, engine.query.positional.Collocation):
+                        n += 1
+                    else:
+                        for qq in sq:
+                            n += 1
+                else:
+                    n += 1
+        return n
+
     def terms(self, phrases=False):
         """Yields zero or more (fieldname, text) pairs queried by this object.
         You can check whether a query object targets specific terms before you

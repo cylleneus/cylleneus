@@ -7,9 +7,17 @@ from collections.abc import Iterable
 from itertools import chain, zip_longest
 
 
+DEBUG_OFF = 0
+DEBUG_LOW = 1
+DEBUG_MEDIUM = 2
+DEBUG_HIGH = 3
+
+
 def print_debug(level, msg, out=sys.stderr):
-    if level:
-        out.write("%s%s\n" % (" " * (level - 1), msg))
+    from settings import DEBUG
+
+    if level <= DEBUG:
+        out.write("%s%s\n" % (" " * level, msg))
 
 
 def slugify(value, allow_unicode=False):
@@ -103,27 +111,7 @@ def nrange(start, end):
         yield _totuple(se, base, len(start))
 
 
-def roman_to_arabic(n: str):
-    """ Convert a Roman numeral to an Arabic integer. """
-
-    if isinstance(n, str):
-        n = n.upper()
-        numerals = {'M': 1000,
-                    'D': 500,
-                    'C': 100,
-                    'L': 50,
-                    'X': 10,
-                    'V': 5,
-                    'I': 1
-                    }
-        sum = 0
-        for i in range(len(n)):
-            try:
-                value = numerals[n[i]]
-                if i+1 < len(n) and numerals[n[i+1]] > value:
-                    sum -= value
-                else:
-                    sum += value
-            except KeyError:
-                return None
-        return sum
+# Hashable dict
+class hdict(dict):
+    def __hash__(self):
+        return hash(tuple(sorted(self.items())))

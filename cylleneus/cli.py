@@ -35,7 +35,7 @@ def web():
 @click.option('--corpus', '-c', 'corpus', required=True)
 def index(corpus):
     c = Corpus(corpus)
-    docs = list(c.iter_docs())
+    docs = sorted(c.iter_docs(), key=lambda x: x[0])
 
     if docs:
         for docix, doc in docs:

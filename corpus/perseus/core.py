@@ -43,16 +43,15 @@ def get(hit, meta, fragment):
         content = doc['text']
         for div in ref:
             try:
-                content = content[str(div)]
+                content = content[str(div - 1)]
             except KeyError:
                 content = None
                 break
         if content:
             pre.append(f"<pre>{content}</pre>")
+
     match = []
-
-    hlites = set([tuple(hlite) for hlite in meta['hlites']])
-
+    hlites = sorted(set([tuple(hlite) for hlite in meta['hlites']]))
     for ref in nrange(start, end):
         if 0 in ref: continue  # FIXME: nrange yields 0-numbered references
         content = doc['text']
@@ -90,7 +89,7 @@ def get(hit, meta, fragment):
         content = doc['text']
         for div in ref:
             try:
-                content = content[str(div)]
+                content = content[str(div - 1)]
             except KeyError:
                 content = None
                 break
@@ -103,7 +102,6 @@ def get(hit, meta, fragment):
         joiner = ' '
     parts = pre + match + post
     text = f'{joiner}'.join(parts)
-
     urn = hit.get('urn', None)
 
     return urn, reference, text

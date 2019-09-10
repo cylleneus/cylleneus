@@ -276,8 +276,7 @@ class QueryParser(object):
         prev = pos
         # Priorized list of taggers provided by the parser's plugins
         taggers = self.taggers()
-        if debug:
-            print_debug(debug, "Taggers: %r" % taggers)
+        print_debug(debug, "Taggers: %r" % taggers)
 
         # Define a function that will make a WordNode from the "interstitial"
         # text between matches
@@ -298,12 +297,10 @@ class QueryParser(object):
                                         " (%r, %s)" % (tagger, text, pos))
                     if prev < pos:
                         tween = inter(prev, pos)
-                        if debug:
-                            print_debug(debug, "Tween: %r" % tween)
+                        print_debug(debug, "Tween: %r" % tween)
                         stack.append(tween)
 
-                    if debug:
-                        print_debug(debug, "Tagger: %r at %s: %r"
+                    print_debug(debug, "Tagger: %r at %s: %r"
                                     % (tagger, pos, node))
                     stack.append(node)
                     prev = pos = node.endchar
@@ -319,8 +316,7 @@ class QueryParser(object):
 
         # Wrap the list of nodes in a group node
         group = self.group(stack)
-        if debug:
-            print_debug(debug, "Tagged group: %r" % group)
+        print_debug(debug, "Tagged group: %r" % group)
         return group
 
     def filterize(self, nodes, debug=settings.DEBUG):
@@ -329,14 +325,11 @@ class QueryParser(object):
         """
 
         # Call each filter in the priorized list of plugin filters
-        if debug:
-            print_debug(debug, "Pre-filtered group: %r" % nodes)
+        print_debug(debug, "Pre-filtered group: %r" % nodes)
         for f in self.filters():
-            if debug:
-                print_debug(debug, "..Applying: %r" % f)
+            print_debug(debug, "..Applying: %r" % f)
             nodes = f(self, nodes)
-            if debug:
-                print_debug(debug, "..Result: %r" % nodes)
+            print_debug(debug, "..Result: %r" % nodes)
             if nodes is None:
                 raise Exception("Filter %r did not return anything" % f)
         return nodes
@@ -368,19 +361,16 @@ class QueryParser(object):
             text = text.decode("latin1")
 
         nodes = self.process(text, debug=debug)
-        if debug:
-            print_debug(debug, "Syntax tree: %r" % nodes)
+        print_debug(debug, "Syntax tree: %r" % nodes)
 
         q = nodes.query(self)
         if not q:
             q = whoosh.query.NullQuery
-        if debug:
-            print_debug(debug, "Pre-normalized query: %r" % q)
+        print_debug(debug, "Pre-normalized query: %r" % q)
 
         if normalize:
             q = q.normalize()
-            if debug:
-                print_debug(debug, "Normalized query: %r" % q)
+            print_debug(debug, "Normalized query: %r" % q)
         return q
 
     def parse_(self, text, normalize=True):
@@ -575,18 +565,15 @@ class CylleneusQueryParser(QueryParser):
             text = text.decode("latin1")
 
         nodes = self.process(text, debug=debug)
-        if debug:
-            print_debug(debug, "Syntax tree: %r" % nodes)
+        print_debug(debug, "Syntax tree: %r" % nodes)
         q = nodes.query(self)
         if not q:
             q = whoosh.query.NullQuery
-        if debug:
-            print_debug(debug, "Pre-normalized query: %r" % q)
+        print_debug(debug, "Pre-normalized query: %r" % q)
 
         if normalize:
             q = q.normalize()
-            if debug:
-                print_debug(debug, "Normalized query: %r" % q)
+            print_debug(debug, "Normalized query: %r" % q)
         return q
 
     def parse_(self, text, normalize=True):

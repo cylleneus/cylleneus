@@ -159,24 +159,6 @@ class CylleneusToken(object):
         """
         Represents a "token" (usually a word) extracted from the source text being
         indexed.
-        See "Advanced analysis" in the user guide for more information.
-        Because object instantiation in Python is slow, tokenizers should create
-        ONE SINGLE Token object and YIELD IT OVER AND OVER, changing the attributes
-        each time.
-        This trick means that consumers of tokens (i.e. filters) must never try to
-        hold onto the token object between loop iterations, or convert the token
-        generator into a list. Instead, save the attributes between iterations,
-        not the object::
-            def RemoveDuplicatesFilter(self, stream):
-                # Removes duplicate words.
-                lasttext = None
-                for token in stream:
-                    # Only yield the token if its text doesn't
-                    # match the previous token.
-                    if lasttext != token.text:
-                        yield token
-                    lasttext = token.text
-        ...or, call token.copy() to get a copy of the token object.
         """
 
         def __init__(self, positions=False, chars=False, removestops=True, mode='',
@@ -209,11 +191,23 @@ class CylleneusToken(object):
             # This is faster than using the copy module
             return CylleneusToken(**self.__dict__)
 
-        def __eq__(self, other):
-            return self.__dict__ == other.__dict__
-
         def __hash__(self):
             return hash(tuple(sorted(self.__dict__)))
+
+        def __eq__(self, other):
+            return getattr(self, 'docnum', None) == getattr(other, 'docnum', None) \
+                    and getattr(self, 'text', None) == getattr(other, 'text', None) \
+                    and getattr(self, 'pos', None) == getattr(other, 'pos', None) \
+                    and getattr(self, 'startchar', None) == getattr(other, 'startchar', None) \
+                    and getattr(self, 'endchar', None) == getattr(other, 'endchar', None) \
+                    and getattr(self, 'fieldname', None) == getattr(other, 'fieldname', None)
+
+        def __lt__(self, other):
+            return self.docnum == other.docnum and \
+            ((getattr(self, 'pos', None), getattr(self, 'startchar', None)) \
+                   < (getattr(other, 'pos', None), getattr(other, 'startchar', None)))
+
+
 
 # Monkey patch
 Token = CylleneusToken
