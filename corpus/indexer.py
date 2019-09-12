@@ -112,7 +112,8 @@ class Indexer:
     def update(self, path: Path):
         if self.path and self.path.exists():
             self.destroy()
-        self.from_file(path)
+        docix = self.from_file(path)
+        return docix
 
     def from_file(self, path: Path):
         if self.path and self.path.exists():

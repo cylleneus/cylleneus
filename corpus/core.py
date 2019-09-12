@@ -80,9 +80,9 @@ class Corpus:
         ixr.update(path)
 
     def update_by(self, author: str, title: str, path: Path):
-        ixrs = self.indexers_for(author, title)
-        for ixr in ixrs:
-            ixr.update(path)
+        ixr = list(self.indexers_for(author, title))[0]
+        docix = ixr.update(path)
+        return docix
 
     @property
     def index_dir(self):

@@ -35,6 +35,11 @@ class Collection:
     def works(self, w: list):
         self._works = w
 
+    def iter_all(self):
+        for work in self.works:
+            yield (work.corpus.name, work.docix)
+
+
     def __iter__(self):
         yield from self.works
 
@@ -71,10 +76,6 @@ class Searcher:
     def searches(self):
         return self._searches
 
-    @property
-    def history(self):
-        return self.searches
-
 
 class Search:
     def __init__(self, spec: str, collection: Collection, minscore=None, top=1000000, debug=False):
@@ -87,9 +88,33 @@ class Search:
         self._start_time = None
         self._end_time = None
         self._results = None
+        self._count = None
+        self._highlights = None
 
         self._maxchars = 70     # width of one line
         self._surround = 70 if 70 > settings.CHARS_OF_CONTEXT else settings.CHARS_OF_CONTEXT
+
+    @classmethod
+    def from_json(cls, s):
+        obj = json.loads(s)
+        s = Search(
+            spec=obj['spec'],
+            collection = Collection([Corpus(corpus).work_by_docix(docix) for corpus, docix in obj['collection']]),
+            minscore=obj['minscore'],
+            top=obj['top'],
+        )
+        s.start_time = datetime.fromisoformat(obj['start_time'])
+        s.end_time = datetime.fromisoformat(obj['end_time'])
+        s.maxchars = obj['maxchars']
+        s.surround = obj['surround']
+        s.count = obj['count']
+
+        hlites = []
+        for r in obj['results']:
+            href = HitRef(r['corpus'], r['author'], r['title'], r['urn'], r['reference'], r['text'])
+            hlites.append(href)
+        s.highlights = hlites
+        return s
 
     @property
     def collection(self):
@@ -127,24 +152,32 @@ class Search:
 
     @property
     def highlights(self):
-        if self.results:
-            for hit, meta, fragment in self.results:
-                c = Corpus(hit['corpus'])
-                corpus, author, title, urn, reference, text = c.fetch(hit, meta, fragment)
-                href = HitRef(corpus, author, title, urn, reference, text)
-                yield href
+        if not self._highlights:
+            self._highlights = []
+            if self.results:
+                for hit, meta, fragment in self.results:
+                    c = Corpus(hit['corpus'])
+                    corpus, author, title, urn, reference, text = c.fetch(hit, meta, fragment)
+                    href = HitRef(corpus, author, title, urn, reference, text)
+                    self._highlights.append(href)
+        yield from self._highlights
+
+    @highlights.setter
+    def highlights(self, hlites):
+        self._highlights = hlites
 
     def to_json(self):
         if self.results:
             s = {
                 "spec": self.spec,
-                "collection": self.collection,
+                "collection": [(work.corpus.name, work.docix) for work in self.collection],
                 "minscore": self.minscore,
                 "top": self.top,
-                "start_time": self.start_time,
-                "end_time": self.end_time,
+                "start_time": str(self.start_time),
+                "end_time": str(self.end_time),
                 "maxchars": self.maxchars,
-                "surround": self.surround
+                "surround": self.surround,
+                "count": self.count,
             }
             results = []
             for href in self.highlights:
@@ -156,13 +189,13 @@ class Search:
                     "reference": href.reference,
                     "text": href.text
                 }
+                results.append(r)
             s["results"] = results
             return json.dumps(s)
 
     def to_text(self):
-        if self.results:
-            for href in self.highlights:
-                yield href.corpus, href.author, href.title, href.urn, href.reference, href.text
+        for href in self.highlights:
+            yield href.corpus, href.author, href.title, href.urn, href.reference, href.text
 
     @property
     def spec(self):
@@ -197,20 +230,26 @@ class Search:
 
     @property
     def count(self):
-        if self.results and len(self.results) > 0:
-            corpora = len(set([hit['corpus'] for hit, _, _ in self.results]))
-            docs = len(set([hit['docix'] for hit, _, _ in self.results]))
-            # The number of highlighted words in all fragments
-            matches = (sum(
-                [
-                    len(set([tuple(hlite) for hlite in meta['hlites']]))
-                    for _, meta, _ in self.results
-                    if 'hlites' in meta
-                ]
-            ) // self.query.nterms())
-            return matches, docs, corpora
-        else:
-            return 0, 0, 0
+        if not self._count:
+            if self.results and len(self.results) > 0:
+                corpora = len(set([hit['corpus'] for hit, _, _ in self.results]))
+                docs = len(set([hit['docix'] for hit, _, _ in self.results]))
+                # The number of highlighted words in all fragments
+                matches = (sum(
+                    [
+                        len(set([tuple(hlite) for hlite in meta['hlites']]))
+                        for _, meta, _ in self.results
+                        if 'hlites' in meta
+                    ]
+                ) // self.query.nterms())
+                self._count = matches, docs, corpora
+            else:
+                self._count = 0, 0, 0
+        return self._count
+
+    @count.setter
+    def count(self, n):
+        self._count = n  # matches, docs, corpora
 
     @property
     def minscore(self):
