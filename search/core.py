@@ -76,6 +76,9 @@ class Searcher:
     def searches(self):
         return self._searches
 
+    @property
+    def history(self):
+        return self.searches
 
 class Search:
     def __init__(self, spec: str, collection: Collection, minscore=None, top=1000000, debug=False):
