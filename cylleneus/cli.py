@@ -117,7 +117,7 @@ def update(corpus, docix, path):
     c = Corpus(corpus)
     c.update(docix=docix, path=Path(path))
 
-    if docix in [doc['docix'] for doc in c.docs]:
+    if docix in [doc['docix'] for doc in c.iter_docs()]:
         click.echo(f"[+] updated document {docix} in '{corpus}'")
     else:
         click.echo(f'[-] failed')
@@ -131,7 +131,7 @@ def update(corpus, docix, path):
 def updateby(corpus, **kwargs):
     kwargs['path'] = Path(kwargs['path'])
     c = Corpus(corpus)
-    c.update_by(**kwargs)
+    docix = c.update_by(**kwargs)
 
     if docix in [doc['docix'] for doc in c.docs]:
         click.echo(f"[+] updated document {docix} in '{corpus}'")
