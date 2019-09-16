@@ -160,3 +160,4 @@ class Indexer:
             )
             writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
             writer.commit()
+            return docix
