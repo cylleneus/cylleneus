@@ -676,7 +676,6 @@ class AnnotationFilter(Filter):
             elif t.mode == 'index':
                 text = t.morpho
                 if text:
-                    # ----------::uri:n>---------- ----------
                     morpho, annotations = text.split('>')
                     r = morpho.split('::')[1]
                     uri, n = r.split(':')
@@ -1018,176 +1017,171 @@ class CachedLASLALemmaFilter(Filter):
                                 else:
                                     yield t
 
-# class CachedPROIELXmlLemmaFilter(Filter):
-#     is_morph = True
-#
-#     def __init__(self, **kwargs):
-#         super(CachedPROIELXmlLemmaFilter, self).__init__()
-#         self.__dict__.update(**kwargs)
-#         self._cache = None
-#         self._docix = 0
-#
-#     @property
-#     def cache(self):
-#         return copy.deepcopy(self._cache)
-#
-#     def __eq__(self, other):
-#         return (other
-#                 and self.__class__ is other.__class__
-#                 and self.__dict__ == other.__dict__)
-#
-#     def __ne__(self, other):
-#         return not self == other
-#
-#     def __call__(self, tokens, **kwargs):
-#         if self._cache and kwargs.get('docix', None) == self._docix:
-#             yield from self.cache
-#         else:
-#             self._cache = []
-#             self._docix = kwargs.get('docix', 0)
-#
-#             for t in tokens:
-#                 if t.mode == 'index':
-#                     lemma = t.lemma
-#                     morpho = t.morpho
-#                     if morpho[0] in 'nvar':
-#                         results = LWN.lemmas(lemma, morpho[0], morpho).synsets
-#                         if results:
-#                             for result in results:
-#                                 t.morpho = f"{result['lemma']['morpho']}>{morpho}"
-#                                 t.text = f"{result['lemma']['lemma']}={result['lemma']['morpho']}"
-#                                 t.synsets = ' '.join([f"{synset['pos']}#{synset['offset']}>{' '.join([semfield['code'] for semfield in synset['semfield']])}" for synset in result['synsets']])
-#                                 self._cache.append(copy.copy(t))
-#                                 yield t
-#                         else:
-#                             t.text = ''
-#                             t.morpho = ''
-#                             self._cache.append(copy.copy(t))
-#                             yield t
-#                     else:
-#                         t.text = ''
-#                         t.morpho = ''
-#                         self._cache.append(copy.copy(t))
-#                         yield t
-#                 elif t.mode == 'query':
-#                     text = t.text
-#                     if '#' in text:
-#                         language, word = text.split('#')
-#                         t.language = language
-#                         t.text = word
-#                         yield t
-#                     elif from_leipzig(t.original) != '----------':
-#                         yield t
-#                     elif text.isnumeric():
-#                         yield t
-#                     else:
-#                         results = LWN.lemmatize(text)
-#                         if results:
-#                             for result in results:
-#                                 t.text = f"{result['lemma']['lemma']}={result['lemma']['morpho']}"
-#                                 yield t
-#                         else:
-#                             t.text = ''
-#                             yield t
-#
-#
-# class CachedPROIELXmlSynsetFilter(Filter):
-#     is_morph = True
-#
-#     def __init__(self, **kwargs):
-#         super(CachedPROIELXmlSynsetFilter, self).__init__()
-#         self.__dict__.update(**kwargs)
-#         self._cache = None
-#         self._docix = 0
-#
-#     @property
-#     def cache(self):
-#         return copy.deepcopy(self._cache)
-#
-#     def __eq__(self, other):
-#         return (other
-#                 and self.__class__ is other.__class__
-#                 and self.__dict__ == other.__dict__)
-#
-#     def __ne__(self, other):
-#         return not self == other
-#
-#     def __call__(self, tokens, **kwargs):
-#         if self._cache and kwargs.get('docix', None) == self._docix:
-#             yield from self.cache
-#         else:
-#             self._cache = []
-#             self._docix = kwargs.get('docix', 0)
-#
-#             for t in tokens:
-#                 if t.mode == 'index':
-#                     text = t.text
-#                     if text:
-#                         lemma, morpho = text.split('=')
-#                         synsets = t.synsets
-#                         for synset in synsets.split(' '):
-#                             id, semfields = synset.split('>')
-#                             t.code = semfields
-#                             t.text = f"{id}"
-#                             self._cache.append(copy.copy(t))
-#                             yield t
-#                         else:
-#                             t.code = ''
-#                             t.text = ''
-#                             self._cache.append(copy.copy(t))
-#                             yield t
-#                     else:
-#                         self._cache.append(copy.copy(t))
-#                         yield t
-#                 elif t.mode == 'query':
-#                     if hasattr(t, 'language'):
-#                         language = t.language
-#                         text = t.text
-#                         for lemma in WordNet(_iso_639[language]).get(text):
-#                             for synset in lemma.synsets:
-#                                 t.text = synset.id
-#                                 yield t
-#
-#
-# class PROIELXmlSemfieldFilter(Filter):
-#     is_morph = True
-#
-#     def __init__(self, **kwargs):
-#         super(PROIELXmlSemfieldFilter, self).__init__()
-#         self.__dict__.update(**kwargs)
-#
-#     def __eq__(self, other):
-#         return (other
-#                 and self.__class__ is other.__class__
-#                 and self.__dict__ == other.__dict__)
-#
-#     def __ne__(self, other):
-#         return not self == other
-#
-#     def __call__(self, tokens, **kwargs):
-#         for t in tokens:
-#             if t.mode == 'index':
-#                 text = t.text
-#                 if text:
-#                     pos, offset = t.text.split('#')
-#                     synset = LWN.synsets(pos, offset).get()
-#                     if synset:
-#                         for semfield in synset['semfield']:
-#                             t.text = semfield['code']
-#                             yield t
-#                     else:
-#                         t.text = ''
-#                         yield t
-#                 else:
-#                     t.text = ''
-#                     yield t
-#             elif t.mode == 'query':
-#                 text = t.original
-#                 if text:
-#                     results = LWN.semfields(text)
-#                     if results:
-#                         for result in results:
-#                             t.text = result['code']
-#                             yield t
-#                 else:
-#                     yield t
+
+class CachedPROIELLemmaFilter(Filter):
+    is_morph = True
+
+    def __init__(self, **kwargs):
+        super(CachedPROIELLemmaFilter, self).__init__()
+        self.__dict__.update(**kwargs)
+        self._cache = None
+        self._docix = 0
+
+    @property
+    def cache(self):
+        return copy.deepcopy(self._cache)
+
+    def __eq__(self, other):
+        return (other
+                and self.__class__ is other.__class__
+                and self.__dict__ == other.__dict__)
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __call__(self, tokens, **kwargs):
+        if self._cache and kwargs.get('docix', None) == self._docix:
+            yield from self.cache
+        else:
+            from corpus.perseus import mapping
+
+            self._cache = []
+            self._docix = kwargs.get('docix', 0)
+
+            jvmap = str.maketrans('jv', 'iu', '')
+            for t in tokens:
+                if t.mode == 'index':
+                    morpho = t.morpho
+                    lemma = t.lemma
+                    if morpho[0] in 'nvar':
+                        if '#' in lemma:
+                            kwargs = mapping[lemma.replace('#', '')]
+                        else:
+                            kwargs = None
+
+                        if kwargs:
+                            results = LWN.lemmas_by_uri(kwargs['uri']).get()
+                        else:
+                            results = LWN.lemmas(lemma, morpho[0]).get()
+                        if results:
+                            for result in results:
+                                morpho = morpho[:-2] + result['morpho'][-2:]
+                                if morpho[5] == 'p' and result['morpho'][5] == 'd':
+                                    morpho = morpho[:5] + 'd' + morpho[6:]
+                                t.morpho = f"{result['morpho']}::{result['uri']}:0>{morpho}"
+                                t.text = f"{result['lemma']}:" \
+                                         f"{result['uri']}={result['morpho']}"
+                                self._cache.append(copy.copy(t))
+                                yield t
+                elif t.mode == 'query':
+                    # Lexical relation
+                    if '::' in t.text:
+                        reltype, query = t.text.split('::')
+                        t.reltype = reltype
+                        t.text = query
+
+                    text = t.text
+                    if '?' in text:
+                        language, word = text.split('?')
+                        t.language = language
+                        t.text = word
+                        yield t
+                    elif '#' in text:
+                        yield t
+                    elif from_leipzig(t.original) != '----------':
+                        yield t
+                    elif text.isnumeric():
+                        yield t
+                    else:
+                        if hasattr(t, 'reltype'):
+                            if t.reltype in ['\\', '/', '+c', '-c']:
+                                keys = ['lemma', 'uri', 'morpho']
+                                kwargs = {
+                                    k: v
+                                    for k, v in zip(
+                                        keys,
+                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                    )
+                                }
+                                if kwargs['uri'] is not None:
+                                    results = LWN.lemmas_by_uri(kwargs['uri']).relations
+                                else:
+                                    kwargs.pop('uri')
+                                    results = LWN.lemmas(**kwargs).relations
+                            else:
+                                keys = ['lemma', 'uri', 'morpho']
+                                kwargs = {
+                                    k: v
+                                    for k, v in zip(
+                                        keys,
+                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                    )
+                                }
+                                if kwargs['uri'] is not None:
+                                    results = LWN.lemmas_by_uri(kwargs['uri']).synsets_relations
+                                else:
+                                    kwargs.pop('uri')
+                                    results = LWN.lemmas(**kwargs).synsets_relations
+                            if results:
+                                for result in results:
+                                    if relation_types[t.reltype] in result['relations'].keys():
+                                        for relation in result['relations'][relation_types[t.reltype]]:
+                                            t.text = f"{relation['lemma']}:{relation['uri']}={relation['morpho']}"
+                                            yield t
+                        else:
+                            # query may be provided as lemma:uri=morpho
+                            if all(re.match(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()):
+                                t.text = text
+                                yield t
+                            else:
+                                keys = ['lemma', 'uri', 'morpho']
+                                kwargs = {
+                                    k: v
+                                    for k, v in zip(
+                                        keys,
+                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                    )
+                                }
+                                if kwargs['uri'] is not None:
+                                    results = LWN.lemmas_by_uri(kwargs['uri'])
+                                else:
+                                    kwargs.pop('uri')
+                                    results = LWN.lemmas(**kwargs)
+
+                                if results:
+                                    for result in results:
+                                        t.text = f"{result['lemma']}:{result['uri']}={result['morpho']}"
+                                        yield t
+                                else:
+                                    yield t
+
+class PROIELMorphosyntaxFilter(Filter):
+    is_morph = True
+
+    def __init__(self, **kwargs):
+        super(PROIELMorphosyntaxFilter, self).__init__()
+        self.__dict__.update(**kwargs)
+
+    def __eq__(self, other):
+        return (other
+                and self.__class__ is other.__class__
+                and self.__dict__ == other.__dict__)
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __call__(self, tokens, **kwargs):
+        for t in tokens:
+            if t.mode == 'index':
+                relation = t.morphosyntax
+                if relation:
+                    t.text = relation
+                    yield t
+            elif t.mode == 'query':
+                from corpus.proiel import relations
+
+                text = t.text
+                if text:
+                    t.text = relations[text]
+                    yield t
+

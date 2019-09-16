@@ -31,10 +31,10 @@ import string
 from collections import abc, deque
 
 import engine.analysis
-from lang.latin.latin_exceptions import latin_exceptions
-from corpus.lasla import parse_bpn
 from engine.analysis.acore import Composable, CylleneusToken
 from lang.latin import compound, proper_names, roman_to_arabic
+from lang.latin.latin_exceptions import latin_exceptions
+from lxml.etree import ElementTree
 from nltk.tokenize.punkt import PunktLanguageVars, PunktParameters, PunktSentenceTokenizer
 from utils import flatten
 from whoosh.compat import text_type, u
@@ -1598,6 +1598,8 @@ class CachedLASLATokenizer(Tokenizer):
                         t.endchar = start_char + len(value['text'])
                     yield t
                 else:
+                    from corpus.lasla import parse_bpn
+
                     self._cache = []
                     self._docix = kwargs.get('docix', 0)
 
@@ -1726,127 +1728,88 @@ class CachedLASLATokenizer(Tokenizer):
                         start_char += len(t.original) + 1
 
 
-# class CachedPROIELXmlTokenizer(Tokenizer):
-#     def __init__(self, **kwargs):
-#         super(CachedPROIELXmlTokenizer, self).__init__()
-#         self.__dict__.update(**kwargs)
-#         self._cache = None
-#         self._docix = 0
-#
-#     @property
-#     def cache(self):
-#         return copy.deepcopy(self._cache)
-#
-#     def __call__(self, value: bytes, positions=True, chars=True,
-#                  keeporiginal=True, removestops=True, tokenize=True,
-#                  start_pos=0, start_char=0, mode='', **kwargs):
-#         if self._cache and kwargs.get('docix', None) == self._docix:
-#             yield from self.cache
-#         else:
-#             self._cache = []
-#             self._docix = kwargs.get('docix', 0)
-#
-#             parser = et.XMLParser(encoding='utf-8')
-#             tree = et.XML(value, parser=parser)
-#
-#             t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
-#             if not tokenize:
-#                 t.original = ''
-#                 for token in tree.findall('.//token'):
-#                     form = token.get('form')
-#                     if not form:
-#                         continue
-#                     after = token.get('presentation-after')
-#                     before = token.get('presentation-before')
-#                     t.original += f"{before if before else ''}{form}{after if after else ''}"
-#                 t.text = t.original
-#                 t.boost = 1.0
-#                 if positions:
-#                     t.pos = start_pos
-#                 if chars:
-#                     t.startchar = start_char
-#                     t.endchar = start_char + len(t.original)
-#                 yield t
-#             else:
-#                 for pos, token in enumerate(tree.findall('.//token')):
-#                     form = token.get('form')
-#                     if not form:
-#                         continue
-#                     else:
-#                         form = form.replace(' ', ' ').replace(' ', ' ')
-#                         form = re.sub(r"\.([^ ]|^$)", r'. \1', form)
-#                     after = token.get('presentation-after')
-#                     before = token.get('presentation-before')
-#                     if not after:
-#                         after = ''
-#                     if not before:
-#                         before = ''
-#                     t.lemma = token.get('lemma')
-#                     t.morpho = from_proiel(token.get('part-of-speech'), token.get('morphology'))
-#
-#                     t.boost = 1.0
-#
-#                     if keeporiginal:
-#                         t.original = f"{before}{form}{after}"
-#                     t.stopped = False
-#                     if positions:
-#                         t.pos = start_pos + pos
-#
-#                     if form in editorial:
-#                         form = editorial[form]
-#
-#                     if re.match(r"(?:\w+) (?:\w+)", form):
-#                         if before: start_char += len(before)
-#                         subforms = form.split(' ')
-#                         for ix, subform in enumerate(subforms):
-#                             if subform in replacements:
-#                                 original_len = len(subform)
-#                                 for subsubform in replacements[subform]:
-#                                     if ix+1 < len(subforms) and (subforms[ix+1].endswith('iis') or subforms[ix+1].endswith('ibus')):
-#                                         t.text = re.sub(r"as$", "is", subsubform)
-#                                     else:
-#                                         t.text = subsubform
-#                                     if chars:
-#                                         t.startchar = start_char
-#                                         t.endchar = start_char + original_len
-#                                         if mode == 'index': self._cache.append(copy.copy(t))
-#                                     yield t
-#                                     start_char += original_len
-#                             else:
-#                                 original_len = len(subform)
-#                                 num = roman_to_arabic(subform)
-#                                 if num:
-#                                     subform = str(num)
-#                                 t.text = subform
-#                                 if chars:
-#                                     t.startchar = start_char
-#                                     t.endchar = start_char + original_len
-#                                 if mode == 'index': self._cache.append(copy.copy(t))
-#                                 yield t
-#                                 start_char += len(subform)
-#                         if after: start_char += len(after)
-#                         continue
-#
-#                     if form in replacements:
-#                         if before: start_char += len(before)
-#                         for subtoken in replacements[form]:
-#                             t.text = subtoken
-#                             if chars:
-#                                 t.startchar = start_char
-#                                 t.endchar = start_char + len(subtoken)
-#                             if mode == 'index': self._cache.append(copy.copy(t))
-#                             yield t
-#                             start_char += len(subtoken)
-#                         start_char += len(after)
-#                     else:
-#                         original_len = len(form)
-#                         num = roman_to_arabic(form)
-#                         if num:
-#                             form = str(num)
-#                         t.text = form
-#                         if chars:
-#                             t.startchar = start_char + len(before)
-#                             t.endchar = start_char + len(before) + original_len
-#                         if mode == 'index': self._cache.append(copy.copy(t))
-#                         yield t
-#                     start_char += len(before) + original_len + len(after)
+class CachedPROIELTokenizer(Tokenizer):
+    def __init__(self, **kwargs):
+        super(CachedPROIELTokenizer, self).__init__()
+        self.__dict__.update(**kwargs)
+        self._cache = None
+        self._docix = 0
+
+    @property
+    def cache(self):
+        return copy.deepcopy(self._cache)
+
+    def __call__(self, data: ElementTree, positions=True, chars=True,
+                 keeporiginal=True, removestops=True, tokenize=True,
+                 start_pos=0, start_char=0, mode='', **kwargs):
+        if self._cache and kwargs.get('docix', None) == self._docix:
+            yield from self.cache
+        else:
+            self._cache = []
+            self._docix = kwargs.get('docix', 0)
+
+            t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
+            if not tokenize:
+                t.original = ''
+                for token in data.findall('.//token'):
+                    form = token.get('form')
+                    if not form:
+                        continue
+                    after = token.get('presentation-after', '')
+                    before = token.get('presentation-before', '')
+                    t.original += f"{before}{form}{after}"
+                t.text = t.original
+                t.boost = 1.0
+                if positions:
+                    t.pos = start_pos
+                if chars:
+                    t.startchar = start_char
+                    t.endchar = start_char + len(t.original)
+                yield t
+            else:
+                from corpus.proiel import parse_proiel
+
+                for sentence in data['text'].findall('.//sentence'):
+                    for pos, token in enumerate(sentence.findall('.//token')):
+                        form = token.get('form')
+                        if not form:
+                            continue
+                        else:
+                            form = form.replace(' ', ' ').replace(' ', ' ')
+                            form = re.sub(r"\.([^ ]|^$)", r'. \1', form)
+                        t.lemma = token.get('lemma')
+                        t.morpho = parse_proiel(token.get('part-of-speech'), token.get('morphology'))
+                        t.morphosyntax = token.get('relation', None)
+                        t.boost = 1.0
+
+                        meta = {}
+                        for i, div in enumerate(data['meta'].split('-')):
+                            meta[div] = token.get('citation-part').split('.')[i]
+                        meta['sent_id'] = sentence.get('id')
+                        meta['sent_pos'] = token.get('id')
+                        t.meta = meta
+
+                        before = token.get('presentation-before', '')
+                        after = token.get('presentation-after', '')
+
+                        if keeporiginal:
+                            t.original = f"{before}{form}{after}"
+                        t.stopped = False
+                        if positions:
+                            t.pos = start_pos + pos
+                        original_len = len(form)
+
+                        if form.istitle() and pos == 0 and not t.lemma.istitle():
+                            form = form.lower()
+                        t.text = form
+                        if chars:
+                            t.startchar = start_char + len(before)
+                            t.endchar = start_char + len(before) + original_len
+                        self._cache.append(copy.copy(t))
+                        yield t
+
+                        if form in editorial:
+                            t.text = editorial[form]
+                            self._cache.append(copy.copy(t))
+                            yield t
+                        start_char += len(before) + len(form) + len(after)

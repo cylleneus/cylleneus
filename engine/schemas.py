@@ -76,23 +76,25 @@ class LASLADocumentSchema(BaseSchema):
                                                             engine.analysis.filters.LASLAMorphosyntaxFilter(), vector=True)
 
 
-# class PROIELXmlDocumentSchema(engine.fields.SchemaClass):
-#     filename = engine.fields.STORED()
-#     author = engine.fields.STORED()
-#     title = engine.fields.STORED()
-#     content = engine.fields.TEXT(analyzer=PlainTextTokenizer, chars=True, stored=True, vector=True)
-#     form = engine.fields.FORM(analyzer=PlainTextTokenizer, vector=True)
-#     lemma = engine.fields.LEMMA(analyzer=PlainTextTokenizer | LemmaFilter, stored=True, sortable=True, vector=True)
-#     annotation = engine.fields.ANNOTATION(analyzer=PlainTextTokenizer | LemmaFilter | AnnotationFilter, stored=True, sortable=True, vector=True)
-#     synset = engine.fields.SYNSET(analyzer=PlainTextTokenizer | LemmaFilter | SynsetFilter, stored=True, sortable=True, vector=True)
-#     semfield = engine.fields.SEMFIELD(analyzer=PlainTextTokenizer | LemmaFilter | SynsetFilter | SemfieldFilter, stored=True, sortable=True, vector=True)
+PROIELTokenizer = engine.analysis.tokenizers.CachedPROIELTokenizer(chars=True)
+PROIELLemmaFilter = engine.analysis.filters.CachedPROIELLemmaFilter(chars=True)
+class PROIELDocumentSchema(BaseSchema):
+    urn = engine.fields.STORED()
+    meta = engine.fields.STORED()
+    form = engine.fields.FORM(analyzer=PROIELTokenizer, vector=True)
+    lemma = engine.fields.LEMMA(analyzer=PROIELTokenizer | PROIELLemmaFilter, vector=True)
+    annotation = engine.fields.ANNOTATION(analyzer=PROIELTokenizer | PROIELLemmaFilter | AnnotationFilter, vector=True)
+    synset = engine.fields.SYNSET(analyzer=PROIELTokenizer | PROIELLemmaFilter | SynsetFilter, vector=True)
+    semfield = engine.fields.SEMFIELD(analyzer=PROIELTokenizer | PROIELLemmaFilter | SynsetFilter | SemfieldFilter, vector=True)
+    morphosyntax = engine.fields.MORPHOSYNTAX(analyzer=PROIELTokenizer |
+                                                            engine.analysis.filters.PROIELMorphosyntaxFilter(), vector=True)
 
 
 schemas = {
     'imported': PlainTextDocumentSchema,
     'lasla': LASLADocumentSchema,
     'latin_library': PlainTextDocumentSchema,
-    'proiel': None,
+    'proiel': PROIELDocumentSchema,
     'phi5': PHI5DocumentSchema,
     'perseus': PerseusJSONDocumentSchema,
 }
