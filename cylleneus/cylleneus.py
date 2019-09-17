@@ -8,6 +8,8 @@ import re
 import sys
 from pathlib import Path
 
+import docx
+
 import parawrap
 import settings
 from corpus import Corpus, Work
@@ -189,12 +191,63 @@ def corpus(corpus_name: str = None):
                 )
 
 
-@repl.command("save")
-def save(n: int = None, filename: str = None):
+@repl.command("save-docx")
+def save_docx(n: int = None, filename: str = None):
     global _searcher, _search
 
     if n:
         target = _searcher.history[n-1]
+    else:
+        target = _search
+    if not filename:
+        filename = slugify(target.query, allow_unicode=False)
+
+    if target:
+        if target.results:
+            doc = docx.Document()
+            doc.add_heading(filename, 0)
+            doc.add_heading(f"{target.start_time.strftime('%A, %d %B, %Y %X')} (Cylleneus v{settings.__version__})", 2)
+
+            for corpus, author, title, urn, reference, text in target.to_text():
+                h = doc.add_heading(level=1)
+                h.add_run(f"{author}, ")
+                r = h.add_run(f"{title} ")
+                r.font.italic = True
+                h.add_run(f"{reference}")
+
+                p = doc.add_paragraph()
+                for run in re.finditer(r"<(\w+?)>(.*?)</\1>", text, flags=re.DOTALL):
+                    if run.group(1) == 'match':
+                        for t in run.group(2).split():
+                            if t.startswith('<em>'):
+                                r = p.add_run(re.sub(r'<em>', '', t) + ' ')
+                                r.font.bold = True
+                            elif t.startswith('</em>'):
+                                r = p.add_run(re.sub(r'</em>', '', t) + ' ')
+                                r.font.bold = False
+                            else:
+                                r = p.add_run(t + ' ')
+                                r.font.bold = None
+                    else:
+                        p.add_run(run.group(2))
+            doc.save(f'{filename}.docx')
+            repl.success(
+                "saved:",
+                Palette.WHITE.format(
+                        f"'{filename}.docx'"
+                )
+            )
+        else:
+            repl.error("no results")
+    else:
+        repl.error("no search")
+
+@repl.command("save-txt")
+def save_txt(n: int = None, filename: str = None):
+    global _searcher, _search
+
+    if n:
+        target = _searcher.history[n - 1]
     else:
         target = _search
     if not filename:
@@ -208,7 +261,7 @@ def save(n: int = None, filename: str = None):
                 repl.success(
                     "saved:",
                     Palette.WHITE.format(
-                            f"'{filename}.txt'"
+                        f"'{filename}.txt'"
                     )
                 )
         else:

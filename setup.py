@@ -33,6 +33,7 @@ requirements = [
     'pyparsing>=2.3.1',
     'pyrsistent>=0.14.11',
     'python-crfsuite>=0.9.6',
+    'python-docx>=0.8.10',
     'pyuca>=1.2',
     'rdflib>=4.2.2',
     'rdflib-jsonld>=0.4.0',
