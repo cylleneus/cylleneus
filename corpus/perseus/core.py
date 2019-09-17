@@ -5779,7 +5779,8 @@ mapping = {
         "lemma": "tactus", "uri": "129489", "pos": "a", "morpho": "aps---mn1-"
     }, "tactus2": {"lemma": "tactus", "uri": "t9994", "pos": "n", "morpho": "n-s---mn4-"}, "Tartarus1": {
         "lemma": "Tartarus", "uri": "62351", "pos": "a", "morpho": "aps---mn1-"
-    }, "Tartarus2": {"lemma": "Tartarus", "uri": "62351", "pos": "a", "morpho": "aps---mn1-"}, "tau1": {
+    }, "tandem1": {"lemma": "tandem", "uri": "t0094", "pos": "r", "morpho": "rp--------"},
+    "Tartarus2": {"lemma": "Tartarus", "uri": "62351", "pos": "a", "morpho": "aps---mn1-"}, "tau1": {
         "lemma": "tau", "uri": "t0144", "pos": "n", "morpho": "n-s---nn--"
     }, "tau2": {"lemma": "tau", "uri": "t0144", "pos": "n", "morpho": "n-s---nn--"}, "taurinus1": {
         "lemma": "taurinus", "uri": "t0153", "pos": "a", "morpho": "aps---mn1-"
@@ -5900,7 +5901,8 @@ mapping = {
         "lemma": "unio", "uri": "u1112", "pos": "n", "morpho": "n-s---cn3-"
     }, "urbicus1": {"lemma": "urbicus", "uri": "u1241", "pos": "a", "morpho": "aps---mn1-"}, "Urbicus2": {
         "lemma": "Urbicus", "uri": "62644", "pos": "n", "morpho": "n-s---mn2-"
-    }, "usucapio1": {"lemma": "usucapio", "uri": "u1302", "pos": "v", "morpho": "v1spia--3i"}, "usucapio2": {
+    }, "usque1": {"lemma": "usque", "uri": "u1288", "pos": "r", "morpho": "rp--------"},
+    "usucapio1": {"lemma": "usucapio", "uri": "u1302", "pos": "v", "morpho": "v1spia--3i"}, "usucapio2": {
         "lemma": "usucapio", "uri": "u1303", "pos": "n", "morpho": "n-s---fn3-"
     }, "usus1": {"lemma": "usus", "uri": "131976", "pos": "a", "morpho": "aps---mn1-"}, "usus2": {
         "lemma": "usus", "uri": "u9985", "pos": "n", "morpho": "n-s---mn4-"

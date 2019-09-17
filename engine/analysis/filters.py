@@ -1185,3 +1185,169 @@ class PROIELMorphosyntaxFilter(Filter):
                     t.text = relations[text]
                     yield t
 
+class CachedAGLDTLemmaFilter(Filter):
+    is_morph = True
+
+    def __init__(self, **kwargs):
+        super(CachedAGLDTLemmaFilter, self).__init__()
+        self.__dict__.update(**kwargs)
+        self._cache = None
+        self._docix = 0
+
+    @property
+    def cache(self):
+        return copy.deepcopy(self._cache)
+
+    def __eq__(self, other):
+        return (other
+                and self.__class__ is other.__class__
+                and self.__dict__ == other.__dict__)
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __call__(self, tokens, **kwargs):
+        if self._cache and kwargs.get('docix', None) == self._docix:
+            yield from self.cache
+        else:
+            from corpus.perseus import mapping
+
+            self._cache = []
+            self._docix = kwargs.get('docix', 0)
+
+            jvmap = str.maketrans('jv', 'iu', '')
+            for t in tokens:
+                if t.mode == 'index':
+                    morpho = t.morpho
+                    lemma = t.lemma
+                    if morpho[0] in 'nvar':
+                        if re.match(r'\d', lemma):
+                            kwargs = mapping[re.sub(r'\d+', '', lemma)]
+                        else:
+                            kwargs = None
+
+                        if kwargs:
+                            results = LWN.lemmas_by_uri(kwargs['uri']).get()
+                        else:
+                            results = LWN.lemmas(lemma, morpho[0]).get()
+                        if results:
+                            for result in results:
+                                morpho = morpho[:-2] + result['morpho'][-2:]
+                                if morpho[5] == 'p' and result['morpho'][5] == 'd':
+                                    morpho = morpho[:5] + 'd' + morpho[6:]
+                                t.morpho = f"{result['morpho']}::{result['uri']}:0>{morpho}"
+                                t.text = f"{result['lemma']}:" \
+                                         f"{result['uri']}={result['morpho']}"
+                                self._cache.append(copy.copy(t))
+                                yield t
+                elif t.mode == 'query':
+                    # Lexical relation
+                    if '::' in t.text:
+                        reltype, query = t.text.split('::')
+                        t.reltype = reltype
+                        t.text = query
+
+                    text = t.text
+                    if '?' in text:
+                        language, word = text.split('?')
+                        t.language = language
+                        t.text = word
+                        yield t
+                    elif '#' in text:
+                        yield t
+                    elif from_leipzig(t.original) != '----------':
+                        yield t
+                    elif text.isnumeric():
+                        yield t
+                    else:
+                        if hasattr(t, 'reltype'):
+                            if t.reltype in ['\\', '/', '+c', '-c']:
+                                keys = ['lemma', 'uri', 'morpho']
+                                kwargs = {
+                                    k: v
+                                    for k, v in zip(
+                                        keys,
+                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                    )
+                                }
+                                if kwargs['uri'] is not None:
+                                    results = LWN.lemmas_by_uri(kwargs['uri']).relations
+                                else:
+                                    kwargs.pop('uri')
+                                    results = LWN.lemmas(**kwargs).relations
+                            else:
+                                keys = ['lemma', 'uri', 'morpho']
+                                kwargs = {
+                                    k: v
+                                    for k, v in zip(
+                                        keys,
+                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                    )
+                                }
+                                if kwargs['uri'] is not None:
+                                    results = LWN.lemmas_by_uri(kwargs['uri']).synsets_relations
+                                else:
+                                    kwargs.pop('uri')
+                                    results = LWN.lemmas(**kwargs).synsets_relations
+                            if results:
+                                for result in results:
+                                    if relation_types[t.reltype] in result['relations'].keys():
+                                        for relation in result['relations'][relation_types[t.reltype]]:
+                                            t.text = f"{relation['lemma']}:{relation['uri']}={relation['morpho']}"
+                                            yield t
+                        else:
+                            # query may be provided as lemma:uri=morpho
+                            if all(re.match(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()):
+                                t.text = text
+                                yield t
+                            else:
+                                keys = ['lemma', 'uri', 'morpho']
+                                kwargs = {
+                                    k: v
+                                    for k, v in zip(
+                                        keys,
+                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                    )
+                                }
+                                if kwargs['uri'] is not None:
+                                    results = LWN.lemmas_by_uri(kwargs['uri'])
+                                else:
+                                    kwargs.pop('uri')
+                                    results = LWN.lemmas(**kwargs)
+
+                                if results:
+                                    for result in results:
+                                        t.text = f"{result['lemma']}:{result['uri']}={result['morpho']}"
+                                        yield t
+                                else:
+                                    yield t
+
+class AGLDTMorphosyntaxFilter(Filter):
+    is_morph = True
+
+    def __init__(self, **kwargs):
+        super(AGLDTMorphosyntaxFilter, self).__init__()
+        self.__dict__.update(**kwargs)
+
+    def __eq__(self, other):
+        return (other
+                and self.__class__ is other.__class__
+                and self.__dict__ == other.__dict__)
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __call__(self, tokens, **kwargs):
+        for t in tokens:
+            if t.mode == 'index':
+                relation = t.morphosyntax
+                if relation:
+                    t.text = relation
+                    yield t
+            elif t.mode == 'query':
+                from corpus.agldt import relations
+
+                text = t.text
+                if text:
+                    t.text = relations[text]
+                    yield t

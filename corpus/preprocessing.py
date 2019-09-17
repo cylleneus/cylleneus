@@ -217,6 +217,40 @@ class PROIELPreprocessor(Preprocessor):
         }
 
 
+class AGLDTPreprocessor(Preprocessor):
+    def parse(self, file: Path):
+        from corpus.phi5 import AUTHOR_TAB
+
+        with codecs.open(file, 'rb') as f:
+            value = f.read()
+        parser = et.XMLParser(encoding='utf-8')
+        doc = et.XML(value, parser=parser)
+
+        urn = doc.get('cts')
+
+        auth_code, work_code = urn.rsplit(':', maxsplit=1)[1].split('.')[:2]
+
+        author = AUTHOR_TAB[auth_code]['author']
+        title = AUTHOR_TAB[auth_code]['works'][work_code]['title']
+        meta = AUTHOR_TAB[auth_code]['works'][work_code]['meta']
+
+        data = {'text': doc, 'meta': meta}
+
+        return {
+            'urn': urn,
+            'author': author,
+            'title': title,
+            'meta': meta,
+            'form': data,
+            'lemma': data,
+            'synset': data,
+            'annotation': data,
+            'semfield': data,
+            'filename': file.name,
+            'datetime': datetime.now()
+        }
+
+
 class PlainTextPreprocessor(Preprocessor):
     def parse(self, file: Path):
         with codecs.open(file, 'r', 'utf8') as fp:
@@ -292,6 +326,7 @@ class LatinLibraryPreprocessor(Preprocessor):
 
 preprocessors = {
     'plaintext': PlainTextPreprocessor,
+    'agldt': AGLDTPreprocessor,
     'imported': ImportedPreprocessor,
     'lasla': LASLAPreprocessor,
     'latin_library': LatinLibraryPreprocessor,

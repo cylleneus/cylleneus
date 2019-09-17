@@ -1323,9 +1323,9 @@ class CachedPerseusJSONTokenizer(Tokenizer):
 
 
 
-class CachedPerseusTEITokenizer(Tokenizer):
+class CachedPerseusXMLTokenizer(Tokenizer):
     def __init__(self, **kwargs):
-        super(CachedPerseusTEITokenizer, self).__init__()
+        super(CachedPerseusXMLTokenizer, self).__init__()
         self.__dict__.update(**kwargs)
         self._cache = None
         self._docix = 0
@@ -1359,211 +1359,223 @@ class CachedPerseusTEITokenizer(Tokenizer):
                     self._cache = []
                     self._docix = kwargs.get('docix', 0)
 
-                    divs = { i: div for i, div in enumerate(value['meta'].split('-')) }
-
-                    curr_divs = {}
-                    for div in divs:
-                        curr_divs[divs[div]] = 0
-
                     word_tokenizer = PunktLatinCharsVars()
-                    stopchars = str.maketrans('', '', string.punctuation + "“”—\n")
+                    stopchars = str.maketrans('', '', string.punctuation)
 
-                    for el in value['text'].find('.//{http://www.tei-c.org/ns/1.0}body').\
-                            find(".//{http://www.tei-c.org/ns/1.0}div[@type='edition']").iter():
-                        if el.tag == '{http://www.tei-c.org/ns/1.0}milestone':
-                            curr_divs[el.get('unit')] = el.get('n')
-                        elif el.tag == '{http://www.tei-c.org/ns/1.0}div' and el.get('type') == 'textpart':
-                            curr_divs[el.get('subtype')] = el.get('n')
-                            for passage in el:
-                                speaker = None
-                                for item in passage:
-                                    if item.tag == '{http://www.tei-c.org/ns/1.0}l':
-                                        curr_divs['verse'] = item.get('n')
-                                        text = ' '.join([f"{l.text if l.text else ''}{l.tail if l.tail else ''}"
-                                                         for l in item.iter()
-                                                         if l.tag != '{http://www.tei-c.org/ns/1.0}del'
-                                                         and l.tag != '{http://www.tei-c.org/ns/1.0}note']).translate(
-                                            stopchars)
-                                    elif item.tag == '{http://www.tei-c.org/ns/1.0}seg':
-                                        curr_divs[passage.get('type')] = item.get('n')
-                                        text = ' '.join([f"{l.text if l.text else ''}{l.tail if l.tail else ''}"
-                                                         for l in item.iter()
-                                                         if l.tag != '{http://www.tei-c.org/ns/1.0}del'
-                                                         and l.tag != '{http://www.tei-c.org/ns/1.0}note']).translate(
-                                            stopchars)
-                                    elif item.tag == '{http://www.tei-c.org/ns/1.0}speaker':
-                                        speaker = item.text
-                                        continue
-                                    elif item.tag == '{http://www.tei-c.org/ns/1.0}p':
-                                        text = ' '.join([f"{l.text if l.text else ''}{l.tail if l.tail else ''}"
-                                                         for l in item.iter()
-                                                         if l.tag != '{http://www.tei-c.org/ns/1.0}del'
-                                                         and l.tag != '{http://www.tei-c.org/ns/1.0}note']).translate(
-                                            stopchars)
+                    doc = value['text']
+                    refs = doc.find(
+                        ".//{http://www.tei-c.org/ns/1.0}encodingDesc"
+                    ).find(
+                        ".//{http://www.tei-c.org/ns/1.0}refsDecl[@n='CTS']"
+                    )
+                    divs = list(reversed([
+                        cref.get('n')
+                        for cref in refs.findall(".//{http://www.tei-c.org/ns/1.0}cRefPattern")
+                    ]))
+                    sentences = doc.xpath("/tei:TEI/tei:text/tei:body/tei:div" + ("/tei:div" * len(divs)),
+                                          namespaces={'tei': 'http://www.tei-c.org/ns/1.0'})
+
+                    if len(sentences) == 0:
+                        sentences = doc.xpath("/tei:TEI/tei:text/tei:body/tei:div" + ("/tei:div" * (len(divs)-1)) +
+                                              "/tei:l",
+                                              namespaces={'tei': 'http://www.tei-c.org/ns/1.0'})
+
+                    for i, sentence in enumerate(sentences):
+                        if sentence.text is not None:
+                            meta = {
+                                'meta': value['meta'].lower()
+                            }
+                            meta[divs[-1]] = sentence.get('n')
+                            meta['sent_id'] = i
+                            el = sentence
+                            j = 0
+                            while(el.getparent() is not None and el.getparent().get('type', None) == 'textpart'):
+                                meta[divs[j]] = el.getparent().get('n')
+                                el = el.getparent()
+                                j += 1
+                            if sentence.find('{http://www.tei-c.org/ns/1.0}p'):
+                                text = re.sub(r'<(.*?)>(.*?)</\1>', r'\2', sentence.find('{http://www.tei-c.org/ns/1.0}p').text, flags=re.DOTALL)
+                            else:
+                                text = re.sub(r'<(.*?)>(.*?)</\1>', r'\2', sentence.text, flags=re.DOTALL)
+                            text = text.translate(stopchars)
+
+                            tokens = []
+                            temp_tokens = word_tokenizer.word_tokenize(text)
+                            if temp_tokens:
+                                if temp_tokens[0].replace('j', 'i').replace('v', 'u') not in proper_names.proper_names:
+                                    temp_tokens[0] = temp_tokens[0]
+
+                                for ix, token in enumerate(temp_tokens):
+                                    ppp = compound.is_ppp(token)
+                                    if ppp and ix < len(temp_tokens) - 2:
+                                        copula = compound.is_copula(temp_tokens[ix + 2])  # whitespace
+                                        if copula and ppp[1] == copula[2]:
+                                            tense, mood, number, i = copula
+                                            token = f"{token} {compound.copula[tense][mood][number][i]}"
+                                            del temp_tokens[ix + 1:ix + 3]
+                                            tokens.insert(ix, token)
+                                        else:
+                                            tokens.append(token)
                                     else:
-                                        continue
-                                    tokens = []
-                                    temp_tokens = word_tokenizer.word_tokenize(text)
-                                    if temp_tokens:
-                                        if temp_tokens[0].translate(jvmap) not in proper_names.proper_names:
-                                            temp_tokens[0] = temp_tokens[0].lower()
+                                        tokens.append(token)
 
-                                        for ix, token in enumerate(temp_tokens):
-                                            if token == ' ':
-                                                continue
-                                            ppp = compound.is_ppp(token)
-                                            if ppp and ix < len(temp_tokens) - 2:
-                                                copula = compound.is_copula(temp_tokens[ix+2])  # whitespace
-                                                if copula and ppp[1] == copula[2]:
-                                                    tense, mood, number, i = copula
-                                                    token = f"{token} {compound.copula[tense][mood][number][i]}"
-                                                    del temp_tokens[ix+1:ix+3]
-                                                    tokens.insert(ix, token)
-                                                else:
-                                                    tokens.append(token)
-                                            else:
-                                                tokens.append(token)
+                            pos = 0
+                            for token in tokens:
+                                meta['sent_pos'] = pos
 
-                                    for pos, token in enumerate(tokens):
-                                        meta = {}
-                                        for div in curr_divs:
-                                            meta[div] = curr_divs[div]
-                                        if speaker:
-                                            meta['speaker'] = speaker
-                                        t.meta = meta
+                                t.boost = 1.0
+                                if keeporiginal:
+                                    t.original = token
+                                t.stopped = False
 
-                                        t.boost = 1.0
-                                        if keeporiginal:
-                                            t.original = token
-                                        t.stopped = False
-                                        if positions:
-                                            t.pos = start_pos + pos
-                                        original_length = len(token)
+                                if positions:
+                                    t.pos = start_pos + pos
+                                if not (token in (' ', '\n') or token in punctuation or token in stopchars):
+                                    pos += 1
+                                original_length = len(token)
 
-                                        token = token.strip()
-                                        ltoken = token.lstrip(string.punctuation)
-                                        ldiff = original_length - len(ltoken)
-                                        if ldiff != 0:
-                                            token = ltoken
-                                        rtoken = token.rstrip(string.punctuation)
-                                        rdiff = len(token) - len(rtoken)
-                                        if rdiff != 0:
-                                            token = rtoken
-                                        ntoken = token.translate(stopchars)
-                                        ndiff = len(token) - len(ntoken)
-                                        if ndiff:
-                                            token = ntoken
-                                        if not token:
-                                            start_char += original_length
-                                            continue
+                                token = token.strip()
+                                ltoken = token.lstrip(string.punctuation)
+                                ldiff = original_length - len(ltoken)
+                                if ldiff != 0:
+                                    token = ltoken
+                                rtoken = token.rstrip(string.punctuation)
+                                rdiff = len(token) - len(rtoken)
+                                if rdiff != 0:
+                                    token = rtoken
+                                ntoken = token.translate(stopchars)
+                                ndiff = len(token) - len(ntoken)
+                                if ndiff:
+                                    token = ntoken
+                                if not token:
+                                    start_char += original_length
+                                    continue
 
-                                        is_enclitic = False
-                                        if token not in exceptions:
-                                            if t.original in replacements:
-                                                for subtoken in replacements[t.original]:
-                                                    t.text = subtoken.lower()
-                                                    t.startchar = start_char
-                                                    t.endchar = start_char + original_length
-                                                    if mode == 'index': self._cache.append(copy.copy(t))
-                                                    yield t
-                                                start_char += original_length
-                                                continue
+                                t.meta = meta
 
-                                            if re.match(r"(?:\w+) (?:\w+)", token):
-                                                ppp, copula = token.split(' ')
-                                                t.text = ppp.lower()
-                                                t.startchar = start_char
-                                                t.endchar = start_char + len(ppp) + 1
-                                                if mode == 'index': self._cache.append(copy.copy(t))
-                                                yield t
-                                                t.text = copula.lower()
-                                                t.startchar = start_char + len(ppp)
-                                                t.endchar = start_char + len(ppp) + len(copula)
-                                                if mode == 'index': self._cache.append(copy.copy(t))
-                                                yield t
-                                                start_char += original_length
-                                                continue
-
-                                            for enclitic in enclitics:
-                                                if token.lower().endswith(enclitic):
-                                                    if enclitic == 'ne':
-                                                        t.text = (token[:-len(enclitic)]).lower()
-                                                        t.startchar = start_char
-                                                        t.endchar = start_char + (len(token) - len(enclitic))
-                                                        if mode == 'index': self._cache.append(copy.copy(t))
-                                                        yield t
-                                                        t.text = 'ne'
-                                                        t.startchar = start_char + len(token[:-len(enclitic)])
-                                                        t.endchar = start_char + len(token[:-len(enclitic)]) + len(enclitic)
-                                                        if mode == 'index': self._cache.append(copy.copy(t))
-                                                        yield t
-                                                    elif enclitic == 'n':
-                                                        t.text = (token[:-len(enclitic)] + 's').lower()
-                                                        t.startchar = start_char
-                                                        t.endchar = start_char + len(token) - len(enclitic)
-                                                        if mode == 'index': self._cache.append(copy.copy(t))
-                                                        yield t
-                                                        t.text = 'ne'
-                                                        t.startchar = start_char + len(token[:-len(enclitic)])
-                                                        t.endchar = start_char + len(token[:-len(enclitic)]) + len(enclitic)
-                                                        if mode == 'index': self._cache.append(copy.copy(t))
-                                                        yield t
-                                                    elif enclitic == 'st':
-                                                        if token.endswith('ust'):
-                                                            t.text = (token[:-len(enclitic)]).lower()
-                                                            t.startchar = start_char
-                                                            t.endchar = start_char + len(token[:-len(enclitic)]) - len(enclitic)
-                                                            if mode == 'index': self._cache.append(copy.copy(t))
-                                                            yield t
-                                                            t.text = 'est'
-                                                            t.startchar = start_char + len(token[:-len(enclitic)])
-                                                            t.endchar = start_char + len(token[:-len(enclitic)]) + len(enclitic)
-                                                            if mode == 'index': self._cache.append(copy.copy(t))
-                                                            yield t
-                                                        else:
-                                                            t.text = (token[:-len(enclitic)]).lower()
-                                                            t.startchar = start_char
-                                                            t.endchar = start_char + len(token[:-len(enclitic)]) - len(enclitic)
-                                                            if mode == 'index': self._cache.append(copy.copy(t))
-                                                            yield t
-                                                            t.text = 'est'
-                                                            t.startchar = start_char + len(token[:-len(enclitic)])
-                                                            t.endchar = start_char + len(token[:-len(enclitic)]) + len(enclitic)
-                                                            if mode == 'index': self._cache.append(copy.copy(t))
-                                                            yield t
-                                                    elif enclitic == "'s":
-                                                        t.text = token.lower() + 's'
-                                                        t.startchar = start_char
-                                                        t.endchar = start_char + len(token)
-                                                        if mode == 'index': self._cache.append(copy.copy(t))
-                                                        yield t
-                                                        t.text = 'es'
-                                                        t.startchar = start_char + len(token) + 1
-                                                        t.endchar = start_char + len(token) + len(enclitic)
-                                                        if mode == 'index': self._cache.append(copy.copy(t))
-                                                        yield t
-                                                    else:
-                                                        t.text = (token[:-len(enclitic)]).lower()
-                                                        t.startchar = start_char
-                                                        t.endchar = start_char + len(token[:-len(enclitic)])
-                                                        if mode == 'index': self._cache.append(copy.copy(t))
-                                                        yield t
-                                                        t.text = enclitic
-                                                        t.startchar = start_char + len(token[:-len(enclitic)])
-                                                        t.endchar = start_char + len(token[:-len(enclitic)]) + len(enclitic)
-                                                        if mode == 'index': self._cache.append(copy.copy(t))
-                                                        yield t
-                                                    is_enclitic = True
-                                                    break
-                                        if not is_enclitic:
-                                            t.text = token.lower()
-                                            if chars:
-                                                t.startchar = start_char + ldiff
-                                                t.endchar = start_char + original_length - rdiff  # - ndiff - rdiff
-                                            if mode == 'index': self._cache.append(copy.copy(t))
+                                is_enclitic = False
+                                if token not in exceptions:
+                                    if t.original in replacements:
+                                        for subtoken in replacements[t.original]:
+                                            t.text = subtoken
+                                            t.startchar = start_char
+                                            t.endchar = start_char + original_length
+                                            if mode == 'index':
+                                                self._cache.append(copy.copy(t))
                                             yield t
-                                        start_char += original_length + 1
+                                        start_char += original_length
+                                        continue
 
+                                    if re.match(r"(?:\w+) (?:\w+)", token):
+                                        ppp, copula = token.split(' ')
+                                        t.text = ppp
+                                        t.startchar = start_char
+                                        t.endchar = start_char + len(ppp) + 1
+                                        if mode == 'index':
+                                            self._cache.append(copy.copy(t))
+                                        yield t
+                                        t.text = copula
+                                        t.startchar = start_char + len(ppp)
+                                        t.endchar = start_char + len(ppp) + len(copula)
+                                        if mode == 'index':
+                                            self._cache.append(copy.copy(t))
+                                        yield t
+                                        start_char += original_length
+                                        continue
+
+                                    for enclitic in enclitics:
+                                        if token.endswith(enclitic):
+                                            if enclitic == 'ne':
+                                                t.text = (token[:-len(enclitic)])
+                                                t.startchar = start_char
+                                                t.endchar = start_char + (len(token) - len(enclitic))
+                                                if mode == 'index':
+                                                    self._cache.append(copy.copy(t))
+                                                yield t
+                                                t.text = 'ne'
+                                                t.startchar = start_char + len(token[:-len(enclitic)])
+                                                t.endchar = start_char + len(token[:-len(enclitic)]) + len(enclitic)
+                                                if mode == 'index':
+                                                    self._cache.append(copy.copy(t))
+                                                yield t
+                                            elif enclitic == 'n':
+                                                t.text = (token[:-len(enclitic)] + 's')
+                                                t.startchar = start_char
+                                                t.endchar = start_char + len(token) - len(enclitic)
+                                                if mode == 'index':
+                                                    self._cache.append(copy.copy(t))
+                                                yield t
+                                                t.text = 'ne'
+                                                t.startchar = start_char + len(token[:-len(enclitic)])
+                                                t.endchar = start_char + len(token[:-len(enclitic)]) + len(enclitic)
+                                                if mode == 'index':
+                                                    self._cache.append(copy.copy(t))
+                                                yield t
+                                            elif enclitic == 'st':
+                                                if token.endswith('ust'):
+                                                    t.text = (token[:-len(enclitic)])
+                                                    t.startchar = start_char
+                                                    t.endchar = start_char + len(token[:-len(enclitic)]) - len(enclitic)
+                                                    if mode == 'index':
+                                                        self._cache.append(copy.copy(t))
+                                                    yield t
+                                                    t.text = 'est'
+                                                    t.startchar = start_char + len(token[:-len(enclitic)])
+                                                    t.endchar = start_char + len(token[:-len(enclitic)]) + len(enclitic)
+                                                    if mode == 'index':
+                                                        self._cache.append(copy.copy(t))
+                                                    yield t
+                                                else:
+                                                    t.text = (token[:-len(enclitic)])
+                                                    t.startchar = start_char
+                                                    t.endchar = start_char + len(token[:-len(enclitic)]) - len(enclitic)
+                                                    if mode == 'index':
+                                                        self._cache.append(copy.copy(t))
+                                                    yield t
+                                                    t.text = 'est'
+                                                    t.startchar = start_char + len(token[:-len(enclitic)])
+                                                    t.endchar = start_char + len(token[:-len(enclitic)]) + len(enclitic)
+                                                    if mode == 'index':
+                                                        self._cache.append(copy.copy(t))
+                                                    yield t
+                                            elif enclitic == "'s":
+                                                t.text = token + 's'
+                                                t.startchar = start_char
+                                                t.endchar = start_char + len(token)
+                                                if mode == 'index':
+                                                    self._cache.append(copy.copy(t))
+                                                yield t
+                                                t.text = 'es'
+                                                t.startchar = start_char + len(token) + 1
+                                                t.endchar = start_char + len(token) + len(enclitic)
+                                                if mode == 'index':
+                                                    self._cache.append(copy.copy(t))
+                                                yield t
+                                            else:
+                                                t.text = (token[:-len(enclitic)])
+                                                t.startchar = start_char
+                                                t.endchar = start_char + len(token[:-len(enclitic)])
+                                                if mode == 'index':
+                                                    self._cache.append(copy.copy(t))
+                                                yield t
+                                                t.text = enclitic
+                                                t.startchar = start_char + len(token[:-len(enclitic)])
+                                                t.endchar = start_char + len(token[:-len(enclitic)]) + len(enclitic)
+                                                if mode == 'index':
+                                                    self._cache.append(copy.copy(t))
+                                                yield t
+                                            is_enclitic = True
+                                            break
+                                if not is_enclitic:
+                                    t.text = token
+                                    if chars:
+                                        t.startchar = start_char + ldiff
+                                        t.endchar = start_char + original_length - rdiff  # - ndiff - rdiff
+                                    if mode == 'index':
+                                        self._cache.append(copy.copy(t))
+                                    yield t
+                                start_char += original_length
+                            start_char += 1
 
 class CachedLASLATokenizer(Tokenizer):
     def __init__(self, **kwargs):
@@ -1819,3 +1831,95 @@ class CachedPROIELTokenizer(Tokenizer):
                                 self._cache.append(copy.copy(t))
                                 yield t
                             start_char += len(before) + len(form) + len(after)
+
+class CachedAGLDTTokenizer(Tokenizer):
+    def __init__(self, **kwargs):
+        super(CachedAGLDTTokenizer, self).__init__()
+        self.__dict__.update(**kwargs)
+        self._cache = None
+        self._docix = 0
+
+    @property
+    def cache(self):
+        return copy.deepcopy(self._cache)
+
+    def __call__(self, data: ElementTree, positions=True, chars=True,
+                 keeporiginal=True, removestops=True, tokenize=True,
+                 start_pos=0, start_char=0, mode='', **kwargs):
+        if self._cache and kwargs.get('docix', None) == self._docix:
+            yield from self.cache
+        else:
+            self._cache = []
+            self._docix = kwargs.get('docix', 0)
+
+            t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
+            if t.mode == 'query':
+                t.original = t.text = data.translate(jvmap)
+                yield t
+            else:
+                if not tokenize:
+                    t.original = ''
+                    for token in data.findall('.//token'):
+                        form = token.get('form')
+                        if not form:
+                            continue
+                        t.original += f"{form}"
+                    t.text = t.original
+                    t.boost = 1.0
+                    if positions:
+                        t.pos = start_pos
+                    if chars:
+                        t.startchar = start_char
+                        t.endchar = start_char + len(t.original)
+                    yield t
+                else:
+                    from corpus.agldt import agldt2wn
+
+                    for sentence in data['text'].findall('.//sentence'):
+                        for pos, token in enumerate(sentence.findall('.//word')):
+                            form = token.get('form')
+                            if not form:
+                                continue
+                            else:
+                                form = form.replace(' ', ' ').replace(' ', ' ')
+                                form = re.sub(r"\.([^ ]|^$)", r'. \1', form)
+                            lemma = token.get('lemma')
+                            if lemma in ('.', ',', 'punc1', 'comma1', 'PERIOD1'):
+                                continue
+                            t.lemma = token.get('lemma', None)
+                            t.morpho = agldt2wn(token.get('postag'))
+                            t.morphosyntax = token.get('relation', None)
+                            t.boost = 1.0
+
+                            meta = {
+                                'meta': data['meta'].lower()
+                            }
+                            divs = data['meta'].split('-')
+                            for i, div in enumerate(divs):
+                                if not (len(divs) > 2 and div == 'line'):
+                                    meta[div] = sentence.get('subdoc').split('.')[i]
+                            meta['sent_id'] = sentence.get('id')
+                            meta['sent_pos'] = token.get('id')
+                            t.meta = meta
+
+                            if keeporiginal:
+                                t.original = f"{form}"
+                            t.stopped = False
+                            if positions:
+                                t.pos = start_pos + pos
+                            original_len = len(form)
+
+                            if form.istitle() and pos == 0 and not t.lemma.istitle():
+                                form = form.lower()
+                            t.text = form
+                            if chars:
+                                t.startchar = start_char
+                                t.endchar = start_char + original_len
+                            self._cache.append(copy.copy(t))
+                            yield t
+
+                            if form in editorial:
+                                t.text = editorial[form]
+                                self._cache.append(copy.copy(t))
+                                yield t
+                            start_char += len(form)

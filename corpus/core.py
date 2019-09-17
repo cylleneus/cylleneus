@@ -5,7 +5,7 @@ from engine.fields import Schema
 from engine.schemas import schemas
 
 from . import indexer
-from . import lasla, latin_library, perseus, proiel
+from . import agldt, lasla, latin_library, perseus, proiel
 
 
 class Corpus:
@@ -181,6 +181,7 @@ def imported_get(hit, meta, fragment):
 
 get_router = {
     'imported': imported_get,
+    'agldt': agldt.get,
     'perseus': perseus.get,
     'lasla': lasla.get,
     'latin_library': latin_library.get,

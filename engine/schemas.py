@@ -51,15 +51,15 @@ class PerseusJSONDocumentSchema(BaseSchema):
     semfield = engine.fields.SEMFIELD(analyzer=PerseusJSONTokenizer | LemmaFilter | SynsetFilter | SemfieldFilter, vector=True)
 
 
-PerseusTEITokenizer = engine.analysis.tokenizers.CachedPerseusTEITokenizer(chars=True)
-class PerseusTEIDocumentSchema(BaseSchema):
+PerseusXMLTokenizer = engine.analysis.tokenizers.CachedPerseusXMLTokenizer(chars=True)
+class PerseusXMLDocumentSchema(BaseSchema):
     urn = engine.fields.STORED()
     meta = engine.fields.STORED()
-    form = engine.fields.FORM(analyzer=PerseusTEITokenizer, vector=True)
-    lemma = engine.fields.LEMMA(analyzer=PerseusTEITokenizer | LemmaFilter, vector=True)
-    annotation = engine.fields.ANNOTATION(analyzer=PerseusTEITokenizer | LemmaFilter | AnnotationFilter, vector=True)
-    synset = engine.fields.SYNSET(analyzer=PerseusTEITokenizer | LemmaFilter | SynsetFilter, vector=True)
-    semfield = engine.fields.SEMFIELD(analyzer=PerseusTEITokenizer | LemmaFilter | SynsetFilter | SemfieldFilter, vector=True)
+    form = engine.fields.FORM(analyzer=PerseusXMLTokenizer, vector=True)
+    lemma = engine.fields.LEMMA(analyzer=PerseusXMLTokenizer | LemmaFilter, vector=True)
+    annotation = engine.fields.ANNOTATION(analyzer=PerseusXMLTokenizer | LemmaFilter | AnnotationFilter, vector=True)
+    synset = engine.fields.SYNSET(analyzer=PerseusXMLTokenizer | LemmaFilter | SynsetFilter, vector=True)
+    semfield = engine.fields.SEMFIELD(analyzer=PerseusXMLTokenizer | LemmaFilter | SynsetFilter | SemfieldFilter, vector=True)
 
 
 LASLATokenizer = engine.analysis.tokenizers.CachedLASLATokenizer(chars=True)
@@ -89,12 +89,29 @@ class PROIELDocumentSchema(BaseSchema):
     morphosyntax = engine.fields.MORPHOSYNTAX(analyzer=PROIELTokenizer |
                                                             engine.analysis.filters.PROIELMorphosyntaxFilter(), vector=True)
 
+AGLDTTokenizer = engine.analysis.tokenizers.CachedAGLDTTokenizer(chars=True)
+AGLDTLemmaFilter = engine.analysis.filters.CachedAGLDTLemmaFilter(chars=True)
+class AGLDTDocumentSchema(BaseSchema):
+    urn = engine.fields.STORED()
+    meta = engine.fields.STORED()
+    form = engine.fields.FORM(analyzer=AGLDTTokenizer, vector=True)
+    lemma = engine.fields.LEMMA(analyzer=AGLDTTokenizer | AGLDTLemmaFilter, vector=True)
+    annotation = engine.fields.ANNOTATION(analyzer=AGLDTTokenizer | AGLDTLemmaFilter | AnnotationFilter, vector=True)
+    synset = engine.fields.SYNSET(analyzer=AGLDTTokenizer | AGLDTLemmaFilter | SynsetFilter, vector=True)
+    semfield = engine.fields.SEMFIELD(analyzer=AGLDTTokenizer | AGLDTLemmaFilter | SynsetFilter | SemfieldFilter, vector=True)
+    morphosyntax = engine.fields.MORPHOSYNTAX(analyzer=AGLDTTokenizer |
+                                                            engine.analysis.filters.AGLDTMorphosyntaxFilter(),
+                                              vector=True)
+
+
 
 schemas = {
+    'agldt': AGLDTDocumentSchema,
     'imported': PlainTextDocumentSchema,
     'lasla': LASLADocumentSchema,
     'latin_library': PlainTextDocumentSchema,
-    'proiel': PROIELDocumentSchema,
     'phi5': PHI5DocumentSchema,
+    'proiel': PROIELDocumentSchema,
     'perseus': PerseusJSONDocumentSchema,
+    'perseus-xml': PerseusXMLDocumentSchema,
 }
