@@ -26,7 +26,7 @@ class TestPROIELTokenizer(unittest.TestCase):
         from engine.analysis.tokenizers import CachedPROIELTokenizer
         from corpus.proiel import AUTHOR_TAB
 
-        proiel = pathlib.Path('../corpus/proiel/text')
+        proiel = pathlib.Path('corpus/proiel/text')
         files = list(proiel.glob('*.xml'))
 
         with codecs.open(choice(files), 'rb') as f:
@@ -44,4 +44,4 @@ class TestPROIELTokenizer(unittest.TestCase):
         T = CachedPROIELTokenizer()
 
         for t in T(data):
-            print(t)
+            assert t
