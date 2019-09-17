@@ -93,7 +93,7 @@ def flatten(l, max_depth=math.inf):
             yield l
 
 
-def nrange(start, end):
+def nrange(start, end, zeroes=True):
     start, end = zip(*zip_longest(start, end, fillvalue=0))
     base = max(max(chain(start, end)), 9) + 1
 
@@ -108,7 +108,12 @@ def nrange(start, end):
         return tuple(ret)
 
     for se in range(_toint(start, base), _toint(end, base) + 1):
-        yield _totuple(se, base, len(start))
+        t = _totuple(se, base, len(start))
+        if not zeroes:
+            if 0 not in t:
+                yield t
+        else:
+            yield t
 
 
 # Hashable dict

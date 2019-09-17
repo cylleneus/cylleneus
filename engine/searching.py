@@ -1889,9 +1889,9 @@ class CylleneusHit(Hit):
                 if isinstance(q, (engine.query.compound.CylleneusCompoundQuery,
                                   engine.query.positional.Collocation)):
                     for sq in q:
-                        ordering[(sq.fieldname, sq.text.split('::')[0])] = i, sq.pos
-                else:
-                    ordering[(q.fieldname, q.text.split('::')[0])] = i, q.pos
+                        ordering[(sq.fieldname, sq.text.split('::')[0])] = i, getattr(sq, 'pos', -1)
+                else:  # position = -1 if query is not positional
+                    ordering[(q.fieldname, q.text.split('::')[0])] = i, getattr(q, 'pos', -1)
 
             for fragment in filtered:
                 newmatches = []

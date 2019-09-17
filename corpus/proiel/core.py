@@ -29,30 +29,53 @@ def get(hit, meta, fragment):
 
     pre = []
     pre_start = start - settings.LINES_OF_CONTEXT
-    for id in nrange(pre_start, start[0]):
-        sentence = doc.find(f'.//sentence[@id={id}]')
-        text = sentence.text
-        pre.append(f"<pre>{text}</pre>")
+    for id in nrange((pre_start,), (start - 1,)):
+        sentence = doc.find(f".//sentence[@id='{id[0]}']")
+        if sentence is not None:
+            text = ''.join([
+                f"{token.get('presentation-before') if token.get('presentation-before') else ''}" \
+                f"{token.get('form')}" \
+                f"{token.get('presentation-after') if token.get('presentation-after') else ''}"
+                for token in sentence.findall('token')
+                if token.get('form')
+            ])
+            pre.append(f"<pre>{text}</pre>")
 
-    hlites = set([tuple(hlite) for hlite in meta['hlites']])
+    hlites = set([hlite[-1] for hlite in meta['hlites']])  # only need token ids
 
     match = []
-    for id in nrange(start, end):
-        sentence = doc.find(f'.//sentence[@id={id}]')
-        text = [
-            f"<em>{t}</em>"
-            if (id, str(i + 1)) in hlites
-            else t
-            for i, t in enumerate(sentence.text.split())
-        ]
-        match.append(f"<match>{' '.join(text)}</match>")
+    for id in nrange((start,), (end,)):
+        sentence = doc.find(f".//sentence[@id='{id[0]}']")
+        if sentence is not None:
+            text = ''.join([
+                f"<em>" \
+                f"{t.get('presentation-before') if t.get('presentation-before') else ''}" \
+                f"{t.get('form')}" \
+                f"{t.get('presentation-after') if t.get('presentation-after') else ''}"
+                f"</em>"
+                if t.get('id') in hlites
+                else
+                f"{t.get('presentation-before') if t.get('presentation-before') else ''}" \
+                f"{t.get('form')}" \
+                f"{t.get('presentation-after') if t.get('presentation-after') else ''}"
+                for i, t in enumerate(sentence.findall('token'))
+                if t.get('form')
+            ])
+            match.append(f"<match>{text}</match>")
 
     post = []
     post_end = end + settings.LINES_OF_CONTEXT
-    for id in nrange(end + 1, post_end):
-        sentence = doc.find(f'.//sentence[@id={id}]')
-        text = sentence.text
-        post.append(f"<post>{text}</post>")
+    for id in nrange((end + 1,), (post_end,)):
+        sentence = doc.find(f".//sentence[@id='{id[0]}']")
+        if sentence is not None:
+            text = ''.join([
+                f"{token.get('presentation-before') if token.get('presentation-before') else ''}" \
+                f"{token.get('form')}" \
+                f"{token.get('presentation-after') if token.get('presentation-after') else ''}"
+                for token in sentence.findall('token')
+                if token.get('form')
+            ])
+            post.append(f"<post>{text}</post>")
 
     if 'poem' in divs or (len(divs) == 2 and divs[-1] in ['line', 'verse']):
         joiner = '\n\n'
@@ -60,7 +83,6 @@ def get(hit, meta, fragment):
         joiner = ' '
     parts = pre + match + post
     text = f'{joiner}'.join(parts)
-
     return urn, reference, text
 
 

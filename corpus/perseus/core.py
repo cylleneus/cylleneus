@@ -52,8 +52,7 @@ def get(hit, meta, fragment):
 
     match = []
     hlites = sorted(set([tuple(hlite) for hlite in meta['hlites']]))
-    for ref in nrange(start, end):
-        if 0 in ref: continue  # FIXME: nrange yields 0-numbered references
+    for ref in nrange(start, end, zeroes=False):
         content = doc['text']
 
         i = 0
