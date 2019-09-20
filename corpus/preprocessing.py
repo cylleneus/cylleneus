@@ -5,54 +5,11 @@ from datetime import datetime
 from pathlib import Path
 import lxml.etree as et
 
+
 class Preprocessor:
     @abstractmethod
     def parse(self, file: Path):
-        pass
-
-
-class DefaultPreprocessor(Preprocessor):
-    def parse(self, file: Path):
-        with codecs.open(file, 'r', 'utf8') as fp:
-            content = fp.read()
-        return {
-            'form': content,
-            'lemma': content,
-            'synset': content,
-            'annotation': content,
-            'semfield': content,
-            'filename': file.name,
-            'datetime': datetime.now()
-        }
-
-class ImportedPreprocessor(Preprocessor):
-    def parse(self, content: str):
-        # Do some tidying up
-        subs = [
-            (r"\.,", "."),
-            (r"([\w])\.([\w])", r"\1. \2"),
-            (r",([\w])", r", \1"),
-            (r"(?<=\w)\.\.", r" . ."),
-            (r"([.,;:])([.,;:])", r"\1 \2"),
-            (r"[\t\r\n ]+", " "),
-            (r'\.\"', r'\"\.'),
-            (r' ,', ','),
-            (r'\[ \d+ \] ', ''),
-            (r' \[,', '[,'),
-            (r'\]\.', '.]')
-        ]
-        for pattern, repl in subs:
-            content = re.sub(pattern, repl, content)
-
-        return {
-            'content': content,
-            'form': content,
-            'lemma': content,
-            'synset': content,
-            'annotation': content,
-            'semfield': content,
-            'datetime': datetime.now()
-        }
+        raise NotImplementedError
 
 
 class LASLAPreprocessor(Preprocessor):
@@ -100,36 +57,6 @@ class LASLAPreprocessor(Preprocessor):
         }
 
 
-class PHI5Preprocessor(Preprocessor):
-    def parse(self, file: Path):
-        from corpus.phi5 import AUTHOR_TAB
-
-        code = file.name.lstrip('LAT').rstrip('.txt')
-        auth_code, work_code = code.split('-')
-        auth_code = 'phi' + auth_code
-        work_code = 'phi' + work_code
-
-        with codecs.open(file, 'r', 'utf8') as f:
-            doc = f.read()
-            content = re.sub(r".*?\t", "", doc)
-            data = {'text': doc, 'meta': AUTHOR_TAB[auth_code]['works'][work_code]['meta']}
-        return {
-            'code': code,
-            'author': AUTHOR_TAB[auth_code]['author'],
-            'title': AUTHOR_TAB[auth_code]['works'][work_code]['title'],
-            'source': AUTHOR_TAB[auth_code]['works'][work_code]['source'],
-            'meta': AUTHOR_TAB[auth_code]['works'][work_code]['meta'],
-            'content': content,
-            'form': data,
-            'lemma': data,
-            'synset': data,
-            'annotation': data,
-            'semfield': data,
-            'filename': file.name,
-            'datetime': datetime.now()
-        }
-
-
 class PerseusJSONPreprocessor(Preprocessor):
     def parse(self, file: Path):
         import json
@@ -169,7 +96,6 @@ class PerseusXMLPreprocessor(Preprocessor):
         doc = et.XML(value, parser=parser)
         data = {'text': doc, 'meta': meta}
         return {
-            'code': f"{auth_code}.{work_code}",
             'urn': urn,
             'author': author,
             'title': title,
@@ -325,14 +251,10 @@ class LatinLibraryPreprocessor(Preprocessor):
 
 
 preprocessors = {
-    'plaintext': PlainTextPreprocessor,
     'agldt': AGLDTPreprocessor,
-    'imported': ImportedPreprocessor,
     'lasla': LASLAPreprocessor,
     'latin_library': LatinLibraryPreprocessor,
     'proiel': PROIELPreprocessor,
-    'phi5': PHI5Preprocessor,
     'perseus': PerseusJSONPreprocessor,
-    'perseus-tei': PerseusXMLPreprocessor,
-    'default': DefaultPreprocessor,
+    'perseus_xml': PerseusXMLPreprocessor,
 }

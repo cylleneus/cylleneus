@@ -494,7 +494,6 @@ class CylleneusCharacters(Positions):
             if hasattr(t, 'meta'):
                 kwargs["meta"] = True
                 meta = tuple(f"{k}={v}" for k, v in getattr(t, 'meta').items())
-                # divs = tuple(getattr(t, 'meta')[div] for div in t.meta.split('-'))
                 seen[t.text].append((t.pos, t.startchar, t.endchar, meta))
             else:
                 seen[t.text].append((t.pos, t.startchar, t.endchar, ()))

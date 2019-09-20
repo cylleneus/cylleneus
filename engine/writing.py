@@ -706,7 +706,7 @@ class SegmentWriter(IndexWriter):
                 fieldboost = self._field_boost(fields, fieldname, docboost)
                 # Ask the field to return a list of (text, weight, vbytes)
                 # tuples
-                items = field.index(value)
+                items = field.index(value, docix=fields['docix'])
 
                 # Only store the length if the field is marked scorable
                 scorable = field.scorable
@@ -728,7 +728,7 @@ class SegmentWriter(IndexWriter):
             if vformat:
                 analyzer = field.analyzer
                 # Call the format's word_values method to get posting values
-                vitems = vformat.word_values(value, analyzer, mode="index")
+                vitems = vformat.word_values(value, analyzer, mode="index", docix=fields['docix'])
                 # Remove unused frequency field from the tuple
                 vitems = sorted((text, weight, vbytes)
                                 for text, _, weight, vbytes in vitems)

@@ -30,7 +30,7 @@ class Indexer:
         else:
             self._path = None
         self._schema = schemas.get(self.corpus.name)()
-        self._preprocessor = preprocessors.get(corpus.name, DefaultPreprocessor)()
+        self._preprocessor = preprocessors.get(corpus.name, PlainTextPreprocessor)()
 
         if self.path and engine.index.exists_in(self.path):
             self._index = engine.index.open_dir(self.path, schema=self.schema)
@@ -127,6 +127,8 @@ class Indexer:
                 kwargs['author'] = self.work.author
             if 'title' not in kwargs and self.work.title:
                 kwargs['title'] = self.work.title
+            kwargs['corpus'] = self.corpus.name
+            kwargs['docix'] = docix
 
             self.path = Path(self.corpus.index_dir / slugify(kwargs['author']) / slugify(kwargs['title']))
             self.open()
@@ -136,7 +138,7 @@ class Indexer:
                 procs=1 if settings.PLATFORM == 'win32' else 4,
                 multisegment=True
             )
-            writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
+            writer.add_document(**kwargs)
             writer.commit()
             return docix
 

@@ -28,18 +28,6 @@ class PlainTextDocumentSchema(BaseSchema):
     semfield = engine.fields.SEMFIELD(analyzer=PlainTextTokenizer | LemmaFilter | SynsetFilter | SemfieldFilter, vector=True)
 
 
-PHI5Tokenizer = engine.analysis.tokenizers.CachedPHI5Tokenizer(chars=True)
-class PHI5DocumentSchema(BaseSchema):
-    urn = engine.fields.STORED()
-    meta = engine.fields.STORED()
-    content = engine.fields.STORED()
-    form = engine.fields.FORM(analyzer=PHI5Tokenizer, vector=True)
-    lemma = engine.fields.LEMMA(analyzer=PHI5Tokenizer | LemmaFilter, vector=True)
-    annotation = engine.fields.ANNOTATION(analyzer=PHI5Tokenizer | LemmaFilter | AnnotationFilter, vector=True)
-    synset = engine.fields.SYNSET(analyzer=PHI5Tokenizer | LemmaFilter | SynsetFilter, vector=True)
-    semfield = engine.fields.SEMFIELD(analyzer=PHI5Tokenizer | LemmaFilter | SynsetFilter | SemfieldFilter, vector=True)
-
-
 PerseusJSONTokenizer = engine.analysis.tokenizers.CachedPerseusJSONTokenizer(chars=True)
 class PerseusJSONDocumentSchema(BaseSchema):
     urn = engine.fields.STORED()
@@ -107,11 +95,10 @@ class AGLDTDocumentSchema(BaseSchema):
 
 schemas = {
     'agldt': AGLDTDocumentSchema,
-    'imported': PlainTextDocumentSchema,
+    'plaintext': PlainTextDocumentSchema,
     'lasla': LASLADocumentSchema,
     'latin_library': PlainTextDocumentSchema,
-    'phi5': PHI5DocumentSchema,
     'proiel': PROIELDocumentSchema,
     'perseus': PerseusJSONDocumentSchema,
-    'perseus-xml': PerseusXMLDocumentSchema,
+    'perseus_xml': PerseusXMLDocumentSchema,
 }

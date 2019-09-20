@@ -1,17 +1,53 @@
-import settings
+from collections import namedtuple
 from pathlib import Path
-from engine.searching import CylleneusSearcher, CylleneusHit
+
+import settings
 from engine.fields import Schema
 from engine.schemas import schemas
+from engine.searching import CylleneusHit, CylleneusSearcher
 
-from . import indexer
-from . import agldt, lasla, latin_library, perseus, proiel
+from . import agldt, default, indexer, lasla, latin_library, perseus, perseus_xml, proiel
+
+
+CorpusMeta = namedtuple('CorpusMeta', [
+    'schema',
+    'tokenizer',
+    'glob',
+    'fetch'
+])
+
+# meta = {
+#     'agldt': CorpusMeta(
+#         agldt.schema.DocumentSchema,
+#         agldt.tokenizer.Tokenizer,
+#         agldt.core.glob,
+#         agldt.core.get
+#     ),
+#     'default': CorpusMeta(
+#         default.DocumentSchema,
+#         default.Tokenizer,
+#         default.glob,
+#         default.fetch
+#     ),
+# }
 
 
 class Corpus:
     def __init__(self, name: str, schema: Schema=None):
         self._name = name
         self._schema = schema if schema else schemas.get(self.name)()
+
+        # self._schema = meta.get(name, meta['default']).schema()
+        # self._tokenizer = meta.get(name, meta['default']).tokenizer()
+        # self._glob = meta.get(name, meta['default']).glob
+
+    # @property
+    # def glob(self):
+    #     return self._glob
+    #
+    # @property
+    # def tokenizer(self):
+    #     return self._tokenizer
 
     @property
     def name(self):
@@ -88,6 +124,10 @@ class Corpus:
     def index_dir(self):
         return Path(self.path / 'index')
 
+    @property
+    def text_dir(self):
+        return Path(self.path / 'text')
+
     def iter_docs(self):
         for reader in self.readers:
             yield from reader.iter_docs()
@@ -141,7 +181,7 @@ class Corpus:
 
 
 # Get function for generic 'imported' corpus
-def imported_get(hit, meta, fragment):
+def plaintext_get(hit, meta, fragment):
     content = hit['content']
     offset = content.find(fragment)
 
@@ -180,9 +220,10 @@ def imported_get(hit, meta, fragment):
 
 
 get_router = {
-    'imported': imported_get,
+    'plaintext': plaintext_get,
     'agldt': agldt.get,
     'perseus': perseus.get,
+    'perseus_xml': perseus_xml.get,
     'lasla': lasla.get,
     'latin_library': latin_library.get,
     'proiel': proiel.get,
