@@ -5,7 +5,6 @@ import re
 import sys
 from collections import Iterable, Mapping
 from itertools import chain, zip_longest
-from lxml.etree import tostring
 
 
 DEBUG_OFF = 0
@@ -23,6 +22,7 @@ def print_debug(level, msg, out=sys.stderr):
 
 def stringify(node):
     from html import unescape
+    from lxml.etree import tostring
 
     parts = (
             list(

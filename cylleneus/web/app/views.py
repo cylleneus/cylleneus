@@ -2,6 +2,7 @@ from pathlib import Path
 import json
 
 import settings
+from setup import __version__
 from corpus import Corpus, Work
 from flask import render_template, request
 from search import Searcher, Collection
@@ -69,7 +70,7 @@ def index():
     db.close()
 
     response = {
-        'version': settings.__version__,
+        'version': __version__,
         'corpora': _corpora,
         'works': works,
         'collection': collection,
@@ -137,7 +138,7 @@ def history():
     results = [r.html for r in SearchResult.select().where(SearchResult.search == s)]
 
     response = {
-        'version': settings.__version__,
+        'version': __version__,
         'collection': s.collection,
         'works': works,
         'corpora': _corpora,
@@ -204,7 +205,7 @@ def search():
     db.close()
 
     response = {
-        'version': settings.__version__,
+        'version': __version__,
         'collection': collection,
         'works': works,
         'corpora': _corpora,

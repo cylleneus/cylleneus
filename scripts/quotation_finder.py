@@ -5,7 +5,7 @@ import json
 
 from corpus import Corpus, Work
 from engine.analysis.filters import CachedLemmaFilter, CachedSynsetFilter
-from engine.analysis.tokenizers import CachedPerseusJSONTokenizer
+from corpus.perseus.tokenizer import Tokenizer
 from search import Searcher, Collection
 
 
@@ -48,6 +48,7 @@ def pad_sequence(
     if pad_right:
         sequence = chain(sequence, (right_pad_symbol,) * (n - 1))
     return sequence
+
 
 def ngrams(
     sequence,
@@ -188,7 +189,7 @@ if __name__ == "__main__":
     collection.add(Work(corpus=Corpus('perseus'), author='virgil', title='georgics'))
 
     # Tokenize the target text
-    tokenizer = CachedPerseusJSONTokenizer()
+    tokenizer = Tokenizer()
     tokens = tokenizer({ "text": doc['text'], "meta": meta }, mode='index')  # generator
     results = find_similar(tokens, collection, n=3)
     print(results)

@@ -12,7 +12,8 @@ import docx
 
 import parawrap
 import settings
-from corpus import Corpus, Work
+from setup import __version__
+from corpus import Corpus
 from riposte import Riposte
 from riposte.printer import Palette
 from search import Searcher, Collection
@@ -72,7 +73,7 @@ def search(*args):
 @repl.command("credits")
 def credits():
     repl.info(
-        Palette.BLUE.format(f"Cylleneus v{settings.__version__}: Next-gen corpus search for Greek and Latin"),
+        Palette.BLUE.format(f"Cylleneus v{__version__}: Next-gen corpus search for Greek and Latin"),
         Palette.GREY.format("(c) 2019 William Michael Short")
     )
 
@@ -207,7 +208,7 @@ def save_docx(n: int = None, filename: str = None):
         if target.results:
             doc = docx.Document()
             doc.add_heading(filename, 0)
-            doc.add_heading(f"{target.start_time.strftime(settings.LONG_DATE_FORMAT)} (Cylleneus v{settings.__version__})", 2)
+            doc.add_heading(f"{target.start_time.strftime(settings.LONG_DATE_FORMAT)} (Cylleneus v{__version__})", 2)
 
             for corpus, author, title, urn, reference, text in target.to_text():
                 h = doc.add_heading(level=1)
