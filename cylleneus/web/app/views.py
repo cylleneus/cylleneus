@@ -2,7 +2,7 @@ from pathlib import Path
 import json
 
 import settings
-from cylleneus.__version__ import __version__
+from settings.__version__ import __version__
 from corpus import Corpus, Work
 from flask import render_template, request
 from search import Searcher, Collection

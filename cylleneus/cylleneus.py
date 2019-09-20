@@ -14,7 +14,7 @@ from riposte import Riposte
 from riposte.printer import Palette
 
 import settings
-from cylleneus.__version__ import __version__
+from settings.__version__ import __version__
 from corpus import Corpus
 from search import Collection, Searcher
 from utils import slugify
