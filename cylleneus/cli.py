@@ -9,8 +9,6 @@ import click
 from corpus import Corpus, Work
 from search import CylleneusSearcher
 
-from cylleneus import cylleneus
-
 
 @click.group()
 def main():
@@ -19,6 +17,8 @@ def main():
 
 @main.command()
 def shell():
+    from cylleneus import cylleneus
+
     sys.argv = [sys.argv[0]]  # clear sys.argv to avoid pass-through
     cylleneus.repl.run()
 
