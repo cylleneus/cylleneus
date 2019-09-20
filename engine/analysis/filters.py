@@ -35,6 +35,7 @@ import corpus.lasla
 from engine.analysis.acore import Composable
 from lang.latin.morphology import from_leipzig
 from latinwordnet import LatinWordNet
+from latinwordnet.latinwordnet import relation_types
 from multiwordnet.wordnet import WordNet
 from whoosh.compat import next
 from whoosh.util.text import rcompile
@@ -494,32 +495,6 @@ _iso_639 = {
         'he': 'hebrew',
         'it': 'italian',
         'fr': 'french'
-    }
-
-relation_types = {
-    '!': 'antonyms',
-    '@': 'hypernyms',
-    '~': 'hyponyms',
-    '#m': 'member-of',
-    '#s': 'substance-of',
-    '#p': 'part-of',
-    '%m': 'has-member',
-    '%s': 'has-substance',
-    '%p': 'has-part',
-    '=': 'attribute-of',
-    '|': 'nearest',
-    '+r': 'has-role',
-    '-r': 'is-role-of',
-    '*': 'entails',
-    '>': 'causes',
-    '^': 'also-see',
-    '$': 'verb-group',
-    '&': 'similar-to',
-    '<': 'participle',
-    '+c': 'composed-of',
-    '-c': 'composes',
-    '\\': 'derived-from',
-    '/': 'related-to',
     }
 
 

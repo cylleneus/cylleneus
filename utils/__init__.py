@@ -3,8 +3,9 @@ import math
 import unicodedata
 import re
 import sys
-from collections.abc import Iterable
+from collections import Iterable, Mapping
 from itertools import chain, zip_longest
+from lxml.etree import tostring
 
 
 DEBUG_OFF = 0
@@ -18,6 +19,25 @@ def print_debug(level, msg, out=sys.stderr):
 
     if level <= DEBUG:
         out.write("%s%s\n" % (" " * level, msg))
+
+
+def stringify(node):
+    from html import unescape
+
+    parts = (
+            list(
+                chain(
+                    *([str(tostring(c))]
+                      for c in node.getchildren())
+                )
+            )
+    )
+    s = ''.join(filter(None, parts))
+    s = re.sub(r"^b\'(.*?)\'$", r'\1', s, flags=re.DOTALL)
+    subs = [r'\\[fnrtv]', r'<.*?>', r'</.*?>']
+    for sub in subs:
+        s = re.sub(sub, r'', s)
+    return unescape(s)
 
 
 def slugify(value, allow_unicode=False):
@@ -120,3 +140,29 @@ def nrange(start, end, zeroes=True):
 class hdict(dict):
     def __hash__(self):
         return hash(tuple(sorted(self.items())))
+
+
+def nested_dict_iter(nested, path=None):
+    if not path:
+        path = []
+    for i in nested.keys():
+        local_path = path[:]
+        local_path.append(i)
+        if isinstance(nested[i], Mapping):
+            yield from nested_dict_iter(nested[i], local_path)
+        else:
+            yield local_path, nested[i]
+
+
+def matchcase(word):
+    def replace(m):
+        text = m.group()
+        if text.isupper():
+            return word.upper()
+        elif text.islower():
+            return word.lower()
+        elif text[0].isupper():
+            return word.capitalize()
+        else:
+            return word
+    return replace
