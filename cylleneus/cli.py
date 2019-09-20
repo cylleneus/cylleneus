@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 import click
-from corpus import Corpus, Work, Indexer
+from corpus import Corpus, Work
 from search import CylleneusSearcher
 
 from cylleneus import cylleneus
