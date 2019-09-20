@@ -9,8 +9,6 @@ import codecs
 import pathlib
 import lxml.etree as et
 
-from engine.analysis.tokenizers import CachedPerseusTEITokenizer
-
 
 class TestPROIELTokenizer(unittest.TestCase):
     """Tests for `cylleneus` package."""
@@ -24,7 +22,7 @@ class TestPROIELTokenizer(unittest.TestCase):
     def test_proiel_tokenizer(self):
         """Test the PROIEL tokenizer."""
         pass
-        # from engine.analysis.tokenizers import CachedPROIELTokenizer
+        # from corpus.proiel.tokenizer import CachedTokenizer
         # from corpus.proiel import AUTHOR_TAB
         #
         # proiel = pathlib.Path('corpus/proiel/text')
@@ -42,7 +40,7 @@ class TestPROIELTokenizer(unittest.TestCase):
         #     meta = AUTHOR_TAB[_author]['works'][_title]['meta']
         #     data = {'text': doc, 'meta': meta}
         #
-        # T = CachedPROIELTokenizer()
+        # T = CachedTokenizer()
         #
         # for t in T(data, docix=0):
         #     assert t

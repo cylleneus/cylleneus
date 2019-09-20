@@ -1,10 +1,11 @@
 from pathlib import Path
 import json
 
-import settings
-from settings.__version__ import __version__
-from corpus import Corpus, Work
 from flask import render_template, request
+
+import settings
+from cylleneus import __version__
+from corpus import Corpus, Work
 from search import Searcher, Collection
 
 from .db import Search, SearchResult, db

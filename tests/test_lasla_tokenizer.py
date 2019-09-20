@@ -19,6 +19,7 @@ class TestLASLATokenizer(unittest.TestCase):
     def test_lasla_tokenizer(self):
         """Test the LASLA tokenizer."""
         pass
+        # from corpus.lasla.tokenizer import CachedTokenizer
         # lasla = pathlib.Path('tests/text/lasla/')
         # files = list(lasla.glob('*.BPN'))
         #
@@ -39,6 +40,6 @@ class TestLASLATokenizer(unittest.TestCase):
         #     if uid[1:] in corpus.lasla.AUTHOR_TAB[uid[0]][code]:
         #         meta = corpus.lasla.AUTHOR_TAB[uid[0]][code][uid[1:]]['meta']
         #
-        # T = CachedLASLATokenizer()
+        # T = CachedTokenizer()
         # for t in T({"text": doc, "meta": meta}, mode='index', docix=0):
         #     assert t

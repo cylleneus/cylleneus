@@ -9,8 +9,6 @@ import codecs
 import pathlib
 import re
 
-from engine.analysis.tokenizers import CachedPlainTextTokenizer
-
 
 class TestPlaintextTokenizer(unittest.TestCase):
     """Tests for `cylleneus` package."""
@@ -24,6 +22,7 @@ class TestPlaintextTokenizer(unittest.TestCase):
     def test_plaintext_tokenizer(self):
         """Test the plaintext tokenizer."""
         pass
+        # from corpus.default import CachedTokenizer
         # latin_library = pathlib.Path('tests/text/latin_library/')
         # files = list(latin_library.glob('*.txt'))
         #
@@ -43,7 +42,7 @@ class TestPlaintextTokenizer(unittest.TestCase):
         # doc = re.sub(r' \[,', '[,', doc)
         # doc = re.sub(r'\]\.', '.]', doc)
         #
-        # T = CachedPlainTextTokenizer()
+        # T = CachedTokenizer()
         #
         # for t in T(doc, docix=0):
         #     assert t

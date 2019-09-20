@@ -21,21 +21,21 @@ class TestPerseusXMLTokenizer(unittest.TestCase):
 
     def test_perseus_xml_tokenizer(self):
         """Test the Perseus XML tokenizer."""
-        # pass
-        from corpus.perseus_xml.tokenizer import CachedTokenizer
-
-        perseus = pathlib.Path('../corpus/perseus_xml/text/')
-        files = list(perseus.glob('*lat*.xml'))
-
-        with codecs.open(choice(files), 'rb') as f:
-            value = f.read()
-
-            parser = et.XMLParser(encoding='UTF-8')
-            doc = et.XML(value, parser=parser)
-            divs = { i: div.get('n').lower()
-                     for i, div in enumerate(doc.find(".//{http://www.tei-c.org/ns/1.0}refsDecl[@n='CTS']").findall('.//{http://www.tei-c.org/ns/1.0}cRefPattern')) if div.get('n') if div is not None }
-            meta = '-'.join(reversed(list(divs.values())))
-        T = CachedTokenizer()
-
-        for t in T({'text': doc, 'meta': meta}, docix=0, mode='index'):
-            print(t)
+        pass
+        # from corpus.perseus_xml.tokenizer import CachedTokenizer
+        #
+        # perseus = pathlib.Path('../corpus/perseus_xml/text/')
+        # files = list(perseus.glob('*lat*.xml'))
+        #
+        # with codecs.open(choice(files), 'rb') as f:
+        #     value = f.read()
+        #
+        #     parser = et.XMLParser(encoding='UTF-8')
+        #     doc = et.XML(value, parser=parser)
+        #     divs = { i: div.get('n').lower()
+        #              for i, div in enumerate(doc.find(".//{http://www.tei-c.org/ns/1.0}refsDecl[@n='CTS']").findall('.//{http://www.tei-c.org/ns/1.0}cRefPattern')) if div.get('n') if div is not None }
+        #     meta = '-'.join(reversed(list(divs.values())))
+        # T = CachedTokenizer()
+        #
+        # for t in T({'text': doc, 'meta': meta}, docix=0, mode='index'):
+        #     assert t

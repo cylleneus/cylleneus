@@ -21,18 +21,18 @@ class TestPerseusJSONTokenizer(unittest.TestCase):
 
     def test_perseus_json_tokenizer(self):
         """Test the Perseus JSON tokenizer."""
-        # pass
-        from corpus.perseus.tokenizer import CachedTokenizer
-
-        perseus = pathlib.Path('../corpus/perseus/text')
-        files = list(perseus.glob('*.json'))
-
-        with codecs.open(choice(files), 'r', 'utf8') as f:
-            data = json.load(f)
-
-        divs = data['meta'].split('-')
-
-        T = CachedTokenizer()
-
-        for t in T(value=data, mode='index', docix=0):
-            print(t)
+        pass
+        # from corpus.perseus.tokenizer import CachedTokenizer
+        #
+        # perseus = pathlib.Path('../corpus/perseus/text')
+        # files = list(perseus.glob('*.json'))
+        #
+        # with codecs.open(choice(files), 'r', 'utf8') as f:
+        #     data = json.load(f)
+        #
+        # divs = data['meta'].split('-')
+        #
+        # T = CachedTokenizer()
+        #
+        # for t in T(value=data, mode='index', docix=0):
+        #     print(t)

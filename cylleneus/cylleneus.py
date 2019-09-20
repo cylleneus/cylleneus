@@ -14,10 +14,11 @@ from riposte import Riposte
 from riposte.printer import Palette
 
 import settings
-from settings.__version__ import __version__
 from corpus import Corpus
 from search import Collection, Searcher
 from utils import slugify
+from . import __version__
+
 
 _collection = None
 _searcher = Searcher(_collection)
