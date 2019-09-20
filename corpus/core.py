@@ -6,8 +6,8 @@ from engine.fields import Schema
 from engine.schemas import schemas
 from engine.searching import CylleneusHit, CylleneusSearcher
 
-from . import agldt, indexer, lasla, latin_library, perseus, perseus_xml, proiel
-
+from . import agldt, default, lasla, latin_library, perseus, perseus_xml, proiel
+from . import indexer
 
 CorpusMeta = namedtuple('CorpusMeta', [
     'schema',
@@ -16,20 +16,20 @@ CorpusMeta = namedtuple('CorpusMeta', [
     'fetch'
 ])
 
-# meta = {
-#     'agldt': CorpusMeta(
-#         agldt.schema.DocumentSchema,
-#         agldt.tokenizer.Tokenizer,
-#         agldt.core.glob,
-#         agldt.core.get
-#     ),
-#     'default': CorpusMeta(
-#         default.DocumentSchema,
-#         default.Tokenizer,
-#         default.glob,
-#         default.fetch
-#     ),
-# }
+meta = {
+    'agldt': CorpusMeta(
+        agldt.schema.DocumentSchema,
+        agldt.tokenizer.Tokenizer,
+        agldt.core.glob,
+        agldt.core.fetch
+    ),
+    'default': CorpusMeta(
+        default.DocumentSchema,
+        default.Tokenizer,
+        default.glob,
+        default.fetch
+    ),
+}
 
 
 class Corpus:

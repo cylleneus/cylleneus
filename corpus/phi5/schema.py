@@ -1,0 +1,23 @@
+from engine.fields import *
+from engine.schemas import BaseSchema
+from engine.analysis.filters import CachedLemmaFilter, CachedSynsetFilter, AnnotationFilter, SemfieldFilter
+
+from .tokenizer import CachedTokenizer
+
+
+Tokens = CachedTokenizer(chars=True)
+Lemmas = CachedLemmaFilter(chars=True)
+Synsets = CachedSynsetFilter()
+Annotations = AnnotationFilter()
+Semfields = SemfieldFilter()
+
+
+class DocumentSchema(BaseSchema):
+    urn = STORED()
+    meta = STORED()
+    content = STORED()
+    form = FORM(analyzer=Tokens, vector=True)
+    lemma = LEMMA(analyzer=Tokens | Lemmas, vector=True)
+    annotation = ANNOTATION(analyzer=Tokens | Lemmas | AnnotationFilter, vector=True)
+    synset = SYNSET(analyzer=Tokens | Lemmas | Synsets, vector=True)
+    semfield = SEMFIELD(analyzer=Tokens | Lemmas | Synsets | Semfields, vector=True)

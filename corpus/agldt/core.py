@@ -11,8 +11,8 @@ glob = '*.tb.txt'
 
 
 # Function to fetch text from corpus
-def get(hit, meta, fragment):
-    with codecs.open('corpus/agldt/text/' + hit['filename'], 'rb') as fp:
+def fetch(self, hit, meta, fragment):
+    with codecs.open(self.text_dir + hit['filename'], 'rb') as fp:
         value = fp.read()
     parser = et.XMLParser(encoding='utf-8')
     doc = et.XML(value, parser=parser)

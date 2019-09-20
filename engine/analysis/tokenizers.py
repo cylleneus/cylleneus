@@ -359,7 +359,7 @@ class CachedPlainTextTokenizer(Tokenizer):
     def __call__(self, value: str, positions=True, chars=True,
                  keeporiginal=True, removestops=True, tokenize=True,
                  start_pos=0, start_char=0, mode='', **kwargs):
-        if self._cache:
+        if kwargs['docix'] == self._docix and self._cache:
             yield from self.cache
         else:
             t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
@@ -569,7 +569,7 @@ class CachedPerseusJSONTokenizer(Tokenizer):
     def __call__(self, value, positions=True, chars=True,
                  keeporiginal=True, removestops=True, tokenize=True,
                  start_pos=0, start_char=0, mode='', **kwargs):
-        if self._cache:
+        if kwargs['docix'] == self._docix and self._cache:
             yield from self.cache
         else:
             t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
@@ -1049,7 +1049,7 @@ class CachedLASLATokenizer(Tokenizer):
     def __call__(self, value: dict, positions=False, chars=False,
                  keeporiginal=True, removestops=True, tokenize=True,
                  start_pos=0, start_char=0, mode='', **kwargs):
-        if self._cache:
+        if kwargs['docix'] == self._docix and self._cache:
             yield from self.cache
         else:
             t = engine.analysis.acore.CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
@@ -1212,7 +1212,7 @@ class CachedPROIELTokenizer(Tokenizer):
     def __call__(self, data: ElementTree, positions=True, chars=True,
                  keeporiginal=True, removestops=True, tokenize=True,
                  start_pos=0, start_char=0, mode='', **kwargs):
-        if self._cache:
+        if kwargs['docix'] == self._docix and self._cache:
             yield from self.cache
         else:
             self._cache = []
@@ -1304,7 +1304,7 @@ class CachedAGLDTTokenizer(Tokenizer):
     def __call__(self, data: ElementTree, positions=True, chars=True,
                  keeporiginal=True, removestops=True, tokenize=True,
                  start_pos=0, start_char=0, mode='', **kwargs):
-        if self._cache:
+        if kwargs['docix'] == self._docix and self._cache:
             yield from self.cache
         else:
             self._cache = []
