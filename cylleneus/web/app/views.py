@@ -1,15 +1,17 @@
 from pathlib import Path
 import json
 
-import settings
-from setup import __version__
-from corpus import Corpus, Work
 from flask import render_template, request
+
+import settings
+from cylleneus import __version__
+from corpus import Corpus, Work
 from search import Searcher, Collection
 
 from .db import Search, SearchResult, db
 from .display import as_html
 from .server import app
+
 
 _corpora = []
 for path in Path(settings.ROOT_DIR + '/corpus').glob('*'):

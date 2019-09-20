@@ -3,9 +3,14 @@
 
 """The setup script."""
 
+import codecs
+import os
+import re
 
 import settings
 from setuptools import find_packages, setup
+
+here = os.path.abspath(os.path.dirname(__file__))
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -13,8 +18,22 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-# Version
-__version__ = "0.1.1"
+
+def read(*parts):
+    with codecs.open(os.path.join(here, *parts), 'r') as fp:
+        return fp.read()
+
+
+def find_version(*file_paths):
+    version_file = read(*file_paths)
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
+                              version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError("Unable to find version string.")
+
+
+version = find_version('cylleneus', '__init__.py')
 
 requirements = [
     'Click>=6.0',
@@ -85,6 +104,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/wmshort/cylleneus',
-    version=__version__,
+    version=version,
     zip_safe=False,
 )

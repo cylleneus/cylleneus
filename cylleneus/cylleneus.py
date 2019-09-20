@@ -9,14 +9,15 @@ import sys
 from pathlib import Path
 
 import docx
-
 import parawrap
-import settings
-from corpus import Corpus, Work
 from riposte import Riposte
 from riposte.printer import Palette
-from search import Searcher, Collection
+
+import settings
+from corpus import Corpus
+from search import Collection, Searcher
 from utils import slugify
+from . import __version__
 
 _collection = None
 _searcher = Searcher(_collection)
