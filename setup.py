@@ -39,7 +39,7 @@ def find_version(*file_paths):
     raise RuntimeError("Unable to find version string.")
 
 
-version = find_version('__version__.py')
+version = find_version('cylleneus', '__version__.py')
 
 requirements = [
     'Click>=6.0',
