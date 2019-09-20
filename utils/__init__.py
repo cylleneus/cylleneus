@@ -5,15 +5,14 @@ import re
 import sys
 from collections import Iterable, Mapping
 from itertools import chain, zip_longest
-from lxml.etree import tostring
 
-
+# Debug settings values
 DEBUG_OFF = 0
 DEBUG_LOW = 1
 DEBUG_MEDIUM = 2
 DEBUG_HIGH = 3
 
-
+# Debug helper function
 def print_debug(level, msg, out=sys.stderr):
     from settings import DEBUG
 
@@ -22,6 +21,8 @@ def print_debug(level, msg, out=sys.stderr):
 
 
 def stringify(node):
+    """ Convert XML node to string """
+    from lxml.etree import tostring
     from html import unescape
 
     parts = (
