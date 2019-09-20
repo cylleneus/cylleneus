@@ -20,7 +20,7 @@ class CachedTokenizer(Tokenizer):
     def __call__(self, value: dict, positions=False, chars=False,
                  keeporiginal=True, removestops=True, tokenize=True,
                  start_pos=0, start_char=0, mode='', **kwargs):
-        if kwargs['docix'] == self._docix and self._cache:
+        if kwargs.get('docix', None) == self._docix and self._cache:
             yield from self.cache
         else:
             t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)

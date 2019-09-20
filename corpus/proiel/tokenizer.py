@@ -20,7 +20,7 @@ class CachedTokenizer(Tokenizer):
     def __call__(self, data, positions=True, chars=True,
                  keeporiginal=True, removestops=True, tokenize=True,
                  start_pos=0, start_char=0, mode='', **kwargs):
-        if kwargs['docix'] == self._docix and self._cache:
+        if kwargs.get('docix', None) == self._docix and self._cache:
             yield from self.cache
         else:
             self._cache = []

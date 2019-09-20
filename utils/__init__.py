@@ -3,7 +3,7 @@ import math
 import unicodedata
 import re
 import sys
-from collections import Iterable, Mapping
+from collections.abc import Iterable, Mapping
 from itertools import chain, zip_longest
 
 
