@@ -5,7 +5,7 @@ from engine.analysis.filters import Filter
 from corpus.perseus import mapping
 from latinwordnet import LatinWordNet
 from latinwordnet.latinwordnet import relation_types
-from lang.latin.morphology import from_leipzig
+from lang.latin.morphology import leipzig2wn
 from . import relations
 
 
@@ -79,7 +79,7 @@ class CachedLemmaFilter(Filter):
                         yield t
                     elif '#' in text:
                         yield t
-                    elif from_leipzig(t.original) != '----------':
+                    elif leipzig2wn(t.original) != '----------':
                         yield t
                     elif text.isnumeric():
                         yield t

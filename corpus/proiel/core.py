@@ -1,10 +1,16 @@
 import codecs
+from pathlib import Path
+
 import lxml.etree as et
 import settings
 from utils import nrange
 
-def get(hit, meta, fragment):
-    with codecs.open('corpus/proiel/text/' + hit['filename'], 'rb') as fp:
+
+glob = '*.xml'
+
+
+def fetch(self, hit, meta, fragment):
+    with codecs.open(self.corpus.text_dir / Path(hit['filename']), 'rb') as fp:
         value = fp.read()
     parser = et.XMLParser(encoding='utf-8')
     doc = et.XML(value, parser=parser)
@@ -105,7 +111,7 @@ AUTHOR_TAB = \
         },
     }
 
-def parse_proiel(pos: str, morpho: str):
+def proiel2wn(pos: str, morpho: str):
     # 10-place morpho tag, basically Perseus, with final 'inflected' value
     pos_ = POS_TAG[pos]
     desc = ''
@@ -271,3 +277,4 @@ relations = {
       "open objective complement": "xobj",
       "external subject": "xsub",
 }
+

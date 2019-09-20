@@ -8,7 +8,7 @@ from corpus.preprocessing import BasePreprocessor
 from .core import AUTHOR_TAB
 
 
-class PROIELPreprocessor(BasePreprocessor):
+class Preprocessor(BasePreprocessor):
     def parse(self, file: Path):
         with codecs.open(file, 'rb') as f:
             value = f.read()

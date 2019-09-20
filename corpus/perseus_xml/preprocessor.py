@@ -18,8 +18,10 @@ class Preprocessor(BasePreprocessor):
         with codecs.open(file, 'rb') as f:
             value = f.read()
         parser = et.XMLParser(encoding='utf-8')
+
         doc = et.XML(value, parser=parser)
         data = {'text': doc, 'meta': meta}
+
         return {
             'urn': urn,
             'author': author,

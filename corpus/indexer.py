@@ -2,12 +2,11 @@ import shutil
 from pathlib import Path
 
 import engine.index
+import settings
 from engine.fields import Schema
-from engine.schemas import schemas
 from engine.writing import CLEAR
 from utils import slugify
-from .preprocessing import *
-import settings
+
 
 class IndexingError(Exception):
     pass
@@ -29,8 +28,9 @@ class Indexer:
             self._path = Path(self.corpus.index_dir / slugify(work.author) / slugify(work.title))
         else:
             self._path = None
-        self._schema = schemas.get(self.corpus.name)()
-        self._preprocessor = preprocessors.get(corpus.name, PlainTextPreprocessor)()
+        self._schema = self.corpus.schema
+        self._preprocessor = self.corpus.schema
+        self._glob = self.corpus.glob
 
         if self.path and engine.index.exists_in(self.path):
             self._index = engine.index.open_dir(self.path, schema=self.schema)
@@ -53,11 +53,8 @@ class Indexer:
     def preprocessor(self):
         return self._preprocessor
 
-    def iter_docs(self):
-        yield from self.index.reader().iter_docs()
-
-    @corpus.setter
-    def corpus(self, p: Preprocessor):
+    @preprocessor.setter
+    def preprocessor(self, p):
         self._preprocessor = p
 
     @property
@@ -85,6 +82,9 @@ class Indexer:
     @path.setter
     def path(self, p: Path):
         self._path = p
+
+    def iter_docs(self):
+        yield from self.index.reader().iter_docs()
 
     def clear(self):
         with self.index.writer() as writer:

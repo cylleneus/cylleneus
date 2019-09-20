@@ -12,6 +12,7 @@ from . import indexer
 CorpusMeta = namedtuple('CorpusMeta', [
     'schema',
     'tokenizer',
+    'preprocessor',
     'glob',
     'fetch'
 ])
@@ -20,12 +21,49 @@ meta = {
     'agldt': CorpusMeta(
         agldt.schema.DocumentSchema,
         agldt.tokenizer.Tokenizer,
+        agldt.preprocessor.Preprocessor,
         agldt.core.glob,
         agldt.core.fetch
+    ),
+    'lasla': CorpusMeta(
+        lasla.schema.DocumentSchema,
+        lasla.tokenizer.Tokenizer,
+        lasla.preprocessor.Preprocessor,
+        lasla.core.glob,
+        lasla.core.fetch
+    ),
+    'latin_library': CorpusMeta(
+        default.DocumentSchema,
+        default.Tokenizer,
+        latin_library.preprocessor.Preprocessor,
+        latin_library.core.glob,
+        latin_library.core.fetch
+    ),
+    'perseus': CorpusMeta(
+        perseus.schema.DocumentSchema,
+        perseus.tokenizer.Tokenizer,
+        perseus.preprocessor.Preprocessor,
+        perseus.core.glob,
+        perseus.core.fetch
+    ),
+    'perseus_xml': CorpusMeta(
+        perseus_xml.schema.DocumentSchema,
+        perseus_xml.tokenizer.Tokenizer,
+        perseus_xml.preprocessor.Preprocessor,
+        perseus_xml.core.glob,
+        perseus_xml.core.fetch
+    ),
+    'proiel': CorpusMeta(
+        proiel.schema.DocumentSchema,
+        proiel.tokenizer.Tokenizer,
+        proiel.preprocessor.Preprocessor,
+        proiel.core.glob,
+        proiel.core.fetch
     ),
     'default': CorpusMeta(
         default.DocumentSchema,
         default.Tokenizer,
+        default.Preprocessor,
         default.glob,
         default.fetch
     ),
@@ -35,9 +73,13 @@ meta = {
 class Corpus:
     def __init__(self, name: str, schema: Schema=None):
         self._name = name
-        self._schema = meta.get(name, meta['default']).schema()
-        self._tokenizer = meta.get(name, meta['default']).tokenizer()
-        self._glob = meta.get(name, meta['default']).glob
+
+        _meta = meta.get(name, meta['default'])
+        self._schema = _meta.schema()
+        self._tokenizer = _meta.tokenizer()
+        self._glob = _meta.glob
+        self._preprocessor = _meta.preprocessor
+        self._fetch = _meta.fetch
 
     @property
     def glob(self):
@@ -178,51 +220,6 @@ class Corpus:
             self.path == other.path
 
 
-# Get function for generic plaintext corpus
-def plaintext_get(hit, meta, fragment):
-    content = hit['content']
-    offset = content.find(fragment)
-
-    # Reference and hlite values
-    start = ', '.join(
-        [f"{k}: {v}" for k, v in meta['start'].items() if v]
-    )
-    end = ', '.join(
-        [f"{k}: {v}" for k, v in meta['end'].items() if v]
-    )
-    reference = '-'.join([start, end]) if end != start else start
-    hlite_start = [
-        v - offset
-        if k != 'pos' and v is not None else v
-        for k, v in meta['start'].items()
-    ]
-
-    # Collect text and context
-    lbound = fragment.rfind(' ', 0, settings.CHARS_OF_CONTEXT)
-    rbound = fragment.find(' ', -(settings.CHARS_OF_CONTEXT - (meta['start']['endchar'] - meta['start']['startchar'])))
-
-    pre = f"<pre>{fragment[:lbound]}</pre>"
-    post = f"<post>{fragment[rbound + 1:]}</post>"
-
-    endchar = lbound + 1 + (hlite_start[-2] - hlite_start[-3])
-    hlite = f"<em>{fragment[lbound + 1:endchar]}</em>" + fragment[endchar:rbound]
-    match = f"<match>{hlite}</match>"
-
-    text = f' '.join([pre, match, post])
-    return None, reference, text
-
-
-get_router = {
-    'plaintext': plaintext_get,
-    'agldt': agldt.get,
-    'perseus': perseus.get,
-    'perseus_xml': perseus_xml.get,
-    'lasla': lasla.get,
-    'latin_library': latin_library.get,
-    'proiel': proiel.get,
-}
-
-
 class Work:
     def __init__(self, corpus: Corpus, author: str=None, title: str=None, doc: CylleneusHit=None):
         self._corpus = corpus
@@ -248,6 +245,8 @@ class Work:
             else:
                 self._doc = self._author = self._title = None
         self._indexer = indexer.Indexer(corpus, self)
+
+        self.fetch = self.corpus._fetch
 
     @property
     def is_searchable(self):
@@ -294,9 +293,6 @@ class Work:
     @property
     def divs(self):
         return [d.lower() for d in self.meta.split('-')]
-
-    def get(self, meta, fragment):
-        return get_router[self.corpus.name](self.doc, meta, fragment)
 
     def __str__(self):
         return f"{self.author}, {self.title} [{self.corpus.name}]"

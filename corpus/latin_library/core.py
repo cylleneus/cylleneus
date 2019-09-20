@@ -5,12 +5,10 @@ from pathlib import Path
 import settings
 
 
-def get(hit, meta, fragment):
-    with codecs.open(
-        Path(
-            settings.ROOT_DIR + '/corpus/latin_library/text/' + hit['filename']
-        )
-    ) as fp:
+glob = '*/*.txt'
+
+def fetch(self, hit, meta, fragment):
+    with codecs.open(self.corpus.text_dir / Path(hit['filename'])) as fp:
         content = fp.read()
 
     # Do some tidying up

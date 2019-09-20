@@ -1,10 +1,10 @@
 import codecs
-import lxml.etree as et
 import string
+from pathlib import Path
 
+import lxml.etree as et
 import settings
 from utils import nrange
-
 
 # Glob pattern for file access
 glob = '*.tb.txt'
@@ -12,7 +12,7 @@ glob = '*.tb.txt'
 
 # Function to fetch text from corpus
 def fetch(self, hit, meta, fragment):
-    with codecs.open(self.text_dir + hit['filename'], 'rb') as fp:
+    with codecs.open(self.corpus.text_dir / Path(hit['filename']), 'rb') as fp:
         value = fp.read()
     parser = et.XMLParser(encoding='utf-8')
     doc = et.XML(value, parser=parser)

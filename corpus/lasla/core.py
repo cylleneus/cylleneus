@@ -6,7 +6,10 @@ import settings
 from utils import nrange
 
 
-def get(hit, meta, fragment):
+glob = '*.BPN'
+
+
+def fetch(hit, meta, fragment):
     resolver = HttpCtsResolver(CTS("http://scaife-cts.perseus.org/api/cts"))
     urn = hit.get('urn', None)
 
@@ -385,7 +388,7 @@ POS_MAP = {
 }
 
 
-def bpn2lwn(morph_code: str) -> str:
+def bpn2wn(morph_code: str) -> str:
     """
     Convert a BPN code string to a Perseus-like morphological string
 

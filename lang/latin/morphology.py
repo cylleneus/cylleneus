@@ -49,7 +49,7 @@ class Morph:
         return Morph(desc)
 
 
-def from_leipzig(gloss: str):
+def leipzig2wn(gloss: str):
     if gloss:
         pos = person = number = tense = mood = voice = gender = case = group = stem = '-'
 
@@ -94,7 +94,7 @@ def from_leipzig(gloss: str):
         return desc
 
 
-def from_apn(gloss: str) -> str:
+def apn2wn(gloss: str) -> str:
     if gloss:
         gender = stem = '-'
         pos, group, case, number, degree, mood, tense, voice, person, _ = \
@@ -262,160 +262,4 @@ _from_leipzig = {
     'M': 'm',
     'F': 'f',
     'N': 'n'
-}
-
-
-def from_proiel(pos: str, morphology: str):
-    if pos and morphology:
-        group = stem = '-'
-        pos = _from_proiel['pos'][pos]
-
-        person, number, tense, mood, voice, gender, case, degree, strength, inflection = (_from_proiel[ix][tag] for ix, tag in enumerate(morphology))
-        if pos in 'ar':
-            number = degree
-        if inflection == 'n':
-            case = '-'  # or do we give uninflected case as '-'?
-
-        desc = f"{pos}{person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
-        return desc
-
-_from_proiel = {
-    'pos':
-        {
-            "A-": "a",
-            "Df": "r",
-            "S-": "-",
-            "Ma": "-",
-            "Nb": "n",
-            "C-": "-",
-            "Pd": "o",
-            "F-": "-",
-            "Px": "o",
-            "N-": "v",
-            "I-": "-",
-            "Du": "r",
-            "Pi": "o",
-            "Mo": "a",
-            "Pp": "o",
-            "Pk": "o",
-            "Ps": "a",
-            "Pt": "a",
-            "R-": "p",
-            "Ne": "n",
-            "Py": "a",
-            "Pc": "o",
-            "Dq": "r",
-            "Pr": "o",
-            "G-": "-",
-            "V-": "v",
-            "X-": "-",
-        },
-    0:
-        {
-            "1": "1",
-            "2": "2",
-            "3": "3",
-            "x": "-",
-            "-": "-",
-        },
-    1:
-        {
-            "s": "s",
-            "d": "d",
-            "p": "p",
-            "x": "-",
-            "-": "-",
-        },
-    2:
-        {
-            "p": "p",
-            "i": "i",
-            "f": "f",
-            "a": "a",  # aorist
-            "r": "r",
-            "u": "r",  # past
-            "l": "l",
-            "t": "u",  # future perfect
-            "x": "-",
-            "-": "-",
-        },
-    3: # mood
-        {
-            "i": "i",
-            "s": "s",
-            "m": "m",
-            "o": "o",  # optative
-            "n": "n",
-            "p": "p",
-            "d": "g",   # Gerund
-            "g": "d",   # gerunDive
-            "u": "u",
-            "x": "-",
-            "y": "-",
-            "e": "-",
-            "f": "-",
-            "h": "-",
-            "t": "-",
-            "-": "-",
-        },
-    4: # voice
-        {
-            "a": "a",
-            "m": "d",
-            "p": "p",
-            "e": "p",
-            "x": "-",
-            "-": "-",
-        },
-    5: # gender
-        {
-            "m": "m",
-            "f": "f",
-            "n": "n",
-            "p": "c",
-            "o": "-",  # masculine or neuter
-            "r": "-",  # femine or neuter
-            "q": "a",
-            "x": "-",
-            "-": "-",
-        },
-    6:  # case
-        {
-            "n": "n",
-            "a": "a",
-            "o": "-",  # oblique
-            "g": "g",
-            "c": "-",  # "genitive or dative",
-            "e": "-",  # "accusative or dative",
-            "d": "d",
-            "b": "b",
-            "i": "-",  # "instrumental",
-            "l": "l",
-            "v": "v",
-            "x": "-",
-            "z": "-",
-            "-": "-",
-        },
-    7:  # degree
-        {
-            "p": "p",
-            "c": "c",
-            "s": "s",
-            "x": "-",
-            "z": "-",
-            "-": "-",
-        },
-    8:  # strength : aorist forms?? does this also mean i-stem???
-        {
-            "w": "w",  # weak
-            "s": "s",  # strong
-            "t": "t",  # "weak or strong",
-            "-": "-",
-        },
-    9:  # inflection
-        {
-            "n": "n",  # non-inflecting, indeclinable -> group
-            "i": "i",  # "inflecting",
-            "-": "-",
-        },
 }

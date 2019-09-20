@@ -1,13 +1,15 @@
 import codecs
-import lxml.etree as et
+from pathlib import Path
 
+import lxml.etree as et
 import settings
 from utils import nrange, stringify
 
+glob = '*.xml'
 
-def get(hit, meta, fragment):
-    filename = hit['filename']
-    with codecs.open(f'corpus/perseus_xml/text/{filename}', 'rb') as fp:
+
+def fetch(self, hit, meta, fragment):
+    with codecs.open(self.corpus.text_dir / Path(hit['filename']), 'rb') as fp:
         value = fp.read()
     parser = et.XMLParser(encoding='utf-8')
     doc = et.XML(value, parser=parser)

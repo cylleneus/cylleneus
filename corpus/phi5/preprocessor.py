@@ -10,7 +10,6 @@ from .core import AUTHOR_TAB
 
 class Preprocessor(BasePreprocessor):
     def parse(self, file: Path):
-
         code = file.name.lstrip('LAT').rstrip('.txt')
         auth_code, work_code = code.split('-')
         auth_code = 'phi' + auth_code

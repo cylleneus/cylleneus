@@ -1,6 +1,7 @@
 import codecs
 import copy
 import string
+from datetime import datetime
 from pathlib import Path
 
 import settings
@@ -12,7 +13,6 @@ from engine.fields import *
 from engine.schemas import BaseSchema
 from lang.latin import compound, enclitics, exceptions, jvmap, proper_names, replacements, sent_tokenizer, \
     word_tokenizer
-
 
 glob = '.txt'
 
@@ -55,7 +55,7 @@ class CachedTokenizer(Tokenizer):
         super(CachedTokenizer, self).__init__()
         self.__dict__.update(**kwargs)
         self._cache = None
-        self._docix = 0
+        self._docix = None
 
     @property
     def cache(self):
@@ -64,7 +64,7 @@ class CachedTokenizer(Tokenizer):
     def __call__(self, value: str, positions=True, chars=True,
                  keeporiginal=True, removestops=True, tokenize=True,
                  start_pos=0, start_char=0, mode='', **kwargs):
-        if self._cache and kwargs.get('docix', None) == self._docix:
+        if kwargs.get('docix') == self._docix and self._cache:
             yield from self.cache
         else:
             t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
@@ -84,7 +84,7 @@ class CachedTokenizer(Tokenizer):
                     yield t
                 else:
                     self._cache = []
-                    self._docix = kwargs.get('docix', 0)
+                    self._docix = kwargs.get('docix', None)
 
                     sents = sent_tokenizer.tokenize(value)
                     stopchars = str.maketrans('', '', string.punctuation.replace('-', ''))
@@ -275,7 +275,7 @@ class DocumentSchema(BaseSchema):
     semfield = SEMFIELD(analyzer=Tokens | Lemmas | Synsets | Semfields, vector=True)
 
 
-# Fetch function for generic plaintext corpora
+# Fetch function for plaintext corpora with indexed content
 def fetch(hit, meta, fragment):
     content = hit['content']
     offset = content.find(fragment)

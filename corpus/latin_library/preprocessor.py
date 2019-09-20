@@ -43,6 +43,6 @@ class Preprocessor(BasePreprocessor):
             'synset': doc,
             'annotation': doc,
             'semfield': doc,
-            'filename': str(file.relative_to('corpus/latin_library/text')),
+            'filename': str(file.relative_to(self.corpus.text_dir)),
             'datetime': datetime.now()
         }
