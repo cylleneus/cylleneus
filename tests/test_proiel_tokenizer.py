@@ -9,8 +9,6 @@ import codecs
 import pathlib
 import lxml.etree as et
 
-from engine.analysis.tokenizers import CachedPerseusTEITokenizer
-
 
 class TestPROIELTokenizer(unittest.TestCase):
     """Tests for `cylleneus` package."""

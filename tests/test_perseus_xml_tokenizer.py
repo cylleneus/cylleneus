@@ -9,8 +9,6 @@ import codecs
 import pathlib
 import lxml.etree as et
 
-from engine.analysis.tokenizers import CachedPerseusXMLTokenizer
-
 
 class TestPerseusXMLTokenizer(unittest.TestCase):
     """Tests for `cylleneus` package."""
@@ -24,6 +22,8 @@ class TestPerseusXMLTokenizer(unittest.TestCase):
     def test_perseus_json_tokenizer(self):
         """Test the Perseus XML tokenizer."""
         pass
+        # from engine.analysis.tokenizers import CachedPerseusXMLTokenizer
+        #
         # perseus = pathlib.Path('../corpus/perseus_xml/text/')
         # files = list(perseus.glob('*lat*.xml'))
         #

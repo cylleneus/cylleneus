@@ -9,8 +9,6 @@ import codecs
 import pathlib
 import re
 
-from engine.analysis.tokenizers import CachedPHI5Tokenizer
-
 
 class TestPHI5Tokenizer(unittest.TestCase):
     """Tests for `cylleneus` package."""
@@ -24,6 +22,8 @@ class TestPHI5Tokenizer(unittest.TestCase):
     def test_phi5_tokenizer(self):
         """Test the PHI5 tokenizer."""
         pass
+        # from engine.analysis.tokenizers import CachedPHI5Tokenizer
+        #
         # phi5 = pathlib.Path('tests/text/phi5/')
         # files = phi5.glob('*.txt')
         # with codecs.open(choice(files), 'r', 'utf8') as f:
