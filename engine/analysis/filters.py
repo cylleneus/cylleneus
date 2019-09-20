@@ -520,7 +520,7 @@ class CachedLemmaFilter(Filter):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if kwargs['docix'] == self._docix and self._cache:
+        if kwargs.get('docix', None) == self._docix and self._cache:
             yield from self.cache
         else:
             self._cache = []
@@ -729,7 +729,7 @@ class CachedSynsetFilter(Filter):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if kwargs['docix'] == self._docix and self._cache:
+        if kwargs.get('docix', None) == self._docix and self._cache:
             yield from self.cache
         else:
             self._cache = []
@@ -870,7 +870,7 @@ class CachedLASLALemmaFilter(Filter):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if kwargs['docix'] == self._docix and self._cache:
+        if kwargs.get('docix', None) == self._docix and self._cache:
             yield from self.cache
         else:
             self._cache = []
@@ -1015,7 +1015,7 @@ class CachedPROIELLemmaFilter(Filter):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if kwargs['docix'] == self._docix and self._cache:
+        if kwargs.get('docix', None) == self._docix and self._cache:
             yield from self.cache
         else:
             from corpus.perseus import mapping
@@ -1182,7 +1182,7 @@ class CachedAGLDTLemmaFilter(Filter):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if kwargs['docix'] == self._docix and self._cache:
+        if kwargs.get('docix', None) == self._docix and self._cache:
             yield from self.cache
         else:
             from corpus.perseus import mapping
