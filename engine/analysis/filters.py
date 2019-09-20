@@ -505,7 +505,7 @@ class CachedLemmaFilter(Filter):
         super(CachedLemmaFilter, self).__init__()
         self.__dict__.update(**kwargs)
         self._cache = None
-        self._docix = 0
+        self._docix = None
 
     @property
     def cache(self):
@@ -520,11 +520,11 @@ class CachedLemmaFilter(Filter):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if self._cache and kwargs.get('docix', None) == self._docix:
+        if kwargs['docix'] == self._docix and self._cache:
             yield from self.cache
         else:
             self._cache = []
-            self._docix = kwargs.get('docix', 0)
+            self._docix = kwargs.get('docix', None)
 
             for t in tokens:
                 if t.mode == 'index':
@@ -714,7 +714,7 @@ class CachedSynsetFilter(Filter):
         super(CachedSynsetFilter, self).__init__()
         self.__dict__.update(**kwargs)
         self._cache = None
-        self._docix = 0
+        self._docix = None
 
     @property
     def cache(self):
@@ -729,11 +729,11 @@ class CachedSynsetFilter(Filter):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if self._cache and kwargs.get('docix', None) == self._docix:
+        if kwargs['docix'] == self._docix and self._cache:
             yield from self.cache
         else:
             self._cache = []
-            self._docix = kwargs.get('docix', 0)
+            self._docix = kwargs.get('docix', None)
 
             for t in tokens:
                 if t.mode == 'index':
@@ -855,7 +855,7 @@ class CachedLASLALemmaFilter(Filter):
         super(CachedLASLALemmaFilter, self).__init__()
         self.__dict__.update(**kwargs)
         self._cache = None
-        self._docix = 0
+        self._docix = None
 
     @property
     def cache(self):
@@ -870,11 +870,11 @@ class CachedLASLALemmaFilter(Filter):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if self._cache and kwargs.get('docix', None) == self._docix:
+        if kwargs['docix'] == self._docix and self._cache:
             yield from self.cache
         else:
             self._cache = []
-            self._docix = kwargs.get('docix', 0)
+            self._docix = kwargs.get('docix', None)
 
             jvmap = str.maketrans('jv', 'iu', '')
             for t in tokens:
@@ -1000,7 +1000,7 @@ class CachedPROIELLemmaFilter(Filter):
         super(CachedPROIELLemmaFilter, self).__init__()
         self.__dict__.update(**kwargs)
         self._cache = None
-        self._docix = 0
+        self._docix = None
 
     @property
     def cache(self):
@@ -1015,13 +1015,13 @@ class CachedPROIELLemmaFilter(Filter):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if self._cache and kwargs.get('docix', None) == self._docix:
+        if kwargs['docix'] == self._docix and self._cache:
             yield from self.cache
         else:
             from corpus.perseus import mapping
 
             self._cache = []
-            self._docix = kwargs.get('docix', 0)
+            self._docix = kwargs.get('docix', None)
 
             jvmap = str.maketrans('jv', 'iu', '')
             for t in tokens:
@@ -1167,7 +1167,7 @@ class CachedAGLDTLemmaFilter(Filter):
         super(CachedAGLDTLemmaFilter, self).__init__()
         self.__dict__.update(**kwargs)
         self._cache = None
-        self._docix = 0
+        self._docix = None
 
     @property
     def cache(self):
@@ -1182,13 +1182,13 @@ class CachedAGLDTLemmaFilter(Filter):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if self._cache and kwargs.get('docix', None) == self._docix:
+        if kwargs['docix'] == self._docix and self._cache:
             yield from self.cache
         else:
             from corpus.perseus import mapping
 
             self._cache = []
-            self._docix = kwargs.get('docix', 0)
+            self._docix = kwargs.get('docix', None)
 
             jvmap = str.maketrans('jv', 'iu', '')
             for t in tokens:

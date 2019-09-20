@@ -4,7 +4,7 @@
 """The setup script."""
 
 
-import settings
+from settings import __version__
 from setuptools import find_packages, setup
 
 with open('README.rst') as readme_file:
@@ -82,6 +82,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/wmshort/cylleneus',
-    version=settings.__version__,
+    version=__version__,
     zip_safe=False,
 )
