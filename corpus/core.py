@@ -3,11 +3,11 @@ from pathlib import Path
 
 import settings
 from engine.fields import Schema
-from engine.schemas import schemas
 from engine.searching import CylleneusHit, CylleneusSearcher
 
 from . import agldt, default, lasla, latin_library, perseus, perseus_xml, proiel
 from . import indexer
+
 
 CorpusMeta = namedtuple('CorpusMeta', [
     'schema',
@@ -35,19 +35,17 @@ meta = {
 class Corpus:
     def __init__(self, name: str, schema: Schema=None):
         self._name = name
-        self._schema = schema if schema else schemas.get(self.name)()
+        self._schema = meta.get(name, meta['default']).schema()
+        self._tokenizer = meta.get(name, meta['default']).tokenizer()
+        self._glob = meta.get(name, meta['default']).glob
 
-        # self._schema = meta.get(name, meta['default']).schema()
-        # self._tokenizer = meta.get(name, meta['default']).tokenizer()
-        # self._glob = meta.get(name, meta['default']).glob
+    @property
+    def glob(self):
+        return self._glob
 
-    # @property
-    # def glob(self):
-    #     return self._glob
-    #
-    # @property
-    # def tokenizer(self):
-    #     return self._tokenizer
+    @property
+    def tokenizer(self):
+        return self._tokenizer
 
     @property
     def name(self):

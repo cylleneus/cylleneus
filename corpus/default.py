@@ -1,7 +1,10 @@
+import codecs
 import copy
 import string
+from pathlib import Path
 
 import settings
+from corpus.preprocessing import BasePreprocessor
 from engine.analysis.acore import CylleneusToken
 from engine.analysis.filters import AnnotationFilter, CachedLemmaFilter, CachedSynsetFilter, SemfieldFilter
 from engine.analysis.tokenizers import Tokenizer
@@ -12,6 +15,39 @@ from lang.latin import compound, enclitics, exceptions, jvmap, proper_names, rep
 
 
 glob = '.txt'
+
+
+class Preprocessor(BasePreprocessor):
+    def parse(self, file: Path):
+        with codecs.open(file, 'r', 'utf8') as fp:
+            doc = fp.read()
+
+        # Do some tidying up
+        subs = [
+            (r"\.,", "."),
+            (r"([\w])\.([\w])", r"\1. \2"),
+            (r",([\w])", r", \1"),
+            (r"(?<=\w)\.\.", r" . ."),
+            (r"([.,;:])([.,;:])", r"\1 \2"),
+            (r"[\t\r\n ]+", " "),
+            (r'\.\"', r'\"\.'),
+            (r' ,', ','),
+            (r'\[ \d+ \] ', ''),
+            (r' \[,', '[,'),
+            (r'\]\.', '.]')
+        ]
+        for pattern, repl in subs:
+            doc = re.sub(pattern, repl, doc)
+        return {
+            'content': doc,
+            'form': doc,
+            'lemma': doc,
+            'synset': doc,
+            'annotation': doc,
+            'semfield': doc,
+            'filename': file.name,
+            'datetime': datetime.now()
+        }
 
 
 class CachedTokenizer(Tokenizer):

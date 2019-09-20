@@ -3,12 +3,13 @@ import re
 from datetime import datetime
 from pathlib import Path
 
-from corpus.preprocessing import Preprocessor
+from corpus.preprocessing import BasePreprocessor
+
+from .core import AUTHOR_TAB
 
 
-class PHI5Preprocessor(Preprocessor):
+class Preprocessor(BasePreprocessor):
     def parse(self, file: Path):
-        from corpus.phi5 import AUTHOR_TAB
 
         code = file.name.lstrip('LAT').rstrip('.txt')
         auth_code, work_code = code.split('-')
