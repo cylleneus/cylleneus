@@ -6,6 +6,11 @@ import settings
 from utils import nrange
 
 
+# Glob pattern for file access
+glob = '*.tb.txt'
+
+
+# Function to fetch text from corpus
 def get(hit, meta, fragment):
     with codecs.open('corpus/agldt/text/' + hit['filename'], 'rb') as fp:
         value = fp.read()
