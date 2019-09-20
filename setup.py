@@ -4,7 +4,7 @@
 """The setup script."""
 
 
-from settings import __version__
+import settings
 from setuptools import find_packages, setup
 
 with open('README.rst') as readme_file:
@@ -12,6 +12,9 @@ with open('README.rst') as readme_file:
 
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
+
+# Version
+__version__ = "0.1.1"
 
 requirements = [
     'Click>=6.0',

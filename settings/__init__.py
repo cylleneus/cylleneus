@@ -4,8 +4,6 @@ import os
 import sys
 from utils import DEBUG_HIGH, DEBUG_MEDIUM, DEBUG_LOW, DEBUG_OFF
 
-# Version settings
-__version__ = "0.1.0"
 
 # Platform
 PLATFORM = sys.platform
