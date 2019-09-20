@@ -40,5 +40,5 @@ class TestLASLATokenizer(unittest.TestCase):
         #         meta = corpus.lasla.AUTHOR_TAB[uid[0]][code][uid[1:]]['meta']
         #
         # T = CachedLASLATokenizer()
-        # for t in T({"text": doc, "meta": meta}, mode='index'):
+        # for t in T({"text": doc, "meta": meta}, mode='index', docix=0):
         #     assert t

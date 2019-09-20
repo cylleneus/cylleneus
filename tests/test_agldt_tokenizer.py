@@ -43,5 +43,5 @@ class TestPROIELTokenizer(unittest.TestCase):
 
         T = CachedAGLDTTokenizer()
 
-        for t in T(data):
+        for t in T(data, docix=0):
             print(t)

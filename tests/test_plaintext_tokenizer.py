@@ -45,5 +45,5 @@ class TestPlaintextTokenizer(unittest.TestCase):
         #
         # T = CachedPlainTextTokenizer()
         #
-        # for t in T(doc):
+        # for t in T(doc, docix=0):
         #     assert t

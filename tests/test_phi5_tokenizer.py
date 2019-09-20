@@ -36,5 +36,5 @@ class TestPHI5Tokenizer(unittest.TestCase):
         # T = CachedPHI5Tokenizer()
         # data = { 'meta': 'fragment-verse', 'text': value}
         #
-        # for t in T(data):
+        # for t in T(data, docix=0):
         #     assert t

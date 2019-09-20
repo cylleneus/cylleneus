@@ -33,5 +33,5 @@ class TestPerseusJSONTokenizer(unittest.TestCase):
         #
         # T = tokenizers.CachedPerseusJSONTokenizer()
         #
-        # for t in T(value=data, mode='index'):
+        # for t in T(value=data, mode='index', docix=0):
         #     print(t)

@@ -7,7 +7,7 @@ future==0.17.1
 html3>=1.17
 idna==2.8
 isodate==0.6.0
-latinwordnet>=0.0.9
+latinwordnet>=0.1.2
 lxml==4.3.2
 MyCapytain==2.0.10
 multiwordnet>=0.0.2
