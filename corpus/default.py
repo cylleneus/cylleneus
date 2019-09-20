@@ -14,6 +14,7 @@ from engine.schemas import BaseSchema
 from lang.latin import compound, enclitics, exceptions, jvmap, proper_names, replacements, sent_tokenizer, \
     word_tokenizer
 
+
 glob = '.txt'
 
 
@@ -259,6 +260,7 @@ class CachedTokenizer(Tokenizer):
                             yield t
                         start_char += original_length + 1
 
+
 Tokens = CachedTokenizer(chars=True)
 Lemmas = CachedLemmaFilter(chars=True)
 Synsets = CachedSynsetFilter()
@@ -276,8 +278,8 @@ class DocumentSchema(BaseSchema):
 
 
 # Fetch function for plaintext corpora with indexed content
-def fetch(hit, meta, fragment):
-    content = hit['content']
+def fetch(work, meta, fragment):
+    content = work.doc['content']
     offset = content.find(fragment)
 
     # Reference and hlite values

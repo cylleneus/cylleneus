@@ -9,9 +9,9 @@ from utils import nrange
 glob = '*.BPN'
 
 
-def fetch(hit, meta, fragment):
+def fetch(work, meta, fragment):
     resolver = HttpCtsResolver(CTS("http://scaife-cts.perseus.org/api/cts"))
-    urn = hit.get('urn', None)
+    urn = work.doc.get('urn', None)
 
     divs = meta['meta'].split('-')
 

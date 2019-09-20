@@ -6,7 +6,7 @@ from corpus.perseus import mapping
 from latinwordnet import LatinWordNet
 from latinwordnet.latinwordnet import relation_types
 from lang.latin.morphology import leipzig2wn
-from . import relations
+from .core import relations
 
 
 class CachedLemmaFilter(Filter):

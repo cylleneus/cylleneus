@@ -7,8 +7,8 @@ import settings
 
 glob = '*/*.txt'
 
-def fetch(self, hit, meta, fragment):
-    with codecs.open(self.corpus.text_dir / Path(hit['filename'])) as fp:
+def fetch(work, meta, fragment):
+    with codecs.open(work.corpus.text_dir / Path(work.doc['filename'])) as fp:
         content = fp.read()
 
     # Do some tidying up

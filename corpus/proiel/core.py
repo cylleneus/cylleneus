@@ -9,14 +9,14 @@ from utils import nrange
 glob = '*.xml'
 
 
-def fetch(self, hit, meta, fragment):
-    with codecs.open(self.corpus.text_dir / Path(hit['filename']), 'rb') as fp:
+def fetch(work, meta, fragment):
+    with codecs.open(work.corpus.text_dir / Path(work.doc['filename']), 'rb') as fp:
         value = fp.read()
     parser = et.XMLParser(encoding='utf-8')
     doc = et.XML(value, parser=parser)
 
     # URN
-    urn = hit.get('urn', None)
+    urn = work.doc.get('urn', None)
 
     divs = meta['meta'].split('-')
 

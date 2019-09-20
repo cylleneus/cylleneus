@@ -19,44 +19,44 @@ CorpusMeta = namedtuple('CorpusMeta', [
 
 meta = {
     'agldt': CorpusMeta(
-        agldt.schema.DocumentSchema,
-        agldt.tokenizer.Tokenizer,
-        agldt.preprocessor.Preprocessor,
+        agldt.DocumentSchema,
+        agldt.Tokenizer,
+        agldt.Preprocessor,
         agldt.core.glob,
         agldt.core.fetch
     ),
     'lasla': CorpusMeta(
-        lasla.schema.DocumentSchema,
-        lasla.tokenizer.Tokenizer,
-        lasla.preprocessor.Preprocessor,
+        lasla.DocumentSchema,
+        lasla.Tokenizer,
+        lasla.Preprocessor,
         lasla.core.glob,
         lasla.core.fetch
     ),
     'latin_library': CorpusMeta(
         default.DocumentSchema,
         default.Tokenizer,
-        latin_library.preprocessor.Preprocessor,
+        latin_library.Preprocessor,
         latin_library.core.glob,
         latin_library.core.fetch
     ),
     'perseus': CorpusMeta(
-        perseus.schema.DocumentSchema,
-        perseus.tokenizer.Tokenizer,
-        perseus.preprocessor.Preprocessor,
+        perseus.DocumentSchema,
+        perseus.Tokenizer,
+        perseus.Preprocessor,
         perseus.core.glob,
         perseus.core.fetch
     ),
     'perseus_xml': CorpusMeta(
-        perseus_xml.schema.DocumentSchema,
-        perseus_xml.tokenizer.Tokenizer,
-        perseus_xml.preprocessor.Preprocessor,
+        perseus_xml.DocumentSchema,
+        perseus_xml.Tokenizer,
+        perseus_xml.Preprocessor,
         perseus_xml.core.glob,
         perseus_xml.core.fetch
     ),
     'proiel': CorpusMeta(
-        proiel.schema.DocumentSchema,
-        proiel.tokenizer.Tokenizer,
-        proiel.preprocessor.Preprocessor,
+        proiel.DocumentSchema,
+        proiel.Tokenizer,
+        proiel.Preprocessor,
         proiel.core.glob,
         proiel.core.fetch
     ),
@@ -77,25 +77,37 @@ class Corpus:
         _meta = meta.get(name, meta['default'])
         self._schema = _meta.schema()
         self._tokenizer = _meta.tokenizer()
+        self._preprocessor = _meta.preprocessor(self)
         self._glob = _meta.glob
-        self._preprocessor = _meta.preprocessor
         self._fetch = _meta.fetch
-
-    @property
-    def glob(self):
-        return self._glob
-
-    @property
-    def tokenizer(self):
-        return self._tokenizer
 
     @property
     def name(self):
         return self._name
 
     @property
+    def preprocessor(self):
+        return self._preprocessor
+
+    @preprocessor.setter
+    def preprocessor(self, p):
+        self._preprocessor = p
+
+    @property
     def schema(self):
         return self._schema
+
+    @schema.setter
+    def schema(self, s: Schema):
+        self._schema = s
+
+    @property
+    def glob(self):
+        return self._glob
+
+    @glob.setter
+    def glob(self, g):
+        self._glob = g
 
     def optimize(self):
         for ixr in self.indexers:
@@ -130,7 +142,6 @@ class Corpus:
                 if results:
                     for docix in results:
                         self.delete_by_ix(docix)
-
 
     def delete_by_ix(self, docix: int):
         for ixr in self.indexers:
@@ -184,7 +195,7 @@ class Corpus:
     def indexer_for_docix(self, docix: int):
         for doc in self.iter_docs():
             if doc['docix'] == int(docix):
-                return Work(doc=doc).indexer
+                return Work(corpus=self, doc=doc).indexer
 
     @property
     def readers(self):
@@ -207,8 +218,8 @@ class Corpus:
         return Path(f"{settings.ROOT_DIR}/corpus/{self.name}")
 
     def fetch(self, hit, meta, fragment):
-        work = Work(self, doc=hit)
-        urn, reference, text = work.get(meta, fragment)
+        work = Work(corpus=self, doc=hit)
+        urn, reference, text = work.fetch(work, meta, fragment)
         return self.name, work.author, work.title, urn, reference, text
 
     def __str__(self):
@@ -245,8 +256,10 @@ class Work:
             else:
                 self._doc = self._author = self._title = None
         self._indexer = indexer.Indexer(corpus, self)
-
         self.fetch = self.corpus._fetch
+
+    # def fetch(self, meta, fragment):
+    #     self._fetch(self.doc, meta, fragment)
 
     @property
     def is_searchable(self):

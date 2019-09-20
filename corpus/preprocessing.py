@@ -1,11 +1,9 @@
 from abc import abstractmethod
 from pathlib import Path
 
-from .core import Corpus
-
 
 class BasePreprocessor:
-    def __init__(self, corpus: Corpus):
+    def __init__(self, corpus):
         self._corpus = corpus
 
     @property

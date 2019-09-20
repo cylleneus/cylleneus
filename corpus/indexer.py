@@ -3,7 +3,6 @@ from pathlib import Path
 
 import engine.index
 import settings
-from engine.fields import Schema
 from engine.writing import CLEAR
 from utils import slugify
 
@@ -28,12 +27,9 @@ class Indexer:
             self._path = Path(self.corpus.index_dir / slugify(work.author) / slugify(work.title))
         else:
             self._path = None
-        self._schema = self.corpus.schema
-        self._preprocessor = self.corpus.schema
-        self._glob = self.corpus.glob
 
         if self.path and engine.index.exists_in(self.path):
-            self._index = engine.index.open_dir(self.path, schema=self.schema)
+            self._index = engine.index.open_dir(self.path, schema=self.corpus.schema)
         else:
             self._index = None
 
@@ -48,22 +44,6 @@ class Indexer:
     @corpus.setter
     def corpus(self, cp):
         self._corpus = cp
-
-    @property
-    def preprocessor(self):
-        return self._preprocessor
-
-    @preprocessor.setter
-    def preprocessor(self, p):
-        self._preprocessor = p
-
-    @property
-    def schema(self):
-        return self._schema
-
-    @schema.setter
-    def schema(self, s: Schema):
-        self._schema = s
 
     @property
     def index(self):
@@ -91,6 +71,7 @@ class Indexer:
             writer.commit(mergetype=CLEAR)
 
     def destroy(self):
+
         if self.path.exists():
             shutil.rmtree(self.path)
             self._index = None
@@ -102,12 +83,12 @@ class Indexer:
         if not self.index:
             if not self.path.exists():
                 self.path.mkdir(parents=True)
-            engine.index.create_in(self.path, schema=self.schema)
+            engine.index.create_in(self.path, schema=self.corpus.schema)
 
     def open(self):
         if not engine.index.exists_in(self.path):
             self.create()
-        self.index = engine.index.open_dir(self.path, schema=self.schema)
+        self.index = engine.index.open_dir(self.path, schema=self.corpus.schema)
 
     def update(self, path: Path):
         if self.path and self.path.exists():
@@ -122,7 +103,7 @@ class Indexer:
         if path.exists():
             docix = self.corpus.doc_count_all
 
-            kwargs = self.preprocessor.parse(path)
+            kwargs = self.corpus.preprocessor.parse(path)
             if 'author' not in kwargs and self.work.author:
                 kwargs['author'] = self.work.author
             if 'title' not in kwargs and self.work.title:
@@ -149,7 +130,7 @@ class Indexer:
         if content:
             docix = self.corpus.doc_count_all
 
-            parsed = self.preprocessor.parse(content)
+            parsed = self.corpus.preprocessor.parse(content)
             kwargs.update(parsed)
 
             self.path = Path(self.corpus.index_dir / slugify(kwargs['author']) / slugify(kwargs['title']))

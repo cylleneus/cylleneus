@@ -8,8 +8,8 @@ from utils import nrange
 
 glob = '*.json'
 
-def fetch(self, hit, meta, fragment):
-    with codecs.open(self.corpus.text_dir / Path(hit['filename']), 'r', 'utf8') as fp:
+def fetch(work, meta, fragment):
+    with codecs.open(work.corpus.text_dir / Path(work.doc['filename']), 'r', 'utf8') as fp:
         doc = json.load(fp)
 
     divs = meta['meta'].split('-')
