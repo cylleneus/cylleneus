@@ -16,15 +16,16 @@ for path in Path(settings.ROOT_DIR + '/corpus').glob('*'):
         _corpora.append(path.name)
 
 
-def import_text(author, title, filename, content):
+def import_text(corpus, author, title, filename, content):
     kwargs = {
+        'corpus': corpus,
         'author': author,
         'title': title,
         'filename': filename,
     }
 
     try:
-        c = Corpus('imported')
+        c = Corpus(corpus)
         w = Work(c, author=author, title=title)
         ndocs = c.doc_count_all
         w.indexer.from_string(content=content, **kwargs)
@@ -89,18 +90,20 @@ def collection():
 def _import():
     form = request.form
 
+    corpus = form.get('corpus', None)
     author = form.get('author', None)
     title = form.get('title', None)
     filename = form.get('filename', None)
     content = form.get('content', None)
 
     if filename is not None and content is not None:
-        success = import_text(author, title, filename, content)
+        success = import_text(corpus, author, title, filename, content)
     else:
         success = False
 
     response = {
             'filename': filename if filename else "Choose file...",
+            'corpus': corpus if corpus else "",
             'author': author if author else "",
             'title': title if title else "",
             'content': content if content else "",

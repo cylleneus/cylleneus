@@ -123,7 +123,8 @@ def index():
     if _corpus:
         repl.info(Palette.BOLD.format(f"corpus '{_corpus.name}', {_corpus.doc_count_all} documents indexed"))
         for docix, doc in sorted(_corpus.iter_docs(), key=lambda x: x[0]):
-            repl.info(Palette.GREY.format(f"{docix}. {doc['author'].title()}, {doc['title'].title()}"))
+            repl.info(Palette.GREY.format(f"[{docix}] {doc['author'].title()}, {doc['title'].title()} ["
+                                          f"{doc['filename']}]"))
     else:
         repl.error("no corpus selected")
 

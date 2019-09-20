@@ -8,6 +8,17 @@
             <div class="card-body">
                 <form action="/import" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
+                        <label class="h6 font-weight-bold" for="corpus">Corpus</label>
+                        <input type="text"
+                               class="form-control"
+                               name="corpus"
+                               autocomplete="off"
+                               value="{{ corpus }}"
+                               placeholder=""
+                               required="required"
+                               id="corpus"/>
+                    </div>
+                    <div class="form-group">
                         <label class="h6 font-weight-bold" for="author">Author</label>
                         <input type="text"
                                class="form-control"
