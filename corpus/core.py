@@ -6,7 +6,7 @@ from engine.fields import Schema
 from engine.schemas import schemas
 from engine.searching import CylleneusHit, CylleneusSearcher
 
-from . import agldt, default, indexer, lasla, latin_library, perseus, perseus_xml, proiel
+from . import agldt, indexer, lasla, latin_library, perseus, perseus_xml, proiel
 
 
 CorpusMeta = namedtuple('CorpusMeta', [
@@ -180,7 +180,7 @@ class Corpus:
             self.path == other.path
 
 
-# Get function for generic 'imported' corpus
+# Get function for generic plaintext corpus
 def plaintext_get(hit, meta, fragment):
     content = hit['content']
     offset = content.find(fragment)
@@ -197,11 +197,6 @@ def plaintext_get(hit, meta, fragment):
         v - offset
         if k != 'pos' and v is not None else v
         for k, v in meta['start'].items()
-    ]
-    hlite_end = [
-        v - offset
-        if k != 'pos' and v is not None else v
-        for k, v in meta['end'].items()
     ]
 
     # Collect text and context
