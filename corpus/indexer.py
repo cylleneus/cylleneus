@@ -125,11 +125,10 @@ class Indexer:
                     self.corpus.name, docix, kwargs['author'], kwargs['title'], path,
                     end='...'))
                 writer.add_document(**kwargs)
-            except queue.Empty as e:
-                pass
-            finally:
                 writer.commit()
                 print_debug(DEBUG_HIGH, 'ok')
+            except queue.Empty as e:
+                pass
             return docix
 
     def from_string(self, content: str, **kwargs):
@@ -155,9 +154,8 @@ class Indexer:
                     self.corpus.name, docix, kwargs['author'], kwargs['title'],
                     end='...'))
                 writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
-            except queue.Empty as e:
-                pass
-            finally:
                 writer.commit()
                 print_debug(DEBUG_HIGH, 'ok')
+            except queue.Empty as e:
+                pass
             return docix
