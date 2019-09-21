@@ -4,7 +4,7 @@ from pathlib import Path
 import engine.index
 import settings
 from engine.writing import CLEAR
-from utils import slugify
+from utils import slugify, print_debug, DEBUG_HIGH
 import queue
 
 
@@ -125,11 +125,15 @@ class Indexer:
                 multisegment=True
             )
             try:
+                print_debug(DEBUG_HIGH, "Add: '{}', {}, {}, {} [{}]".format(
+                    self.corpus.name, docix, kwargs['author'], kwargs['title'], path,
+                    end='...'))
                 writer.add_document(**kwargs)
             except queue.Empty as e:
                 pass
             finally:
                 writer.commit()
+                print_debug(DEBUG_HIGH, "ok")
             return docix
 
     def from_string(self, content: str, **kwargs):
