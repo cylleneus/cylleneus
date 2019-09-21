@@ -44,7 +44,7 @@ def index(corpus):
             else:
                 click.echo(f"[{doc['docix']}] {doc['filename']}")
     else:
-        click.echo(f"[-] nothing indexed in '{corpus}'")
+        click.echo(f"[-] nothing indexed for '{corpus}'")
 
 
 @main.command()
@@ -167,7 +167,7 @@ def create(corpus):
 
     for file in c.text_dir.glob(c.glob):
         w = Work(corpus=c)
-        w.indexer.from_file(file)
+        _ = w.indexer.from_file(file)
 
     ndocs = c.doc_count_all
     if ndocs > 0:

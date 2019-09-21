@@ -7,6 +7,7 @@ from engine.writing import CLEAR
 from utils import slugify
 import queue
 
+
 class IndexingError(Exception):
     pass
 
