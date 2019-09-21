@@ -5,7 +5,7 @@ import engine.index
 import settings
 from engine.writing import CLEAR
 from utils import slugify
-
+import queue
 
 class IndexingError(Exception):
     pass
@@ -114,13 +114,21 @@ class Indexer:
             self.path = Path(self.corpus.index_dir / slugify(kwargs['author']) / slugify(kwargs['title']))
             self.open()
 
+            if settings.PLATFORM == 'win32':
+                procs = 1
+            else:
+                procs = 4
             writer = self.index.writer(
-                limitmb=4096,
-                procs=1 if settings.PLATFORM == 'win32' else 4,
+                limitmb=1024,
+                procs=procs,
                 multisegment=True
             )
-            writer.add_document(**kwargs)
-            writer.commit()
+            try:
+                writer.add_document(**kwargs)
+            except queue.Empty as e:
+                pass
+            finally:
+                writer.commit()
             return docix
 
     def from_string(self, content: str, **kwargs):
@@ -136,11 +144,19 @@ class Indexer:
             self.path = Path(self.corpus.index_dir / slugify(kwargs['author']) / slugify(kwargs['title']))
             self.open()
 
+            if settings.PLATFORM == 'win32':
+                procs = 1
+            else:
+                procs = 4
             writer = self.index.writer(
-                limitmb=4096,
-                procs=1 if settings.PLATFORM == 'win32' else 4,
+                limitmb=1024,
+                procs=procs,
                 multisegment=True
             )
-            writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
-            writer.commit()
+            try:
+                writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
+            except queue.Empty:
+                pass
+            finally:
+                writer.commit()
             return docix
