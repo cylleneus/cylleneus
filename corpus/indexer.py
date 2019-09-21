@@ -72,8 +72,7 @@ class Indexer:
             writer.commit(mergetype=CLEAR)
 
     def destroy(self):
-
-        if self.path.exists():
+        if self.path and self.path.exists():
             shutil.rmtree(self.path)
             self._index = None
 
