@@ -6,6 +6,8 @@ import sys
 from pathlib import Path
 
 import click
+import click_spinner
+
 from corpus import Corpus, Work
 from search import CylleneusSearcher
 
@@ -50,8 +52,9 @@ def index(corpus):
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
 def clear(corpus):
-    c = Corpus(corpus)
-    c.clear()
+    with click_spinner.spinner():
+        c = Corpus(corpus)
+        c.clear()
 
     if c.doc_count_all == 0:
         click.echo(f"[+] cleared '{corpus}'")
@@ -63,8 +66,9 @@ def clear(corpus):
 @click.option('--corpus', '-c', 'corpus', required=True)
 def destroy(corpus):
     if click.confirm(f"Are you sure?", default=False):
-        c = Corpus(corpus)
-        c.destroy()
+        with click_spinner.spinner():
+            c = Corpus(corpus)
+            c.destroy()
 
         if c.is_searchable:
             click.echo('[-] failed')
@@ -74,8 +78,9 @@ def destroy(corpus):
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
 def optimize(corpus):
-    c = Corpus(corpus)
-    c.optimize()
+    with click_spinner.spinner():
+        c = Corpus(corpus)
+        c.optimize()
 
     click.echo(f"[+] optimized '{corpus}'")
 
@@ -84,8 +89,9 @@ def optimize(corpus):
 @click.option('--corpus', '-c', 'corpus', required=True)
 @click.option('--docix', '-d', 'docix', required=True)
 def delete(corpus, docix):
-    c = Corpus(corpus)
-    c.delete_by_ix(int(docix))
+    with click_spinner.spinner():
+        c = Corpus(corpus)
+        c.delete_by_ix(int(docix))
 
     if docix in list(c.all_doc_ixs()):
         click.echo(f'[-] failed')
@@ -98,11 +104,13 @@ def delete(corpus, docix):
 @click.option('--author', '-a', 'author')
 @click.option('--title', '-t', 'title')
 def deleteby(corpus, **kwargs):
-    c = Corpus(corpus)
-    pre_ndocs = c.doc_count_all
-    c.delete_by()
-    post_ndocs = c.doc_count_all
-    ndocs = pre_ndocs - post_ndocs
+    with click_spinner.spinner():
+        c = Corpus(corpus)
+        pre_ndocs = c.doc_count_all
+        c.delete_by()
+        post_ndocs = c.doc_count_all
+        ndocs = pre_ndocs - post_ndocs
+
     if ndocs == 0:
         click.echo(f'[-] failed')
     else:
@@ -114,8 +122,9 @@ def deleteby(corpus, **kwargs):
 @click.option('--docix', '-d', 'docix', required=True)
 @click.option('--path', '-p', 'path', required=True)
 def update(corpus, docix, path):
-    c = Corpus(corpus)
-    c.update(docix=docix, path=Path(path))
+    with click_spinner.spinner():
+        c = Corpus(corpus)
+        c.update(docix=docix, path=Path(path))
 
     if docix in [doc['docix'] for doc in c.iter_docs()]:
         click.echo(f"[+] updated document {docix} in '{corpus}'")
@@ -129,9 +138,10 @@ def update(corpus, docix, path):
 @click.option('--title', '-t', 'title')
 @click.option('--path', '-p', 'path', required=True)
 def updateby(corpus, **kwargs):
-    kwargs['path'] = Path(kwargs['path'])
-    c = Corpus(corpus)
-    docix = c.update_by(**kwargs)
+    with click_spinner.spinner():
+        kwargs['path'] = Path(kwargs['path'])
+        c = Corpus(corpus)
+        docix = c.update_by(**kwargs)
 
     if docix in [doc['docix'] for doc in c.docs]:
         click.echo(f"[+] updated document {docix} in '{corpus}'")
@@ -145,11 +155,12 @@ def updateby(corpus, **kwargs):
 @click.option('--author', '-a', 'author')
 @click.option('--title', '-t', 'title')
 def add(corpus, path, author, title):
-    c = Corpus(corpus)
-    pre_ndocs = c.doc_count_all
+    with click_spinner.spinner():
+        c = Corpus(corpus)
+        pre_ndocs = c.doc_count_all
 
-    w = Work(c, author, title)
-    w.indexer.from_file(Path(path))
+        w = Work(c, author, title)
+        w.indexer.from_file(Path(path))
 
     post_ndocs = c.doc_count_all
     ndocs = post_ndocs-pre_ndocs
@@ -162,12 +173,13 @@ def add(corpus, path, author, title):
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
 def create(corpus):
-    c = Corpus(corpus)
-    c.destroy()
+    with click_spinner.spinner():
+        c = Corpus(corpus)
+        c.destroy()
 
-    for file in c.text_dir.glob(c.glob):
-        w = Work(corpus=c)
-        _ = w.indexer.from_file(file)
+        for file in c.text_dir.glob(c.glob):
+            w = Work(corpus=c)
+            _ = w.indexer.from_file(file)
 
     ndocs = c.doc_count_all
     if ndocs > 0:

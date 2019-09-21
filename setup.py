@@ -45,6 +45,7 @@ requirements = [
     'Click>=6.0',
     'certifi>=2019.3.9',
     'chardet>=3.0.4',
+    'click-spinner>=0.1.8',
     'cursor>=1.3.4',
     'flask>=1.1.1',
     'future>=0.17.1',
