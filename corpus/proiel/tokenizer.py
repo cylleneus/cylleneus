@@ -4,6 +4,7 @@ import re
 from engine.analysis.tokenizers import Tokenizer
 from engine.analysis.acore import CylleneusToken
 from lang.latin import editorial, jvmap
+from .core import proiel2wn
 
 
 class CachedTokenizer(Tokenizer):
@@ -49,8 +50,6 @@ class CachedTokenizer(Tokenizer):
                         t.endchar = start_char + len(t.original)
                     yield t
                 else:
-                    from corpus.proiel import parse_proiel
-
                     for sentence in data['text'].findall('.//sentence'):
                         for pos, token in enumerate(sentence.findall('.//token')):
                             form = token.get('form')
@@ -60,7 +59,7 @@ class CachedTokenizer(Tokenizer):
                                 form = form.replace(' ', ' ').replace(' ', ' ')
                                 form = re.sub(r"\.([^ ]|^$)", r'. \1', form)
                             t.lemma = token.get('lemma')
-                            t.morpho = parse_proiel(token.get('part-of-speech'), token.get('morphology'))
+                            t.morpho = proiel2wn(token.get('part-of-speech'), token.get('morphology'))
                             t.morphosyntax = token.get('relation', None)
                             t.boost = 1.0
 
