@@ -115,17 +115,13 @@ class Indexer:
             self.path = Path(self.corpus.index_dir / slugify(kwargs['author']) / slugify(kwargs['title']))
             self.open()
 
-            if settings.PLATFORM == 'win32':
-                procs = 1
-            else:
-                procs = 4
             writer = self.index.writer(
-                limitmb=1024,
-                procs=procs,
+                limitmb=4096,
+                procs=1,
                 multisegment=True
             )
             try:
-                print_debug(DEBUG_HIGH, "Add: '{}', {}, {}, {} [{}]".format(
+                print_debug(DEBUG_HIGH, "Add document: '{}', {}, {}, {} [{}]".format(
                     self.corpus.name, docix, kwargs['author'], kwargs['title'], path,
                     end='...'))
                 writer.add_document(**kwargs)
@@ -133,7 +129,7 @@ class Indexer:
                 pass
             finally:
                 writer.commit()
-                print_debug(DEBUG_HIGH, "ok")
+                print_debug(DEBUG_HIGH, 'ok')
             return docix
 
     def from_string(self, content: str, **kwargs):
@@ -149,19 +145,19 @@ class Indexer:
             self.path = Path(self.corpus.index_dir / slugify(kwargs['author']) / slugify(kwargs['title']))
             self.open()
 
-            if settings.PLATFORM == 'win32':
-                procs = 1
-            else:
-                procs = 4
             writer = self.index.writer(
-                limitmb=1024,
-                procs=procs,
+                limitmb=4096,
+                procs=1,
                 multisegment=True
             )
             try:
+                print_debug(DEBUG_HIGH, "Add document: '{}', {}, {}, {} [...]".format(
+                    self.corpus.name, docix, kwargs['author'], kwargs['title'],
+                    end='...'))
                 writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
-            except queue.Empty:
+            except queue.Empty as e:
                 pass
             finally:
                 writer.commit()
+                print_debug(DEBUG_HIGH, 'ok')
             return docix
