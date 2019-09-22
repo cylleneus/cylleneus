@@ -351,16 +351,17 @@ def quit():
 @repl.command("help")
 def help():
     repl.print(Palette.CYAN.format("Available commands:"))
-    repl.info('''    search <query>              execute a query over the current corpus              
-    history                     list search history
-    save [<#>] [<filename>]     save search results to disk
-    display [<#>]               display search results
-    corpus [<name>]             load corpus index by name
-    select                      list currently selected documents for searching
-    select "[1,2...]"           select documents from current corpus for searching
-    unselect "[1,2...]"         unselect documents for searching
-    select-all                  select all docs of current corpus for searching
-    unselect-all                unselect all documents for searching''')
+    repl.info('''
+    search <query>                          execute a query over the current corpus              
+    history                                 list search history
+    save[-txt|-docx] [#] [filename]         save search results to disk in .txt or .docx format
+    display [#]                             display search results
+    corpus [name]                           load corpus index by name
+    select                                  list currently selected documents for searching
+    select "[1,2...]"                       select documents from current corpus for searching
+    unselect "[1,2...]"                     unselect documents for searching
+    select-all                              select all docs of current corpus for searching
+    unselect-all                            unselect all documents for searching''')
 
 if __name__ == "__main__":
     sys.exit(repl.run())
