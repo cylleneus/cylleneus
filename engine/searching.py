@@ -1686,22 +1686,37 @@ def term_lists(q, ixreader):
     ors = []
     if isinstance(q, engine.query.compound.CylleneusCompoundQuery):
         if isinstance(q, engine.query.compound.Or):
-            ors.extend(list(q.iter_all_terms()))
-        elif isinstance(q, engine.query.terms.PatternQuery):
+            ors.extend(list(q.iter_all_terms(ixreader)))
+        elif isinstance(q, engine.query.terms.Annotation):
             ts.extend(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)]))
+        elif isinstance(q, engine.query.terms.PatternQuery):
+            ors.extend(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)]))
         else:
             for sq in q:
                 if isinstance(sq, engine.query.compound.Or):
-                    ors.extend(list(sq.iter_all_terms()))
-                elif isinstance(sq, engine.query.terms.PatternQuery):
+                    ors.extend(list(sq.iter_all_terms(ixreader)))
+                elif isinstance(sq, engine.query.terms.Annotation):
                     ts.extend(set([(fieldname, text.split('::')[0]) for fieldname, text in sq.iter_all_terms(ixreader)]))
+                elif isinstance(sq, engine.query.terms.PatternQuery):
+                    ors.extend(
+                        set(
+                            [
+                                (fieldname, text.split('::')[0])
+                                for fieldname, text in sq.iter_all_terms(ixreader)
+                            ]
+                        )
+                    )
                 else:
-                    ts.extend(list(sq.iter_all_terms()))
+                    ts.extend(list(sq.iter_all_terms(ixreader)))
     else:
         if isinstance(q, engine.query.compound.Or):
-            ors.extend(list(q.iter_all_terms()))
+            ors.extend(list(q.iter_all_terms(ixreader)))
+        elif isinstance(q, engine.query.terms.Annotation):
+            ts.extend(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)]))
+        elif isinstance(q, engine.query.terms.PatternQuery):
+            ors.extend(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)]))
         else:
-            ts.extend(list(q.iter_all_terms()))
+            ts.extend(list(q.iter_all_terms(ixreader)))
 
     ls = []
     if ors:

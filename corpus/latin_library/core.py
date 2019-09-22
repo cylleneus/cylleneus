@@ -69,8 +69,7 @@ def fetch(work, meta, fragment):
     match = f"<match>{hlite}</match>"
 
     text = f' '.join([pre, match, post])
-
-    urn = hit.get('urn', None)
+    urn = work.urn
 
     return urn, reference, text
 

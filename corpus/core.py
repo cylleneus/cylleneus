@@ -242,6 +242,18 @@ class Work:
                 self._title = self.doc['title']
             if 'docix' in self.doc:
                 self._docix = self.doc['docix']
+            if 'urn' in self.doc:
+                self._urn = self.doc['urn']
+            else:
+                self._urn = None
+            if 'filename' in self.doc:
+                self._filename = self.doc['filename']
+            else:
+                self._filename = None
+            if 'datetime' in self.doc:
+                self._timestamp = self.doc['datetime']
+            else:
+                self._timestamp = None
         else:
             if author and title:
                 docs = list(indexer.Indexer.docs_for(corpus, author, title))
@@ -251,15 +263,17 @@ class Work:
                     self._docix = doc['docix']
                     self._author = doc['author']
                     self._title = doc['title']
+                    self._urn = doc.get('urn', None)
+                    self._filename = doc.get('filename', None)
+                    self._timestamp = doc.get('datetime', None)
                 else:
-                    self._doc = self._author = self._title = None
+                    self._doc = self._author = self._title = self._urn = \
+                        self._filename = self._timestamp = None
             else:
-                self._doc = self._author = self._title = None
+                self._doc = self._author = self._title = self._urn = \
+                    self._filename = self._timestamp = None
         self._indexer = indexer.Indexer(corpus, self)
         self.fetch = self.corpus._fetch
-
-    # def fetch(self, meta, fragment):
-    #     self._fetch(self.doc, meta, fragment)
 
     @property
     def is_searchable(self):
@@ -306,6 +320,18 @@ class Work:
     @property
     def divs(self):
         return [d.lower() for d in self.meta.split('-')]
+
+    @property
+    def timestamp(self):
+        return self._timestamp
+
+    @property
+    def urn(self):
+        return self._urn
+
+    @property
+    def filename(self):
+        return Path(self._filename)
 
     def __str__(self):
         return f"{self.author}, {self.title} [{self.corpus.name}]"
