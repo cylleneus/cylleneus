@@ -31,7 +31,7 @@ class MorphosyntaxFilter(Filter):
                     t.text = text
                     yield t
             elif t.mode == 'query':
-                text = t.text
+                text = t.original
                 if text:
                     if text.startswith('?'):
                         text = text[1:].replace('u', 'v').upper()

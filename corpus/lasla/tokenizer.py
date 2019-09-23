@@ -27,7 +27,8 @@ class CachedTokenizer(Tokenizer):
             t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
 
             if t.mode == 'query':
-                t.original = t.text = value.translate(jvmap)
+                t.original = value
+                t.text = value.translate(jvmap)
                 yield t
             else:
                 if not tokenize:

@@ -48,6 +48,12 @@ class TestQueryTypes(unittest.TestCase):
             ("agldt", "opt*", (8, 1, 1)),
             ("proiel", '"maled* contum*"', (1, 1, 1)),
             ("perseus_xml", '"<rideo> me*"', (1, 1, 1)),
+            ('lasla', '/ablative absolute/', (1532, 2, 1)),
+            ('lasla', '/interrogative/', (60, 2, 1)),
+            ('agldt', '/predicate/', (188, 1, 1)),
+            ('agldt', '/subordinating conjunction/', (227, 1, 1)),
+            ('proiel', '/adverbial/', (1410, 1, 1)),
+            ('proiel', '/adnominal argument/', (167, 1, 1)),
         ]
         c, q, n = choice(queries)
         corpus = Corpus(c)

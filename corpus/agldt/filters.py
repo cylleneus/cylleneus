@@ -169,7 +169,7 @@ class MorphosyntaxFilter(Filter):
                     t.text = relation
                     yield t
             elif t.mode == 'query':
-                text = t.text
+                text = t.original
                 if text:
                     t.text = relations[text]
                     yield t

@@ -6,6 +6,7 @@ from engine.analysis.filters import Filter
 from lang.latin.morphology import leipzig2wn
 from latinwordnet import LatinWordNet
 from latinwordnet.latinwordnet import relation_types
+from .core import relations
 
 
 class CachedLemmaFilter(Filter):
@@ -168,9 +169,7 @@ class MorphosyntaxFilter(Filter):
                     t.text = relation
                     yield t
             elif t.mode == 'query':
-                from corpus.proiel import relations
-
-                text = t.text
+                text = t.original
                 if text:
                     t.text = relations[text]
                     yield t
