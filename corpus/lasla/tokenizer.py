@@ -4,7 +4,7 @@ import re
 from engine.analysis.acore import CylleneusToken
 from engine.analysis.tokenizers import Tokenizer
 from lang.latin import jvmap
-from corpus.lasla import parse_bpn
+from .core import parse_bpn
 
 
 class CachedTokenizer(Tokenizer):
