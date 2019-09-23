@@ -33,21 +33,14 @@ class MorphosyntaxFilter(Filter):
             elif t.mode == 'query':
                 text = t.original
                 if text:
-                    if text.startswith('?'):
-                        text = text[1:].replace('u', 'v').upper()
+                    if text in subord_codes:
+                        t.text = text
+                        yield t
+                    else:
                         if text in subord:
                             for code in subord[text]:
                                 t.text = code
                                 yield t
-                    else:
-                        if text in subord_codes:
-                            t.text = text
-                            yield t
-                        else:
-                            if text in subord:
-                                for code in subord[text]:
-                                    t.text = code
-                                    yield t
 
 
 class CachedLemmaFilter(Filter):
