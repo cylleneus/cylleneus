@@ -255,10 +255,8 @@ To Do
 In no particular order...
 
 * Optimization
-* use Scaife Viewer as search front-end
+* Integration with Scaife Viewer
 * Perseus CTS alignment for corpora with non-standard text annotations
-* complete PROIEL indexing pipeline
-* complete Perseus XML indexing pipeline
 * implement high-order syntactic search for different annotation schemes
 * manually-curated WordNet-based semantic mark-up ('sembanks') for texts
 * Greek
