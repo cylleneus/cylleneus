@@ -23,14 +23,15 @@ class CachedTokenizer(Tokenizer):
         if kwargs.get('docix', None) == self._docix and self._cache:
             yield from self.cache
         else:
-            self._cache = []
-            self._docix = kwargs.get('docix', None)
-
             t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
+
             if t.mode == 'query':
                 t.original = t.text = data.translate(jvmap)
                 yield t
             else:
+                self._cache = []
+                self._docix = kwargs.get('docix', None)
+
                 if not tokenize:
                     t.original = ''
                     for token in data.findall('.//token'):

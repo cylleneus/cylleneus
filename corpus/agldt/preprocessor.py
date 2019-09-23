@@ -34,6 +34,7 @@ class Preprocessor(BasePreprocessor):
             'synset': data,
             'annotation': data,
             'semfield': data,
+            'morphosyntax': data,
             'filename': file.name,
             'datetime': datetime.now()
         }

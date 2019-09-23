@@ -24,10 +24,8 @@ class CachedTokenizer(Tokenizer):
         if kwargs.get('docix', None) == self._docix and self._cache:
             yield from self.cache
         else:
-            self._cache = []
-            self._docix = kwargs.get('docix', None)
-
             t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
+
             if t.mode == 'query':
                 t.original = t.text = data.translate(jvmap)
                 yield t
@@ -50,6 +48,9 @@ class CachedTokenizer(Tokenizer):
                         t.endchar = start_char + len(t.original)
                     yield t
                 else:
+                    self._cache = []
+                    self._docix = kwargs.get('docix', None)
+
                     for sentence in data['text'].findall('.//sentence'):
                         for pos, token in enumerate(sentence.findall('.//token')):
                             form = token.get('form')

@@ -4,12 +4,11 @@ include HISTORY.rst
 include LICENSE
 include README.rst
 
-recursive-exclude * __pycache__
-recursive-exclude * *.py[co]
-
 recursive-include tests *
 recursive-include docs *.rst conf.py Makefile make.bat *.jpg *.png *.gif
 recursive-include corpus *
-recursive-include index *.toc *.seg
 
-global-exclude *.BPN
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+
+global-exclude *.BPN *_WRITELOCK *.toc *.seg

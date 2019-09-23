@@ -4,6 +4,7 @@ import re
 from engine.analysis.acore import CylleneusToken
 from engine.analysis.tokenizers import Tokenizer
 from lang.latin import jvmap
+from corpus.lasla import parse_bpn
 
 
 class CachedTokenizer(Tokenizer):
@@ -39,8 +40,6 @@ class CachedTokenizer(Tokenizer):
                         t.endchar = start_char + len(value['text'])
                     yield t
                 else:
-                    from corpus.lasla import parse_bpn
-
                     self._cache = []
                     self._docix = kwargs.get('docix', None)
 

@@ -23,4 +23,3 @@ class DocumentSchema(BaseSchema):
     synset = SYNSET(analyzer=Tokens | Lemmas | Synsets, vector=True)
     semfield = SEMFIELD(analyzer=Tokens | Lemmas | Synsets | Semfields, vector=True)
     morphosyntax = MORPHOSYNTAX(analyzer=Tokens | Morphosyntax, vector=True)
-
