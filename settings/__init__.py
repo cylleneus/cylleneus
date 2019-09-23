@@ -5,9 +5,6 @@ import sys
 from utils import DEBUG_HIGH, DEBUG_MEDIUM, DEBUG_LOW, DEBUG_OFF
 
 
-# Platform
-PLATFORM = sys.platform
-
 # Debugging settings
 DEBUG = DEBUG_OFF
 
@@ -24,3 +21,6 @@ CHARS_OF_CONTEXT = LINES_OF_CONTEXT * 70
 # Miscellaneous settings
 LONG_DATE_FORMAT = '%A, %B %d, %Y %I:%M%p'
 SHORT_DATE_FORMAT = '%m/%d/%Y %H:%M'
+
+# Platform
+PLATFORM = sys.platform

@@ -2,12 +2,11 @@ import shutil
 from pathlib import Path
 
 import engine.index
-from engine.fields import Schema
-from engine.schemas import schemas
-from engine.writing import CLEAR
-from utils import slugify
-from .preprocessing import *
 import settings
+from engine.writing import CLEAR
+from utils import slugify, print_debug, DEBUG_HIGH
+import queue
+
 
 class IndexingError(Exception):
     pass
@@ -29,11 +28,9 @@ class Indexer:
             self._path = Path(self.corpus.index_dir / slugify(work.author) / slugify(work.title))
         else:
             self._path = None
-        self._schema = schemas.get(self.corpus.name)()
-        self._preprocessor = preprocessors.get(corpus.name, PlainTextPreprocessor)()
 
         if self.path and engine.index.exists_in(self.path):
-            self._index = engine.index.open_dir(self.path, schema=self.schema)
+            self._index = engine.index.open_dir(self.path, schema=self.corpus.schema)
         else:
             self._index = None
 
@@ -48,25 +45,6 @@ class Indexer:
     @corpus.setter
     def corpus(self, cp):
         self._corpus = cp
-
-    @property
-    def preprocessor(self):
-        return self._preprocessor
-
-    def iter_docs(self):
-        yield from self.index.reader().iter_docs()
-
-    @corpus.setter
-    def corpus(self, p: Preprocessor):
-        self._preprocessor = p
-
-    @property
-    def schema(self):
-        return self._schema
-
-    @schema.setter
-    def schema(self, s: Schema):
-        self._schema = s
 
     @property
     def index(self):
@@ -86,12 +64,15 @@ class Indexer:
     def path(self, p: Path):
         self._path = p
 
+    def iter_docs(self):
+        yield from self.index.reader().iter_docs()
+
     def clear(self):
         with self.index.writer() as writer:
             writer.commit(mergetype=CLEAR)
 
     def destroy(self):
-        if self.path.exists():
+        if self.path and self.path.exists():
             shutil.rmtree(self.path)
             self._index = None
 
@@ -102,12 +83,12 @@ class Indexer:
         if not self.index:
             if not self.path.exists():
                 self.path.mkdir(parents=True)
-            engine.index.create_in(self.path, schema=self.schema)
+            engine.index.create_in(self.path, schema=self.corpus.schema)
 
     def open(self):
         if not engine.index.exists_in(self.path):
             self.create()
-        self.index = engine.index.open_dir(self.path, schema=self.schema)
+        self.index = engine.index.open_dir(self.path, schema=self.corpus.schema)
 
     def update(self, path: Path):
         if self.path and self.path.exists():
@@ -122,7 +103,7 @@ class Indexer:
         if path.exists():
             docix = self.corpus.doc_count_all
 
-            kwargs = self.preprocessor.parse(path)
+            kwargs = self.corpus.preprocessor.parse(path)
             if 'author' not in kwargs and self.work.author:
                 kwargs['author'] = self.work.author
             if 'title' not in kwargs and self.work.title:
@@ -135,11 +116,18 @@ class Indexer:
 
             writer = self.index.writer(
                 limitmb=4096,
-                procs=1 if settings.PLATFORM == 'win32' else 4,
+                procs=1,
                 multisegment=True
             )
-            writer.add_document(**kwargs)
-            writer.commit()
+            try:
+                print_debug(DEBUG_HIGH, "Add document: '{}', {}, {}, {} [{}]".format(
+                    self.corpus.name, docix, kwargs['author'], kwargs['title'], path,
+                    end='...'))
+                writer.add_document(**kwargs)
+                writer.commit()
+                print_debug(DEBUG_HIGH, 'ok')
+            except queue.Empty as e:
+                pass
             return docix
 
     def from_string(self, content: str, **kwargs):
@@ -149,7 +137,7 @@ class Indexer:
         if content:
             docix = self.corpus.doc_count_all
 
-            parsed = self.preprocessor.parse(content)
+            parsed = self.corpus.preprocessor.parse(content)
             kwargs.update(parsed)
 
             self.path = Path(self.corpus.index_dir / slugify(kwargs['author']) / slugify(kwargs['title']))
@@ -157,9 +145,16 @@ class Indexer:
 
             writer = self.index.writer(
                 limitmb=4096,
-                procs=1 if settings.PLATFORM == 'win32' else 4,
+                procs=1,
                 multisegment=True
             )
-            writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
-            writer.commit()
+            try:
+                print_debug(DEBUG_HIGH, "Add document: '{}', {}, {}, {} [...]".format(
+                    self.corpus.name, docix, kwargs['author'], kwargs['title'],
+                    end='...'))
+                writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
+                writer.commit()
+                print_debug(DEBUG_HIGH, 'ok')
+            except queue.Empty as e:
+                pass
             return docix

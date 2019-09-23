@@ -35,6 +35,7 @@ import copy
 import weakref
 from collections import namedtuple, defaultdict
 from math import ceil
+from itertools import product
 
 import engine.collectors
 import engine.highlight
@@ -1686,30 +1687,49 @@ def term_lists(q, ixreader):
     ors = []
     if isinstance(q, engine.query.compound.CylleneusCompoundQuery):
         if isinstance(q, engine.query.compound.Or):
-            ors.extend(list(q.iter_all_terms()))
+            ors.append(list(q.iter_all_terms(ixreader)))
+        elif isinstance(q, engine.query.terms.Annotation):
+            ts.extend(list(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)])))
         elif isinstance(q, engine.query.terms.PatternQuery):
-            ts.extend(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)]))
+            ors.append(list(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)])))
         else:
             for sq in q:
                 if isinstance(sq, engine.query.compound.Or):
-                    ors.extend(list(sq.iter_all_terms()))
+                    ors.append(list(q.iter_all_terms(ixreader)))
+                elif isinstance(sq, engine.query.terms.Annotation):
+                    ts.extend(list(set([(fieldname, text.split('::')[0]) for fieldname, text in sq.iter_all_terms(
+                        ixreader)])))
                 elif isinstance(sq, engine.query.terms.PatternQuery):
-                    ts.extend(set([(fieldname, text.split('::')[0]) for fieldname, text in sq.iter_all_terms(ixreader)]))
+                    ors.append(
+                        list(set(
+                            [
+                                (fieldname, text.split('::')[0])
+                                for fieldname, text in sq.iter_all_terms(ixreader)
+                            ]
+                        )
+                    ))
                 else:
-                    ts.extend(list(sq.iter_all_terms()))
+                    ts.extend(list(sq.iter_all_terms(ixreader)))
     else:
         if isinstance(q, engine.query.compound.Or):
-            ors.extend(list(q.iter_all_terms()))
+            ors.append(list(q.iter_all_terms(ixreader)))
+        elif isinstance(q, engine.query.terms.Annotation):
+            ts.extend(list(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)])))
+        elif isinstance(q, engine.query.terms.PatternQuery):
+            ors.append(list(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)])))
         else:
-            ts.extend(list(q.iter_all_terms()))
-
+            ts.extend(list(q.iter_all_terms(ixreader)))
     ls = []
-    if ors:
-        for or_ in ors:
-            temp = ts[:]
-            ls.append(temp + [or_,])
+    if len(ts) != 0:
+        if ors:
+            for or_ in ors:
+                for _t in or_:
+                    temp = ts[:]
+                    ls.append(list(set(temp + [_t,])))
+        else:
+            ls.append(ts)
     else:
-        ls.append(ts)
+        ls.extend(product(*ors))
     return ls
 
 

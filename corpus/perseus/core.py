@@ -6,11 +6,10 @@ import settings
 from utils import nrange
 
 
-def get(hit, meta, fragment):
-    filename = Path(hit['filename']).name
-    with codecs.open(
-        settings.ROOT_DIR + f'/corpus/perseus/text/{filename}', 'r', 'utf8'
-    ) as fp:
+glob = '*.json'
+
+def fetch(work, meta, fragment):
+    with codecs.open(work.corpus.text_dir / Path(work.doc['filename']), 'r', 'utf8') as fp:
         doc = json.load(fp)
 
     divs = meta['meta'].split('-')

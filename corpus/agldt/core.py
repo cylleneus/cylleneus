@@ -1,24 +1,24 @@
 import codecs
-import lxml.etree as et
 import string
+from pathlib import Path
 
+import lxml.etree as et
 import settings
 from utils import nrange
-
 
 # Glob pattern for file access
 glob = '*.tb.txt'
 
 
 # Function to fetch text from corpus
-def get(hit, meta, fragment):
-    with codecs.open('corpus/agldt/text/' + hit['filename'], 'rb') as fp:
+def fetch(work, meta, fragment):
+    with codecs.open(work.corpus.text_dir / Path(work.doc['filename']), 'rb') as fp:
         value = fp.read()
     parser = et.XMLParser(encoding='utf-8')
     doc = et.XML(value, parser=parser)
 
     # URN
-    urn = hit.get('urn', None)
+    urn = work.doc.get('urn', None)
 
     divs = meta['meta'].split('-')
 

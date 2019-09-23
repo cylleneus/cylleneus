@@ -5,12 +5,10 @@ from pathlib import Path
 import settings
 
 
-def get(hit, meta, fragment):
-    with codecs.open(
-        Path(
-            settings.ROOT_DIR + '/corpus/latin_library/text/' + hit['filename']
-        )
-    ) as fp:
+glob = '*/*.txt'
+
+def fetch(work, meta, fragment):
+    with codecs.open(work.corpus.text_dir / Path(work.doc['filename'])) as fp:
         content = fp.read()
 
     # Do some tidying up
@@ -71,8 +69,7 @@ def get(hit, meta, fragment):
     match = f"<match>{hlite}</match>"
 
     text = f' '.join([pre, match, post])
-
-    urn = hit.get('urn', None)
+    urn = work.urn
 
     return urn, reference, text
 

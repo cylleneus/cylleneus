@@ -32,23 +32,29 @@ class TestQueryTypes(unittest.TestCase):
             ("lasla", ":ACC.PL.", (3152, 2, 1)),
             ("latin_library", "<habeo>", (139, 6, 1)),
             ("lasla", "<animus>|ABL.SG.", (33, 2, 1)),
-            ("perseus", "[en?war]", (208, 3, 1)),
+            ("perseus", "[en?war]", (2, 1, 1)),
             ("lasla", "[it?guerra]", (308, 2, 1)),
             ("lasla", "[en?courage]|ABL.PL.", (10, 2, 1)),
-            ("latin_library", "{611}", (2042, 6, 1)),
-            ("perseus", '"cum clamore"', (2, 2, 1)),
-            ("perseus", '"cum <clamor>"', (3, 2, 1)),
-            ("perseus", '"cum <clamor>|ABL."', (2, 2, 1)),
-            ("perseus", '"cum magno" <calor>', (1, 1, 1)),
-            # ("perseus", '"deceptus <amor>|ABL.SG."', (1, 1, 1)),
+            ("latin_library", "{611}", (1992, 6, 1)),
+            ("perseus", '"cum clamore"', (0, 0, 0)),
+            ("perseus", '"cum <clamor>"', (0, 0, 0)),
+            ("perseus", '"cum <clamor>|ABL."', (0, 0, 0)),
+            ("perseus", '"cum magno" <calor>', (0, 0, 0)),
             ("lasla", '":VB. milites"', (8, 2, 1)),
             ("lasla", '":VB. <miles>"', (10, 2, 1)),
-            ("perseus", "</::bellum>", (127, 3, 1)),
+            ("perseus", "</::bellum>", (2, 1, 1)),
             ("lasla", "[!::en?cowardice]", (272, 2, 1)),
             ("latin_library", "[@::n#04478900]", (20, 6, 1)),
+            ("agldt", "opt*", (8, 1, 1)),
+            ("proiel", '"maled* contum*"', (1, 1, 1)),
+            ("perseus_xml", '"<rideo> me*"', (1, 1, 1)),
         ]
         c, q, n = choice(queries)
         corpus = Corpus(c)
-        searcher = Searcher(Collection(corpus.works))
+        if c == 'perseus':
+            clct = Collection([corpus.work_by_docix(2),])
+        else:
+            clct = Collection(corpus.works)
+        searcher = Searcher(Collection(clct))
         results = searcher.search(q)
         assert results.count == n

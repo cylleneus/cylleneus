@@ -3,59 +3,111 @@ from pathlib import Path
 
 import settings
 from engine.fields import Schema
-from engine.schemas import schemas
 from engine.searching import CylleneusHit, CylleneusSearcher
 
-from . import agldt, indexer, lasla, latin_library, perseus, perseus_xml, proiel
+from . import agldt, default, lasla, latin_library, perseus, perseus_xml, proiel
+from . import indexer
 
 
 CorpusMeta = namedtuple('CorpusMeta', [
     'schema',
     'tokenizer',
+    'preprocessor',
     'glob',
     'fetch'
 ])
 
-# meta = {
-#     'agldt': CorpusMeta(
-#         agldt.schema.DocumentSchema,
-#         agldt.tokenizer.Tokenizer,
-#         agldt.core.glob,
-#         agldt.core.get
-#     ),
-#     'default': CorpusMeta(
-#         default.DocumentSchema,
-#         default.Tokenizer,
-#         default.glob,
-#         default.fetch
-#     ),
-# }
+meta = {
+    'agldt': CorpusMeta(
+        agldt.DocumentSchema,
+        agldt.Tokenizer,
+        agldt.Preprocessor,
+        agldt.core.glob,
+        agldt.core.fetch
+    ),
+    'lasla': CorpusMeta(
+        lasla.DocumentSchema,
+        lasla.Tokenizer,
+        lasla.Preprocessor,
+        lasla.core.glob,
+        lasla.core.fetch
+    ),
+    'latin_library': CorpusMeta(
+        default.DocumentSchema,
+        default.Tokenizer,
+        latin_library.Preprocessor,
+        latin_library.core.glob,
+        latin_library.core.fetch
+    ),
+    'perseus': CorpusMeta(
+        perseus.DocumentSchema,
+        perseus.Tokenizer,
+        perseus.Preprocessor,
+        perseus.core.glob,
+        perseus.core.fetch
+    ),
+    'perseus_xml': CorpusMeta(
+        perseus_xml.DocumentSchema,
+        perseus_xml.Tokenizer,
+        perseus_xml.Preprocessor,
+        perseus_xml.core.glob,
+        perseus_xml.core.fetch
+    ),
+    'proiel': CorpusMeta(
+        proiel.DocumentSchema,
+        proiel.Tokenizer,
+        proiel.Preprocessor,
+        proiel.core.glob,
+        proiel.core.fetch
+    ),
+    'default': CorpusMeta(
+        default.DocumentSchema,
+        default.Tokenizer,
+        default.Preprocessor,
+        default.glob,
+        default.fetch
+    ),
+}
 
 
 class Corpus:
     def __init__(self, name: str, schema: Schema=None):
         self._name = name
-        self._schema = schema if schema else schemas.get(self.name)()
 
-        # self._schema = meta.get(name, meta['default']).schema()
-        # self._tokenizer = meta.get(name, meta['default']).tokenizer()
-        # self._glob = meta.get(name, meta['default']).glob
-
-    # @property
-    # def glob(self):
-    #     return self._glob
-    #
-    # @property
-    # def tokenizer(self):
-    #     return self._tokenizer
+        _meta = meta.get(name, meta['default'])
+        self._schema = _meta.schema()
+        self._tokenizer = _meta.tokenizer()
+        self._preprocessor = _meta.preprocessor(self)
+        self._glob = _meta.glob
+        self._fetch = _meta.fetch
 
     @property
     def name(self):
         return self._name
 
     @property
+    def preprocessor(self):
+        return self._preprocessor
+
+    @preprocessor.setter
+    def preprocessor(self, p):
+        self._preprocessor = p
+
+    @property
     def schema(self):
         return self._schema
+
+    @schema.setter
+    def schema(self, s: Schema):
+        self._schema = s
+
+    @property
+    def glob(self):
+        return self._glob
+
+    @glob.setter
+    def glob(self, g):
+        self._glob = g
 
     def optimize(self):
         for ixr in self.indexers:
@@ -90,7 +142,6 @@ class Corpus:
                 if results:
                     for docix in results:
                         self.delete_by_ix(docix)
-
 
     def delete_by_ix(self, docix: int):
         for ixr in self.indexers:
@@ -144,7 +195,7 @@ class Corpus:
     def indexer_for_docix(self, docix: int):
         for doc in self.iter_docs():
             if doc['docix'] == int(docix):
-                return Work(doc=doc).indexer
+                return Work(corpus=self, doc=doc).indexer
 
     @property
     def readers(self):
@@ -167,8 +218,8 @@ class Corpus:
         return Path(f"{settings.ROOT_DIR}/corpus/{self.name}")
 
     def fetch(self, hit, meta, fragment):
-        work = Work(self, doc=hit)
-        urn, reference, text = work.get(meta, fragment)
+        work = Work(corpus=self, doc=hit)
+        urn, reference, text = work.fetch(work, meta, fragment)
         return self.name, work.author, work.title, urn, reference, text
 
     def __str__(self):
@@ -178,51 +229,6 @@ class Corpus:
         return self.name == other.name and \
             self.schema == other.schema and \
             self.path == other.path
-
-
-# Get function for generic plaintext corpus
-def plaintext_get(hit, meta, fragment):
-    content = hit['content']
-    offset = content.find(fragment)
-
-    # Reference and hlite values
-    start = ', '.join(
-        [f"{k}: {v}" for k, v in meta['start'].items() if v]
-    )
-    end = ', '.join(
-        [f"{k}: {v}" for k, v in meta['end'].items() if v]
-    )
-    reference = '-'.join([start, end]) if end != start else start
-    hlite_start = [
-        v - offset
-        if k != 'pos' and v is not None else v
-        for k, v in meta['start'].items()
-    ]
-
-    # Collect text and context
-    lbound = fragment.rfind(' ', 0, settings.CHARS_OF_CONTEXT)
-    rbound = fragment.find(' ', -(settings.CHARS_OF_CONTEXT - (meta['start']['endchar'] - meta['start']['startchar'])))
-
-    pre = f"<pre>{fragment[:lbound]}</pre>"
-    post = f"<post>{fragment[rbound + 1:]}</post>"
-
-    endchar = lbound + 1 + (hlite_start[-2] - hlite_start[-3])
-    hlite = f"<em>{fragment[lbound + 1:endchar]}</em>" + fragment[endchar:rbound]
-    match = f"<match>{hlite}</match>"
-
-    text = f' '.join([pre, match, post])
-    return None, reference, text
-
-
-get_router = {
-    'plaintext': plaintext_get,
-    'agldt': agldt.get,
-    'perseus': perseus.get,
-    'perseus_xml': perseus_xml.get,
-    'lasla': lasla.get,
-    'latin_library': latin_library.get,
-    'proiel': proiel.get,
-}
 
 
 class Work:
@@ -236,6 +242,18 @@ class Work:
                 self._title = self.doc['title']
             if 'docix' in self.doc:
                 self._docix = self.doc['docix']
+            if 'urn' in self.doc:
+                self._urn = self.doc['urn']
+            else:
+                self._urn = None
+            if 'filename' in self.doc:
+                self._filename = self.doc['filename']
+            else:
+                self._filename = None
+            if 'datetime' in self.doc:
+                self._timestamp = self.doc['datetime']
+            else:
+                self._timestamp = None
         else:
             if author and title:
                 docs = list(indexer.Indexer.docs_for(corpus, author, title))
@@ -245,11 +263,17 @@ class Work:
                     self._docix = doc['docix']
                     self._author = doc['author']
                     self._title = doc['title']
+                    self._urn = doc.get('urn', None)
+                    self._filename = doc.get('filename', None)
+                    self._timestamp = doc.get('datetime', None)
                 else:
-                    self._doc = self._author = self._title = None
+                    self._doc = self._author = self._title = self._urn = \
+                        self._filename = self._timestamp = None
             else:
-                self._doc = self._author = self._title = None
+                self._doc = self._author = self._title = self._urn = \
+                    self._filename = self._timestamp = None
         self._indexer = indexer.Indexer(corpus, self)
+        self.fetch = self.corpus._fetch
 
     @property
     def is_searchable(self):
@@ -297,8 +321,17 @@ class Work:
     def divs(self):
         return [d.lower() for d in self.meta.split('-')]
 
-    def get(self, meta, fragment):
-        return get_router[self.corpus.name](self.doc, meta, fragment)
+    @property
+    def timestamp(self):
+        return self._timestamp
+
+    @property
+    def urn(self):
+        return self._urn
+
+    @property
+    def filename(self):
+        return Path(self._filename)
 
     def __str__(self):
         return f"{self.author}, {self.title} [{self.corpus.name}]"

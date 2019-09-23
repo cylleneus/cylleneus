@@ -3,8 +3,9 @@ import math
 import unicodedata
 import re
 import sys
-from collections import Iterable, Mapping
+from collections.abc import Iterable, Mapping
 from itertools import chain, zip_longest
+
 
 # Debug settings values
 DEBUG_OFF = 0
@@ -24,6 +25,7 @@ def stringify(node):
     """ Convert XML node to string """
     from lxml.etree import tostring
     from html import unescape
+    from lxml.etree import tostring
 
     parts = (
             list(

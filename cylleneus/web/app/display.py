@@ -9,8 +9,6 @@ def as_html(highlights):
         htm = HTML()
 
         h = htm.div()
-        if href.urn:
-            htm.a(text=r"more...", href=href.urn, klass="card-link exportable")
         h.div(href.author, klass='h5 card-title font-weight-bold exportable')
         h.div(href.title, klass='h5 card-title font-italic exportable')
         if href.reference:
@@ -60,5 +58,11 @@ def as_html(highlights):
             else:
                 klass = 'card-text'
             d.span(post_text.group(1), klass=f'{klass}')
+
+        # TODO: Add links to full text
+        # if href.urn:
+        #     f = htm.div(klass="float-right")
+        #     p = f.p('more...')
+        #     p.a(href=href.urn, klass="card-link exportable")
 
         yield str(htm)
