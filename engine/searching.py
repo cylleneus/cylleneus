@@ -1687,7 +1687,7 @@ def term_lists(q, ixreader):
     ors = []
     if isinstance(q, engine.query.compound.CylleneusCompoundQuery):
         if isinstance(q, engine.query.compound.Or):
-            ors.extend([[term,] for term in q.iter_all_terms(ixreader)]) #list(q.iter_all_terms(ixreader)))
+            ors.append(list(q.iter_all_terms(ixreader)))
         elif isinstance(q, engine.query.terms.Annotation):
             ts.extend(list(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)])))
         elif isinstance(q, engine.query.terms.PatternQuery):
@@ -1695,7 +1695,7 @@ def term_lists(q, ixreader):
         else:
             for sq in q:
                 if isinstance(sq, engine.query.compound.Or):
-                    ors.extend([[term,] for term in q.iter_all_terms(ixreader)]) # list(sq.iter_all_terms(ixreader)))
+                    ors.append(list(q.iter_all_terms(ixreader)))
                 elif isinstance(sq, engine.query.terms.Annotation):
                     ts.extend(list(set([(fieldname, text.split('::')[0]) for fieldname, text in sq.iter_all_terms(
                         ixreader)])))
@@ -1712,7 +1712,7 @@ def term_lists(q, ixreader):
                     ts.extend(list(sq.iter_all_terms(ixreader)))
     else:
         if isinstance(q, engine.query.compound.Or):
-            ors.extend([[term,] for term in q.iter_all_terms(ixreader)])
+            ors.append(list(q.iter_all_terms(ixreader)))
         elif isinstance(q, engine.query.terms.Annotation):
             ts.extend(list(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)])))
         elif isinstance(q, engine.query.terms.PatternQuery):

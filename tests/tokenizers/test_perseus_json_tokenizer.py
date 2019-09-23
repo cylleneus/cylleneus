@@ -25,7 +25,7 @@ class TestPerseusJSONTokenizer(unittest.TestCase):
         # from corpus.perseus.tokenizer import CachedTokenizer
         #
         # perseus = pathlib.Path('../corpus/perseus/text')
-        # files = list(perseus.glob('*.json'))
+        # files = list(perseus.glob('*eclogues__latin.json'))
         #
         # with codecs.open(choice(files), 'r', 'utf8') as f:
         #     data = json.load(f)
@@ -35,4 +35,5 @@ class TestPerseusJSONTokenizer(unittest.TestCase):
         # T = CachedTokenizer()
         #
         # for t in T(value=data, mode='index', docix=0):
-        #     print(t)
+        #     assert t
+
