@@ -12,6 +12,7 @@ from .db import Search, SearchResult, db
 from .display import as_html
 from .server import app
 
+
 _corpora = []
 for path in Path(settings.ROOT_DIR + '/corpus').glob('*'):
     if path.is_dir() and Path(path / 'index').exists():

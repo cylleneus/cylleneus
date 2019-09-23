@@ -84,8 +84,10 @@ class CompositeAnalyzer(Analyzer):
 
     def __call__(self, value, no_morph=False, **kwargs):
         items = self.items
+
         # Start with tokenizer
         gen = items[0](value, **kwargs)
+
         # Run filters
         for item in items[1:]:
             if not (no_morph and hasattr(item, "is_morph") and item.is_morph):

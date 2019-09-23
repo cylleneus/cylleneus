@@ -566,6 +566,7 @@ class CylleneusQueryParser(QueryParser):
 
         nodes = self.process(text, debug=debug)
         print_debug(debug, "Syntax tree: %r" % nodes)
+
         q = nodes.query(self)
         if not q:
             q = whoosh.query.NullQuery

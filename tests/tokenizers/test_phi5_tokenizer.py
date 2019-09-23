@@ -23,6 +23,7 @@ class TestPHI5Tokenizer(unittest.TestCase):
         """Test the PHI5 tokenizer."""
         pass
         # from corpus.phi5.tokenizer import CachedTokenizer
+        #
         # phi5 = pathlib.Path('tests/text/phi5/')
         # files = phi5.glob('*.txt')
         # with codecs.open(choice(files), 'r', 'utf8') as f:
