@@ -1,0 +1,619 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Cylleneus &mdash; Cylleneus 0.1.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Welcome to Cylleneus’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Cylleneus
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Cylleneus</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#indexing">Indexing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#searching">Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#query-types">Query Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#word-form-queries">Word-form queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lemma-based-queries">Lemma-based queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gloss-based-queries">Gloss-based queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#domain-based-queries">Domain-based queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#morphology-based-queries">Morphology-based queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#morphology-based-filtering">Morphology-based filtering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lexical-relation-queries">Lexical-relation queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#semantic-relation-queries">Semantic-relation queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#syntax-based-queries">Syntax-based queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#types-of-lexical-relations">Types of lexical relations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#types-of-semantic-relations">Types of semantic relations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#to-do">To Do</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#credits">Credits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Cylleneus</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Cylleneus</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/readme.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="cylleneus">
+<h1>Cylleneus<a class="headerlink" href="#cylleneus" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://github.com/wmshort/cylleneus"><img alt="https://img.shields.io/badge/cylleneus-next--gen%20corpus%20search%20for%20Greek%20and%20Latin-blue.svg" src="https://img.shields.io/badge/cylleneus-next--gen%20corpus%20search%20for%20Greek%20and%20Latin-blue.svg" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/cylleneus"><img alt="https://img.shields.io/pypi/v/cylleneus.svg" src="https://img.shields.io/pypi/v/cylleneus.svg" /></a>
+<a class="reference external image-reference" href="https://travis-ci.org/wmshort/cylleneus"><img alt="https://travis-ci.org/wmshort/cylleneus.svg?branch=master" src="https://travis-ci.org/wmshort/cylleneus.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://cylleneus.readthedocs.io/en/latest/?badge=latest"><img alt="Documentation Status" src="https://readthedocs.org/projects/cylleneus/badge/?version=latest" /></a>
+<ul class="simple">
+<li>Free software: Apache Software License 2.0</li>
+<li>Documentation: <a class="reference external" href="https://cylleneus.readthedocs.io">https://cylleneus.readthedocs.io</a>.</li>
+</ul>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Cylleneus is a next-generation search engine for electronic corpora of Latin (and eventually Greek), which enables texts to be searched on the basis of their semantic and morpho-syntactic properties. This means that, for the first time, texts can be searched by the <em>meanings</em> of words as well as by the kinds of grammatical constructions they occur in. Semantic search takes advantage of the <a class="reference external" href="https://latinwordnet.exeter.ac.uk/">Latin WordNet 2.0</a> and is fully implemented, and thus is available for any annotated or plain-text corpus. Syntactic search functionality is still under development and is available for only certain structured corpora. However morphological searching and query filtering will work with any corpus.</p>
+</div>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Semantic search: find words based on their meanings in English, Italian, Spanish, or French</li>
+<li>Syntactic search: finds words based on the kinds of grammatical constructions they appear in</li>
+<li>Morphological search: find words, or filter the results of other queries, based on morphological properties</li>
+<li>Fast: once a corpus is indexed, most query types produce results nearly instantaneously</li>
+<li>Sophisticated: query types can be combined into complex search patterns</li>
+<li>Extensible: indexing pipelines can be created for any corpus type</li>
+<li>Free: completely open-source and redistributable</li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Clone this repository, navigate to the appropriate directory, and run the following command from your command line:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cd</span> <span class="pre">cylleneus</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></p>
+<p>It is also possible to <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">cylleneus</span></code>, but in this case you need to manage your own indexing.</p>
+</div>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>The Cylleneus engine requires texts to be indexed before they can be searched. For convenience and testing, this repository comes configured with three pre-indexed mini-corpora: some texts of Caesar from the LASLA corpus, Vergil’s <em>Eclogues</em> from the Perseus Digital Library, and Seneca’s <em>De Ira</em> and <em>De Beneficiis</em> from the Digital Latin Library.</p>
+<p>To enable gloss-based searches, Cylleneus relies on the MultiWordNet. The setup process should install the latest version of the <code class="docutils literal notranslate"><span class="pre">multiwordnet</span></code> library, and also compile the necessary databases, but in case this step has been omitted you can do it manually. To do so, launch the Python REPL and enter the following commands.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">multiwordnet.db</span> <span class="k">import</span> <span class="nb">compile</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">language</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;common&#39;</span><span class="p">,</span> <span class="s1">&#39;english&#39;</span><span class="p">,</span> <span class="s1">&#39;latin&#39;</span><span class="p">,</span> <span class="s1">&#39;french&#39;</span><span class="p">,</span> <span class="s1">&#39;spanish&#39;</span><span class="p">,</span> <span class="s1">&#39;italian&#39;</span><span class="p">,</span> <span class="s1">&#39;hebrew&#39;</span><span class="p">]:</span>
+<span class="gp">... </span>    <span class="nb">compile</span><span class="p">(</span><span class="n">language</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To test that everything is working properly, run the battery of query tests in <code class="docutils literal notranslate"><span class="pre">tests/test_query_types.py</span></code> over the packaged subcorpora.</p>
+</div>
+<div class="section" id="indexing">
+<h2>Indexing<a class="headerlink" href="#indexing" title="Permalink to this headline">¶</a></h2>
+<p>Ready-made scripts are provided for indexing texts from the Perseus Digital Library (in JSON or TEI XML format), the LASLA corpus, the PHI5 corpus, and from plain-text sources (for instance, the Latin Library). To index a corpus (or part of one), the raw source should be placed in an appropriately named directory within <code class="docutils literal notranslate"><span class="pre">/corpus/&lt;name&gt;/text/</span></code>. Then you can use any of the scripts in the <code class="docutils literal notranslate"><span class="pre">scripts</span></code> directory, modifying it for your own needs. The script for indexing texts from the DLL can be adapted to any plain-text source document. If you want to use texts from another corpus entirely, you will need to create an indexing pipeline tailored to the structure of that corpus. See the documentation for instructions.</p>
+<p>Basic indexing functionality is also provided through a command-line interface. <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cylleneus</span> <span class="pre">--help</span></code> displays the complete list of available indexing commands.</p>
+<p>To add a document or documents to a corpus, you must provide the original source files and indicate the correct path.</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cylleneus</span> <span class="pre">index</span> <span class="pre">--corpus</span> <span class="pre">perseus</span>&#160; <span class="pre">#</span> <span class="pre">display</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">index</span> <span class="pre">of</span> <span class="pre">corpus</span> <span class="pre">'perseus'</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cylleneus</span> <span class="pre">add</span> <span class="pre">--corpus</span> <span class="pre">lasla</span> <span class="pre">--path</span> <span class="pre">&quot;/corpus/lasla/texts/Catullus_Catullus_Catul.BPN&quot;</span>&#160; <span class="pre">#</span> <span class="pre">for</span> <span class="pre">plaintext</span> <span class="pre">corpora</span> <span class="pre">you</span> <span class="pre">will</span> <span class="pre">also</span> <span class="pre">need</span> <span class="pre">to</span> <span class="pre">specify</span> <span class="pre">--author</span> <span class="pre">and</span> <span class="pre">--title,</span> <span class="pre">as</span> <span class="pre">this</span> <span class="pre">cannot</span> <span class="pre">be</span> <span class="pre">inferred</span> <span class="pre">from</span> <span class="pre">filenames</span> <span class="pre">or</span> <span class="pre">other</span> <span class="pre">metadata</span></code></p>
+<p>Indexes should probably always be optimized, though this process can be slow if the corpus is large.</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cylleneus</span> <span class="pre">optimize</span> <span class="pre">--corpus</span> <span class="pre">latin_library</span></code></p>
+</div>
+<div class="section" id="searching">
+<h2>Searching<a class="headerlink" href="#searching" title="Permalink to this headline">¶</a></h2>
+<p>The best way to search the available corpora (or to import new files individually) is to use the web app.</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cd</span> <span class="pre">cylleneus</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cylleneus</span> <span class="pre">web</span></code></p>
+<p>Then point your browser at <a class="reference external" href="http://127.0.0.1:5000">http://127.0.0.1:5000</a>. The web app can accommodate the full range of query types, and has functionality for viewing available corpora, importing new plain-text files, and exporting search results.</p>
+<p>A shell script, invoked by <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cylleneus</span> <span class="pre">shell</span></code>, is also available and provides a command-line interface to much of the same functionality.</p>
+<p>Both the web app and the shell UI use the idea of a search collection, which is a grouping of texts from one or more corpora. This allows searches to be conducted across different corpus types, potentially filling gaps of text coverage. In the web app, click the <code class="docutils literal notranslate"><span class="pre">Collection</span></code> button to put together such a grouping before performing a search. In the shell UI, first select a corpus using <code class="docutils literal notranslate"><span class="pre">corpus</span> <span class="pre">&lt;name&gt;</span></code> and then use <code class="docutils literal notranslate"><span class="pre">select</span></code>. This commands takes a list of document numbers as its argument, i.e. <code class="docutils literal notranslate"><span class="pre">&quot;[1,2...]&quot;</span></code>. Alternatively, <code class="docutils literal notranslate"><span class="pre">select-all</span></code> will add all the documents of the currently selected corpus to the search collection. Thus, e.g.:</p>
+<p><code class="docutils literal notranslate"><span class="pre">cylleneus:~</span> <span class="pre">$</span> <span class="pre">corpus</span> <span class="pre">perseus;</span> <span class="pre">select-all;</span>&#160; <span class="pre">#</span> <span class="pre">selects</span> <span class="pre">the</span> <span class="pre">corpus</span> <span class="pre">and</span> <span class="pre">add</span> <span class="pre">all</span> <span class="pre">its</span> <span class="pre">documents</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">search</span> <span class="pre">collection</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">cylleneus:~</span> <span class="pre">$</span> <span class="pre">unselect</span> <span class="pre">&quot;[1]&quot;</span>&#160; <span class="pre">#</span> <span class="pre">remove</span> <span class="pre">document</span> <span class="pre">id</span> <span class="pre">1</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">collection</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">cylleneus:~</span> <span class="pre">$</span> <span class="pre">corpus</span> <span class="pre">lasla;</span> <span class="pre">select</span> <span class="pre">&quot;[1,2]&quot;'</span> <span class="pre">search</span> <span class="pre">&lt;virtus&gt;|GEN.PL.</span>&#160; <span class="pre">#</span> <span class="pre">add</span> <span class="pre">documents</span> <span class="pre">from</span> <span class="pre">a</span> <span class="pre">different</span> <span class="pre">corpus</span> <span class="pre">and</span> <span class="pre">execute</span> <span class="pre">a</span> <span class="pre">different</span> <span class="pre">query</span></code></p>
+<p>You can display the list of documents within a corpus, with their id numbers, using the CLI.</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cylleneus</span> <span class="pre">index</span> <span class="pre">--corpus</span> <span class="pre">perseus</span></code></p>
+</div>
+<div class="section" id="query-types">
+<h2>Query Types<a class="headerlink" href="#query-types" title="Permalink to this headline">¶</a></h2>
+<p>Currently, Cylleneus enables the following types of queries:</p>
+<div class="section" id="word-form-queries">
+<h3>Word-form queries<a class="headerlink" href="#word-form-queries" title="Permalink to this headline">¶</a></h3>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Form:</th><td class="field-body">‘…’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body">‘virtutem’</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">matches a literal string</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="lemma-based-queries">
+<h3>Lemma-based queries<a class="headerlink" href="#lemma-based-queries" title="Permalink to this headline">¶</a></h3>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Form:</th><td class="field-body">&lt;…&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body">&lt;virtus&gt;</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">matches any form of the specified lemma</td>
+</tr>
+</tbody>
+</table>
+<p>More precision can be introduced by using LEMLAT URIs, along with morphological tagging. For example, in the Cylleneus shell <code class="docutils literal notranslate"><span class="pre">search</span> <span class="pre">&lt;dico&gt;</span></code> will match occurrences both of <em>dico</em>, <em>dicere</em> and of <em>dico</em>, <em>dicare</em>. To distinguish between them, you can use the relevant URIs: <code class="docutils literal notranslate"><span class="pre">&lt;dico:d1349&gt;</span></code> (<em>dicare</em>) or <code class="docutils literal notranslate"><span class="pre">&lt;dico:d1350&gt;</span></code>. Alternatively, you can specify an appropriate morphological tag: <code class="docutils literal notranslate"><span class="pre">&lt;dico=v1spia--3-&gt;</span></code> or &lt;dico=v1spia–1-&gt;``.</p>
+</div>
+<div class="section" id="gloss-based-queries">
+<h3>Gloss-based queries<a class="headerlink" href="#gloss-based-queries" title="Permalink to this headline">¶</a></h3>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Form:</th><td class="field-body">[…]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body">[en?courage]</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">matches any word with the same meaning as the specified gloss. Can be ‘en’, ‘it’, ‘es’, or ‘fr’.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body">[n#05595229]</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">matches any word with the meaning defined by the specified synset offset ID</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="domain-based-queries">
+<h3>Domain-based queries<a class="headerlink" href="#domain-based-queries" title="Permalink to this headline">¶</a></h3>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Form:</th><td class="field-body">{…}</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body">{611}, {Anatomy}</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">matches any word of any part of speech whose meaning falls within the specified domain. Cylleneus uses the Dewey Decimal Classification System as a general topic index.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="morphology-based-queries">
+<h3>Morphology-based queries<a class="headerlink" href="#morphology-based-queries" title="Permalink to this headline">¶</a></h3>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Form:</th><td class="field-body">:…</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body">:ACC.SG.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">matches any word with the specified morphological properties, given in Leipzig notation. Annotations can be given as distinct query terms, or can be used as filters for lemma- or gloss-based queries. (For example, <code class="docutils literal notranslate"><span class="pre">&lt;virtus&gt;:PL.</span></code> will match only plural forms of this word).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="morphology-based-filtering">
+<h3>Morphology-based filtering<a class="headerlink" href="#morphology-based-filtering" title="Permalink to this headline">¶</a></h3>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Form:</th><td class="field-body">&lt;…&gt;|…</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body">&lt;virtus&gt;|GEN.SG.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">filters results for only genitive singular forms</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Form:</th><td class="field-body">[…]:…</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body">[en?attack]¦VB.PL.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Description:</th><td class="field-body">filters results for only plural verb forms</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Form:</th><td class="field-body">{…}:…</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body">{Anatomy}|ACC.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">filters results for only accusative forms</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="lexical-relation-queries">
+<h3>Lexical-relation queries<a class="headerlink" href="#lexical-relation-queries" title="Permalink to this headline">¶</a></h3>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Form:</th><td class="field-body">&lt;?::…&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body">&lt;/::virtus&gt;</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">matches any word with the specified lexical relation to the given lemma</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="semantic-relation-queries">
+<h3>Semantic-relation queries<a class="headerlink" href="#semantic-relation-queries" title="Permalink to this headline">¶</a></h3>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Form:</th><td class="field-body">[?::…]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body">[&#64;::en?courage]</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">matches any word with the specified semantic relation to the given gloss</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body">[&#64;::n#05595229]</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">matches any word with the specified semantic relation to the given synset</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="syntax-based-queries">
+<h3>Syntax-based queries<a class="headerlink" href="#syntax-based-queries" title="Permalink to this headline">¶</a></h3>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Form:</th><td class="field-body">/…/</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body">/ablative absolute/</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">syntactical constructions (currently, only the LASLA corpus supports this)</td>
+</tr>
+</tbody>
+</table>
+<p>Gloss-based searches enable searching by the meanings of words, and queries can be specified in English (en?), Italian (it?), Spanish (es?), or French (fr?). (NB. The vocabulary for Italian, Spanish, and French is significantly smaller than English).
+It is also possible to search by synset ID number: this capability is exposed for future development of an interface where users can search for a specific sense. Normally, queries will be specified as English terms, which resolve to sets of synsets.
+Queries involving lexical and semantic relations depend on information available from the Latin Wordnet 2.0. As this project is on-going, rich relational information may be available only for a subset of vocabulary. However, as new information becomes available, search results should become more comprehensive and more accurate.</p>
+</div>
+<div class="section" id="types-of-lexical-relations">
+<h3>Types of lexical relations<a class="headerlink" href="#types-of-lexical-relations" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Code</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">\</span></code></td>
+<td>derives from (e.g., <code class="docutils literal notranslate"><span class="pre">&lt;\::femina&gt;</span></code> would match any lemma derived from <em>femina</em>, namely, <em>femineus</em>)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">/</span></code></td>
+<td>relates to (the converse of <em>derives from</em>)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">+c</span></code></td>
+<td>composed of (e.g., <code class="docutils literal notranslate"><span class="pre">&lt;+c::cum&gt;</span></code> would match any lemma composed by <em>cum</em>)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">-c</span></code></td>
+<td>composes (e.g., <code class="docutils literal notranslate"><span class="pre">&lt;-c::compono&gt;</span></code> would match lexical elements that compose <em>compono</em>, namely, <em>cum</em> and <em>pono</em>).</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">&lt;</span></code></td>
+<td>participle (verbs only)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="types-of-semantic-relations">
+<h3>Types of semantic relations<a class="headerlink" href="#types-of-semantic-relations" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Code</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">!</span></code></td>
+<td>antonym of</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">&#64;</span></code></td>
+<td>hypernym of</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">~</span></code></td>
+<td>hyponym of</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">|</span></code></td>
+<td>nearest to</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">*</span></code></td>
+<td>entails</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">#m</span></code></td>
+<td>member of</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">#p</span></code></td>
+<td>part of</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">#s</span></code></td>
+<td>substance of</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">+r</span></code></td>
+<td>has role</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">%m</span></code></td>
+<td>has member</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">%p</span></code></td>
+<td>has part</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">%s</span></code></td>
+<td>has substance</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">-r</span></code></td>
+<td>is role of</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">&gt;</span></code></td>
+<td>causes</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">^</span></code></td>
+<td>see also</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">$</span></code></td>
+<td>verb group</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">=</span></code></td>
+<td>attribute</td>
+</tr>
+</tbody>
+</table>
+<p>Query types can be combined into complex adjacency or proximity searches. An adjacency search specifies a particular ordering of the query terms (typically, but not necessarily, sequential); a proximity search simply finds contexts where all the query terms occur, regardless of order.
+Adjacency searches must be enclosed with double quotes (“…”), optionally specifying a degree of ‘slop’, that is, the number of words that may intervene between matched terms, using ‘~’ followed by the number of permissible intervening words.</p>
+</div>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;cui</span> <span class="pre">dono&quot;</span></code>              matches the literal string ‘cui dono’</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;si</span> <span class="pre">quid</span> <span class="pre">&lt;habeo&gt;&quot;</span></code>       matches ‘si’ followed by ‘quid’ followed by any form of <em>habeo</em></p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;cum</span> <span class="pre">:ABL.&quot;</span></code>             matches ‘cum’ followed by any word in the ablative causes</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;in</span> <span class="pre">&lt;ager&gt;|PL.&quot;</span></code>         matches ‘in’ followed by any plural form of <em>ager</em></p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;&lt;magnus&gt;</span> <span class="pre">&lt;animus&gt;&quot;~2</span></code>   matches any form of <em>magnus</em> followed by any form of <em>animus</em>, including if separated by a single word</p>
+<p><code class="docutils literal notranslate"><span class="pre">&lt;honos&gt;</span> <span class="pre">&lt;virtus&gt;</span></code>        matches any context including both any form of <em>honos</em> and any form of <em>virtus</em></p>
+</div>
+</div>
+<div class="section" id="to-do">
+<h2>To Do<a class="headerlink" href="#to-do" title="Permalink to this headline">¶</a></h2>
+<p>In no particular order…</p>
+<ul class="simple">
+<li>Optimization</li>
+<li>Integration with Scaife Viewer</li>
+<li>Perseus CTS alignment for corpora with non-standard text annotations</li>
+<li>implement high-order syntactic search for different annotation schemes</li>
+<li>manually-curated WordNet-based semantic mark-up (‘sembanks’) for texts</li>
+<li>Greek</li>
+</ul>
+</div>
+<div class="section" id="credits">
+<h2>Credits<a class="headerlink" href="#credits" title="Permalink to this headline">¶</a></h2>
+<p>© 2019 William Michael Short. Based on the open-source Whoosh search engine by Matt Chaput.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Cylleneus’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, William Michael Short
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
