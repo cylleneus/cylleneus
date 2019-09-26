@@ -6,8 +6,10 @@ import settings
 from utils import nrange
 
 
+# Glob pattern for indexing
 glob = '*.json'
 
+# Fetch text
 def fetch(work, meta, fragment):
     with codecs.open(work.corpus.text_dir / Path(work.doc['filename']), 'r', 'utf8') as fp:
         doc = json.load(fp)
@@ -100,7 +102,7 @@ def fetch(work, meta, fragment):
         joiner = ' '
     parts = pre + match + post
     text = f'{joiner}'.join(parts)
-    urn = hit.get('urn', None)
+    urn = work.urn
 
     return urn, reference, text
 
