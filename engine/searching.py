@@ -49,9 +49,8 @@ from utils import *
 from whoosh.reading import TermNotFound
 from whoosh.util.cache import lru_cache
 from latinwordnet import latinwordnet
+from natsort import natsorted
 
-
-LWN = latinwordnet.LatinWordNet()
 
 HitRef = namedtuple(
     "HitRef",
@@ -1746,6 +1745,8 @@ class CylleneusHit(Hit):
         return self._fields
 
     def filter_fragments(self, query, minscore: int = 1):
+        LWN = latinwordnet.LatinWordNet()
+
         termlists = term_lists(query, self.reader)
         fieldnames = set(
             [
@@ -1777,7 +1778,7 @@ class CylleneusHit(Hit):
                         not seen.get(yf, False):
                         f.matches.extend(yf.matches)
                         f.matched_terms.update(yf.matched_terms)
-                        f.matches = sorted(set(f.matches), key=lambda x: (x.meta['sent_id'], x.meta['sent_pos']))
+                        f.matches = natsorted(set(f.matches), key=lambda x: (x.meta['sent_id'], x.meta['sent_pos']))
                         if yf.startchar < f.startchar:
                             f.startchar = yf.startchar
                         if f.endchar < yf.endchar:
@@ -2023,13 +2024,10 @@ class CylleneusHit(Hit):
 
         # Attach collated meta data to fragments, if available
         if self.get('meta', False):
-            if 'line' in self['meta'].lower() and len(self['meta'].lower().split('-')) <= 2:
-                divs = [div for div in self['meta'].lower().split('-')]
-            else:
-                divs = [div for div in self['meta'].lower().split('-') if div != 'line']
+            divs = [div for div in self['meta'].lower().split('-')]
 
             for score, fragment in filtered:
-                matches = sorted(fragment.matches, key=lambda x: (x.meta['sent_id'], x.meta['sent_pos']))
+                matches = natsorted(fragment.matches, key=lambda x: (x.meta['sent_id'], x.meta['sent_pos']))
                 first = matches[0]
                 last = matches[-1]
 
@@ -2115,7 +2113,7 @@ class CylleneusHit(Hit):
                 fragment.meta = meta
         else:
             for score, fragment in filtered:
-                matches = sorted(fragment.matches, key=lambda x: (x.meta['sent_id'], x.meta['sent_pos']))
+                matches = natsorted(fragment.matches, key=lambda x: (x.meta['sent_id'], x.meta['sent_pos']))
                 first = matches[0]
                 last = matches[-1]
 
@@ -2157,17 +2155,18 @@ class CylleneusHit(Hit):
     def highlights(self, fieldname, text=None, top=1000000, minscore=None):
         fragments = self.fragments(minscore)
 
+        # FIXME: use -1 as null referencing alue?
         if self.get('meta', False):
-            fragments = sorted(
-                list(fragments),
+            fragments = natsorted(
+                fragments,
                 key=lambda x: tuple(
-                    int(n) if n is not None else 0
+                    alnum(str(n)) if n is not None else -1
                     for n in x[1].meta['start'].values()
                 )
             )
         else:
             fragments = sorted(
-                list(fragments),
+                fragments,
                 key=lambda x: x[1].startchar,
             )
         formatted = self.results.highlighter.formatter.format(fragments)

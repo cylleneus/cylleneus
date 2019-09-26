@@ -5,6 +5,7 @@ from engine.analysis.acore import CylleneusToken
 from engine.analysis.tokenizers import Tokenizer
 from lang.latin import jvmap
 from .core import parse_bpn
+from utils import alnum
 
 
 class CachedTokenizer(Tokenizer):
@@ -65,11 +66,11 @@ class CachedTokenizer(Tokenizer):
                             continue
 
                         if int(parsed['sent_id']) > int(sent_id):
-                            sent_pos = 1
+                            sent_pos = 0
                             sent_id = parsed['sent_id']
-                            if tuple([int(i) for i in parsed['refs'].split(',')]) > current_refs:
+                            if tuple([alnum(i) for i in parsed['refs'].split(',')]) > current_refs:
                                 sect_sent = 1
-                                sect_pos = 1
+                                sect_pos = 0
                             else:
                                 sect_sent += 1
 
@@ -138,14 +139,12 @@ class CachedTokenizer(Tokenizer):
                             'meta': value['meta'].lower()
                         }
                         tags = value['meta'].split('-')
-                        if len(tags) > 2 and 'line' in tags:
-                            tags.pop(tags.index('line'))
                         divs = {i: div.lower() for i, div in enumerate(tags)}
                         refs = tuple(parsed['refs'].strip().split(','))
                         for i in range(len(divs)):
                             meta[divs[i]] = refs[i]
 
-                        current_refs = tuple([int(ref) for ref in refs]) # int(ref)?
+                        current_refs = refs
 
                         t.morphosyntax = parsed['subord']
 

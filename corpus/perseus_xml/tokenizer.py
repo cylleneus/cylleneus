@@ -5,7 +5,7 @@ import string
 from engine.analysis.acore import CylleneusToken
 from engine.analysis.tokenizers import Tokenizer
 from lang.latin import PunktLatinCharsVars, compound, enclitics, exceptions, jvmap, proper_names, punctuation, \
-    replacements
+    replacements, convert_diphthongs, strip_diacritics
 from utils import flatten, stringify
 
 
@@ -23,7 +23,7 @@ class CachedTokenizer(Tokenizer):
     def __call__(self, value, positions=True, chars=True,
                  keeporiginal=True, removestops=True, tokenize=True,
                  start_pos=0, start_char=0, mode='', **kwargs):
-        if kwargs.get('docix', None) == self._docix and self._cache:
+        if kwargs.get('docix', None) == self._docix and self._cache is not None:
             yield from self.cache
         else:
             t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
@@ -49,23 +49,36 @@ class CachedTokenizer(Tokenizer):
                     stopchars = str.maketrans('', '', string.punctuation)
 
                     doc = value['text']
-                    refs = doc.find(
-                        ".//{http://www.tei-c.org/ns/1.0}encodingDesc"
-                    ).find(
-                        ".//{http://www.tei-c.org/ns/1.0}refsDecl[@n='CTS']"
+                    divs = [
+                        cref.get('unit')
+                        for cref in doc.findall(".//{http://www.tei-c.org/ns/1.0}refState")
+                    ]
+                    tei_base = "/tei:TEI/tei:text/tei:body/tei:div"
+                    # Prose divisions
+                    sentences = doc.xpath(
+                        tei_base + ("/tei:div" * len(divs)),
+                        namespaces={
+                            'tei': 'http://www.tei-c.org/ns/1.0'
+                        }
                     )
-                    divs = list(reversed([
-                        cref.get('n')
-                        for cref in refs.findall(".//{http://www.tei-c.org/ns/1.0}cRefPattern")
-                    ]))
-                    sentences = doc.xpath("/tei:TEI/tei:text/tei:body/tei:div" + ("/tei:div" * len(divs)),
-                                          namespaces={'tei': 'http://www.tei-c.org/ns/1.0'})
-
+                    # Fall back to poetry divisions
                     if len(sentences) == 0:
-                        sentences = doc.xpath("/tei:TEI/tei:text/tei:body/tei:div" + ("/tei:div" * (len(divs)-1)) +
-                                              "/tei:l",
-                                              namespaces={'tei': 'http://www.tei-c.org/ns/1.0'})
-
+                        sentences = doc.xpath(
+                            tei_base +
+                            ("/tei:div" * (len(divs)-1)) + "/tei:l",
+                            namespaces= {
+                                'tei': 'http://www.tei-c.org/ns/1.0'
+                            }
+                        )
+                    # Fall back to speaker divisions (plays)
+                    if len(sentences) == 0:
+                        sentences = doc.xpath(
+                            tei_base +
+                            ("/tei:div" * (len(divs)-1)) + "/tei:sp/tei:l",
+                            namespaces= {
+                                'tei': 'http://www.tei-c.org/ns/1.0'
+                            }
+                        )
                     for i, sentence in enumerate(sentences):
                         meta = {
                             'meta': '-'.join(divs),
@@ -74,13 +87,22 @@ class CachedTokenizer(Tokenizer):
                         }
 
                         el = sentence
-                        j = 0
-                        while(el.getparent() is not None and el.getparent().get('type', None) == 'textpart'):
-                            meta[divs[j]] = el.getparent().get('n')
+                        j = -1
+                        while el is not None:
+                            if el.getparent() is not None:
+                                if el.getparent().get('type', None) == 'textpart' \
+                                    or el.getparent().tag == '{http://www.tei-c.org/ns/1.0}sp':
+                                    if el.getparent().tag == '{http://www.tei-c.org/ns/1.0}sp':
+                                        meta['speaker'] = el.getparent().find('.//{http://www.tei-c.org/ns/1.0}speaker').text
+                                    elif el.getparent().get('type', None) == 'textpart':
+                                        j -= 1
+                                        meta[divs[j]] = el.getparent().get('n')
                             el = el.getparent()
-                            j += 1
 
                         text = stringify(sentence)
+                        # If the text is not embedded in an XML node, use the 'text' attribute
+                        if not text:
+                            text = sentence.text
 
                         tokens = []
                         temp_tokens = tokenizer.word_tokenize(text)
@@ -111,11 +133,13 @@ class CachedTokenizer(Tokenizer):
                             if keeporiginal:
                                 t.original = token
                             t.stopped = False
+                            token = convert_diphthongs(strip_diacritics(token)).translate(jvmap)
 
                             if positions:
                                 t.pos = start_pos + pos
                             if token == ' ' or token in punctuation or token in stopchars:
                                 pos += 1
+                                continue
                             original_length = len(token)
 
                             token = token.strip()
@@ -254,10 +278,9 @@ class CachedTokenizer(Tokenizer):
                                 t.text = token
                                 if chars:
                                     t.startchar = start_char + ldiff
-                                    t.endchar = start_char + original_length - rdiff  # - ndiff - rdiff
+                                    t.endchar = start_char + original_length - rdiff
                                 if mode == 'index':
                                     self._cache.append(copy.deepcopy(t))
                                 yield t
                             start_char += original_length
                         start_char += 1
-

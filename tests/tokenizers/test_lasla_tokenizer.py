@@ -3,8 +3,13 @@
 
 """Tests for `cylleneus` package."""
 
-
+import codecs
+import pathlib
+import re
 import unittest
+from random import choice
+
+import corpus
 
 
 class TestLASLATokenizer(unittest.TestCase):
@@ -20,7 +25,7 @@ class TestLASLATokenizer(unittest.TestCase):
         """Test the LASLA tokenizer."""
         pass
         # from corpus.lasla.tokenizer import CachedTokenizer
-        # lasla = pathlib.Path('tests/text/lasla/')
+        # lasla = pathlib.Path('../../corpus/lasla/text')
         # files = list(lasla.glob('*.BPN'))
         #
         # with codecs.open(choice(files), 'r', 'utf8') as file:

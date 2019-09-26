@@ -1,14 +1,14 @@
-import statistics
 from heapq import nlargest
 from itertools import groupby
 
 import engine.analysis
 import engine.query
+import engine.query
 import engine.searching
 import whoosh.highlight
-import engine.query
 from whoosh.compat import htmlescape
-from utils import hdict
+from natsort import natsorted
+
 
 class CylleneusFragment(object):
     """Represents a fragment (extract) from a hit document. This object is
@@ -297,10 +297,10 @@ class CylleneusHighlighter(object):
             #   to char positions
             if hitobj.get('meta', False):
                 # FIXME: some refs may be alphanumeric?
-                tokens.sort(
+                tokens = natsorted(tokens,
                     key=lambda t: tuple(
                     [
-                        int(v)
+                        v
                         for k, v in t.meta.items()
                         if k not in ['meta', 'sent_id']
                     ]))

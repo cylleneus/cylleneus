@@ -1,11 +1,10 @@
+import queue
 import shutil
 from pathlib import Path
 
 import engine.index
-import settings
 from engine.writing import CLEAR
-from utils import slugify, print_debug, DEBUG_HIGH
-import queue
+from utils import DEBUG_HIGH, DEBUG_MEDIUM, print_debug, slugify
 
 
 class IndexingError(Exception):
@@ -120,12 +119,10 @@ class Indexer:
                 multisegment=True
             )
             try:
-                print_debug(DEBUG_HIGH, "Add document: '{}', {}, {}, {} [{}]".format(
-                    self.corpus.name, docix, kwargs['author'], kwargs['title'], path,
-                    end='...'))
+                print_debug(DEBUG_MEDIUM, "Add document: '{}', {}, {}, {} [{}]".format(
+                    self.corpus.name, docix, kwargs['author'], kwargs['title'], path))
                 writer.add_document(**kwargs)
                 writer.commit()
-                print_debug(DEBUG_HIGH, 'ok')
             except queue.Empty as e:
                 pass
             return docix

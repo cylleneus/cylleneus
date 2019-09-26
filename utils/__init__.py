@@ -5,13 +5,16 @@ import re
 import sys
 from collections.abc import Iterable, Mapping
 from itertools import chain, zip_longest
-
+from functools import total_ordering
+from numbers import Number
+from decimal import Decimal
 
 # Debug settings values
 DEBUG_OFF = 0
 DEBUG_LOW = 1
 DEBUG_MEDIUM = 2
 DEBUG_HIGH = 3
+
 
 # Debug helper function
 def print_debug(level, msg, out=sys.stderr):
@@ -21,9 +24,139 @@ def print_debug(level, msg, out=sys.stderr):
         out.write("%s%s\n" % (" " * level, msg))
 
 
+@total_ordering
+class alnum:
+    def __init__(self, value: str):
+        self._value = value
+        self._num, self._al = re.search(r'(-?\d+)?(\D+)?', value).groups()
+
+    @staticmethod
+    def max(items, cmp=None, default=None):
+        if cmp:
+            if isinstance(cmp, Number) or cmp.isnumeric():
+                return items if items > cmp else cmp
+        else:
+            items = list(items)
+            if items:
+                if not isinstance(items[0], Number) and not items[0].isnumeric():
+                    items.pop(0)
+                n = items[0]
+                for item in items[1:]:
+                    if isinstance(item, Number) or item.isnumeric():
+                        if item > n:
+                            n = item
+                return n
+            else:
+                if default:
+                    return default
+                else:
+                    raise ValueError
+
+    @property
+    def al(self):
+        return self._al
+
+    @property
+    def num(self):
+        return int(self._num) if self._num else None
+
+    @property
+    def values(self):
+        return self.num, self.al
+
+    @property
+    def value(self):
+        return self._value
+
+    def __eq__(self, other):
+        if isinstance(other, alnum):
+            return self.values == other.values
+        elif isinstance(other, int):
+            return self.num == other
+        else:
+            return self.value == other
+
+    def __ne__(self, other):
+        if isinstance(other, alnum):
+            return self.values != other.values
+        elif isinstance(other, int):
+            return self.num != other
+        else:
+            return self.value != other
+
+    def __gt__(self, other):
+        if isinstance(other, alnum):
+            return self.values > other.values
+        elif isinstance(other, int):
+            if self.num:
+                return self.num > other
+            else:
+                return False  # alphabetical always follows numeric
+        else:
+            return self.value > other
+
+    def __add__(self, other):
+        if isinstance(other, alnum):
+            return alnum(str(self.num + other.num))
+        elif isinstance(other, int):
+            return alnum(str(self.num + other))
+        else:
+            return alnum(self.value + other)
+
+    def __radd__(self, other):
+        if isinstance(other, alnum):
+            return alnum(str(other.num + self.num))
+        elif isinstance(other, int):
+            return alnum(str(other + self.num))
+        else:
+            return alnum(other + self.value)
+
+    def __sub__(self, other):
+        if isinstance(other, alnum):
+            return alnum(str(self.num - other.num))
+        elif isinstance(other, int):
+            return alnum(str(self.num - other))
+        else:
+            return alnum(str(self.value - other))
+
+    def __rsub__(self, other):
+        if isinstance(other, alnum):
+            return alnum(str(other.num - self.num))
+        elif isinstance(other, int):
+            return alnum(str(other - self.num))
+        else:
+            return alnum(other - self.value)
+
+    def __mul__(self, other):
+        if isinstance(other, alnum):
+            return alnum(str(self.num * other.num))
+        elif isinstance(other, int):
+            return alnum(str(self.num * other))
+        else:
+            return alnum(self.value * other)
+
+    def __rmul__(self, other):
+        if isinstance(other, alnum):
+            return alnum(str(other.num * self.num))
+        elif isinstance(other, int):
+            return alnum(str(other * self.num))
+        else:
+            return alnum(str(other * self.value))
+
+    def __int__(self):
+        return self.num
+
+    def __repr__(self):
+        # return f"Alphanumeric(num={self.num if self.num else ''}, al={self.al if self.al else ''})"
+        return self.value
+
+    def __str__(self):
+        return self.value
+
+
 def stringify(node):
     """ Convert XML node to string """
-    from lxml.etree import tostring
+
     from html import unescape
     from lxml.etree import tostring
 
@@ -116,12 +249,20 @@ def flatten(l, max_depth=math.inf):
             yield l
 
 
-def nrange(start, end, zeroes=True):
-    start, end = zip(*zip_longest(start, end, fillvalue=0))
-    base = max(max(chain(start, end)), 9) + 1
+def nrange(start, end, zero=True, negative=True):
+    start, end = zip(
+        *zip_longest(
+            [int(n) if n.num else n.al for n in start],
+            [int(n) if n.num else n.al for n in end],
+            fillvalue=0)
+    )
+    base = alnum.max(alnum.max(chain(start, end)), 9) + 1
 
     def _toint(seq, base):
-        return sum(base ** n * val for n, val in enumerate(reversed(seq)))
+        return sum(
+            base ** n * val
+            for n, val in enumerate(reversed(seq))
+        )
 
     def _totuple(num, base, length):
         ret = []
@@ -132,11 +273,19 @@ def nrange(start, end, zeroes=True):
 
     for se in range(_toint(start, base), _toint(end, base) + 1):
         t = _totuple(se, base, len(start))
-        if not zeroes:
-            if 0 not in t:
-                yield t
+        if zero is False:
+            if not any(map(lambda x: x == 0, t)):
+                if negative is False:
+                    if not any(map(lambda x: x < 0, t)):
+                        yield t
+                else:
+                    yield t
         else:
-            yield t
+            if negative is False:
+                if not any(map(lambda x: x < 0, t)):
+                    yield t
+            else:
+                yield t
 
 
 # Hashable dict
