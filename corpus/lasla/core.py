@@ -63,7 +63,7 @@ def fetch(work, meta, fragment):
         ])
         match.append(f"<match>{text}</match>")
         current_sentence = current_sentence.next
-
+    print(match)
     pre = []
     if start_sentence is not None:
         current_sentence = start_sentence.prev

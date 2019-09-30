@@ -19,7 +19,7 @@ class TestQueryTypes(unittest.TestCase):
 
         from multiwordnet.db import compile
         for language in ['common', 'latin', 'italian', 'spanish', 'french', 'hebrew']:
-            compile(language)
+            compile(language, overwrite=False)
 
     def tearDown(self):
         """Tear down test fixtures, if any."""
