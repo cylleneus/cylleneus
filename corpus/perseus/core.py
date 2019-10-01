@@ -10,7 +10,7 @@ from utils import nrange, alnum
 glob = '*.json'
 
 
-# Text fetching
+# Fetch text
 def fetch(work, meta, fragment):
     with codecs.open(work.corpus.text_dir / Path(work.doc['filename']), 'r', 'utf8') as fp:
         doc = json.load(fp)
