@@ -50,8 +50,8 @@ class CachedTokenizer(Tokenizer):
 
                     doc = value['text']
                     divs = [
-                        cref.get('unit')
-                        for cref in doc.findall(".//{http://www.tei-c.org/ns/1.0}refState")
+                        cref.get('n')
+                        for cref in doc.findall(".//{http://www.tei-c.org/ns/1.0}cRefPattern")
                     ]
                     tei_base = "/tei:TEI/tei:text/tei:body/tei:div"
                     # Prose divisions

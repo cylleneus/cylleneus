@@ -8,7 +8,7 @@ from utils import nrange
 
 
 # Glob pattern for indexing
-glob = '*.tb.xml'
+glob = '*.tb.txt'
 
 # Function to fetch text from corpus
 def fetch(work, meta, fragment):
