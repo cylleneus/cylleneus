@@ -21,8 +21,8 @@ class Preprocessor(BasePreprocessor):
         doc = et.XML(value, parser=parser)
 
         divs = [
-            cref.get('unit')
-            for cref in doc.findall(".//{http://www.tei-c.org/ns/1.0}refState")
+            cref.get('n')
+            for cref in reversed(doc.findall(".//{http://www.tei-c.org/ns/1.0}cRefPattern"))
         ]
         meta = '-'.join(divs)
 

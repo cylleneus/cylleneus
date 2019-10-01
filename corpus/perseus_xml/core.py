@@ -46,24 +46,25 @@ def fetch(work, meta, fragment):
             r"\1",
             re.sub(r"\$\d+", "{}", refpattern.get('replacementPattern'))
         )
-        for refpattern in doc.findall(
+        for refpattern in reversed(doc.findall(
             ".//{http://www.tei-c.org/ns/1.0}cRefPattern"
-        )
+        ))
     }
+
     start_sentence = doc.xpath(
         refs[divs[-1]].format(
-            *[start[div] for div in divs if div in refs]
+            *list(reversed([start[div] for div in divs if div in refs]))
         ),
         namespaces={'tei': 'http://www.tei-c.org/ns/1.0'}
     )[0]
     end_sentence = doc.xpath(
         refs[divs[-1]].format(
-            *[end[div] for div in divs if div in refs]
+            *list(reversed([end[div] for div in divs if div in refs]))
         ),
         namespaces={'tei': 'http://www.tei-c.org/ns/1.0'}
     )[0]
-    hlites = set([(hlite[0], hlite[-1]) for hlite in meta['hlites']])  # only need token ids?
 
+    hlites = set([(hlite[0], hlite[-1]) for hlite in meta['hlites']])  # only need token ids?
     match = []
     current_sentence = start_sentence
     limit_sentence = end_sentence.getnext()
@@ -86,7 +87,9 @@ def fetch(work, meta, fragment):
     while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
         if current_sentence.tag not in (
         '{http://www.tei-c.org/ns/1.0}lb',
-        '{http://www.tei-c.org/ns/1.0}speaker'
+        '{http://www.tei-c.org/ns/1.0}speaker',
+        '{http://www.tei-c.org/ns/1.0}note',
+        '{http://www.tei-c.org/ns/1.0}pb'
     ):
             text = stringify(current_sentence) or current_sentence.text
             if text:

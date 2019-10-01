@@ -58,7 +58,7 @@ class alnum:
 
     @property
     def num(self):
-        return int(self._num) if self._num else None
+        return int(self._num) if self._num is not None else None
 
     @property
     def values(self):
@@ -252,8 +252,8 @@ def flatten(l, max_depth=math.inf):
 def nrange(start, end, zero=True, negative=True):
     start, end = zip(
         *zip_longest(
-            [int(n) if n.num else n.al for n in start],
-            [int(n) if n.num else n.al for n in end],
+            [int(n) if n.num is not None else n.al for n in start],
+            [int(n) if n.num is not None else n.al for n in end],
             fillvalue=0)
     )
     base = alnum.max(alnum.max(chain(start, end)), 9) + 1

@@ -41,6 +41,7 @@ def fetch(work, meta, fragment):
     pre_start = start[:-1] + [(start[-1] - settings.LINES_OF_CONTEXT),]
     pre_end = start[:-1] + [(start[-1] - 1),]
     pre = []
+
     for ref in nrange(pre_start, pre_end, zero=False, negative=False):
         content = doc['text']
         for div in ref:
