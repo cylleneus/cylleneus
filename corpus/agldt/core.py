@@ -6,9 +6,9 @@ import lxml.etree as et
 import settings
 from utils import nrange
 
-# Glob pattern for file access
-glob = '*.tb.txt'
 
+# Glob pattern for indexing
+glob = '*.tb.txt'
 
 # Function to fetch text from corpus
 def fetch(work, meta, fragment):
@@ -34,56 +34,69 @@ def fetch(work, meta, fragment):
     # Collect text and context
     start = int(meta['start']['sent_id'])
     end = int(meta['end']['sent_id'])
+    start_sentence = doc.find(f".//sentence[@id='{start}']")
+    end_sentence = doc.find(f".//sentence[@id='{end}']")
 
     pre = []
-    pre_start = start - settings.LINES_OF_CONTEXT
-    for id in nrange((pre_start,), (start - 1,)):
-        sentence = doc.find(f".//sentence[@id='{id[0]}']")
-        if sentence is not None:
-            tokens = [token.get('form') for token in sentence.findall('word')]
-            text = ''.join([
-                token + " "
-                if i+1 < len(tokens) and tokens[i+1] not in string.punctuation
-                else token
-                for i, token in enumerate(tokens)
-            ])
-            pre.append(f"<pre>{text}</pre>")
+    current_sentence = start_sentence.getprevious()
+    i = 0
+    while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
+        tokens = [
+            token.get('form')
+            for token in current_sentence.findall('word')
+        ]
+        text = ''.join([
+            token + " "
+            if i+1 < len(tokens) and tokens[i+1] not in string.punctuation
+            else token
+            for i, token in enumerate(tokens)
+        ])
+        pre.append(f"<pre>{text}</pre>")
+        i += 1
+        current_sentence = current_sentence.getprevious()
 
-    hlites = set([hlite[-1] for hlite in meta['hlites']]) # only need token id?
+    hlites = set([hlite[-1] for hlite in meta['hlites']])
 
     match = []
-    for id in nrange((start,), (end,)):
-        sentence = doc.find(f".//sentence[@id='{id[0]}']")
-        if sentence is not None:
-            tokens = [(token.get('id'), token.get('form')) for token in sentence.findall('word')]
-            text = ''.join([
-                (f"<em>{token}</em>"
-                if id in hlites
-                else
-                f"{token}") + " "
-                if i+1 < len(tokens) and tokens[i+1][1] not in string.punctuation
-                else
-                (f"<em>{token}</em>"
-                 if id in hlites
-                 else
-                 f"{token}")
-                for i, (id, token) in enumerate(tokens)
-            ])
-            match.append(f"<match>{text}</match>")
+    current_sentence = start_sentence
+    limit_sentence = end_sentence.getnext()
+    while current_sentence != limit_sentence and current_sentence is not None:
+        tokens = [
+            (token.get('id'), token.get('form'))
+            for token in current_sentence.findall('word')]
+        text = ''.join([
+            (f"<em>{token}</em>"
+            if id in hlites
+            else
+            f"{token}") + " "
+            if i+1 < len(tokens) and tokens[i+1][1] not in string.punctuation
+            else
+            (f"<em>{token}</em>"
+             if id in hlites
+             else
+             f"{token}")
+            for i, (id, token) in enumerate(tokens)
+        ])
+        match.append(f"<match>{text}</match>")
+        current_sentence = current_sentence.getnext()
 
     post = []
-    post_end = end + settings.LINES_OF_CONTEXT
-    for id in nrange((end + 1,), (post_end,)):
-        sentence = doc.find(f".//sentence[@id='{id[0]}']")
-        if sentence is not None:
-            tokens = [token.get('form') for token in sentence.findall('word')]
-            text = ''.join([
-                token + " "
-                if i+1 < len(tokens) and tokens[i+1] not in string.punctuation
-                else token
-                for i, token in enumerate(tokens)
-            ])
-            post.append(f"<post>{text}</post>")
+    current_sentence = end_sentence.getnext()
+    i = 0
+    while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
+        tokens = [
+            token.get('form')
+            for token in current_sentence.findall('word')
+        ]
+        text = ''.join([
+            token + " "
+            if i + 1 < len(tokens) and tokens[i + 1] not in string.punctuation
+            else token
+            for i, token in enumerate(tokens)
+        ])
+        post.append(f"<post>{text}</post>")
+        i += 1
+        current_sentence = current_sentence.getnext()
 
     if 'poem' in divs or (len(divs) == 2 and divs[-1] in ['line', 'verse']):
         joiner = '\n\n'
@@ -91,6 +104,7 @@ def fetch(work, meta, fragment):
         joiner = ' '
     parts = pre + match + post
     text = f'{joiner}'.join(parts)
+
     return urn, reference, text
 
 

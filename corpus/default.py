@@ -7,12 +7,12 @@ from pathlib import Path
 import settings
 from corpus.preprocessing import BasePreprocessor
 from engine.analysis.acore import CylleneusToken
-from engine.analysis.filters import AnnotationFilter, CachedLemmaFilter, CachedSynsetFilter, SemfieldFilter
+from engine.analysis.filters import AnnotationFilter, CachedLemmaFilter, CachedSynsetFilter, SemfieldFilter, CaseFilter
 from engine.analysis.tokenizers import Tokenizer
 from engine.fields import *
 from engine.schemas import BaseSchema
 from lang.latin import compound, enclitics, exceptions, jvmap, proper_names, replacements, sent_tokenizer, \
-    word_tokenizer
+    word_tokenizer, convert_diphthongs, strip_diacritics
 
 
 glob = '.txt'
@@ -133,6 +133,8 @@ class CachedTokenizer(Tokenizer):
                         if keeporiginal:
                             t.original = token
                         t.stopped = False
+                        token = convert_diphthongs(strip_diacritics(token)).translate(jvmap)
+
                         if positions:
                             t.pos = start_pos + pos
                         original_length = len(token)
@@ -270,7 +272,7 @@ Semfields = SemfieldFilter()
 
 class DocumentSchema(BaseSchema):
     content = STORED()
-    form = FORM(analyzer=Tokens, vector=True)
+    form = FORM(analyzer=Tokens | CaseFilter(), vector=True)
     lemma = LEMMA(analyzer=Tokens | Lemmas, vector=True)
     annotation = ANNOTATION(analyzer=Tokens | Lemmas | Annotations, vector=True)
     synset = SYNSET(analyzer=Tokens | Lemmas | Synsets, vector=True)

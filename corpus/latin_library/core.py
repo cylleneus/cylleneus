@@ -5,8 +5,10 @@ from pathlib import Path
 import settings
 
 
+# Glob pattern for indexing
 glob = '*/*.txt'
 
+# Fetch text
 def fetch(work, meta, fragment):
     with codecs.open(work.corpus.text_dir / Path(work.doc['filename'])) as fp:
         content = fp.read()

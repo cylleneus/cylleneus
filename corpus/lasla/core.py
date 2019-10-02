@@ -3,12 +3,13 @@ from MyCapytain.resolvers.cts.api import HttpCtsResolver
 from MyCapytain.retrievers.cts5 import HttpCtsRetriever as CTS
 from requests.exceptions import HTTPError
 import settings
-from utils import nrange
+from utils import nrange, alnum
 
 
+# Glob pattern for indexing
 glob = '*.BPN'
 
-
+# Fetch text
 def fetch(work, meta, fragment):
     resolver = HttpCtsResolver(CTS("http://scaife-cts.perseus.org/api/cts"))
     urn = work.doc.get('urn', None)
@@ -23,66 +24,64 @@ def fetch(work, meta, fragment):
         [f"{item}: {meta['end'][item]}" for item in meta['end'] if item in divs]
     )
     reference = '-'.join([ref_start, ref_end]) if ref_end != ref_start else ref_start
-    hlite_start = [meta['start'][item] for item in meta['start'] if item not in divs]
-    hlite_end = [meta['end'][item] for item in meta['end'] if item not in divs]
 
     # Collect text and context
     start = [
-        int(meta['start'][div])
+        alnum(meta['start'][div])
         for div in divs
-        if div != 'line'
     ]
     end = [
-        int(meta['end'][div])
+        alnum(meta['end'][div])
         for div in divs
-        if div != 'line'
     ]
 
-    pre = []
-    pre_start = start[:-1] + [(start[-1] - settings.LINES_OF_CONTEXT),]
-    pre_end = start[:-1] + [(start[-1] - 1),]
-    for ref in nrange(pre_start, pre_end):
-        cite = '.'.join([str(i) for i in ref])
-        try:
-            passage = resolver.getTextualNode(urn, subreference=cite)
-        except HTTPError:
-            continue
-        else:
-            text = passage.export(Mimetypes.PLAINTEXT)
-            pre.append(f"<pre>{text}</pre>")
-
     hlites = set([tuple(hlite) for hlite in meta['hlites']])
-
     match = []
-    for ref in nrange(start, end):
-        cite = '.'.join([str(i) for i in ref])
-        try:
-            passage = resolver.getTextualNode(urn, subreference=cite)
-        except HTTPError:
-            text = "NULL"
-        else:
-            text = passage.export(Mimetypes.PLAINTEXT)
-        if text != "NULL":
-            text = [
-                f"<em>{t}</em>"
-                if tuple([str(r) for r in ref] + [str(i + 1),]) in hlites
-                else t
-                for i, t in enumerate(text.split())
-            ]
-        match.append(f"<match>{' '.join(text)}</match>")
+    start_cite = '.'.join([str(i) for i in start])
+    try:
+        start_sentence = resolver.getTextualNode(urn, subreference=start_cite)
+    except HTTPError:
+        start_sentence = None
+    end_cite = '.'.join([str(i) for i in end])
+    try:
+        end_sentence = resolver.getTextualNode(urn, subreference=end_cite)
+    except HTTPError:
+        end_sentence = None
+    if start_sentence is None and end_sentence is None:
+        return urn, reference, 'Requested resource is not found'
+    limit_sentence = end_sentence.next
+    current_sentence = start_sentence
+
+    while current_sentence is not None and \
+        current_sentence.text != limit_sentence.text:
+        text = current_sentence.export(Mimetypes.PLAINTEXT)
+        text = ' '.join([
+            f"<em>{t}</em>"
+            if (*str(current_sentence.reference).split('.'), str(j)) in hlites
+            else t
+            for j, t in enumerate(text.split())
+        ])
+        match.append(f"<match>{text}</match>")
+        current_sentence = current_sentence.next
+    pre = []
+    if start_sentence is not None:
+        current_sentence = start_sentence.prev
+        i = 0
+        while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
+            text = current_sentence.export(Mimetypes.PLAINTEXT)
+            pre.append(f"<pre>{text}</pre>")
+            current_sentence = current_sentence.prev
+            i += 1
 
     post = []
-    post_start = end[:-1] + [(end[-1] + 1),]  # to avoid overlap
-    post_end = end[:-1] + [(end[-1] + settings.LINES_OF_CONTEXT),]
-    for ref in nrange(post_start, post_end):
-        cite = '.'.join([str(i) for i in ref])
-        try:
-            passage = resolver.getTextualNode(urn, subreference=cite)
-        except HTTPError:
-            continue
-        else:
-            text = passage.export(Mimetypes.PLAINTEXT)
+    if end_sentence is not None:
+        current_sentence = end_sentence.next
+        i = 0
+        while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
+            text = current_sentence.export(Mimetypes.PLAINTEXT)
             post.append(f"<post>{text}</post>")
+            current_sentence = current_sentence.next
+            i += 1
 
     if 'poem' in divs or (len(divs) == 2 and divs[-1] in ['line', 'verse']):
         joiner = '\n\n'
@@ -48959,36 +48958,36 @@ AUTHOR_TAB = {
         "phi0448": {
             "01": {
                 "title": "De Bello Gallico",
-                "meta": "book-chapter-section-line",
+                "meta": "book-chapter-section",
                 "code": "phi001",
             },
             "02": {
                 "title": "De Bello Gallico Liber VIII",
                 "code": "phi001",
-                "meta": "book-chapter-section-line",
+                "meta": "book-chapter-section",
                 "spurious": {"author": "A. Hirtius", "code": "phi0530"},
             },
             "03": {
                 "title": "Bellum Civile",
-                "meta": "book-chapter-section-line",
+                "meta": "book-chapter-section",
                 "code": "phi002",
             },
             "05": {
                 "title": "Bellum Africum",
                 "code": "phi001",
-                "meta": "section-line",
+                "meta": "section",
                 "spurious": {"author": "Anonymous", "code": ["phi0426"]},
             },
             "04": {
                 "title": "Bellum Alexandrinum",
                 "code": "phi001",
-                "meta": "section-line",
+                "meta": "section",
                 "spurious": {"author": "Anonymous", "code": "phi0428"},
             },
             "06": {
                 "title": "Bellum Hispaniense",
                 "code": "phi001",
-                "meta": "section-line",
+                "meta": "section",
                 "spurious": {"author": "Anonymous", "code": ["phi0430"]},
             },
         },
@@ -48997,7 +48996,7 @@ AUTHOR_TAB = {
         "author": "M. Porcius Cato",
         "code": ["phi0022"],
         "phi0022": {
-            "01": {"title": "De Agri Cultura", "meta": "section-line", "code": "phi001"}
+            "01": {"title": "De Agri Cultura", "meta": "chapter-section", "code": "phi001"}
         },
         "03": {"title": "orationes", "meta": "fragment-line", "code": "phi010"},
         "02": {"title": "Origines", "meta": "fragment-line", "code": "phi011"},
@@ -49019,185 +49018,185 @@ AUTHOR_TAB = {
             {
                 "34":
                     {
-                        "title": "Pro Caelio", "code": "phi024", "meta": "section-line"
+                        "title": "Pro Caelio", "code": "phi024", "meta": "section"
                     },
                 "35":
                     {
                         "title": "De Provinciis Consularibus",
                         "code": "phi025",
-                        "meta": "section-line",
+                        "meta": "section",
                     },
                 "13":
                     {
-                        "title": "Pro Caecina", "code": "phi008", "meta": "section-line"
+                        "title": "Pro Caecina", "code": "phi008", "meta": "section"
                     },
                 "15":
                     {
-                        "title": "Pro Cluentio", "code": "phi010", "meta": "section-line"
+                        "title": "Pro Cluentio", "code": "phi010", "meta": "section"
                     },
                 "26":
                     {
-                        "title": "Pro Archia", "code": "phi016", "meta": "section-line"
+                        "title": "Pro Archia", "code": "phi016", "meta": "section"
                     },
                 "36":
                     {
-                        "title": "Pro Balbo", "code": "phi026", "meta": "section-line"
+                        "title": "Pro Balbo", "code": "phi026", "meta": "section"
                     },
                 "37":
                     {
-                        "title": "In Pisonem", "code": "phi027", "meta": "section-line"
+                        "title": "In Pisonem", "code": "phi027", "meta": "section"
                     },
                 "04":
                     {
-                        "title": "Pro Tullio", "code": "phi006", "meta": "section-line"
+                        "title": "Pro Tullio", "code": "phi006", "meta": "section"
                     },
                 "24": {
-                    "title": "Pro Murena", "code": "phi014", "meta": "section-line"
+                    "title": "Pro Murena", "code": "phi014", "meta": "section"
                 },
                 "38": {
-                    "title": "Pro Plancio", "code": "phi028", "meta": "section-line"
+                    "title": "Pro Plancio", "code": "phi028", "meta": "section"
                 },
                                 "01": {
-                    "title": "Pro Quinctio", "code": "phi001", "meta": "section-line"
+                    "title": "Pro Quinctio", "code": "phi001", "meta": "section"
                 },
                 "19": {
                     "title": "Pro C. Rabirio perduellionis reo",
                     "code": "phi012",
-                    "meta": "section-line",
+                    "meta": "section",
                 },
                 "39":
                     {
                         "title": "Pro Rabirio Postumo",
                         "code": "phi030",
-                        "meta": "section-line",
+                        "meta": "section",
                     },
                 "27": {
-                    "title": "Pro Flacco", "code": "phi017", "meta": "section-line"
+                    "title": "Pro Flacco", "code": "phi017", "meta": "section"
                 },
                 "12": {
-                    "title": "Pro Fonteio", "code": "phi007", "meta": "section-line"
+                    "title": "Pro Fonteio", "code": "phi007", "meta": "section"
                 },
                 "40": {
-                    "title": "Pro Milone", "code": "phi031", "meta": "section-line"
+                    "title": "Pro Milone", "code": "phi031", "meta": "section"
                 },
                 "41": {
-                    "title": "Pro Marcello", "code": "phi032", "meta": "section-line"
+                    "title": "Pro Marcello", "code": "phi032", "meta": "section"
                 },
                 "29": {
                     "title": "Post Reditum ad Populum",
                     "code": "phi018",
-                    "meta": "section-line",
+                    "meta": "section",
                 },
                 "28": {
                     "title": "Post Reditum in Senatu",
                     "code": "phi019",
-                    "meta": "section-line",
+                    "meta": "section",
                 },
-                "42": {"title": "Pro Ligario", "code": "phi033", "meta": "section-line"},
+                "42": {"title": "Pro Ligario", "code": "phi033", "meta": "section"},
                 "43": {
                     "title": "Pro Rege Deiotaro",
                     "code": "phi034",
-                    "meta": "section-line",
+                    "meta": "section",
                 },
                 "06": {
                     "title": "In Verrem",
                     "code": "phi005",
-                    "meta": "actio-book-chapter-section-line",
+                    "meta": "actio-book-chapter-section",
                     },
                                 "07": {
                     "title": "In Verrem",
                     "code": "phi005",
-                    "meta": "actio-book-chapter-section-line",
+                    "meta": "actio-book-chapter-section",
                     },
                                 "08": {
                     "title": "In Verrem",
                     "code": "phi005",
-                    "meta": "actio-book-chapter-section-line",
+                    "meta": "actio-book-chapter-section",
                     },
                                 "09": {
                     "title": "In Verrem",
                     "code": "phi005",
-                    "meta": "actio-book-chapter-section-line",
+                    "meta": "actio-book-chapter-section",
                     },
                 "10": {
                     "title": "In Verrem",
                     "code": "phi005",
-                    "meta": "actio-book-chapter-section-line",
+                    "meta": "actio-book-chapter-section",
                     },
                 "11": {
                     "title": "In Verrem",
                     "code": "phi005",
-                    "meta": "actio-book-chapter-section-line",
+                    "meta": "actio-book-chapter-section",
                 },
                 "44": {
                     "title": "Philippicae",
                     "code": "phi035",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "45": {
                     "title": "Philippicae",
                     "code": "phi035",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "46": {
                     "title": "Philippicae",
                     "code": "phi035",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "48": {
                     "title": "Philippicae",
                     "code": "phi035",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "47": {
                     "title": "Philippicae",
                     "code": "phi035",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "49": {
                     "title": "Philippicae",
                     "code": "phi035",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "50": {
                     "title": "Philippicae",
                     "code": "phi035",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "51": {
                     "title": "Philippicae",
                     "code": "phi035",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "52": {
                     "title": "Philippicae",
                     "code": "phi035",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "53": {
                     "title": "Philippicae",
                     "code": "phi035",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "54": {
                     "title": "Philippicae",
                     "code": "phi035",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "55": {
                     "title": "Philippicae",
                     "code": "phi035",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "56": {
                     "title": "Philippicae",
                     "code": "phi035",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "57": {
                     "title": "Philippicae",
                     "code": "phi035",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                 "69": {
                     "title": "Contra Contionem Q. Metelli",
@@ -49258,60 +49257,60 @@ AUTHOR_TAB = {
                 "76": {
                     "title": "Laelius de Amicitia",
                     "code": "phi052",
-                    "meta": "section-line",
+                    "meta": "section",
                 },
-                "30": {"title": "De Domo Sua", "code": "phi020", "meta": "section-line"},
+                "30": {"title": "De Domo Sua", "code": "phi020", "meta": "section"},
                 "31": {
                     "title": "De Haruspicum Responso",
                     "code": "phi021",
-                    "meta": "section-line",
+                    "meta": "section",
                 },
                 "14": {
                     "title": "Pro Lege Manilia",
                     "code": "phi009",
-                    "meta": "section-line",
+                    "meta": "section",
                 },
                 "16": {
                     "title": "De Lege Agraria",
                     "code": "phi011",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                 "78": {
                     "title": "Cato Maior de Senectute",
                     "code": "phi051",
-                    "meta": "section-line",
+                    "meta": "section",
                 },
                 "77": {
                     "title": "De Officiis",
                     "code": "phi055",
-                    "meta": "book-chapter-section-line",
+                    "meta": "book-chapter-section",
                 },
                 "05": {
                     "title": "Divinatio in Q. Caecilium",
                     "code": "phi004",
-                    "meta": "section-line",
+                    "meta": "section",
                 },
                 "21": {
                     "title": "In Catilinam",
                     "code": "phi013",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "20": {
                     "title": "In Catilinam",
                     "code": "phi013",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "22": {
                     "title": "In Catilinam",
                     "code": "phi013",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
                                 "23": {
                     "title": "In Catilinam",
                     "code": "phi013",
-                    "meta": "oration-section-line",
+                    "meta": "oration-section",
                 },
-                "58": {"title": "Pro Scauro", "code": "phi029", "meta": "section-line"},
+                "58": {"title": "Pro Scauro", "code": "phi029", "meta": "section"},
                 "67": {"title": "In Toga Candida", "code": "phi005", "meta": "page-line"},
                 "60": {
                     "title": "Pro L. Vareno",
@@ -49319,7 +49318,7 @@ AUTHOR_TAB = {
                     "meta": "fragment-line",
                 },
                 "33": {
-                    "title": "In Vatinium", "code": "phi023", "meta": "section-line"
+                    "title": "In Vatinium", "code": "phi023", "meta": "section"
                 },
                 "71": {
                     "title": "Interrogatio de aere alieno Milonis",
@@ -49331,10 +49330,10 @@ AUTHOR_TAB = {
                     "code": "phi069",
                     "meta": "fragment-line",
                 },
-                "03": {"title": "Roscio Comoedo", "code": "phi003", "meta": "section-line"},
-                "32": {"title": "Pro Sestio", "code": "phi022", "meta": "section-line"},
-                "02": {"title": "Roscio Amerino", "code": "phi002", "meta": "section-line"},
-                "25": {"title": "Pro Sulla", "code": "phi015", "meta": "section-line"},
+                "03": {"title": "Roscio Comoedo", "code": "phi003", "meta": "section"},
+                "32": {"title": "Pro Sestio", "code": "phi022", "meta": "section"},
+                "02": {"title": "Roscio Amerino", "code": "phi002", "meta": "section"},
+                "25": {"title": "Pro Sulla", "code": "phi015", "meta": "section"},
             },
     },
     "E": {
@@ -49344,7 +49343,7 @@ AUTHOR_TAB = {
             "00": {
                 "title": "Historiae Alexandri Magni",
                 "code": "phi001",
-                "meta": "book-chapter-section-line",
+                "meta": "book-chapter-section",
             }
         },
     },
@@ -49403,7 +49402,7 @@ AUTHOR_TAB = {
         "author": "Petronius",
         "code": ["phi0972"],
         "phi0972": {
-            "00": {"title": "Satyrica", "code": "phi001", "meta": "section-line"}
+            "00": {"title": "Satyrica", "code": "phi001", "meta": "section"}
         },
     },
     "L": {
@@ -49427,9 +49426,9 @@ AUTHOR_TAB = {
             "01": {
                 "title": "Epistulae",
                 "code": "phi001",
-                "meta": "book-letter-section-line",
+                "meta": "book-letter-section",
             },
-            "00": {"title": "Panegyricus", "code": "phi002", "meta": "section-line"},
+            "00": {"title": "Panegyricus", "code": "phi002", "meta": "section"},
         },
     },
     "N": {
@@ -49445,12 +49444,12 @@ AUTHOR_TAB = {
         "phi0631": {
             "01": {
                 "title": "Catilinae Coniuratio",
-                "meta": "section-line",
+                "meta": "section",
                 "code": "phi001",
             },
             "02": {
                 "title": "Bellum Iugurthinum",
-                "meta": "section-line",
+                "meta": "section",
                 "code": "phi002",
             },
             "03": {
@@ -49476,64 +49475,64 @@ AUTHOR_TAB = {
             "01": {
                 "title": "Apocolocyntosis",
                 "code": "phi011",
-                "meta": "section-line",
+                "meta": "section",
             },
-            "": {"title": "Dialogi", "code": "phi012", "meta": "book-chapter-section-line"},
+            "": {"title": "Dialogi", "code": "phi012", "meta": "book-chapter-section"},
             "06": {
                 "title": "De Beneficiis",
                 "code": "phi013",
-                "meta": "book-chapter-section-line",
+                "meta": "book-chapter-section",
             },
             "08": {
                 "title": "De Clementia",
                 "code": "phi014",
-                "meta": "book-chapter-section-line",
+                "meta": "book-chapter-section",
             },
             "03": {
                 "title": "Epistulae Morales ad Lucilium",
                 "code": "phi015",
-                "meta": "letter-section-line",
+                "meta": "letter-section",
             },
         },
         "stoa0255": {
             "02": {
                 "title": "de consolatione ad Helviam",
                 "code": "stoa006",
-                "meta": "section-line",
+                "meta": "section",
             },
             "04": {
                 "title": "de consolatione ad Marciam",
                 "code": "stoa007",
-                "meta": "section-line",
+                "meta": "section",
             },
             "05": {
                 "title": "de consolatione ad Polybium",
                 "code": "stoa008",
-                "meta": "section-line",
+                "meta": "section",
             },
             "07": {
                 "title": "De Brevitate Vitae",
                 "code": "stoa004",
-                "meta": "section-line",
+                "meta": "section",
             },
-            "09": {"title": "De Constantia", "code": "stoa009", "meta": "section-line"},
-            "10": {"title": "De Ira", "code": "stoa010", "meta": "book-chapter-section-line"},
+            "09": {"title": "De Constantia", "code": "stoa009", "meta": "section"},
+            "10": {"title": "De Ira", "code": "stoa010", "meta": "book-chapter-section"},
             "11": {
                 "title": "De Otio Sapientis",
                 "code": "stoa011",
-                "meta": "section-line",
+                "meta": "section",
             },
             "12": {
                 "title": "De Providentia",
                 "code": "stoa012",
-                "meta": "section-line",
+                "meta": "section",
             },
             "13": {
                 "title": "De Tranquillitate Animi",
                 "code": "stoa013",
-                "meta": "section-line",
+                "meta": "section",
             },
-            "14": {"title": "De Vita Beata", "code": "stoa014", "meta": "section-line"},
+            "14": {"title": "De Vita Beata", "code": "stoa014", "meta": "section"},
         },
     },
     "Q": {
@@ -49542,21 +49541,21 @@ AUTHOR_TAB = {
         "phi1351": {
             "02": {
                 "title": "De Vita Iulii Agricolae",
-                "meta": "section-line",
+                "meta": "section",
                 "code": "phi001",
             },
             "01": {
                 "title": "De Origine et Situ Germanorum",
-                "meta": "section-line",
+                "meta": "section",
                 "code": "phi002",
             },
             "03": {
                 "title": "Dialogus de Oratoribus",
-                "meta": "section-line",
+                "meta": "section",
                 "code": "phi003",
             },
             "05": {"title": "Historiae", "meta": "book-line", "code": "phi004"},
-            "04": {"title": "Annales", "meta": "book-chapter-section-line", "code": "phi005"},
+            "04": {"title": "Annales", "meta": "book-chapter-section", "code": "phi005"},
         },
     },
     "R": {

@@ -5,7 +5,7 @@ import string
 from engine.analysis.acore import CylleneusToken
 from engine.analysis.tokenizers import Tokenizer
 from lang.latin import PunktLatinCharsVars, compound, enclitics, exceptions, jvmap, proper_names, punctuation, \
-    replacements
+    replacements, strip_diacritics, convert_diphthongs
 from utils import flatten, nested_dict_iter
 
 
@@ -93,6 +93,7 @@ class CachedTokenizer(Tokenizer):
                             if keeporiginal:
                                 t.original = token
                             t.stopped = False
+                            token = convert_diphthongs(strip_diacritics(token)).translate(jvmap)
 
                             if token in (' ', '\n') or token in punctuation or token in stopchars:
                                 pos -= 1

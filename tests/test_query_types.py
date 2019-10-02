@@ -19,7 +19,7 @@ class TestQueryTypes(unittest.TestCase):
 
         from multiwordnet.db import compile
         for language in ['common', 'latin', 'italian', 'spanish', 'french', 'hebrew']:
-            compile(language)
+            compile(language, overwrite=False)
 
     def tearDown(self):
         """Tear down test fixtures, if any."""
@@ -29,7 +29,7 @@ class TestQueryTypes(unittest.TestCase):
 
         queries = [
             ("lasla", "'sed'", (235, 2, 1)),
-            ("lasla", ":ACC.PL.", (3152, 2, 1)),
+            ("lasla", ":ACC.PL.", (3148, 2, 1)),
             ("latin_library", "<habeo>", (139, 6, 1)),
             ("lasla", "<animus>|ABL.SG.", (33, 2, 1)),
             ("perseus", "[en?war]", (2, 1, 1)),
@@ -58,10 +58,7 @@ class TestQueryTypes(unittest.TestCase):
         ]
         c, q, n = choice(queries)
         corpus = Corpus(c)
-        if c == 'perseus':
-            clct = Collection([corpus.work_by_docix(2),])
-        else:
-            clct = Collection(corpus.works)
+        clct = Collection(corpus.works)
         searcher = Searcher(Collection(clct))
         results = searcher.search(q)
         assert results.count == n

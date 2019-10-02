@@ -1,11 +1,32 @@
-from nltk.tokenize.punkt import PunktLanguageVars, PunktParameters, PunktSentenceTokenizer
+import re
 import string
+
+from nltk.tokenize.punkt import PunktLanguageVars, PunktParameters, PunktSentenceTokenizer
 
 from .latin_exceptions import latin_exceptions
 
 
 jvmap = str.maketrans('jv', 'iu', '')
 punctuation = str.maketrans("", "", string.punctuation)
+
+
+def strip_diacritics(token: str):
+    diacritics = str.maketrans('ÁÉÍÓÚÝáéíóúýÂÄĀĂÊËĒĔÎÏĪĬÔÖŌŎÛÜŪŬâäāăêëēĕîïīĭôöōŏûüūŭÿ',
+                               'AEIOUYaeiouyAAAAEEEEIIIIOOOOUUUUaaaaeeeeiiiioooouuuuy')
+    return token.translate(diacritics)
+
+
+def convert_diphthongs(token: str):
+    dipththongs = [
+        (r'Æ', 'Ae'),
+        (r'æ', 'ae'),
+        (r'Œ', 'Oe'),
+        (r'œ', 'oe'),
+    ]
+    for pattern, replacement in dipththongs:
+        token = re.sub(pattern, replacement, token)
+    return token
+
 
 def roman_to_arabic(n: str):
     """ Convert a Roman numeral to an Arabic integer. """

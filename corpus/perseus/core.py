@@ -3,11 +3,12 @@ import json
 from pathlib import Path
 
 import settings
-from utils import nrange
+from utils import nrange, alnum
 
 
 # Glob pattern for indexing
 glob = '*.json'
+
 
 # Fetch text
 def fetch(work, meta, fragment):
@@ -27,12 +28,12 @@ def fetch(work, meta, fragment):
 
     # Collect text and context
     start = [
-        int(v)
+        alnum(v)
         for k, v in meta['start'].items()
         if k in divs
     ]
     end = [
-        int(v)
+        alnum(v)
         for k, v in meta['end'].items()
         if k in divs
     ]
@@ -40,7 +41,8 @@ def fetch(work, meta, fragment):
     pre_start = start[:-1] + [(start[-1] - settings.LINES_OF_CONTEXT),]
     pre_end = start[:-1] + [(start[-1] - 1),]
     pre = []
-    for ref in nrange(pre_start, pre_end):
+
+    for ref in nrange(pre_start, pre_end, zero=False, negative=False):
         content = doc['text']
         for div in ref:
             try:
@@ -53,7 +55,7 @@ def fetch(work, meta, fragment):
 
     match = []
     hlites = sorted(set([tuple(hlite) for hlite in meta['hlites']]))
-    for ref in nrange(start, end, zeroes=False):
+    for ref in nrange(start, end, zero=False, negative=False):
         content = doc['text']
 
         i = 0
@@ -85,7 +87,7 @@ def fetch(work, meta, fragment):
     post_start = end[:-1] + [(end[-1] + 1), ]
     post_end = end[:-1] + [(end[-1] + settings.LINES_OF_CONTEXT), ]
     post = []
-    for ref in nrange(post_start, post_end):
+    for ref in nrange(post_start, post_end, zero=False, negative=False):
         content = doc['text']
         for div in ref:
             try:

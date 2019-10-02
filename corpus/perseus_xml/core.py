@@ -1,13 +1,16 @@
 import codecs
+from itertools import chain
 from pathlib import Path
+import re
 
 import lxml.etree as et
 import settings
-from utils import nrange, stringify
+from utils import alnum, nrange, stringify
 
+# Glob pattern for indexing
 glob = '*.xml'
 
-
+# Fetch text
 def fetch(work, meta, fragment):
     with codecs.open(work.corpus.text_dir / Path(work.doc['filename']), 'rb') as fp:
         value = fp.read()
@@ -29,81 +32,91 @@ def fetch(work, meta, fragment):
     reference = '-'.join([ref_start, ref_end]) if ref_end != ref_start else ref_start
 
     # Collect text and context
-    start = list(
-        int(meta['start'][div])
+    start = {
+        div: alnum(meta['start'][div])
         for div in divs
-    )
-    end = list(
-        int(meta['end'][div])
+    }
+    end = {
+        div: alnum(meta['end'][div])
         for div in divs
-    )
-    pre = []
-    pre_start = start[:-1] + [start[-1] - settings.LINES_OF_CONTEXT,]
-    pre_end = start[:-1] + [start[-1] - 1,]
-    for ref in nrange(pre_start, pre_end):
-        xp = "/tei:TEI/tei:text/tei:body/tei:div"
-        for div in ref:
-            xp += f"/tei:div[@n='{div}']"
-        sentence = doc.xpath(xp, namespaces={'tei': 'http://www.tei-c.org/ns/1.0'})
-        if len(sentence) == 0:
-            xp = "/tei:TEI/tei:text/tei:body/tei:div"
-            for div in ref[:-1]:
-                xp += f"/tei:div[@n='{div}']"
-            xp += f"/tei:l[@n='{ref[-1]}']"
-            sentence = doc.xpath(xp, namespaces={'tei': 'http://www.tei-c.org/ns/1.0'})
+    }
+    refs = {
+        refpattern.get('n'): re.sub(
+            r"#xpath\((.*?)\)",
+            r"\1",
+            re.sub(r"\$\d+", "{}", refpattern.get('replacementPattern'))
+        )
+        for refpattern in reversed(doc.findall(
+            ".//{http://www.tei-c.org/ns/1.0}cRefPattern"
+        ))
+    }
 
-        if len(sentence) != 0:
-            text = stringify(sentence[0])
-            pre.append(f"<pre>{text}</pre>")
+    start_sentence = doc.xpath(
+        refs[divs[-1]].format(
+            *list(reversed([start[div] for div in divs if div in refs]))
+        ),
+        namespaces={'tei': 'http://www.tei-c.org/ns/1.0'}
+    )[0]
+    end_sentence = doc.xpath(
+        refs[divs[-1]].format(
+            *list(reversed([end[div] for div in divs if div in refs]))
+        ),
+        namespaces={'tei': 'http://www.tei-c.org/ns/1.0'}
+    )[0]
 
-    hlites = set([tuple(hlite) for hlite in meta['hlites']])  # only need token ids?
-
+    hlites = set([(hlite[0], hlite[-1]) for hlite in meta['hlites']])  # only need token ids?
     match = []
-    for ref in nrange(start, end):
-        xp = "/tei:TEI/tei:text/tei:body/tei:div"
-        for div in ref:
-            xp += f"/tei:div[@n='{div}']"
-        sentence = doc.xpath(xp, namespaces={'tei': 'http://www.tei-c.org/ns/1.0'})
-        if len(sentence) == 0:
-            xp = "/tei:TEI/tei:text/tei:body/tei:div"
-            for div in ref[:-1]:
-                xp += f"/tei:div[@n='{div}']"
-            xp += f"/tei:l[@n='{ref[-1]}']"
-            sentence = doc.xpath(xp, namespaces={'tei': 'http://www.tei-c.org/ns/1.0'})
-
-        if len(sentence) != 0:
+    current_sentence = start_sentence
+    limit_sentence = end_sentence.getnext()
+    while current_sentence != limit_sentence and current_sentence is not None:
+        _text = stringify(current_sentence) or current_sentence.text
+        if _text:
             text = ' '.join([
                 f"<em>{token}</em>"
-                if (tuple(reversed([str(r) for r in ref])) + (str(i),)) in hlites
+                if (current_sentence.get('n'), str(i)) in hlites
                 else
                 f"{token}"
-                for i, token in enumerate(stringify(sentence[0]).split())
+                for i, token in enumerate(_text.split())
             ])
             match.append(f"<match>{text}</match>")
+        current_sentence = current_sentence.getnext()
+
+    pre = []
+    current_sentence = start_sentence.getprevious()
+    i = 0
+    while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
+        if current_sentence.tag not in (
+        '{http://www.tei-c.org/ns/1.0}lb',
+        '{http://www.tei-c.org/ns/1.0}speaker',
+        '{http://www.tei-c.org/ns/1.0}note',
+        '{http://www.tei-c.org/ns/1.0}pb'
+    ):
+            text = stringify(current_sentence) or current_sentence.text
+            if text:
+                pre.append(f"<pre>{text}</pre>")
+                i += 1
+        current_sentence = current_sentence.getprevious()
 
     post = []
-    post_start = end[:-1] + [end[-1] + 1]
-    post_end = end[:-1] + [end[-1] + settings.LINES_OF_CONTEXT,]
-    for ref in nrange(post_start, post_end):
-        xp = "/tei:TEI/tei:text/tei:body/tei:div"
-        for div in ref:
-            xp += f"/tei:div[@n='{div}']"
-        sentence = doc.xpath(xp, namespaces={'tei': 'http://www.tei-c.org/ns/1.0'})
-        if len(sentence) == 0:
-            xp = "/tei:TEI/tei:text/tei:body/tei:div"
-            for div in ref[:-1]:
-                xp += f"/tei:div[@n='{div}']"
-            xp += f"/tei:l[@n='{ref[-1]}']"
-            sentence = doc.xpath(xp, namespaces={'tei': 'http://www.tei-c.org/ns/1.0'})
+    current_sentence = end_sentence.getnext()
+    i = 0
+    while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
+        if current_sentence.tag not in (
+            '{http://www.tei-c.org/ns/1.0}lb',
+            '{http://www.tei-c.org/ns/1.0}speaker'
+        ):
+            text = stringify(current_sentence) or current_sentence.text
+            if text:
+                post.append(f"<post>{text}</post>")
+                i += 1
+        current_sentence = current_sentence.getnext()
 
-        if len(sentence) != 0:
-            text = stringify(sentence[0])
-            post.append(f"<post>{text}</post>")
-
-    if 'poem' in divs or (len(divs) == 2 and divs[-1] in ['line', 'verse']):
+    if 'poem' in divs or (len(divs) == 2 and divs[-1] in ['line', 'verse']) \
+        or doc.find('.//{http://www.tei-c.org/ns/1.0}lb') is not None:
         joiner = '\n\n'
     else:
         joiner = ' '
     parts = pre + match + post
     text = f'{joiner}'.join(parts)
+
     return urn, reference, text

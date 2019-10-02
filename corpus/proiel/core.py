@@ -6,9 +6,10 @@ import settings
 from utils import nrange
 
 
+# Glob pattern for indexing
 glob = '*.xml'
 
-
+# Fetch text
 def fetch(work, meta, fragment):
     with codecs.open(work.corpus.text_dir / Path(work.doc['filename']), 'rb') as fp:
         value = fp.read()
@@ -33,55 +34,61 @@ def fetch(work, meta, fragment):
     start = int(meta['start']['sent_id'])
     end = int(meta['end']['sent_id'])
 
-    pre = []
-    pre_start = start - settings.LINES_OF_CONTEXT
-    for id in nrange((pre_start,), (start - 1,)):
-        sentence = doc.find(f".//sentence[@id='{id[0]}']")
-        if sentence is not None:
-            text = ''.join([
-                f"{token.get('presentation-before') if token.get('presentation-before') else ''}" \
-                f"{token.get('form')}" \
-                f"{token.get('presentation-after') if token.get('presentation-after') else ''}"
-                for token in sentence.findall('token')
-                if token.get('form')
-            ])
-            pre.append(f"<pre>{text}</pre>")
+    start_sentence = doc.find(f".//sentence[@id='{start}']")
+    end_sentence = doc.find(f".//sentence[@id='{end}']")
 
     hlites = set([hlite[-1] for hlite in meta['hlites']])  # only need token ids
 
     match = []
-    for id in nrange((start,), (end,)):
-        sentence = doc.find(f".//sentence[@id='{id[0]}']")
-        if sentence is not None:
-            text = ''.join([
-                f"<em>" \
-                f"{t.get('presentation-before') if t.get('presentation-before') else ''}" \
-                f"{t.get('form')}" \
-                f"{t.get('presentation-after') if t.get('presentation-after') else ''}"
-                f"</em>"
-                if t.get('id') in hlites
-                else
-                f"{t.get('presentation-before') if t.get('presentation-before') else ''}" \
-                f"{t.get('form')}" \
-                f"{t.get('presentation-after') if t.get('presentation-after') else ''}"
-                for i, t in enumerate(sentence.findall('token'))
-                if t.get('form')
-            ])
-            match.append(f"<match>{text}</match>")
+    current_sentence = start_sentence
+    limit_sentence = end_sentence.getnext()
+    while current_sentence != limit_sentence and current_sentence is not None:
+        text = ''.join([
+            f"<em>" \
+            f"{t.get('presentation-before') if t.get('presentation-before') else ''}" \
+            f"{t.get('form')}" \
+            f"{t.get('presentation-after') if t.get('presentation-after') else ''}"
+            f"</em>"
+            if t.get('id') in hlites
+            else
+            f"{t.get('presentation-before') if t.get('presentation-before') else ''}" \
+            f"{t.get('form')}" \
+            f"{t.get('presentation-after') if t.get('presentation-after') else ''}"
+            for i, t in enumerate(current_sentence.findall('token'))
+            if t.get('form')
+        ])
+        match.append(f"<match>{text}</match>")
+        current_sentence = current_sentence.getnext()
+
+    pre = []
+    current_sentence = start_sentence.getprevious()
+    i = 0
+    while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
+        text = ''.join([
+            f"{token.get('presentation-before') if token.get('presentation-before') else ''}" \
+            f"{token.get('form')}" \
+            f"{token.get('presentation-after') if token.get('presentation-after') else ''}"
+            for token in current_sentence.findall('token')
+            if token.get('form')
+        ])
+        pre.append(f"<pre>{text}</pre>")
+        current_sentence = current_sentence.getprevious()
+        i += 1
 
     post = []
-    post_end = end + settings.LINES_OF_CONTEXT
-    for id in nrange((end + 1,), (post_end,)):
-        sentence = doc.find(f".//sentence[@id='{id[0]}']")
-        if sentence is not None:
-            text = ''.join([
-                f"{token.get('presentation-before') if token.get('presentation-before') else ''}" \
-                f"{token.get('form')}" \
-                f"{token.get('presentation-after') if token.get('presentation-after') else ''}"
-                for token in sentence.findall('token')
-                if token.get('form')
-            ])
-            post.append(f"<post>{text}</post>")
+    current_sentence = end_sentence.getnext()
+    i = 0
+    while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
+        text = ''.join([
+            f"{token.get('presentation-before') if token.get('presentation-before') else ''}" \
+            f"{token.get('form')}" \
+            f"{token.get('presentation-after') if token.get('presentation-after') else ''}"
+            for token in current_sentence.findall('token')
+            if token.get('form')
+        ])
+        pre.append(f"<post>{text}</post>")
+        current_sentence = current_sentence.getnext()
+        i += 1
 
     if 'poem' in divs or (len(divs) == 2 and divs[-1] in ['line', 'verse']):
         joiner = '\n\n'

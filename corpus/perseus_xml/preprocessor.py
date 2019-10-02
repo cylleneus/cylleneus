@@ -13,13 +13,19 @@ class Preprocessor(BasePreprocessor):
         urn = 'urn:cts:latinLit:' + f"{auth_code}.{work_code}"
         author = AUTHOR_TAB[auth_code]['author']
         title = AUTHOR_TAB[auth_code]['works'][work_code]['title']
-        meta = AUTHOR_TAB[auth_code]['works'][work_code]['meta']
 
         with codecs.open(file, 'rb') as f:
             value = f.read()
         parser = et.XMLParser(encoding='utf-8')
 
         doc = et.XML(value, parser=parser)
+
+        divs = [
+            cref.get('n')
+            for cref in reversed(doc.findall(".//{http://www.tei-c.org/ns/1.0}cRefPattern"))
+        ]
+        meta = '-'.join(divs)
+
         data = {'text': doc, 'meta': meta}
 
         return {
