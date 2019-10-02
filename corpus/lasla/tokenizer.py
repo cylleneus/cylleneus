@@ -1,11 +1,13 @@
 import copy
 import re
+import string
 
 from engine.analysis.acore import CylleneusToken
 from engine.analysis.tokenizers import Tokenizer
 from lang.latin import jvmap
-from .core import parse_bpn
 from utils import alnum
+
+from .core import parse_bpn
 
 
 class CachedTokenizer(Tokenizer):
@@ -45,7 +47,8 @@ class CachedTokenizer(Tokenizer):
                     self._cache = []
                     self._docix = kwargs.get('docix', None)
 
-                    punctmap = str.maketrans('', '', '[{(<>)}]')
+                    punctuation = str.maketrans('', '', string.punctuation)
+                    editorial = str.maketrans('', '', '[{(<>)}]')
                     added = re.compile(r"(\s?[<(][\w .]+[>)]\s?)")
 
                     t.boost = 1.0
@@ -88,14 +91,14 @@ class CachedTokenizer(Tokenizer):
                                     t.lemma = parsed['lemma']
                                     t.lemma_n = parsed['lemma_n']
                                     t.original = added.sub('', parsed['form'])
-                                    t.text = parsed['form'].translate(punctmap)
+                                    t.text = parsed['form'].translate(editorial)
                                 else:
                                     form = parsed['form']
                                     t.morpho = parsed['morpho']
 
                                     if ' ' in form:
                                         t.original = added.sub('', form)
-                                        text = form.translate(punctmap)
+                                        text = form.translate(editorial)
                                     else:
                                         t.original = form
                                         text = form
@@ -103,7 +106,7 @@ class CachedTokenizer(Tokenizer):
                                     t.lemma_n = parsed['lemma_n']
                                     if added.search(parsed['form']):
                                         t.original = added.sub('', parsed['form'])
-                                    t.text = text.translate(punctmap)
+                                    t.text = text.translate(editorial)
                                     nflag = False
                             else:
                                 # could be a Greek form, do we index it?
@@ -111,12 +114,12 @@ class CachedTokenizer(Tokenizer):
                                 t.lemma = ''
                                 t.lemma_n = ''
                                 t.original = added.sub('', parsed['form'])
-                                t.text = parsed['form'].translate(punctmap)
+                                t.text = parsed['form'].translate(editorial)
                         elif parsed['form_code'] == '@':  # combined forms
                             if parsed['lemma'] != '#':
                                 t.lemma = parsed['lemma']
                                 t.lemma_n = parsed['lemma_n']
-                                t.text = parsed['form'].translate(punctmap)
+                                t.text = parsed['form'].translate(editorial)
                                 t.morpho = parsed['morpho']
                                 if nflag:
                                     sect_pos -= 1
@@ -128,7 +131,7 @@ class CachedTokenizer(Tokenizer):
                                 sect_pos += 1
                                 continue
                         elif parsed['form_code'] == '=':  # que
-                            t.text = parsed['form'].translate(punctmap)
+                            t.text = parsed['form'].translate(editorial)
                             t.lemma = parsed['lemma']
                             t.lemma_n = parsed['lemma_n']
                             t.morpho = parsed['morpho']
@@ -140,7 +143,7 @@ class CachedTokenizer(Tokenizer):
                         }
                         tags = value['meta'].split('-')
                         divs = {i: div.lower() for i, div in enumerate(tags)}
-                        refs = tuple(parsed['refs'].strip().split(','))
+                        refs = tuple([ref.translate(punctuation) for ref in parsed['refs'].strip().split(',')])
                         for i in range(len(divs)):
                             meta[divs[i]] = refs[i]
 

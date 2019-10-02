@@ -29,12 +29,10 @@ def fetch(work, meta, fragment):
     start = [
         alnum(meta['start'][div])
         for div in divs
-        if not (div == 'line' and len(divs) > 2)
     ]
     end = [
         alnum(meta['end'][div])
         for div in divs
-        if not (div == 'line' and len(divs) > 2)
     ]
 
     hlites = set([tuple(hlite) for hlite in meta['hlites']])
@@ -49,6 +47,8 @@ def fetch(work, meta, fragment):
         end_sentence = resolver.getTextualNode(urn, subreference=end_cite)
     except HTTPError:
         end_sentence = None
+    if start_sentence is None and end_sentence is None:
+        return urn, reference, 'Requested resource is not found'
     limit_sentence = end_sentence.next
     current_sentence = start_sentence
 
@@ -48996,7 +48996,7 @@ AUTHOR_TAB = {
         "author": "M. Porcius Cato",
         "code": ["phi0022"],
         "phi0022": {
-            "01": {"title": "De Agri Cultura", "meta": "section", "code": "phi001"}
+            "01": {"title": "De Agri Cultura", "meta": "chapter-section", "code": "phi001"}
         },
         "03": {"title": "orationes", "meta": "fragment-line", "code": "phi010"},
         "02": {"title": "Origines", "meta": "fragment-line", "code": "phi011"},
