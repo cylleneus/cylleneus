@@ -35,10 +35,6 @@ class CylleneusFragment(object):
             endchar = len(text)
         self.startchar = startchar
         self.endchar = endchar
-        if meta:
-            self.meta = meta
-            self.start = start
-            self.end = end
 
         self.matched_terms = set()
         for t in matches:
@@ -271,25 +267,12 @@ class CylleneusHighlighter(object):
                 while boost is None:
                     boost = get_boost(hitobj.results.q, word)
 
-                # for qt in hitobj.results.q:
-                #     if isinstance(qt, (engine.query.compound.CylleneusCompoundQuery, whoosh.query.CompoundQuery)):
-                #         for t in qt:
-                #             if word == t.text:
-                #                 boost = t.boost
-                #                 break
-                #     else:
-                #         if word == qt.text:
-                #             boost = qt.boost
-                #             break
-
                 for pos, startchar, endchar, meta in chars:
                     if charlimit and endchar > charlimit:
                         break
                     t = engine.analysis.acore.CylleneusToken(docnum=hitobj['docix'], text=word, pos=pos,
                                                                   startchar=startchar, endchar=endchar, boost=boost,
                                                                   fieldname=field.__class__.__name__.lower())
-
-                    # if hitobj.get('meta', False):
                     t.meta = { item.split('=')[0]: item.split('=')[1] for item in meta[0] }
                     tokens.append(t)
 

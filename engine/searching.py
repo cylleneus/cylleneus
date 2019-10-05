@@ -1771,8 +1771,9 @@ class CylleneusHit(Hit):
         for i, xf in enumerate(results):
             if not seen.get(xf, False):
                 f = copy.deepcopy(xf)
-                # TODO: what is the correct look-ahead threshold?
+                # FIXME: what is the correct look-ahead threshold?
                 for yf in results[i + 1:i + 100]:
+                    print(f.overlaps(yf), f.is_adjacent(yf), f.has_meta(), f.same_divs(yf))
                     if f != yf and \
                         (f.overlaps(yf) or f.is_adjacent(yf)) or f.same_divs(yf) and \
                         not seen.get(yf, False):
