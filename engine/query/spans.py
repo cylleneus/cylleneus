@@ -532,51 +532,62 @@ class SpanNear(SpanQuery):
                         # B is too far in front of A, or B is in front of A
                         # *at all* when ordered is True
                         continue
-                    if aspan.divs and bspan.divs and (aspan.divs[0][0] and bspan.divs[0][0]):
-                        ameta = aspan.divs[0][0][0].split('-')
-                        adivs = []
-                        for div in aspan.divs[0][0]:
-                            k, v = div.split('=')
-                            if k in ameta:
-                                if v.isnumeric():
-                                    adivs.append(int(v))
-                                elif v.isalpha():
-                                    adivs.append(v)
-                                else:
-                                    adivs.extend([int(m) if m.isnumeric() else m for m in re.match(r'(\d+)([A-Za-z]+)?(\d+)?',v).groups() if m])
-                        bmeta = bspan.divs[0][0][0].split('-')
-                        bdivs = []
-                        for div in bspan.divs[0][0]:
-                            k, v = div.split('=')
-                            if k in bmeta:
-                                if v.isnumeric():
-                                    bdivs.append(int(v))
-                                elif v.isalpha():
-                                    bdivs.append(v)
-                                else:
-                                    bdivs.extend([int(m) if m.isnumeric() else m for m in re.match(r'(\d+)([A-Za-z]+)?('
-                                                                                             r'\d+)?',
-                                                                               v).groups() if m])
-                        diffs = []
-                        for a, b in zip(adivs, bdivs):
-                            if isinstance(a, int) and isinstance(b, int):
-                                diffs.append(int(b) - int(a))
-                            elif a.isalpha() and b.isalpha():
-                                if len(a) > 1 and len(b) > 1:
-                                    diffs.append(SequenceMatcher(None, a, b).ratio())
-                                else:
-                                    diffs.append(ord(b) - ord(a))
-                        if (diffs[-1] > slop
-                            or (all(map(lambda x: x == 0, diffs)) and bspan.start > aspan.end + slop)):
-                            # B is too far from A. Since spans are listed in
-                            # start position order, we know that all spans after
-                            # this one will also be too far.
-                            break
-                    # Check the distance between the spans
-                    dist = aspan.distance_to(bspan)
 
-                    if mindist <= dist <= slop:
-                        spans.add(aspan.to(bspan))
+                    if len(aspan.divs[0][0]) == 2 and len(bspan.divs[0][0]) == 2:
+                        # Only startchar, endchar and pos
+                        # Check the distance between the spans
+                        dist = aspan.distance_to(bspan)
+
+                        if mindist <= dist <= slop:
+                            spans.add(aspan.to(bspan))
+                    else:
+                        if aspan.divs and bspan.divs and (aspan.divs[0][0] and bspan.divs[0][0]):
+                            ameta = aspan.divs[0][0][0].split('-')
+                            adivs = []
+                            for div in aspan.divs[0][0]:
+                                k, v = div.split('=')
+                                if k in ameta:
+                                    if v.isnumeric():
+                                        adivs.append(int(v))
+                                    elif v.isalpha():
+                                        adivs.append(v)
+                                    else:
+                                        adivs.extend([int(m) if m.isnumeric() else m for m in re.match(r'(\d+)([A-Za-z]+)?(\d+)?',v).groups() if m])
+                            bmeta = bspan.divs[0][0][0].split('-')
+                            bdivs = []
+                            for div in bspan.divs[0][0]:
+                                k, v = div.split('=')
+                                if k in bmeta:
+                                    if v.isnumeric():
+                                        bdivs.append(int(v))
+                                    elif v.isalpha():
+                                        bdivs.append(v)
+                                    else:
+                                        bdivs.extend([int(m) if m.isnumeric() else m for m in re.match(r'(\d+)([A-Za-z]+)?('
+                                                                                                 r'\d+)?',
+                                                                                   v).groups() if m])
+
+                            diffs = []
+                            for a, b in zip(adivs, bdivs):
+                                if isinstance(a, int) and isinstance(b, int):
+                                    diffs.append(int(b) - int(a))
+                                elif a.isalpha() and b.isalpha():
+                                    if len(a) > 1 and len(b) > 1:
+                                        diffs.append(SequenceMatcher(None, a, b).ratio())
+                                    else:
+                                        diffs.append(ord(b) - ord(a))
+
+                            if (diffs[-1] > slop
+                                or (all(map(lambda x: x == 0, diffs)) and bspan.start > aspan.end + slop)):
+                                # B is too far from A. Since spans are listed in
+                                # start position order, we know that all spans after
+                                # this one will also be too far.
+                                break
+                        # Check the distance between the spans
+                        dist = aspan.distance_to(bspan)
+
+                        if mindist <= dist <= slop:
+                            spans.add(aspan.to(bspan))
             return sorted(spans)
 
 

@@ -57,17 +57,21 @@ def fetch(work, meta, fragment):
     post = f"<post>{fragment[rbound + 1:]}</post>"
 
     hlite = ''
-    cursor = lbound + offset - 1
-    for c in fragment[lbound + 1:rbound]:
-        if cursor in hlite_starts:
-            hlite += '<em>' + c
-        elif cursor in hlite_ends:
-            hlite += '</em>' + c
-        else:
-            hlite += c
-        cursor += 1
-    if cursor in hlite_ends:
-        hlite += '</em>'
+    if len(hlite_starts) == 1 and len(hlite_ends) == 1:
+        hlite = f"<em>{fragment[lbound + 1:rbound]}</em>"
+    else:
+        cursor = lbound + offset + 1
+        print(offset, cursor, lbound, hlite_starts, hlite_ends)
+        for c in fragment[lbound + 1:rbound]:
+            if cursor in hlite_starts:
+                hlite += '<em>' + c
+            elif cursor in hlite_ends:
+                hlite += '</em>' + c
+            else:
+                hlite += c
+            cursor += 1
+        if cursor in hlite_ends:
+            hlite += '</em>'
     match = f"<match>{hlite}</match>"
 
     text = f' '.join([pre, match, post])
