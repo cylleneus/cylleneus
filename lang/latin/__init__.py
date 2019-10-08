@@ -138,28 +138,9 @@ abbreviations = ['c', 'l', 'm', 'p', 'q', 't', 'ti', 'sex', 'a', 'd', 'cn', 'sp'
 punkt_param.abbrev_types = set(abbreviations)
 sent_tokenizer = PunktSentenceTokenizer(punkt_param)
 
-# [] and <> can appear within words as editorial conventions
-class PunktLatinVars(PunktLanguageVars):
-    _re_non_word_chars = r"(?:[?!)\";}\*:@\'\({])"
-    """Characters that cannot appear within words"""
-
-    _word_tokenize_fmt = r'''(
-        %(MultiChar)s
-        |
-        (?=%(WordStart)s)\S+?                   # Accept word characters until end is found
-        (?=                                     # Sequences marking a word's end
-            \s|                                 # White-space
-            $|                                  # End-of-string
-            %(NonWord)s|%(MultiChar)s|          # Punctuation
-            ,(?=$|\s|%(NonWord)s|%(MultiChar)s) # Comma if at end of word
-        )
-        |
-        \S                                      
-    )'''
-word_tokenizer = PunktLatinVars()
 
 class PunktLatinCharsVars(PunktLanguageVars):
-    _re_non_word_chars = r"(?:[\[\]<>?!)\";}\*:@\({])" # remove []<>? ' can appear in, e.g., adgressu's
+    _re_non_word_chars = r"(?:[?!)\";}\*:@\({~&])"
     """Characters that cannot appear within words"""
 
     _word_tokenize_fmt = r'''(
@@ -173,9 +154,12 @@ class PunktLatinCharsVars(PunktLanguageVars):
             ,(?=$|\s|%(NonWord)s|%(MultiChar)s) # Comma if at end of word
         )
         |
-        \s                                      # normally \S!
+        \s                                      # tokenize whitespace
+        |[\[\]<>]                               # tokenize word-internal chars
         |%(NonWord)s|%(MultiChar)s|,            # tokenize punctuation
     )'''
+
+word_tokenizer = PunktLatinCharsVars()
 
 enclitics = ['que', 'ne', 'n', 'ue', 've', 'st', "'s"]
 exceptions = list(set(enclitics + latin_exceptions + ['duplione', 'declinatione', 'altitudine', 'contentione', 'Ion']))

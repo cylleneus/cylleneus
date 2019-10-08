@@ -7,7 +7,6 @@ from collections.abc import Iterable, Mapping
 from itertools import chain, zip_longest
 from functools import total_ordering
 from numbers import Number
-from decimal import Decimal
 
 # Debug settings values
 DEBUG_OFF = 0
@@ -152,6 +151,22 @@ class alnum:
 
     def __str__(self):
         return self.value
+
+
+def autotrim(s, left=True, right=True):
+    startchar = 0
+    endchar = -1
+
+    if left:
+        firstspace = s.find(" ")
+        if firstspace > 0:
+            startchar = firstspace + 1
+    if right:
+        lastspace = s.rfind(" ")
+        if lastspace > 0:
+            endchar = lastspace
+
+    return s[startchar:endchar]
 
 
 def stringify(node):

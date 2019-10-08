@@ -3,6 +3,7 @@ import re
 from pathlib import Path
 
 import settings
+from utils import autotrim
 
 
 # Glob pattern for indexing
@@ -13,23 +14,7 @@ def fetch(work, meta, fragment):
     with codecs.open(work.corpus.text_dir / Path(work.doc['filename'])) as fp:
         content = fp.read()
 
-    # Do some tidying up
-    subs = [
-        (r"\.,", "."),
-        (r"([\w])\.([\w])", r"\1. \2"),
-        (r",([\w])", r", \1"),
-        (r"(?<=\w)\.\.", r" . ."),
-        (r"([.,;:])([.,;:])", r"\1 \2"),
-        (r"[\t\r\n ]+", " "),
-        (r'\.\"', r'\"\.'),
-        (r' ,', ','),
-        (r'\[ \d+ \] ', ''),
-        (r' \[,', '[,'),
-        (r'\]\.', '.]')
-    ]
-    for pattern, repl in subs:
-        content = re.sub(pattern, repl, content)
-    offset = content.find(fragment)
+    content = re.sub(r'(\s)+', r'\1', content)
 
     # Reference and hlite values
     start = ', '.join(
@@ -50,19 +35,20 @@ def fetch(work, meta, fragment):
     ]
 
     # Collect text and context
-    lbound = fragment.rfind(' ', 0, settings.CHARS_OF_CONTEXT)
-    rbound = fragment.find(' ', -settings.CHARS_OF_CONTEXT)
+    pre_raw = content[hlite_starts[0] - settings.CHARS_OF_CONTEXT:hlite_starts[0]]
+    pre = f"<pre>{autotrim(pre_raw, right=False)}</pre>"
 
-    pre = f"<pre>{fragment[:lbound]}</pre>"
-    post = f"<post>{fragment[rbound + 1:]}</post>"
+    post_raw = content[hlite_ends[-1] + 1:hlite_ends[-1] + settings.CHARS_OF_CONTEXT]
+    post = f"<post>{autotrim(post_raw, left=False)}</post>"
+
+    match_raw = content[hlite_starts[0]:hlite_ends[-1] + 1]
 
     hlite = ''
     if len(hlite_starts) == 1 and len(hlite_ends) == 1:
-        hlite = f"<em>{fragment[lbound + 1:rbound]}</em>"
+        hlite = f"<em>{match_raw}</em>"
     else:
-        cursor = lbound + offset + 1
-        print(offset, cursor, lbound, hlite_starts, hlite_ends)
-        for c in fragment[lbound + 1:rbound]:
+        cursor = hlite_starts[0]
+        for c in match_raw:
             if cursor in hlite_starts:
                 hlite += '<em>' + c
             elif cursor in hlite_ends:
@@ -74,7 +60,7 @@ def fetch(work, meta, fragment):
             hlite += '</em>'
     match = f"<match>{hlite}</match>"
 
-    text = f' '.join([pre, match, post])
+    text = f''.join([pre, match, post])
     urn = work.urn
 
     return urn, reference, text

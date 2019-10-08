@@ -1,7 +1,7 @@
 import codecs
-import re
 from datetime import datetime
 from pathlib import Path
+import re
 
 from corpus.preprocessing import BasePreprocessor
 
@@ -18,26 +18,11 @@ class Preprocessor(BasePreprocessor):
         with codecs.open(file, 'r', 'utf8') as fp:
             doc = fp.read()
 
-        # Do some tidying up
-        subs = [
-            (r"\.,", "."),
-            (r"([\w])\.([\w])", r"\1. \2"),
-            (r",([\w])", r", \1"),
-            (r"(?<=\w)\.\.", r" . ."),
-            (r"([.,;:])([.,;:])", r"\1 \2"),
-            (r"[\t\r\n ]+", " "),
-            (r'\.\"', r'\"\.'),
-            (r' ,', ','),
-            (r'\[ \d+ \] ', ''),
-            (r' \[,', '[,'),
-            (r'\]\.', '.]')
-        ]
-        for pattern, repl in subs:
-            doc = re.sub(pattern, repl, doc)
+        doc = re.sub(r'(\s)+', r'\1', doc)
+
         return {
             'author': author,
             'title': title,
-            'content': doc,
             'form': doc,
             'lemma': doc,
             'synset': doc,

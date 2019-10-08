@@ -33,7 +33,7 @@ meta = {
         lasla.core.fetch
     ),
     'latin_library': CorpusMeta(
-        default.DocumentSchema,
+        latin_library.DocumentSchema,
         default.Tokenizer,
         latin_library.Preprocessor,
         latin_library.core.glob,
@@ -267,8 +267,10 @@ class Work:
                     self._filename = doc.get('filename', None)
                     self._timestamp = doc.get('datetime', None)
                 else:
-                    self._doc = self._author = self._title = self._urn = \
+                    self._doc = self._urn = \
                         self._filename = self._timestamp = None
+                    self._author = author
+                    self._title = title
             else:
                 self._doc = self._author = self._title = self._urn = \
                     self._filename = self._timestamp = None

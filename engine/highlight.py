@@ -3,11 +3,11 @@ from itertools import groupby
 
 import engine.analysis
 import engine.query
-import engine.query
 import engine.searching
+import settings
 import whoosh.highlight
-from whoosh.compat import htmlescape
 from natsort import natsorted
+from whoosh.compat import htmlescape
 
 
 class CylleneusFragment(object):
@@ -40,6 +40,10 @@ class CylleneusFragment(object):
         for t in matches:
             if hasattr(t, "text"):
                 self.matched_terms.add((t.fieldname, t.text))
+
+        self.meta = meta
+        self.start = start
+        self.end = end
 
     def __repr__(self):
         return "<Fragment %d:%d %d>" % (self.startchar, self.endchar,
@@ -476,7 +480,7 @@ class CylleneusPinpointFragmenter(whoosh.highlight.Fragmenter):
     positions of the matched terms.
     """
 
-    def __init__(self, maxchars=200, surround=20, autotrim=False,
+    def __init__(self, maxchars=settings.CHARS_OF_CONTEXT, surround=0, autotrim=False,
                  charlimit=whoosh.highlight.DEFAULT_CHARLIMIT):
         """
         :param maxchars: The maximum number of characters allowed in a

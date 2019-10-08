@@ -804,12 +804,17 @@ class CachedSynsetFilter(Filter):
                     else:
                         yield t
 
+
 class CaseFilter(Filter):
     def __call__(self, tokens, **kwargs):
         for t in tokens:
             yield t
-            if t.mode == "index":
-               lower = t.text.lower()
-               if lower != t.text:
-                   t.text = lower
-                   yield t
+
+            if t.text.istitle():
+                lower = t.text.lower()
+                t.text = lower
+                yield t
+            else:
+                upper = t.text.title()
+                t.text = upper
+                yield t
