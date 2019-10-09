@@ -172,18 +172,22 @@ def add(corpus, path, author, title):
 
 @main.command()
 @click.option('--corpus', '-c', 'corpus', required=True)
-def create(corpus):
+@click.option('--destructive/--not-destructive', '-d/-D', default=True)
+def create(corpus, destructive):
     with click_spinner.spinner():
         c = Corpus(corpus)
-        c.destroy()
+        if destructive:
+            c.destroy()
 
         for file in c.text_dir.glob(c.glob):
             w = Work(corpus=c)
             _ = w.indexer.from_file(file)
 
+        c.optimize()
+
     ndocs = c.doc_count_all
     if ndocs > 0:
-        click.echo(f"[+] added {ndocs} document{'s' if ndocs > 1 else ''} to '{corpus}'")
+        click.echo(f"[+] created '{corpus}' with {ndocs} document{'s' if ndocs > 1 else ''}")
     else:
         click.echo('[-] failed')
 
