@@ -298,8 +298,6 @@ class Lemma(CylleneusTerm):
         t = whoosh.compat.u("<%s>") % text
         if self.annotation:
             t += whoosh.compat.u(":") + whoosh.compat.text_type(self.annotation)
-        # if self.boost != 1:
-        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__

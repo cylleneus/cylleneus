@@ -1625,9 +1625,9 @@ def total_terms(query):
     return terms
 
 
-def total_fields(query):
+def total_fields(query, ixreader):
     """ Calculate total number of fields matched by a complex query """
-    return len(set([fieldname for fieldname, _ in query.iter_all_terms()]))
+    return len(set([fieldname for fieldname, _ in query.iter_all_terms(ixreader)]))
 
 
 def min_score(query):
@@ -1694,7 +1694,7 @@ def term_lists(q, ixreader):
         else:
             for sq in q:
                 if isinstance(sq, engine.query.compound.Or):
-                    ors.append(list(q.iter_all_terms(ixreader)))
+                    ors.append(list(sq.iter_all_terms(ixreader)))
                 elif isinstance(sq, engine.query.terms.Annotation):
                     ts.extend(list(set([(fieldname, text.split('::')[0]) for fieldname, text in sq.iter_all_terms(
                         ixreader)])))
@@ -1910,9 +1910,11 @@ class CylleneusHit(Hit):
                 if isinstance(q, (engine.query.compound.CylleneusCompoundQuery,
                                   engine.query.positional.Collocation)):
                     for sq in q:
-                        ordering[(sq.fieldname, sq.text.split('::')[0])] = i, getattr(sq, 'pos', -1)
-                else:  # position = -1 if query is not positional
-                    ordering[(q.fieldname, q.text.split('::')[0])] = i, getattr(q, 'pos', -1)
+                        for term in sq.iter_all_terms(self.reader):
+                            ordering[(term[0], term[1].split('::')[0])] = i, getattr(sq, 'pos', -1)
+                else:
+                    for term in q.iter_all_terms(self.reader):
+                        ordering[(term[0], term[1].split('::')[0])] = i, getattr(q, 'pos', -1)
 
             for fragment in filtered:
                 newmatches = []
@@ -1948,9 +1950,9 @@ class CylleneusHit(Hit):
                     if isinstance(q, (engine.query.compound.CylleneusCompoundQuery,
                                       engine.query.positional.Collocation)):
                         for sq in q:
-                            ordered[(sq.fieldname, sq.text.split('::')[0])] = i, sq.pos
+                            ordered[(sq.fieldname, sq.text.split('::')[0])] = i, getattr(sq, 'pos', 0)
                     else:
-                        ordered[(q.fieldname, q.text.split('::')[0])] = i, q.pos
+                        ordered[(q.fieldname, q.text.split('::')[0])] = i, getattr(q, 'pos', 0)
 
                 for fragment in filtered:
                     newmatches = []
@@ -2155,7 +2157,7 @@ class CylleneusHit(Hit):
     def highlights(self, fieldname, text=None, top=1000000, minscore=None):
         fragments = self.fragments(minscore)
 
-        # FIXME: use -1 as null referencing alue?
+        # FIXME: use -1 as null referencing value?
         if self.get('meta', False):
             fragments = natsorted(
                 fragments,

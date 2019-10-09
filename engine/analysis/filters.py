@@ -502,9 +502,10 @@ class CachedLemmaFilter(Filter):
 
     def __init__(self, **kwargs):
         super(CachedLemmaFilter, self).__init__()
-        self.__dict__.update(**kwargs)
         self._cache = None
         self._docix = None
+        self.cached = True
+        self.__dict__.update(**kwargs)
 
     @property
     def cache(self):
@@ -534,7 +535,7 @@ class CachedLemmaFilter(Filter):
                             for i, lemma in enumerate(results):
                                 t.morpho = f"{lemma['lemma']['morpho']}::{lemma['lemma']['uri']}:{i}>{' '.join(lemma['morpho'])}"
                                 t.text = f"{lemma['lemma']['lemma']}:{lemma['lemma']['uri']}={lemma['lemma']['morpho']}"
-                                self._cache.append(copy.copy(t))
+                                if self.cached: self._cache.append(copy.copy(t))
                                 yield t
                 elif t.mode == 'query':
                     # Lexical relation
@@ -542,7 +543,6 @@ class CachedLemmaFilter(Filter):
                         reltype, query = t.text.split('::')
                         t.reltype = reltype
                         t.text = query
-
                     text = t.text
                     if '?' in text:
                         language, word = text.split('?')
@@ -593,7 +593,7 @@ class CachedLemmaFilter(Filter):
                                             yield t
                         else:
                             # query may be provided as lemma:uri=morpho
-                            if all(re.match(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()):
+                            if all(re.match(r"([\w\-]+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()):
                                 t.text = text
                                 yield t
                             else:
@@ -602,7 +602,7 @@ class CachedLemmaFilter(Filter):
                                     k: v
                                     for k, v in zip(
                                         keys,
-                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                        re.search(r"([\w\-]+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
                                     )
                                 }
                                 if kwargs['uri'] is not None:
@@ -711,9 +711,10 @@ class CachedSynsetFilter(Filter):
 
     def __init__(self, **kwargs):
         super(CachedSynsetFilter, self).__init__()
-        self.__dict__.update(**kwargs)
         self._cache = None
         self._docix = None
+        self.cached = True
+        self.__dict__.update(**kwargs)
 
     @property
     def cache(self):
@@ -757,15 +758,15 @@ class CachedSynsetFilter(Filter):
                                                 result['synsets']['metaphoric']):
                                 t.code = ' '.join([semfield['code'] for semfield in synset['semfield']]) ## kludgy
                                 t.text = f"{synset['pos']}#{synset['offset']}"
-                                self._cache.append(copy.copy(t))
+                                if self.cached: self._cache.append(copy.copy(t))
                                 yield t
                         else:
                             t.code = ''
                             t.text = ''
-                            self._cache.append(copy.copy(t))
+                            if self.cached: self._cache.append(copy.copy(t))
                             yield t
                     else:
-                        self._cache.append(copy.copy(t))
+                        if self.cached: self._cache.append(copy.copy(t))
                         yield t
                 elif t.mode == 'query':
                     if hasattr(t, 'language'):

@@ -8,7 +8,7 @@ class Sequence(engine.query.compound.CylleneusCompoundQuery):
     different fields.
     """
 
-    JOINT = " NEAR "
+    JOINT = " THEN "
     intersect_merge = True
 
     def __init__(self, subqueries, slop=1, ordered=True, boost=1.0, meta=False):

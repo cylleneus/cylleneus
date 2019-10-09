@@ -85,7 +85,7 @@ class SequencePlugin(whoosh.qparser.plugins.Plugin):
         return [(whoosh.qparser.taggers.FnTagger(self.expr, self.QuoteNode, "quote"), 0)]
 
     def filters(self, parser):
-        return [(self.do_quotes, 550)]
+        return [(self.do_quotes, 499)]
 
     def do_quotes(self, parser, group):
         # New group to copy nodes into
@@ -284,7 +284,7 @@ class AnnotationFilterPlugin(whoosh.qparser.plugins.TaggingPlugin):
                         pass
                     elif isinstance(newgroup[-1], (LemmaNode, GlossNode, SemfieldNode)):
                         prev = newgroup.pop()
-                        collocation = CollocationNode()
+                        collocation = CollocationGroup()
                         collocation.extend([prev, node])
                         newgroup.append(collocation)
                     else:
@@ -603,3 +603,9 @@ class PlusMinusPlugin(whoosh.qparser.plugins.Plugin):
         if banned:
             group = AndNotGroup([group, banned])
         return group
+
+
+CollocationTagger = OperatorsPlugin.OpTagger(r"(?<=\s)WITH(?=\s)", CollocationGroup,
+                                          whoosh.qparser.syntax.InfixOperator)
+SequenceTagger = OperatorsPlugin.OpTagger(r"(?<=\s)THEN(?=\s)", SequenceGroup,
+                                          whoosh.qparser.syntax.InfixOperator)

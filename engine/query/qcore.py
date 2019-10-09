@@ -405,7 +405,7 @@ class Query(object):
                 for qq in q.leaves():
                     yield qq
 
-    def iter_all_terms(self, phrases=True):
+    def iter_all_terms(self, ixreader, phrases=True):
         """Returns an iterator of (fieldname, text) pairs for all terms in
         this query tree.
         >>> qp = qparser.QueryParser("text", myindex.schema)
@@ -428,6 +428,9 @@ class Query(object):
             if q.has_terms():
                 for t in q.terms(phrases=phrases):
                     yield t
+            else:
+                yield from q.iter_all_terms(ixreader)
+
 
     def all_tokens(self, boost=1.0):
         """Returns an iterator of :class:`analysis.Token` objects corresponding

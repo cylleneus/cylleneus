@@ -675,9 +675,13 @@ class RangeNode(CylleneusSyntaxNode):
         return attach(q, self)
 
 
-class CollocationNode(CylleneusGroupNode):
+class CollocationGroup(CylleneusGroupNode):
     qclass = engine.query.positional.Collocation
 
+
+class SequenceGroup(CylleneusGroupNode):
+    merging = True
+    qclass = engine.query.positional.Sequence
 
 # CylleneusSyntaxNode = CylleneusSyntaxNode
 # GroupNode = CylleneusGroupNode

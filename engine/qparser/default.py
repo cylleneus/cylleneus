@@ -451,18 +451,15 @@ class CylleneusQueryParser(QueryParser):
             plugins = self.default_set()
         self.add_plugins(plugins)
         self._add_ws_plugin()
+        self.replace_plugin(engine.qparser.plugins.OperatorsPlugin([
+            (engine.qparser.plugins.SequenceTagger, 0),
+            (engine.qparser.plugins.CollocationTagger, 0)
+        ]))
 
     def default_set(self):
         """Returns the default list of plugins to use."""
 
         return [
-                whoosh.qparser.plugins.FieldsPlugin(),
-                engine.qparser.plugins.WildcardPlugin(),
-                engine.qparser.plugins.OperatorsPlugin(),
-                engine.qparser.plugins.PlusMinusPlugin(),
-                engine.qparser.plugins.GroupPlugin(),
-                engine.qparser.plugins.BoostPlugin(),
-                whoosh.qparser.plugins.EveryPlugin(),
                 engine.qparser.plugins.FormPlugin(),
                 engine.qparser.plugins.GlossPlugin(),
                 engine.qparser.plugins.LemmaPlugin(),
@@ -471,6 +468,14 @@ class CylleneusQueryParser(QueryParser):
                 engine.qparser.plugins.AnnotationFilterPlugin(),
                 engine.qparser.plugins.MorphosyntaxPlugin(),
                 engine.qparser.plugins.SequencePlugin(),
+                whoosh.qparser.plugins.FieldsPlugin(),
+                engine.qparser.plugins.OperatorsPlugin(),
+                engine.qparser.plugins.PlusMinusPlugin(),
+                engine.qparser.plugins.GroupPlugin(),
+                engine.qparser.plugins.BoostPlugin(),
+                whoosh.qparser.plugins.FuzzyTermPlugin(),
+                engine.qparser.plugins.WildcardPlugin(),
+                whoosh.qparser.plugins.EveryPlugin(),
                 ]
 
     def _add_ws_plugin(self):
