@@ -9,9 +9,10 @@ from lang.latin import editorial, jvmap
 class CachedTokenizer(Tokenizer):
     def __init__(self, **kwargs):
         super(CachedTokenizer, self).__init__()
-        self.__dict__.update(**kwargs)
         self._cache = None
         self._docix = None
+        self.cached = True
+        self.__dict__.update(**kwargs)
 
     @property
     def cache(self):
@@ -91,11 +92,11 @@ class CachedTokenizer(Tokenizer):
                             if chars:
                                 t.startchar = start_char
                                 t.endchar = start_char + original_len
-                            self._cache.append(copy.copy(t))
+                            if self.cached: self._cache.append(copy.copy(t))
                             yield t
 
                             if form in editorial:
                                 t.text = editorial[form]
-                                self._cache.append(copy.copy(t))
+                                if self.cached: self._cache.append(copy.copy(t))
                                 yield t
                             start_char += len(form)

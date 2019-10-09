@@ -100,12 +100,12 @@ class CachedLemmaFilter(Filter):
                                     for annotation in annotations:
                                         t.morpho = f"{morpho}::{uri}:{i}>{annotation}"
                                         t.text = f"{lemma}:{uri}={morpho}"
-                                        self._cache.append(copy.copy(t))
+                                        if self.cached: self._cache.append(copy.copy(t))
                                         yield t
                                 else:
                                     t.morpho = f"{morpho}::{uri}:{i}>{morpho}"
                                     t.text = f"{lemma}:{uri}={morpho}"
-                                    self._cache.append(copy.copy(t))
+                                    if self.cached: self._cache.append(copy.copy(t))
                                     yield t
                 elif t.mode == 'query':
                     # Lexical relation

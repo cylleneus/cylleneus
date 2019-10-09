@@ -12,9 +12,10 @@ from utils import flatten, nested_dict_iter
 class CachedTokenizer(Tokenizer):
     def __init__(self, **kwargs):
         super(CachedTokenizer, self).__init__()
-        self.__dict__.update(**kwargs)
         self._cache = None
         self._docix = None
+        self.cached = True
+        self.__dict__.update(**kwargs)
 
     @property
     def cache(self):

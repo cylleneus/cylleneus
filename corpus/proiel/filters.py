@@ -62,7 +62,7 @@ class CachedLemmaFilter(Filter):
                                 t.morpho = f"{result['morpho']}::{result['uri']}:0>{morpho}"
                                 t.text = f"{result['lemma']}:" \
                                          f"{result['uri']}={result['morpho']}"
-                                self._cache.append(copy.copy(t))
+                                if self.cached: self._cache.append(copy.copy(t))
                                 yield t
                 elif t.mode == 'query':
                     # Lexical relation

@@ -12,9 +12,10 @@ from lang.latin import PunktLatinCharsVars, compound, enclitics, exceptions, jvm
 class CachedTokenizer(Tokenizer):
     def __init__(self, **kwargs):
         super(CachedTokenizer, self).__init__()
-        self.__dict__.update(**kwargs)
         self._cache = None
         self._docix = None
+        self.cached = True
+        self.__dict__.update(**kwargs)
 
     @property
     def cache(self):
@@ -252,7 +253,8 @@ class CachedTokenizer(Tokenizer):
                                                 t.text = subtoken.lower()
                                                 t.startchar = start_char
                                                 t.endchar = start_char + original_length
-                                                if mode == 'index': self._cache.append(copy.copy(t))
+                                                if mode == 'index':
+                                                    if self.cached: self._cache.append(copy.copy(t))
                                                 yield t
                                             start_char += original_length
                                             tpos += 1
@@ -269,7 +271,8 @@ class CachedTokenizer(Tokenizer):
                                             t.text = ppp.lower()
                                             t.startchar = start_char
                                             t.endchar = start_char + len(ppp) + offset
-                                            if mode == 'index': self._cache.append(copy.copy(t))
+                                            if mode == 'index':
+                                                if self.cached: self._cache.append(copy.copy(t))
                                             yield t
                                             pre = re.search(r"&(\d+?)", copula)
                                             if pre:
@@ -280,7 +283,8 @@ class CachedTokenizer(Tokenizer):
                                             t.text = copula.lower()
                                             t.startchar = start_char + len(ppp) + 1
                                             t.endchar = start_char + len(ppp) + 1 + len(copula)
-                                            if mode == 'index': self._cache.append(copy.copy(t))
+                                            if mode == 'index':
+                                                if self.cached: self._cache.append(copy.copy(t))
                                             yield t
                                             start_char += original_length
                                             tpos += 1
@@ -303,68 +307,80 @@ class CachedTokenizer(Tokenizer):
                                                     t.text = (token[:-len(enclitic)]).lower()
                                                     t.startchar = start_char
                                                     t.endchar = start_char + (len(token) - len(enclitic))
-                                                    if mode == 'index': self._cache.append(copy.copy(t))
+                                                    if mode == 'index':
+                                                        if self.cached: self._cache.append(copy.copy(t))
                                                     yield t
                                                     t.text = 'ne'
                                                     t.startchar = start_char + len(token[:-len(enclitic)]) + offset
                                                     t.endchar = start_char + len(token[:-len(enclitic)]) + len(enclitic) + offset
-                                                    if mode == 'index': self._cache.append(copy.copy(t))
+                                                    if mode == 'index':
+                                                        if self.cached: self._cache.append(copy.copy(t))
                                                     yield t
                                                 elif enclitic == 'n':
                                                     t.text = (token[:-len(enclitic)] + 's').lower()
                                                     t.startchar = start_char
                                                     t.endchar = start_char + (len(token) + 1) - len(enclitic)
-                                                    if mode == 'index': self._cache.append(copy.copy(t))
+                                                    if mode == 'index':
+                                                        if self.cached: self._cache.append(copy.copy(t))
                                                     yield t
                                                     t.text = 'ne'
                                                     t.startchar = start_char + len(token[:-len(enclitic)]) + offset
                                                     t.endchar = start_char + len(token[:-len(enclitic)]) + len(enclitic) + offset
-                                                    if mode == 'index': self._cache.append(copy.copy(t))
+                                                    if mode == 'index':
+                                                        if self.cached: self._cache.append(copy.copy(t))
                                                     yield t
                                                 elif enclitic == 'st':
                                                     if token.endswith('ust'):
                                                         t.text = (token[:-len(enclitic) + 1]).lower()
                                                         t.startchar = start_char
                                                         t.endchar = start_char + len(token[:-len(enclitic) + 1]) - len(enclitic)
-                                                        if mode == 'index': self._cache.append(copy.copy(t))
+                                                        if mode == 'index':
+                                                            if self.cached: self._cache.append(copy.copy(t))
                                                         yield t
                                                         t.text = 'est'
                                                         t.startchar = start_char + len(token[:-len(enclitic) + 1]) + offset
                                                         t.endchar = start_char + len(token[:-len(enclitic) + 1]) + len(enclitic) + offset
-                                                        if mode == 'index': self._cache.append(copy.copy(t))
+                                                        if mode == 'index':
+                                                            if self.cached: self._cache.append(copy.copy(t))
                                                         yield t
                                                     else:
                                                         t.text = (token[:-len(enclitic)]).lower()
                                                         t.startchar = start_char
                                                         t.endchar = start_char + len(token[:-len(enclitic)]) - len(enclitic)
-                                                        if mode == 'index': self._cache.append(copy.copy(t))
+                                                        if mode == 'index':
+                                                            if self.cached: self._cache.append(copy.copy(t))
                                                         yield t
                                                         t.text = 'est'
                                                         t.startchar = start_char + len(token[:-len(enclitic)]) + offset
                                                         t.endchar = start_char + len(token[:-len(enclitic)]) + len(enclitic) + offset
-                                                        if mode == 'index': self._cache.append(copy.copy(t))
+                                                        if mode == 'index':
+                                                            if self.cached: self._cache.append(copy.copy(t))
                                                         yield t
                                                 elif enclitic == "'s":
                                                     t.text = token.lower() + 's'
                                                     t.startchar = start_char
                                                     t.endchar = start_char + len(token)
-                                                    if mode == 'index': self._cache.append(copy.copy(t))
+                                                    if mode == 'index':
+                                                        if self.cached: self._cache.append(copy.copy(t))
                                                     yield t
                                                     t.text = 'es'
                                                     t.startchar = start_char + len(token) + 1
                                                     t.endchar = start_char + len(token) + len(enclitic)
-                                                    if mode == 'index': self._cache.append(copy.copy(t))
+                                                    if mode == 'index':
+                                                        if self.cached: self._cache.append(copy.copy(t))
                                                     yield t
                                                 else:
                                                     t.text = (token[:-len(enclitic)]).lower()
                                                     t.startchar = start_char
                                                     t.endchar = start_char + len(token[:-len(enclitic)])
-                                                    if mode == 'index': self._cache.append(copy.copy(t))
+                                                    if mode == 'index':
+                                                        if self.cached: self._cache.append(copy.copy(t))
                                                     yield t
                                                     t.text = enclitic
                                                     t.startchar = start_char + len(token[:-len(enclitic)]) + offset
                                                     t.endchar = start_char + len(token[:-len(enclitic)]) + len(enclitic) + offset
-                                                    if mode == 'index': self._cache.append(copy.copy(t))
+                                                    if mode == 'index':
+                                                        if self.cached: self._cache.append(copy.copy(t))
                                                     yield t
                                                 break
                                     else:
@@ -381,7 +397,7 @@ class CachedTokenizer(Tokenizer):
                                             t.startchar = start_char + ldiff
                                             t.endchar = start_char + original_length - rdiff + offset
                                         if mode == 'index':
-                                            self._cache.append(copy.copy(t))
+                                            if self.cached: self._cache.append(copy.copy(t))
                                         yield t
                                         tpos += 1
                                     if enjambed:
