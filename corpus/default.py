@@ -65,14 +65,17 @@ class CachedTokenizer(Tokenizer):
                 yield t
             else:
                 if not tokenize:
-                    t.original = t.text = value
-                    t.boost = 1.0
-                    if positions:
-                        t.pos = start_pos
-                    if chars:
-                        t.startchar = start_char
-                        t.endchar = start_char + len(value)
-                    yield t
+                    # Assume value is a list
+                    for pos, token in enumerate(value):
+                        t.original = t.text = token
+                        t.boost = 1.0
+                        if positions:
+                            t.pos = pos
+                        if chars:
+                            t.startchar = start_char
+                            t.endchar = start_char + len(token)
+                            start_char += len(token)
+                        yield t
                 else:
                     self._cache = []
                     self._docix = kwargs.get('docix', None)
