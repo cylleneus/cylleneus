@@ -10,5 +10,6 @@ recursive-include corpus *
 
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
+recursive-exclude * *.toc *.seg
 
-global-exclude *.BPN *_WRITELOCK *.toc *.seg
+global-exclude *.BPN *_WRITELOCK

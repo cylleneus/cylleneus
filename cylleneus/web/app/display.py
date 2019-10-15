@@ -1,6 +1,6 @@
 import re
 from html3.html3 import HTML
-
+from html import escape
 
 def as_html(highlights):
     """Return formatted HTML elements for the given results object."""
@@ -34,17 +34,20 @@ def as_html(highlights):
                 href.text,
                 flags=re.DOTALL
         )
-        t = re.sub(
-            r"<em>(.*?)</em>",
-            r" \1 ",
-            text.group(1),
-            flags=re.DOTALL
-        )
         if text.group(2):
             klass = 'card-text d-block'
         else:
             klass = 'card-text'
-        d.span(t, klass=f'{klass}')
+        buffer = []
+        for token in text.group(1).split():
+            if re.match(r"<em>(.*?)</em>", token):
+                if buffer:
+                    d.span(' '.join(buffer), klass=f'{klass}')
+                    buffer.clear()
+                em = re.sub(r"<em>(.*?)</em>", r" \1 ", token)
+                d.span(em, klass=f'{klass} text-primary font-weight-bold')
+            else:
+                buffer.append(token)
 
         # Process post-match context
         post_text = re.search(
