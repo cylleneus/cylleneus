@@ -9,9 +9,9 @@ from lang.latin import editorial, jvmap
 class CachedTokenizer(Tokenizer):
     def __init__(self, **kwargs):
         super(CachedTokenizer, self).__init__()
+        self.cached = True
         self._cache = None
         self._docix = None
-        self.cached = True
         self.__dict__.update(**kwargs)
 
     @property
@@ -54,6 +54,8 @@ class CachedTokenizer(Tokenizer):
 
                     for sentence in data['text'].findall('.//sentence'):
                         for pos, token in enumerate(sentence.findall('.//word')):
+                            if token.get('artificial', False):
+                                continue
                             form = token.get('form')
                             if not form:
                                 continue

@@ -14,9 +14,10 @@ class CachedLemmaFilter(Filter):
 
     def __init__(self, **kwargs):
         super(CachedLemmaFilter, self).__init__()
-        self.__dict__.update(**kwargs)
+        self.cached = True
         self._cache = None
         self._docix = None
+        self.__dict__.update(**kwargs)
 
     @property
     def cache(self):
