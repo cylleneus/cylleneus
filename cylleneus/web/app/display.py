@@ -1,6 +1,5 @@
 import re
 from html3.html3 import HTML
-from html import escape
 
 def as_html(highlights):
     """Return formatted HTML elements for the given results object."""
