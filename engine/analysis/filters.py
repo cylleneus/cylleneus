@@ -34,7 +34,6 @@ from itertools import chain
 from engine.analysis.acore import Composable
 from lang.latin.morphology import leipzig2wn
 from latinwordnet import LatinWordNet
-from latinwordnet.latinwordnet import relation_types
 from multiwordnet.wordnet import WordNet
 from whoosh.compat import next
 from whoosh.util.text import rcompile
@@ -587,8 +586,8 @@ class CachedLemmaFilter(Filter):
                                     results = LWN.lemmas(**kwargs).synsets_relations
                             if results:
                                 for result in results:
-                                    if relation_types[t.reltype] in result['relations'].keys():
-                                        for relation in result['relations'][relation_types[t.reltype]]:
+                                    if t.reltype in result['relations'].keys():
+                                        for relation in result['relations'][t.reltype]:
                                             t.text = f"{relation['lemma']}:{relation['uri']}={relation['morpho']}"
                                             yield t
                         else:
@@ -796,8 +795,8 @@ class CachedSynsetFilter(Filter):
                         if hasattr(t, 'reltype'):
                             pos, offset = t.text.split('#')
                             result = LWN.synsets(pos, offset).relations
-                            if relation_types[t.reltype] in result.keys():
-                                for relation in result[relation_types[t.reltype]]:
+                            if t.reltype in result.keys():
+                                for relation in result[t.reltype]:
                                     t.text = f"{relation['pos']}#{relation['offset']}"
                                     yield t
                         else:
