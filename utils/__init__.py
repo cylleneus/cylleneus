@@ -57,7 +57,7 @@ class alnum:
 
     @property
     def num(self):
-        return int(self._num) if self._num is not None else None
+        return int(self._num) if self._num is not None else -1
 
     @property
     def values(self):
@@ -155,7 +155,7 @@ class alnum:
 
 def autotrim(s, left=True, right=True):
     startchar = 0
-    endchar = -1
+    endchar = None
 
     if left:
         firstspace = s.find(" ")
@@ -166,7 +166,11 @@ def autotrim(s, left=True, right=True):
         if lastspace > 0:
             endchar = lastspace
 
-    return s[startchar:endchar]
+    if endchar:
+        ss = s[startchar:endchar]
+    else:
+        ss = s[startchar:]
+    return ss
 
 
 def stringify(node):

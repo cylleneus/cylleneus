@@ -49,11 +49,11 @@ def fetch(work, meta, fragment):
         end_sentence = None
     if start_sentence is None and end_sentence is None:
         return urn, reference, 'Requested resource is not found'
-    limit_sentence = end_sentence.next
+    limit_sentence_text = end_sentence.next.text if end_sentence.next else None
     current_sentence = start_sentence
 
     while current_sentence is not None and \
-        current_sentence.text != limit_sentence.text:
+        current_sentence.text != limit_sentence_text:
         text = current_sentence.export(Mimetypes.PLAINTEXT)
         text = ' '.join([
             f"<em>{t}</em>"

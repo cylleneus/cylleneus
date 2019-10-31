@@ -18,7 +18,8 @@ class TestQueryTypes(unittest.TestCase):
         """Set up test fixtures, if any."""
 
         from multiwordnet.db import compile
-        for language in ['common', 'latin', 'italian', 'spanish', 'french', 'hebrew']:
+
+        for language in ["common", "latin", "italian", "spanish", "french", "hebrew"]:
             compile(language, overwrite=False)
 
     def tearDown(self):
@@ -28,8 +29,8 @@ class TestQueryTypes(unittest.TestCase):
         """Test permissible query types."""
 
         queries = [
-            ("perseus", '(<gelidus> OR <gelida>) AND <pruina>', (1, 1, 1)),
-            ("perseus", '(<gelidus> OR <gelida>) THEN <pruina>', (0, 0, 0)),
+            ("perseus", "(<gelidus> OR <gelida>) AND <pruina>", (1, 1, 1)),
+            ("perseus", "(<gelidus> OR <gelida>) THEN <pruina>", (0, 0, 0)),
             ("lasla", "'sed'", (235, 2, 1)),
             ("lasla", ":ACC.PL.", (3148, 2, 1)),
             ("latin_library", "<habeo>", (134, 6, 1)),
@@ -50,19 +51,19 @@ class TestQueryTypes(unittest.TestCase):
             ("latin_library", "[@::n#04478900]", (24, 6, 1)),
             ("agldt", "opt*", (8, 1, 1)),
             ("proiel", '"maled* contum*"', (1, 1, 1)),
-            ("proiel", 'maled* contum*', (1, 1, 1)),
+            ("proiel", "maled* contum*", (1, 1, 1)),
             ("perseus_xml", '"<rideo> me*"', (1, 1, 1)),
-            ('lasla', '/ablative absolute/', (1532, 2, 1)),
-            ('lasla', '/interrogative/', (60, 2, 1)),
-            ('lasla', '/QVOMINVS/', (8, 2, 1)),
-            ('agldt', '/predicate/', (188, 1, 1)),
-            ('agldt', '/subordinating conjunction/', (227, 1, 1)),
-            ('proiel', '/adverbial/', (1410, 1, 1)),
-            ('proiel', '/adnominal argument/', (167, 1, 1)),
+            ("lasla", "/ablative absolute/", (1532, 2, 1)),
+            ("lasla", "/interrogative/", (60, 2, 1)),
+            ("lasla", "/QVOMINVS/", (8, 2, 1)),
+            ("agldt", "/predicate/", (188, 1, 1)),
+            ("agldt", "/subordinating conjunction/", (227, 1, 1)),
+            ("proiel", "/adverbial/", (1410, 1, 1)),
+            ("proiel", "/adnominal argument/", (167, 1, 1)),
         ]
-        c, q, n = choice(queries)
-        corpus = Corpus(c)
-        clct = Collection(corpus.works)
-        searcher = Searcher(Collection(clct))
-        results = searcher.search(q)
-        assert results.count == n
+        for c, q, n in queries:
+            corpus = Corpus(c)
+            clct = Collection(corpus.works)
+            searcher = Searcher(Collection(clct))
+            results = searcher.search(q)
+            assert results.count == n

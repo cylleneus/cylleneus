@@ -51,18 +51,7 @@ from whoosh.util.cache import lru_cache
 from latinwordnet import latinwordnet
 from natsort import natsorted
 
-
-HitRef = namedtuple(
-    "HitRef",
-    [
-        "corpus",
-        "author",
-        "title",
-        "urn",
-        "reference",
-        "text"
-    ]
-)
+HitRef = namedtuple("HitRef", ["corpus", "author", "title", "urn", "reference", "text"])
 
 
 class NoTermsException(Exception):
@@ -86,13 +75,13 @@ class TimeLimit(Exception):
 
 # Context class
 
+
 class SearchContext(object):
     """A container for information about the current search that may be used
     by the collector or the query objects to change how they operate.
     """
 
-    def __init__(self, needs_current=False, weighting=None, top_query=None,
-                 limit=None):
+    def __init__(self, needs_current=False, weighting=None, top_query=None, limit=None):
         """
         :param needs_current: if True, the search requires that the matcher
             tree be "valid" and able to access information about the current
@@ -122,13 +111,20 @@ class SearchContext(object):
 
 # Searcher class
 
+
 class Searcher(object):
     """Wraps an :class:`~whoosh.reading.IndexReader` object and provides
     methods for searching the index.
     """
 
-    def __init__(self, reader, weighting=engine.scoring.BM25F, closereader=True,
-                 fromindex=None, parent=None):
+    def __init__(
+        self,
+        reader,
+        weighting=engine.scoring.BM25F,
+        closereader=True,
+        fromindex=None,
+        parent=None,
+    ):
         """
         :param reader: An :class:`~whoosh.reading.IndexReader` object for
             the index to search.
@@ -169,14 +165,26 @@ class Searcher(object):
         self.subsearchers = None
         if not self.ixreader.is_atomic():
             self.leafreaders = self.ixreader.leaf_readers()
-            self.subsearchers = [(self._subsearcher(r), offset) for r, offset
-                                 in self.leafreaders]
+            self.subsearchers = [
+                (self._subsearcher(r), offset) for r, offset in self.leafreaders
+            ]
 
         # Copy attributes/methods from wrapped reader
-        for name in ("stored_fields", "all_stored_fields", "has_vector",
-                     "vector", "vector_as", "lexicon", "field_terms",
-                     "frequency", "doc_frequency", "term_info",
-                     "doc_field_length", "corrector", "iter_docs"):
+        for name in (
+            "stored_fields",
+            "all_stored_fields",
+            "has_vector",
+            "vector",
+            "vector_as",
+            "lexicon",
+            "field_terms",
+            "frequency",
+            "doc_frequency",
+            "term_info",
+            "doc_field_length",
+            "corrector",
+            "iter_docs",
+        ):
             setattr(self, name, getattr(self.ixreader, name))
 
     def __enter__(self):
@@ -186,8 +194,9 @@ class Searcher(object):
         self.close()
 
     def _subsearcher(self, reader):
-        return self.__class__(reader, fromindex=self._ix,
-                              weighting=self.weighting, parent=self)
+        return self.__class__(
+            reader, fromindex=self._ix, weighting=self.weighting, parent=self
+        )
 
     def _offset_for_subsearcher(self, subsearcher):
         for ss, offset in self.subsearchers:
@@ -270,8 +279,7 @@ class Searcher(object):
         # possible
         self.is_closed = True
         newreader = self._ix.reader(reuse=self.ixreader)
-        return self.__class__(newreader, fromindex=self._ix,
-                              weighting=self.weighting)
+        return self.__class__(newreader, fromindex=self._ix, weighting=self.weighting)
 
     def close(self):
         if self._closereader:
@@ -388,8 +396,9 @@ class Searcher(object):
         """
 
         ixreader = self.ixreader
-        return (ixreader.stored_fields(docnum)
-                for docnum in self.document_numbers(**kw))
+        return (
+            ixreader.stored_fields(docnum) for docnum in self.document_numbers(**kw)
+        )
 
     def _kw_to_text(self, kw):
         for k, v in iteritems(kw):
@@ -470,8 +479,7 @@ class Searcher(object):
         elif isinstance(obj, engine.query.qcore.Query):
             c = self._query_to_comb(obj)
         else:
-            raise Exception("Don't know what to do with filter object %r"
-                            % obj)
+            raise Exception("Don't know what to do with filter object %r" % obj)
 
         return c
 
@@ -501,8 +509,14 @@ class Searcher(object):
         c = self.reader().corrector(fieldname)
         return c.suggest(text, limit=limit, maxdist=maxdist, prefix=prefix)
 
-    def key_terms(self, docnums, fieldname, numterms=5,
-                  model=whoosh.classify.Bo1Model, normalize=True):
+    def key_terms(
+        self,
+        docnums,
+        fieldname,
+        numterms=5,
+        model=whoosh.classify.Bo1Model,
+        normalize=True,
+    ):
         """Returns the 'numterms' most important terms from the documents
         listed (by number) in 'docnums'. You can get document numbers for the
         documents your interested in with the document_number() and
@@ -531,8 +545,14 @@ class Searcher(object):
             expander.add_document(docnum)
         return expander.expanded_terms(numterms, normalize=normalize)
 
-    def key_terms_from_text(self, fieldname, text, numterms=5,
-                            model=whoosh.classify.Bo1Model, normalize=True):
+    def key_terms_from_text(
+        self,
+        fieldname,
+        text,
+        numterms=5,
+        model=whoosh.classify.Bo1Model,
+        normalize=True,
+    ):
         """Return the 'numterms' most important terms from the given text.
         :param numterms: Return this number of important terms.
         :param model: The classify.ExpansionModel to use. See the classify
@@ -543,8 +563,17 @@ class Searcher(object):
         expander.add_text(text)
         return expander.expanded_terms(numterms, normalize=normalize)
 
-    def more_like(self, docnum, fieldname, text=None, top=10, numterms=5,
-                  model=whoosh.classify.Bo1Model, normalize=False, filter=None):
+    def more_like(
+        self,
+        docnum,
+        fieldname,
+        text=None,
+        top=10,
+        numterms=5,
+        model=whoosh.classify.Bo1Model,
+        normalize=False,
+        filter=None,
+    ):
         """Returns a :class:`Results` object containing documents similar to
         the given document, based on "key terms" in the given field::
             # Get the ID for the document you're interested in
@@ -572,14 +601,20 @@ class Searcher(object):
         """
 
         if text:
-            kts = self.key_terms_from_text(fieldname, text, numterms=numterms,
-                                           model=model, normalize=normalize)
+            kts = self.key_terms_from_text(
+                fieldname, text, numterms=numterms, model=model, normalize=normalize
+            )
         else:
-            kts = self.key_terms([docnum], fieldname, numterms=numterms,
-                                 model=model, normalize=normalize)
+            kts = self.key_terms(
+                [docnum], fieldname, numterms=numterms, model=model, normalize=normalize
+            )
         # Create an Or query from the key terms
-        q = engine.query.compound.Or([engine.query.terms.Term(fieldname, word, boost=weight)
-                                           for word, weight in kts])
+        q = engine.query.compound.Or(
+            [
+                engine.query.terms.Term(fieldname, word, boost=weight)
+                for word, weight in kts
+            ]
+        )
 
         return self.search(q, limit=top, filter=filter, mask=set([docnum]))
 
@@ -629,6 +664,7 @@ class Searcher(object):
 
     def find(self, defaultfield, querystring, **kwargs):
         from engine.qparser.default import CylleneusQueryParser
+
         qp = CylleneusQueryParser(defaultfield, schema=self.ixreader.schema)
         q = qp.parse(querystring)
         return self.search(q, **kwargs)
@@ -654,10 +690,22 @@ class Searcher(object):
             for docnum in method(self):
                 yield docnum
 
-    def collector(self, limit=None, sortedby=None, reverse=False, groupedby=None,
-                  collapse=None, collapse_limit=1, collapse_order=None,
-                  optimize=True, filter=None, mask=None, terms=False,
-                  maptype=None, scored=True):
+    def collector(
+        self,
+        limit=None,
+        sortedby=None,
+        reverse=False,
+        groupedby=None,
+        collapse=None,
+        collapse_limit=1,
+        collapse_order=None,
+        optimize=True,
+        filter=None,
+        mask=None,
+        terms=False,
+        maptype=None,
+        scored=True,
+    ):
         """Low-level method: returns a configured
         :class:`whoosh.collectors.Collector` object based on the given
         arguments. You can use this object with
@@ -686,8 +734,9 @@ class Searcher(object):
         if not scored and not sortedby:
             c = engine.collectors.CylleneusUnsortedCollector()
         elif sortedby:
-            c = engine.collectors.CylleneusSortingCollector(sortedby, limit=limit,
-                                            reverse=reverse)
+            c = engine.collectors.CylleneusSortingCollector(
+                sortedby, limit=limit, reverse=reverse
+            )
         elif groupedby or reverse or not limit or limit >= self.doc_count():
             # A collector that gathers every matching document
             c = engine.collectors.CylleneusUnlimitedCollector(reverse=reverse)
@@ -701,8 +750,9 @@ class Searcher(object):
         if terms:
             c = engine.collectors.CylleneusTermsCollector(c)
         if collapse:
-            c = engine.collectors.CylleneusCollapseCollector(c, collapse, limit=collapse_limit,
-                                             order=collapse_order)
+            c = engine.collectors.CylleneusCollapseCollector(
+                c, collapse, limit=collapse_limit, order=collapse_order
+            )
 
         # Filtering wraps last so it sees the docs first
         if filter or mask:
@@ -789,8 +839,9 @@ class Searcher(object):
         collector.prepare(self, q, context)
         collector.run()
 
-    def correct_query(self, q, qstring, correctors=None, terms=None, maxdist=2,
-                      prefix=0, aliases=None):
+    def correct_query(
+        self, q, qstring, correctors=None, terms=None, maxdist=2, prefix=0, aliases=None
+    ):
         """
         Returns a corrected version of the given user query using a default
         :class:`whoosh.spelling.ReaderCorrector`.
@@ -893,6 +944,7 @@ class Searcher(object):
 
         # Make q query corrector
         from whoosh import spelling
+
         sqc = spelling.SimpleQueryCorrector(correctors, terms, aliases)
         return sqc.correct_query(q, qstring)
 
@@ -907,8 +959,16 @@ class Results(object):
     so keeps all files used by it open.
     """
 
-    def __init__(self, searcher, q, top_n, docset=None, facetmaps=None,
-                 runtime=0, highlighter=None):
+    def __init__(
+        self,
+        searcher,
+        q,
+        top_n,
+        docset=None,
+        facetmaps=None,
+        runtime=0,
+        highlighter=None,
+    ):
         """
         :param searcher: the :class:`Searcher` object that produced these
             results.
@@ -929,9 +989,11 @@ class Results(object):
         self._char_cache = {}
 
     def __repr__(self):
-        return "<Top %s Results for %r runtime=%s>" % (len(self.top_n),
-                                                       self.q,
-                                                       self.runtime)
+        return "<Top %s Results for %r runtime=%s>" % (
+            len(self.top_n),
+            self.q,
+            self.runtime,
+        )
 
     def __len__(self):
         """Returns the total number of documents that matched the query. Note
@@ -953,12 +1015,15 @@ class Results(object):
     def __getitem__(self, n):
         if isinstance(n, slice):
             start, stop, step = n.indices(len(self.top_n))
-            return [Hit(self, self.top_n[i][1], i, self.top_n[i][0])
-                    for i in xrange(start, stop, step)]
+            return [
+                Hit(self, self.top_n[i][1], i, self.top_n[i][0])
+                for i in xrange(start, stop, step)
+            ]
         else:
             if n >= len(self.top_n):
-                raise IndexError("results[%r]: Results only has %s hits"
-                                 % (n, len(self.top_n)))
+                raise IndexError(
+                    "results[%r]: Results only has %s hits" % (n, len(self.top_n))
+                )
             return Hit(self, self.top_n[n][1], n, self.top_n[n][0])
 
     def __iter__(self):
@@ -1045,8 +1110,7 @@ class Results(object):
             # for Python 3
             name = list(self._facetmaps.keys())[0]
         elif name not in self._facetmaps:
-            raise KeyError("%r not in facet names %r"
-                           % (name, self.facet_names()))
+            raise KeyError("%r not in facet names %r" % (name, self.facet_names()))
         return self._facetmaps[name].as_dict()
 
     def has_exact_length(self):
@@ -1128,8 +1192,9 @@ class Results(object):
         return self.top_n[n][1]
 
     def query_terms(self, expand=False, fieldname=None):
-        return self.q.existing_terms(self.searcher.reader(),
-                                     fieldname=fieldname, expand=expand)
+        return self.q.existing_terms(
+            self.searcher.reader(), fieldname=fieldname, expand=expand
+        )
 
     def has_matched_terms(self):
         """Returns True if the search recorded which terms matched in which
@@ -1195,8 +1260,14 @@ class Results(object):
 
     order = property(_get_order, _set_order)
 
-    def key_terms(self, fieldname, docs=10, numterms=5,
-                  model=whoosh.classify.Bo1Model, normalize=True):
+    def key_terms(
+        self,
+        fieldname,
+        docs=10,
+        numterms=5,
+        model=whoosh.classify.Bo1Model,
+        normalize=True,
+    ):
         """Returns the 'numterms' most important terms from the top 'docs'
         documents in these results. "Most important" is generally defined as
         terms that occur frequently in the top hits but relatively infrequently
@@ -1383,11 +1454,20 @@ class Hit(object):
         """
 
         hliter = self.results.highlighter
-        return hliter.highlight_hit(self, fieldname, text=text, top=top,
-                                    minscore=minscore)
+        return hliter.highlight_hit(
+            self, fieldname, text=text, top=top, minscore=minscore
+        )
 
-    def more_like_this(self, fieldname, text=None, top=10, numterms=5,
-                       model=whoosh.classify.Bo1Model, normalize=True, filter=None):
+    def more_like_this(
+        self,
+        fieldname,
+        text=None,
+        top=10,
+        numterms=5,
+        model=whoosh.classify.Bo1Model,
+        normalize=True,
+        filter=None,
+    ):
         """Returns a new Results object containing documents similar to this
         hit, based on "key terms" in the given field::
             r = searcher.search(myquery)
@@ -1412,9 +1492,16 @@ class Hit(object):
         :param normalize: whether to normalize term weights.
         """
 
-        return self.searcher.more_like(self.docnum, fieldname, text=text,
-                                       top=top, numterms=numterms, model=model,
-                                       normalize=normalize, filter=filter)
+        return self.searcher.more_like(
+            self.docnum,
+            fieldname,
+            text=text,
+            top=top,
+            numterms=numterms,
+            model=model,
+            normalize=normalize,
+            filter=filter,
+        )
 
     def __repr__(self):
         return "<%s %r>" % (self.__class__.__name__, self.fields())
@@ -1445,8 +1532,8 @@ class Hit(object):
         raise KeyError(fieldname)
 
     def __contains__(self, key):
-        return (key in self.fields())
-                #or self.reader.has_column(key))
+        return key in self.fields()
+        # or self.reader.has_column(key))
 
     def items(self):
         return list(self.fields().items())
@@ -1542,13 +1629,12 @@ class ResultsPage(object):
         offset = self.offset
         if isinstance(n, slice):
             start, stop, step = n.indices(self.pagelen)
-            return self.results.__getitem__(slice(start + offset,
-                                                  stop + offset, step))
+            return self.results.__getitem__(slice(start + offset, stop + offset, step))
         else:
             return self.results.__getitem__(n + offset)
 
     def __iter__(self):
-        return iter(self.results[self.offset:self.offset + self.pagelen])
+        return iter(self.results[self.offset: self.offset + self.pagelen])
 
     def __len__(self):
         return self.total
@@ -1575,8 +1661,16 @@ class ResultsPage(object):
 
 
 class CylleneusResults(Results):
-    def __init__(self, searcher, q, top_n, docset=None, facetmaps=None,
-                 runtime=0, highlighter=None):
+    def __init__(
+        self,
+        searcher,
+        q,
+        top_n,
+        docset=None,
+        facetmaps=None,
+        runtime=0,
+        highlighter=None,
+    ):
         """
         :param searcher: the :class:`Searcher` object that produced these
             results.
@@ -1599,12 +1693,15 @@ class CylleneusResults(Results):
     def __getitem__(self, n):
         if isinstance(n, slice):
             start, stop, step = n.indices(len(self.top_n))
-            return [CylleneusHit(self, self.top_n[i][1], i, self.top_n[i][0])
-                    for i in xrange(start, stop, step)]
+            return [
+                CylleneusHit(self, self.top_n[i][1], i, self.top_n[i][0])
+                for i in xrange(start, stop, step)
+            ]
         else:
             if n >= len(self.top_n):
-                raise IndexError("results[%r]: Results only has %s hits"
-                                 % (n, len(self.top_n)))
+                raise IndexError(
+                    "results[%r]: Results only has %s hits" % (n, len(self.top_n))
+                )
             return CylleneusHit(self, self.top_n[n][1], n, self.top_n[n][0])
 
     def __iter__(self):
@@ -1634,7 +1731,9 @@ def min_score(query):
     """ Calculate the minimum score for a complex query """
 
     minscore = 0
-    if isinstance(query, (engine.query.compound.And, engine.query.positional.Collocation)):
+    if isinstance(
+        query, (engine.query.compound.And, engine.query.positional.Collocation)
+    ):
         for t in query.children():
             minscore += min_score(t)
     elif isinstance(query, engine.query.compound.Or):
@@ -1646,13 +1745,21 @@ def min_score(query):
         for t in query.children():
             minscore += min_score(t)
     else:
-        minscore += 100 * (1 / query.slop if (hasattr(query, 'slop') and query.slop) else 1)
+        minscore += 100 * (
+            1 / query.slop if (hasattr(query, "slop") and query.slop) else 1
+        )
     return minscore
 
 
 def iter_queries(query):
     for i, subq in enumerate(query):
-        if isinstance(subq, (engine.query.compound.CylleneusCompoundQuery, engine.query.spans.SpanQuery)):
+        if isinstance(
+            subq,
+            (
+                engine.query.compound.CylleneusCompoundQuery,
+                engine.query.spans.SpanQuery,
+            ),
+        ):
             yield (i, (tuple(iter_queries(subq))))
         else:
             yield (i, (subq))
@@ -1669,13 +1776,14 @@ def query_to_dict(q):
 
 
 field_order = {
-    'form': 0,
-    'lemma': 1,
-    'annotation': 5,
-    'synset': 2,
-    'semfield': 3,
-    'morphosyntax': 4
+    "form":         0,
+    "lemma":        1,
+    "annotation":   5,
+    "synset":       2,
+    "semfield":     3,
+    "morphosyntax": 4,
 }
+
 
 def term_lists(q, ixreader):
     """Returns the terms in the query tree, with the query hierarchy
@@ -1688,34 +1796,80 @@ def term_lists(q, ixreader):
         if isinstance(q, engine.query.compound.Or):
             ors.append(list(q.iter_all_terms(ixreader)))
         elif isinstance(q, engine.query.terms.Annotation):
-            ts.extend(list(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)])))
+            ts.extend(
+                list(
+                    set(
+                        [
+                            (fieldname, text.split("::")[0])
+                            for fieldname, text in q.iter_all_terms(ixreader)
+                        ]
+                    )
+                )
+            )
         elif isinstance(q, engine.query.terms.PatternQuery):
-            ors.append(list(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)])))
+            ors.append(
+                list(
+                    set(
+                        [
+                            (fieldname, text.split("::")[0])
+                            for fieldname, text in q.iter_all_terms(ixreader)
+                        ]
+                    )
+                )
+            )
         else:
             for sq in q:
                 if isinstance(sq, engine.query.compound.Or):
                     ors.append(list(sq.iter_all_terms(ixreader)))
                 elif isinstance(sq, engine.query.terms.Annotation):
-                    ts.extend(list(set([(fieldname, text.split('::')[0]) for fieldname, text in sq.iter_all_terms(
-                        ixreader)])))
+                    ts.extend(
+                        list(
+                            set(
+                                [
+                                    (fieldname, text.split("::")[0])
+                                    for fieldname, text in sq.iter_all_terms(ixreader)
+                                ]
+                            )
+                        )
+                    )
                 elif isinstance(sq, engine.query.terms.PatternQuery):
                     ors.append(
-                        list(set(
-                            [
-                                (fieldname, text.split('::')[0])
-                                for fieldname, text in sq.iter_all_terms(ixreader)
-                            ]
+                        list(
+                            set(
+                                [
+                                    (fieldname, text.split("::")[0])
+                                    for fieldname, text in sq.iter_all_terms(ixreader)
+                                ]
+                            )
                         )
-                    ))
+                    )
                 else:
                     ts.extend(list(sq.iter_all_terms(ixreader)))
     else:
         if isinstance(q, engine.query.compound.Or):
             ors.append(list(q.iter_all_terms(ixreader)))
         elif isinstance(q, engine.query.terms.Annotation):
-            ts.extend(list(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)])))
+            ts.extend(
+                list(
+                    set(
+                        [
+                            (fieldname, text.split("::")[0])
+                            for fieldname, text in q.iter_all_terms(ixreader)
+                        ]
+                    )
+                )
+            )
         elif isinstance(q, engine.query.terms.PatternQuery):
-            ors.append(list(set([(fieldname, text.split('::')[0]) for fieldname, text in q.iter_all_terms(ixreader)])))
+            ors.append(
+                list(
+                    set(
+                        [
+                            (fieldname, text.split("::")[0])
+                            for fieldname, text in q.iter_all_terms(ixreader)
+                        ]
+                    )
+                )
+            )
         else:
             ts.extend(list(q.iter_all_terms(ixreader)))
     ls = []
@@ -1748,13 +1902,7 @@ class CylleneusHit(Hit):
         LWN = latinwordnet.LatinWordNet()
 
         termlists = term_lists(query, self.reader)
-        fieldnames = set(
-            [
-                term[0]
-                for terms in termlists
-                for term in terms
-            ]
-        )
+        fieldnames = set([term[0] for terms in termlists for term in terms])
         results = [
             fragment
             for fieldname in fieldnames
@@ -1772,13 +1920,19 @@ class CylleneusHit(Hit):
             if not seen.get(xf, False):
                 f = copy.deepcopy(xf)
                 # FIXME: what is the correct look-ahead threshold?
-                for yf in results[i + 1:i + 100]:
-                    if f != yf and \
-                        (f.overlaps(yf) or f.is_adjacent(yf)) or f.same_divs(yf) and \
-                        not seen.get(yf, False):
+                for yf in results[i + 1: i + 100]:
+                    if (
+                        f != yf
+                        and (f.overlaps(yf) or f.is_adjacent(yf))
+                        or f.same_divs(yf)
+                        and not seen.get(yf, False)
+                    ):
                         f.matches.extend(yf.matches)
                         f.matched_terms.update(yf.matched_terms)
-                        f.matches = natsorted(set(f.matches), key=lambda x: (x.meta['sent_id'], x.meta['sent_pos']))
+                        f.matches = natsorted(
+                            set(f.matches),
+                            key=lambda x: (x.meta["sent_id"], x.meta["sent_pos"]),
+                        )
                         if yf.startchar < f.startchar:
                             f.startchar = yf.startchar
                         if f.endchar < yf.endchar:
@@ -1789,157 +1943,198 @@ class CylleneusHit(Hit):
         print_debug(DEBUG_MEDIUM, "  - Merged fragments: {}".format(len(merged)))
 
         # For compound annotation queries, keep same-analysis groups
-        if isinstance(
-                query, engine.query.positional.Collocation
-            ) or \
-            any([
-            isinstance(
-                subq, engine.query.positional.Collocation
-            ) for subq in query]):
-                for fragment in merged:
-                    morphos = []
-                    lemma_groups = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
-                    matches_by_lemma = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+        if isinstance(query, engine.query.positional.Collocation) or any(
+            [isinstance(subq, engine.query.positional.Collocation) for subq in query]
+        ):
+            for fragment in merged:
+                morphos = []
+                lemma_groups = defaultdict(
+                    lambda: defaultdict(lambda: defaultdict(list))
+                )
+                matches_by_lemma = defaultdict(
+                    lambda: defaultdict(lambda: defaultdict(list))
+                )
 
-                    # ----------::X:Y
-                    semifinalists = set()
-                    for match in fragment.matches:
-                        if match.fieldname == 'annotation':
-                            annotation, lemma_group = match.text.split('::')
-                            uri, n, g = lemma_group.split(':')
-                            matches_by_lemma[uri][n][g].append(match)
-                            lemma_groups[uri][n][g].append(annotation)
-                        else:
-                            semifinalists.add(match)
+                # ----------::X:Y
+                semifinalists = set()
+                for match in fragment.matches:
+                    if match.fieldname == "annotation":
+                        annotation, lemma_group = match.text.split("::")
+                        uri, n, g = lemma_group.split(":")
+                        matches_by_lemma[uri][n][g].append(match)
+                        lemma_groups[uri][n][g].append(annotation)
+                    else:
+                        semifinalists.add(match)
 
-                    for uri in lemma_groups.keys():
-                        for lemma, grouping in lemma_groups[uri].items():
-                            for group, annotations in grouping.items():
-                                if len(annotations) == len(
-                                    set([
+                for uri in lemma_groups.keys():
+                    for lemma, grouping in lemma_groups[uri].items():
+                        for group, annotations in grouping.items():
+                            if len(annotations) == len(
+                                set(
+                                    [
                                         term
                                         for terms in termlists
                                         for term in terms
-                                        if term[0] == 'annotation'
-                                    ])
-                                ) \
-                                    and any(
-                                    [
-                                        all(
+                                        if term[0] == "annotation"
+                                    ]
+                                )
+                            ) and any(
+                                [
+                                    all(
+                                        [
+                                            ("annotation", annotation) in terms
+                                            for annotation in annotations
+                                        ]
+                                    )
+                                    for terms in termlists
+                                ]
+                            ):
+                                morphos.append((uri, lemma, group))
+
+                candidates = []
+                for uri, lemma, group in morphos:
+                    grouping = matches_by_lemma[uri][lemma][group]
+                    group_meta = [t.meta for t in grouping]
+                    # guarantee that the meta data for all matches is the same
+                    if group_meta.count(group_meta[0]) == len(group_meta):
+                        candidates.append((uri, lemma, group))
+
+                for uri, lemma, group in candidates:
+                    semifinalists.update(matches_by_lemma[uri][lemma][group])
+
+                finalists = []
+                if len(semifinalists) >= len(termlists[0]) and any(
+                    [
+                        all(
+                            [
+                                (
+                                    semifinalist.fieldname,
+                                    semifinalist.text.split("::")[0],
+                                )
+                                in terms
+                                for semifinalist in semifinalists
+                            ]
+                        )
+                        for terms in termlists
+                    ]
+                ):
+                    lemmas = set()
+                    uris = set()
+                    for terms in termlists:
+                        for term in terms:
+                            if term[0] == "lemma":
+                                uris.add(term[1].split("=")[0].split(":")[1])
+                            elif term[0] == "synset":
+                                pos, offset = term[1].split("#")
+                                for synset in LWN.synsets(
+                                    pos=pos, offset=offset
+                                ).lemmas:
+                                    for signification in synset["lemmas"]:
+                                        lemmas.update(
                                             [
-                                                ('annotation', annotation) in terms
-                                                for annotation in annotations
+                                                hdict(lemma)
+                                                for lemma in synset["lemmas"][
+                                                signification
+                                            ]
                                             ]
                                         )
-                                        for terms in termlists
-                                    ]
+                                uris.update([lemma["uri"] for lemma in lemmas])
+                            elif term[0] == "semfield":
+                                code = term[1]
+                                for semfield in LWN.semfields(code=code).lemmas:
+                                    lemmas.update(
+                                        [hdict(lemma) for lemma in semfield["lemmas"]]
+                                    )
+                                uris.update([lemma["uri"] for lemma in lemmas])
+                    for semifinalist in semifinalists:
+                        if semifinalist.fieldname == "annotation":
+                            if len(uris) > 0:
+                                if (
+                                    semifinalist.text.split("::")[1].split(":")[0]
+                                    in uris
                                 ):
-                                    morphos.append((uri, lemma, group))
-
-                    candidates = []
-                    for uri, lemma, group in morphos:
-                        grouping = matches_by_lemma[uri][lemma][group]
-                        group_meta = [t.meta for t in grouping]
-                        # guarantee that the meta data for all matches is the same
-                        if group_meta.count(group_meta[0]) == len(group_meta):
-                            candidates.append((uri, lemma, group))
-
-                    for uri, lemma, group in candidates:
-                        semifinalists.update(matches_by_lemma[uri][lemma][group])
-
-                    finalists = []
-                    if len(semifinalists) >= len(termlists[0]) and \
-                        any(
-                            [
-                                all(
-                                    [
-                                        (semifinalist.fieldname, semifinalist.text.split('::')[0]) in terms
-                                        for semifinalist in semifinalists
-                                    ]
-                                ) for terms in termlists
-                            ]
-                        ):
-                        uris = set()
-                        for terms in termlists:
-                            for term in terms:
-                                if term[0] == 'lemma':
-                                    uris.add(term[1].split('=')[0].split(':')[1])
-                                elif term[0] == 'synset':
-                                    pos, offset = term[1].split('#')
-                                    lemmas = LWN.synsets(pos=pos, offset=offset).lemmas['lemmas']
-                                    uris.update([lemma['uri'] for lemma in lemmas])
-                                elif term[0] == 'semfield':
-                                    code = term[1]
-                                    lemmas = LWN.semfields(code=code).lemmas['lemmas']
-                                    uris.update([lemma['uri'] for lemma in lemmas])
-                        for semifinalist in semifinalists:
-                            if semifinalist.fieldname == 'annotation':
-                                if len(uris) > 0:
-                                    if semifinalist.text.split('::')[1].split(':')[0] in uris:
-                                        finalists.append(semifinalist)
-                                else:
                                     finalists.append(semifinalist)
                             else:
                                 finalists.append(semifinalist)
-                    winners = []
-                    if len(finalists) >= len(termlists[0]) and \
-                        any(
+                        else:
+                            finalists.append(semifinalist)
+                winners = []
+                if len(finalists) >= len(termlists[0]) and any(
+                    [
+                        all(
                             [
-                                all(
-                                    [
-                                        (finalist.fieldname, finalist.text.split('::')[0]) in terms
-                                        for finalist in finalists
-                                    ]
-                                )
-                                for terms in termlists
+                                (finalist.fieldname, finalist.text.split("::")[0])
+                                in terms
+                                for finalist in finalists
                             ]
-                        ):
-                        winners = finalists
-                    fragment.matches = winners
+                        )
+                        for terms in termlists
+                    ]
+                ):
+                    winners = finalists
+                fragment.matches = winners
 
         filtered = []
         for fragment in merged:
             if len(fragment.matches) != 0:
                 filtered.append(fragment)
-        print_debug(DEBUG_MEDIUM, "  - Filtered by annotation: {}".format(len(filtered)))
+        print_debug(
+            DEBUG_MEDIUM, "  - Filtered by annotation: {}".format(len(filtered))
+        )
 
         # Preserve ordering in sequential (adjacency) queries
         if isinstance(query, engine.query.positional.Sequence):
             ordering = {}
             for i, q in enumerate(query):
-                if isinstance(q, (engine.query.compound.CylleneusCompoundQuery,
-                                  engine.query.positional.Collocation)):
+                if isinstance(
+                    q,
+                    (
+                        engine.query.compound.CylleneusCompoundQuery,
+                        engine.query.positional.Collocation,
+                    ),
+                ):
                     for sq in q:
                         for term in sq.iter_all_terms(self.reader):
-                            ordering[(term[0], term[1].split('::')[0])] = i, getattr(sq, 'pos', -1)
+                            ordering[(term[0], term[1].split("::")[0])] = (
+                                i,
+                                getattr(sq, "pos", -1),
+                            )
                 else:
                     for term in q.iter_all_terms(self.reader):
-                        ordering[(term[0], term[1].split('::')[0])] = i, getattr(q, 'pos', -1)
+                        ordering[(term[0], term[1].split("::")[0])] = (
+                            i,
+                            getattr(q, "pos", -1),
+                        )
 
             for fragment in filtered:
                 newmatches = []
-                for y in sorted(fragment.matches, key=lambda m: (m.pos, field_order[m.fieldname])):
+                for y in sorted(
+                    fragment.matches, key=lambda m: (m.pos, field_order[m.fieldname])
+                ):
                     if not newmatches:
                         newmatches.append(y)
                     else:
                         x = newmatches[-1]
-                        if (x.fieldname, x.text.split('::')[0]) in ordering \
-                            and (y.fieldname, y.text.split('::')[0]) in ordering:
-                            if x.fieldname == 'annotation' \
-                                and y.fieldname == 'annotation' \
-                                and y.pos == x.pos:
+                        if (x.fieldname, x.text.split("::")[0]) in ordering and (
+                            y.fieldname,
+                            y.text.split("::")[0],
+                        ) in ordering:
+                            if (
+                                x.fieldname == "annotation"
+                                and y.fieldname == "annotation"
+                                and y.pos == x.pos
+                            ):
                                 newmatches.append(y)
                             else:
-                                if ordering[
-                                    (y.fieldname,
-                                     y.text.split('::')[0])
-                                ] >= ordering[
-                                    (x.fieldname,
-                                     x.text.split('::')[0])
-                                ]:
+                                if (
+                                    ordering[(y.fieldname, y.text.split("::")[0])]
+                                    >= ordering[(x.fieldname, x.text.split("::")[0])]
+                                ):
                                     # For strict sequences, slop == 1
-                                    if y.pos - x.pos <= query.slop \
-                                        and y.startchar - x.endchar <= 1:
+                                    if (
+                                        y.pos - x.pos <= query.slop
+                                        and y.startchar - x.endchar <= 1
+                                    ):
                                         newmatches.append(y)
                 fragment.matches = newmatches
 
@@ -1947,73 +2142,84 @@ class CylleneusHit(Hit):
             if isinstance(subq, engine.query.positional.Sequence):
                 ordered = {}
                 for i, q in enumerate(subq):
-                    if isinstance(q, (engine.query.compound.CylleneusCompoundQuery,
-                                      engine.query.positional.Collocation)):
+                    if isinstance(
+                        q,
+                        (
+                            engine.query.compound.CylleneusCompoundQuery,
+                            engine.query.positional.Collocation,
+                        ),
+                    ):
                         for sq in q:
-                            ordered[(sq.fieldname, sq.text.split('::')[0])] = i, getattr(sq, 'pos', 0)
+                            ordered[(sq.fieldname, sq.text.split("::")[0])] = (
+                                i,
+                                getattr(sq, "pos", 0),
+                            )
                     else:
-                        ordered[(q.fieldname, q.text.split('::')[0])] = i, getattr(q, 'pos', 0)
+                        ordered[(q.fieldname, q.text.split("::")[0])] = (
+                            i,
+                            getattr(q, "pos", 0),
+                        )
 
                 for fragment in filtered:
                     newmatches = []
-                    for y in sorted(fragment.matches, key=lambda m: (m.pos, field_order[m.fieldname])):
+                    for y in sorted(
+                        fragment.matches,
+                        key=lambda m: (m.pos, field_order[m.fieldname]),
+                    ):
                         if not newmatches:
                             newmatches.append(y)
                         else:
                             x = newmatches[-1]
-                            if (x.fieldname, x.text.split('::')[0]) in ordered \
-                                and (y.fieldname, y.text.split('::')[0]) in ordered:
-                                if x.fieldname == 'annotation' \
-                                    and y.fieldname == 'annotation' \
-                                    and y.pos == x.pos:
+                            if (x.fieldname, x.text.split("::")[0]) in ordered and (
+                                y.fieldname,
+                                y.text.split("::")[0],
+                            ) in ordered:
+                                if (
+                                    x.fieldname == "annotation"
+                                    and y.fieldname == "annotation"
+                                    and y.pos == x.pos
+                                ):
                                     newmatches.append(y)
                                 else:
-                                    if ordered[
-                                        (y.fieldname,
-                                         y.text.split('::')[0])
-                                    ] >= ordered[
-                                        (x.fieldname,
-                                         x.text.split('::')[0])
-                                    ]:
+                                    if (
+                                        ordered[(y.fieldname, y.text.split("::")[0])]
+                                        >= ordered[(x.fieldname, x.text.split("::")[0])]
+                                    ):
                                         # For strict sequences, slop == 1
-                                        if y.pos - x.pos <= subq.slop \
-                                            and y.startchar - x.endchar <= 1:
+                                        if (
+                                            y.pos - x.pos <= subq.slop
+                                            and y.startchar - x.endchar <= 1
+                                        ):
                                             newmatches.append(y)
                             else:
                                 # If the match is unrelated to the ordering...
                                 newmatches.append(y)
                     fragment.matches = newmatches
-        print_debug(DEBUG_MEDIUM, "  - Filtered for sequences: {}".format(len(filtered)))
+        print_debug(
+            DEBUG_MEDIUM, "  - Filtered for sequences: {}".format(len(filtered))
+        )
 
         # Keep only fragments that reach the minimum score threshold
         scored = []
         for fragment in filtered:
             if len(fragment.matches) != 0:
-                fterms = set([
-                    (match.fieldname, match.text.split('::')[0])
-                    for match in fragment.matches
-                          ])
-                if len(fterms) != 0 and any(
+                fterms = set(
                     [
-                        all(
-                            [
-                                term in fterms
-                                for term in terms
-                            ]
-                        )
-                        for terms in termlists
+                        (match.fieldname, match.text.split("::")[0])
+                        for match in fragment.matches
                     ]
+                )
+                if len(fterms) != 0 and any(
+                    [all([term in fterms for term in terms]) for terms in termlists]
                 ):
                     score = self.results.highlighter.scorer(query, fragment)
                     if score:
                         scored.append((score, fragment))
         print_debug(DEBUG_MEDIUM, "  - Scored fragments: {}".format(len(scored)))
 
-        finalists = list(set([
-            (score, fragment)
-            for score, fragment in scored
-            if score >= minscore
-        ]))
+        finalists = list(
+            set([(score, fragment) for score, fragment in scored if score >= minscore])
+        )
         print_debug(DEBUG_MEDIUM, "  - Final count: {}".format(len(finalists)))
 
         return finalists
@@ -2025,17 +2231,18 @@ class CylleneusHit(Hit):
         filtered = self.filter_fragments(self.results.q, minscore)
 
         # Attach collated meta data to fragments, if available
-        if self.get('meta', False):
-            divs = [div for div in self['meta'].lower().split('-')]
+        if self.get("meta", False):
+            divs = [div for div in self["meta"].lower().split("-")]
 
             for score, fragment in filtered:
-                matches = natsorted(fragment.matches, key=lambda x: (x.meta['sent_id'], x.meta['sent_pos']))
+                matches = natsorted(
+                    fragment.matches,
+                    key=lambda x: (x.meta["sent_id"], x.meta["sent_pos"]),
+                )
                 first = matches[0]
                 last = matches[-1]
 
-                meta = {
-                    'meta': self['meta'].lower()
-                }
+                meta = {"meta": self["meta"].lower()}
                 startmeta = {}
                 endmeta = {}
 
@@ -2043,145 +2250,136 @@ class CylleneusHit(Hit):
                     [
                         v
                         for k, v in match.meta.items()
-                        if k in match.meta['meta'].split('-') \
-                        or k == 'sent_pos'
+                        if k in match.meta["meta"].split("-") or k == "sent_pos"
                     ]
                     for match in matches
                 ]
-                meta['hlites'] = hlites
+                meta["hlites"] = hlites
 
                 for div in divs:
-                    startmeta[div] = getattr(first, 'meta')[div]
-                    endmeta[div] = getattr(last, 'meta')[div]
+                    startmeta[div] = getattr(first, "meta")[div]
+                    endmeta[div] = getattr(last, "meta")[div]
 
                 # Sentence in section
-                if 'sect_sent' in getattr(first, 'meta'):
-                    startmeta['sect_sent'] = getattr(first, 'meta')['sect_sent']
+                if "sect_sent" in getattr(first, "meta"):
+                    startmeta["sect_sent"] = getattr(first, "meta")["sect_sent"]
                 else:
-                    startmeta['sect_sent'] = None
-                if 'sect_sent' in getattr(last, 'meta'):
-                    endmeta['sect_sent'] = getattr(last, 'meta')['sect_sent']
+                    startmeta["sect_sent"] = None
+                if "sect_sent" in getattr(last, "meta"):
+                    endmeta["sect_sent"] = getattr(last, "meta")["sect_sent"]
                 else:
-                    endmeta['sect_sent'] = None
+                    endmeta["sect_sent"] = None
 
                 # Position in section
-                if 'sect_pos' in getattr(first, 'meta'):
-                    startmeta['sect_pos'] = getattr(first, 'meta')['sect_pos']
+                if "sect_pos" in getattr(first, "meta"):
+                    startmeta["sect_pos"] = getattr(first, "meta")["sect_pos"]
                 else:
-                    startmeta['sect_pos'] = None
-                if 'sect_pos' in getattr(last, 'meta'):
-                    endmeta['sect_pos'] = getattr(last, 'meta')['sect_pos']
+                    startmeta["sect_pos"] = None
+                if "sect_pos" in getattr(last, "meta"):
+                    endmeta["sect_pos"] = getattr(last, "meta")["sect_pos"]
                 else:
-                    endmeta['sect_pos'] = None
+                    endmeta["sect_pos"] = None
 
                 # Sentence id
-                if 'sent_id' in getattr(first, 'meta'):
-                    startmeta['sent_id'] = getattr(first, 'meta')['sent_id']
+                if "sent_id" in getattr(first, "meta"):
+                    startmeta["sent_id"] = getattr(first, "meta")["sent_id"]
                 else:
-                    startmeta['sent_id'] = None
-                if 'sent_id' in getattr(last, 'meta'):
-                    endmeta['sent_id'] = getattr(last, 'meta')['sent_id']
+                    startmeta["sent_id"] = None
+                if "sent_id" in getattr(last, "meta"):
+                    endmeta["sent_id"] = getattr(last, "meta")["sent_id"]
                 else:
-                    endmeta['sent_id'] = None
+                    endmeta["sent_id"] = None
 
                 # Position in sentence
-                if 'sent_pos' in getattr(first, 'meta'):
-                    startmeta['sent_pos'] = getattr(first, 'meta')['sent_pos']
+                if "sent_pos" in getattr(first, "meta"):
+                    startmeta["sent_pos"] = getattr(first, "meta")["sent_pos"]
                 else:
-                    startmeta['sent_pos'] = None
-                if 'sent_pos' in getattr(last, 'meta'):
-                    endmeta['sent_pos'] = getattr(last, 'meta')['sent_pos']
+                    startmeta["sent_pos"] = None
+                if "sent_pos" in getattr(last, "meta"):
+                    endmeta["sent_pos"] = getattr(last, "meta")["sent_pos"]
                 else:
-                    endmeta['sent_pos'] = None
+                    endmeta["sent_pos"] = None
 
                 # Absolute position
-                startmeta['startchar'] = getattr(first, 'startchar', None)
-                startmeta['endchar'] = getattr(first, 'endchar', None)
-                startmeta['pos'] = getattr(first, 'pos', None)
+                startmeta["startchar"] = getattr(first, "startchar", None)
+                startmeta["endchar"] = getattr(first, "endchar", None)
+                startmeta["pos"] = getattr(first, "pos", None)
 
-                endmeta['startchar'] = getattr(last, 'startchar', None)
-                endmeta['endchar'] = getattr(last, 'endchar', None)
-                endmeta['pos'] = getattr(last, 'pos', None)
+                endmeta["startchar"] = getattr(last, "startchar", None)
+                endmeta["endchar"] = getattr(last, "endchar", None)
+                endmeta["pos"] = getattr(last, "pos", None)
 
                 # Extra
-                if 'act' in getattr(first, 'meta'):
-                    startmeta['act'] = getattr(first, 'meta')['act']
-                    startmeta['scene'] = getattr(first, 'meta')['scene']
-                if 'act' in getattr(last, 'meta'):
-                    endmeta['act'] = getattr(last, 'meta')['act']
-                    endmeta['scene'] = getattr(last, 'meta')['scene']
-                meta['start'] = startmeta
-                meta['end'] = endmeta
+                if "act" in getattr(first, "meta"):
+                    startmeta["act"] = getattr(first, "meta")["act"]
+                    startmeta["scene"] = getattr(first, "meta")["scene"]
+                if "act" in getattr(last, "meta"):
+                    endmeta["act"] = getattr(last, "meta")["act"]
+                    endmeta["scene"] = getattr(last, "meta")["scene"]
+                meta["start"] = startmeta
+                meta["end"] = endmeta
                 fragment.meta = meta
         else:
             for score, fragment in filtered:
-                matches = natsorted(fragment.matches, key=lambda x: (x.meta['sent_id'], x.meta['sent_pos']))
+                matches = natsorted(
+                    fragment.matches,
+                    key=lambda x: (x.meta["sent_id"], x.meta["sent_pos"]),
+                )
                 first = matches[0]
                 last = matches[-1]
 
                 meta = {
-                    'meta': None,
+                    "meta": None,
                 }
                 startmeta = {}
                 endmeta = {}
 
                 hlites = [
-                        (match.startchar, match.endchar, match.pos)
-                    for match in matches
+                    (match.startchar, match.endchar, match.pos) for match in matches
                 ]
-                meta['hlites'] = hlites
+                meta["hlites"] = hlites
 
-                startmeta['sect_sent'] = None
-                startmeta['sect_pos'] = None
-                startmeta['sent_id'] = None
-                startmeta['sent_pos'] = None
-                endmeta['sect_sent'] = None
-                endmeta['sect_pos'] = None
-                endmeta['sent_id'] = None
-                endmeta['sent_pos'] = None
+                startmeta["sect_sent"] = None
+                startmeta["sect_pos"] = None
+                startmeta["sent_id"] = None
+                startmeta["sent_pos"] = None
+                endmeta["sect_sent"] = None
+                endmeta["sect_pos"] = None
+                endmeta["sent_id"] = None
+                endmeta["sent_pos"] = None
 
                 # Absolute position
-                startmeta['startchar'] = getattr(first, 'startchar', None)
-                startmeta['endchar'] = getattr(first, 'endchar', None)
-                startmeta['pos'] = getattr(first, 'pos', None)
+                startmeta["startchar"] = getattr(first, "startchar", None)
+                startmeta["endchar"] = getattr(first, "endchar", None)
+                startmeta["pos"] = getattr(first, "pos", None)
 
-                endmeta['startchar'] = getattr(last, 'startchar', None)
-                endmeta['endchar'] = getattr(last, 'endchar', None)
-                endmeta['pos'] = getattr(last, 'pos', None)
+                endmeta["startchar"] = getattr(last, "startchar", None)
+                endmeta["endchar"] = getattr(last, "endchar", None)
+                endmeta["pos"] = getattr(last, "pos", None)
 
-                meta['start'] = startmeta
-                meta['end'] = endmeta
+                meta["start"] = startmeta
+                meta["end"] = endmeta
                 fragment.meta = meta
         return filtered
 
     def highlights(self, fieldname, text=None, top=1000000, minscore=None):
         fragments = self.fragments(minscore)
 
-        # FIXME: use -1 as null referencing value?
-        if self.get('meta', False):
+        if self.get("meta", False):
             fragments = natsorted(
                 fragments,
                 key=lambda x: tuple(
                     alnum(str(n)) if n is not None else -1
-                    for n in x[1].meta['start'].values()
-                )
+                    for n in x[1].meta["start"].values()
+                ),
             )
         else:
-            fragments = sorted(
-                fragments,
-                key=lambda x: x[1].startchar,
-            )
+            fragments = sorted(fragments, key=lambda x: x[1].startchar, )
         formatted = self.results.highlighter.formatter.format(fragments)
 
         hlites = []
         for meta, text in formatted:
-            hlites.append(
-                (
-                    self,
-                    meta,
-                    text if 'content' in self else None,
-                )
-            )
+            hlites.append((self, meta, text if "content" in self else None,))
         if top and isinstance(top, int):
             return hlites[:top]
         else:
@@ -2189,10 +2387,22 @@ class CylleneusHit(Hit):
 
 
 class CylleneusSearcher(Searcher):
-    def collector(self, limit=None, sortedby=None, reverse=False, groupedby=None,
-                  collapse=None, collapse_limit=1, collapse_order=None,
-                  optimize=True, filter=None, mask=None, terms=False,
-                  maptype=None, scored=True):
+    def collector(
+        self,
+        limit=None,
+        sortedby=None,
+        reverse=False,
+        groupedby=None,
+        collapse=None,
+        collapse_limit=1,
+        collapse_order=None,
+        optimize=True,
+        filter=None,
+        mask=None,
+        terms=False,
+        maptype=None,
+        scored=True,
+    ):
         """Low-level method: returns a configured
         :class:`whoosh.collectors.Collector` object based on the given
         arguments.
@@ -2204,8 +2414,9 @@ class CylleneusSearcher(Searcher):
         if not scored and not sortedby:
             c = engine.collectors.CylleneusUnsortedCollector()
         elif sortedby:
-            c = engine.collectors.CylleneusSortingCollector(sortedby, limit=limit,
-                                                                 reverse=reverse)
+            c = engine.collectors.CylleneusSortingCollector(
+                sortedby, limit=limit, reverse=reverse
+            )
         elif groupedby or reverse or not limit or limit >= self.doc_count():
             # A collector that gathers every matching document
             c = engine.collectors.CylleneusUnlimitedCollector(reverse=reverse)
@@ -2220,8 +2431,9 @@ class CylleneusSearcher(Searcher):
             uc = engine.collectors.CylleneusUnlimitedCollector()
             c = engine.collectors.CylleneusTermsCollector(uc)
         if collapse:
-            c = engine.collectors.CylleneusCollapseCollector(c, collapse, limit=collapse_limit,
-                                                                  order=collapse_order)
+            c = engine.collectors.CylleneusCollapseCollector(
+                c, collapse, limit=collapse_limit, order=collapse_order
+            )
         # Filtering wraps last so it sees the docs first
         if filter or mask:
             c = engine.collectors.CylleneusFilterCollector(c, filter, mask)

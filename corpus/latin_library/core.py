@@ -42,11 +42,11 @@ def fetch(work, meta, fragment):
     post = f"<post>{autotrim(post_raw, left=False)}</post>"
 
     match_raw = content[hlite_starts[0]:hlite_ends[-1] + 1]
-
-    hlite = ''
     if len(hlite_starts) == 1 and len(hlite_ends) == 1:
         hlite = f"<em>{match_raw}</em>"
     else:
+        hlite = ''
+
         cursor = hlite_starts[0]
         for c in match_raw:
             if cursor in hlite_starts:
