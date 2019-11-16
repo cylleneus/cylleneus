@@ -5,7 +5,7 @@ import settings
 from engine.fields import Schema
 from engine.searching import CylleneusHit, CylleneusSearcher
 
-from . import agldt, default, lasla, latin_library, perseus, perseus_xml, proiel
+from . import agldt, default, lasla, latin_library, perseus, perseus_xml, proiel, perseus_translation
 from . import indexer
 
 
@@ -18,49 +18,56 @@ CorpusMeta = namedtuple('CorpusMeta', [
 ])
 
 meta = {
-    'agldt': CorpusMeta(
+    'agldt':               CorpusMeta(
         agldt.DocumentSchema,
         agldt.Tokenizer,
         agldt.Preprocessor,
         agldt.core.glob,
         agldt.core.fetch
     ),
-    'lasla': CorpusMeta(
+    'lasla':               CorpusMeta(
         lasla.DocumentSchema,
         lasla.Tokenizer,
         lasla.Preprocessor,
         lasla.core.glob,
         lasla.core.fetch
     ),
-    'latin_library': CorpusMeta(
+    'latin_library':       CorpusMeta(
         latin_library.DocumentSchema,
         default.Tokenizer,
         latin_library.Preprocessor,
         latin_library.core.glob,
         latin_library.core.fetch
     ),
-    'perseus': CorpusMeta(
+    'perseus':             CorpusMeta(
         perseus.DocumentSchema,
         perseus.Tokenizer,
         perseus.Preprocessor,
         perseus.core.glob,
         perseus.core.fetch
     ),
-    'perseus_xml': CorpusMeta(
+    'perseus_xml':         CorpusMeta(
         perseus_xml.DocumentSchema,
         perseus_xml.Tokenizer,
         perseus_xml.Preprocessor,
         perseus_xml.core.glob,
         perseus_xml.core.fetch
     ),
-    'proiel': CorpusMeta(
+    'perseus_translation': CorpusMeta(
+        perseus_translation.DocumentSchema,
+        perseus_translation.Tokenizer,
+        perseus_translation.Preprocessor,
+        perseus_translation.core.glob,
+        perseus_translation.core.fetch
+    ),
+    'proiel':              CorpusMeta(
         proiel.DocumentSchema,
         proiel.Tokenizer,
         proiel.Preprocessor,
         proiel.core.glob,
         proiel.core.fetch
     ),
-    'default': CorpusMeta(
+    'default':             CorpusMeta(
         default.DocumentSchema,
         default.Tokenizer,
         default.Preprocessor,

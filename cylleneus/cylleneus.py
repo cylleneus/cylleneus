@@ -179,11 +179,14 @@ def corpus(corpus_name: str = None):
     global _corpus, _searcher, _search
 
     if corpus_name:
-        if not _corpus or corpus_name != _corpus.name:
-            _corpus = Corpus(corpus_name)
-            _searcher.corpus = _corpus
-            _searcher._docs = None
-            repl.success(f"'{_corpus.name}', {_corpus.doc_count_all} documents")
+        if Path(settings.ROOT_DIR + '/corpus/' + corpus_name).exists():
+            if not _corpus or corpus_name != _corpus.name:
+                _corpus = Corpus(corpus_name)
+                _searcher.corpus = _corpus
+                _searcher._docs = None
+                repl.success(f"'{_corpus.name}', {_corpus.doc_count_all} documents")
+        else:
+            repl.error(f"corpus '{corpus_name}' does not exist")
     else:
         for path in Path(settings.ROOT_DIR + '/corpus/').glob('*'):
             if path.is_dir():
