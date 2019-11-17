@@ -21,10 +21,10 @@ class TestPerseusXMLTokenizer(unittest.TestCase):
 
     def test_perseus_xml_tokenizer(self):
         """Test the Perseus translation XML okenizer."""
-        from corpus.perseus_translation.tokenizer import CachedTokenizer
+        from corpus.translation_alignments.tokenizer import CachedTokenizer
 
-        perseus = pathlib.Path('../../corpus/perseus_translation/text/')
-        files = list(perseus.glob('*.txt'))
+        translations = pathlib.Path('../../corpus/translation_alignments/text/')
+        files = list(translations.glob('*.txt'))
 
         with codecs.open(choice(files), 'rb') as f:
             value = f.read()
