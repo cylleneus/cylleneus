@@ -4,8 +4,9 @@ from pathlib import Path
 import settings
 from engine.fields import Schema
 from engine.searching import CylleneusHit, CylleneusSearcher
+from utils import slugify
 
-from . import agldt, default, lasla, latin_library, perseus, perseus_xml, proiel
+from . import agldt, default, lasla, latin_library, perseus, perseus_xml, proiel, translation_alignments
 from . import indexer
 
 
@@ -18,49 +19,56 @@ CorpusMeta = namedtuple('CorpusMeta', [
 ])
 
 meta = {
-    'agldt': CorpusMeta(
+    'agldt':                  CorpusMeta(
         agldt.DocumentSchema,
         agldt.Tokenizer,
         agldt.Preprocessor,
         agldt.core.glob,
         agldt.core.fetch
     ),
-    'lasla': CorpusMeta(
+    'lasla':                  CorpusMeta(
         lasla.DocumentSchema,
         lasla.Tokenizer,
         lasla.Preprocessor,
         lasla.core.glob,
         lasla.core.fetch
     ),
-    'latin_library': CorpusMeta(
+    'latin_library':          CorpusMeta(
         latin_library.DocumentSchema,
         default.Tokenizer,
         latin_library.Preprocessor,
         latin_library.core.glob,
         latin_library.core.fetch
     ),
-    'perseus': CorpusMeta(
+    'perseus':                CorpusMeta(
         perseus.DocumentSchema,
         perseus.Tokenizer,
         perseus.Preprocessor,
         perseus.core.glob,
         perseus.core.fetch
     ),
-    'perseus_xml': CorpusMeta(
+    'perseus_xml':            CorpusMeta(
         perseus_xml.DocumentSchema,
         perseus_xml.Tokenizer,
         perseus_xml.Preprocessor,
         perseus_xml.core.glob,
         perseus_xml.core.fetch
     ),
-    'proiel': CorpusMeta(
+    'translation_alignments': CorpusMeta(
+        translation_alignments.DocumentSchema,
+        translation_alignments.Tokenizer,
+        translation_alignments.Preprocessor,
+        translation_alignments.core.glob,
+        translation_alignments.core.fetch
+    ),
+    'proiel':                 CorpusMeta(
         proiel.DocumentSchema,
         proiel.Tokenizer,
         proiel.Preprocessor,
         proiel.core.glob,
         proiel.core.fetch
     ),
-    'default': CorpusMeta(
+    'default':                CorpusMeta(
         default.DocumentSchema,
         default.Tokenizer,
         default.Preprocessor,
@@ -122,8 +130,8 @@ class Corpus:
         for path in self.index_dir.glob('*/*'):
             yield Work(self, author=path.parts[-2], title=path.name)
 
-    def works_for(self, author: str='*', title: str ='*'):
-        for path in self.index_dir.glob(f'{author}/{title}'):
+    def works_for(self, author: str = None, title: str = None):
+        for path in self.index_dir.glob(f'{slugify(author) if author else "*"}/{slugify(title) if title else "*"}'):
             yield Work(self, author=path.parts[-2], title=path.name)
 
     def work_by_docix(self, docix: int):
