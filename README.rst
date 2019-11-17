@@ -23,7 +23,7 @@ Cylleneus
 Overview
 --------
 
-Cylleneus is a next-generation search engine for electronic corpora of Latin (and eventually Greek), which enables texts to be searched on the basis of their semantic and morpho-syntactic properties. This means that, for the first time, texts can be searched by the *meanings* of words as well as by the kinds of grammatical constructions they occur in. Semantic search takes advantage of the `Latin WordNet 2.0 <https://latinwordnet.exeter.ac.uk/>`_ and is fully implemented, and thus is available for any annotated or plain-text corpus. Syntactic search functionality is still under development and is available for only certain structured corpora. However morphological searching and query filtering will work with any corpus.
+Cylleneus is a next-generation search engine for electronic corpora of Latin (and eventually Greek), which enables texts to be searched on the basis of their semantic and morpho-syntactic properties. This means that, for the first time, texts can be searched by the *meanings* of words as well as by the kinds of grammatical constructions they occur in. Semantic search takes advantage of the `Latin WordNet <https://latinwordnet.exeter.ac.uk/>`_ and is fully implemented, and thus is available for any annotated or plain-text corpus. Syntactic search functionality is still under development and is available for only certain structured corpora. However morphological searching and query filtering will work with any corpus.
 
 
 Features

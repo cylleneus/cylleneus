@@ -2260,6 +2260,12 @@ class CylleneusHit(Hit):
                     startmeta[div] = getattr(first, "meta")[div]
                     endmeta[div] = getattr(last, "meta")[div]
 
+                # Translation alignment
+                if "alignment" in getattr(first, "meta"):
+                    startmeta["alignment"] = getattr(first, "meta")["alignment"]
+                if "alignment" in getattr(last, "meta"):
+                    endmeta["alignment"] = getattr(last, "meta")["alignment"]
+
                 # Sentence in section
                 if "sect_sent" in getattr(first, "meta"):
                     startmeta["sect_sent"] = getattr(first, "meta")["sect_sent"]

@@ -51,6 +51,7 @@ requirements = [
     'fastnumbers>=2.2.1',
     'flask>=1.1.1',
     'future>=0.17.1',
+    'greekwordnet>=0.0.1',
     'html3>=1.17',
     'idna>=2.8',
     'isodate>=0.6.0',

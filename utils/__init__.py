@@ -187,9 +187,11 @@ def stringify(node):
                 )
             )
     )
+
     s = ''.join(filter(None, parts))
     s = re.sub(r"^b\'(.*?)\'$", r'\1', s, flags=re.DOTALL)
-    subs = [r'\\[fnrtv]', r'<.*?>', r'</.*?>']
+    s = re.sub(r"\\'", r"'", s, flags=re.DOTALL)
+    subs = [r"\\[fnrtv]", r'<.*?/>', r'<.*?>.*?</.*?>', r'\[.*?\]', "'b'"]
     for sub in subs:
         s = re.sub(sub, r'', s)
     return unescape(s)
@@ -271,11 +273,11 @@ def flatten(l, max_depth=math.inf):
 def nrange(start, end, zero=True, negative=True):
     start, end = zip(
         *zip_longest(
-            [int(n) if n.num is not None else n.al for n in start],
-            [int(n) if n.num is not None else n.al for n in end],
+            [int(n) for n in start],
+            [int(n) for n in end],
             fillvalue=0)
     )
-    base = alnum.max(alnum.max(chain(start, end)), 9) + 1
+    base = max(max(chain(start, end)), 9) + 1
 
     def _toint(seq, base):
         return sum(
