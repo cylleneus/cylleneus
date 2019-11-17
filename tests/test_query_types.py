@@ -61,9 +61,9 @@ class TestQueryTypes(unittest.TestCase):
             ("proiel", "/adverbial/", (1410, 1, 1)),
             ("proiel", "/adnominal argument/", (167, 1, 1)),
         ]
-        for c, q, n in queries:
-            corpus = Corpus(c)
-            clct = Collection(corpus.works)
-            searcher = Searcher(Collection(clct))
-            results = searcher.search(q)
-            print(c, q, n, results.count)
+        c, q, n = choice(queries)
+        corpus = Corpus(c)
+        clct = Collection(corpus.works)
+        searcher = Searcher(Collection(clct))
+        results = searcher.search(q)
+        assert n == results.count
