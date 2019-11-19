@@ -1,12 +1,10 @@
-import os
+import json
 from typing import List
 
-from celery.result import AsyncResult
-#from dotenv import load_dotenv
 from fastapi import FastAPI
 from pydantic import BaseModel
 from starlette.responses import JSONResponse
-from starlette.status import HTTP_200_OK, HTTP_202_ACCEPTED, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
+from starlette.status import HTTP_200_OK, HTTP_202_ACCEPTED
 
 from . import tasks
 
@@ -21,9 +19,27 @@ class CylleneusQuery(BaseModel):
     collection: List[CylleneusWork] = None
 
 
-# Adjust as appropriate
-root_dir = os.path.expanduser('')
-#load_dotenv(os.path.join(root_dir, '.env'))
+class CylleneusResult(BaseModel):
+    corpus: str
+    author: str
+    title: str
+    urn: str
+    reference: str
+    text: str
+
+
+class CylleneusSearch(BaseModel):
+    query: str
+    collection: List[CylleneusWork]
+    minscore: int = None
+    top: int
+    start_time: str
+    end_time: str
+    maxchars: int
+    surround: int
+    count: List[int]
+    results: List[CylleneusResult]
+
 
 app = FastAPI()
 
@@ -31,9 +47,7 @@ app = FastAPI()
 @app.post("/search/", status_code=HTTP_202_ACCEPTED)
 async def search(query: CylleneusQuery):
     result = tasks.search.delay(query.query, query.collection)
-    return JSONResponse(content={
-        'id': result.id,
-    })
+    return JSONResponse(content={"id": result.id})
 
 
 @app.get("/status/")
@@ -43,19 +57,15 @@ async def status(id: str):
     return {"status": result.status}
 
 
-@app.get("/results/", status_code=HTTP_200_OK)
+@app.get("/results/", status_code=HTTP_200_OK, response_model=CylleneusSearch)
 async def results(id: str):
     result = tasks.search.AsyncResult(id)
 
     if result.ready():
-        response = JSONResponse(content={
-                "result": result.get()
-            })
-    else:
-        response = JSONResponse(status_code=HTTP_400_BAD_REQUEST)
-    return response
+        return json.loads(result.get())
+
 
 @app.get("/index/", status_code=HTTP_200_OK)
 async def index(corpus: str):
-    result = tasks.index(corpus)    
-    return JSONResponse(content={ corpus: result })
+    result = tasks.index(corpus)
+    return JSONResponse(content={corpus: result})
