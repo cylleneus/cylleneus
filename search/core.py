@@ -172,15 +172,15 @@ class Search:
     def to_json(self):
         if self.results:
             s = {
-                "spec": self.spec,
+                "query":      self.spec,
                 "collection": [(work.corpus.name, work.docix) for work in self.collection],
-                "minscore": self.minscore,
-                "top": self.top,
+                "minscore":   self.minscore,
+                "top":        self.top,
                 "start_time": str(self.start_time),
-                "end_time": str(self.end_time),
-                "maxchars": self.maxchars,
-                "surround": self.surround,
-                "count": self.count,
+                "end_time":   str(self.end_time),
+                "maxchars":   self.maxchars,
+                "surround":   self.surround,
+                "count":      self.count,
             }
             results = []
             for href in self.highlights:
