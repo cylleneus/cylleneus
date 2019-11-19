@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from starlette.responses import JSONResponse
 from starlette.status import HTTP_200_OK, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST
+import json
 
 from . import tasks
 
@@ -63,7 +64,7 @@ async def results(id: str):
     result = tasks.search.AsyncResult(id)
 
     if result.ready():
-        return result.get()
+        return json.loads(result.get())
         # response = JSONResponse(content={"result": result.get()})
 
 
