@@ -169,7 +169,7 @@ class Search:
     def highlights(self, hlites):
         self._highlights = hlites
 
-    def to_json(self):
+    def to_dict(self):
         if self.results:
             s = {
                 "query":      self.spec,
@@ -185,16 +185,20 @@ class Search:
             results = []
             for href in self.highlights:
                 r = {
-                    "corpus": href.corpus,
-                    "author": href.author,
-                    "title": href.title,
-                    "urn": href.urn,
+                    "corpus":    href.corpus,
+                    "author":    href.author,
+                    "title":     href.title,
+                    "urn":       href.urn,
                     "reference": href.reference,
-                    "text": href.text
+                    "text":      href.text
                 }
                 results.append(r)
             s["results"] = results
-            return json.dumps(s)
+            return s
+
+    def to_json(self):
+        if self.results:
+            return json.dumps(self.to_dict())
 
     def to_text(self):
         for href in self.highlights:
