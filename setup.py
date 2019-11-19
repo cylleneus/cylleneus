@@ -45,9 +45,11 @@ version = find_version('cylleneus', '__init__.py')
 requirements = [
     'Click>=6.0',
     'certifi>=2019.3.9',
+    'celery[redis]>=4.3.0',
     'chardet>=3.0.4',
     'click-spinner>=0.1.8',
     'cursor>=1.3.4',
+    'fastapi>=0.42.0',
     'fastnumbers>=2.2.1',
     'flask>=1.1.1',
     'future>=0.17.1',
@@ -56,6 +58,7 @@ requirements = [
     'idna>=2.8',
     'isodate>=0.6.0',
     'latinwordnet>=0.2.4',
+    'librabbitmq>=2.0.0',
     'lxml>=4.3.2',
     'MyCapytain>=2.0.10',
     'multiwordnet>=0.0.4',
@@ -77,6 +80,7 @@ requirements = [
     'six>=1.12.0',
     'tqdm>=4.31.1',
     'urllib3<1.25,>=1.21.1',
+    'uvicorn>=0.10.8',
     'Whoosh>=2.7.4',
 ]
 
