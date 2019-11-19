@@ -38,7 +38,7 @@ class CylleneusSearch(BaseModel):
     end_time: str
     maxchars: int
     surround: int
-    count: int
+    count: List[int]
     results: List[CylleneusResult]
 
 

@@ -19,7 +19,7 @@ def search(q, collection=None):
         c = Collection(Corpus("perseus").works)
     searcher = Searcher(c)
     s = searcher.search(q)
-    return s.to_dict()
+    return s.to_json()
 
 
 @Cylleneus.task
