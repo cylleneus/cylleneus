@@ -32,7 +32,7 @@ class CylleneusResult(BaseModel):
 class CylleneusSearch(BaseModel):
     query: str
     collection: List[CylleneusWork]
-    minscore: int
+    minscore: int = None
     top: int
     start_time: str
     end_time: str
