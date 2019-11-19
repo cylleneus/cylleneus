@@ -1,12 +1,10 @@
-import os
+import json
 from typing import List
 
 from fastapi import FastAPI
 from pydantic import BaseModel
-from datetime import datetime
 from starlette.responses import JSONResponse
-from starlette.status import HTTP_200_OK, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST
-import json
+from starlette.status import HTTP_200_OK, HTTP_202_ACCEPTED
 
 from . import tasks
 
@@ -65,7 +63,6 @@ async def results(id: str):
 
     if result.ready():
         return json.loads(result.get())
-        # response = JSONResponse(content={"result": result.get()})
 
 
 @app.get("/index/", status_code=HTTP_200_OK)
