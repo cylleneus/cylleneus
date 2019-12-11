@@ -6,7 +6,7 @@ from engine.fields import Schema
 from engine.searching import CylleneusHit, CylleneusSearcher
 from utils import slugify
 
-from . import agldt, default, lasla, latin_library, perseus, perseus_xml, proiel, translation_alignments
+from . import agldt, atlas, default, lasla, latin_library, perseus, perseus_xml, proiel, translation_alignments
 from . import indexer
 
 
@@ -25,6 +25,13 @@ meta = {
         agldt.Preprocessor,
         agldt.core.glob,
         agldt.core.fetch
+    ),
+    'atlas':                  CorpusMeta(
+        atlas.DocumentSchema,
+        atlas.Tokenizer,
+        atlas.Preprocessor,
+        atlas.core.glob,
+        atlas.core.fetch
     ),
     'lasla':                  CorpusMeta(
         lasla.DocumentSchema,

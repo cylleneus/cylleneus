@@ -6,6 +6,7 @@
 
 import unittest
 from random import choice
+from datetime import datetime
 
 from corpus import Corpus
 from search import Searcher, Collection
@@ -61,9 +62,11 @@ class TestQueryTypes(unittest.TestCase):
             ("proiel", "/adverbial/", (1410, 1, 1)),
             ("proiel", "/adnominal argument/", (167, 1, 1)),
         ]
-        c, q, n = choice(queries)
-        corpus = Corpus(c)
-        clct = Collection(corpus.works)
-        searcher = Searcher(Collection(clct))
-        results = searcher.search(q)
-        assert n == results.count
+        for c, q, n in queries:
+            corpus = Corpus(c)
+            clct = Collection(corpus.works)
+            searcher = Searcher(Collection(clct))
+            t1 = datetime.now()
+            results = searcher.search(q)
+            t2 = datetime.now()
+            print(c, q, n, results.count, t2 - t1)

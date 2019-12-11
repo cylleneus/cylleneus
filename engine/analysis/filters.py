@@ -32,7 +32,7 @@ import re
 from itertools import chain
 
 from engine.analysis.acore import Composable
-from lang.latin.morphology import leipzig2wn
+from lang.morpho import leipzig2wn
 from latinwordnet import LatinWordNet
 from multiwordnet.wordnet import WordNet
 from whoosh.compat import next

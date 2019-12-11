@@ -13,7 +13,7 @@ class IndexingError(Exception):
 
 class Indexer:
     @classmethod
-    def docs_for(cls, corpus, author: str='*', title: str='*'):
+    def docs_for(cls, corpus, author: str = "*", title: str = "*"):
         paths = corpus.index_dir.glob(f"{slugify(author)}/{slugify(title)}")
         for path in paths:
             if engine.index.exists_in(path):
@@ -24,7 +24,9 @@ class Indexer:
         self._corpus = corpus
         self._work = work
         if work.author and work.title:
-            self._path = Path(self.corpus.index_dir / slugify(work.author) / slugify(work.title))
+            self._path = Path(
+                self.corpus.index_dir / slugify(work.author) / slugify(work.title)
+            )
         else:
             self._path = None
 
@@ -103,28 +105,33 @@ class Indexer:
             docix = self.corpus.doc_count_all
 
             kwargs = self.corpus.preprocessor.parse(path)
-            if 'author' not in kwargs and self.work.author:
-                kwargs['author'] = self.work.author
-            if 'title' not in kwargs and self.work.title:
-                kwargs['title'] = self.work.title
-            kwargs['corpus'] = self.corpus.name
-            kwargs['docix'] = docix
+            if "author" not in kwargs and self.work.author:
+                kwargs["author"] = self.work.author
+            if "title" not in kwargs and self.work.title:
+                kwargs["title"] = self.work.title
+            kwargs["corpus"] = self.corpus.name
+            kwargs["docix"] = docix
 
-            self.path = Path(self.corpus.index_dir / slugify(kwargs['author']) / slugify(kwargs['title']))
+            self.path = Path(
+                self.corpus.index_dir
+                / slugify(kwargs["author"])
+                / slugify(kwargs["title"])
+            )
             self.open()
 
-            writer = self.index.writer(
-                limitmb=4096,
-                procs=1,
-                multisegment=True
-            )
+            writer = self.index.writer(limitmb=4096, procs=1, multisegment=True)
             try:
-                print_debug(DEBUG_MEDIUM, "Add document: '{}', {}, {}, {} [{}]".format(
-                    self.corpus.name, docix, kwargs['author'], kwargs['title'], path))
+                print_debug(
+                    DEBUG_MEDIUM,
+                    "Add document: '{}', {}, {}, {} [{}]".format(
+                        self.corpus.name, docix, kwargs["author"], kwargs["title"], path
+                    ),
+                )
                 writer.add_document(**kwargs)
                 writer.commit()
             except queue.Empty as e:
                 pass
+
             return docix
 
     def from_string(self, content: str, **kwargs):
@@ -137,21 +144,28 @@ class Indexer:
             parsed = self.corpus.preprocessor.parse(content)
             kwargs.update(parsed)
 
-            self.path = Path(self.corpus.index_dir / slugify(kwargs['author']) / slugify(kwargs['title']))
+            self.path = Path(
+                self.corpus.index_dir
+                / slugify(kwargs["author"])
+                / slugify(kwargs["title"])
+            )
             self.open()
 
-            writer = self.index.writer(
-                limitmb=4096,
-                procs=1,
-                multisegment=True
-            )
+            writer = self.index.writer(limitmb=4096, procs=1, multisegment=True)
             try:
-                print_debug(DEBUG_HIGH, "Add document: '{}', {}, {}, {} [...]".format(
-                    self.corpus.name, docix, kwargs['author'], kwargs['title'],
-                    end='...'))
+                print_debug(
+                    DEBUG_HIGH,
+                    "Add document: '{}', {}, {}, {} [...]".format(
+                        self.corpus.name,
+                        docix,
+                        kwargs["author"],
+                        kwargs["title"],
+                        end="...",
+                    ),
+                )
                 writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
                 writer.commit()
-                print_debug(DEBUG_HIGH, 'ok')
+                print_debug(DEBUG_HIGH, "ok")
             except queue.Empty as e:
                 pass
             return docix

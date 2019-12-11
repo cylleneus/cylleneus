@@ -5,7 +5,7 @@ from engine.analysis.filters import Filter
 from corpus.perseus import mapping
 from latinwordnet import LatinWordNet
 from latinwordnet.latinwordnet import relation_types
-from lang.latin.morphology import leipzig2wn
+from lang.morpho import leipzig2wn
 from .core import relations
 
 
