@@ -173,6 +173,35 @@ class Search:
             self.run()
         return self._results
 
+    def results_to_json(self):
+        if self.results:
+            s = {
+                "query": self.spec,
+                "start": str(self.start_time),
+                "end":   str(self.end_time),
+                "count": self.count[0],
+            }
+            results = []
+            for hit, meta, _ in self.results:
+                r = {
+                    "corpus": hit["corpus"],
+                    "docix":  hit["docix"],
+                    "author": hit["author"],
+                    "title":  hit["title"],
+                    "urn":    hit["urn"],
+                    "meta":   {
+                        "start": {
+                            div: meta["start"][div] for div in meta["meta"].split("-")
+                        },
+                        "end":   {
+                            div: meta["end"][div] for div in meta["meta"].split("-")
+                        },
+                    },
+                }
+                results.append(r)
+            s["results"] = results
+            return s
+
     @property
     def highlights(self):
         if not self._highlights:
@@ -196,10 +225,7 @@ class Search:
             s = {
                 "query":      self.spec,
                 "collection": [
-                    {
-                        "corpus": work.corpus.name,
-                        "docix":  work.docix
-                    }
+                    {"corpus": work.corpus.name, "docix": work.docix}
                     for work in self.collection
                 ],
                 "minscore":   self.minscore,
