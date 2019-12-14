@@ -20,9 +20,10 @@ class Indexer:
                 ix = engine.index.open_dir(path, schema=corpus.schema)
                 yield from ix.reader().iter_docs()
 
-    def __init__(self, corpus, work):
+    def __init__(self, corpus, work, language='lat'):
         self._corpus = corpus
         self._work = work
+        self._language = language
         if work.author and work.title:
             self._path = Path(
                 self.corpus.index_dir / slugify(work.author) / slugify(work.title)

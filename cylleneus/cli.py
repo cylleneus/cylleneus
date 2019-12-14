@@ -204,7 +204,7 @@ def lexicon(corpus, fieldname):
             lexicon.update(list(searcher.lexicon(fieldname)))
     if lexicon:
         click.echo(f"[+] lexicon '{fieldname}' of '{corpus}': {len(lexicon)} items")
-        click.echo_via_pager('\n'.join([str(i) for i in lexicon]))
+        click.echo_via_pager('\n'.join([i.decode('utf8') for i in lexicon]))
     else:
         click.echo(f'[-] failed')
 
