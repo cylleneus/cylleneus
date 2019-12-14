@@ -9,6 +9,13 @@ from starlette.status import HTTP_200_OK, HTTP_202_ACCEPTED
 from . import tasks
 
 
+class CylleneusSource(BaseModel):
+    corpus: str
+    filename: str
+    author: str = None
+    title: str = None
+
+
 class CylleneusWork(BaseModel):
     corpus: str
     docix: int
@@ -65,7 +72,13 @@ async def results(id: str):
         return json.loads(result.get())
 
 
-@app.get("/index/", status_code=HTTP_200_OK)
-async def index(corpus: str):
-    result = tasks.index(corpus)
-    return JSONResponse(content={corpus: result})
+@app.get("/corpus/", status_code=HTTP_200_OK)
+async def corpus(c: str):
+    result = tasks.corpus(c)
+    return JSONResponse(content={c: result})
+
+
+@app.post("/index/", status_code=HTTP_200_OK)
+async def index(source: CylleneusSource):
+    result = tasks.index(source.corpus, source.filename, source.author, source.title)
+    return JSONResponse(content=result)
