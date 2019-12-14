@@ -33,9 +33,9 @@ from __future__ import division
 
 import copy
 import weakref
-from collections import namedtuple, defaultdict
+from collections import namedtuple, defaultdict, Counter
 from math import ceil
-from itertools import product
+from itertools import product, permutations
 
 import engine.collectors
 import engine.highlight
@@ -1899,9 +1899,11 @@ class CylleneusHit(Hit):
         return self._fields
 
     def filter_fragments(self, query, minscore: int = 1):
-        LWN = latinwordnet.LatinWordNet()
+        WN = latinwordnet.LatinWordNet()
 
-        termlists = term_lists(query, self.reader)
+        termlists = sorted(term_lists(query, self.reader))
+        term_field_counts = Counter([field for field, value in termlists[0]])
+
         fieldnames = set([term[0] for terms in termlists for term in terms])
         results = [
             fragment
@@ -1920,7 +1922,7 @@ class CylleneusHit(Hit):
             if not seen.get(xf, False):
                 f = copy.deepcopy(xf)
                 # FIXME: what is the correct look-ahead threshold?
-                for yf in results[i + 1: i + 100]:
+                for yf in results[i + 1: i + 50]:
                     if (
                         f != yf
                         and (f.overlaps(yf) or f.is_adjacent(yf))
@@ -2003,18 +2005,19 @@ class CylleneusHit(Hit):
                     semifinalists.update(matches_by_lemma[uri][lemma][group])
 
                 finalists = []
+                tt = permutations(
+                    sorted(
+                        [
+                            (semifinalist.fieldname, semifinalist.text.split("::")[0])
+                            for semifinalist in semifinalists
+                        ]
+                    ),
+                    r=len(termlists[0]),
+                )
+
                 if len(semifinalists) >= len(termlists[0]) and any(
                     [
-                        all(
-                            [
-                                (
-                                    semifinalist.fieldname,
-                                    semifinalist.text.split("::")[0],
-                                )
-                                in terms
-                                for semifinalist in semifinalists
-                            ]
-                        )
+                        any([all([item in terms for item in t]) for t in tt])
                         for terms in termlists
                     ]
                 ):
@@ -2026,9 +2029,7 @@ class CylleneusHit(Hit):
                                 uris.add(term[1].split("=")[0].split(":")[1])
                             elif term[0] == "synset":
                                 pos, offset = term[1].split("#")
-                                for synset in LWN.synsets(
-                                    pos=pos, offset=offset
-                                ).lemmas:
+                                for synset in WN.synsets(pos=pos, offset=offset).lemmas:
                                     for signification in synset["lemmas"]:
                                         lemmas.update(
                                             [
@@ -2041,11 +2042,12 @@ class CylleneusHit(Hit):
                                 uris.update([lemma["uri"] for lemma in lemmas])
                             elif term[0] == "semfield":
                                 code = term[1]
-                                for semfield in LWN.semfields(code=code).lemmas:
+                                for semfield in WN.semfields(code=code).lemmas:
                                     lemmas.update(
                                         [hdict(lemma) for lemma in semfield["lemmas"]]
                                     )
                                 uris.update([lemma["uri"] for lemma in lemmas])
+
                     for semifinalist in semifinalists:
                         if semifinalist.fieldname == "annotation":
                             if len(uris) > 0:
@@ -2058,20 +2060,50 @@ class CylleneusHit(Hit):
                                 finalists.append(semifinalist)
                         else:
                             finalists.append(semifinalist)
+
                 winners = []
+                tt = permutations(
+                    sorted(
+                        [
+                            (finalist.fieldname, finalist.text.split("::")[0])
+                            for finalist in finalists
+                        ]
+                    ),
+                    r=len(termlists[0]),
+                )
+
+                field_counts_by_meta = {}
+                for finalist in finalists:
+                    meta = hdict(finalist.meta)
+                    if meta not in field_counts_by_meta:
+                        field_counts_by_meta[meta] = Counter(
+                            [f.fieldname for f in finalists if hdict(f.meta) == meta]
+                        )
+
                 if len(finalists) >= len(termlists[0]) and any(
                     [
-                        all(
-                            [
-                                (finalist.fieldname, finalist.text.split("::")[0])
-                                in terms
-                                for finalist in finalists
-                            ]
-                        )
+                        any([all([item in terms for item in t]) for t in tt])
                         for terms in termlists
                     ]
                 ):
-                    winners = finalists
+                    meta_counts = Counter(
+                        [hdict(finalist.meta) for finalist in finalists]
+                    )
+
+                    winners = [
+                        finalist
+                        for finalist in finalists
+                        if meta_counts[hdict(finalist.meta)] >= len(termlists[0])
+                           and (finalist.fieldname, finalist.text.split("::")[0])
+                           in set([term for termlist in termlists for term in termlist])
+                           and all(
+                            [
+                                field_counts_by_meta[hdict(finalist.meta)][field]
+                                >= term_field_counts[field]
+                                for field in term_field_counts
+                            ]
+                        )
+                    ]
                 fragment.matches = winners
 
         filtered = []
