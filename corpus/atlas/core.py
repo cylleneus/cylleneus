@@ -6,33 +6,33 @@ import lxml.etree as et
 import settings
 
 # Glob pattern for indexing
-glob = '*.xml'
+glob = "*.xml"
 
 
 # Function to fetch text from corpus
 def fetch(work, meta, fragment):
-    with codecs.open(work.corpus.text_dir / Path(work.doc['filename']), 'rb') as fp:
+    with codecs.open(work.corpus.text_dir / Path(work.doc["filename"]), "rb") as fp:
         value = fp.read()
-    parser = et.XMLParser(encoding='utf-8')
+    parser = et.XMLParser(encoding="utf-8")
     doc = et.XML(value, parser=parser)
 
     # URN
-    urn = work.doc.get('urn', None)
+    urn = work.doc.get("urn", None)
 
-    divs = meta['meta'].split('-')
+    divs = meta["meta"].split("-")
 
     # Reference and hlite values
-    ref_start = ', '.join(
-        [f"{item}: {meta['start'][item]}" for item in meta['start'] if item in divs]
+    ref_start = ", ".join(
+        [f"{item}: {meta['start'][item]}" for item in meta["start"] if item in divs]
     )
-    ref_end = ', '.join(
-        [f"{item}: {meta['end'][item]}" for item in meta['end'] if item in divs]
+    ref_end = ", ".join(
+        [f"{item}: {meta['end'][item]}" for item in meta["end"] if item in divs]
     )
-    reference = '-'.join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    reference = "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
 
     # Collect text and context
-    start = int(meta['start']['sent_id'])
-    end = int(meta['end']['sent_id'])
+    start = int(meta["start"]["sent_id"])
+    end = int(meta["end"]["sent_id"])
     start_sentence = doc.find(f".//sentence[@id='{start}']")
     end_sentence = doc.find(f".//sentence[@id='{end}']")
 
@@ -40,42 +40,37 @@ def fetch(work, meta, fragment):
     current_sentence = start_sentence.getprevious()
     i = 0
     while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
-        tokens = [
-            token.get('form')
-            for token in current_sentence.findall('word')
-        ]
-        text = ''.join([
-            token + " "
-            if i + 1 < len(tokens) and tokens[i + 1] not in string.punctuation
-            else token
-            for i, token in enumerate(tokens)
-        ])
+        tokens = [token.get("form") for token in current_sentence.findall("word")]
+        text = "".join(
+            [
+                token + " "
+                if i + 1 < len(tokens) and tokens[i + 1] not in string.punctuation
+                else token
+                for i, token in enumerate(tokens)
+            ]
+        )
         pre.append(f"<pre>{text}</pre>")
         i += 1
         current_sentence = current_sentence.getprevious()
 
-    hlites = set([hlite[-1] for hlite in meta['hlites']])
+    hlites = set([hlite[-1] for hlite in meta["hlites"]])
 
     match = []
     current_sentence = start_sentence
     limit_sentence = end_sentence.getnext()
     while current_sentence != limit_sentence and current_sentence is not None:
         tokens = [
-            (token.get('id'), token.get('form'))
-            for token in current_sentence.findall('word')]
-        text = ''.join([
-            (f"<em>{token}</em>"
-             if id in hlites
-             else
-             f"{token}") + " "
-            if i + 1 < len(tokens) and tokens[i + 1][1] not in string.punctuation
-            else
-            (f"<em>{token}</em>"
-             if id in hlites
-             else
-             f"{token}")
-            for i, (id, token) in enumerate(tokens)
-        ])
+            (token.get("id"), token.get("form"))
+            for token in current_sentence.findall("word")
+        ]
+        text = "".join(
+            [
+                (f"<em>{token}</em>" if id in hlites else f"{token}") + " "
+                if i + 1 < len(tokens) and tokens[i + 1][1] not in string.punctuation
+                else (f"<em>{token}</em>" if id in hlites else f"{token}")
+                for i, (id, token) in enumerate(tokens)
+            ]
+        )
         match.append(f"<match>{text}</match>")
         current_sentence = current_sentence.getnext()
 
@@ -83,97 +78,96 @@ def fetch(work, meta, fragment):
     current_sentence = end_sentence.getnext()
     i = 0
     while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
-        tokens = [
-            token.get('form')
-            for token in current_sentence.findall('word')
-        ]
-        text = ''.join([
-            token + " "
-            if i + 1 < len(tokens) and tokens[i + 1] not in string.punctuation
-            else token
-            for i, token in enumerate(tokens)
-        ])
+        tokens = [token.get("form") for token in current_sentence.findall("word")]
+        text = "".join(
+            [
+                token + " "
+                if i + 1 < len(tokens) and tokens[i + 1] not in string.punctuation
+                else token
+                for i, token in enumerate(tokens)
+            ]
+        )
         post.append(f"<post>{text}</post>")
         i += 1
         current_sentence = current_sentence.getnext()
 
-    if 'poem' in divs or (len(divs) == 2 and divs[-1] in ['line', 'verse']):
-        joiner = '\n\n'
+    if "poem" in divs or (len(divs) == 2 and divs[-1] in ["line", "verse"]):
+        joiner = "\n\n"
     else:
-        joiner = ' '
+        joiner = " "
     parts = pre + match + post
-    text = f'{joiner}'.join(parts)
+    text = f"{joiner}".join(parts)
 
     return urn, reference, text
 
 
 # TODO: how to handle future periphrastics?
 def merge_compound(part: str, aux: str, morpho: str = None):
-    pos: str = 'v'
+    pos: str = "v"
     person = aux[1]
     number = part[2]
-    if part[3] == 'f':
+    if part[3] == "f":
         tense = aux[3]
-    elif part[3] == 'r':
-        if aux[3] in 'pr':
-            tense = 'r'
-        elif aux[3] in 'iu':
-            tense = 'u'
-        elif aux[3] == 'f':
-            tense = 't'
+    elif part[3] == "r":
+        if aux[3] in "pr":
+            tense = "r"
+        elif aux[3] in "iu":
+            tense = "u"
+        elif aux[3] == "f":
+            tense = "t"
     mood = aux[4]
     voice = part[5]
     gender = part[6]
-    case = '-'
-    group = morpho[8] if morpho else '-'
-    stem = morpho[9] if morpho else '-'
+    case = "-"
+    group = morpho[8] if morpho else "-"
+    stem = morpho[9] if morpho else "-"
     return f"{pos}{person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
 
 
 pos_convert = {
-    'n': 'n',
-    'v': 'v',
-    'a': 'a',
-    'r': 'p',  # preposition
-    'd': 'r',  # adverb
-    'p': 'o',  # pronoun
-    'u': '-',
-    'c': '-',
-    'g': '-',
-    '-': '-',
-    'l': '-',  # article
-    'x': '-',  # interrogative
-    'i': '-',  # interjection
-    'e': '-',  # exclamation
-    'm': 'a'  # numeral: or 'n'? ['ATR']
+    "n": "n",
+    "v": "v",
+    "a": "a",
+    "r": "p",  # preposition
+    "d": "r",  # adverb
+    "p": "o",  # pronoun
+    "u": "-",
+    "c": "-",
+    "g": "-",
+    "-": "-",
+    "l": "-",  # article
+    "x": "-",  # interrogative
+    "i": "-",  # interjection
+    "e": "-",  # exclamation
+    "m": "a",  # numeral: or 'n'? ['ATR']
 }
 
 
 def agldt2wn(agldt, morpho=None):  # optionally pass in a lemma's info for enrichment
     pos = pos_convert[agldt[0]]
-    if pos == 'v':
+    if pos == "v":
         person = agldt[1]
-    elif pos in 'ar':
+    elif pos in "ar":
         # degree
-        person = agldt[8] if agldt[8] not in '-_' else 'p'
-    elif pos == 'o' and morpho and morpho[0] == 'a':
+        person = agldt[8] if agldt[8] not in "-_" else "p"
+    elif pos == "o" and morpho and morpho[0] == "a":
         pos = morpho[0]
         person = morpho[1]
     else:
-        person = '-'
+        person = "-"
     number = agldt[2]
     tense = agldt[3]
     mood = agldt[4]  # FIXME: gerund, gerundive, supine?
     voice = agldt[5]
     gender = agldt[6]
     case = agldt[7]
-    group = morpho[8] if morpho and pos in 'nva' else '-'
-    stem = morpho[9] if morpho and pos in 'nva' else '-'
+    group = morpho[8] if morpho and pos in "nva" else "-"
+    stem = morpho[9] if morpho and pos in "nva" else "-"
     return f"{pos}{person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
 
 
 relations = {
-    "predicate":                                 'PRED',
+    "predicate":                                 "PRED",
     "hortatory subjunctive predicate":           "PRED-HORT",
     "deliberative subjunctive predicate":        "PRED-DELIB",
     "potential subjunctive predicate":           "PRED-POTENT",
