@@ -36,16 +36,17 @@ class Preprocessor(BasePreprocessor):
             'meta': meta
         }
         return {
-            'author': author,
-            'title': title,
-            'urn': urn,
-            'meta': meta,
-            'form': data,
-            'lemma': data,
-            'synset': data,
-            'annotation': data,
-            'semfield': data,
+            'author':       author,
+            'title':        title,
+            'language':     'lat',
+            'urn':          urn,
+            'meta':         meta,
+            'form':         data,
+            'lemma':        data,
+            'synset':       data,
+            'annotation':   data,
+            'semfield':     data,
             'morphosyntax': data,
-            'filename': file.name,
-            'datetime': datetime.now()
+            'filename':     file.name,
+            'datetime':     datetime.now()
         }

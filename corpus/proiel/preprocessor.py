@@ -25,16 +25,21 @@ class Preprocessor(BasePreprocessor):
         data = {'text': doc, 'meta': meta}
 
         return {
-            'urn': urn,
-            'author': author,
-            'title': title,
-            'meta': meta,
-            'form': data,
-            'lemma': data,
-            'synset': data,
-            'annotation': data,
-            'semfield': data,
+            'urn':          urn,
+            'author':       author,
+            'title':        title,
+            'language':     'lat' if doc.find(".//{http://www.tei-c.org/ns/1.0}source").get(
+                "{http://www.w3.org/XML/1998/namespace}language"
+            )
+                                     == "lat"
+                            else "grk",
+            'meta':         meta,
+            'form':         data,
+            'lemma':        data,
+            'synset':       data,
+            'annotation':   data,
+            'semfield':     data,
             'morphosyntax': data,
-            'filename': file.name,
-            'datetime': datetime.now()
+            'filename':     file.name,
+            'datetime':     datetime.now()
         }

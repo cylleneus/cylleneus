@@ -26,7 +26,7 @@ class Preprocessor(BasePreprocessor):
             'urn':          file.name.replace(".tb.xml", ""),
             'author':       author,
             'title':        title,
-            'language':     'grk',
+            'language':     'grk' if doc.get('{http://www.w3.org/XML/1998/namespace}lang') == 'grc' else 'lat',
             'meta':         meta,
             'form':         data,
             'lemma':        data,
