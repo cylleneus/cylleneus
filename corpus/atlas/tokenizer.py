@@ -38,7 +38,7 @@ class CachedTokenizer(Tokenizer):
             )
 
             if t.mode == "query":
-                t.original = data
+                t.original = t.text = data
                 yield t
             else:
                 self._cache = []
@@ -92,7 +92,7 @@ class CachedTokenizer(Tokenizer):
                             for i, div in enumerate(divs):
                                 meta[div] = refs[i]
                             meta["sent_id"] = sentence.get("id")
-                            meta["sent_pos"] = str(int(token.get("id")) - 1)
+                            meta["sent_pos"] = str(int(token.get("id")))
 
                             if curr_line and refs[-1] > curr_line:
                                 sect_pos = 0
