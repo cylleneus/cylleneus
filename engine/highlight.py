@@ -7,7 +7,7 @@ import engine.searching
 import settings
 import whoosh.highlight
 from natsort import natsorted
-from whoosh.compat import htmlescape
+from engine.compat import htmlescape
 
 
 class CylleneusFragment(object):

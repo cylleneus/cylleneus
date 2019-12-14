@@ -34,7 +34,7 @@ import tempfile
 from threading import Lock
 
 import settings
-from whoosh.compat import BytesIO, memoryview_
+from engine.compat import BytesIO, memoryview_
 from whoosh.filedb.structfile import BufferFile, StructFile
 from whoosh.index import EmptyIndexError, _DEF_INDEX_NAME
 from whoosh.util import random_name

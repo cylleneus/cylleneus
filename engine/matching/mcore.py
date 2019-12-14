@@ -51,8 +51,8 @@ method will return ``True``.
 
 from itertools import repeat
 
-from whoosh.compat import abstractmethod
-from whoosh.compat import izip
+from engine.compat import abstractmethod
+from engine.compat import izip
 
 
 # Exceptions

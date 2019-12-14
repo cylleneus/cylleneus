@@ -4,7 +4,11 @@ from datetime import datetime
 import settings
 from corpus.core import Corpus, Work
 from engine import scoring
-from engine.highlight import CylleneusBasicFragmentScorer, CylleneusDefaultFormatter, CylleneusPinpointFragmenter
+from engine.highlight import (
+    CylleneusBasicFragmentScorer,
+    CylleneusDefaultFormatter,
+    CylleneusPinpointFragmenter,
+)
 from engine.qparser.default import CylleneusQueryParser
 from engine.searching import CylleneusSearcher, HitRef
 from typing import Iterable
@@ -39,7 +43,6 @@ class Collection:
         for work in self.works:
             yield (work.corpus.name, work.docix)
 
-
     def __iter__(self):
         yield from self.works
 
@@ -51,7 +54,7 @@ class Collection:
 
 
 class Searcher:
-    def __init__(self, collection: Collection=None):
+    def __init__(self, collection: Collection = None):
         self._searches = []
         self._collection = collection
 
@@ -80,8 +83,11 @@ class Searcher:
     def history(self):
         return self.searches
 
+
 class Search:
-    def __init__(self, spec: str, collection: Collection, minscore=None, top=1000000, debug=False):
+    def __init__(
+        self, spec: str, collection: Collection, minscore=None, top=1000000, debug=False
+    ):
         self._spec = spec
         self._collection = collection
         self._minscore = minscore
@@ -94,27 +100,41 @@ class Search:
         self._count = None
         self._highlights = None
 
-        self._maxchars = 70     # width of one line
-        self._surround = 70 if 70 > settings.CHARS_OF_CONTEXT else settings.CHARS_OF_CONTEXT
+        self._maxchars = 70  # width of one line
+        self._surround = (
+            70 if 70 > settings.CHARS_OF_CONTEXT else settings.CHARS_OF_CONTEXT
+        )
 
     @classmethod
     def from_json(cls, s):
         obj = json.loads(s)
         s = Search(
-            spec=obj['spec'],
-            collection = Collection([Corpus(corpus).work_by_docix(docix) for corpus, docix in obj['collection']]),
-            minscore=obj['minscore'],
-            top=obj['top'],
+            spec=obj["spec"],
+            collection=Collection(
+                [
+                    Corpus(corpus).work_by_docix(docix)
+                    for corpus, docix in obj["collection"]
+                ]
+            ),
+            minscore=obj["minscore"],
+            top=obj["top"],
         )
-        s.start_time = datetime.fromisoformat(obj['start_time'])
-        s.end_time = datetime.fromisoformat(obj['end_time'])
-        s.maxchars = obj['maxchars']
-        s.surround = obj['surround']
-        s.count = obj['count']
+        s.start_time = datetime.fromisoformat(obj["start_time"])
+        s.end_time = datetime.fromisoformat(obj["end_time"])
+        s.maxchars = obj["maxchars"]
+        s.surround = obj["surround"]
+        s.count = obj["count"]
 
         hlites = []
-        for r in obj['results']:
-            href = HitRef(r['corpus'], r['author'], r['title'], r['urn'], r['reference'], r['text'])
+        for r in obj["results"]:
+            href = HitRef(
+                r["corpus"],
+                r["author"],
+                r["title"],
+                r["urn"],
+                r["reference"],
+                r["text"],
+            )
             hlites.append(href)
         s.highlights = hlites
         return s
@@ -125,7 +145,7 @@ class Search:
 
     @property
     def docixs(self):
-        return [(work.doc['corpus'], work.docix) for work in self.collection]
+        return [(work.doc["corpus"], work.docix) for work in self.collection]
 
     @property
     def docs(self):
@@ -159,8 +179,10 @@ class Search:
             self._highlights = []
             if self.results:
                 for hit, meta, fragment in self.results:
-                    c = Corpus(hit['corpus'])
-                    corpus, author, title, urn, reference, text = c.fetch(hit, meta, fragment)
+                    c = Corpus(hit["corpus"])
+                    corpus, author, title, urn, reference, text = c.fetch(
+                        hit, meta, fragment
+                    )
                     href = HitRef(corpus, author, title, urn, reference, text)
                     self._highlights.append(href)
         yield from self._highlights
@@ -172,25 +194,27 @@ class Search:
     def to_json(self):
         if self.results:
             s = {
-                "spec": self.spec,
-                "collection": [(work.corpus.name, work.docix) for work in self.collection],
-                "minscore": self.minscore,
-                "top": self.top,
+                "spec":       self.spec,
+                "collection": [
+                    (work.corpus.name, work.docix) for work in self.collection
+                ],
+                "minscore":   self.minscore,
+                "top":        self.top,
                 "start_time": str(self.start_time),
-                "end_time": str(self.end_time),
-                "maxchars": self.maxchars,
-                "surround": self.surround,
-                "count": self.count,
+                "end_time":   str(self.end_time),
+                "maxchars":   self.maxchars,
+                "surround":   self.surround,
+                "count":      self.count,
             }
             results = []
             for href in self.highlights:
                 r = {
-                    "corpus": href.corpus,
-                    "author": href.author,
-                    "title": href.title,
-                    "urn": href.urn,
+                    "corpus":    href.corpus,
+                    "author":    href.author,
+                    "title":     href.title,
+                    "urn":       href.urn,
                     "reference": href.reference,
-                    "text": href.text
+                    "text":      href.text,
                 }
                 results.append(r)
             s["results"] = results
@@ -235,16 +259,19 @@ class Search:
     def count(self):
         if not self._count:
             if self.results and len(self.results) > 0:
-                corpora = len(set([hit['corpus'] for hit, _, _ in self.results]))
-                docs = len(set([hit['docix'] for hit, _, _ in self.results]))
+                corpora = len(set([hit["corpus"] for hit, _, _ in self.results]))
+                docs = len(set([hit["docix"] for hit, _, _ in self.results]))
                 # The number of highlighted words in all fragments
-                matches = (sum(
-                    [
-                        len(set([tuple(hlite) for hlite in meta['hlites']]))
-                        for _, meta, _ in self.results
-                        if 'hlites' in meta
-                    ]
-                ) // self.query.nterms())
+                matches = (
+                    sum(
+                        [
+                            len(set([tuple(hlite) for hlite in meta["hlites"]]))
+                            for _, meta, _ in self.results
+                            if "hlites" in meta
+                        ]
+                    )
+                    // self.query.nterms()
+                )
                 self._count = matches, docs, corpora
             else:
                 self._count = 0, 0, 0
@@ -273,31 +300,31 @@ class Search:
                 print_debug(DEBUG_MEDIUM, "Query: {}".format(self.query))
 
                 reader = work.index.reader()
-                with CylleneusSearcher(reader,
-                                       weighting=scoring.NullWeighting
-                                       ) as searcher:
-                    results = searcher.search(self.query,
-                                              terms=True,
-                                              limit=None,
-                                              )
+                with CylleneusSearcher(
+                    reader, weighting=scoring.NullWeighting
+                ) as searcher:
+                    results = searcher.search(self.query, terms=True, limit=None, )
 
                     if results:
                         results.fragmenter = CylleneusPinpointFragmenter(
                             autotrim=True,
                             charlimit=None,
                             maxchars=self.maxchars,
-                            surround=self.surround
+                            surround=self.surround,
                         )
                         results.scorer = CylleneusBasicFragmentScorer()
                         results.formatter = CylleneusDefaultFormatter()
 
-                        for hit in sorted(results, key=lambda x: (x['corpus'], x['author'], x['title'])):
-                            if (hit['corpus'], hit['docix']) in self.docixs:
+                        for hit in sorted(
+                            results,
+                            key=lambda x: (x["corpus"], x["author"], x["title"]),
+                        ):
+                            if (hit["corpus"], hit["docix"]) in self.docixs:
                                 self.results.extend(
                                     hit.highlights(
-                                        fieldname='content',
+                                        fieldname="content",
                                         top=self.top,
-                                        minscore=self.minscore
+                                        minscore=self.minscore,
                                     )
                                 )
         self.end_time = datetime.now()

@@ -30,7 +30,7 @@ from engine.qparser.syntax import *
 import engine.query
 import engine.query.positional
 import whoosh.qparser
-from whoosh.compat import u, xrange
+from engine.compat import u, xrange
 from whoosh.qparser.taggers import FnTagger, RegexTagger
 
 

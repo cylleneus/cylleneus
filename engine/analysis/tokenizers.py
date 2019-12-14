@@ -36,7 +36,7 @@ from lang.latin import compound, jvmap, proper_names, punctuation, roman_to_arab
     replacements, editorial, exceptions, enclitics, PunktLatinCharsVars
 from lxml.etree import ElementTree
 from utils import flatten, stringify, nested_dict_iter
-from whoosh.compat import text_type, u
+from engine.compat import text_type, u
 from whoosh.util.text import rcompile
 
 default_pattern = rcompile(r"\w+(\.?\w+)*")

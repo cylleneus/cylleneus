@@ -37,7 +37,7 @@ import sys
 from time import time, sleep
 
 from engine import __version__
-from whoosh.compat import pickle, string_type
+from engine.compat import pickle, string_type
 from whoosh.legacy import toc_loaders
 from whoosh.system import _INT_SIZE, _FLOAT_SIZE, _LONG_SIZE
 

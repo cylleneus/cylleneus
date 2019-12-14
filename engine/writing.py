@@ -33,7 +33,7 @@ from bisect import bisect_right
 from contextlib import contextmanager
 
 from whoosh import columns
-from whoosh.compat import abstractmethod, bytes_type
+from engine.compat import abstractmethod, bytes_type
 from whoosh.externalsort import SortingPool
 from whoosh.fields import UnknownFieldError
 from whoosh.index import LockError

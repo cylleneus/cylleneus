@@ -33,8 +33,8 @@ from heapq import heapify, heapreplace, heappop, nlargest
 from math import log
 
 from whoosh import columns
-from whoosh.compat import abstractmethod
-from whoosh.compat import xrange, zip_, next, iteritems
+from engine.compat import abstractmethod
+from engine.compat import xrange, zip_, next, iteritems
 from whoosh.support.levenshtein import distance
 from whoosh.system import emptybytes
 

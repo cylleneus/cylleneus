@@ -25,7 +25,7 @@
 # those of the authors and should not be interpreted as representing official
 # policies, either expressed or implied, of Matt Chaput.
 
-from whoosh.compat import xrange
+from engine.compat import xrange
 
 from engine import matching
 from engine.query import qcore
