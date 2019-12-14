@@ -1919,8 +1919,8 @@ class CylleneusHit(Hit):
         for i, xf in enumerate(results):
             if not seen.get(xf, False):
                 f = copy.deepcopy(xf)
-                # FIXME: what is the correct look-ahead threshold?
-                for yf in results[i + 1: i + 100]:
+                # FIXME: what is the correct look-ahead threshold to capture all overlapping fragments?
+                for yf in results[i + 1: i + 32]:
                     if (
                         f != yf
                         and (f.overlaps(yf) or f.is_adjacent(yf))
