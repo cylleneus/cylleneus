@@ -118,3 +118,4 @@ class CachedTokenizer(Tokenizer):
                             yield t
 
                             start_char += len(form)
+                        sentence.clear()
