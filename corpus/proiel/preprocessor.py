@@ -10,36 +10,34 @@ from .core import AUTHOR_TAB
 
 class Preprocessor(BasePreprocessor):
     def parse(self, file: Path):
-        with codecs.open(file, 'rb') as f:
+        with codecs.open(file, "rb") as f:
             value = f.read()
-        parser = et.XMLParser(encoding='utf-8')
+        parser = et.XMLParser(encoding="utf-8")
         doc = et.XML(value, parser=parser)
 
-        _author = doc.find('source').find('author').text
-        _title = doc.find('source').find('title').text
+        _author = doc.find("source").find("author").text
+        _title = doc.find("source").find("title").text
 
-        author = AUTHOR_TAB[_author]['author']
-        title = AUTHOR_TAB[_author]['works'][_title]['title']
-        meta = AUTHOR_TAB[_author]['works'][_title]['meta']
-        urn = AUTHOR_TAB[_author]['works'][_title]['urn']
-        data = {'text': doc, 'meta': meta}
+        author = AUTHOR_TAB[_author]["author"]
+        title = AUTHOR_TAB[_author]["works"][_title]["title"]
+        meta = AUTHOR_TAB[_author]["works"][_title]["meta"]
+        urn = AUTHOR_TAB[_author]["works"][_title]["urn"]
+        data = {"text": doc, "meta": meta}
 
         return {
-            'urn':          urn,
-            'author':       author,
-            'title':        title,
-            'language':     'lat' if doc.find(".//{http://www.tei-c.org/ns/1.0}source").get(
-                "{http://www.w3.org/XML/1998/namespace}language"
-            )
-                                     == "lat"
+            "urn":          urn,
+            "author":       author,
+            "title":        title,
+            "language":     "lat"
+                            if doc.find(".//source").get("language") == "lat"
                             else "grk",
-            'meta':         meta,
-            'form':         data,
-            'lemma':        data,
-            'synset':       data,
-            'annotation':   data,
-            'semfield':     data,
-            'morphosyntax': data,
-            'filename':     file.name,
-            'datetime':     datetime.now()
+            "meta":         meta,
+            "form":         data,
+            "lemma":        data,
+            "synset":       data,
+            "annotation":   data,
+            "semfield":     data,
+            "morphosyntax": data,
+            "filename":     file.name,
+            "datetime":     datetime.now(),
         }

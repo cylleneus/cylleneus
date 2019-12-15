@@ -52,7 +52,7 @@ class Preprocessor(BasePreprocessor):
             "language":   doc.xpath(
                 "/tei:TEI/tei:text/tei:body/tei:div[@type='translation']",
                 namespaces={"tei": "http://www.tei-c.org/ns/1.0"},
-            ).get("{http://www.w3.org/XML/1998/namespace}lang"),
+            )[0].get("{http://www.w3.org/XML/1998/namespace}lang"),
             "translator": translator,
             "meta":       meta,
             "form":       data,
