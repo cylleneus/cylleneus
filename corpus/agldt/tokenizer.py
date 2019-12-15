@@ -36,7 +36,7 @@ class CachedTokenizer(Tokenizer):
 
                 if not tokenize:
                     t.original = ''
-                    for token in data.findall('.//token'):
+                    for token in data.iter('token'):
                         form = token.get('form')
                         if not form:
                             continue
@@ -52,8 +52,8 @@ class CachedTokenizer(Tokenizer):
                 else:
                     from corpus.agldt import agldt2wn
 
-                    for sentence in data['text'].findall('.//sentence'):
-                        for pos, token in enumerate(sentence.findall('.//word')):
+                    for sentence in data['text'].iter('sentence'):
+                        for pos, token in enumerate(sentence.iter('word')):
                             if token.get('artificial', False):
                                 continue
                             form = token.get('form')

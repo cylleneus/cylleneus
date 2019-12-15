@@ -46,7 +46,7 @@ class CachedTokenizer(Tokenizer):
 
                 if not tokenize:
                     t.original = ""
-                    for token in data["text"].iter(".//token"):
+                    for token in data["text"].iter("token"):
                         form = token.get("form")
                         if not form:
                             continue
@@ -60,10 +60,10 @@ class CachedTokenizer(Tokenizer):
                         t.endchar = start_char + len(t.original)
                     yield t
                 else:
-                    for sentence in data["text"].iter(".//sentence"):
+                    for sentence in data["text"].iter("sentence"):
                         sect_pos = -1
                         curr_line = None
-                        for pos, token in enumerate(sentence.iter(".//word")):
+                        for pos, token in enumerate(sentence.iter("word")):
                             if token.get("artificial", False):
                                 continue
 

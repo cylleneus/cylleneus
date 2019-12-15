@@ -34,7 +34,7 @@ class CachedTokenizer(Tokenizer):
             else:
                 if not tokenize:
                     t.original = ''
-                    for token in data.findall('.//token'):
+                    for token in data.iter('token'):
                         form = token.get('form')
                         if not form:
                             continue
@@ -53,8 +53,8 @@ class CachedTokenizer(Tokenizer):
                     self._cache = []
                     self._docix = kwargs.get('docix', None)
 
-                    for sentence in data['text'].findall('.//sentence'):
-                        for pos, token in enumerate(sentence.findall('.//token')):
+                    for sentence in data['text'].iter('sentence'):
+                        for pos, token in enumerate(sentence.iter('token')):
                             form = token.get('form')
                             if not form:
                                 continue
