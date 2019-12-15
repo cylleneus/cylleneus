@@ -21,7 +21,7 @@ class Preprocessor(BasePreprocessor):
         meta = AUTHOR_TAB[auth_code]['works'][work_code]['meta']
 
         data = {'text': doc, 'meta': meta}
-
+        print(doc.get('{http://www.w3.org/XML/1998/namespace}lang'))
         return {
             'urn':          file.name.replace(".tb.xml", ""),
             'author':       author,
