@@ -34,6 +34,7 @@ from itertools import chain
 from engine.analysis.acore import Composable
 from lang.morpho import leipzig2wn
 from latinwordnet import LatinWordNet
+from greekwordnet import GreekWordNet
 from multiwordnet.wordnet import WordNet
 from engine.compat import next
 from whoosh.util.text import rcompile
