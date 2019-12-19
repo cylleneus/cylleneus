@@ -73,8 +73,8 @@ class CachedTokenizer(Tokenizer):
                             t.text = form
 
                             lemma = token.get("lemma")
-                            if lemma in (".", ",", ";", "·", "punc1", "comma1", "PERIOD1"):
-                                continue
+                            if lemma in ("", "???", ".", ",", ";", "·", "punc1", "comma1", "PERIOD1"):
+                                t.lemma = None
                             t.lemma = lemma
 
                             t.morpho = agldt2wn(token.get("postag"))
