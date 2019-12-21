@@ -150,7 +150,7 @@ class Indexer:
                 / slugify(kwargs["author"])
                 / slugify(kwargs["title"])
             )
-            self.open()
+            self.open(indexname=f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}")
 
             writer = self.index.writer(limitmb=4096, procs=1, multisegment=True)
             try:
