@@ -5,7 +5,7 @@ from pathlib import Path
 import engine.index
 from engine.writing import CLEAR
 from utils import DEBUG_HIGH, DEBUG_MEDIUM, print_debug, slugify
-
+from cylleneus import __version__
 
 class IndexingError(Exception):
     pass
@@ -81,16 +81,16 @@ class Indexer:
     def optimize(self):
         self.index.optimize()
 
-    def create(self):
+    def create(self, indexname: str = None):
         if not self.index:
             if not self.path.exists():
                 self.path.mkdir(parents=True)
-            engine.index.create_in(self.path, schema=self.corpus.schema)
+            engine.index.create_in(self.path, schema=self.corpus.schema, indexname=indexname)
 
-    def open(self):
+    def open(self, indexname: str = None):
         if not engine.index.exists_in(self.path):
-            self.create()
-        self.index = engine.index.open_dir(self.path, schema=self.corpus.schema)
+            self.create(indexname=indexname)
+        self.index = engine.index.open_dir(self.path, schema=self.corpus.schema, indexname=indexname)
 
     def update(self, path: Path):
         if self.path and self.path.exists():
@@ -118,7 +118,7 @@ class Indexer:
                 / slugify(kwargs["author"])
                 / slugify(kwargs["title"])
             )
-            self.open()
+            self.open(indexname=f"v{__version__}_{self.corpus.name}_{docix}")
 
             writer = self.index.writer(limitmb=4096, procs=1, multisegment=True)
             try:
