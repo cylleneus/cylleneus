@@ -5,7 +5,7 @@ from pathlib import Path
 import engine.index
 from engine.writing import CLEAR
 from utils import DEBUG_HIGH, DEBUG_MEDIUM, print_debug, slugify
-from cylleneus import __version__
+
 
 class IndexingError(Exception):
     pass
@@ -118,7 +118,7 @@ class Indexer:
                 / slugify(kwargs["author"])
                 / slugify(kwargs["title"])
             )
-            self.open(indexname=f"v{__version__}_{self.corpus.name}_{docix}")
+            self.open(indexname=f"{self.corpus.name}_{kwargs['author']}_{kwargs['title']}_{docix}")
 
             writer = self.index.writer(limitmb=4096, procs=1, multisegment=True)
             try:
