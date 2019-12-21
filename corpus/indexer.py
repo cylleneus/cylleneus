@@ -118,7 +118,7 @@ class Indexer:
                 / slugify(kwargs["author"])
                 / slugify(kwargs["title"])
             )
-            self.open(indexname=f"{self.corpus.name}_{kwargs['author']}_{kwargs['title']}_{docix}")
+            self.open(indexname=f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}")
 
             writer = self.index.writer(limitmb=4096, procs=1, multisegment=True)
             try:
@@ -155,18 +155,17 @@ class Indexer:
             writer = self.index.writer(limitmb=4096, procs=1, multisegment=True)
             try:
                 print_debug(
-                    DEBUG_HIGH,
+                    DEBUG_MEDIUM,
                     "Add document: '{}', {}, {}, {} [...]".format(
                         self.corpus.name,
                         docix,
                         kwargs["author"],
                         kwargs["title"],
-                        end="...",
                     ),
                 )
                 writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
                 writer.commit()
-                print_debug(DEBUG_HIGH, "ok")
             except queue.Empty as e:
                 pass
+
             return docix

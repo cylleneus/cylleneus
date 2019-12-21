@@ -182,6 +182,8 @@ def create(corpus, destructive):
         for file in c.text_dir.glob(c.glob):
             w = Work(corpus=c)
             _ = w.indexer.from_file(file)
+
+            w.indexer.open()
             w.indexer.optimize()
 
     ndocs = c.doc_count_all
