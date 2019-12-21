@@ -34,14 +34,15 @@ from __future__ import division
 import os.path
 import re
 import sys
-from time import time, sleep
+from time import sleep, time
 
 from engine import __version__
 from engine.compat import pickle, string_type
-from whoosh.legacy import toc_loaders
-from whoosh.system import _INT_SIZE, _FLOAT_SIZE, _LONG_SIZE
-
 from engine.fields import ensure_schema
+from engine.filedb.filestore import FileStorage
+from whoosh.legacy import toc_loaders
+from whoosh.system import _FLOAT_SIZE, _INT_SIZE, _LONG_SIZE
+from pathlib import Path
 
 _DEF_INDEX_NAME = "MAIN"
 _CURRENT_TOC_VERSION = -111
@@ -82,6 +83,7 @@ class EmptyIndexError(IndexError):
 
 # Convenience functions
 
+
 def create_in(dirname, schema, indexname=None):
     """Convenience function to create an index in a directory. Takes care of
     creating a FileStorage object for you.
@@ -95,11 +97,9 @@ def create_in(dirname, schema, indexname=None):
     :returns: :class:`Index`
     """
 
-    from engine.filedb.filestore import FileStorage
-
+    storage = FileStorage(dirname)
     if not indexname:
         indexname = _DEF_INDEX_NAME
-    storage = FileStorage(dirname)
     return FileIndex.create(storage, schema, indexname)
 
 
@@ -115,11 +115,12 @@ def open_dir(dirname, indexname=None, readonly=False, schema=None):
         this if you have multiple indexes within the same storage object.
     """
 
-    from engine.filedb.filestore import FileStorage
-
-    if indexname is None:
-        indexname = _DEF_INDEX_NAME
     storage = FileStorage(dirname, readonly=readonly)
+    if indexname is None:
+        tocname = list(Path(dirname).glob("*.toc"))[0].name.replace(".toc", "")
+        indexname = "_".join(
+            [el for el in tocname.split("_") if el and not el.isnumeric()]
+        )
     return FileIndex(storage, schema=schema, indexname=indexname)
 
 
@@ -169,6 +170,7 @@ def version_in(dirname, indexname=None):
     """
 
     from engine.filedb.filestore import FileStorage
+
     storage = FileStorage(dirname)
     return version(storage, indexname=indexname)
 
@@ -193,7 +195,10 @@ def version(storage, indexname=None):
 
     try:
         if indexname is None:
-            indexname = _DEF_INDEX_NAME
+            tocname = list(Path(storage.folder).glob("*.toc"))[0].name.replace(".toc", "")
+            indexname = "_".join(
+                [el for el in tocname.split("_") if el and not el.isnumeric()]
+            )
 
         ix = storage.open_index(indexname)
         return (ix.release, ix.version)
@@ -203,6 +208,7 @@ def version(storage, indexname=None):
 
 
 # Index base class
+
 
 class Index(object):
     """Represents an indexed collection of documents.
@@ -304,6 +310,7 @@ class Index(object):
         """
 
         from engine.searching import CylleneusSearcher
+
         return CylleneusSearcher(self.reader(), fromindex=self, **kwargs)
 
     def field_length(self, fieldname):
@@ -355,6 +362,7 @@ class Index(object):
 
 
 # Codec-based index implementation
+
 
 def clean_files(storage, indexname, gen, segments):
     # Attempts to remove unused index files (called when a new generation
@@ -413,8 +421,7 @@ class FileIndex(Index):
         return cls(storage, schema, indexname)
 
     def __repr__(self):
-        return "%s(%r, %r)" % (self.__class__.__name__,
-                               self.storage, self.indexname)
+        return "%s(%r, %r)" % (self.__class__.__name__, self.storage, self.indexname)
 
     def close(self):
         pass
@@ -445,9 +452,11 @@ class FileIndex(Index):
     def writer(self, procs=1, **kwargs):
         if procs > 1:
             from engine.multiproc import MpWriter
+
             return MpWriter(self, procs=procs, **kwargs)
         else:
             from engine.writing import SegmentWriter
+
             return SegmentWriter(self, **kwargs)
 
     def lock(self, name):
@@ -507,8 +516,9 @@ class FileIndex(Index):
                     del reusable[segid]
                     return r
                 else:
-                    return SegmentReader(storage, schema, segment,
-                                         generation=generation)
+                    return SegmentReader(
+                        storage, schema, segment, generation=generation
+                    )
 
             if len(segments) == 1:
                 # This index has one segment, so return a SegmentReader object
@@ -531,8 +541,13 @@ class FileIndex(Index):
             # Read the information from the TOC file
             try:
                 info = self._read_toc()
-                return self._reader(self.storage, info.schema, info.segments,
-                                    info.generation, reuse=reuse)
+                return self._reader(
+                    self.storage,
+                    info.schema,
+                    info.segments,
+                    info.generation,
+                    reuse=reuse,
+                )
             except IOError:
                 # Presume that we got a "file not found error" because a writer
                 # deleted one of the files just as we were trying to open it,
@@ -547,13 +562,20 @@ class FileIndex(Index):
 
 # TOC class
 
+
 class TOC(object):
     """Object representing the state of the index after a commit. Essentially
     a container for the index's schema and the list of segment objects.
     """
 
-    def __init__(self, schema, segments, generation,
-                 version=_CURRENT_TOC_VERSION, release=__version__):
+    def __init__(
+        self,
+        schema,
+        segments,
+        generation,
+        version=_CURRENT_TOC_VERSION,
+        release=__version__,
+    ):
         self.schema = schema
         self.segments = segments
         self.generation = generation
@@ -602,8 +624,9 @@ class TOC(object):
         if gen is None:
             gen = cls._latest_generation(storage, indexname)
             if gen < 0:
-                raise EmptyIndexError("Index %r does not exist in %r"
-                                      % (indexname, storage))
+                raise EmptyIndexError(
+                    "Index %r does not exist in %r" % (indexname, storage)
+                )
 
         # Read the content of this index from the .toc file.
         tocfilename = cls._filename(indexname, gen)
@@ -612,9 +635,10 @@ class TOC(object):
         def check_size(name, target):
             sz = stream.read_varint()
             if sz != target:
-                raise IndexError("Index was created on different architecture:"
-                                 " saved %s = %s, this computer = %s"
-                                 % (name, sz, target))
+                raise IndexError(
+                    "Index was created on different architecture:"
+                    " saved %s = %s, this computer = %s" % (name, sz, target)
+                )
 
         check_size("int", _INT_SIZE)
         check_size("long", _LONG_SIZE)
@@ -624,16 +648,14 @@ class TOC(object):
             raise IndexError("Number misread: byte order problem")
 
         version = stream.read_int()
-        release = (stream.read_varint(), stream.read_varint(),
-                   stream.read_varint())
+        release = (stream.read_varint(), stream.read_varint(), stream.read_varint())
 
         if version != _CURRENT_TOC_VERSION:
             if version in toc_loaders:
                 loader = toc_loaders[version]
                 schema, segments = loader(stream, gen, schema, version)
             else:
-                raise IndexVersionError("Can't read format %s" % version,
-                                        version)
+                raise IndexVersionError("Can't read format %s" % version, version)
         else:
             # If the user supplied a schema object with the constructor, don't
             # load the pickled schema from the saved index.
@@ -659,7 +681,7 @@ class TOC(object):
 
         # Use a temporary file for atomic write.
         tocfilename = self._filename(indexname, self.generation)
-        tempfilename = '%s.%s' % (tocfilename, time())
+        tempfilename = "%s.%s" % (tocfilename, time())
         stream = storage.create_file(tempfilename)
 
         stream.write_varint(_INT_SIZE)
