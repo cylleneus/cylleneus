@@ -299,34 +299,35 @@ class Search:
                 self.query = parser.parse(self.spec, debug=debug)
                 print_debug(DEBUG_MEDIUM, "Query: {}".format(self.query))
 
-                reader = work.index.reader()
-                with CylleneusSearcher(
-                    reader, weighting=scoring.NullWeighting
-                ) as searcher:
-                    results = searcher.search(self.query, terms=True, limit=None, )
+                for ix in work.indexes:
+                    reader = ix.reader()
+                    with CylleneusSearcher(
+                        reader, weighting=scoring.NullWeighting
+                    ) as searcher:
+                        results = searcher.search(self.query, terms=True, limit=None, )
 
-                    if results:
-                        results.fragmenter = CylleneusPinpointFragmenter(
-                            autotrim=True,
-                            charlimit=None,
-                            maxchars=self.maxchars,
-                            surround=self.surround,
-                        )
-                        results.scorer = CylleneusBasicFragmentScorer()
-                        results.formatter = CylleneusDefaultFormatter()
+                        if results:
+                            results.fragmenter = CylleneusPinpointFragmenter(
+                                autotrim=True,
+                                charlimit=None,
+                                maxchars=self.maxchars,
+                                surround=self.surround,
+                            )
+                            results.scorer = CylleneusBasicFragmentScorer()
+                            results.formatter = CylleneusDefaultFormatter()
 
-                        for hit in sorted(
-                            results,
-                            key=lambda x: (x["corpus"], x["author"], x["title"]),
-                        ):
-                            if (hit["corpus"], hit["docix"]) in self.docixs:
-                                self.results.extend(
-                                    hit.highlights(
-                                        fieldname="content",
-                                        top=self.top,
-                                        minscore=self.minscore,
+                            for hit in sorted(
+                                results,
+                                key=lambda x: (x["corpus"], x["author"], x["title"]),
+                            ):
+                                if (hit["corpus"], hit["docix"]) in self.docixs:
+                                    self.results.extend(
+                                        hit.highlights(
+                                            fieldname="content",
+                                            top=self.top,
+                                            minscore=self.minscore,
+                                        )
                                     )
-                                )
         self.end_time = datetime.now()
 
         if self.results:

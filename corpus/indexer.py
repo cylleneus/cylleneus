@@ -16,14 +16,19 @@ class Indexer:
     def docs_for(cls, corpus, author: str = "*", title: str = "*"):
         paths = corpus.index_dir.glob(f"{slugify(author)}/{slugify(title)}")
         for path in paths:
-            if engine.index.exists_in(path):
-                ix = engine.index.open_dir(path, schema=corpus.schema)
-                yield from ix.reader().iter_docs()
+            indexes = Path(path).glob('*.toc')
+            for index in indexes:
+                indexname = '_'.join(index.name.replace('.toc', '').split('_')[1:5])
+                if engine.index.exists_in(path, indexname=indexname):
+                    ix = engine.index.open_dir(path, schema=corpus.schema, indexname=indexname)
+                    yield from ix.reader().iter_docs()
 
     def __init__(self, corpus, work, language='lat'):
         self._corpus = corpus
         self._work = work
         self._language = language
+        self._indexes = []
+
         if work.author and work.title:
             self._path = Path(
                 self.corpus.index_dir / slugify(work.author) / slugify(work.title)
@@ -31,10 +36,13 @@ class Indexer:
         else:
             self._path = None
 
-        if self.path and engine.index.exists_in(self.path):
-            self._index = engine.index.open_dir(self.path, schema=self.corpus.schema)
-        else:
-            self._index = None
+        if self.path:
+            indexes = Path(self.path).glob('*.toc')
+            for index in indexes:
+                indexname = '_'.join(index.name.replace('.toc', '').split('_')[1:5])
+                if engine.index.exists_in(self.path, indexname=indexname):
+                    ix = engine.index.open_dir(self.path, schema=corpus.schema, indexname=indexname)
+                    self._indexes.append(ix)
 
     @property
     def work(self):
@@ -49,13 +57,13 @@ class Indexer:
         self._corpus = cp
 
     @property
-    def index(self):
-        if self._index:
-            return self._index
+    def indexes(self):
+        if self._indexes:
+            return self._indexes
 
-    @index.setter
-    def index(self, ix):
-        self._index = ix
+    @indexes.setter
+    def indexes(self, ixs):
+        self._indexes = ixs
 
     @property
     def path(self):
@@ -67,30 +75,33 @@ class Indexer:
         self._path = p
 
     def iter_docs(self):
-        yield from self.index.reader().iter_docs()
+        for ix in self.indexes:
+            yield from ix.reader().iter_docs()
 
     def clear(self):
-        with self.index.writer() as writer:
-            writer.commit(mergetype=CLEAR)
+        for ix in self.indexes:
+            with ix.writer() as writer:
+                writer.commit(mergetype=CLEAR)
 
     def destroy(self):
         if self.path and self.path.exists():
             shutil.rmtree(self.path)
-            self._index = None
+            self._indexes = []
 
     def optimize(self):
-        self.index.optimize()
+        for ix in self.indexes:
+            ix.optimize()
 
     def create(self, indexname: str = None):
-        if not self.index:
-            if not self.path.exists():
-                self.path.mkdir(parents=True)
-            engine.index.create_in(self.path, schema=self.corpus.schema, indexname=indexname)
+        if not self.path.exists():
+            self.path.mkdir(parents=True)
+        engine.index.create_in(self.path, schema=self.corpus.schema, indexname=indexname)
 
-    def open(self, indexname: str = None):
-        if not engine.index.exists_in(self.path):
+    def open(self, indexname: str):
+        if not engine.index.exists_in(self.path, indexname=indexname):
             self.create(indexname=indexname)
-        self.index = engine.index.open_dir(self.path, schema=self.corpus.schema, indexname=indexname)
+        ix = engine.index.open_dir(self.path, schema=self.corpus.schema, indexname=indexname)
+        return ix
 
     def update(self, path: Path):
         if self.path and self.path.exists():
@@ -118,9 +129,10 @@ class Indexer:
                 / slugify(kwargs["author"])
                 / slugify(kwargs["title"])
             )
-            self.open(indexname=f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}")
+            ix = self.open(indexname=f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}"
+                                     f"_{docix}")
 
-            writer = self.index.writer(limitmb=4096, procs=1, multisegment=True)
+            writer = ix.writer(limitmb=4096, procs=1, multisegment=True)
             try:
                 print_debug(
                     DEBUG_MEDIUM,
@@ -150,9 +162,10 @@ class Indexer:
                 / slugify(kwargs["author"])
                 / slugify(kwargs["title"])
             )
-            self.open(indexname=f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}")
+            ix = self.open(indexname=f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}"
+                                     f"_{docix}")
 
-            writer = self.index.writer(limitmb=4096, procs=1, multisegment=True)
+            writer = ix.writer(limitmb=4096, procs=1, multisegment=True)
             try:
                 print_debug(
                     DEBUG_MEDIUM,

@@ -160,7 +160,7 @@ def add(corpus, path, author, title):
         pre_ndocs = c.doc_count_all
 
         w = Work(c, author, title)
-        w.indexer.from_file(Path(path))
+        _ = w.indexer.from_file(Path(path))
 
     post_ndocs = c.doc_count_all
     ndocs = post_ndocs-pre_ndocs

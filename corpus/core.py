@@ -167,8 +167,9 @@ class Corpus:
 
     def delete_by_ix(self, docix: int):
         for ixr in self.indexers:
-            if docix in ixr.index.reader().all_doc_ixs():
-                ixr.destroy()
+            for ix in ixr.indexes:
+                if docix in ix.reader().all_doc_ixs():
+                    ixr.destroy()
 
     @property
     def doc_count_all(self):
@@ -177,7 +178,8 @@ class Corpus:
     def all_doc_ixs(self):
         docixs = []
         for ixr in self.indexers:
-            docixs.extend(ixr.index.reader().all_doc_ixs())
+            for ix in ixr.indexes:
+                docixs.extend(ix.reader().all_doc_ixs())
         return docixs
 
     def clear(self):
@@ -222,12 +224,14 @@ class Corpus:
     @property
     def readers(self):
         for ixr in self.indexers:
-            if ixr.index:
-                yield ixr.index.reader()
+            if ixr.indexes:
+                for ix in ixr.indexes:
+                    yield ix.reader()
 
     def readers_for(self, author: str = "*", title: str = "*"):
         for ixr in self.indexers_for(author, title):
-            yield ixr.index.reader()
+            for ix in ixr.indexes:
+                yield ix.reader()
 
     def reader_for_docix(self, docix: int):
         for reader in self.readers:
@@ -313,7 +317,7 @@ class Work:
 
     @property
     def is_searchable(self):
-        return self.corpus.schema and self.index
+        return self.corpus.schema and self.indexes
 
     @property
     def language(self):
@@ -324,8 +328,8 @@ class Work:
         return self._indexer
 
     @property
-    def index(self):
-        return self.indexer.index
+    def indexes(self):
+        return self.indexer.indexes
 
     @property
     def author(self):

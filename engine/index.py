@@ -34,6 +34,7 @@ from __future__ import division
 import os.path
 import re
 import sys
+from pathlib import Path
 from time import sleep, time
 
 from engine import __version__
@@ -42,7 +43,6 @@ from engine.fields import ensure_schema
 from engine.filedb.filestore import FileStorage
 from whoosh.legacy import toc_loaders
 from whoosh.system import _FLOAT_SIZE, _INT_SIZE, _LONG_SIZE
-from pathlib import Path
 
 _DEF_INDEX_NAME = "MAIN"
 _CURRENT_TOC_VERSION = -111
@@ -82,8 +82,6 @@ class EmptyIndexError(IndexError):
 
 
 # Convenience functions
-
-
 def create_in(dirname, schema, indexname=None):
     """Convenience function to create an index in a directory. Takes care of
     creating a FileStorage object for you.
@@ -98,8 +96,9 @@ def create_in(dirname, schema, indexname=None):
     """
 
     storage = FileStorage(dirname)
-    if not indexname:
-        indexname = _DEF_INDEX_NAME
+    if indexname is None:
+        tocname = list(Path(dirname).glob("*.toc"))[0].name.replace(".toc", "")
+        indexname = "_".join([el for el in tocname.split("_")[1:5]])
     return FileIndex.create(storage, schema, indexname)
 
 
@@ -118,9 +117,7 @@ def open_dir(dirname, indexname=None, readonly=False, schema=None):
     storage = FileStorage(dirname, readonly=readonly)
     if indexname is None:
         tocname = list(Path(dirname).glob("*.toc"))[0].name.replace(".toc", "")
-        indexname = "_".join(
-            [el for el in tocname.split("_") if el and not el.isnumeric()]
-        )
+        indexname = "_".join([el for el in tocname.split("_")[1:5]])
     return FileIndex(storage, schema=schema, indexname=indexname)
 
 
@@ -195,10 +192,10 @@ def version(storage, indexname=None):
 
     try:
         if indexname is None:
-            tocname = list(Path(storage.folder).glob("*.toc"))[0].name.replace(".toc", "")
-            indexname = "_".join(
-                [el for el in tocname.split("_") if el and not el.isnumeric()]
+            tocname = list(Path(storage.folder).glob("*.toc"))[0].name.replace(
+                ".toc", ""
             )
+            indexname = "_".join([el for el in tocname.split("_")[1:5]])
 
         ix = storage.open_index(indexname)
         return (ix.release, ix.version)
@@ -208,8 +205,6 @@ def version(storage, indexname=None):
 
 
 # Index base class
-
-
 class Index(object):
     """Represents an indexed collection of documents.
     """
@@ -362,8 +357,6 @@ class Index(object):
 
 
 # Codec-based index implementation
-
-
 def clean_files(storage, indexname, gen, segments):
     # Attempts to remove unused index files (called when a new generation
     # is created). If existing Index and/or reader objects have the files
@@ -561,8 +554,6 @@ class FileIndex(Index):
 
 
 # TOC class
-
-
 class TOC(object):
     """Object representing the state of the index after a commit. Essentially
     a container for the index's schema and the list of segment objects.
