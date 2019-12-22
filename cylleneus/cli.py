@@ -183,9 +183,6 @@ def create(corpus, destructive):
             w = Work(corpus=c)
             _ = w.indexer.from_file(file)
 
-            w.indexer.open()
-            w.indexer.optimize()
-
     ndocs = c.doc_count_all
     if ndocs > 0:
         click.echo(f"[+] created '{corpus}' with {ndocs} document{'s' if ndocs > 1 else ''}")

@@ -38,8 +38,10 @@ class Indexer:
 
         if self.path:
             indexes = Path(self.path).glob('*.toc')
+
             for index in indexes:
-                indexname = '_'.join(index.name.replace('.toc', '').split('_')[1:5])
+                indexname = ('_'.join(index.name.replace('.toc', '').rsplit('_', maxsplit=4)[:4])).strip('_')
+
                 if engine.index.exists_in(self.path, indexname=indexname):
                     ix = engine.index.open_dir(self.path, schema=corpus.schema, indexname=indexname)
                     self._indexes.append(ix)
@@ -136,8 +138,8 @@ class Indexer:
             try:
                 print_debug(
                     DEBUG_MEDIUM,
-                    "Add document: '{}', {}, {}, {} [{}]".format(
-                        self.corpus.name, docix, kwargs["author"], kwargs["title"], path
+                    "Add document: {}, {} [{}] to '{}' [{}]".format(
+                        kwargs["author"], kwargs["title"], path, self.corpus.name, docix
                     ),
                 )
                 writer.add_document(**kwargs)
