@@ -293,16 +293,15 @@ class Work:
                 self._language = self.doc["language"]
         else:
             if author and title:
-                docs = list(indexer.Indexer.docs_for(corpus, author, title))
+                docs = [doc[1] for doc in indexer.Indexer.docs_for(corpus, author, title)]
                 if docs:
-                    doc = list(indexer.Indexer.docs_for(corpus, author, title))[0][1]
-                    self._doc = doc
-                    self._docix = doc["docix"]
-                    self._author = doc["author"]
-                    self._title = doc["title"]
-                    self._urn = doc.get("urn", None)
-                    self._filename = doc.get("filename", None)
-                    self._timestamp = doc.get("datetime", None)
+                    self._doc = docs
+                    self._docix = [doc["docix"] for doc in docs]
+                    self._author = self.doc[0]["author"]
+                    self._title = self.doc[0]["title"]
+                    self._urn = self.doc[0].get("urn", None)
+                    self._filename = [doc.get("filename", None) for doc in self.doc]
+                    self._timestamp = self.doc[0].get("datetime", None)
                 else:
                     self._doc = self._urn = self._filename = self._timestamp = None
                     self._author = author
@@ -349,7 +348,7 @@ class Work:
     @property
     def docix(self):
         if not self.doc:
-            self._docix = list(self.indexer.iter_docs())[0][0]
+            self._docix = [doc[0]["docix"] for doc in self.indexer.iter_docs()]
         return self._docix
 
     @property

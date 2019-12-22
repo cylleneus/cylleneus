@@ -145,7 +145,11 @@ class Search:
 
     @property
     def docixs(self):
-        return [(work.doc["corpus"], work.docix) for work in self.collection]
+        return [
+            (doc["corpus"], doc["docix"])
+            for work in self.collection
+            for doc in work.doc
+        ]
 
     @property
     def docs(self):
