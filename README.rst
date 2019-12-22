@@ -23,7 +23,7 @@ Cylleneus
 Overview
 --------
 
-Cylleneus is a next-generation search engine for electronic corpora of Latin (and eventually Greek), which enables texts to be searched on the basis of their semantic and morpho-syntactic properties. This means that, for the first time, texts can be searched by the *meanings* of words as well as by the kinds of grammatical constructions they occur in. Semantic search takes advantage of the `Latin WordNet <https://latinwordnet.exeter.ac.uk/>`_ and is fully implemented, and thus is available for any annotated or plain-text corpus. Syntactic search functionality is still under development and is available for only certain structured corpora. However morphological searching and query filtering will work with any corpus.
+Cylleneus is a next-generation search engine for electronic corpora of Greek and Latin, which enables texts to be searched on the basis of their semantic and morpho-syntactic properties. This means that, for the first time, texts can be searched by the *meanings* of words as well as by the kinds of grammatical constructions they occur in. Semantic search takes advantage of the `Ancient Greek WordNet <https://greekwordnet.chs.harvard.edu/>`_ and `Latin WordNet <https://latinwordnet.exeter.ac.uk/>`_ and is fully implemented, and thus is available for any annotated or plain-text corpus. However, semantic queries may still be imprecise due to the on-going nature of these two projects. Syntactic search functionality is still under development and is available for only certain structured corpora.  Morphological searching and query filtering will work with any Latin corpus, and any Greek corpus with sufficient morhological annotation.
 
 
 Features
@@ -255,11 +255,9 @@ To Do
 In no particular order...
 
 * Optimization
-* Integration with Scaife Viewer
 * Perseus CTS alignment for corpora with non-standard text annotations
 * implement high-order syntactic search for different annotation schemes
 * manually-curated WordNet-based semantic mark-up ('sembanks') for texts
-* Greek
 
 
 Credits
