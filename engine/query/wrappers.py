@@ -29,7 +29,7 @@ from __future__ import division
 
 from array import array
 
-from whoosh.compat import text_type, u
+from engine.compat import text_type, u
 
 import engine.matching.binary
 import engine.matching.combo

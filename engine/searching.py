@@ -28,28 +28,28 @@
 """This module contains classes and functions related to searching the index.
 """
 
-
 from __future__ import division
 
 import copy
 import weakref
-from collections import namedtuple, defaultdict, Counter
+from collections import defaultdict, namedtuple, Counter
+from itertools import permutations, product
 from math import ceil
-from itertools import product, permutations
 
 import engine.collectors
 import engine.highlight
-import engine.query.positional
-import whoosh.classify
 import engine.query
+import engine.query.positional
 import engine.scoring
-from whoosh.compat import iteritems, iterkeys, itervalues, xrange
-from whoosh.idsets import BitSet, DocIdSet
-from utils import *
-from whoosh.reading import TermNotFound
-from whoosh.util.cache import lru_cache
+import whoosh.classify
+from engine.compat import iteritems, iterkeys, itervalues, xrange
+from greekwordnet import greekwordnet
 from latinwordnet import latinwordnet
 from natsort import natsorted
+from utils import *
+from whoosh.idsets import BitSet, DocIdSet
+from whoosh.reading import TermNotFound
+from whoosh.util.cache import lru_cache
 
 HitRef = namedtuple("HitRef", ["corpus", "author", "title", "urn", "reference", "text"])
 
@@ -1883,7 +1883,7 @@ def term_lists(q, ixreader):
             ls.append(ts)
     else:
         ls.extend(product(*ors))
-    return ls
+    return sorted(ls)
 
 
 class CylleneusHit(Hit):
@@ -1899,7 +1899,10 @@ class CylleneusHit(Hit):
         return self._fields
 
     def filter_fragments(self, query, minscore: int = 1):
-        WN = latinwordnet.LatinWordNet()
+        if self["language"] == "grk":
+            WN = greekwordnet.GreekWordNet()
+        else:
+            WN = latinwordnet.LatinWordNet()
 
         termlists = sorted(term_lists(query, self.reader))
         term_field_counts = Counter([field for field, value in termlists[0]])
@@ -1934,7 +1937,7 @@ class CylleneusHit(Hit):
                         f.matched_terms.update(yf.matched_terms)
                         f.matches = natsorted(
                             set(f.matches),
-                            key=lambda x: (x.meta["sent_id"], x.meta["sent_pos"]),
+                            key=lambda x: (x.meta["sent_id"], x.meta["sent_pos"], x.fieldname),
                         )
                         if yf.startchar < f.startchar:
                             f.startchar = yf.startchar
@@ -1972,7 +1975,7 @@ class CylleneusHit(Hit):
                 for uri in lemma_groups.keys():
                     for lemma, grouping in lemma_groups[uri].items():
                         for group, annotations in grouping.items():
-                            if len(annotations) == len(
+                            if len(annotations) >= len(
                                 set(
                                     [
                                         term
@@ -1997,7 +2000,13 @@ class CylleneusHit(Hit):
                 candidates = []
                 for uri, lemma, group in morphos:
                     grouping = matches_by_lemma[uri][lemma][group]
+
                     group_meta = [t.meta for t in grouping]
+                    max_meta = max([group_meta.count(m) for m in group_meta])
+                    for m in group_meta:
+                        if group_meta.count(m) < max_meta:
+                            group_meta.remove(m)
+
                     # guarantee that the meta data for all matches is the same
                     if group_meta.count(group_meta[0]) == len(group_meta):
                         candidates.append((uri, lemma, group))

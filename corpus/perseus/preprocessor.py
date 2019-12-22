@@ -12,15 +12,16 @@ class Preprocessor(BasePreprocessor):
             data = json.load(f)
 
         return {
-            'author': data['author'].title(),
-            'title': data['originalTitle'].title(),
-            'meta': data['meta'].lower(),
-            'urn': data['original-urn'].rsplit('.', maxsplit=1)[0] if 'original-urn' in data else "",
-            'form': data,
-            'lemma': data,
-            'synset': data,
+            'author':     data['author'].title(),
+            'title':      data['originalTitle'].title(),
+            'language':   'lat' if data['language'] == 'latin' else 'grk',
+            'meta':       data['meta'].lower(),
+            'urn':        data['original-urn'].rsplit('.', maxsplit=1)[0] if 'original-urn' in data else "",
+            'form':       data,
+            'lemma':      data,
+            'synset':     data,
             'annotation': data,
-            'semfield': data,
-            'filename': file.name,
-            'datetime': datetime.now()
+            'semfield':   data,
+            'filename':   file.name,
+            'datetime':   datetime.now()
         }

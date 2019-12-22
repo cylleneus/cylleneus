@@ -67,7 +67,7 @@ class CachedTokenizer(Tokenizer):
                         )
                     ]
 
-                    ss = doc.findall(".//{http://www.tei-c.org/ns/1.0}s")
+                    ss = doc.iter("{http://www.tei-c.org/ns/1.0}s")
 
                     sect_sent = 0
                     sect_pos = 0

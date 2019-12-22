@@ -21,13 +21,14 @@ class Preprocessor(BasePreprocessor):
         doc = re.sub(r'(\s)+', r'\1', doc)
 
         return {
-            'author': author,
-            'title': title,
-            'form': doc,
-            'lemma': doc,
-            'synset': doc,
+            'author':     author,
+            'title':      title,
+            'language':   'lat',
+            'form':       doc,
+            'lemma':      doc,
+            'synset':     doc,
             'annotation': doc,
-            'semfield': doc,
-            'filename': str(file.relative_to(self.corpus.text_dir)),
-            'datetime': datetime.now()
+            'semfield':   doc,
+            'filename':   str(file.relative_to(self.corpus.text_dir)),
+            'datetime':   datetime.now()
         }

@@ -30,8 +30,8 @@ from __future__ import division
 import copy
 from array import array
 
-from whoosh.compat import methodcaller
-from whoosh.compat import u
+from engine.compat import methodcaller
+from engine.compat import u
 from whoosh.reading import TermNotFound
 
 import engine.matching.mcore

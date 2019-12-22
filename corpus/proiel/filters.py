@@ -3,7 +3,7 @@ import re
 
 from corpus.perseus import mapping
 from engine.analysis.filters import Filter
-from lang.latin.morphology import leipzig2wn
+from lang.morpho import leipzig2wn
 from latinwordnet import LatinWordNet
 from latinwordnet.latinwordnet import relation_types
 from .core import relations

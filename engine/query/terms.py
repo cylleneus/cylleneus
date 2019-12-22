@@ -36,7 +36,7 @@ import whoosh
 from engine.analysis.acore import CylleneusToken
 from engine.query import qcore
 import engine.query
-from whoosh.compat import bytes_type, text_type, u
+from engine.compat import bytes_type, text_type, u
 from whoosh.lang.morph_en import variations
 
 
@@ -148,7 +148,7 @@ class CylleneusTerm(qcore.Query):
 class Form(CylleneusTerm):
     fieldname = 'form'
 
-    __inittypes__ = dict(fieldname=str, text=whoosh.compat.text_type, boost=float, annotation=CylleneusTerm, meta=bool)
+    __inittypes__ = dict(fieldname=str, text=engine.compat.text_type, boost=float, annotation=CylleneusTerm, meta=bool)
 
     def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
         super(Form, self).__init__(fieldname, text, boost=1.0, minquality=None)
@@ -178,15 +178,15 @@ class Form(CylleneusTerm):
 
     def __unicode__(self):
         text = self.text
-        if isinstance(text, whoosh.compat.bytes_type):
+        if isinstance(text, engine.compat.bytes_type):
             try:
                 text = text.decode("ascii")
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("'%s'") % text
+        t = engine.compat.u("'%s'") % text
         # if self.boost != 1:
-        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+        #     t += engine.compat.u("^") + engine.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -259,7 +259,7 @@ class Form(CylleneusTerm):
 class Lemma(CylleneusTerm):
     fieldname = 'lemma'
 
-    __inittypes__ = dict(fieldname=str, text=whoosh.compat.text_type, boost=float, annotation=CylleneusTerm, meta=bool)
+    __inittypes__ = dict(fieldname=str, text=engine.compat.text_type, boost=float, annotation=CylleneusTerm, meta=bool)
 
     def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
         super(Lemma, self).__init__(fieldname, text, boost=1.0, minquality=None)
@@ -289,15 +289,15 @@ class Lemma(CylleneusTerm):
 
     def __unicode__(self):
         text = self.text
-        if isinstance(text, whoosh.compat.bytes_type):
+        if isinstance(text, engine.compat.bytes_type):
             try:
                 text = text.decode("ascii")
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("<%s>") % text
+        t = engine.compat.u("<%s>") % text
         if self.annotation:
-            t += whoosh.compat.u(":") + whoosh.compat.text_type(self.annotation)
+            t += engine.compat.u(":") + engine.compat.text_type(self.annotation)
         return t
 
     __str__ = __unicode__
@@ -375,7 +375,7 @@ class Semfield(CylleneusTerm):
 
     fieldname = 'semfield'
 
-    __inittypes__ = dict(fieldname=str, text=whoosh.compat.text_type, boost=float, annotation=CylleneusTerm, meta=bool)
+    __inittypes__ = dict(fieldname=str, text=engine.compat.text_type, boost=float, annotation=CylleneusTerm, meta=bool)
 
     def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
         super(Semfield, self).__init__(fieldname, text, boost=1.0, minquality=None)
@@ -404,17 +404,17 @@ class Semfield(CylleneusTerm):
 
     def __unicode__(self):
         text = self.text
-        if isinstance(text, whoosh.compat.bytes_type):
+        if isinstance(text, engine.compat.bytes_type):
             try:
                 text = text.decode("ascii")
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("{%s}") % text
+        t = engine.compat.u("{%s}") % text
         if self.annotation:
-            t += whoosh.compat.u(":") + whoosh.compat.text_type(self.annotation)
+            t += engine.compat.u(":") + engine.compat.text_type(self.annotation)
         # if self.boost != 1:
-        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+        #     t += engine.compat.u("^") + engine.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -488,7 +488,7 @@ class Gloss(CylleneusTerm):
 
     fieldname = 'synset'
 
-    __inittypes__ = dict(fieldname=str, text=whoosh.compat.text_type, boost=float, annotation=CylleneusTerm, meta=bool)
+    __inittypes__ = dict(fieldname=str, text=engine.compat.text_type, boost=float, annotation=CylleneusTerm, meta=bool)
 
     def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
         super(Gloss, self).__init__(fieldname, text, boost=1.0, minquality=None)
@@ -517,17 +517,17 @@ class Gloss(CylleneusTerm):
 
     def __unicode__(self):
         text = self.text
-        if isinstance(text, whoosh.compat.bytes_type):
+        if isinstance(text, engine.compat.bytes_type):
             try:
                 text = text.decode("ascii")
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("[%s]") % text
+        t = engine.compat.u("[%s]") % text
         if self.annotation:
-            t += whoosh.compat.u(":") + whoosh.compat.text_type(self.annotation)
+            t += engine.compat.u(":") + engine.compat.text_type(self.annotation)
         # if self.boost != 1:
-        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+        #     t += engine.compat.u("^") + engine.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -602,7 +602,7 @@ class Morphosyntax(CylleneusTerm):
 
     fieldname = 'morphosyntax'
 
-    __inittypes__ = dict(fieldname=str, text=whoosh.compat.text_type, boost=float, annotation=qcore.Query, meta=bool)
+    __inittypes__ = dict(fieldname=str, text=engine.compat.text_type, boost=float, annotation=qcore.Query, meta=bool)
 
     def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
         super(Morphosyntax, self).__init__(fieldname, text, boost=1.0, minquality=None)
@@ -629,15 +629,15 @@ class Morphosyntax(CylleneusTerm):
 
     def __unicode__(self):
         text = self.text
-        if isinstance(text, whoosh.compat.bytes_type):
+        if isinstance(text, engine.compat.bytes_type):
             try:
                 text = text.decode("ascii")
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("%s:%s") % (self.fieldname, text)
+        t = engine.compat.u("%s:%s") % (self.fieldname, text)
         if self.boost != 1:
-            t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+            t += engine.compat.u("^") + engine.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -1139,7 +1139,7 @@ class Annotation(Regex):
     fieldname = 'annotation'
     constantscore = True
 
-    __inittypes__ = dict(fieldname=str, text=whoosh.compat.text_type, boost=float, annotation=qcore.Query, meta=bool)
+    __inittypes__ = dict(fieldname=str, text=engine.compat.text_type, boost=float, annotation=qcore.Query, meta=bool)
 
     def __init__(self, fieldname, text, boost=1.0, constantscore=True, annotation=None, meta=False):
         super(Annotation, self).__init__(fieldname, text, constantscore=constantscore, annotation=annotation,
@@ -1168,15 +1168,15 @@ class Annotation(Regex):
 
     def __unicode__(self):
         text = self.text.split('::')[0]
-        if isinstance(text, whoosh.compat.bytes_type):
+        if isinstance(text, engine.compat.bytes_type):
             try:
                 text = text.decode("ascii")
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = whoosh.compat.u("%s") % text
+        t = engine.compat.u("%s") % text
         # if self.boost != 1:
-        #     t += whoosh.compat.u("^") + whoosh.compat.text_type(self.boost)
+        #     t += engine.compat.u("^") + engine.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__

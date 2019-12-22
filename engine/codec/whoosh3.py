@@ -38,7 +38,7 @@ from engine.codec import base
 from engine.matching.mcore import LeafMatcher, ListMatcher, ReadTooFar
 from engine.reading import TermInfo, TermNotFound
 from whoosh import columns
-from whoosh.compat import b, bytes_type, dumps, integer_types, iteritems, loads, string_type, xrange
+from engine.compat import b, bytes_type, dumps, integer_types, iteritems, loads, string_type, xrange
 from whoosh.filedb import compound, filetables
 from whoosh.system import _FLOAT_SIZE, _INT_SIZE, _LONG_SIZE, _SHORT_SIZE, emptybytes, pack_int, pack_long, \
     pack_ushort, \

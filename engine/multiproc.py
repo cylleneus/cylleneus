@@ -30,7 +30,7 @@ from __future__ import with_statement
 from multiprocessing import Process, Queue, cpu_count
 
 from whoosh.codec import base
-from whoosh.compat import xrange, pickle
+from engine.compat import xrange, pickle
 from whoosh.externalsort import imerge
 from whoosh.util import random_name
 from engine.writing import SegmentWriter

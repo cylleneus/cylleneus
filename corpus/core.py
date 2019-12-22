@@ -6,83 +6,95 @@ from engine.fields import Schema
 from engine.searching import CylleneusHit, CylleneusSearcher
 from utils import slugify
 
-from . import agldt, default, lasla, latin_library, perseus, perseus_xml, proiel, translation_alignments
+from . import (
+    agldt,
+    atlas,
+    default,
+    lasla,
+    latin_library,
+    perseus,
+    perseus_xml,
+    proiel,
+    translation_alignments,
+)
 from . import indexer
 
-
-CorpusMeta = namedtuple('CorpusMeta', [
-    'schema',
-    'tokenizer',
-    'preprocessor',
-    'glob',
-    'fetch'
-])
+CorpusMeta = namedtuple(
+    "CorpusMeta", ["schema", "tokenizer", "preprocessor", "glob", "fetch"]
+)
 
 meta = {
-    'agldt':                  CorpusMeta(
+    "agldt":                  CorpusMeta(
         agldt.DocumentSchema,
         agldt.Tokenizer,
         agldt.Preprocessor,
         agldt.core.glob,
-        agldt.core.fetch
+        agldt.core.fetch,
     ),
-    'lasla':                  CorpusMeta(
+    "atlas":                  CorpusMeta(
+        atlas.DocumentSchema,
+        atlas.Tokenizer,
+        atlas.Preprocessor,
+        atlas.core.glob,
+        atlas.core.fetch,
+    ),
+    "lasla":                  CorpusMeta(
         lasla.DocumentSchema,
         lasla.Tokenizer,
         lasla.Preprocessor,
         lasla.core.glob,
-        lasla.core.fetch
+        lasla.core.fetch,
     ),
-    'latin_library':          CorpusMeta(
+    "latin_library":          CorpusMeta(
         latin_library.DocumentSchema,
         default.Tokenizer,
         latin_library.Preprocessor,
         latin_library.core.glob,
-        latin_library.core.fetch
+        latin_library.core.fetch,
     ),
-    'perseus':                CorpusMeta(
+    "perseus":                CorpusMeta(
         perseus.DocumentSchema,
         perseus.Tokenizer,
         perseus.Preprocessor,
         perseus.core.glob,
-        perseus.core.fetch
+        perseus.core.fetch,
     ),
-    'perseus_xml':            CorpusMeta(
+    "perseus_xml":            CorpusMeta(
         perseus_xml.DocumentSchema,
         perseus_xml.Tokenizer,
         perseus_xml.Preprocessor,
         perseus_xml.core.glob,
-        perseus_xml.core.fetch
+        perseus_xml.core.fetch,
     ),
-    'translation_alignments': CorpusMeta(
+    "translation_alignments": CorpusMeta(
         translation_alignments.DocumentSchema,
         translation_alignments.Tokenizer,
         translation_alignments.Preprocessor,
         translation_alignments.core.glob,
-        translation_alignments.core.fetch
+        translation_alignments.core.fetch,
     ),
-    'proiel':                 CorpusMeta(
+    "proiel":                 CorpusMeta(
         proiel.DocumentSchema,
         proiel.Tokenizer,
         proiel.Preprocessor,
         proiel.core.glob,
-        proiel.core.fetch
+        proiel.core.fetch,
     ),
-    'default':                CorpusMeta(
+    "default":                CorpusMeta(
         default.DocumentSchema,
         default.Tokenizer,
         default.Preprocessor,
         default.glob,
-        default.fetch
+        default.fetch,
     ),
 }
 
 
 class Corpus:
-    def __init__(self, name: str, schema: Schema=None):
+    def __init__(self, name: str, schema: Schema = None):
         self._name = name
 
-        _meta = meta.get(name, meta['default'])
+        _meta = meta.get(name, meta["default"])
         self._schema = _meta.schema()
         self._tokenizer = _meta.tokenizer()
         self._preprocessor = _meta.preprocessor(self)
@@ -127,11 +139,13 @@ class Corpus:
 
     @property
     def works(self):
-        for path in self.index_dir.glob('*/*'):
+        for path in self.index_dir.glob("*/*"):
             yield Work(self, author=path.parts[-2], title=path.name)
 
     def works_for(self, author: str = None, title: str = None):
-        for path in self.index_dir.glob(f'{slugify(author) if author else "*"}/{slugify(title) if title else "*"}'):
+        for path in self.index_dir.glob(
+            f'{slugify(author) if author else "*"}/{slugify(title) if title else "*"}'
+        ):
             yield Work(self, author=path.parts[-2], title=path.name)
 
     def work_by_docix(self, docix: int):
@@ -153,8 +167,9 @@ class Corpus:
 
     def delete_by_ix(self, docix: int):
         for ixr in self.indexers:
-            if docix in ixr.index.reader().all_doc_ixs():
-                ixr.destroy()
+            for ix in ixr.indexes:
+                if docix in ix.reader().all_doc_ixs():
+                    ixr.destroy()
 
     @property
     def doc_count_all(self):
@@ -163,7 +178,8 @@ class Corpus:
     def all_doc_ixs(self):
         docixs = []
         for ixr in self.indexers:
-            docixs.extend(ixr.index.reader().all_doc_ixs())
+            for ix in ixr.indexes:
+                docixs.extend(ix.reader().all_doc_ixs())
         return docixs
 
     def clear(self):
@@ -181,11 +197,11 @@ class Corpus:
 
     @property
     def index_dir(self):
-        return Path(self.path / 'index')
+        return Path(self.path / "index")
 
     @property
     def text_dir(self):
-        return Path(self.path / 'text')
+        return Path(self.path / "text")
 
     def iter_docs(self):
         for reader in self.readers:
@@ -202,18 +218,20 @@ class Corpus:
 
     def indexer_for_docix(self, docix: int):
         for doc in self.iter_docs():
-            if doc['docix'] == int(docix):
+            if doc["docix"] == int(docix):
                 return Work(corpus=self, doc=doc).indexer
 
     @property
     def readers(self):
         for ixr in self.indexers:
-            if ixr.index:
-                yield ixr.index.reader()
+            if ixr.indexes:
+                for ix in ixr.indexes:
+                    yield ix.reader()
 
-    def readers_for(self, author: str='*', title: str='*'):
+    def readers_for(self, author: str = "*", title: str = "*"):
         for ixr in self.indexers_for(author, title):
-            yield ixr.index.reader()
+            for ix in ixr.indexes:
+                yield ix.reader()
 
     def reader_for_docix(self, docix: int):
         for reader in self.readers:
@@ -234,68 +252,82 @@ class Corpus:
         return self.name
 
     def __eq__(self, other):
-        return self.name == other.name and \
-            self.schema == other.schema and \
-            self.path == other.path
+        return (
+            self.name == other.name
+            and self.schema == other.schema
+            and self.path == other.path
+        )
 
 
 class Work:
-    def __init__(self, corpus: Corpus, author: str=None, title: str=None, doc: CylleneusHit=None):
+    def __init__(
+        self,
+        corpus: Corpus,
+        author: str = None,
+        title: str = None,
+        doc: CylleneusHit = None,
+        language="lat",
+    ):
         self._corpus = corpus
         if doc:
-            self._doc = doc
-            if 'author' in self.doc:
-                self._author = self.doc['author']
-            if 'title' in self.doc:
-                self._title = self.doc['title']
-            if 'docix' in self.doc:
-                self._docix = self.doc['docix']
-            if 'urn' in self.doc:
-                self._urn = self.doc['urn']
+            print('1')
+            self._doc = [doc, ]
+            if "author" in doc:
+                self._author = doc["author"]
+            if "title" in doc:
+                self._title = doc["title"]
+            if "docix" in doc:
+                self._docix = doc["docix"]
+            if "urn" in doc:
+                self._urn = doc["urn"]
             else:
                 self._urn = None
-            if 'filename' in self.doc:
-                self._filename = self.doc['filename']
+            if "filename" in doc:
+                self._filename = doc["filename"]
             else:
                 self._filename = None
-            if 'datetime' in self.doc:
-                self._timestamp = self.doc['datetime']
+            if "datetime" in doc:
+                self._timestamp = doc["datetime"]
             else:
                 self._timestamp = None
+            if "language" in doc:
+                self._language = doc["language"]
         else:
             if author and title:
-                docs = list(indexer.Indexer.docs_for(corpus, author, title))
+                docs = [doc[1] for doc in indexer.Indexer.docs_for(corpus, author, title)]
                 if docs:
-                    doc = list(indexer.Indexer.docs_for(corpus, author, title))[0][1]
-                    self._doc = doc
-                    self._docix = doc['docix']
-                    self._author = doc['author']
-                    self._title = doc['title']
-                    self._urn = doc.get('urn', None)
-                    self._filename = doc.get('filename', None)
-                    self._timestamp = doc.get('datetime', None)
+                    self._doc = docs
+                    self._docix = [doc["docix"] for doc in docs]
+                    self._author = self.doc[0]["author"]
+                    self._title = self.doc[0]["title"]
+                    self._urn = self.doc[0].get("urn", None)
+                    self._filename = [doc.get("filename", None) for doc in self.doc]
+                    self._timestamp = self.doc[0].get("datetime", None)
                 else:
-                    self._doc = self._urn = \
-                        self._filename = self._timestamp = None
+                    self._doc = self._urn = self._filename = self._timestamp = None
                     self._author = author
                     self._title = title
             else:
-                self._doc = self._author = self._title = self._urn = \
-                    self._filename = self._timestamp = None
+                self._doc = self._author = self._title = self._urn = self._filename = self._timestamp = None
         self._indexer = indexer.Indexer(corpus, self)
         self.fetch = self.corpus._fetch
+        self._language = language
 
     @property
     def is_searchable(self):
-        return self.corpus.schema and self.index
+        return self.corpus.schema and self.indexes
+
+    @property
+    def language(self):
+        return self._language
 
     @property
     def indexer(self):
         return self._indexer
 
     @property
-    def index(self):
-        return self.indexer.index
+    def indexes(self):
+        return self.indexer.indexes
 
     @property
     def author(self):
@@ -315,7 +347,7 @@ class Work:
     @property
     def docix(self):
         if not self.doc:
-            self._docix = list(self.indexer.iter_docs())[0][0]
+            self._docix = [doc[1]["docix"] for doc in self.indexer.iter_docs()]
         return self._docix
 
     @property
@@ -324,12 +356,12 @@ class Work:
 
     @property
     def meta(self):
-        if self.doc and 'meta' in self.doc:
-            return self.doc['meta']
+        if self.doc and "meta" in self.doc:
+            return self.doc["meta"]
 
     @property
     def divs(self):
-        return [d.lower() for d in self.meta.split('-')]
+        return [d.lower() for d in self.meta.split("-")]
 
     @property
     def timestamp(self):

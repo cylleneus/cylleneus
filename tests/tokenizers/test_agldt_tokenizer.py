@@ -10,7 +10,7 @@ import pathlib
 import lxml.etree as et
 
 
-class TestPROIELTokenizer(unittest.TestCase):
+class TestAGLDTTokenizer(unittest.TestCase):
     """Tests for `cylleneus` package."""
 
     def setUp(self):
@@ -19,7 +19,7 @@ class TestPROIELTokenizer(unittest.TestCase):
     def tearDown(self):
         """Tear down test fixtures, if any."""
 
-    def test_proiel_tokenizer(self):
+    def test_agldt_tokenizer(self):
         """Test the AGLDT tokenizer."""
         pass
         # from corpus.agldt.tokenizer import CachedTokenizer

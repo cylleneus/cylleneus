@@ -160,7 +160,7 @@ def add(corpus, path, author, title):
         pre_ndocs = c.doc_count_all
 
         w = Work(c, author, title)
-        w.indexer.from_file(Path(path))
+        _ = w.indexer.from_file(Path(path))
 
     post_ndocs = c.doc_count_all
     ndocs = post_ndocs-pre_ndocs
@@ -183,8 +183,6 @@ def create(corpus, destructive):
             w = Work(corpus=c)
             _ = w.indexer.from_file(file)
 
-        c.optimize()
-
     ndocs = c.doc_count_all
     if ndocs > 0:
         click.echo(f"[+] created '{corpus}' with {ndocs} document{'s' if ndocs > 1 else ''}")
@@ -204,7 +202,7 @@ def lexicon(corpus, fieldname):
             lexicon.update(list(searcher.lexicon(fieldname)))
     if lexicon:
         click.echo(f"[+] lexicon '{fieldname}' of '{corpus}': {len(lexicon)} items")
-        click.echo_via_pager('\n'.join([str(i) for i in lexicon]))
+        click.echo_via_pager('\n'.join([i.decode('utf8') for i in sorted(lexicon)]))
     else:
         click.echo(f'[-] failed')
 

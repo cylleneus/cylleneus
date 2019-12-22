@@ -30,7 +30,7 @@ import random, sys, time
 from bisect import insort, bisect_left
 from functools import wraps
 
-from whoosh.compat import xrange
+from engine.compat import xrange
 
 
 # These must be valid separate characters in CASE-INSENSTIVE filenames

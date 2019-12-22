@@ -33,7 +33,7 @@ import engine.matching.mcore
 import engine.matching.wrappers
 import engine.query.qcore
 import whoosh.query.qcore
-from whoosh.compat import text_type, u
+from engine.compat import text_type, u
 from whoosh.util import make_binary_tree, make_weighted_tree
 
 

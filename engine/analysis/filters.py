@@ -32,10 +32,11 @@ import re
 from itertools import chain
 
 from engine.analysis.acore import Composable
-from lang.latin.morphology import leipzig2wn
+from lang.morpho import leipzig2wn
 from latinwordnet import LatinWordNet
+from greekwordnet import GreekWordNet
 from multiwordnet.wordnet import WordNet
-from whoosh.compat import next
+from engine.compat import next
 from whoosh.util.text import rcompile
 
 LWN = LatinWordNet()
@@ -644,7 +645,7 @@ class AnnotationFilter(Filter):
                     for i, v in enumerate(annotation):
                         if v != '-':
                             text = f"{'-' * i}{v}{'-' * (9 - i)}"
-                            t.text = f'{text}::([A-Za-z0-9$]+):(\d+):(\d+)$'
+                            t.text = f'{text}::([\w\d$]+):(\d+):(\d+)$'
                             yield t
             elif t.mode == 'index':
                 text = t.morpho

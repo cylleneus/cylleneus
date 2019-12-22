@@ -67,7 +67,7 @@ class CachedTokenizer(Tokenizer):
                         sentences = doc.xpath(
                             tei_base +
                             ("/tei:div" * (len(divs)-1)) + "/tei:l",
-                            namespaces= {
+                            namespaces={
                                 'tei': 'http://www.tei-c.org/ns/1.0'
                             }
                         )
@@ -94,19 +94,24 @@ class CachedTokenizer(Tokenizer):
                                 if el.getparent().get('type', None) == 'textpart' \
                                     or el.getparent().tag == '{http://www.tei-c.org/ns/1.0}sp':
                                     if el.getparent().tag == '{http://www.tei-c.org/ns/1.0}sp':
-                                        meta['speaker'] = el.getparent().find('.//{http://www.tei-c.org/ns/1.0}speaker').text
+                                        meta['speaker'] = el.getparent().find(
+                                            './/{http://www.tei-c.org/ns/1.0}speaker').text
                                     elif el.getparent().get('type', None) == 'textpart':
                                         j -= 1
                                         meta[divs[j]] = el.getparent().get('n')
                             el = el.getparent()
 
-                        text = stringify(sentence)
+                        text = sentence.text
                         # If the text is not embedded in an XML node, use the 'text' attribute
+
                         if not text:
-                            text = sentence.text
+                            text = stringify(sentence)
+
+                        if not text:
+                            continue
 
                         tokens = []
-                        temp_tokens = tokenizer.word_tokenize(text)
+                        temp_tokens = tokenizer.word_tokenize(text.strip())
 
                         if temp_tokens:
                             if temp_tokens[0].replace('j', 'i').replace('v', 'u') not in proper_names.proper_names:

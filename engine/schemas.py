@@ -6,5 +6,6 @@ class BaseSchema(SchemaClass):
     docix = STORED()
     author = STORED()
     title = STORED()
+    language = STORED()
     filename = STORED()
     datetime = STORED()

@@ -191,9 +191,10 @@ def stringify(node):
     s = ''.join(filter(None, parts))
     s = re.sub(r"^b\'(.*?)\'$", r'\1', s, flags=re.DOTALL)
     s = re.sub(r"\\'", r"'", s, flags=re.DOTALL)
-    subs = [r"\\[fnrtv]", r'<.*?/>', r'<.*?>.*?</.*?>', r'\[.*?\]', "'b'"]
+    subs = [r"\\[fnrtv]", r'<.*?/>', r'<[^q]*?>.*?</[^q]*?>', r'</?q.*?>', r'\[.*?\]', "'b'"]
     for sub in subs:
-        s = re.sub(sub, r'', s)
+        s = re.sub(sub, r'', s, flags=re.DOTALL)
+    s = re.sub(r"[ ]+", r" ", s, flags=re.DOTALL)
     return unescape(s)
 
 

@@ -29,7 +29,7 @@ from __future__ import division
 
 from array import array
 
-from whoosh.compat import xrange
+from engine.compat import xrange
 
 from engine.matching import mcore
 

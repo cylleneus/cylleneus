@@ -56,9 +56,9 @@ try:
 except ImportError:
     zlib = None
 
-from whoosh.compat import b, bytes_type, BytesIO
-from whoosh.compat import array_tobytes, xrange
-from whoosh.compat import dumps, loads
+from engine.compat import b, bytes_type, BytesIO
+from engine.compat import array_tobytes, xrange
+from engine.compat import dumps, loads
 from whoosh.filedb.structfile import StructFile
 from whoosh.idsets import BitSet, OnDiskBitSet
 from whoosh.system import emptybytes

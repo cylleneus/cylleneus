@@ -34,7 +34,7 @@ import engine.query.positional
 import engine.query.terms
 import settings
 import whoosh.query
-from whoosh.compat import text_type
+from engine.compat import text_type
 from whoosh.qparser import syntax
 from whoosh.qparser.common import QueryParserError
 from utils import print_debug
@@ -566,7 +566,7 @@ class CylleneusQueryParser(QueryParser):
         :rtype: :class:`whoosh.query.Query`
         """
 
-        if not isinstance(text, whoosh.compat.text_type):
+        if not isinstance(text, engine.compat.text_type):
             text = text.decode("latin1")
 
         nodes = self.process(text, debug=debug)

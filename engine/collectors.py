@@ -72,7 +72,7 @@ from collections import defaultdict
 from heapq import heapify, heappush, heapreplace
 
 from whoosh import sorting
-from whoosh.compat import abstractmethod, iteritems, itervalues, xrange
+from engine.compat import abstractmethod, iteritems, itervalues, xrange
 from whoosh.util import now
 
 import engine.searching

@@ -1,11 +1,10 @@
 import codecs
-from itertools import chain
 from pathlib import Path
 import re
 
 import lxml.etree as et
 import settings
-from utils import alnum, nrange, stringify
+from utils import alnum, stringify
 
 # Glob pattern for indexing
 glob = '*.xml'

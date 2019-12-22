@@ -41,9 +41,9 @@ import whoosh.columns
 import engine.query.terms
 import engine.query.positional
 import engine.query.compound
-from whoosh.compat import bytes_type, string_type, text_type
-from whoosh.compat import itervalues, xrange
-from whoosh.compat import with_metaclass
+from engine.compat import bytes_type, string_type, text_type
+from engine.compat import itervalues, xrange
+from engine.compat import with_metaclass
 from whoosh.system import emptybytes
 from whoosh.system import pack_byte
 from whoosh.util.numeric import to_sortable, from_sortable
