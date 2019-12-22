@@ -1936,7 +1936,7 @@ class CylleneusHit(Hit):
                         f.matched_terms.update(yf.matched_terms)
                         f.matches = natsorted(
                             set(f.matches),
-                            key=lambda x: (x.meta["sent_id"], x.meta["sent_pos"]),
+                            key=lambda x: (x.meta["sent_id"], x.meta["sent_pos"], x.fieldname),
                         )
                         if yf.startchar < f.startchar:
                             f.startchar = yf.startchar
@@ -1974,7 +1974,7 @@ class CylleneusHit(Hit):
                 for uri in lemma_groups.keys():
                     for lemma, grouping in lemma_groups[uri].items():
                         for group, annotations in grouping.items():
-                            if len(annotations) == len(
+                            if len(annotations) >= len(
                                 set(
                                     [
                                         term
@@ -1999,7 +1999,13 @@ class CylleneusHit(Hit):
                 candidates = []
                 for uri, lemma, group in morphos:
                     grouping = matches_by_lemma[uri][lemma][group]
+
                     group_meta = [t.meta for t in grouping]
+                    max_meta = max([group_meta.count(m) for m in group_meta])
+                    for m in group_meta:
+                        if group_meta.count(m) < max_meta:
+                            group_meta.remove(m)
+
                     # guarantee that the meta data for all matches is the same
                     if group_meta.count(group_meta[0]) == len(group_meta):
                         candidates.append((uri, lemma, group))
