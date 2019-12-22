@@ -18,7 +18,7 @@ class Indexer:
         for path in paths:
             indexes = Path(path).glob('*.toc')
             for index in indexes:
-                indexname = '_'.join(index.name.replace('.toc', '').split('_')[1:5])
+                indexname = ('_'.join(index.name.replace('.toc', '').rsplit('_', maxsplit=4)[:4])).strip('_')
                 if engine.index.exists_in(path, indexname=indexname):
                     ix = engine.index.open_dir(path, schema=corpus.schema, indexname=indexname)
                     yield from ix.reader().iter_docs()

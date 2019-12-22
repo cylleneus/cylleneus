@@ -270,27 +270,28 @@ class Work:
     ):
         self._corpus = corpus
         if doc:
-            self._doc = doc
-            if "author" in self.doc:
-                self._author = self.doc["author"]
-            if "title" in self.doc:
-                self._title = self.doc["title"]
-            if "docix" in self.doc:
-                self._docix = self.doc["docix"]
-            if "urn" in self.doc:
-                self._urn = self.doc["urn"]
+            print('1')
+            self._doc = [doc, ]
+            if "author" in doc:
+                self._author = doc["author"]
+            if "title" in doc:
+                self._title = doc["title"]
+            if "docix" in doc:
+                self._docix = doc["docix"]
+            if "urn" in doc:
+                self._urn = doc["urn"]
             else:
                 self._urn = None
-            if "filename" in self.doc:
-                self._filename = self.doc["filename"]
+            if "filename" in doc:
+                self._filename = doc["filename"]
             else:
                 self._filename = None
-            if "datetime" in self.doc:
-                self._timestamp = self.doc["datetime"]
+            if "datetime" in doc:
+                self._timestamp = doc["datetime"]
             else:
                 self._timestamp = None
-            if "language" in self.doc:
-                self._language = self.doc["language"]
+            if "language" in doc:
+                self._language = doc["language"]
         else:
             if author and title:
                 docs = [doc[1] for doc in indexer.Indexer.docs_for(corpus, author, title)]
@@ -307,9 +308,7 @@ class Work:
                     self._author = author
                     self._title = title
             else:
-                self._doc = (
-                    self._author
-                ) = self._title = self._urn = self._filename = self._timestamp = None
+                self._doc = self._author = self._title = self._urn = self._filename = self._timestamp = None
         self._indexer = indexer.Indexer(corpus, self)
         self.fetch = self.corpus._fetch
         self._language = language
@@ -348,7 +347,7 @@ class Work:
     @property
     def docix(self):
         if not self.doc:
-            self._docix = [doc[0]["docix"] for doc in self.indexer.iter_docs()]
+            self._docix = [doc[1]["docix"] for doc in self.indexer.iter_docs()]
         return self._docix
 
     @property

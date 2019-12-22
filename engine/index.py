@@ -98,7 +98,7 @@ def create_in(dirname, schema, indexname=None):
     storage = FileStorage(dirname)
     if indexname is None:
         tocname = list(Path(dirname).glob("*.toc"))[0].name.replace(".toc", "")
-        indexname = "_".join([el for el in tocname.split("_")[1:5]])
+        indexname = ('_'.join(tocname.rsplit('_', maxsplit=4)[:4])).strip('_')
     return FileIndex.create(storage, schema, indexname)
 
 
@@ -117,7 +117,8 @@ def open_dir(dirname, indexname=None, readonly=False, schema=None):
     storage = FileStorage(dirname, readonly=readonly)
     if indexname is None:
         tocname = list(Path(dirname).glob("*.toc"))[0].name.replace(".toc", "")
-        indexname = "_".join([el for el in tocname.split("_")[1:5]])
+        indexname = ('_'.join(tocname.rsplit('_', maxsplit=4)[:4])).strip('_')
+
     return FileIndex(storage, schema=schema, indexname=indexname)
 
 
@@ -195,7 +196,7 @@ def version(storage, indexname=None):
             tocname = list(Path(storage.folder).glob("*.toc"))[0].name.replace(
                 ".toc", ""
             )
-            indexname = "_".join([el for el in tocname.split("_")[1:5]])
+            indexname = ('_'.join(tocname.rsplit('_', maxsplit=4)[:4])).strip('_')
 
         ix = storage.open_index(indexname)
         return (ix.release, ix.version)
