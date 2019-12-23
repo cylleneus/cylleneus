@@ -108,3 +108,6 @@ ENV/
 *_WRITELOCK
 /corpus/perseus/index/virgil/aeneid/
 /corpus/perseus/index/virgil/georgics/
+/cylleneus/.history
+/corpus/atlas/index/homerus/ilias/
+/tests/test_greek_queries.py

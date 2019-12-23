@@ -270,7 +270,6 @@ class Work:
     ):
         self._corpus = corpus
         if doc:
-            print('1')
             self._doc = [doc, ]
             if "author" in doc:
                 self._author = doc["author"]

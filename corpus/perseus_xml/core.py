@@ -11,7 +11,7 @@ glob = '*.xml'
 
 # Fetch text
 def fetch(work, meta, fragment):
-    with codecs.open(work.corpus.text_dir / Path(work.doc['filename']), 'rb') as fp:
+    with codecs.open(work.corpus.text_dir / work.filename, 'rb') as fp:
         value = fp.read()
     parser = et.XMLParser(encoding='utf-8')
     doc = et.XML(value, parser=parser)

@@ -27,12 +27,12 @@ _search = None
 
 
 BANNER = r"""
-  ____      _ _                           
- / ___|   _| | | ___ _ __   ___ _   _ ___ 
+  ____      _ _
+ / ___|   _| | | ___ _ __   ___ _   _ ___
 | |  | | | | | |/ _ \ '_ \ / _ \ | | / __|
 | |__| |_| | | |  __/ | | |  __/ |_| \__ \
  \____\__, |_|_|\___|_| |_|\___|\__,_|___/
-      |___/                         
+      |___/
 Next-gen corpus search for Greek and Latin
 """
 
@@ -41,7 +41,7 @@ class CustomRiposte(Riposte):
     @property
     def prompt(self):
         if _collection and _collection.count > 0:
-            return f"cylleneus ({_collection.count} documents):~ $ "
+            return f"cylleneus ({_collection.count} docs):~ $ "
         else:
             return self._prompt  # reference to `prompt` parameter.
 
@@ -50,6 +50,7 @@ class CustomRiposte(Riposte):
 repl = CustomRiposte(
     prompt='cylleneus:~ $ ',
     banner=BANNER,
+    history_file=Path("cylleneus") / ".history",
     # posix=False
 )
 
@@ -355,7 +356,7 @@ def quit():
 def help():
     repl.print(Palette.CYAN.format("Available commands:"))
     repl.info('''
-    search <query>                          execute a query over the current corpus              
+    search <query>                          execute a query over the current corpus
     history                                 list search history
     save[-txt|-docx] [#] [filename]         save search results to disk in .txt or .docx format
     display [#]                             display search results
