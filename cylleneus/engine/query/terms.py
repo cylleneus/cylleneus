@@ -31,12 +31,12 @@ import copy
 import fnmatch
 import re
 
-import engine.matching
+import cylleneus.engine.matching
 import whoosh
-from engine.analysis.acore import CylleneusToken
-from engine.query import qcore
-import engine.query
-from engine.compat import bytes_type, text_type, u
+from cylleneus.engine.analysis.acore import CylleneusToken
+from cylleneus.engine.query import qcore
+import cylleneus.engine.query
+from cylleneus.engine.compat import bytes_type, text_type, u
 from whoosh.lang.morph_en import variations
 
 
@@ -121,13 +121,13 @@ class CylleneusTerm(qcore.Query):
         fieldname = self.fieldname
         text = self.text
         if fieldname not in searcher.schema:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
         field = searcher.schema[fieldname]
         try:
             text = field.to_bytes(text)
         except ValueError:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
         if (self.fieldname, text) in searcher.reader():
             if context is None:
@@ -139,16 +139,17 @@ class CylleneusTerm(qcore.Query):
             if self.minquality:
                 m.set_min_quality(self.minquality)
             if self.boost != 1.0:
-                m = engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
+                m = cylleneus.engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
             return m
         else:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
 
 class Form(CylleneusTerm):
     fieldname = 'form'
 
-    __inittypes__ = dict(fieldname=str, text=engine.compat.text_type, boost=float, annotation=CylleneusTerm, meta=bool)
+    __inittypes__ = dict(fieldname=str, text=cylleneus.engine.compat.text_type, boost=float, annotation=CylleneusTerm,
+                         meta=bool)
 
     def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
         super(Form, self).__init__(fieldname, text, boost=1.0, minquality=None)
@@ -178,15 +179,15 @@ class Form(CylleneusTerm):
 
     def __unicode__(self):
         text = self.text
-        if isinstance(text, engine.compat.bytes_type):
+        if isinstance(text, cylleneus.engine.compat.bytes_type):
             try:
                 text = text.decode("ascii")
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = engine.compat.u("'%s'") % text
+        t = cylleneus.engine.compat.u("'%s'") % text
         # if self.boost != 1:
-        #     t += engine.compat.u("^") + engine.compat.text_type(self.boost)
+        #     t += cylleneus.engine.compat.u("^") + cylleneus.engine.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -229,13 +230,13 @@ class Form(CylleneusTerm):
         fieldname = self.fieldname
         text = self.text
         if fieldname not in searcher.schema:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
         field = searcher.schema[fieldname]
         try:
             text = field.to_bytes(text)
         except ValueError:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
         if (self.fieldname, text) in searcher.reader():
             if context is None:
@@ -247,10 +248,10 @@ class Form(CylleneusTerm):
             if self.minquality:
                 m.set_min_quality(self.minquality)
             if self.boost != 1.0:
-                m = engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
+                m = cylleneus.engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
             return m
         else:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
     def __iter__(self):
         return iter([self,])
@@ -259,7 +260,8 @@ class Form(CylleneusTerm):
 class Lemma(CylleneusTerm):
     fieldname = 'lemma'
 
-    __inittypes__ = dict(fieldname=str, text=engine.compat.text_type, boost=float, annotation=CylleneusTerm, meta=bool)
+    __inittypes__ = dict(fieldname=str, text=cylleneus.engine.compat.text_type, boost=float, annotation=CylleneusTerm,
+                         meta=bool)
 
     def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
         super(Lemma, self).__init__(fieldname, text, boost=1.0, minquality=None)
@@ -289,15 +291,15 @@ class Lemma(CylleneusTerm):
 
     def __unicode__(self):
         text = self.text
-        if isinstance(text, engine.compat.bytes_type):
+        if isinstance(text, cylleneus.engine.compat.bytes_type):
             try:
                 text = text.decode("ascii")
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = engine.compat.u("<%s>") % text
+        t = cylleneus.engine.compat.u("<%s>") % text
         if self.annotation:
-            t += engine.compat.u(":") + engine.compat.text_type(self.annotation)
+            t += cylleneus.engine.compat.u(":") + cylleneus.engine.compat.text_type(self.annotation)
         return t
 
     __str__ = __unicode__
@@ -343,13 +345,13 @@ class Lemma(CylleneusTerm):
         fieldname = self.fieldname
         text = self.text
         if fieldname not in searcher.schema:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
         field = searcher.schema[fieldname]
         try:
             text = field.to_bytes(text)
         except ValueError:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
         if (self.fieldname, text) in searcher.reader():
             if context is None:
@@ -361,10 +363,10 @@ class Lemma(CylleneusTerm):
             if self.minquality:
                 m.set_min_quality(self.minquality)
             if self.boost != 1.0:
-                m = engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
+                m = cylleneus.engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
             return m
         else:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
     def __iter__(self):
         return iter([self,])
@@ -375,7 +377,8 @@ class Semfield(CylleneusTerm):
 
     fieldname = 'semfield'
 
-    __inittypes__ = dict(fieldname=str, text=engine.compat.text_type, boost=float, annotation=CylleneusTerm, meta=bool)
+    __inittypes__ = dict(fieldname=str, text=cylleneus.engine.compat.text_type, boost=float, annotation=CylleneusTerm,
+                         meta=bool)
 
     def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
         super(Semfield, self).__init__(fieldname, text, boost=1.0, minquality=None)
@@ -404,17 +407,17 @@ class Semfield(CylleneusTerm):
 
     def __unicode__(self):
         text = self.text
-        if isinstance(text, engine.compat.bytes_type):
+        if isinstance(text, cylleneus.engine.compat.bytes_type):
             try:
                 text = text.decode("ascii")
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = engine.compat.u("{%s}") % text
+        t = cylleneus.engine.compat.u("{%s}") % text
         if self.annotation:
-            t += engine.compat.u(":") + engine.compat.text_type(self.annotation)
+            t += cylleneus.engine.compat.u(":") + cylleneus.engine.compat.text_type(self.annotation)
         # if self.boost != 1:
-        #     t += engine.compat.u("^") + engine.compat.text_type(self.boost)
+        #     t += cylleneus.engine.compat.u("^") + cylleneus.engine.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -457,13 +460,13 @@ class Semfield(CylleneusTerm):
         fieldname = self.fieldname
         text = self.text
         if fieldname not in searcher.schema:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
         field = searcher.schema[fieldname]
         try:
             text = field.to_bytes(text)
         except ValueError:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
         if (self.fieldname, text) in searcher.reader():
             if context is None:
@@ -475,10 +478,10 @@ class Semfield(CylleneusTerm):
             if self.minquality:
                 m.set_min_quality(self.minquality)
             if self.boost != 1.0:
-                m = engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
+                m = cylleneus.engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
             return m
         else:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
     def __iter__(self):
         return iter([self,])
@@ -488,7 +491,8 @@ class Gloss(CylleneusTerm):
 
     fieldname = 'synset'
 
-    __inittypes__ = dict(fieldname=str, text=engine.compat.text_type, boost=float, annotation=CylleneusTerm, meta=bool)
+    __inittypes__ = dict(fieldname=str, text=cylleneus.engine.compat.text_type, boost=float, annotation=CylleneusTerm,
+                         meta=bool)
 
     def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
         super(Gloss, self).__init__(fieldname, text, boost=1.0, minquality=None)
@@ -517,17 +521,17 @@ class Gloss(CylleneusTerm):
 
     def __unicode__(self):
         text = self.text
-        if isinstance(text, engine.compat.bytes_type):
+        if isinstance(text, cylleneus.engine.compat.bytes_type):
             try:
                 text = text.decode("ascii")
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = engine.compat.u("[%s]") % text
+        t = cylleneus.engine.compat.u("[%s]") % text
         if self.annotation:
-            t += engine.compat.u(":") + engine.compat.text_type(self.annotation)
+            t += cylleneus.engine.compat.u(":") + cylleneus.engine.compat.text_type(self.annotation)
         # if self.boost != 1:
-        #     t += engine.compat.u("^") + engine.compat.text_type(self.boost)
+        #     t += cylleneus.engine.compat.u("^") + cylleneus.engine.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -570,13 +574,13 @@ class Gloss(CylleneusTerm):
         fieldname = self.fieldname
         text = self.text
         if fieldname not in searcher.schema:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
         field = searcher.schema[fieldname]
         try:
             text = field.to_bytes(text)
         except ValueError:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
         if (self.fieldname, text) in searcher.reader():
             if context is None:
@@ -588,10 +592,10 @@ class Gloss(CylleneusTerm):
             if self.minquality:
                 m.set_min_quality(self.minquality)
             if self.boost != 1.0:
-                m = engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
+                m = cylleneus.engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
             return m
         else:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
     def __iter__(self):
         return iter([self,])
@@ -602,7 +606,8 @@ class Morphosyntax(CylleneusTerm):
 
     fieldname = 'morphosyntax'
 
-    __inittypes__ = dict(fieldname=str, text=engine.compat.text_type, boost=float, annotation=qcore.Query, meta=bool)
+    __inittypes__ = dict(fieldname=str, text=cylleneus.engine.compat.text_type, boost=float, annotation=qcore.Query,
+                         meta=bool)
 
     def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
         super(Morphosyntax, self).__init__(fieldname, text, boost=1.0, minquality=None)
@@ -629,15 +634,15 @@ class Morphosyntax(CylleneusTerm):
 
     def __unicode__(self):
         text = self.text
-        if isinstance(text, engine.compat.bytes_type):
+        if isinstance(text, cylleneus.engine.compat.bytes_type):
             try:
                 text = text.decode("ascii")
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = engine.compat.u("%s:%s") % (self.fieldname, text)
+        t = cylleneus.engine.compat.u("%s:%s") % (self.fieldname, text)
         if self.boost != 1:
-            t += engine.compat.u("^") + engine.compat.text_type(self.boost)
+            t += cylleneus.engine.compat.u("^") + cylleneus.engine.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -680,13 +685,13 @@ class Morphosyntax(CylleneusTerm):
         fieldname = self.fieldname
         text = self.text
         if fieldname not in searcher.schema:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
         field = searcher.schema[fieldname]
         try:
             text = field.to_bytes(text)
         except ValueError:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
         if (self.fieldname, text) in searcher.reader():
             if context is None:
@@ -698,10 +703,10 @@ class Morphosyntax(CylleneusTerm):
             if self.minquality:
                 m.set_min_quality(self.minquality)
             if self.boost != 1.0:
-                m = engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
+                m = cylleneus.engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
             return m
         else:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
     def __iter__(self):
         return iter([self,])
@@ -750,7 +755,7 @@ class MultiTerm(qcore.Query):
         if len(existing) == 1:
             return existing[0]
         elif existing:
-            from engine.query.compound import Or
+            from cylleneus.engine.query.compound import Or
             return Or(existing)
         else:
             return qcore.NullQuery
@@ -766,7 +771,7 @@ class MultiTerm(qcore.Query):
                    for text in self._btexts(ixreader))
 
     def matcher(self, searcher, context=None):
-        from engine.query.compound import Or
+        from cylleneus.engine.query.compound import Or
 
         fieldname = self.field()
         constantscore = self.constantscore
@@ -774,7 +779,7 @@ class MultiTerm(qcore.Query):
         reader = searcher.reader()
         qs = [CylleneusTerm(fieldname, word) for word in self._btexts(reader)]
         if not qs:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
         if len(qs) == 1:
             # If there's only one term, just use it
@@ -905,7 +910,7 @@ class Prefix(PatternQuery):
 
     def matcher(self, searcher, context=None):
         if self.text == "":
-            from engine.query.qcore import Every
+            from cylleneus.engine.query.qcore import Every
             eq = Every(self.fieldname, boost=self.boost)
             return eq.matcher(searcher, context)
         else:
@@ -933,7 +938,7 @@ class Wildcard(PatternQuery):
         # a simple Form
         text = self.text
         if text == "*":
-            from engine.query.qcore import Every
+            from cylleneus.engine.query.qcore import Every
             return Every(self.fieldname, boost=self.boost)
         if "*" not in text and "?" not in text:
             # If no wildcard chars, convert to a normal term.
@@ -948,7 +953,7 @@ class Wildcard(PatternQuery):
 
     def matcher(self, searcher, context=None):
         if self.text == "*":
-            from engine.query.qcore import Every
+            from cylleneus.engine.query.qcore import Every
             eq = Every(self.fieldname, boost=self.boost)
             return eq.matcher(searcher, context)
         else:
@@ -994,7 +999,7 @@ class Regex(PatternQuery):
 
     def matcher(self, searcher, context=None):
         if self.text == ".*":
-            from engine.query.qcore import Every
+            from cylleneus.engine.query.qcore import Every
             eq = Every(self.fieldname, boost=self.boost)
             return eq.matcher(searcher, context)
         else:
@@ -1139,7 +1144,8 @@ class Annotation(Regex):
     fieldname = 'annotation'
     constantscore = True
 
-    __inittypes__ = dict(fieldname=str, text=engine.compat.text_type, boost=float, annotation=qcore.Query, meta=bool)
+    __inittypes__ = dict(fieldname=str, text=cylleneus.engine.compat.text_type, boost=float, annotation=qcore.Query,
+                         meta=bool)
 
     def __init__(self, fieldname, text, boost=1.0, constantscore=True, annotation=None, meta=False):
         super(Annotation, self).__init__(fieldname, text, constantscore=constantscore, annotation=annotation,
@@ -1168,15 +1174,15 @@ class Annotation(Regex):
 
     def __unicode__(self):
         text = self.text.split('::')[0]
-        if isinstance(text, engine.compat.bytes_type):
+        if isinstance(text, cylleneus.engine.compat.bytes_type):
             try:
                 text = text.decode("ascii")
             except UnicodeDecodeError:
                 text = repr(text)
 
-        t = engine.compat.u("%s") % text
+        t = cylleneus.engine.compat.u("%s") % text
         # if self.boost != 1:
-        #     t += engine.compat.u("^") + engine.compat.text_type(self.boost)
+        #     t += cylleneus.engine.compat.u("^") + cylleneus.engine.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__

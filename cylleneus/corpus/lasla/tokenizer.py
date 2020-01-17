@@ -2,10 +2,10 @@ import copy
 import re
 import string
 
-from engine.analysis.acore import CylleneusToken
-from engine.analysis.tokenizers import Tokenizer
-from lang.latin import jvmap
-from utils import alnum
+from cylleneus.engine.analysis.acore import CylleneusToken
+from cylleneus.engine.analysis.tokenizers import Tokenizer
+from cylleneus.lang.latin import jvmap
+from cylleneus.utils import alnum
 
 from .core import parse_bpn
 

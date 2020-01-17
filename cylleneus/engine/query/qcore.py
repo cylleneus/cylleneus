@@ -30,11 +30,11 @@ from __future__ import division
 import copy
 from array import array
 
-from engine.compat import methodcaller
-from engine.compat import u
+from cylleneus.engine.compat import methodcaller
+from cylleneus.engine.compat import u
 from whoosh.reading import TermNotFound
 
-import engine.matching.mcore
+import cylleneus.engine.matching.mcore
 
 
 # Exceptions
@@ -312,17 +312,17 @@ class Query(object):
     def nterms(self):
         n = 0
 
-        if isinstance(self, engine.query.compound.CylleneusCompoundQuery):
-            if isinstance(self, engine.query.compound.Or):
+        if isinstance(self, cylleneus.engine.query.compound.CylleneusCompoundQuery):
+            if isinstance(self, cylleneus.engine.query.compound.Or):
                 n += 1
-            elif isinstance(self, engine.query.positional.Collocation):
+            elif isinstance(self, cylleneus.engine.query.positional.Collocation):
                 n += 1
             else:
                 for sq in self:
-                    if isinstance(sq, engine.query.compound.CylleneusCompoundQuery):
-                        if isinstance(sq, engine.query.compound.Or):
+                    if isinstance(sq, cylleneus.engine.query.compound.CylleneusCompoundQuery):
+                        if isinstance(sq, cylleneus.engine.query.compound.Or):
                             n += 1
-                        elif isinstance(sq, engine.query.positional.Collocation):
+                        elif isinstance(sq, cylleneus.engine.query.positional.Collocation):
                             n += 1
                         else:
                             for qq in sq:
@@ -331,10 +331,10 @@ class Query(object):
                         n += 1
         else:
             for sq in self:
-                if isinstance(sq, engine.query.compound.CylleneusCompoundQuery):
-                    if isinstance(sq, engine.query.compound.Or):
+                if isinstance(sq, cylleneus.engine.query.compound.CylleneusCompoundQuery):
+                    if isinstance(sq, cylleneus.engine.query.compound.Or):
                         n += 1
-                    elif isinstance(sq, engine.query.positional.Collocation):
+                    elif isinstance(sq, cylleneus.engine.query.positional.Collocation):
                         n += 1
                     else:
                         for qq in sq:
@@ -626,7 +626,7 @@ class _NullQuery(Query):
         return []
 
     def matcher(self, searcher, context=None):
-        return engine.matching.mcore.NullMatcher()
+        return cylleneus.engine.matching.mcore.NullMatcher()
 
 
 NullQuery = _NullQuery()
@@ -711,4 +711,4 @@ class Every(Query):
                 doclist.update(pr.all_ids())
             doclist = sorted(doclist)
 
-        return engine.matching.mcore.ListMatcher(doclist, all_weights=self.boost)
+        return cylleneus.engine.matching.mcore.ListMatcher(doclist, all_weights=self.boost)

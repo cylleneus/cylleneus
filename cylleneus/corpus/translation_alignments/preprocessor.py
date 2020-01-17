@@ -3,7 +3,7 @@ from datetime import datetime
 from pathlib import Path
 
 import lxml.etree as et
-from corpus.preprocessing import BasePreprocessor
+from cylleneus.corpus.preprocessing import BasePreprocessor
 
 
 class Preprocessor(BasePreprocessor):

@@ -46,13 +46,13 @@ For example, to find documents containing "whoosh" at most 5 positions before
 import re
 from difflib import SequenceMatcher
 
-import engine.matching.binary
-import engine.matching.combo
-import engine.matching.mcore
-import engine.matching.wrappers
-import engine.query.compound
-import engine.query.qcore
-import engine.query.terms
+import cylleneus.engine.matching.binary
+import cylleneus.engine.matching.combo
+import cylleneus.engine.matching.mcore
+import cylleneus.engine.matching.wrappers
+import cylleneus.engine.query.compound
+import cylleneus.engine.query.qcore
+import cylleneus.engine.query.terms
 from whoosh.util import make_binary_tree
 
 
@@ -232,7 +232,7 @@ def bisect_spans(spans, start):
 
 # Base matchers
 
-class SpanWrappingMatcher(engine.matching.wrappers.WrappingMatcher):
+class SpanWrappingMatcher(cylleneus.engine.matching.wrappers.WrappingMatcher):
     """An abstract matcher class that wraps a "regular" matcher. This matcher
     uses the sub-matcher's matching logic, but only matches documents that have
     matching spans, i.e. where ``_get_spans()`` returns a non-empty list.
@@ -300,13 +300,13 @@ class SpanBiMatcher(SpanWrappingMatcher):
     def replace(self, minquality=0):
         # TODO: fix this
         if not self.is_active():
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
         return self
 
 
 # Queries
 
-class SpanQuery(engine.query.qcore.Query):
+class SpanQuery(cylleneus.engine.query.qcore.Query):
     """Abstract base class for span-based queries. Each span query type wraps
     a "regular" query that implements the basic document-matching functionality
     (for example, SpanNear wraps an And query, because SpanNear requires that
@@ -438,7 +438,7 @@ class SpanNear(SpanQuery):
         :pram mindist: the minimum distance allowed between the queries.
         """
 
-        self.q = engine.query.compound.And([a, b])
+        self.q = cylleneus.engine.query.compound.And([a, b])
         self.a = a
         self.b = b
         self.slop = slop
@@ -501,7 +501,7 @@ class SpanNear(SpanQuery):
             self.slop = slop
             self.ordered = ordered
             self.mindist = mindist
-            isect = engine.matching.binary.IntersectionMatcher(a, b)
+            isect = cylleneus.engine.matching.binary.IntersectionMatcher(a, b)
             super(SpanNear.SpanNearMatcher, self).__init__(isect)
 
         def copy(self):
@@ -511,7 +511,7 @@ class SpanNear(SpanQuery):
         def replace(self, minquality=0):
             # TODO: fix this
             if not self.is_active():
-                return engine.matching.mcore.NullMatcher()
+                return cylleneus.engine.matching.mcore.NullMatcher()
             return self
 
         def _get_spans(self):
@@ -655,7 +655,7 @@ class SpanNear2(SpanQuery):
         return h
 
     def _and_query(self):
-        return engine.query.compound.And(self.qs)
+        return cylleneus.engine.query.compound.And(self.qs)
 
     def estimate_size(self, ixreader):
         return self._and_query().estimate_size(ixreader)
@@ -684,7 +684,7 @@ class SpanNear2(SpanQuery):
             self.slop = slop
             self.ordered = ordered
             self.mindist = mindist
-            isect = make_binary_tree(engine.matching.binary.IntersectionMatcher, ms)
+            isect = make_binary_tree(cylleneus.engine.matching.binary.IntersectionMatcher, ms)
             super(SpanNear2.SpanNear2Matcher, self).__init__(isect)
 
         def copy(self):
@@ -694,7 +694,7 @@ class SpanNear2(SpanQuery):
         def replace(self, minquality=0):
             # TODO: fix this
             if not self.is_active():
-                return engine.matching.mcore.NullMatcher()
+                return cylleneus.engine.matching.mcore.NullMatcher()
             return self
 
         def _get_spans(self):
@@ -756,7 +756,7 @@ class SpanOr(SpanQuery):
         :param subqs: a list of queries to match.
         """
 
-        self.q = engine.query.compound.Or(subqs)
+        self.q = cylleneus.engine.query.compound.Or(subqs)
         self.subqs = subqs
 
     def is_leaf(self):
@@ -773,7 +773,7 @@ class SpanOr(SpanQuery):
         def __init__(self, a, b):
             self.a = a
             self.b = b
-            um = engine.matching.binary.UnionMatcher(a, b)
+            um = cylleneus.engine.matching.binary.UnionMatcher(a, b)
             super(SpanOr.SpanOrMatcher, self).__init__(um)
 
         def _get_spans(self):
@@ -837,7 +837,7 @@ class SpanNot(SpanBiQuery):
             query.
         """
 
-        self.q = engine.query.compound.AndMaybe(a, b)
+        self.q = cylleneus.engine.query.compound.AndMaybe(a, b)
         self.a = a
         self.b = b
 
@@ -845,7 +845,7 @@ class SpanNot(SpanBiQuery):
         def __init__(self, a, b):
             self.a = a
             self.b = b
-            amm = engine.matching.binary.AndMaybeMatcher(a, b)
+            amm = cylleneus.engine.matching.binary.AndMaybeMatcher(a, b)
             super(SpanNot._Matcher, self).__init__(amm)
 
         def _get_spans(self):
@@ -886,7 +886,7 @@ class SpanContains(SpanBiQuery):
             of the first query.
         """
 
-        self.q = engine.query.compound.And([a, b])
+        self.q = cylleneus.engine.query.compound.And([a, b])
         self.a = a
         self.b = b
 
@@ -894,7 +894,7 @@ class SpanContains(SpanBiQuery):
         def __init__(self, a, b):
             self.a = a
             self.b = b
-            im = engine.matching.binary.IntersectionMatcher(a, b)
+            im = cylleneus.engine.matching.binary.IntersectionMatcher(a, b)
             super(SpanContains._Matcher, self).__init__(im)
 
         def _get_spans(self):
@@ -934,13 +934,13 @@ class SpanBefore(SpanBiQuery):
 
         self.a = a
         self.b = b
-        self.q = engine.query.compound.And([a, b])
+        self.q = cylleneus.engine.query.compound.And([a, b])
 
     class _Matcher(SpanBiMatcher):
         def __init__(self, a, b):
             self.a = a
             self.b = b
-            im = engine.matching.binary.IntersectionMatcher(a, b)
+            im = cylleneus.engine.matching.binary.IntersectionMatcher(a, b)
             super(SpanBefore._Matcher, self).__init__(im)
 
         def _get_spans(self):
@@ -965,12 +965,12 @@ class SpanCondition(SpanBiQuery):
     def __init__(self, a, b):
         self.a = a
         self.b = b
-        self.q = engine.query.compound.And([a, b])
+        self.q = cylleneus.engine.query.compound.And([a, b])
 
     class _Matcher(SpanBiMatcher):
         def __init__(self, a, b):
             self.a = a
-            im = engine.matching.binary.IntersectionMatcher(a, b)
+            im = cylleneus.engine.matching.binary.IntersectionMatcher(a, b)
             super(SpanCondition._Matcher, self).__init__(im)
 
         def _get_spans(self):
@@ -1015,7 +1015,7 @@ class SpanWith2(SpanQuery):
         return h
 
     def _and_query(self):
-        return engine.query.compound.And(self.qs)
+        return cylleneus.engine.query.compound.And(self.qs)
 
     def estimate_size(self, ixreader):
         return self._and_query().estimate_size(ixreader)
@@ -1044,7 +1044,7 @@ class SpanWith2(SpanQuery):
             self.slop = slop
             self.ordered = ordered
             self.mindist = mindist
-            isect = make_binary_tree(engine.matching.binary.IntersectionMatcher, ms)
+            isect = make_binary_tree(cylleneus.engine.matching.binary.IntersectionMatcher, ms)
             super(SpanWith2.SpanWith2Matcher, self).__init__(isect)
 
         def copy(self):
@@ -1054,7 +1054,7 @@ class SpanWith2(SpanQuery):
         def replace(self, minquality=0):
             # TODO: fix this
             if not self.is_active():
-                return engine.matching.mcore.NullMatcher()
+                return cylleneus.engine.matching.mcore.NullMatcher()
             return self
 
         def _get_spans(self):

@@ -1,7 +1,7 @@
 import copy
 import re
 
-from engine.analysis.filters import Filter
+from cylleneus.engine.analysis.filters import Filter
 from multiwordnet.wordnet import WordNet
 from latinwordnet import LatinWordNet
 from greekwordnet import GreekWordNet

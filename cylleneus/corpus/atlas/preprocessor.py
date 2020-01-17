@@ -3,8 +3,8 @@ from datetime import datetime
 from pathlib import Path
 import lxml.etree as et
 
-from corpus.tlg import AUTHOR_TAB
-from corpus.preprocessing import BasePreprocessor
+from cylleneus.corpus.tlg import AUTHOR_TAB
+from cylleneus.corpus.preprocessing import BasePreprocessor
 
 
 class Preprocessor(BasePreprocessor):

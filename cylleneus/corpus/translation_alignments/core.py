@@ -3,7 +3,7 @@ from pathlib import Path
 
 import lxml.etree as et
 from nltk.tokenize import word_tokenize
-from utils import stringify
+from cylleneus.utils import stringify
 
 
 # Glob pattern for indexing

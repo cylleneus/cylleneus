@@ -1,9 +1,9 @@
-from engine.fields import *
-from engine.schemas import BaseSchema
-from engine.analysis.filters import CachedLemmaFilter, CachedSynsetFilter, AnnotationFilter, SemfieldFilter, CaseFilter
+from cylleneus.engine.fields import *
+from cylleneus.engine.schemas import BaseSchema
+from cylleneus.engine.analysis.filters import CachedLemmaFilter, CachedSynsetFilter, AnnotationFilter, SemfieldFilter, \
+    CaseFilter
 
 from .tokenizer import CachedTokenizer
-
 
 Tokens = CachedTokenizer(chars=True)
 Lemmas = CachedLemmaFilter(chars=True)

@@ -38,12 +38,12 @@ from array import array
 from decimal import Decimal
 
 import whoosh.columns
-import engine.query.terms
-import engine.query.positional
-import engine.query.compound
-from engine.compat import bytes_type, string_type, text_type
-from engine.compat import itervalues, xrange
-from engine.compat import with_metaclass
+import cylleneus.engine.query.terms
+import cylleneus.engine.query.positional
+import cylleneus.engine.query.compound
+from cylleneus.engine.compat import bytes_type, string_type, text_type
+from cylleneus.engine.compat import itervalues, xrange
+from cylleneus.engine.compat import with_metaclass
 from whoosh.system import emptybytes
 from whoosh.system import pack_byte
 from whoosh.util.numeric import to_sortable, from_sortable
@@ -51,8 +51,8 @@ from whoosh.util.numeric import typecode_max, NaN
 from whoosh.util.text import utf8encode, utf8decode
 from whoosh.util.times import datetime_to_long, long_to_datetime
 
-import engine.analysis
-import engine.formats
+import cylleneus.engine.analysis
+import cylleneus.engine.formats
 
 
 # Exceptions
@@ -116,7 +116,7 @@ class FieldType(object):
         self.multitoken_query = multitoken_query
         self.set_sortable(sortable)
 
-        if isinstance(vector, engine.formats.Format):
+        if isinstance(vector, cylleneus.engine.formats.Format):
             self.vector = vector
         elif vector:
             self.vector = self.format
@@ -153,7 +153,7 @@ class FieldType(object):
                             % (self.__class__.__name__, self))
         if not isinstance(value, (text_type, list, tuple, dict, bytes)):
             raise ValueError("%r is not unicode or sequence" % value)
-        assert isinstance(self.format, engine.formats.Format)
+        assert isinstance(self.format, cylleneus.engine.formats.Format)
 
         if "mode" not in kwargs:
             kwargs["mode"] = "index"
@@ -463,9 +463,9 @@ class ID(FieldType):
             document.
         """
 
-        self.analyzer = analyzer or engine.analysis.analyzers.IDAnalyzer()
+        self.analyzer = analyzer or cylleneus.engine.analysis.analyzers.IDAnalyzer()
         # Don't store any information other than the doc ID
-        self.format = engine.formats.Existence(field_boost=field_boost)
+        self.format = cylleneus.engine.formats.Existence(field_boost=field_boost)
         self.stored = stored
         self.unique = unique
         self.set_sortable(sortable)
@@ -490,7 +490,7 @@ class IDLIST(FieldType):
 
         expression = expression or re.compile(r"[^\r\n\t ,;]+")
         # Don't store any information other than the doc ID
-        self.format = engine.formats.Existence(field_boost=field_boost)
+        self.format = cylleneus.engine.formats.Existence(field_boost=field_boost)
         self.stored = stored
         self.unique = unique
 
@@ -588,9 +588,9 @@ class NUMERIC(FieldType):
         self.decimal_places = decimal_places
         self.shift_step = shift_step
         self.signed = signed
-        self.analyzer = engine.analysis.analyzers.IDAnalyzer()
+        self.analyzer = cylleneus.engine.analysis.analyzers.IDAnalyzer()
         # Don't store any information other than the doc ID
-        self.format = engine.formats.Existence(field_boost=field_boost)
+        self.format = cylleneus.engine.formats.Existence(field_boost=field_boost)
         self.min_value, self.max_value = self._min_max()
 
         # Column configuration
@@ -916,7 +916,7 @@ class BOOLEAN(FieldType):
 
         self.stored = stored
         # Don't store any information other than the doc ID
-        self.format = engine.formats.Existence(field_boost=field_boost)
+        self.format = cylleneus.engine.formats.Existence(field_boost=field_boost)
 
     def _obj_to_bool(self, x):
         # We special case strings such as "true", "false", "yes", "no", but
@@ -1015,15 +1015,15 @@ class KEYWORD(FieldType):
         :param scorable: Whether this field is scorable.
         """
 
-        self.analyzer = engine.analysis.analyzers.KeywordAnalyzer(lowercase=lowercase,
-                                                 commas=commas)
+        self.analyzer = cylleneus.engine.analysis.analyzers.KeywordAnalyzer(lowercase=lowercase,
+                                                                            commas=commas)
         # Store field lengths and weights along with doc ID
-        self.format = engine.formats.Frequency(field_boost=field_boost)
+        self.format = cylleneus.engine.formats.Frequency(field_boost=field_boost)
         self.scorable = scorable
         self.stored = stored
         self.unique = unique
 
-        if isinstance(vector, engine.formats.Format):
+        if isinstance(vector, cylleneus.engine.formats.Format):
             self.vector = vector
         elif vector:
             self.vector = self.format
@@ -1046,9 +1046,9 @@ class TEXT(FieldType):
                  sortable=False, lang=None, vector=None,
                  spelling_prefix="spell_"):
         """
-        :param analyzer: The engine.analysis.Analyzer to use to index the field
-            contents. See the engine.analysis.module for more information. If you omit
-            this argument, the field uses engine.analysis.StandardAnalyzer.
+        :param analyzer: The cylleneus.engine.analysis.Analyzer to use to index the field
+            contents. See the cylleneus.engine.analysis.module for more information. If you omit
+            this argument, the field uses cylleneus.engine.analysis.StandardAnalyzer.
         :param phrase: Whether the store positional information to allow phrase
             searching.
         :param chars: Whether to store character ranges along with positions.
@@ -1078,16 +1078,16 @@ class TEXT(FieldType):
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
         else:
-            self.analyzer = engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
 
         if chars:
-            formatclass = engine.formats.CylleneusCharacters
+            formatclass = cylleneus.engine.formats.CylleneusCharacters
         elif phrase:
-            formatclass = engine.formats.Positions
+            formatclass = cylleneus.engine.formats.Positions
         else:
-            formatclass = engine.formats.Frequency
+            formatclass = cylleneus.engine.formats.Frequency
         self.format = formatclass(field_boost=field_boost)
 
         if sortable:
@@ -1104,7 +1104,7 @@ class TEXT(FieldType):
         self.scorable = True
         self.stored = stored
 
-        if isinstance(vector, engine.formats.Format):
+        if isinstance(vector, cylleneus.engine.formats.Format):
             self.vector = vector
         elif vector:
             self.vector = self.format
@@ -1137,7 +1137,7 @@ class SpellField(FieldType):
     """
 
     def __init__(self, analyzer):
-        self.format = engine.formats.Frequency()
+        self.format = cylleneus.engine.formats.Frequency()
         self.analyzer = analyzer
         self.column_type = None
         self.scorabe = False
@@ -1146,7 +1146,7 @@ class SpellField(FieldType):
         self.indexed = True
         self.spelling = False
 
-    # All the text engine.analysis.methods add "nomorph" to the keywords to get
+    # All the text cylleneus.engine.analysis.methods add "nomorph" to the keywords to get
     # unmorphed term texts
 
     def index(self, value, boost=1.0, **kwargs):
@@ -1189,13 +1189,13 @@ class NGRAM(FieldType):
             searching. The default is off.
         """
 
-        formatclass = engine.formats.Frequency
+        formatclass = cylleneus.engine.formats.Frequency
         if phrase:
-            formatclass = engine.formats.Positions
+            formatclass = cylleneus.engine.formats.Positions
 
-        self.analyzer = engine.analysis.analyzers.NgramAnalyzer(minsize, maxsize)
+        self.analyzer = cylleneus.engine.analysis.analyzers.NgramAnalyzer(minsize, maxsize)
         self.format = formatclass(field_boost=field_boost)
-        self.analyzer = engine.analysis.analyzers.NgramAnalyzer(minsize, maxsize)
+        self.analyzer = cylleneus.engine.analysis.analyzers.NgramAnalyzer(minsize, maxsize)
         self.stored = stored
         self.queryor = queryor
         self.set_sortable(sortable)
@@ -1239,9 +1239,9 @@ class NGRAMWORDS(NGRAM):
             default is to combine N-grams with an And query.
         """
 
-        self.analyzer = engine.analysis.analyzers.NgramWordAnalyzer(minsize, maxsize, tokenizer,
-                                                   at=at)
-        self.format = engine.formats.Frequency(field_boost=field_boost)
+        self.analyzer = cylleneus.engine.analysis.analyzers.NgramWordAnalyzer(minsize, maxsize, tokenizer,
+                                                                              at=at)
+        self.format = cylleneus.engine.formats.Frequency(field_boost=field_boost)
         self.stored = stored
         self.queryor = queryor
         self.set_sortable(sortable)
@@ -1252,8 +1252,8 @@ class NGRAMWORDS(NGRAM):
 class ReverseField(FieldWrapper):
     def __init__(self, subfield, prefix="rev_"):
         FieldWrapper.__init__(self, subfield, prefix)
-        self.analyzer = subfield.analyzer | engine.analysis.ReverseTextFilter()
-        self.format = engine.formats.BasicFormat(lengths=False, weights=False)
+        self.analyzer = subfield.analyzer | cylleneus.engine.analysis.ReverseTextFilter()
+        self.format = cylleneus.engine.formats.BasicFormat(lengths=False, weights=False)
 
         self.scorable = False
         self.set_sortable(False)
@@ -1588,7 +1588,7 @@ def index(self, value, docix=0, **kwargs):
                             % (self.__class__.__name__, self))
         if not isinstance(value, (text_type, list, tuple, dict, bytes)):
             raise ValueError("%r is not unicode or sequence" % value)
-        assert isinstance(self.format, engine.formats.Format)
+        assert isinstance(self.format, cylleneus.engine.formats.Format)
 
         if "mode" not in kwargs:
             kwargs["mode"] = "index"
@@ -1608,16 +1608,16 @@ class FORM(FieldType):
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
         else:
-            self.analyzer = engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
 
         if chars:
-            formatclass = engine.formats.CylleneusCharacters
+            formatclass = cylleneus.engine.formats.CylleneusCharacters
         elif phrase:
-            formatclass = engine.formats.Positions
+            formatclass = cylleneus.engine.formats.Positions
         else:
-            formatclass = engine.formats.Frequency
+            formatclass = cylleneus.engine.formats.Frequency
         self.format = formatclass(field_boost=field_boost)
 
         if sortable:
@@ -1634,7 +1634,7 @@ class FORM(FieldType):
         self.scorable = True
         self.stored = stored
 
-        if isinstance(vector, engine.formats.Format):
+        if isinstance(vector, cylleneus.engine.formats.Format):
             self.vector = vector
         elif vector:
             self.vector = self.format
@@ -1651,16 +1651,16 @@ class LEMMA(FieldType):
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
         else:
-            self.analyzer = engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
 
         if chars:
-            formatclass = engine.formats.CylleneusCharacters
+            formatclass = cylleneus.engine.formats.CylleneusCharacters
         elif phrase:
-            formatclass = engine.formats.Positions
+            formatclass = cylleneus.engine.formats.Positions
         else:
-            formatclass = engine.formats.Frequency
+            formatclass = cylleneus.engine.formats.Frequency
         self.format = formatclass(field_boost=field_boost)
 
         if sortable:
@@ -1677,7 +1677,7 @@ class LEMMA(FieldType):
         self.scorable = True
         self.stored = stored
 
-        if isinstance(vector, engine.formats.Format):
+        if isinstance(vector, cylleneus.engine.formats.Format):
             self.vector = vector
         elif vector:
             self.vector = self.format
@@ -1691,9 +1691,9 @@ class SYNSET(FieldType):
                  sortable=False, lang=None, vector=True,
                  spelling_prefix="spell_"):
         """
-        :param analyzer: The engine.analysis.Analyzer to use to index the field
-            contents. See the engine.analysis.module for more information. If you omit
-            this argument, the field uses engine.analysis.StandardAnalyzer.
+        :param analyzer: The cylleneus.engine.analysis.Analyzer to use to index the field
+            contents. See the cylleneus.engine.analysis.module for more information. If you omit
+            this argument, the field uses cylleneus.engine.analysis.StandardAnalyzer.
         :param phrase: Whether the store positional information to allow phrase
             searching.
         :param chars: Whether to store character ranges along with positions.
@@ -1723,16 +1723,16 @@ class SYNSET(FieldType):
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
         else:
-            self.analyzer = engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
 
         if chars:
-            formatclass = engine.formats.CylleneusCharacters
+            formatclass = cylleneus.engine.formats.CylleneusCharacters
         elif phrase:
-            formatclass = engine.formats.Positions
+            formatclass = cylleneus.engine.formats.Positions
         else:
-            formatclass = engine.formats.Frequency
+            formatclass = cylleneus.engine.formats.Frequency
         self.format = formatclass(field_boost=field_boost)
 
         if sortable:
@@ -1749,7 +1749,7 @@ class SYNSET(FieldType):
         self.scorable = True
         self.stored = stored
 
-        if isinstance(vector, engine.formats.Format):
+        if isinstance(vector, cylleneus.engine.formats.Format):
             self.vector = vector
         elif vector:
             self.vector = self.format
@@ -1766,16 +1766,16 @@ class ANNOTATION(FieldType):
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
         else:
-            self.analyzer = engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
 
         if chars:
-            formatclass = engine.formats.CylleneusCharacters
+            formatclass = cylleneus.engine.formats.CylleneusCharacters
         elif phrase:
-            formatclass = engine.formats.Positions
+            formatclass = cylleneus.engine.formats.Positions
         else:
-            formatclass = engine.formats.Frequency
+            formatclass = cylleneus.engine.formats.Frequency
         self.format = formatclass(field_boost=field_boost)
 
         if sortable:
@@ -1792,20 +1792,17 @@ class ANNOTATION(FieldType):
         self.scorable = True
         self.stored = stored
 
-        if isinstance(vector, engine.formats.Format):
+        if isinstance(vector, cylleneus.engine.formats.Format):
             self.vector = vector
         elif vector:
             self.vector = self.format
         else:
             self.vector = None
 
-    def self_parsing(self):
-        return True
-
     def parse_query(self, fieldname, qstring, boost=1.0):
-        terms = [engine.query.terms.Annotation(fieldname, g)
+        terms = [cylleneus.engine.query.terms.Annotation(fieldname, g)
                  for g in self.process_text(qstring, mode='query')]
-        cls = engine.query.positional.Collocation
+        cls = cylleneus.engine.query.positional.Collocation
 
         return cls(terms, boost=boost)
 
@@ -1819,16 +1816,16 @@ class SEMFIELD(FieldType):
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
         else:
-            self.analyzer = engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
 
         if chars:
-            formatclass = engine.formats.CylleneusCharacters
+            formatclass = cylleneus.engine.formats.CylleneusCharacters
         elif phrase:
-            formatclass = engine.formats.Positions
+            formatclass = cylleneus.engine.formats.Positions
         else:
-            formatclass = engine.formats.Frequency
+            formatclass = cylleneus.engine.formats.Frequency
         self.format = formatclass(field_boost=field_boost)
 
         if sortable:
@@ -1845,7 +1842,7 @@ class SEMFIELD(FieldType):
         self.scorable = True
         self.stored = stored
 
-        if isinstance(vector, engine.formats.Format):
+        if isinstance(vector, cylleneus.engine.formats.Format):
             self.vector = vector
         elif vector:
             self.vector = self.format
@@ -1862,16 +1859,16 @@ class MORPHOSYNTAX(FieldType):
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
         else:
-            self.analyzer = engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
 
         if chars:
-            formatclass = engine.formats.CylleneusCharacters
+            formatclass = cylleneus.engine.formats.CylleneusCharacters
         elif phrase:
-            formatclass = engine.formats.Positions
+            formatclass = cylleneus.engine.formats.Positions
         else:
-            formatclass = engine.formats.Frequency
+            formatclass = cylleneus.engine.formats.Frequency
         self.format = formatclass(field_boost=field_boost)
 
         if sortable:
@@ -1888,7 +1885,7 @@ class MORPHOSYNTAX(FieldType):
         self.scorable = True
         self.stored = stored
 
-        if isinstance(vector, engine.formats.Format):
+        if isinstance(vector, cylleneus.engine.formats.Format):
             self.vector = vector
         elif vector:
             self.vector = self.format

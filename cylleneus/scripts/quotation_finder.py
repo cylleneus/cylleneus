@@ -4,7 +4,7 @@ from itertools import chain
 import json
 
 from corpus import Corpus, Work
-from engine.analysis.filters import CachedLemmaFilter, CachedSynsetFilter
+from cylleneus.engine.analysis.filters import CachedLemmaFilter, CachedSynsetFilter
 from corpus.perseus.tokenizer import Tokenizer
 from search import Searcher, Collection
 

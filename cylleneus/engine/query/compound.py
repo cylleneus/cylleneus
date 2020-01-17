@@ -27,25 +27,25 @@
 
 from __future__ import division
 
-import engine.matching.binary
-import engine.matching.combo
-import engine.matching.mcore
-import engine.matching.wrappers
-import engine.query.qcore
+import cylleneus.engine.matching.binary
+import cylleneus.engine.matching.combo
+import cylleneus.engine.matching.mcore
+import cylleneus.engine.matching.wrappers
+import cylleneus.engine.query.qcore
 import whoosh.query.qcore
-from engine.compat import text_type, u
+from cylleneus.engine.compat import text_type, u
 from whoosh.util import make_binary_tree, make_weighted_tree
 
 
-class CylleneusCompoundQuery(engine.query.qcore.Query):
+class CylleneusCompoundQuery(cylleneus.engine.query.qcore.Query):
     """Abstract base class for queries that combine or manipulate the results
     of multiple sub-queries.
     """
 
     def __init__(self, subqueries, boost=1.0, annotation=None, meta=False):
         for subq in subqueries:
-            if not isinstance(subq, engine.query.qcore.Query):
-                raise engine.query.qcore.QueryError("%r is not a query" % subq)
+            if not isinstance(subq, cylleneus.engine.query.qcore.Query):
+                raise cylleneus.engine.query.qcore.QueryError("%r is not a query" % subq)
         self.subqueries = subqueries
         self.boost = boost if boost > 1.0 else len(subqueries)
         self.annotation = annotation
@@ -117,7 +117,7 @@ class CylleneusCompoundQuery(engine.query.qcore.Query):
         return min(est, ixreader.doc_count())
 
     def estimate_min_size(self, ixreader):
-        from engine.query.wrappers import Not
+        from cylleneus.engine.query.wrappers import Not
 
         subs = self.subqueries
         qs = [(q, q.estimate_min_size(ixreader)) for q in subs
@@ -132,8 +132,8 @@ class CylleneusCompoundQuery(engine.query.qcore.Query):
         return 0
 
     def normalize(self):
-        from engine.query.qcore import Every
-        from engine.query.ranges import TermRange, NumericRange
+        from cylleneus.engine.query.qcore import Every
+        from cylleneus.engine.query.ranges import TermRange, NumericRange
 
         # Normalize subqueries and merge nested instances of this class
         subqueries = []
@@ -145,8 +145,8 @@ class CylleneusCompoundQuery(engine.query.qcore.Query):
                 subqueries.append(s)
 
         # If every subquery is Null, this query is Null
-        if all(q is engine.query.qcore.NullQuery for q in subqueries):
-            return engine.query.qcore.NullQuery
+        if all(q is cylleneus.engine.query.qcore.NullQuery for q in subqueries):
+            return cylleneus.engine.query.qcore.NullQuery
 
         # If there's an unfielded Every inside, then this query is Every
         if any((isinstance(q, Every) and q.fieldname is None)
@@ -189,10 +189,10 @@ class CylleneusCompoundQuery(engine.query.qcore.Query):
             subqs.append(s)
 
         # Remove NullQuerys
-        subqs = [q for q in subqs if q is not engine.query.qcore.NullQuery]
+        subqs = [q for q in subqs if q is not cylleneus.engine.query.qcore.NullQuery]
 
         if not subqs:
-            return engine.query.qcore.NullQuery
+            return cylleneus.engine.query.qcore.NullQuery
 
         if len(subqs) == 1:
             sub = subqs[0]
@@ -209,7 +209,7 @@ class CylleneusCompoundQuery(engine.query.qcore.Query):
             q = self.__class__([subq.simplify(ixreader) for subq in subs],
                                 boost=self.boost, annotation=self.annotation).normalize()
         else:
-            q = engine.query.qcore.NullQuery
+            q = cylleneus.engine.query.qcore.NullQuery
         return q
 
     def matcher(self, searcher, context=None):
@@ -218,7 +218,7 @@ class CylleneusCompoundQuery(engine.query.qcore.Query):
 
         subs = self.subqueries
         if not subs:
-            return engine.matching.mcore.NullMatcher()
+            return cylleneus.engine.matching.mcore.NullMatcher()
 
         if len(subs) == 1:
             m = subs[0].matcher(searcher, context)
@@ -250,7 +250,7 @@ class CylleneusCompoundQuery(engine.query.qcore.Query):
 
         # If this query had a boost, add a wrapping matcher to apply the boost
         if self.boost != 1.0:
-            m = engine.matching.wrappers.WrappingMatcher(m, self.boost)
+            m = cylleneus.engine.matching.wrappers.WrappingMatcher(m, self.boost)
 
         return m
 
@@ -274,7 +274,7 @@ class And(CylleneusCompoundQuery):
     def _matcher(self, subs, searcher, context):
         r = searcher.reader()
         q_weight_fn = lambda q: 0 - q.estimate_size(r)
-        return self._tree_matcher(subs, engine.matching.binary.IntersectionMatcher, searcher,
+        return self._tree_matcher(subs, cylleneus.engine.matching.binary.IntersectionMatcher, searcher,
                                   context, q_weight_fn)
 
 
@@ -377,13 +377,13 @@ class DefaultOr(Or):
     def _matcher(self, subs, searcher, context):
         reader = searcher.reader()
         q_weight_fn = lambda q: q.estimate_size(reader)
-        m = self._tree_matcher(subs, engine.matching.binary.UnionMatcher, searcher, context,
+        m = self._tree_matcher(subs, cylleneus.engine.matching.binary.UnionMatcher, searcher, context,
                                q_weight_fn)
 
         # If a scaling factor was given, wrap the matcher in a CoordMatcher to
         # alter scores based on term coordination
         if self.scale and any(m.term_matchers()):
-            m = engine.matching.wrappers.CoordMatcher(m, scale=self.scale)
+            m = cylleneus.engine.matching.wrappers.CoordMatcher(m, scale=self.scale)
 
         return m
 
@@ -397,7 +397,7 @@ class SplitOr(Or):
         # Get the subqueries
         subs = self.subqueries
         if not subs:
-            return engine.matching.NullMatcher()
+            return cylleneus.engine.matching.NullMatcher()
         elif len(subs) == 1:
             return subs[0].matcher(searcher, context)
 
@@ -418,21 +418,21 @@ class SplitOr(Or):
         smallmatcher = None
         if smallqs:
             smallmatcher = DefaultOr(smallqs).matcher(searcher, context)
-            smallmatcher = engine.matching.combo.ArrayUnionMatcher(smallmatcher, context.limit)
+            smallmatcher = cylleneus.engine.matching.combo.ArrayUnionMatcher(smallmatcher, context.limit)
             minscore = smallmatcher.limit_quality()
         if bigqs:
             # Get a matcher for the big queries
             m = DefaultOr(bigqs).matcher(searcher, context)
             # Add the prescored matcher for the small queries
             if smallmatcher:
-                m = engine.matching.binary.UnionMatcher(m, smallmatcher)
+                m = cylleneus.engine.matching.binary.UnionMatcher(m, smallmatcher)
                 # Set the minimum score based on the prescored matcher
                 m.set_min_quality(minscore)
         elif smallmatcher:
             # If there are no big queries, just return the prescored matcher
             m = smallmatcher
         else:
-            m = engine.matching.mcore.NullMatcher()
+            m = cylleneus.engine.matching.mcore.NullMatcher()
 
         return m
 
@@ -448,8 +448,8 @@ class PreloadedOr(Or):
 
         ms = [sub.matcher(searcher, context) for sub in subs]
         doccount = searcher.doc_count_all()
-        am = engine.matching.combo.ArrayUnionMatcher(ms, doccount, boost=self.boost,
-                                                          scored=scored)
+        am = cylleneus.engine.matching.combo.ArrayUnionMatcher(ms, doccount, boost=self.boost,
+                                                               scored=scored)
         return am
 
 
@@ -473,7 +473,7 @@ class DisjunctionMax(CylleneusCompoundQuery):
     __str__ = __unicode__
 
     def normalize(self):
-        norm = engine.query.compound.CylleneusCompoundQuery.normalize(self)
+        norm = cylleneus.engine.query.compound.CylleneusCompoundQuery.normalize(self)
         if norm.__class__ is self.__class__:
             norm.tiebreak = self.tiebreak
         return norm
@@ -487,7 +487,7 @@ class DisjunctionMax(CylleneusCompoundQuery):
     def _matcher(self, subs, searcher, context):
         r = searcher.reader()
         q_weight_fn = lambda q: q.estimate_size(r)
-        return self._tree_matcher(subs, engine.matching.binary.DisjunctionMaxMatcher,
+        return self._tree_matcher(subs, cylleneus.engine.matching.binary.DisjunctionMaxMatcher,
                                   searcher, context, q_weight_fn,
                                   tiebreak=self.tiebreak)
 
@@ -533,11 +533,11 @@ class BinaryQuery(CylleneusCompoundQuery):
     def normalize(self):
         a = self.a.normalize()
         b = self.b.normalize()
-        if a is engine.query.qcore.NullQuery and b is engine.query.qcore.NullQuery:
-            return engine.query.qcore.NullQuery
-        elif a is engine.query.qcore.NullQuery:
+        if a is cylleneus.engine.query.qcore.NullQuery and b is cylleneus.engine.query.qcore.NullQuery:
+            return cylleneus.engine.query.qcore.NullQuery
+        elif a is cylleneus.engine.query.qcore.NullQuery:
             return b
-        elif b is engine.query.qcore.NullQuery:
+        elif b is cylleneus.engine.query.qcore.NullQuery:
             return a
 
         return self.__class__(a, b)
@@ -561,9 +561,9 @@ class AndNot(BinaryQuery):
         a = self.a.normalize()
         b = self.b.normalize()
 
-        if a is engine.query.qcore.NullQuery:
-            return engine.query.qcore.NullQuery
-        elif b is engine.query.qcore.NullQuery:
+        if a is cylleneus.engine.query.qcore.NullQuery:
+            return cylleneus.engine.query.qcore.NullQuery
+        elif b is cylleneus.engine.query.qcore.NullQuery:
             return a
 
         return self.__class__(a, b)
@@ -574,7 +574,7 @@ class AndNot(BinaryQuery):
     def matcher(self, searcher, context=None):
         scoredm = self.a.matcher(searcher, context)
         notm = self.b.matcher(searcher, searcher.boolean_context())
-        return engine.matching.binary.AndNotMatcher(scoredm, notm)
+        return cylleneus.engine.matching.binary.AndNotMatcher(scoredm, notm)
 
 
 class Otherwise(BinaryQuery):
@@ -598,7 +598,7 @@ class Require(BinaryQuery):
     """
 
     JOINT = " REQUIRE "
-    matcherclass = engine.matching.wrappers.RequireMatcher
+    matcherclass = cylleneus.engine.matching.wrappers.RequireMatcher
 
     def requires(self):
         return self.a.requires() | self.b.requires()
@@ -615,8 +615,8 @@ class Require(BinaryQuery):
     def normalize(self):
         a = self.a.normalize()
         b = self.b.normalize()
-        if a is engine.query.qcore.NullQuery or b is engine.query.qcore.NullQuery:
-            return engine.query.qcore.NullQuery
+        if a is cylleneus.engine.query.qcore.NullQuery or b is cylleneus.engine.query.qcore.NullQuery:
+            return cylleneus.engine.query.qcore.NullQuery
         return self.__class__(a, b)
 
     def docs(self, searcher):
@@ -625,7 +625,7 @@ class Require(BinaryQuery):
     def matcher(self, searcher, context=None):
         scoredm = self.a.matcher(searcher, context)
         requiredm = self.b.matcher(searcher, searcher.boolean_context())
-        return engine.matching.binary.AndNotMatcher(scoredm, requiredm)
+        return cylleneus.engine.matching.binary.AndNotMatcher(scoredm, requiredm)
 
 
 class AndMaybe(BinaryQuery):
@@ -635,14 +635,14 @@ class AndMaybe(BinaryQuery):
     """
 
     JOINT = " ANDMAYBE "
-    matcherclass = engine.matching.binary.AndMaybeMatcher
+    matcherclass = cylleneus.engine.matching.binary.AndMaybeMatcher
 
     def normalize(self):
         a = self.a.normalize()
         b = self.b.normalize()
-        if a is engine.query.qcore.NullQuery:
-            return engine.query.qcore.NullQuery
-        if b is engine.query.qcore.NullQuery:
+        if a is cylleneus.engine.query.qcore.NullQuery:
+            return cylleneus.engine.query.qcore.NullQuery
+        if b is cylleneus.engine.query.qcore.NullQuery:
             return a
         return self.__class__(a, b)
 

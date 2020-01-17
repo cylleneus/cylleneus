@@ -58,6 +58,7 @@ requirements = [
     "nltk>=3.4.5",
     "PyLD>=1.0.5",
     "pyparsing>=2.4.6",
+    "python-docx>=0.8.10",
     "rdflib>=4.2.2",
     "rdflib-jsonld>=0.4.0",
     "requests>=2.22.0",

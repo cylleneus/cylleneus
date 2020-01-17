@@ -3,8 +3,8 @@
 import os
 import sys
 from appdirs import user_data_dir
-from utils import DEBUG_HIGH, DEBUG_MEDIUM, DEBUG_LOW, DEBUG_OFF
-
+from .utils import DEBUG_HIGH, DEBUG_MEDIUM, DEBUG_LOW, DEBUG_OFF
+from . import __path__
 
 # Debugging settings
 DEBUG = DEBUG_OFF

@@ -2,10 +2,10 @@ import copy
 import re
 from itertools import chain
 
-from engine.analysis.filters import Filter, _iso_639
+from cylleneus.engine.analysis.filters import Filter, _iso_639
 from greekwordnet import GreekWordNet
 from greekwordnet.greekwordnet import relation_types
-from lang.morpho import leipzig2wn
+from cylleneus.lang.morpho import leipzig2wn
 from multiwordnet.wordnet import WordNet
 
 from .core import relations
@@ -59,7 +59,9 @@ class CachedLemmaFilter(Filter):
                                     morpho = morpho[:-2] + "--"
                                 if morpho[5] == "p" and result["morpho"][5] == "d":
                                     morpho = morpho[:5] + "d" + morpho[6:]
-                                t.morpho = f"{result['morpho']}::{result['uri']}:0>{morpho}"
+                                t.morpho = (
+                                    f"{result['morpho']}::{result['uri']}:0>{morpho}"
+                                )
                                 t.text = (
                                     f"{result['lemma']}:"
                                     f"{result['uri']}={result['morpho']}"

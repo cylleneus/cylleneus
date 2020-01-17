@@ -30,7 +30,7 @@ import random, sys, time
 from bisect import insort, bisect_left
 from functools import wraps
 
-from engine.compat import xrange
+from cylleneus.engine.compat import xrange
 
 
 # These must be valid separate characters in CASE-INSENSTIVE filenames
@@ -67,7 +67,7 @@ def make_binary_tree(fn, args, **kwargs):
     Any keyword arguments given to this function are passed to the class
     initializer.
     """
-    from engine.matching import WrappingMatcher
+    from cylleneus.engine.matching import WrappingMatcher
 
     if isinstance(args, WrappingMatcher):
         return args.child

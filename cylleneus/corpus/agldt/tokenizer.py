@@ -1,9 +1,9 @@
 import copy
 import re
 
-from engine.analysis.tokenizers import Tokenizer
-from engine.analysis.acore import CylleneusToken
-from lang.latin import editorial, jvmap
+from cylleneus.engine.analysis.tokenizers import Tokenizer
+from cylleneus.engine.analysis.acore import CylleneusToken
+from cylleneus.lang.latin import editorial, jvmap
 
 
 class CachedTokenizer(Tokenizer):
@@ -18,26 +18,38 @@ class CachedTokenizer(Tokenizer):
     def cache(self):
         return copy.deepcopy(self._cache)
 
-    def __call__(self, data, positions=True, chars=True,
-                 keeporiginal=True, removestops=True, tokenize=True,
-                 start_pos=0, start_char=0, mode='', **kwargs):
-        if kwargs.get('docix', None) == self._docix and self._cache:
+    def __call__(
+        self,
+        data,
+        positions=True,
+        chars=True,
+        keeporiginal=True,
+        removestops=True,
+        tokenize=True,
+        start_pos=0,
+        start_char=0,
+        mode="",
+        **kwargs,
+    ):
+        if kwargs.get("docix", None) == self._docix and self._cache:
             yield from self.cache
         else:
-            t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
+            t = CylleneusToken(
+                positions, chars, removestops=removestops, mode=mode, **kwargs
+            )
 
-            if t.mode == 'query':
+            if t.mode == "query":
                 t.original = data
                 t.text = data.translate(jvmap)
                 yield t
             else:
                 self._cache = []
-                self._docix = kwargs.get('docix', None)
+                self._docix = kwargs.get("docix", None)
 
                 if not tokenize:
-                    t.original = ''
-                    for token in data.iter('token'):
-                        form = token.get('form')
+                    t.original = ""
+                    for token in data.iter("token"):
+                        form = token.get("form")
                         if not form:
                             continue
                         t.original += f"{form}"
@@ -50,35 +62,33 @@ class CachedTokenizer(Tokenizer):
                         t.endchar = start_char + len(t.original)
                     yield t
                 else:
-                    from corpus.agldt import agldt2wn
+                    from cylleneus.corpus.agldt import agldt2wn
 
-                    for sentence in data['text'].iter('sentence'):
-                        for pos, token in enumerate(sentence.iter('word')):
-                            if token.get('artificial', False):
+                    for sentence in data["text"].iter("sentence"):
+                        for pos, token in enumerate(sentence.iter("word")):
+                            if token.get("artificial", False):
                                 continue
-                            form = token.get('form')
+                            form = token.get("form")
                             if not form:
                                 continue
                             else:
-                                form = form.replace(' ', ' ').replace(' ', ' ')
-                                form = re.sub(r"\.([^ ]|^$)", r'. \1', form)
-                            lemma = token.get('lemma')
-                            if lemma in ('.', ',', 'punc1', 'comma1', 'PERIOD1'):
+                                form = form.replace(" ", " ").replace(" ", " ")
+                                form = re.sub(r"\.([^ ]|^$)", r". \1", form)
+                            lemma = token.get("lemma", None)
+                            if not lemma or lemma in (".", ",", "punc1", "comma1", "PERIOD1"):
                                 continue
-                            t.lemma = token.get('lemma', None)
-                            t.morpho = agldt2wn(token.get('postag'))
-                            t.morphosyntax = token.get('relation', None)
+                            t.lemma = lemma.strip('0123456789')
+                            t.morpho = agldt2wn(token.get("postag"))
+                            t.morphosyntax = token.get("relation", None)
                             t.boost = 1.0
 
-                            meta = {
-                                'meta': data['meta'].lower()
-                            }
-                            divs = data['meta'].split('-')
+                            meta = {"meta": data["meta"].lower()}
+                            divs = data["meta"].split("-")
                             for i, div in enumerate(divs):
-                                if not (len(divs) > 2 and div == 'line'):
-                                    meta[div] = sentence.get('subdoc').split('.')[i]
-                            meta['sent_id'] = sentence.get('id')
-                            meta['sent_pos'] = token.get('id')
+                                if not (len(divs) > 2 and div == "line"):
+                                    meta[div] = sentence.get("subdoc").split(".")[i]
+                            meta["sent_id"] = sentence.get("id")
+                            meta["sent_pos"] = token.get("id")
                             t.meta = meta
 
                             if keeporiginal:
@@ -94,11 +104,13 @@ class CachedTokenizer(Tokenizer):
                             if chars:
                                 t.startchar = start_char
                                 t.endchar = start_char + original_len
-                            if self.cached: self._cache.append(copy.copy(t))
+                            if self.cached:
+                                self._cache.append(copy.copy(t))
                             yield t
 
                             if form in editorial:
                                 t.text = editorial[form]
-                                if self.cached: self._cache.append(copy.copy(t))
+                                if self.cached:
+                                    self._cache.append(copy.copy(t))
                                 yield t
                             start_char += len(form)

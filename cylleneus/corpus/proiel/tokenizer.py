@@ -1,9 +1,9 @@
 import copy
 import re
 
-from engine.analysis.tokenizers import Tokenizer
-from engine.analysis.acore import CylleneusToken
-from lang.latin import editorial, jvmap
+from cylleneus.engine.analysis.tokenizers import Tokenizer
+from cylleneus.engine.analysis.acore import CylleneusToken
+from cylleneus.lang.latin import editorial, jvmap
 from .core import proiel2wn
 
 

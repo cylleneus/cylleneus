@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 from cylleneus import settings
-from utils import nrange, alnum
+from cylleneus.utils import nrange, alnum
 
 
 # Glob pattern for indexing

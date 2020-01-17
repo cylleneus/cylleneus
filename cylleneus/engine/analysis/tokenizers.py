@@ -30,13 +30,14 @@ import re
 import string
 from collections import deque
 
-import engine.analysis
-from engine.analysis.acore import Composable, CylleneusToken
-from lang.latin import compound, jvmap, proper_names, punctuation, roman_to_arabic, sent_tokenizer, word_tokenizer, \
+import cylleneus.engine.analysis
+from cylleneus.engine.analysis.acore import Composable, CylleneusToken
+from cylleneus.lang.latin import compound, jvmap, proper_names, punctuation, roman_to_arabic, sent_tokenizer, \
+    word_tokenizer, \
     replacements, editorial, exceptions, enclitics, PunktLatinCharsVars
 from lxml.etree import ElementTree
-from utils import flatten, stringify, nested_dict_iter
-from engine.compat import text_type, u
+from cylleneus.utils import flatten, stringify, nested_dict_iter
+from cylleneus.engine.compat import text_type, u
 from whoosh.util.text import rcompile
 
 default_pattern = rcompile(r"\w+(\.?\w+)*")

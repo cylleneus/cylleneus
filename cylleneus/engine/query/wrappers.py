@@ -29,16 +29,16 @@ from __future__ import division
 
 from array import array
 
-from engine.compat import text_type, u
+from cylleneus.engine.compat import text_type, u
 
-import engine.matching.binary
-import engine.matching.combo
-import engine.matching.mcore
-import engine.matching.wrappers
-import engine.query.qcore
+import cylleneus.engine.matching.binary
+import cylleneus.engine.matching.combo
+import cylleneus.engine.matching.mcore
+import cylleneus.engine.matching.wrappers
+import cylleneus.engine.query.qcore
 
 
-class WrappingQuery(engine.query.qcore.Query):
+class WrappingQuery(cylleneus.engine.query.qcore.Query):
     def __init__(self, child):
         self.child = child
 
@@ -79,7 +79,7 @@ class WrappingQuery(engine.query.qcore.Query):
         return self.child.matcher(searcher, context)
 
 
-class Not(engine.query.qcore.Query):
+class Not(cylleneus.engine.query.qcore.Query):
     """Excludes any documents that match the subquery.
     >>> # Match documents that contain 'render' but not 'texture'
     >>> And([Term("content", u"render"),
@@ -88,7 +88,7 @@ class Not(engine.query.qcore.Query):
     >>> Term("content", u"render") - Term("content", u"texture")
     """
 
-    __inittypes__ = dict(query=engine.query.qcore.Query)
+    __inittypes__ = dict(query=cylleneus.engine.query.qcore.Query)
 
     def __init__(self, query, boost=1.0):
         """
@@ -130,7 +130,7 @@ class Not(engine.query.qcore.Query):
 
     def normalize(self):
         q = self.query.normalize()
-        if q is engine.query.qcore.NullQuery:
+        if q is cylleneus.engine.query.qcore.NullQuery:
             return q
         else:
             return self.__class__(q, boost=self.boost)
@@ -149,8 +149,8 @@ class Not(engine.query.qcore.Query):
         # as And and Or do special handling of Not subqueries.
         reader = searcher.reader()
         child = self.query.matcher(searcher, searcher.boolean_context())
-        return engine.matching.wrappers.InverseMatcher(child, reader.doc_count_all(),
-                                                            missing=reader.is_deleted)
+        return cylleneus.engine.matching.wrappers.InverseMatcher(child, reader.doc_count_all(),
+                                                                 missing=reader.is_deleted)
 
 
 class ConstantScoreQuery(WrappingQuery):
@@ -179,12 +179,12 @@ class ConstantScoreQuery(WrappingQuery):
 
         context = context or SearchContext()
         m = self.child.matcher(searcher, context)
-        if context.needs_current or isinstance(m, engine.matching.mcore.NullMatcherClass):
+        if context.needs_current or isinstance(m, cylleneus.engine.matching.mcore.NullMatcherClass):
             return m
         else:
             ids = array("I", m.all_ids())
-            return engine.matching.mcore.ListMatcher(ids, all_weights=self.score,
-                                                          term=m.term())
+            return cylleneus.engine.matching.mcore.ListMatcher(ids, all_weights=self.score,
+                                                               term=m.term())
 
 
 class WeightingQuery(WrappingQuery):

@@ -1,13 +1,13 @@
 from heapq import nlargest
 from itertools import groupby
 
-import engine.analysis
-import engine.query
-import engine.searching
+import cylleneus.engine.analysis
+import cylleneus.engine.query
+import cylleneus.engine.searching
 from cylleneus import settings
 import whoosh.highlight
 from natsort import natsorted
-from engine.compat import htmlescape
+from cylleneus.engine.compat import htmlescape
 
 
 class CylleneusFragment(object):
@@ -150,7 +150,8 @@ def highlight(text, terms, analyzer, fragmenter, formatter, top=3,
 def get_boost(q, word):
     boost = 1
     for qt in q:
-        if isinstance(qt, (engine.query.compound.CylleneusCompoundQuery, engine.query.spans.SpanQuery)):
+        if isinstance(qt,
+                      (cylleneus.engine.query.compound.CylleneusCompoundQuery, cylleneus.engine.query.spans.SpanQuery)):
             boost = get_boost(qt, word)
         else:
             if word.split('::')[0] == qt.text.split('::')[0]:
@@ -274,10 +275,11 @@ class CylleneusHighlighter(object):
                 for pos, startchar, endchar, meta in chars:
                     if charlimit and endchar > charlimit:
                         break
-                    t = engine.analysis.acore.CylleneusToken(docnum=hitobj['docix'], text=word, pos=pos,
-                                                                  startchar=startchar, endchar=endchar, boost=boost,
-                                                                  fieldname=field.__class__.__name__.lower())
-                    t.meta = { item.split('=')[0]: item.split('=')[1] for item in meta[0] }
+                    t = cylleneus.engine.analysis.acore.CylleneusToken(docnum=hitobj['docix'], text=word, pos=pos,
+                                                                       startchar=startchar, endchar=endchar,
+                                                                       boost=boost,
+                                                                       fieldname=field.__class__.__name__.lower())
+                    t.meta = {item.split('=')[0]: item.split('=')[1] for item in meta[0]}
                     tokens.append(t)
 
             # Sort fragments by position in text, preferring standard references
@@ -353,8 +355,9 @@ class CylleneusHighlighter(object):
                 for pos, startchar, endchar in chars:
                     if charlimit and endchar > charlimit:
                         break
-                    tokens.append(engine.analysis.acore.CylleneusToken(docnum=hitobj['docnum'], text=word, pos=pos,
-                                                                            startchar=startchar, endchar=endchar))
+                    tokens.append(
+                        cylleneus.engine.analysis.acore.CylleneusToken(docnum=hitobj['docnum'], text=word, pos=pos,
+                                                                       startchar=startchar, endchar=endchar))
             tokens.sort(key=lambda t: t.startchar)
             tokens = [max(group, key=lambda t: t.endchar - t.startchar)
                       for key, group in groupby(tokens, lambda t: t.startchar)]
@@ -383,14 +386,14 @@ whoosh.highlight.top_fragments = top_fragments
 class CylleneusBasicFragmentScorer(whoosh.highlight.FragmentScorer):
     def __call__(self, query, fragment):
         # if fragment.matches:
-        #     if isinstance(query, (engine.query.positional.Sequence, whoosh.query.Sequence)):
+        #     if isinstance(query, (cylleneus.engine.query.positional.Sequence, whoosh.query.Sequence)):
         #         ordering = {
         #             (subq.fieldname, subq.text.split('::')[0]): q.pos
         #             for q in query
         #             for subq in q
         #             if hasattr(q, 'pos')
         #         }
-        #     elif isinstance(query, (engine.query.compound.CylleneusCompoundQuery, whoosh.query.compound.CompoundQuery)):
+        #     elif isinstance(query, (cylleneus.engine.query.compound.CylleneusCompoundQuery, whoosh.query.compound.CompoundQuery)):
         #         ordering = {
         #             (subq.fieldname, subq.text.split('::')[0]): 0
         #             for q in query
@@ -415,7 +418,7 @@ class CylleneusBasicFragmentScorer(whoosh.highlight.FragmentScorer):
         #         score *= fragment.matches[0].boost
         #
         #     # Guarantee that sequential and compound queries get through
-        #     if isinstance(query, engine.query.positional.Sequence):
+        #     if isinstance(query, cylleneus.engine.query.positional.Sequence):
         #         matches = sorted(fragment.matches, key=lambda m: m.startchar)
         #         for i, m in enumerate(matches):
         #             if i + 1 < len(matches):
@@ -424,24 +427,24 @@ class CylleneusBasicFragmentScorer(whoosh.highlight.FragmentScorer):
         #                     return 0
         #         if all(map(lambda m: (m.fieldname, m.text.split('::')[0]) in ordering, matches)):
         #             score *= 2
-        #     elif isinstance(query, engine.query.compound.CylleneusCompoundQuery):
+        #     elif isinstance(query, cylleneus.engine.query.compound.CylleneusCompoundQuery):
         #         matches = sorted(fragment.matches, key=lambda m: m.startchar)
         #         if all(map(lambda m: (m.fieldname, m.text.split('::')[0]) in query.iter_all_terms(), matches)):
         #             score *= 2
         #
         #     # Favor term diversity
-        #     score *= (len(fragment.matched_terms) / engine.searching.total_terms(query)) or 1
+        #     score *= (len(fragment.matched_terms) / cylleneus.engine.searching.total_terms(query)) or 1
         #
         #     # Require adjacency in sequential searches
         #     # Favor proximity in contextual searches, provided that the matched terms are different
         #     if len(fragment.matched_terms) > 1:
-        #         if isinstance(query, engine.query.positional.Sequence):
+        #         if isinstance(query, cylleneus.engine.query.positional.Sequence):
         #             ordered = sorted(fragment.matches, key=lambda m: m.pos)
         #             for i, t in enumerate(ordered):
         #                 if i + 1 < len(fragment.matches):
         #                     if ordered[i+1].pos - t.pos != 1:
         #                         return 0
-        #         elif isinstance(query, (engine.query.compound.CylleneusCompoundQuery,
+        #         elif isinstance(query, (cylleneus.engine.query.compound.CylleneusCompoundQuery,
         #                                 whoosh.query.compound.CompoundQuery)):
         #             dists = []
         #             matches = iter(sorted(fragment.matches, key=lambda t: t.pos))
@@ -467,12 +470,12 @@ class CylleneusBasicFragmentScorer(whoosh.highlight.FragmentScorer):
         #             if m == 0:
         #                 m = 1
         #             if dists:
-        #                 score *= (1 / m) * len(fragment.matches) / engine.searching.total_terms(query)
+        #                 score *= (1 / m) * len(fragment.matches) / cylleneus.engine.searching.total_terms(query)
         #             else:
-        #                 score *= len(fragment.matched_terms) / engine.searching.total_terms(query)
+        #                 score *= len(fragment.matched_terms) / cylleneus.engine.searching.total_terms(query)
         # else:
         #     score = 0
-        return engine.searching.total_terms(query) * 100
+        return cylleneus.engine.searching.total_terms(query) * 100
 
 
 class CylleneusPinpointFragmenter(whoosh.highlight.Fragmenter):

@@ -26,13 +26,12 @@
 # policies, either expressed or implied, of Matt Chaput.
 
 
-from engine.qparser.syntax import *
-import engine.query
-import engine.query.positional
+from cylleneus.engine.qparser.syntax import *
+import cylleneus.engine.query
+import cylleneus.engine.query.positional
 import whoosh.qparser
-from engine.compat import u, xrange
+from cylleneus.engine.compat import u, xrange
 from whoosh.qparser.taggers import FnTagger, RegexTagger
-
 
 
 class WhitespacePlugin(whoosh.qparser.plugins.TaggingPlugin):
@@ -75,7 +74,7 @@ class SequencePlugin(whoosh.qparser.plugins.Plugin):
         self.expr = expr
 
     class SequenceNode(CylleneusGroupNode):
-        qclass = engine.query.positional.Sequence
+        qclass = cylleneus.engine.query.positional.Sequence
 
     class QuoteNode(MarkerNode):
         def __init__(self, slop=None):
@@ -140,7 +139,7 @@ class PrefixPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """
 
     class PrefixNode(whoosh.qparser.syntax.TextNode):
-        qclass = engine.query.terms.Prefix
+        qclass = cylleneus.engine.query.terms.Prefix
 
         def r(self):
             return "%r*" % self.text
@@ -195,7 +194,7 @@ class WildcardPlugin(whoosh.qparser.plugins.TaggingPlugin):
         # so the text in this node will not be analyzed... just passed
         # straight to the query
 
-        qclass = engine.query.terms.Wildcard
+        qclass = cylleneus.engine.query.terms.Wildcard
 
         def r(self):
             return "Wild %r" % self.text

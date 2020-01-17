@@ -30,10 +30,10 @@ from __future__ import with_statement
 from multiprocessing import Process, Queue, cpu_count
 
 from whoosh.codec import base
-from engine.compat import xrange, pickle
+from cylleneus.engine.compat import xrange, pickle
 from whoosh.externalsort import imerge
 from whoosh.util import random_name
-from engine.writing import SegmentWriter
+from cylleneus.engine.writing import SegmentWriter
 
 
 def finish_subsegment(writer, k=64):

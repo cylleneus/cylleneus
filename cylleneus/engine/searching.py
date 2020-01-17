@@ -36,17 +36,17 @@ from collections import defaultdict, namedtuple, Counter
 from itertools import permutations, product
 from math import ceil
 
-import engine.collectors
-import engine.highlight
-import engine.query
-import engine.query.positional
-import engine.scoring
+import cylleneus.engine.collectors
+import cylleneus.engine.highlight
+import cylleneus.engine.query
+import cylleneus.engine.query.positional
+import cylleneus.engine.scoring
 import whoosh.classify
-from engine.compat import iteritems, iterkeys, itervalues, xrange
+from cylleneus.engine.compat import iteritems, iterkeys, itervalues, xrange
 from greekwordnet import greekwordnet
 from latinwordnet import latinwordnet
 from natsort import natsorted
-from utils import *
+from cylleneus.utils import *
 from whoosh.idsets import BitSet, DocIdSet
 from whoosh.reading import TermNotFound
 from whoosh.util.cache import lru_cache
@@ -120,7 +120,7 @@ class Searcher(object):
     def __init__(
         self,
         reader,
-        weighting=engine.scoring.BM25F,
+        weighting=cylleneus.engine.scoring.BM25F,
         closereader=True,
         fromindex=None,
         parent=None,
@@ -325,7 +325,7 @@ class Searcher(object):
         if self.is_atomic():
             return self.ixreader.postings(fieldname, text, scorer=globalscorer)
         else:
-            from engine.matching import MultiMatcher
+            from cylleneus.engine.matching import MultiMatcher
 
             matchers = []
             docoffsets = []
@@ -408,11 +408,11 @@ class Searcher(object):
     def _query_for_kw(self, kw):
         subqueries = []
         for key, value in iteritems(kw):
-            subqueries.append(engine.query.terms.CylleneusTerm(key, value))
+            subqueries.append(cylleneus.engine.query.terms.CylleneusTerm(key, value))
         if subqueries:
-            q = engine.query.compound.And(subqueries).normalize()
+            q = cylleneus.engine.query.compound.And(subqueries).normalize()
         else:
-            q = engine.query.qcore.Every()
+            q = cylleneus.engine.query.qcore.Every()
         return q
 
     def document_number(self, **kw):
@@ -476,7 +476,7 @@ class Searcher(object):
             c = obj.docs()
         elif isinstance(obj, ResultsPage):
             c = obj.results.docs()
-        elif isinstance(obj, engine.query.qcore.Query):
+        elif isinstance(obj, cylleneus.engine.query.qcore.Query):
             c = self._query_to_comb(obj)
         else:
             raise Exception("Don't know what to do with filter object %r" % obj)
@@ -609,9 +609,9 @@ class Searcher(object):
                 [docnum], fieldname, numterms=numterms, model=model, normalize=normalize
             )
         # Create an Or query from the key terms
-        q = engine.query.compound.Or(
+        q = cylleneus.engine.query.compound.Or(
             [
-                engine.query.terms.Term(fieldname, word, boost=weight)
+                cylleneus.engine.query.terms.Term(fieldname, word, boost=weight)
                 for word, weight in kts
             ]
         )
@@ -663,7 +663,7 @@ class Searcher(object):
         return ResultsPage(results, pagenum, pagelen)
 
     def find(self, defaultfield, querystring, **kwargs):
-        from engine.qparser.default import CylleneusQueryParser
+        from cylleneus.engine.qparser.default import CylleneusQueryParser
 
         qp = CylleneusQueryParser(defaultfield, schema=self.ixreader.schema)
         q = qp.parse(querystring)
@@ -732,31 +732,31 @@ class Searcher(object):
             raise ValueError("limit must be >= 1")
 
         if not scored and not sortedby:
-            c = engine.collectors.CylleneusUnsortedCollector()
+            c = cylleneus.engine.collectors.CylleneusUnsortedCollector()
         elif sortedby:
-            c = engine.collectors.CylleneusSortingCollector(
+            c = cylleneus.engine.collectors.CylleneusSortingCollector(
                 sortedby, limit=limit, reverse=reverse
             )
         elif groupedby or reverse or not limit or limit >= self.doc_count():
             # A collector that gathers every matching document
-            c = engine.collectors.CylleneusUnlimitedCollector(reverse=reverse)
+            c = cylleneus.engine.collectors.CylleneusUnlimitedCollector(reverse=reverse)
         else:
             # A collector that uses block quality optimizations and a heap
             # queue to only collect the top N documents
-            c = engine.collectors.CylleneusTopCollector(limit, usequality=optimize)
+            c = cylleneus.engine.collectors.CylleneusTopCollector(limit, usequality=optimize)
 
         if groupedby:
-            c = engine.collectors.CylleneusFacetCollector(c, groupedby, maptype=maptype)
+            c = cylleneus.engine.collectors.CylleneusFacetCollector(c, groupedby, maptype=maptype)
         if terms:
-            c = engine.collectors.CylleneusTermsCollector(c)
+            c = cylleneus.engine.collectors.CylleneusTermsCollector(c)
         if collapse:
-            c = engine.collectors.CylleneusCollapseCollector(
+            c = cylleneus.engine.collectors.CylleneusCollapseCollector(
                 c, collapse, limit=collapse_limit, order=collapse_order
             )
 
         # Filtering wraps last so it sees the docs first
         if filter or mask:
-            c = engine.collectors.CylleneusFilterCollector(c, filter, mask)
+            c = cylleneus.engine.collectors.CylleneusFilterCollector(c, filter, mask)
         return c
 
     def search(self, q, **kwargs):
@@ -983,7 +983,7 @@ class Results(object):
         self.docset = docset
         self._facetmaps = facetmaps or {}
         self.runtime = runtime
-        self.highlighter = highlighter or engine.highlight.CylleneusHighlighter()
+        self.highlighter = highlighter or cylleneus.engine.highlight.CylleneusHighlighter()
         self.collector = None
         self._total = None
         self._char_cache = {}
@@ -1685,7 +1685,7 @@ class CylleneusResults(Results):
         self.docset = docset
         self._facetmaps = facetmaps or {}
         self.runtime = runtime
-        self.highlighter = highlighter or engine.highlight.CylleneusHighlighter()
+        self.highlighter = highlighter or cylleneus.engine.highlight.CylleneusHighlighter()
         self.collector = None
         self._total = None
         self._char_cache = {}
@@ -1714,7 +1714,7 @@ class CylleneusResults(Results):
 
 def total_terms(query):
     terms = 0
-    if isinstance(query, (engine.query.compound.CylleneusCompoundQuery)):
+    if isinstance(query, (cylleneus.engine.query.compound.CylleneusCompoundQuery)):
         for t in query.children():
             terms += total_terms(t)
     else:
@@ -1732,16 +1732,16 @@ def min_score(query):
 
     minscore = 0
     if isinstance(
-        query, (engine.query.compound.And, engine.query.positional.Collocation)
+        query, (cylleneus.engine.query.compound.And, cylleneus.engine.query.positional.Collocation)
     ):
         for t in query.children():
             minscore += min_score(t)
-    elif isinstance(query, engine.query.compound.Or):
+    elif isinstance(query, cylleneus.engine.query.compound.Or):
         score = 0
         for t in query.children():
             score += min_score(t)
         minscore += score / len(list(query.children()))
-    elif isinstance(query, engine.query.positional.Sequence):
+    elif isinstance(query, cylleneus.engine.query.positional.Sequence):
         for t in query.children():
             minscore += min_score(t)
     else:
@@ -1756,8 +1756,8 @@ def iter_queries(query):
         if isinstance(
             subq,
             (
-                engine.query.compound.CylleneusCompoundQuery,
-                engine.query.spans.SpanQuery,
+                cylleneus.engine.query.compound.CylleneusCompoundQuery,
+                cylleneus.engine.query.spans.SpanQuery,
             ),
         ):
             yield (i, (tuple(iter_queries(subq))))
@@ -1792,10 +1792,10 @@ def term_lists(q, ixreader):
 
     ts = []
     ors = []
-    if isinstance(q, engine.query.compound.CylleneusCompoundQuery):
-        if isinstance(q, engine.query.compound.Or):
+    if isinstance(q, cylleneus.engine.query.compound.CylleneusCompoundQuery):
+        if isinstance(q, cylleneus.engine.query.compound.Or):
             ors.append(list(q.iter_all_terms(ixreader)))
-        elif isinstance(q, engine.query.terms.Annotation):
+        elif isinstance(q, cylleneus.engine.query.terms.Annotation):
             ts.extend(
                 list(
                     set(
@@ -1806,7 +1806,7 @@ def term_lists(q, ixreader):
                     )
                 )
             )
-        elif isinstance(q, engine.query.terms.PatternQuery):
+        elif isinstance(q, cylleneus.engine.query.terms.PatternQuery):
             ors.append(
                 list(
                     set(
@@ -1819,9 +1819,9 @@ def term_lists(q, ixreader):
             )
         else:
             for sq in q:
-                if isinstance(sq, engine.query.compound.Or):
+                if isinstance(sq, cylleneus.engine.query.compound.Or):
                     ors.append(list(sq.iter_all_terms(ixreader)))
-                elif isinstance(sq, engine.query.terms.Annotation):
+                elif isinstance(sq, cylleneus.engine.query.terms.Annotation):
                     ts.extend(
                         list(
                             set(
@@ -1832,7 +1832,7 @@ def term_lists(q, ixreader):
                             )
                         )
                     )
-                elif isinstance(sq, engine.query.terms.PatternQuery):
+                elif isinstance(sq, cylleneus.engine.query.terms.PatternQuery):
                     ors.append(
                         list(
                             set(
@@ -1846,9 +1846,9 @@ def term_lists(q, ixreader):
                 else:
                     ts.extend(list(sq.iter_all_terms(ixreader)))
     else:
-        if isinstance(q, engine.query.compound.Or):
+        if isinstance(q, cylleneus.engine.query.compound.Or):
             ors.append(list(q.iter_all_terms(ixreader)))
-        elif isinstance(q, engine.query.terms.Annotation):
+        elif isinstance(q, cylleneus.engine.query.terms.Annotation):
             ts.extend(
                 list(
                     set(
@@ -1859,7 +1859,7 @@ def term_lists(q, ixreader):
                     )
                 )
             )
-        elif isinstance(q, engine.query.terms.PatternQuery):
+        elif isinstance(q, cylleneus.engine.query.terms.PatternQuery):
             ors.append(
                 list(
                     set(
@@ -1949,8 +1949,8 @@ class CylleneusHit(Hit):
         print_debug(DEBUG_MEDIUM, "  - Merged fragments: {}".format(len(merged)))
 
         # For compound annotation queries, keep same-analysis groups
-        if isinstance(query, engine.query.positional.Collocation) or any(
-            [isinstance(subq, engine.query.positional.Collocation) for subq in query]
+        if isinstance(query, cylleneus.engine.query.positional.Collocation) or any(
+            [isinstance(subq, cylleneus.engine.query.positional.Collocation) for subq in query]
         ):
             for fragment in merged:
                 morphos = []
@@ -2125,14 +2125,14 @@ class CylleneusHit(Hit):
         )
 
         # Preserve ordering in sequential (adjacency) queries
-        if isinstance(query, engine.query.positional.Sequence):
+        if isinstance(query, cylleneus.engine.query.positional.Sequence):
             ordering = {}
             for i, q in enumerate(query):
                 if isinstance(
                     q,
                     (
-                        engine.query.compound.CylleneusCompoundQuery,
-                        engine.query.positional.Collocation,
+                        cylleneus.engine.query.compound.CylleneusCompoundQuery,
+                        cylleneus.engine.query.positional.Collocation,
                     ),
                 ):
                     for sq in q:
@@ -2181,14 +2181,14 @@ class CylleneusHit(Hit):
                 fragment.matches = newmatches
 
         for subq in query:
-            if isinstance(subq, engine.query.positional.Sequence):
+            if isinstance(subq, cylleneus.engine.query.positional.Sequence):
                 ordered = {}
                 for i, q in enumerate(subq):
                     if isinstance(
                         q,
                         (
-                            engine.query.compound.CylleneusCompoundQuery,
-                            engine.query.positional.Collocation,
+                            cylleneus.engine.query.compound.CylleneusCompoundQuery,
+                            cylleneus.engine.query.positional.Collocation,
                         ),
                     ):
                         for sq in q:
@@ -2460,31 +2460,31 @@ class CylleneusSearcher(Searcher):
             raise ValueError("limit must be >= 1")
 
         if not scored and not sortedby:
-            c = engine.collectors.CylleneusUnsortedCollector()
+            c = cylleneus.engine.collectors.CylleneusUnsortedCollector()
         elif sortedby:
-            c = engine.collectors.CylleneusSortingCollector(
+            c = cylleneus.engine.collectors.CylleneusSortingCollector(
                 sortedby, limit=limit, reverse=reverse
             )
         elif groupedby or reverse or not limit or limit >= self.doc_count():
             # A collector that gathers every matching document
-            c = engine.collectors.CylleneusUnlimitedCollector(reverse=reverse)
+            c = cylleneus.engine.collectors.CylleneusUnlimitedCollector(reverse=reverse)
         else:
             # A collector that uses block quality optimizations and a heap
             # queue to only collect the top N documents
-            c = engine.collectors.CylleneusTopCollector(limit, usequality=optimize)
+            c = cylleneus.engine.collectors.CylleneusTopCollector(limit, usequality=optimize)
 
         if groupedby:
-            c = engine.collectors.CylleneusFacetCollector(c, groupedby, maptype=maptype)
+            c = cylleneus.engine.collectors.CylleneusFacetCollector(c, groupedby, maptype=maptype)
         if terms:
-            uc = engine.collectors.CylleneusUnlimitedCollector()
-            c = engine.collectors.CylleneusTermsCollector(uc)
+            uc = cylleneus.engine.collectors.CylleneusUnlimitedCollector()
+            c = cylleneus.engine.collectors.CylleneusTermsCollector(uc)
         if collapse:
-            c = engine.collectors.CylleneusCollapseCollector(
+            c = cylleneus.engine.collectors.CylleneusCollapseCollector(
                 c, collapse, limit=collapse_limit, order=collapse_order
             )
         # Filtering wraps last so it sees the docs first
         if filter or mask:
-            c = engine.collectors.CylleneusFilterCollector(c, filter, mask)
+            c = cylleneus.engine.collectors.CylleneusFilterCollector(c, filter, mask)
 
         return c
 

@@ -2,11 +2,12 @@ import copy
 import re
 import string
 
-from engine.analysis.acore import CylleneusToken
-from engine.analysis.tokenizers import Tokenizer
-from lang.latin import PunktLatinCharsVars, compound, enclitics, exceptions, jvmap, proper_names, punctuation, \
+from cylleneus.engine.analysis.acore import CylleneusToken
+from cylleneus.engine.analysis.tokenizers import Tokenizer
+from cylleneus.lang.latin import PunktLatinCharsVars, compound, enclitics, exceptions, jvmap, proper_names, \
+    punctuation, \
     replacements, convert_diphthongs, strip_diacritics
-from utils import flatten, stringify
+from cylleneus.utils import flatten, stringify
 
 
 class CachedTokenizer(Tokenizer):

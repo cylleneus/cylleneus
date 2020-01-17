@@ -29,9 +29,8 @@ from __future__ import division
 
 from array import array
 
-from engine.compat import xrange
-
-from engine.matching import mcore
+from cylleneus.engine.compat import xrange
+from cylleneus.engine.matching import mcore
 
 
 class CombinationMatcher(mcore.Matcher):

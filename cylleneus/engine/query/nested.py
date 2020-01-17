@@ -25,11 +25,11 @@
 # those of the authors and should not be interpreted as representing official
 # policies, either expressed or implied, of Matt Chaput.
 
-from engine.compat import xrange
+from cylleneus.engine.compat import xrange
 
-from engine import matching
-from engine.query import qcore
-from engine.query.wrappers import WrappingQuery
+from cylleneus.engine import matching
+from cylleneus.engine.query import qcore
+from cylleneus.engine.query.wrappers import WrappingQuery
 
 
 class NestedParent(WrappingQuery):

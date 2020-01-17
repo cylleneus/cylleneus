@@ -33,7 +33,7 @@ from bisect import bisect_right
 from contextlib import contextmanager
 
 from whoosh import columns
-from engine.compat import abstractmethod, bytes_type
+from cylleneus.engine.compat import abstractmethod, bytes_type
 from whoosh.externalsort import SortingPool
 from whoosh.fields import UnknownFieldError
 from whoosh.index import LockError
@@ -42,7 +42,7 @@ from whoosh.util.filelock import try_for
 from whoosh.util.text import utf8encode
 
 # Monkey patch
-from engine.analysis import analyzers
+from cylleneus.engine.analysis import analyzers
 
 
 # Exceptions
@@ -77,7 +77,7 @@ def MERGE_SMALL(writer, segments):
     heuristic based on the fibonacci sequence.
     """
 
-    from engine.reading import SegmentReader
+    from cylleneus.engine.reading import SegmentReader
 
     unchanged_segments = []
     segments_to_merge = []
@@ -112,7 +112,7 @@ def OPTIMIZE(writer, segments):
     """This policy merges all existing segments.
     """
 
-    from engine.reading import SegmentReader
+    from cylleneus.engine.reading import SegmentReader
 
     for seg in segments:
         reader = SegmentReader(writer.storage, writer.schema, seg)
@@ -285,7 +285,7 @@ class IndexWriter(object):
         raise NotImplementedError
 
     def searcher(self, **kwargs):
-        from engine.searching import CylleneusSearcher
+        from cylleneus.engine.searching import CylleneusSearcher
 
         return CylleneusSearcher(self.reader(), **kwargs)
 
@@ -296,7 +296,7 @@ class IndexWriter(object):
         :returns: the number of documents deleted.
         """
 
-        from engine.query.terms import CylleneusTerm
+        from cylleneus.engine.query.terms import CylleneusTerm
 
         q = CylleneusTerm(fieldname, text)
         return self.delete_by_query(q, searcher=searcher)
@@ -477,7 +477,7 @@ class SegmentWriter(IndexWriter):
                 raise LockError
 
         if codec is None:
-            from engine.codec import default_codec
+            from cylleneus.engine.codec import default_codec
             codec = default_codec()
         self.codec = codec
 
@@ -594,7 +594,7 @@ class SegmentWriter(IndexWriter):
         return segment.is_deleted(segdocnum)
 
     def reader(self, reuse=None):
-        from engine.index import FileIndex
+        from cylleneus.engine.index import FileIndex
 
         self._check_state()
         return FileIndex._reader(self.storage, self.schema, self.segments,
@@ -836,7 +836,7 @@ class SegmentWriter(IndexWriter):
         return self.get_segment()
 
     def _commit_toc(self, segments):
-        from engine.index import TOC, clean_files
+        from cylleneus.engine.index import TOC, clean_files
 
         # Write a new TOC with the new segment list (and delete old files)
         toc = TOC(self.schema, segments, self.generation)
@@ -945,7 +945,7 @@ class AsyncWriter(threading.Thread, IndexWriter):
         return self.index.reader()
 
     def searcher(self, **kwargs):
-        from engine.searching import CylleneusSearcher
+        from cylleneus.engine.searching import CylleneusSearcher
         return CylleneusSearcher(self.reader(), fromindex=self.index, **kwargs)
 
     def _record(self, method, args, kwargs):
@@ -1011,7 +1011,7 @@ def add_spelling(ix, fieldnames, commit=True):
     """
 
     from whoosh.automata import fst
-    from engine.reading import SegmentReader
+    from cylleneus.engine.reading import SegmentReader
 
     writer = ix.writer()
     storage = writer.storage
@@ -1131,7 +1131,7 @@ class BufferedWriter(IndexWriter):
         return self.writer.schema
 
     def reader(self, **kwargs):
-        from engine.reading import MultiReader
+        from cylleneus.engine.reading import MultiReader
 
         reader = self.writer.reader()
         with self.lock:
@@ -1147,7 +1147,7 @@ class BufferedWriter(IndexWriter):
         return reader
 
     def searcher(self, **kwargs):
-        from engine.searching import CylleneusSearcher
+        from cylleneus.engine.searching import CylleneusSearcher
 
         return CylleneusSearcher(self.reader(), fromindex=self.index, **kwargs)
 

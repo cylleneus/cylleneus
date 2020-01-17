@@ -72,12 +72,13 @@ from collections import defaultdict
 from heapq import heapify, heappush, heapreplace
 
 from whoosh import sorting
-from engine.compat import abstractmethod, iteritems, itervalues, xrange
+from cylleneus.engine.compat import abstractmethod, iteritems, itervalues, xrange
 from whoosh.util import now
 
-import engine.searching
-from utils import print_debug
+import cylleneus.engine.searching
+from cylleneus.utils import print_debug
 from cylleneus import settings
+
 
 # Functions
 
@@ -275,7 +276,7 @@ class Collector(object):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = engine.searching.Results(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.Results(self.top_searcher, self.q, items, **kwargs)
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1028,7 +1029,7 @@ class TimeLimitCollector(WrappingCollector):
             os.kill(os.getpid(), signal.SIGALRM)
 
     def _was_signaled(self, signum, frame):
-        raise engine.searching.TimeLimit
+        raise cylleneus.engine.searching.TimeLimit
 
     def collect_matches(self):
         child = self.child
@@ -1038,14 +1039,14 @@ class TimeLimitCollector(WrappingCollector):
             # If the timer fired since the last loop and we're not greedy,
             # raise the exception
             if self.timedout and not greedy:
-                raise engine.searching.TimeLimit
+                raise cylleneus.engine.searching.TimeLimit
 
             child.collect(sub_docnum)
 
             # If the timer fired since we entered the loop or it fired earlier
             # but we were greedy, raise now
             if self.timedout:
-                raise engine.searching.TimeLimit
+                raise cylleneus.engine.searching.TimeLimit
 
     def finish(self):
         if self.timer:
@@ -1122,7 +1123,7 @@ class CylleneusUnsortedCollector(UnsortedCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1132,7 +1133,7 @@ class CylleneusSortingCollector(SortingCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1142,7 +1143,7 @@ class CylleneusUnlimitedCollector(UnlimitedCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1152,7 +1153,7 @@ class CylleneusTopCollector(TopCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1162,7 +1163,7 @@ class CylleneusFacetCollector(FacetCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1172,7 +1173,7 @@ class CylleneusTermsCollector(TermsCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1182,7 +1183,7 @@ class CylleneusCollapseCollector(CollapseCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1192,7 +1193,7 @@ class CylleneusFilterCollector(FilterCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
         r.runtime = self.runtime
         r.collector = self
         return r

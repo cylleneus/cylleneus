@@ -27,7 +27,7 @@ def print_debug(level, msg, out=sys.stderr):
 class alnum:
     def __init__(self, value: str):
         self._value = value
-        self._num, self._al = re.search(r'(-?\d+)?(\D+)?', value).groups()
+        self._num, self._al = re.search(r"(-?\d+)?(\D+)?", value).groups()
 
     @staticmethod
     def max(items, cmp=None, default=None):
@@ -179,21 +179,21 @@ def stringify(node):
     from html import unescape
     from lxml.etree import tostring
 
-    parts = (
-            list(
-                chain(
-                    *([str(tostring(c))]
-                      for c in node.getchildren())
-                )
-            )
-    )
+    parts = list(chain(*([str(tostring(c))] for c in node.getchildren())))
 
-    s = ''.join(filter(None, parts))
-    s = re.sub(r"^b\'(.*?)\'$", r'\1', s, flags=re.DOTALL)
+    s = "".join(filter(None, parts))
+    s = re.sub(r"^b\'(.*?)\'$", r"\1", s, flags=re.DOTALL)
     s = re.sub(r"\\'", r"'", s, flags=re.DOTALL)
-    subs = [r"\\[fnrtv]", r'<.*?/>', r'<[^q]*?>.*?</[^q]*?>', r'</?q.*?>', r'\[.*?\]', "'b'"]
+    subs = [
+        r"\\[fnrtv]",
+        r"<.*?/>",
+        r"<[^q]*?>.*?</[^q]*?>",
+        r"</?q.*?>",
+        r"\[.*?\]",
+        "'b'",
+    ]
     for sub in subs:
-        s = re.sub(sub, r'', s, flags=re.DOTALL)
+        s = re.sub(sub, r"", s, flags=re.DOTALL)
     s = re.sub(r"[ ]+", r" ", s, flags=re.DOTALL)
     return unescape(s)
 
@@ -206,44 +206,48 @@ def slugify(value, allow_unicode=False):
     """
     value = str(value)
     if allow_unicode:
-        value = unicodedata.normalize('NFKC', value)
+        value = unicodedata.normalize("NFKC", value)
     else:
-        value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
-    value = re.sub(r'[^\w\s-]', '', re.sub(r'[:=]', '-', value).strip().lower())
-    return re.sub(r'[\s]+', '-', value)
+        value = (
+            unicodedata.normalize("NFKD", value)
+                .encode("ascii", "ignore")
+                .decode("ascii")
+        )
+    value = re.sub(r"[^\w\s-]", "", re.sub(r"[:=]", "-", value).strip().lower())
+    return re.sub(r"[\s]+", "-", value)
 
 
 def dtformat(dt):
     """Converts a datetime object to more human-readable format."""
 
     D = str(datetime.now() - dt)
-    if D.find(',') > 0:
-        days, hours = D.split(',')
+    if D.find(",") > 0:
+        days, hours = D.split(",")
         days = int(days.split()[0].strip())
-        hours, minutes = hours.split(':')[0:2]
+        hours, minutes = hours.split(":")[0:2]
     else:
-        hours, minutes = D.split(':')[0:2]
+        hours, minutes = D.split(":")[0:2]
         days = 0
     days, hours, minutes = int(days), int(hours), int(minutes)
-    datelets =[]
+    datelets = []
     years, months, xdays = None, None, None
-    plural = lambda x: 's' if x != 1 else ''
+    plural = lambda x: "s" if x != 1 else ""
     if days >= 365:
         years = days // 365
-        datelets.append('%d year%s' % (years, plural(years)))
+        datelets.append("%d year%s" % (years, plural(years)))
         days = days % 365
-    if days >= 30 and days < 365:
+    if 30 <= days < 365:
         months = days // 30
-        datelets.append('%d month%s' % (months, plural(months)))
+        datelets.append("%d month%s" % (months, plural(months)))
         days = days % 30
-    if not years and days > 0 and days < 30:
+    if not years and 0 < days < 30:
         xdays = days
-        datelets.append('%d day%s' % (xdays, plural(xdays)))
+        datelets.append("%d day%s" % (xdays, plural(xdays)))
     if not (months or years) and hours != 0:
-        datelets.append('%d hour%s' % (hours, plural(hours)))
+        datelets.append("%d hour%s" % (hours, plural(hours)))
     if not (xdays or months or years):
-        datelets.append('%d minute%s' % (minutes, plural(minutes)))
-    return ', '.join(datelets) + ' ago'
+        datelets.append("%d minute%s" % (minutes, plural(minutes)))
+    return ", ".join(datelets) + " ago"
 
 
 def depth(l):
@@ -273,18 +277,12 @@ def flatten(l, max_depth=math.inf):
 
 def nrange(start, end, zero=True, negative=True):
     start, end = zip(
-        *zip_longest(
-            [int(n) for n in start],
-            [int(n) for n in end],
-            fillvalue=0)
+        *zip_longest([int(n) for n in start], [int(n) for n in end], fillvalue=0)
     )
     base = max(max(chain(start, end)), 9) + 1
 
     def _toint(seq, base):
-        return sum(
-            base ** n * val
-            for n, val in enumerate(reversed(seq))
-        )
+        return sum(base ** n * val for n, val in enumerate(reversed(seq)))
 
     def _totuple(num, base, length):
         ret = []
@@ -339,4 +337,5 @@ def matchcase(word):
             return word.capitalize()
         else:
             return word
+
     return replace

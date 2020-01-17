@@ -33,13 +33,14 @@ occurance of a term.
 
 from collections import defaultdict
 
-from engine.analysis.acore import unstopped, entoken
-from engine.compat import iteritems, dumps, loads, b
+from cylleneus.engine.analysis.acore import unstopped, entoken
+from cylleneus.engine.compat import iteritems, dumps, loads, b
 from whoosh.system import _INT_SIZE, _FLOAT_SIZE
 from whoosh.system import emptybytes
 from whoosh.system import pack_uint, unpack_uint, pack_float, unpack_float
-from utils import print_debug
+from cylleneus.utils import print_debug
 from cylleneus import settings
+
 
 # Format base class
 

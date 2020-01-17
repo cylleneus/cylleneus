@@ -33,13 +33,13 @@ from heapq import heapify, heapreplace, heappop, nlargest
 from math import log
 
 from whoosh import columns
-from engine.compat import abstractmethod
-from engine.compat import xrange, zip_, next, iteritems
+from cylleneus.engine.compat import abstractmethod
+from cylleneus.engine.compat import xrange, zip_, next, iteritems
 from whoosh.support.levenshtein import distance
 from whoosh.system import emptybytes
 
-from engine.filedb.filestore import OverlayStorage
-from engine.matching.wrappers import MultiMatcher
+from cylleneus.engine.filedb.filestore import OverlayStorage
+from cylleneus.engine.matching.wrappers import MultiMatcher
 
 
 # Exceptions
@@ -811,7 +811,7 @@ class SegmentReader(IndexReader):
             return 0
 
     def postings(self, fieldname, text, scorer=None):
-        from engine.matching.wrappers import FilterMatcher
+        from cylleneus.engine.matching.wrappers import FilterMatcher
 
         if self.is_closed:
             raise ReaderClosed

@@ -1,4 +1,4 @@
-from engine.fields import SchemaClass, STORED
+from cylleneus.engine.fields import SchemaClass, STORED
 
 
 class BaseSchema(SchemaClass):

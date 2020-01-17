@@ -25,7 +25,7 @@
 # those of the authors and should not be interpreted as representing official
 # policies, either expressed or implied, of Matt Chaput.
 
-from engine.compat import iteritems
+from cylleneus.engine.compat import iteritems
 
 
 # Exceptions
@@ -138,7 +138,7 @@ class Composable(object):
     is_morph = False
 
     def __or__(self, other):
-        from engine.analysis.analyzers import CompositeAnalyzer
+        from cylleneus.engine.analysis.analyzers import CompositeAnalyzer
         if not isinstance(other, Composable):
             raise TypeError("%r is not composable with %r" % (self, other))
         return CompositeAnalyzer(self, other)

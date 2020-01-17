@@ -51,8 +51,8 @@ method will return ``True``.
 
 from itertools import repeat
 
-from engine.compat import abstractmethod
-from engine.compat import izip
+from cylleneus.engine.compat import abstractmethod
+from cylleneus.engine.compat import izip
 
 
 # Exceptions
@@ -279,7 +279,7 @@ class Matcher(object):
         searched does not store positions.
         """
 
-        from engine.query.spans import Span
+        from cylleneus.engine.query.spans import Span
 
         if self.supports("characters"):
             return [Span(pos, startchar=startchar, endchar=endchar)
@@ -597,7 +597,7 @@ class LeafMatcher(Matcher):
         return decoder(self.value())
 
     def spans(self):
-        from engine.query.spans import Span
+        from cylleneus.engine.query.spans import Span
 
         if self.supports("characters"):
             return [Span(pos, startchar=startchar, endchar=endchar, divs=divs)

@@ -37,10 +37,10 @@ import sys
 from pathlib import Path
 from time import sleep, time
 
-from engine import __version__
-from engine.compat import pickle, string_type
-from engine.fields import ensure_schema
-from engine.filedb.filestore import FileStorage
+from cylleneus.engine import __version__
+from cylleneus.engine.compat import pickle, string_type
+from cylleneus.engine.fields import ensure_schema
+from cylleneus.engine.filedb.filestore import FileStorage
 from whoosh.legacy import toc_loaders
 from whoosh.system import _FLOAT_SIZE, _INT_SIZE, _LONG_SIZE
 
@@ -167,7 +167,7 @@ def version_in(dirname, indexname=None):
     :returns: ((major_ver, minor_ver, build_ver), format_ver)
     """
 
-    from engine.filedb.filestore import FileStorage
+    from cylleneus.engine.filedb.filestore import FileStorage
 
     storage = FileStorage(dirname)
     return version(storage, indexname=indexname)
@@ -305,7 +305,7 @@ class Index(object):
         :rtype: :class:`whoosh.searching.Searcher`
         """
 
-        from engine.searching import CylleneusSearcher
+        from cylleneus.engine.searching import CylleneusSearcher
 
         return CylleneusSearcher(self.reader(), fromindex=self, **kwargs)
 
@@ -392,7 +392,7 @@ def clean_files(storage, indexname, gen, segments):
 
 class FileIndex(Index):
     def __init__(self, storage, schema=None, indexname=_DEF_INDEX_NAME):
-        from engine.filedb.filestore import Storage
+        from cylleneus.engine.filedb.filestore import Storage
 
         if not isinstance(storage, Storage):
             raise ValueError("%r is not a Storage object" % storage)
@@ -445,11 +445,11 @@ class FileIndex(Index):
 
     def writer(self, procs=1, **kwargs):
         if procs > 1:
-            from engine.multiproc import MpWriter
+            from cylleneus.engine.multiproc import MpWriter
 
             return MpWriter(self, procs=procs, **kwargs)
         else:
-            from engine.writing import SegmentWriter
+            from cylleneus.engine.writing import SegmentWriter
 
             return SegmentWriter(self, **kwargs)
 
@@ -485,7 +485,7 @@ class FileIndex(Index):
     def _reader(cls, storage, schema, segments, generation, reuse=None):
         # Returns a reader for the given segments, possibly reusing already
         # opened readers
-        from engine.reading import SegmentReader, MultiReader, EmptyReader
+        from cylleneus.engine.reading import SegmentReader, MultiReader, EmptyReader
 
         reusable = {}
         try:

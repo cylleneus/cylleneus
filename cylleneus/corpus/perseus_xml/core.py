@@ -4,7 +4,7 @@ import re
 
 import lxml.etree as et
 from cylleneus import settings
-from utils import alnum, stringify
+from cylleneus.utils import alnum, stringify
 
 # Glob pattern for indexing
 glob = '*.xml'

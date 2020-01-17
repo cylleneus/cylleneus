@@ -56,9 +56,9 @@ try:
 except ImportError:
     zlib = None
 
-from engine.compat import b, bytes_type, BytesIO
-from engine.compat import array_tobytes, xrange
-from engine.compat import dumps, loads
+from cylleneus.engine.compat import b, bytes_type, BytesIO
+from cylleneus.engine.compat import array_tobytes, xrange
+from cylleneus.engine.compat import dumps, loads
 from whoosh.filedb.structfile import StructFile
 from whoosh.idsets import BitSet, OnDiskBitSet
 from whoosh.system import emptybytes

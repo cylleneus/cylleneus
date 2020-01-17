@@ -104,3 +104,5 @@ ENV/
 # Tests require installation of sample corpora
 /tests/test_greek_queries.py
 /tests/test_query_parsing.py
+/.idea/
+/.vscode/

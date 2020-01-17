@@ -3,7 +3,7 @@ from MyCapytain.resolvers.cts.api import HttpCtsResolver
 from MyCapytain.retrievers.cts5 import HttpCtsRetriever as CTS
 from requests.exceptions import HTTPError
 from cylleneus import settings
-from utils import nrange, alnum
+from cylleneus.utils import nrange, alnum
 
 
 # Glob pattern for indexing

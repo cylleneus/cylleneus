@@ -32,7 +32,7 @@ This module contains classes for scoring (and sorting) search results.
 from __future__ import division
 from math import log, pi
 
-from engine.compat import iteritems
+from cylleneus.engine.compat import iteritems
 
 
 # Base classes

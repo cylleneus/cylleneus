@@ -3,7 +3,7 @@ from datetime import datetime
 from pathlib import Path
 import re
 
-from corpus.preprocessing import BasePreprocessor
+from cylleneus.corpus.preprocessing import BasePreprocessor
 
 from .core import FILE_TAB
 

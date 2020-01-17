@@ -1,18 +1,20 @@
 import json
+import re
 from datetime import datetime
+from typing import Iterable
 
+import docx
 from cylleneus import settings
-from corpus.core import Corpus, Work
-from engine import scoring
-from engine.highlight import (
+from cylleneus.corpus.core import Corpus, Work
+from cylleneus.engine import scoring
+from cylleneus.engine.highlight import (
     CylleneusBasicFragmentScorer,
     CylleneusDefaultFormatter,
     CylleneusPinpointFragmenter,
 )
-from engine.qparser.default import CylleneusQueryParser
-from engine.searching import CylleneusSearcher, HitRef
-from typing import Iterable
-from utils import print_debug, DEBUG_HIGH, DEBUG_MEDIUM
+from cylleneus.engine.qparser.default import CylleneusQueryParser
+from cylleneus.engine.searching import CylleneusSearcher, HitRef
+from cylleneus.utils import DEBUG_HIGH, DEBUG_MEDIUM, print_debug, slugify
 
 
 class Collection:
@@ -261,6 +263,44 @@ class Search:
     def to_text(self):
         for href in self.highlights:
             yield href.corpus, href.author, href.title, href.urn, href.reference, href.text
+
+    def to_docx(self, filename: str = None):
+        if not filename:
+            filename = slugify(self.query, allow_unicode=False)
+
+        if self.results:
+            doc = docx.Document()
+            doc.add_heading(filename, 0)
+            doc.add_heading(
+                f"{self.start_time.strftime(settings.LONG_DATE_FORMAT)} (Cylleneus v{__version__})",
+                2,
+            )
+
+            for corpus, author, title, urn, reference, text in self.to_text():
+                h = doc.add_heading(level=1)
+                h.add_run(f"{author}, ")
+                r = h.add_run(f"{title} ")
+                r.font.italic = True
+                h.add_run(f"{reference}")
+
+                p = doc.add_paragraph()
+                for run in re.finditer(
+                    r"<(\w+?)>(.*?)</\1>", text, flags=re.DOTALL
+                ):
+                    if run.group(1) == "match":
+                        for t in run.group(2).split():
+                            if t.startswith("<em>"):
+                                r = p.add_run(re.sub(r"<em>", "", t) + " ")
+                                r.font.bold = True
+                            elif t.startswith("</em>"):
+                                r = p.add_run(re.sub(r"</em>", "", t) + " ")
+                                r.font.bold = False
+                            else:
+                                r = p.add_run(t + " ")
+                                r.font.bold = None
+                    else:
+                        p.add_run(run.group(2))
+            doc.save(f"{filename}.docx")
 
     @property
     def spec(self):

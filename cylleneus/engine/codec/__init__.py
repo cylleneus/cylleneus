@@ -27,6 +27,6 @@
 
 
 def default_codec(*args, **kwargs):
-    from engine.codec.whoosh3 import W3Codec
+    from cylleneus.engine.codec.whoosh3 import W3Codec
 
     return W3Codec(*args, **kwargs)

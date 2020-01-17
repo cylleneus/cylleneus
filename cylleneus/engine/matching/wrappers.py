@@ -426,7 +426,7 @@ class RequireMatcher(WrappingMatcher):
     """
 
     def __init__(self, a, b):
-        from engine.matching.binary import IntersectionMatcher
+        from cylleneus.engine.matching.binary import IntersectionMatcher
 
         self.a = a
         self.b = b

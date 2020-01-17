@@ -1,8 +1,8 @@
 import copy
 
-from engine.analysis.tokenizers import Tokenizer
-from engine.analysis.acore import CylleneusToken
-from corpus.agldt import agldt2wn
+from cylleneus.engine.analysis.tokenizers import Tokenizer
+from cylleneus.engine.analysis.acore import CylleneusToken
+from cylleneus.corpus.agldt import agldt2wn
 
 
 class CachedTokenizer(Tokenizer):
@@ -73,7 +73,16 @@ class CachedTokenizer(Tokenizer):
                             t.text = form
 
                             lemma = token.get("lemma")
-                            if not lemma or lemma in ("???", ".", ",", ";", "·", "punc1", "comma1", "PERIOD1"):
+                            if not lemma or lemma in (
+                                "???",
+                                ".",
+                                ",",
+                                ";",
+                                "·",
+                                "punc1",
+                                "comma1",
+                                "PERIOD1",
+                            ):
                                 continue
                             t.lemma = lemma
 
@@ -85,9 +94,7 @@ class CachedTokenizer(Tokenizer):
                             divs = data["meta"].split("-")
 
                             refs = (
-                                token.get("cite")
-                                    .rsplit(":", maxsplit=1)[1]
-                                    .split(".")
+                                token.get("cite").rsplit(":", maxsplit=1)[1].split(".")
                             )
                             for i, div in enumerate(divs):
                                 meta[div] = refs[i]

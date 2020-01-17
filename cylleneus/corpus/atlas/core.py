@@ -1,8 +1,8 @@
 import codecs
 import string
-from pathlib import Path
 
 import lxml.etree as et
+
 from cylleneus import settings
 
 # Glob pattern for indexing

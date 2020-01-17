@@ -27,7 +27,7 @@
 
 from __future__ import division
 
-from engine.compat import b, u
+from cylleneus.engine.compat import b, u
 from whoosh.query import qcore, terms, compound, wrappers
 from whoosh.util.times import datetime_to_long
 

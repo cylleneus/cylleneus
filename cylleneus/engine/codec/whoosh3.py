@@ -33,19 +33,19 @@ import struct
 from array import array
 from collections import defaultdict
 
-import engine.formats
-from engine.codec import base
-from engine.matching.mcore import LeafMatcher, ListMatcher, ReadTooFar
-from engine.reading import TermInfo, TermNotFound
+import cylleneus.engine.formats
+from cylleneus.engine.codec import base
+from cylleneus.engine.matching.mcore import LeafMatcher, ListMatcher, ReadTooFar
+from cylleneus.engine.reading import TermInfo, TermNotFound
 from whoosh import columns
-from engine.compat import b, bytes_type, dumps, integer_types, iteritems, loads, string_type, xrange
+from cylleneus.engine.compat import b, bytes_type, dumps, integer_types, iteritems, loads, string_type, xrange
 from whoosh.filedb import compound, filetables
 from whoosh.system import _FLOAT_SIZE, _INT_SIZE, _LONG_SIZE, _SHORT_SIZE, emptybytes, pack_int, pack_long, \
     pack_ushort, \
     unpack_int, unpack_long, unpack_ushort
 from whoosh.util.numeric import byte_to_length, length_to_byte
 from whoosh.util.numlists import delta_decode, delta_encode
-from utils import print_debug
+from cylleneus.utils import print_debug
 from cylleneus import settings
 
 try:
@@ -671,7 +671,7 @@ class W3PostingsWriter(base.PostingsWriter):
             # If self._terminfo is not None, that means we are already in a term
             raise Exception("Called start in a term")
 
-        assert isinstance(format_, engine.formats.Format)
+        assert isinstance(format_, cylleneus.engine.formats.Format)
         self._format = format_
         # Reset block count
         self._blockcount = 0

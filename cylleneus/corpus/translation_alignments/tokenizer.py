@@ -1,10 +1,10 @@
 import copy
 import string
 
-from engine.analysis.acore import CylleneusToken
-from engine.analysis.tokenizers import Tokenizer
+from cylleneus.engine.analysis.acore import CylleneusToken
+from cylleneus.engine.analysis.tokenizers import Tokenizer
 from nltk.tokenize import word_tokenize
-from utils import flatten, stringify
+from cylleneus.utils import flatten, stringify
 
 
 class CachedTokenizer(Tokenizer):

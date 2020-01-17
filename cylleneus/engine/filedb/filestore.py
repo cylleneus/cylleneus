@@ -34,7 +34,7 @@ import tempfile
 from threading import Lock
 
 from cylleneus import settings
-from engine.compat import BytesIO, memoryview_
+from cylleneus.engine.compat import BytesIO, memoryview_
 from whoosh.filedb.structfile import BufferFile, StructFile
 from whoosh.index import EmptyIndexError, _DEF_INDEX_NAME
 from whoosh.util import random_name
@@ -137,8 +137,8 @@ class Storage(object):
         if self.readonly:
             raise ReadOnlyError
         if indexclass is None:
-            import engine.index
-            indexclass = engine.index.FileIndex
+            import cylleneus.engine.index
+            indexclass = cylleneus.engine.index.FileIndex
         return indexclass.create(self, schema, indexname)
 
     def open_index(self, indexname=_DEF_INDEX_NAME, schema=None, indexclass=None):
@@ -161,8 +161,8 @@ class Storage(object):
         """
 
         if indexclass is None:
-            import engine.index
-            indexclass = engine.index.FileIndex
+            import cylleneus.engine.index
+            indexclass = cylleneus.engine.index.FileIndex
         return indexclass(self, schema=schema, indexname=indexname)
 
     def index_exists(self, indexname=None):

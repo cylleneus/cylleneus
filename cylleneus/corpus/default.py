@@ -5,15 +5,15 @@ from datetime import datetime
 from pathlib import Path
 
 from cylleneus import settings
-from corpus.preprocessing import BasePreprocessor
-from engine.analysis.acore import CylleneusToken
-from engine.analysis.filters import AnnotationFilter, CachedLemmaFilter, CachedSynsetFilter, CaseFilter, SemfieldFilter
-from engine.analysis.tokenizers import Tokenizer
-from engine.fields import *
-from engine.schemas import BaseSchema
-from lang.latin import convert_diphthongs, jvmap, sent_tokenizer, word_tokenizer, strip_diacritics
-from utils import autotrim
-
+from cylleneus.corpus.preprocessing import BasePreprocessor
+from cylleneus.engine.analysis.acore import CylleneusToken
+from cylleneus.engine.analysis.filters import AnnotationFilter, CachedLemmaFilter, CachedSynsetFilter, CaseFilter, \
+    SemfieldFilter
+from cylleneus.engine.analysis.tokenizers import Tokenizer
+from cylleneus.engine.fields import *
+from cylleneus.engine.schemas import BaseSchema
+from cylleneus.lang.latin import convert_diphthongs, jvmap, sent_tokenizer, word_tokenizer, strip_diacritics
+from cylleneus.utils import autotrim
 
 glob = '*.txt'
 

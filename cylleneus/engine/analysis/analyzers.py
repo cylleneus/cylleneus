@@ -25,17 +25,17 @@
 # those of the authors and should not be interpreted as representing official
 # policies, either expressed or implied, of Matt Chaput.
 
-from engine.analysis.acore import Composable, CompositionError
-from engine.analysis.tokenizers import Tokenizer
-from engine.analysis.filters import LowercaseFilter
-from engine.analysis.filters import StopFilter, STOP_WORDS
+from cylleneus.engine.analysis.acore import Composable, CompositionError
+from cylleneus.engine.analysis.tokenizers import Tokenizer
+from cylleneus.engine.analysis.filters import LowercaseFilter
+from cylleneus.engine.analysis.filters import StopFilter, STOP_WORDS
 from whoosh.analysis.morph import StemFilter
 from whoosh.analysis.intraword import IntraWordFilter
-from engine.analysis.tokenizers import default_pattern
-from engine.analysis.tokenizers import CommaSeparatedTokenizer
-from engine.analysis.tokenizers import IDTokenizer
-from engine.analysis.tokenizers import RegexTokenizer
-from engine.analysis.tokenizers import SpaceSeparatedTokenizer
+from cylleneus.engine.analysis.tokenizers import default_pattern
+from cylleneus.engine.analysis.tokenizers import CommaSeparatedTokenizer
+from cylleneus.engine.analysis.tokenizers import IDTokenizer
+from cylleneus.engine.analysis.tokenizers import RegexTokenizer
+from cylleneus.engine.analysis.tokenizers import SpaceSeparatedTokenizer
 from whoosh.lang.porter import stem
 
 

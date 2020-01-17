@@ -31,16 +31,15 @@ import copy
 import re
 from itertools import chain
 
-from engine.analysis.acore import Composable
-from lang.morpho import leipzig2wn
+from cylleneus.engine.analysis.acore import Composable
+from cylleneus.lang.morpho import leipzig2wn
 from latinwordnet import LatinWordNet
 from greekwordnet import GreekWordNet
 from multiwordnet.wordnet import WordNet
-from engine.compat import next
+from cylleneus.engine.compat import next
 from whoosh.util.text import rcompile
 
 LWN = LatinWordNet()
-
 
 # Default list of stop words (words so common it's usually wasteful to index
 # them). This list is used by the StopFilter class, which allows you to supply

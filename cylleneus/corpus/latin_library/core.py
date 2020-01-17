@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 
 from cylleneus import settings
-from utils import autotrim
+from cylleneus.utils import autotrim
 
 
 # Glob pattern for indexing

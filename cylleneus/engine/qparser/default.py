@@ -27,17 +27,17 @@
 
 import sys
 
-import engine.qparser.plugins
-import engine.qparser.syntax
-import engine.query.compound
-import engine.query.positional
-import engine.query.terms
+import cylleneus.engine.qparser.plugins
+import cylleneus.engine.qparser.syntax
+import cylleneus.engine.query.compound
+import cylleneus.engine.query.positional
+import cylleneus.engine.query.terms
 from cylleneus import settings
 import whoosh.query
-from engine.compat import text_type
+from cylleneus.engine.compat import text_type
 from whoosh.qparser import syntax
 from whoosh.qparser.common import QueryParserError
-from utils import print_debug
+from cylleneus.utils import print_debug
 
 
 # Query parser object
@@ -438,8 +438,9 @@ def DisMaxParser(fieldboosts, schema, tiebreak=0.0, **kwargs):
 
 
 class CylleneusQueryParser(QueryParser):
-    def __init__(self, fieldname, schema, plugins=None, termclass=engine.query.terms.Form,
-                 phraseclass=engine.query.positional.Sequence, group=engine.qparser.syntax.AndGroup):
+    def __init__(self, fieldname, schema, plugins=None, termclass=cylleneus.engine.query.terms.Form,
+                 phraseclass=cylleneus.engine.query.positional.Sequence,
+                 group=cylleneus.engine.qparser.syntax.AndGroup):
         self.fieldname = fieldname
         self.schema = schema
         self.termclass = termclass
@@ -451,39 +452,39 @@ class CylleneusQueryParser(QueryParser):
             plugins = self.default_set()
         self.add_plugins(plugins)
         self._add_ws_plugin()
-        self.replace_plugin(engine.qparser.plugins.OperatorsPlugin([
-            (engine.qparser.plugins.SequenceTagger, 0),
-            (engine.qparser.plugins.CollocationTagger, 0)
+        self.replace_plugin(cylleneus.engine.qparser.plugins.OperatorsPlugin([
+            (cylleneus.engine.qparser.plugins.SequenceTagger, 0),
+            (cylleneus.engine.qparser.plugins.CollocationTagger, 0)
         ]))
 
     def default_set(self):
         """Returns the default list of plugins to use."""
 
         return [
-                engine.qparser.plugins.FormPlugin(),
-                engine.qparser.plugins.GlossPlugin(),
-                engine.qparser.plugins.LemmaPlugin(),
-                engine.qparser.plugins.SemfieldPlugin(),
-                engine.qparser.plugins.AnnotationPlugin(),
-                engine.qparser.plugins.AnnotationFilterPlugin(),
-                engine.qparser.plugins.MorphosyntaxPlugin(),
-                engine.qparser.plugins.SequencePlugin(),
-                whoosh.qparser.plugins.FieldsPlugin(),
-                engine.qparser.plugins.OperatorsPlugin(),
-                engine.qparser.plugins.PlusMinusPlugin(),
-                engine.qparser.plugins.GroupPlugin(),
-                engine.qparser.plugins.BoostPlugin(),
-                whoosh.qparser.plugins.FuzzyTermPlugin(),
-                engine.qparser.plugins.WildcardPlugin(),
-                whoosh.qparser.plugins.EveryPlugin(),
-                ]
+            cylleneus.engine.qparser.plugins.FormPlugin(),
+            cylleneus.engine.qparser.plugins.GlossPlugin(),
+            cylleneus.engine.qparser.plugins.LemmaPlugin(),
+            cylleneus.engine.qparser.plugins.SemfieldPlugin(),
+            cylleneus.engine.qparser.plugins.AnnotationPlugin(),
+            cylleneus.engine.qparser.plugins.AnnotationFilterPlugin(),
+            cylleneus.engine.qparser.plugins.MorphosyntaxPlugin(),
+            cylleneus.engine.qparser.plugins.SequencePlugin(),
+            whoosh.qparser.plugins.FieldsPlugin(),
+            cylleneus.engine.qparser.plugins.OperatorsPlugin(),
+            cylleneus.engine.qparser.plugins.PlusMinusPlugin(),
+            cylleneus.engine.qparser.plugins.GroupPlugin(),
+            cylleneus.engine.qparser.plugins.BoostPlugin(),
+            whoosh.qparser.plugins.FuzzyTermPlugin(),
+            cylleneus.engine.qparser.plugins.WildcardPlugin(),
+            whoosh.qparser.plugins.EveryPlugin(),
+        ]
 
     def _add_ws_plugin(self):
-        self.add_plugin(engine.qparser.plugins.WhitespacePlugin())
+        self.add_plugin(cylleneus.engine.qparser.plugins.WhitespacePlugin())
 
     def multitoken_query(self, spec, texts, fieldname, termclass, boost, annotation, meta):
         kwargs = {}
-        if termclass != engine.query.terms.Form:
+        if termclass != cylleneus.engine.query.terms.Form:
             kwargs["annotation"] = annotation
         if 'meta' in self.schema:
             kwargs["meta"] = True
@@ -501,19 +502,21 @@ class CylleneusQueryParser(QueryParser):
             if spec == "default":
                 qclass = self.group.qclass
             elif spec == "and":
-                qclass = engine.query.compound.And
+                qclass = cylleneus.engine.query.compound.And
             elif spec == "or":
-                qclass = engine.query.compound.Or
+                qclass = cylleneus.engine.query.compound.Or
             elif spec == 'collocation':
-                qclass = engine.query.positional.Collocation
+                qclass = cylleneus.engine.query.positional.Collocation
             else:
                 raise whoosh.qparser.QueryParserError("Unknown multitoken_query value %r"
                                        % spec)
+
             return qclass([termclass(fieldname, t, boost=boost) for t in texts], **kwargs)
 
     def term_query(self, fieldname, text, termclass, boost=1.0, tokenize=True, removestops=True, annotation=None):
         """Returns the appropriate query object for a single term in the query string."""
 
+        meta = False
         if self.schema and fieldname in self.schema:
             field = self.schema[fieldname]
 
@@ -539,8 +542,7 @@ class CylleneusQueryParser(QueryParser):
             if len(texts) > 1:
                 if 'meta' in self.schema:
                     meta = True
-                else:
-                    meta = False
+
                 return self.multitoken_query(field.multitoken_query, texts,
                                              fieldname, termclass, boost, annotation, meta=meta)
 
@@ -552,13 +554,13 @@ class CylleneusQueryParser(QueryParser):
 
             if 'meta' in self.schema:
                 meta = True
-            else:
-                meta = False
+
         return termclass(fieldname, text, boost=boost, annotation=annotation, meta=meta)
 
     def parse(self, text, normalize=True, debug=settings.DEBUG):
         """Parses the input string and returns a :class:`whoosh.query.Query`
         object/tree.
+        :param debug:
         :param text: the unicode string to parse.
         :param normalize: whether to call normalize() on the query object/tree
             before returning it. This should be left on unless you're trying to
@@ -566,13 +568,14 @@ class CylleneusQueryParser(QueryParser):
         :rtype: :class:`whoosh.query.Query`
         """
 
-        if not isinstance(text, engine.compat.text_type):
+        if not isinstance(text, cylleneus.engine.compat.text_type):
             text = text.decode("latin1")
 
         nodes = self.process(text, debug=debug)
         print_debug(debug, "Syntax tree: %r" % nodes)
 
         q = nodes.query(self)
+
         if not q:
             q = whoosh.query.NullQuery
         print_debug(debug, "Pre-normalized query: %r" % q)

@@ -1,7 +1,7 @@
-import engine.query.compound
+import cylleneus.engine.query.compound
 
 
-class Sequence(engine.query.compound.CylleneusCompoundQuery):
+class Sequence(cylleneus.engine.query.compound.CylleneusCompoundQuery):
     """Matches documents containing a list of sub-queries in adjacent
     positions.
     This object has no sanity check to prevent you from using queries in
@@ -24,7 +24,7 @@ class Sequence(engine.query.compound.CylleneusCompoundQuery):
             this query.
         """
 
-        engine.query.compound.CylleneusCompoundQuery.__init__(self, subqueries, boost=1.0)
+        cylleneus.engine.query.compound.CylleneusCompoundQuery.__init__(self, subqueries, boost=1.0)
         self.slop = slop
         self.ordered = ordered
         self.meta = meta
@@ -58,7 +58,7 @@ class Sequence(engine.query.compound.CylleneusCompoundQuery):
                               self.slop, self.ordered, self.boost)
 
     def _and_query(self):
-        return engine.query.compound.And(self.subqueries)
+        return cylleneus.engine.query.compound.And(self.subqueries)
 
     def estimate_size(self, ixreader):
         return self._and_query().estimate_size(ixreader)
@@ -67,18 +67,18 @@ class Sequence(engine.query.compound.CylleneusCompoundQuery):
         return self._and_query().estimate_min_size(ixreader)
 
     def _matcher(self, subs, searcher, context):
-        import engine.query.spans
+        import cylleneus.engine.query.spans
 
         # Tell the sub-queries this matcher will need the current match to get
         # spans
         context = context.set(needs_current=True)
-        m = self._tree_matcher(subs, engine.query.spans.SpanNear.SpanNearMatcher, searcher,
+        m = self._tree_matcher(subs, cylleneus.engine.query.spans.SpanNear.SpanNearMatcher, searcher,
                                context, None, slop=self.slop,
                                ordered=self.ordered)
         return m
 
 
-class Collocation(engine.query.compound.CylleneusCompoundQuery):
+class Collocation(cylleneus.engine.query.compound.CylleneusCompoundQuery):
     """Matches documents containing a list of sub-queries in identical
     positions.
     This object has no sanity check to prevent you from using queries in
@@ -88,7 +88,7 @@ class Collocation(engine.query.compound.CylleneusCompoundQuery):
     JOINT = " WITH "
     intersect_merge = True
 
-    def __init__(self, subqueries, slop=0, ordered=True, boost=1.0, meta=False):
+    def __init__(self, subqueries, slop=0, ordered=True, boost=1.0, annotation=None, meta=False):
         """
         :param subqueries: a list of :class:`whoosh.query.Query` objects to
             match in sequence.
@@ -101,7 +101,7 @@ class Collocation(engine.query.compound.CylleneusCompoundQuery):
             this query.
         """
 
-        engine.query.compound.CylleneusCompoundQuery.__init__(self, subqueries, boost=1.0)
+        cylleneus.engine.query.compound.CylleneusCompoundQuery.__init__(self, subqueries, boost=1.0)
         self.slop = slop
         self.ordered = ordered
         self.meta = meta
@@ -130,8 +130,8 @@ class Collocation(engine.query.compound.CylleneusCompoundQuery):
         return h
 
     def normalize(self):
-        from engine.query.qcore import Every
-        from engine.query.ranges import TermRange, NumericRange
+        from cylleneus.engine.query.qcore import Every
+        from cylleneus.engine.query.ranges import TermRange, NumericRange
 
         # Normalize subqueries and merge nested instances of this class
         subqueries = []
@@ -143,8 +143,8 @@ class Collocation(engine.query.compound.CylleneusCompoundQuery):
                 subqueries.append(s)
 
         # If every subquery is Null, this query is Null
-        if all(q is engine.query.qcore.NullQuery for q in subqueries):
-            return engine.query.qcore.NullQuery
+        if all(q is cylleneus.engine.query.qcore.NullQuery for q in subqueries):
+            return cylleneus.engine.query.qcore.NullQuery
 
         # If there's an unfielded Every inside, then this query is Every
         if any((isinstance(q, Every) and q.fieldname is None)
@@ -187,10 +187,10 @@ class Collocation(engine.query.compound.CylleneusCompoundQuery):
             subqs.append(s)
 
         # Remove NullQuerys
-        subqs = [q for q in subqs if q is not engine.query.qcore.NullQuery]
+        subqs = [q for q in subqs if q is not cylleneus.engine.query.qcore.NullQuery]
 
         if not subqs:
-            return engine.query.qcore.NullQuery
+            return cylleneus.engine.query.qcore.NullQuery
 
         if len(subqs) == 1:
             sub = subqs[0]
@@ -202,7 +202,7 @@ class Collocation(engine.query.compound.CylleneusCompoundQuery):
         return self.__class__(subqs, boost=self.boost)
 
     def _and_query(self):
-        return engine.query.compound.And(self.subqueries)
+        return cylleneus.engine.query.compound.And(self.subqueries)
 
     def estimate_size(self, ixreader):
         return self._and_query().estimate_size(ixreader)
@@ -211,12 +211,12 @@ class Collocation(engine.query.compound.CylleneusCompoundQuery):
         return self._and_query().estimate_min_size(ixreader)
 
     def _matcher(self, subs, searcher, context):
-        import engine.query.spans
+        import cylleneus.engine.query.spans
 
         # Tell the sub-queries this matcher will need the current match to get
         # spans
         context = context.set(needs_current=True)
-        m = engine.query.spans.SpanWith2(subs).matcher(searcher, context)
+        m = cylleneus.engine.query.spans.SpanWith2(subs).matcher(searcher, context)
         return m
 
 
@@ -227,7 +227,7 @@ class Ordered(Sequence):
     JOINT = " BEFORE "
 
     def _matcher(self, subs, searcher, context):
-        from engine.query.spans import SpanBefore
+        from cylleneus.engine.query.spans import SpanBefore
 
         return self._tree_matcher(subs, SpanBefore._Matcher, searcher,
                                   context, None)

@@ -28,14 +28,14 @@
 import sys
 import weakref
 
-import engine.query.terms
-import engine.query.spans
-import engine.query.wrappers
-import engine.query.positional
-import engine.query.ranges
-import engine.query.qcore
-import engine.query.nested
-import engine.query.compound
+import cylleneus.engine.query.terms
+import cylleneus.engine.query.spans
+import cylleneus.engine.query.wrappers
+import cylleneus.engine.query.positional
+import cylleneus.engine.query.ranges
+import cylleneus.engine.query.qcore
+import cylleneus.engine.query.nested
+import cylleneus.engine.query.compound
 import whoosh.qparser.common
 import whoosh.query
 from whoosh.qparser import MarkerNode, TextNode, RegexPlugin
@@ -210,8 +210,10 @@ class CylleneusGroupNode(CylleneusSyntaxNode):
         subs = []
         for node in self.nodes:
             subq = node.query(parser)
+
             if subq is not None:
                 subs.append(subq)
+
         q = self.qclass(subs, boost=self.boost, **self.kwargs)
         return attach(q, self)
 
@@ -314,11 +316,11 @@ class CylleneusGroupNode(CylleneusSyntaxNode):
 
 
 class AndGroup(CylleneusGroupNode):
-    qclass = engine.query.compound.And
+    qclass = cylleneus.engine.query.compound.And
 
 
 class OrGroup(CylleneusGroupNode):
-    qclass = engine.query.compound.Or
+    qclass = cylleneus.engine.query.compound.Or
 
     @classmethod
     def factory(cls, scale=1.0):
@@ -329,17 +331,19 @@ class OrGroup(CylleneusGroupNode):
 
 class WordNetNode(TextNode):
     annotation = None
+
     def query(self, parser):
         fieldname = self.fieldname or parser.fieldname
         termclass = self.qclass or parser.termclass
         q = parser.term_query(fieldname, self.text, termclass,
                               boost=self.boost, tokenize=self.tokenize,
                               removestops=self.removestops, annotation=self.annotation)
+
         return whoosh.qparser.common.attach(q, self)
 
 
 class FormNode(WordNetNode):
-    qclass = engine.query.terms.Form
+    qclass = cylleneus.engine.query.terms.Form
     tokenize = False
     removestops = False
 
@@ -366,7 +370,7 @@ class FormNode(WordNetNode):
 
 
 class LemmaNode(WordNetNode):
-    qclass = engine.query.terms.Lemma
+    qclass = cylleneus.engine.query.terms.Lemma
     tokenize = False
     removestops = False
 
@@ -390,7 +394,7 @@ class LemmaNode(WordNetNode):
 
 
 class GlossNode(WordNetNode):
-    qclass = engine.query.terms.Gloss
+    qclass = cylleneus.engine.query.terms.Gloss
     tokenize = True
     removestops = False
 
@@ -414,7 +418,7 @@ class GlossNode(WordNetNode):
 
 
 class SemfieldNode(WordNetNode):
-    qclass = engine.query.terms.Semfield
+    qclass = cylleneus.engine.query.terms.Semfield
     tokenize = True
     removestops = False
 
@@ -438,7 +442,7 @@ class SemfieldNode(WordNetNode):
 
 
 class AnnotationNode(WordNetNode):
-    qclass = engine.query.terms.Annotation
+    qclass = cylleneus.engine.query.terms.Annotation
     tokenize = True
     removestops = False
 
@@ -462,7 +466,7 @@ class AnnotationNode(WordNetNode):
 
 
 class AnnotationFilterNode(WordNetNode):
-    qclass = engine.query.terms.Annotation
+    qclass = cylleneus.engine.query.terms.Annotation
     tokenize = True
     removestops = False
 
@@ -486,7 +490,7 @@ class AnnotationFilterNode(WordNetNode):
 
 
 class MorphosyntaxNode(TextNode):
-    qclass = engine.query.terms.Morphosyntax
+    qclass = cylleneus.engine.query.terms.Morphosyntax
     tokenize = True
     removestops = False
 
@@ -534,7 +538,7 @@ class BinaryGroup(CylleneusGroupNode):
         qa = self.nodes[0].query(parser)
         qb = self.nodes[1].query(parser)
         if qa is None and qb is None:
-            q = engine.query.qcore.NullQuery
+            q = cylleneus.engine.query.qcore.NullQuery
         elif qa is None:
             q = qb
         elif qb is None:
@@ -578,17 +582,17 @@ class ErrorNode(CylleneusSyntaxNode):
         if self.node:
             q = self.node.query(parser)
         else:
-            q = engine.query.qcore.NullQuery
+            q = cylleneus.engine.query.qcore.NullQuery
 
         return attach(whoosh.query.error_query(self.message, q), self)
 
 
 class AndGroup(CylleneusGroupNode):
-    qclass = engine.query.compound.And
+    qclass = cylleneus.engine.query.compound.And
 
 
 class OrGroup(CylleneusGroupNode):
-    qclass = engine.query.compound.Or
+    qclass = cylleneus.engine.query.compound.Or
 
     @classmethod
     def factory(cls, scale=1.0):
@@ -602,27 +606,27 @@ class OrGroup(CylleneusGroupNode):
 
 
 class DisMaxGroup(CylleneusGroupNode):
-    qclass = engine.query.compound.DisjunctionMax
+    qclass = cylleneus.engine.query.compound.DisjunctionMax
 
 
 class OrderedGroup(CylleneusGroupNode):
-    qclass = engine.query.positional.Ordered
+    qclass = cylleneus.engine.query.positional.Ordered
 
 
 class AndNotGroup(BinaryGroup):
-    qclass = engine.query.compound.AndNot
+    qclass = cylleneus.engine.query.compound.AndNot
 
 
 class AndMaybeGroup(BinaryGroup):
-    qclass = engine.query.compound.AndMaybe
+    qclass = cylleneus.engine.query.compound.AndMaybe
 
 
 class RequireGroup(BinaryGroup):
-    qclass = engine.query.compound.Require
+    qclass = cylleneus.engine.query.compound.Require
 
 
 class NotGroup(Wrapper):
-    qclass = engine.query.wrappers.Not
+    qclass = cylleneus.engine.query.wrappers.Not
 
 
 class RangeNode(CylleneusSyntaxNode):
@@ -670,18 +674,18 @@ class RangeNode(CylleneusSyntaxNode):
                 end = whoosh.qparser.get_single_text(field, end, tokenize=False,
                                       removestops=False)
 
-        q = engine.query.ranges.TermRange(fieldname, start, end, self.startexcl,
-                                               self.endexcl, boost=self.boost)
+        q = cylleneus.engine.query.ranges.TermRange(fieldname, start, end, self.startexcl,
+                                                    self.endexcl, boost=self.boost)
         return attach(q, self)
 
 
 class CollocationGroup(CylleneusGroupNode):
-    qclass = engine.query.positional.Collocation
+    qclass = cylleneus.engine.query.positional.Collocation
 
 
 class SequenceGroup(CylleneusGroupNode):
     merging = True
-    qclass = engine.query.positional.Sequence
+    qclass = cylleneus.engine.query.positional.Sequence
 
 # CylleneusSyntaxNode = CylleneusSyntaxNode
 # GroupNode = CylleneusGroupNode
