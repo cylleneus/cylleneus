@@ -276,13 +276,13 @@ class Work:
             if "title" in doc:
                 self._title = doc["title"]
             if "docix" in doc:
-                self._docix = doc["docix"]
+                self._docix = [doc["docix"],]
             if "urn" in doc:
                 self._urn = doc["urn"]
             else:
                 self._urn = None
             if "filename" in doc:
-                self._filename = doc["filename"]
+                self._filename = [doc["filename"],]
             else:
                 self._filename = None
             if "datetime" in doc:
@@ -355,8 +355,8 @@ class Work:
 
     @property
     def meta(self):
-        if self.doc and "meta" in self.doc:
-            return self.doc["meta"]
+        if self.doc and "meta" in self.doc[0]:
+            return self.doc[0]["meta"]
 
     @property
     def divs(self):
@@ -372,7 +372,7 @@ class Work:
 
     @property
     def filename(self):
-        return Path(self._filename)
+        return self._filename
 
     def __str__(self):
         return f"{self.author}, {self.title} [{self.corpus.name}]"
