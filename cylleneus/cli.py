@@ -10,11 +10,17 @@ import click_spinner
 
 from cylleneus.corpus import Corpus, Work
 from cylleneus.search import CylleneusSearcher
+from cylleneus.settings import CORPUS_DIR
 
 
 @click.group()
 def main():
     """Indexing commands for Cylleneus."""
+
+
+@main.command()
+def where():
+    click.echo(f"[-] {CORPUS_DIR}")
 
 
 @main.command()
