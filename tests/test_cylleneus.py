@@ -7,7 +7,6 @@
 import unittest
 from click.testing import CliRunner
 
-from cylleneus import cylleneus
 from cylleneus import cli
 
 
