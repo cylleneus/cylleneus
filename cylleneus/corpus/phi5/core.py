@@ -16,7 +16,7 @@ AUTHOR_TAB = {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -91,7 +91,7 @@ AUTHOR_TAB = {
             "phi001": {
                 "title":  "Rerum Romanarum Liber I",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
@@ -260,7 +260,7 @@ AUTHOR_TAB = {
             "phi008": {
                 "title":  "M. Aemilii cos. a. 179 tabula",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
@@ -321,7 +321,7 @@ AUTHOR_TAB = {
             "phi017": {
                 "title":  "versus populares in Caesarem et similia",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
