@@ -3,13 +3,13 @@ Cylleneus
 =========
 
 .. image:: https://img.shields.io/badge/cylleneus-next--gen%20corpus%20search%20for%20Greek%20and%20Latin-blue.svg
-        :target: https://github.com/wmshort/cylleneus
+        :target: https://github.com/cylleneus/cylleneus
 
 .. image:: https://img.shields.io/pypi/v/cylleneus.svg
         :target: https://pypi.python.org/pypi/cylleneus
 
 .. image:: https://travis-ci.org/wmshort/cylleneus.svg?branch=master
-    :target: https://travis-ci.org/wmshort/cylleneus
+    :target: https://travis-ci.org/cylleneus/cylleneus
 
 .. image:: https://readthedocs.org/projects/cylleneus/badge/?version=latest
         :target: https://cylleneus.readthedocs.io/en/latest/?badge=latest
