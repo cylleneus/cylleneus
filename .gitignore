@@ -101,13 +101,6 @@ ENV/
 # mypy
 .mypy_cache/
 
-# LASLA corpus files
-*.BPN
-
-# Whoosh indexing files
-*_WRITELOCK
-/corpus/perseus/index/virgil/aeneid/
-/corpus/perseus/index/virgil/georgics/
-/cylleneus/.history
-/corpus/atlas/index/homerus/ilias/
+# Tests require installation of sample corpora
 /tests/test_greek_queries.py
+/tests/test_query_parsing.py

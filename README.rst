@@ -41,19 +41,23 @@ Features
 Installation
 ------------
 
-Clone this repository, navigate to the appropriate directory, and run the following command from your command line:
-
-``$ cd cylleneus``
-
-``$ python setup.py install``
-
-It is also possible to ``pip install cylleneus``, but in this case you need to manage your own indexing.
+``pip install cylleneus``
 
 
 Setup
 -----
 
-The Cylleneus engine requires texts to be indexed before they can be searched. For convenience and testing, this repository comes configured with three pre-indexed mini-corpora: some texts of Caesar from the LASLA corpus, Vergil's *Eclogues* from the Perseus Digital Library, and Seneca's *De Ira* and *De Beneficiis* from the Digital Latin Library.
+The Cylleneus engine requires texts to be indexed before they can be searched. For convenience and testing, several pre-indexed mini-corpora are available. These need to be placed in a proper folder hierarchy within the user's data directory.
+
+MacOS
+``~/Library/Application Support/Cylleneus/corpus``
+
+Windows
+``C:\Documents and Settings\<User>\Application Data\Local Settings\Cylleneus\corpus`` or
+``C:\Documents and Settings\<User>\AppData\Local\Cylleneus\corpus``
+
+Linux:
+``~/.local/share/Cylleneus/corpus``
 
 To enable gloss-based searches, Cylleneus relies on the MultiWordNet. The setup process should install the latest version of the ``multiwordnet`` library, and also compile the necessary databases, but in case this step has been omitted you can do it manually. To do so, launch the Python REPL and enter the following commands.
 
@@ -67,9 +71,13 @@ To test that everything is working properly, run the battery of query tests in `
 Indexing
 --------
 
-Ready-made scripts are provided for indexing texts from the Perseus Digital Library (in JSON or TEI XML format), the LASLA corpus, the PHI5 corpus, and from plain-text sources (for instance, the Latin Library). To index a corpus (or part of one), the raw source should be placed in an appropriately named directory within ``/corpus/<name>/text/``. Then you can use any of the scripts in the ``scripts`` directory, modifying it for your own needs. The script for indexing texts from the DLL can be adapted to any plain-text source document. If you want to use texts from another corpus entirely, you will need to create an indexing pipeline tailored to the structure of that corpus. See the documentation for instructions.
+Ready-made tools are provided for indexing texts from the Perseus Digital Library (in JSON or TEI XML format), the LASLA corpus, the PROIEL corpus, the AGLDT corpus, the PHI5 corpus, and from plain-text sources (for instance, the Latin Library). To index a corpus (or part of one), the raw source should be placed in an appropriately named directory within ``/corpus/<name>/text/``. Then you can use any of the scripts in the ``scripts`` directory, modifying it for your own needs. The script for indexing texts from the DLL can be adapted to any plain-text source document. If you want to use texts from another corpus entirely, you will need to create an indexing pipeline tailored to the structure of that corpus. See the documentation for instructions.
 
 Basic indexing functionality is also provided through a command-line interface. ``$ cylleneus --help`` displays the complete list of available indexing commands.
+
+To create the index for a corpus, you will need to have a folder ``text`` in an appropriately named directory. (For examples of the correct directory structure, see the sample corpora).
+
+``$ cylleneus create --corpus latin_library  # create the 'latin_library' corpus from scratch using the available texts``
 
 To add a document or documents to a corpus, you must provide the original source files and indicate the correct path.
 
@@ -85,27 +93,19 @@ Indexes should probably always be optimized, though this process can be slow if 
 Searching
 ---------
 
-The best way to search the available corpora (or to import new files individually) is to use the web app.
+The best way to search the available corpora (or to import new files individually) is to use the web app or shell script, available separately. Searches can of course also be conducted programmatically via the library's API.
 
-``$ cd cylleneus``
+``>>> from cylleneus.corpus import Corpus``
 
-``$ cylleneus web``
+``>>> from cylleneus.search import Searcher, Collection``
 
-Then point your browser at http://127.0.0.1:5000. The web app can accommodate the full range of query types, and has functionality for viewing available corpora, importing new plain-text files, and exporting search results.
+``>>> corpus = Corpus("perseus")``
 
-A shell script, invoked by ``$ cylleneus shell``, is also available and provides a command-line interface to much of the same functionality.
+``>>> clct = Collection(corpus.works)``
 
-Both the web app and the shell UI use the idea of a search collection, which is a grouping of texts from one or more corpora. This allows searches to be conducted across different corpus types, potentially filling gaps of text coverage. In the web app, click the ``Collection`` button to put together such a grouping before performing a search. In the shell UI, first select a corpus using ``corpus <name>`` and then use ``select``. This commands takes a list of document numbers as its argument, i.e. ``"[1,2...]"``. Alternatively, ``select-all`` will add all the documents of the currently selected corpus to the search collection. Thus, e.g.:
+``>>> searcher = Searcher(clct)``
 
-``cylleneus:~ $ corpus perseus; select-all;  # selects the corpus and add all its documents to the search collection``
-
-``cylleneus:~ $ unselect "[1]"  # remove document id 1 from the collection``
-
-``cylleneus:~ $ corpus lasla; select "[1,2]"' search <virtus>|GEN.PL.  # add documents from a different corpus and execute a different query``
-
-You can display the list of documents within a corpus, with their id numbers, using the CLI.
-
-``$ cylleneus index --corpus perseus``
+``>>> results = searcher.search("<habeo>")``
 
 
 Query Types
@@ -263,4 +263,4 @@ In no particular order...
 Credits
 -------
 
-© 2019 William Michael Short. Based on the open-source Whoosh search engine by Matt Chaput. 
+© 2019 William Michael Short. Based on the open-source Whoosh search engine by Matt Chaput.

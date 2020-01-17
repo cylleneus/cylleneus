@@ -23,7 +23,7 @@ class TestPerseusXMLLemmatizer(unittest.TestCase):
         """Test Perseus XML lemmatization."""
 
         from corpus.perseus_xml.tokenizer import CachedTokenizer
-        from engine.analysis.filters import CachedLemmaFilter
+        from cylleneus.engine.analysis.filters import CachedLemmaFilter
         from corpus.phi5 import AUTHOR_TAB
 
         perseus_xml = pathlib.Path('../../corpus/perseus_xml/text/')
