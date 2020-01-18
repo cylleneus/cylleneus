@@ -10,8 +10,6 @@ from pathlib import Path
 
 from setuptools import find_packages, setup
 
-from cylleneus.settings import CORPUS_DIR
-
 
 with open("README.rst") as readme_file:
     readme = readme_file.read()
@@ -74,7 +72,6 @@ requirements = [
 ]
 
 setup_requirements = ["appdirs>=1.4.3"]
-
 test_requirements = []
 
 setup(
@@ -104,6 +101,8 @@ setup(
     version=version,
     zip_safe=False,
 )
+
+from cylleneus.settings import CORPUS_DIR
 
 corpus_dir = Path(CORPUS_DIR)
 if not corpus_dir.exists():
