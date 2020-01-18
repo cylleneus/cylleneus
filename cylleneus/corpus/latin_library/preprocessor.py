@@ -29,6 +29,6 @@ class Preprocessor(BasePreprocessor):
             'synset':     doc,
             'annotation': doc,
             'semfield':   doc,
-            'filename':   str(file.relative_to(self.corpus.text_dir)),
+            'filename':   path,
             'datetime':   datetime.now()
         }

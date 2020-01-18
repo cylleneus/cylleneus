@@ -11,7 +11,7 @@ glob = '*/*.txt'
 
 # Fetch text
 def fetch(work, meta, fragment):
-    with codecs.open(work.corpus.text_dir / work.filename[0]) as fp:
+    with codecs.open(work.corpus.text_dir / work.filename[0].replace('\\', '/')) as fp:
         content = fp.read()
 
     content = re.sub(r'(\s)+', r'\1', content)
