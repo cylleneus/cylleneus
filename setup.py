@@ -6,8 +6,15 @@
 import codecs
 import os
 import re
+from pathlib import Path
 
 from setuptools import find_packages, setup
+
+from cylleneus.settings import CORPUS_DIR
+
+corpus_dir = Path(CORPUS_DIR)
+if not corpus_dir.exists():
+    corpus_dir.mkdir(exist_ok=True, parents=True)
 
 with open("README.rst") as readme_file:
     readme = readme_file.read()
