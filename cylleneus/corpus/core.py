@@ -295,7 +295,7 @@ class Work:
 
     @property
     def filename(self):
-        return self._filename[0]
+        return self._filename
 
     def __str__(self):
         return f"{self.author}, {self.title} [{self.corpus.name}]"
