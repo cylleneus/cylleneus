@@ -12,9 +12,6 @@ from setuptools import find_packages, setup
 
 from cylleneus.settings import CORPUS_DIR
 
-corpus_dir = Path(CORPUS_DIR)
-if not corpus_dir.exists():
-    corpus_dir.mkdir(exist_ok=True, parents=True)
 
 with open("README.rst") as readme_file:
     readme = readme_file.read()
@@ -46,7 +43,7 @@ def find_version(*file_paths):
 version = find_version("cylleneus", "__init__.py")
 
 requirements = [
-    "appdirs==1.4.3",
+    "appdirs>=1.4.3",
     "certifi>=2019.11.28",
     "chardet>=3.0.4",
     "Click>=7.0",
@@ -76,7 +73,7 @@ requirements = [
     "Whoosh>=2.7.4",
 ]
 
-setup_requirements = []
+setup_requirements = ["appdirs>=1.4.3"]
 
 test_requirements = []
 
@@ -107,3 +104,7 @@ setup(
     version=version,
     zip_safe=False,
 )
+
+corpus_dir = Path(CORPUS_DIR)
+if not corpus_dir.exists():
+    corpus_dir.mkdir(exist_ok=True, parents=True)
