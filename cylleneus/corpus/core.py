@@ -230,9 +230,7 @@ class Work:
                     self._author = author
                     self._title = title
             else:
-                self._doc = (
-                    self._author
-                ) = self._title = self._urn = self._filename = self._timestamp = None
+                self._doc = self._author = self._title = self._urn = self._filename = self._timestamp = None
         self._indexer = indexer.Indexer(corpus, self)
         self.fetch = self.corpus._fetch
         self._language = language
@@ -297,7 +295,7 @@ class Work:
 
     @property
     def filename(self):
-        return self._filename
+        return self._filename[0]
 
     def __str__(self):
         return f"{self.author}, {self.title} [{self.corpus.name}]"

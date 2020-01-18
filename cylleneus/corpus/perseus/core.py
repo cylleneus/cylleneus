@@ -12,7 +12,7 @@ glob = '*.json'
 
 # Fetch text
 def fetch(work, meta, fragment):
-    with codecs.open(work.corpus.text_dir / work.filename, 'r', 'utf8') as fp:
+    with codecs.open(work.corpus.text_dir / work.filename[0], 'r', 'utf8') as fp:
         doc = json.load(fp)
 
     divs = meta['meta'].split('-')
