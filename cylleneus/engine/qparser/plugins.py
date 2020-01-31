@@ -237,6 +237,14 @@ class MorphosyntaxPlugin(whoosh.qparser.plugins.TaggingPlugin):
     nodetype = MorphosyntaxNode
 
 
+# * IS * or * STANDS FOR *
+class MappingPlugin(whoosh.qparser.plugins.TaggingPlugin):
+    """Adds the ability to specify mapping queries by enclosing them in backward slashes."""
+
+    expr = r'(?P<text>[A-Z\s*-]+ (?:IS|(?:STANDS )?FOR) [A-Z\s*-]+)'
+    nodetype = MappingNode
+
+
 class RegexPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify regular expression term queries.
 

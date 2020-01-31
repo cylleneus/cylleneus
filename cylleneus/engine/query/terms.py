@@ -1197,3 +1197,42 @@ class Annotation(Regex):
         if self.field():
             text = self.text.split('::')[0]
             yield (self.field(), text)
+
+
+class Mapping(Wildcard):
+    """Matches documents that contain any terms that match a "glob" pattern.
+    """
+
+    SPECIAL_CHARS = frozenset("*")
+
+    def __unicode__(self):
+        return "%s:%s" % (self.fieldname, self.text)
+
+    __str__ = __unicode__
+
+    def _get_pattern(self):
+        return fnmatch.translate(self.text)
+
+    def normalize(self):
+        return self
+
+    def matcher(self, searcher, context=None):
+        if self.text == "*":
+            from cylleneus.engine.query.qcore import Every
+            eq = Every(self.fieldname, boost=self.boost)
+            return eq.matcher(searcher, context)
+        else:
+            return PatternQuery.matcher(self, searcher, context)
+
+    def _btexts(self, ixreader):
+        field = ixreader.schema[self.fieldname]
+
+        exp = re.compile(self._get_pattern())
+
+        candidates = ixreader.lexicon(self.fieldname)
+
+        from_bytes = field.from_bytes
+        for btext in candidates:
+            text = from_bytes(btext)
+            if exp.match(text):
+                yield btext
