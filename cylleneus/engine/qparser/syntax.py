@@ -513,6 +513,30 @@ class MorphosyntaxNode(TextNode):
         return repr(self)
 
 
+class MappingNode(TextNode):
+    qclass = cylleneus.engine.query.terms.Mapping
+    tokenize = True
+    removestops = False
+
+    def __init__(self, text):
+        self.fieldname = 'mapping'
+        self.text = text
+        self.boost = 1.0
+
+    def __repr__(self):
+        r = "<"
+        if self.has_fieldname:
+            r += "%r:" % self.fieldname
+        r += f"{self.text}"
+        if self.has_boost and self.boost != 1.0:
+            r += " ^%s" % self.boost
+        r += ">"
+        return r
+
+    def r(self):
+        return repr(self)
+
+
 class Whitespace(MarkerNode):
     """Abstract syntax tree node for ignorable whitespace.
     """

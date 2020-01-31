@@ -1891,3 +1891,46 @@ class MORPHOSYNTAX(FieldType):
             self.vector = self.format
         else:
             self.vector = None
+
+
+class MAPPING(FieldType):
+    def __init__(self, analyzer=None, phrase=True, chars=True, stored=False,
+                 field_boost=1.0, multitoken_query="or", spelling=False,
+                 sortable=False, lang=None, vector=True,
+                 spelling_prefix="spell_"):
+
+        if analyzer:
+            self.analyzer = analyzer
+        elif lang:
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
+        else:
+            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+
+        if chars:
+            formatclass = cylleneus.engine.formats.CylleneusCharacters
+        elif phrase:
+            formatclass = cylleneus.engine.formats.Positions
+        else:
+            formatclass = cylleneus.engine.formats.Frequency
+        self.format = formatclass(field_boost=field_boost)
+
+        if sortable:
+            if isinstance(sortable, whoosh.columns.Column):
+                self.column_type = sortable
+            else:
+                self.column_type = whoosh.columns.VarBytesColumn()
+        else:
+            self.column_type = None
+
+        self.spelling = spelling
+        self.spelling_prefix = spelling_prefix
+        self.multitoken_query = multitoken_query
+        self.scorable = True
+        self.stored = stored
+
+        if isinstance(vector, cylleneus.engine.formats.Format):
+            self.vector = vector
+        elif vector:
+            self.vector = self.format
+        else:
+            self.vector = None

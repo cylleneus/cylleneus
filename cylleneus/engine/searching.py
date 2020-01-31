@@ -2283,7 +2283,6 @@ class CylleneusHit(Hit):
                 )
                 first = matches[0]
                 last = matches[-1]
-
                 meta = {"meta": self["meta"].lower()}
                 startmeta = {}
                 endmeta = {}

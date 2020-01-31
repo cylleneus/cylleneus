@@ -818,3 +818,47 @@ class CaseFilter(Filter):
                 upper = t.text.title()
                 t.text = upper
                 yield t
+
+
+class MappingFilter(Filter):
+    is_morph = True
+
+    def __init__(self, **kwargs):
+        super(MappingFilter, self).__init__()
+        self.__dict__.update(**kwargs)
+
+    def __eq__(self, other):
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.__dict__ == other.__dict__
+        )
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __call__(self, tokens, **kwargs):
+        for t in tokens:
+            if t.mode == "index":
+                source = t.source
+                target = t.target
+                figure = t.figure
+                if figure and source and target:
+                    if figure == "#":
+                        text = f"{target.upper()} IS {source.upper()}"
+                    elif figure == "~":
+                        text = f"{source.upper()} FOR {target.upper()}"
+                    else:
+                        text = None
+                    if text and re.match(r"([\w\s]+) (IS|FOR) ([\w\s]+)", text) and all(
+                        re.match(r"([\w\s]+) (IS|FOR) ([\w\s]+)", text).groups()
+                    ):
+                        t.text = text
+                        yield t
+            elif t.mode == "query":
+                text = t.text
+                if text:
+                    if all(
+                        re.match(r"([\w\s]+|\*) (IS|(?:STANDS )?FOR) ([\w\s]+|\*)", text).groups()
+                    ):
+                        yield t

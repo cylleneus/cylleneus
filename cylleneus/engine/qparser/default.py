@@ -461,6 +461,7 @@ class CylleneusQueryParser(QueryParser):
         """Returns the default list of plugins to use."""
 
         return [
+            cylleneus.engine.qparser.plugins.MappingPlugin(),
             cylleneus.engine.qparser.plugins.FormPlugin(),
             cylleneus.engine.qparser.plugins.GlossPlugin(),
             cylleneus.engine.qparser.plugins.LemmaPlugin(),
