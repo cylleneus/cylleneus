@@ -10,6 +10,7 @@ from . import (
     perseus_xml,
     proiel,
     translation_alignments,
+    ramses
 )
 
 
@@ -19,14 +20,21 @@ CorpusMeta = namedtuple(
 
 
 meta = {
-    "agldt": CorpusMeta(
+    "ramses": CorpusMeta(
+        ramses.DocumentSchema,
+        ramses.Tokenizer,
+        ramses.Preprocessor,
+        ramses.core.glob,
+        ramses.core.fetch,
+    ),
+    "agldt":  CorpusMeta(
         agldt.DocumentSchema,
         agldt.Tokenizer,
         agldt.Preprocessor,
         agldt.core.glob,
         agldt.core.fetch,
     ),
-    "atlas": CorpusMeta(
+    "atlas":  CorpusMeta(
         atlas.DocumentSchema,
         atlas.Tokenizer,
         atlas.Preprocessor,
