@@ -15,6 +15,7 @@ from cylleneus.engine.highlight import (
 from cylleneus.engine.qparser.default import CylleneusQueryParser
 from cylleneus.engine.searching import CylleneusSearcher, HitRef
 from cylleneus.utils import DEBUG_HIGH, DEBUG_MEDIUM, print_debug, slugify
+from cylleneus import __version__
 
 
 class Collection:
@@ -289,12 +290,18 @@ class Search:
                 ):
                     if run.group(1) == "match":
                         for t in run.group(2).split():
-                            if t.startswith("<em>"):
+                            if re.match(r"<em>.*?</em>", t):
+                                em = re.match(r"<em>(.*?)</em>", t).group(1)
+                                r = p.add_run(em + " ")
+                                r.font.bold = True
+                            elif t.startswith("<em>"):
                                 r = p.add_run(re.sub(r"<em>", "", t) + " ")
                                 r.font.bold = True
                             elif t.startswith("</em>"):
                                 r = p.add_run(re.sub(r"</em>", "", t) + " ")
                                 r.font.bold = False
+                            elif t == '\n':
+                                r.add_break()
                             else:
                                 r = p.add_run(t + " ")
                                 r.font.bold = None
