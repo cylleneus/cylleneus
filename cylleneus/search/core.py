@@ -1,10 +1,12 @@
+import codecs
 import json
 import re
 from datetime import datetime
 from typing import Iterable
 
 import docx
-from cylleneus import settings
+
+from cylleneus import __version__, settings
 from cylleneus.corpus.core import Corpus, Work
 from cylleneus.engine import scoring
 from cylleneus.engine.highlight import (
@@ -15,7 +17,6 @@ from cylleneus.engine.highlight import (
 from cylleneus.engine.qparser.default import CylleneusQueryParser
 from cylleneus.engine.searching import CylleneusSearcher, HitRef
 from cylleneus.utils import DEBUG_HIGH, DEBUG_MEDIUM, print_debug, slugify
-from cylleneus import __version__
 
 
 class Collection:
@@ -29,6 +30,20 @@ class Collection:
     def remove(self, work):
         if work in self._works:
             self._works.remove(work)
+
+    def save(self, name: str = None):
+        with codecs.open(".collections", "+", "utf8") as fp:
+            collections = json.load(fp)
+            collections[name] = list(self.iter_all())
+            json.dump(collections, fp)
+
+    def load(self, name: str):
+        with codecs.open(".collections", "r", "utf8") as fp:
+            collections = json.load(fp)
+        self.works = [
+            Corpus(corpus).work_by_docix(docix)
+            for corpus, docix in collections[name]
+        ]
 
     @property
     def count(self):
