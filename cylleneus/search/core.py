@@ -2,6 +2,7 @@ import codecs
 import json
 import re
 from datetime import datetime
+from pathlib import Path
 from typing import Iterable
 
 import docx
@@ -32,17 +33,30 @@ class Collection:
             self._works.remove(work)
 
     def save(self, name: str = None):
-        with codecs.open(".collections", "+", "utf8") as fp:
-            collections = json.load(fp)
-            collections[name] = list(self.iter_all())
+        file = Path(".collections")
+
+        if file.exists():
+            with codecs.open(file, "r", "utf8") as fp:
+                collections = json.load(fp)
+        else:
+            collections = {}
+
+        collections[name] = list(self.iter_all())
+        with codecs.open(".collections", "w", "utf8") as fp:
             json.dump(collections, fp)
 
     def load(self, name: str):
-        with codecs.open(".collections", "r", "utf8") as fp:
-            collections = json.load(fp)
+        file = Path(".collections")
+        if file.exists():
+            with codecs.open(file, "r", "utf8") as fp:
+                collections = json.load(fp)
+        else:
+            collections = {name: []}
+
         self.works = [
             Corpus(corpus).work_by_docix(docix)
-            for corpus, docix in collections[name]
+            for corpus, docixs in collections[name]
+            for docix in docixs
         ]
 
     @property
