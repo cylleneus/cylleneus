@@ -67,6 +67,7 @@ class Collection:
             for corpus, docixs in collections[name]
             for docix in docixs
         ]
+        self.name = name
 
     @property
     def count(self):
