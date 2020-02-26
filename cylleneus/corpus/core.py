@@ -68,11 +68,9 @@ class Corpus:
             yield Work(self, author=path.parts[-2], title=path.name)
 
     def work_by_docix(self, docix: int):
-        docs = {
-            _docix: doc
-            for _docix, doc in self.iter_docs()
-        }
-        return Work(self, doc=docs[docix])
+        for _docix, doc in self.iter_docs():
+            if _docix == docix:
+                return Work(self, doc=doc)
 
     def destroy(self):
         for ixr in self.indexers:

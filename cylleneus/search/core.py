@@ -21,8 +21,17 @@ from cylleneus.utils import DEBUG_HIGH, DEBUG_MEDIUM, print_debug, slugify
 
 
 class Collection:
-    def __init__(self, works: Iterable[Work] = None):
-        self._works = [work for work in works] if works else list()
+    def __init__(self, name: str = None, works: Iterable[Work] = None):
+        self._works = list(works) if works else []
+        self._name = name
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, s: str):
+        self._name = s
 
     def add(self, work):
         if work not in self._works:
