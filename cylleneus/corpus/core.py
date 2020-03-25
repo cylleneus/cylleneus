@@ -1,28 +1,34 @@
+import sys
 from pathlib import Path
+
+from git import RemoteProgress, Repo
 
 from cylleneus import settings
 from cylleneus.engine.fields import Schema
 from cylleneus.engine.searching import CylleneusHit, CylleneusSearcher
 from cylleneus.utils import slugify
-
-from .manifest import meta
 from . import indexer
+from .manifest import meta
 
 
 class Corpus:
     def __init__(self, name: str):
         self._name = name
 
-        _meta = meta.get(name, meta["default"])
-        self._schema = _meta.schema()
-        self._tokenizer = _meta.tokenizer()
-        self._preprocessor = _meta.preprocessor(self)
-        self._glob = _meta.glob
-        self._fetch = _meta.fetch
+        self._meta = meta.get(name, meta["default"])
+        self._schema = self._meta.schema()
+        self._tokenizer = self._meta.tokenizer()
+        self._preprocessor = self._meta.preprocessor(self)
+        self._glob = self._meta.glob
+        self._fetch = self._meta.fetch
 
     @property
     def name(self):
         return self._name
+
+    @property
+    def meta(self):
+        return self._meta
 
     @property
     def preprocessor(self):
@@ -54,7 +60,7 @@ class Corpus:
 
     @property
     def is_searchable(self):
-        return self.schema and any([work.is_searchable for work in self.works])
+        return self.schema and self.doc_count_all and any([work.is_searchable for work in self.works])
 
     @property
     def works(self):
@@ -166,6 +172,36 @@ class Corpus:
         work = Work(corpus=self, doc=hit)
         urn, reference, text = work.fetch(work, meta, fragment)
         return self.name, work.author, work.title, urn, reference, text
+
+    def download(self, branch: str = "master"):
+        class ProgressPrinter(RemoteProgress):
+            def update(self, op_code, cur_count, max_count=None, message=''):
+                if message:
+                    percentage = '%.0f' % (100 * cur_count / (max_count or 100.0))
+                    sys.stdout.write('Downloaded %s%% %s \r' % (percentage, message))
+
+        git_uri = self.meta.repo["origin"]
+
+        if not self.path.exists():
+            self.path.mkdir(exist_ok=True, parents=True)
+            try:
+                Repo.clone_from(
+                    git_uri,
+                    self.path,
+                    branch=branch,
+                    depth=1,
+                    progress=ProgressPrinter()
+                )
+            except Exception as e:
+                raise e
+        else:
+            try:
+                repo = Repo(self.path)
+                if not repo.bare:
+                    git_origin = repo.remotes.origin
+                    git_origin.pull()
+            except Exception as e:
+                raise e
 
     def __str__(self):
         return self.name

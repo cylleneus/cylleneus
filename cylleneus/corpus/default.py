@@ -186,3 +186,9 @@ def fetch(work, meta, fragment):
     urn = work.urn
 
     return urn, reference, text
+
+
+repo = {
+    'origin':   None,
+    'location': 'local'
+}

@@ -8,6 +8,12 @@ from cylleneus import settings
 # Glob pattern for indexing
 glob = "*.tb.txt"
 
+# Repo
+repo = {
+    'origin':   'https://github.com/cylleneus/agldt.git',
+    'location': 'remote'
+}
+
 
 # Function to fetch text from corpus
 def fetch(work, meta, fragment):

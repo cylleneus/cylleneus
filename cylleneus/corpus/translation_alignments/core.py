@@ -5,9 +5,14 @@ import lxml.etree as et
 from nltk.tokenize import word_tokenize
 from cylleneus.utils import stringify
 
-
 # Glob pattern for indexing
 glob = '*sentalign.txt'
+
+# Repo
+repo = {
+    'origin':   'https://github.com/cylleneus/translation_alignments.git',
+    'location': 'remote'
+}
 
 
 # Fetch text

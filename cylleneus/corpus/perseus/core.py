@@ -5,9 +5,14 @@ from pathlib import Path
 from cylleneus import settings
 from cylleneus.utils import nrange, alnum
 
-
 # Glob pattern for indexing
 glob = '*.json'
+
+# Repo
+repo = {
+    'origin':   'https://github.com/cylleneus/perseus.git',
+    'location': 'remote'
+}
 
 
 # Fetch text

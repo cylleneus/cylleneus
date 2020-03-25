@@ -48,6 +48,7 @@ requirements = [
     "click-spinner>=0.1.8",
     "cylleneus>=0.1.5",
     "future>=0.18.2",
+    "gitpython>=3.1.0",
     "greekwordnet>=0.0.4",
     "idna>=2.8",
     "isodate>=0.6.0",

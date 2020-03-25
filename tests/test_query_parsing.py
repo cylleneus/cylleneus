@@ -70,10 +70,3 @@ class TestQueryTypes(unittest.TestCase):
             parser = CylleneusQueryParser("form", DocumentSchema())
             query = parser.parse(q, debug=settings.DEBUG)
             assert query
-
-        # c, q, n = choice(queries)
-        # corpus = Corpus(c)
-        # clct = Collection(corpus.works)
-        # searcher = Searcher(Collection(clct))
-        # results = searcher.search(q)
-        # assert results.count == n

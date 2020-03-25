@@ -8,9 +8,15 @@ from pathlib import Path
 import click
 import click_spinner
 
-from cylleneus.corpus import Corpus, Work
+from cylleneus.corpus import Corpus, Work, manifest
 from cylleneus.search import CylleneusSearcher
 from cylleneus.settings import CORPUS_DIR
+
+REMOTE_CORPORA = {
+    name: meta
+    for name, meta in manifest.meta.items()
+    if meta.repo["location"] == "remote"
+}
 
 
 @click.group()
@@ -202,6 +208,25 @@ def lexicon(corpus, fieldname):
         click.echo_via_pager("\n".join([i.decode("utf8") for i in sorted(lexicon)]))
     else:
         click.echo(f"[-] failed")
+
+
+@main.command()
+@click.option("--corpus", "-c", "corpus", required=False)
+@click.option("--branch", "-b", "branch", required=False)
+def download(corpus, branch):
+    """Download a remote corpus repository. """
+
+    if not corpus:
+        for name, meta in REMOTE_CORPORA.items():
+            click.echo(f"[-] '{name}' [{meta.repo['origin']}]")
+    else:
+        c = Corpus(corpus)
+        try:
+            c.download(branch)
+        except Exception as e:
+            click.echo("[-] failed", e)
+        else:
+            click.echo(f"[+] downloaded '{corpus}' [{c.meta.repo['origin']}]")
 
 
 if __name__ == "__main__":

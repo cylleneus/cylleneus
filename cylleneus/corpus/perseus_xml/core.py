@@ -9,6 +9,13 @@ from cylleneus.utils import alnum, stringify
 # Glob pattern for indexing
 glob = '*.xml'
 
+# Repo
+repo = {
+    'origin':   'https://github.com/cylleneus/perseus_xml.git',
+    'location': 'remote'
+}
+
+
 # Fetch text
 def fetch(work, meta, fragment):
     with codecs.open(work.corpus.text_dir / work.filename[0], 'rb') as fp:

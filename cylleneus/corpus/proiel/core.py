@@ -7,6 +7,13 @@ from cylleneus import settings
 # Glob pattern for indexing
 glob = "*.xml"
 
+# Repo
+repo = {
+    'origin':   'https://github.com/cylleneus/proiel.git',
+    'location': 'remote'
+}
+
+
 # Fetch text
 def fetch(work, meta, fragment):
     with codecs.open(work.corpus.text_dir / work.filename[0], "rb") as fp:

@@ -1,3 +1,6 @@
+import codecs
+import re
+
 from MyCapytain.common.constants import Mimetypes
 from MyCapytain.resolvers.cts.api import HttpCtsResolver
 from MyCapytain.retrievers.cts5 import HttpCtsRetriever as CTS
@@ -9,9 +12,18 @@ from cylleneus.utils import nrange, alnum
 # Glob pattern for indexing
 glob = '*.BPN'
 
+# Repo
+repo = {
+           'origin': 'https://github.com/cylleneus/lasla.git',
+           'location': 'remote'
+       }
+
+
 # Fetch text
 def fetch(work, meta, fragment):
-    resolver = HttpCtsResolver(CTS("http://scaife-cts.perseus.org/api/cts"))
+    filename = work.filename[0]
+    path = work.corpus.text_dir / filename
+
     urn = work.doc[0].get('urn', None)
 
     divs = meta['meta'].split('-')
@@ -26,68 +38,20 @@ def fetch(work, meta, fragment):
     reference = '-'.join([ref_start, ref_end]) if ref_end != ref_start else ref_start
 
     # Collect text and context
-    start = [
-        alnum(meta['start'][div])
-        for div in divs
-    ]
-    end = [
-        alnum(meta['end'][div])
-        for div in divs
-    ]
+    with codecs.open(path, "r", "utf8") as fp:
+        lines = fp.readlines()
 
-    hlites = set([tuple(hlite) for hlite in meta['hlites']])
+    start = meta['start']["pos"]
+    end = meta["end"]["pos"]
+
     match = []
-    start_cite = '.'.join([str(i) for i in start])
-    try:
-        start_sentence = resolver.getTextualNode(urn, subreference=start_cite)
-    except HTTPError:
-        start_sentence = None
-    end_cite = '.'.join([str(i) for i in end])
-    try:
-        end_sentence = resolver.getTextualNode(urn, subreference=end_cite)
-    except HTTPError:
-        end_sentence = None
-    if start_sentence is None and end_sentence is None:
-        return urn, reference, 'Requested resource is not found'
-    limit_sentence_text = end_sentence.next.text if end_sentence.next else None
-    current_sentence = start_sentence
-
-    while current_sentence is not None and \
-        current_sentence.text != limit_sentence_text:
-        text = current_sentence.export(Mimetypes.PLAINTEXT)
-        text = ' '.join([
-            f"<em>{t}</em>"
-            if (*str(current_sentence.reference).split('.'), str(j)) in hlites
-            else t
-            for j, t in enumerate(text.split())
-        ])
-        match.append(f"<match>{text}</match>")
-        current_sentence = current_sentence.next
-    pre = []
-    if start_sentence is not None:
-        current_sentence = start_sentence.prev
-        i = 0
-        while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
-            text = current_sentence.export(Mimetypes.PLAINTEXT)
-            pre.append(f"<pre>{text}</pre>")
-            current_sentence = current_sentence.prev
-            i += 1
-
-    post = []
-    if end_sentence is not None:
-        current_sentence = end_sentence.next
-        i = 0
-        while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
-            text = current_sentence.export(Mimetypes.PLAINTEXT)
-            post.append(f"<post>{text}</post>")
-            current_sentence = current_sentence.next
-            i += 1
+    match.append(f"<match>{' '.join([re.sub(r' ?<.+?> ?', '', parse_bpn(line)['form']) for line in lines[start:end+1]])}</match>")
 
     if 'poem' in divs or (len(divs) == 2 and divs[-1] in ['line', 'verse']):
         joiner = '\n\n'
     else:
         joiner = ' '
-    parts = pre + match + post
+    parts = match
     text = f'{joiner}'.join(parts)
 
     return urn, reference, text

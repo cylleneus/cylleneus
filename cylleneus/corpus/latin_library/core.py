@@ -5,9 +5,15 @@ from pathlib import Path
 from cylleneus import settings
 from cylleneus.utils import autotrim
 
-
 # Glob pattern for indexing
 glob = '*/*.txt'
+
+# Repo
+repo = {
+    'origin':   'https://github.com/cylleneus/latin_library.git',
+    'location': 'remote'
+}
+
 
 # Fetch text
 def fetch(work, meta, fragment):
