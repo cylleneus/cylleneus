@@ -14,6 +14,9 @@ Cylleneus
 .. image:: https://readthedocs.org/projects/cylleneus/badge/?version=latest
         :target: https://cylleneus.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
+        
+ .. image:: https://mybinder.org/badge_logo.svg
+ :target: https://mybinder.org/v2/gh/cylleneus/cylleneus/master?urlpath=https%3A%2F%2Fgithub.com%2Fcylleneus%2Fcylleneus%2Fblob%2Fmaster%2Fquick_search.ipynb
 
 
 * Free software: Apache Software License 2.0
