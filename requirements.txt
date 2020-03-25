@@ -11,7 +11,7 @@ isodate==0.6.0
 latinwordnet==0.2.6
 LinkHeader==0.4.3
 lxml==4.4.2
-multiwordnet==0.0.5
+multiwordnet==0.0.6
 MyCapytain==3.0.0
 natsort==7.0.0
 nltk==3.4.5
