@@ -16,6 +16,7 @@ class Corpus:
         self._name = name
 
         self._meta = meta.get(name, meta["default"])
+        self._language = self._meta.language
         self._schema = self._meta.schema()
         self._tokenizer = self._meta.tokenizer()
         self._preprocessor = self._meta.preprocessor(self)
@@ -29,6 +30,10 @@ class Corpus:
     @property
     def meta(self):
         return self._meta
+
+    @property
+    def language(self):
+        return self._language
 
     @property
     def preprocessor(self):
@@ -166,7 +171,7 @@ class Corpus:
 
     @property
     def path(self):
-        return Path(f"{settings.CORPUS_DIR}/{self.name}")
+        return Path(settings.CORPUS_DIR) / Path(self.language) / Path(self.name)
 
     def fetch(self, hit, meta, fragment):
         work = Work(corpus=self, doc=hit)

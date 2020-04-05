@@ -12,9 +12,13 @@ from cylleneus.engine.analysis.filters import AnnotationFilter, CachedLemmaFilte
 from cylleneus.engine.analysis.tokenizers import Tokenizer
 from cylleneus.engine.fields import *
 from cylleneus.engine.schemas import BaseSchema
-from cylleneus.lang.latin import convert_diphthongs, jvmap, sent_tokenizer, word_tokenizer, strip_diacritics
+from cylleneus.lang.lat import convert_diphthongs, jvmap, sent_tokenizer, word_tokenizer, strip_diacritics
 from cylleneus.utils import autotrim
 
+# Language
+language = ""
+
+# Glob pattern
 glob = '*.txt'
 
 

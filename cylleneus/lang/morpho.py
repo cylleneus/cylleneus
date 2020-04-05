@@ -86,22 +86,23 @@ def leipzig2wn(gloss: str):
         tags = [tag.strip() for tag in gloss.upper().split(".") if tag.strip()]
         for tag in tags:
             if tag[0].isdigit():
-                if len(tag) == 3 and tag[1:] in ["SG", "PL", "XX"]:
+                if len(tag) == 3 and tag[1:] in ["SG", "PL", "DU", "XX"]:
                     person = _from_leipzig[tag[0]]
                     number = _from_leipzig[tag[1:]]
                 elif len(tag) == 1 and tag in ["1", "2", "3", "4", "5"]:
                     group = _from_leipzig[tag]
             if tag in ["NN", "VB", "ADJ", "ADV"]:
                 pos = _from_leipzig[tag]
-            elif tag in ["SG", "PL", "XX"]:
+            elif tag in ["SG", "PL", "DU", "XX"]:
                 number = _from_leipzig[tag]
-            elif tag in ["PRS", "IMPRF", "FUT", "PRF", "PLPRF", "FUTPRF"]:
+            elif tag in ["PRS", "IMPRF", "FUT", "PRF", "PLPRF", "FUTPRF", "AOR"]:
                 tense = _from_leipzig[tag]
                 pos = "v"
-            elif tag in ["IND", "SBJV", "IMP", "PTCP", "INF", "GER", "GERV", "SUP"]:
+            elif tag in ["IND", "SBJV", "IMP", "PTCP", "INF", "GER", "GERV", "SUP", "OPT", "INJ", "PREC", "COND",
+                         "PART"]:
                 mood = _from_leipzig[tag]
                 pos = "v"
-            elif tag in ["ACT", "PASS", "DEP"]:
+            elif tag in ["ACT", "PASS", "DEP", "MID"]:
                 voice = _from_leipzig[tag]
                 pos = "v"
             elif tag in ["M", "F", "N"]:
@@ -114,7 +115,7 @@ def leipzig2wn(gloss: str):
                     pos = "a"
                 else:
                     pos = "r"
-            elif tag in ["NOM", "GEN", "DAT", "ACC", "ABL", "LOC", "VOC"]:
+            elif tag in ["NOM", "GEN", "DAT", "ACC", "ABL", "LOC", "VOC", "INS", "CPD"]:
                 case = _from_leipzig[tag]
                 # if mood in 'pgds':
                 #     pos = 'v'
@@ -257,34 +258,43 @@ _from_leipzig = {
     "DAT":    "d",
     "ABL":    "b",
     "LOC":    "l",
+    "INS":    "i",
+    "CPD":    "c",
     # NUMBER
     "SG":     "s",
-    "PL": "p",
-    "XX": "-",
+    "PL":     "p",
+    "DU":     "d",
+    "XX":     "-",
     # DEGREE
-    "POS": "p",
-    "COMP": "c",
-    "SUPL": "s",
+    "POS":    "p",
+    "COMP":   "c",
+    "SUPL":   "s",
     # MOOD
-    "IND": "i",
-    "SBJV": "s",
-    "IMP": "m",
-    "PTCP": "p",
-    "INF": "n",
-    "GER": "d",
-    "GERV": "g",
-    "SUP": "u",
+    "IND":    "i",
+    "SBJV":   "s",
+    "IMP":    "m",
+    "PTCP":   "p",
+    "INF":    "n",
+    "GER":    "d",
+    "GERV":   "g",
+    "SUP":    "u",
+    "OPT":    "o",
+    "COND":   "c",
+    "PREC":   "r",
+    "INJ":    "j",
     # TENSE
-    "PRS": "p",
-    "IMPRF": "i",
-    "FUT": "f",
-    "PRF": "r",
-    "PLPRF": "l",
+    "PRS":    "p",
+    "IMPRF":  "i",
+    "FUT":    "f",
+    "PRF":    "r",
+    "PLPRF":  "l",
     "FUTPRF": "t",
+    "AOR":    "a",
     # VOICE
-    "ACT": "a",
+    "ACT":    "a",
     "PASS":   "p",
     "DEP":    "d",
+    "MID":    "m",
     # PERSON
     "1":      "1",
     "2":      "2",

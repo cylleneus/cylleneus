@@ -1,25 +1,19 @@
 from collections import namedtuple
 
-from . import (
-    agldt,
-    atlas,
-    default,
-    lasla,
-    latin_library,
-    perseus,
-    perseus_xml,
-    proiel,
-    translation_alignments,
-)
+from . import default
 
+from .lat import agldt, lasla, latin_library, perseus, perseus_xml, phi5, proiel
+from .grk import atlas
+from .eng import translation_alignments
+from .skt import dcs
 
 CorpusMeta = namedtuple(
-    "CorpusMeta", ["schema", "tokenizer", "preprocessor", "glob", "fetch", "repo"]
+    "CorpusMeta", ["language", "schema", "tokenizer", "preprocessor", "glob", "fetch", "repo"]
 )
 
-
 meta = {
-    "agldt": CorpusMeta(
+    "agldt":                  CorpusMeta(
+        agldt.core.language,
         agldt.DocumentSchema,
         agldt.Tokenizer,
         agldt.Preprocessor,
@@ -28,6 +22,7 @@ meta = {
         agldt.core.repo,
     ),
     "atlas": CorpusMeta(
+        atlas.core.language,
         atlas.DocumentSchema,
         atlas.Tokenizer,
         atlas.Preprocessor,
@@ -36,6 +31,7 @@ meta = {
         atlas.core.repo
     ),
     "lasla": CorpusMeta(
+        lasla.core.language,
         lasla.DocumentSchema,
         lasla.Tokenizer,
         lasla.Preprocessor,
@@ -44,6 +40,7 @@ meta = {
         lasla.core.repo
     ),
     "latin_library": CorpusMeta(
+        latin_library.core.language,
         latin_library.DocumentSchema,
         default.Tokenizer,
         latin_library.Preprocessor,
@@ -52,6 +49,7 @@ meta = {
         latin_library.core.repo
     ),
     "perseus": CorpusMeta(
+        perseus.core.language,
         perseus.DocumentSchema,
         perseus.Tokenizer,
         perseus.Preprocessor,
@@ -60,6 +58,7 @@ meta = {
         perseus.core.repo
     ),
     "perseus_xml": CorpusMeta(
+        perseus_xml.core.language,
         perseus_xml.DocumentSchema,
         perseus_xml.Tokenizer,
         perseus_xml.Preprocessor,
@@ -68,6 +67,7 @@ meta = {
         perseus_xml.core.repo
     ),
     "translation_alignments": CorpusMeta(
+        translation_alignments.core.language,
         translation_alignments.DocumentSchema,
         translation_alignments.Tokenizer,
         translation_alignments.Preprocessor,
@@ -75,7 +75,8 @@ meta = {
         translation_alignments.core.fetch,
         translation_alignments.core.repo
     ),
-    "proiel": CorpusMeta(
+    "proiel":                 CorpusMeta(
+        proiel.core.language,
         proiel.DocumentSchema,
         proiel.Tokenizer,
         proiel.Preprocessor,
@@ -83,7 +84,17 @@ meta = {
         proiel.core.fetch,
         proiel.core.repo
     ),
-    "default": CorpusMeta(
+    "dcs":                    CorpusMeta(
+        dcs.core.language,
+        dcs.DocumentSchema,
+        dcs.Tokenizer,
+        dcs.Preprocessor,
+        dcs.core.glob,
+        dcs.core.fetch,
+        dcs.core.repo
+    ),
+    "default":                CorpusMeta(
+        default.language,
         default.DocumentSchema,
         default.Tokenizer,
         default.Preprocessor,
