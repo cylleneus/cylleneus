@@ -84,7 +84,10 @@ class CachedLemmaFilter(Filter):
                     if t.lemma:
                         lemma = t.lemma
                         dcs_id = t.dcs_id if t.dcs_id else None
-                        morphos = lemma_morpho[dcs_id]
+                        try:
+                            morphos = lemma_morpho[dcs_id]
+                        except KeyError:
+                            continue
 
                         if t.morpho is not None:
                             annotation = t.morpho

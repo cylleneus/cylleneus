@@ -179,11 +179,11 @@ def parse_morpho(upos, morpho: str):
     })
 
     for k, v in inflections.items():
-        if k not in ["group", "stem"]:
+        if k not in ["group", "stem", "formation"]:
             inflections[k] = morpho_mappings[k].get(v, "-")
     if inflections["verbform"] != "-" and inflections["mood"] == "-":
         inflections["mood"] = inflections["verbform"]
-    return "".join([v for k, v in inflections.items() if k != "verbform"])
+    return "".join([v for k, v in inflections.items() if k != "verbform" and k != "formation"])
 
 
 morpho_mappings = {
