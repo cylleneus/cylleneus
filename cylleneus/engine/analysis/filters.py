@@ -32,9 +32,10 @@ import re
 from itertools import chain
 
 from cylleneus.engine.analysis.acore import Composable
+from cylleneus.lang import iso_639
 from cylleneus.lang.morpho import leipzig2wn
+
 from latinwordnet import LatinWordNet
-from greekwordnet import GreekWordNet
 from multiwordnet.wordnet import WordNet
 from cylleneus.engine.compat import next
 from whoosh.util.text import rcompile
@@ -486,16 +487,6 @@ class SubstitutionFilter(Filter):
             yield t
 
 
-_iso_639 = {
-        'en': 'english',
-        'la': 'latin',
-        'es': 'spanish',
-        'he': 'hebrew',
-        'it': 'italian',
-        'fr': 'french'
-    }
-
-
 class CachedLemmaFilter(Filter):
     is_morph = True
 
@@ -614,8 +605,6 @@ class CachedLemmaFilter(Filter):
                                     for result in results:
                                         t.text = f"{result['lemma']}:{result['uri']}={result['morpho']}"
                                         yield t
-                                else:
-                                    yield t
 
 
 class AnnotationFilter(Filter):
@@ -637,7 +626,6 @@ class AnnotationFilter(Filter):
         for t in tokens:
             if t.mode == 'query':
                 annotation = leipzig2wn(t.original)
-
                 if annotation == '----------':
                     continue
                 else:
@@ -773,12 +761,13 @@ class CachedSynsetFilter(Filter):
                         text = t.text
 
                         if hasattr(t, 'reltype'):
-                            for lemma in WordNet(_iso_639[language]).get(text):
+                            for lemma in WordNet(iso_639[language]).get(text):
                                 if t.reltype in ['\\', '/', '+c', '-c']:
                                     lexical = True
                                 else:
                                     lexical = False
-                                for relation in WordNet(_iso_639[language]).get_relations(w_source=lemma, type=t.reltype, lexical=lexical):
+                                for relation in WordNet(iso_639[language]).get_relations(w_source=lemma, type=t.reltype,
+                                                                                         lexical=lexical):
                                     if relation.is_lexical:
                                         for synset in relation.w_target.synsets:
                                             t.text = synset.id
@@ -787,7 +776,7 @@ class CachedSynsetFilter(Filter):
                                         t.text = relation.id_target
                                         yield t
                         else:
-                            for lemma in WordNet(_iso_639[language]).get(text):
+                            for lemma in WordNet(iso_639[language]).get(text):
                                 for synset in lemma.synsets:
                                     t.text = synset.id
                                     yield t

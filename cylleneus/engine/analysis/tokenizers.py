@@ -32,7 +32,7 @@ from collections import deque
 
 import cylleneus.engine.analysis
 from cylleneus.engine.analysis.acore import Composable, CylleneusToken
-from cylleneus.lang.latin import compound, jvmap, proper_names, punctuation, roman_to_arabic, sent_tokenizer, \
+from cylleneus.lang.lat import compound, jvmap, proper_names, punctuation, roman_to_arabic, sent_tokenizer, \
     word_tokenizer, \
     replacements, editorial, exceptions, enclitics, PunktLatinCharsVars
 from lxml.etree import ElementTree

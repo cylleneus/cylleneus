@@ -45,6 +45,7 @@ import whoosh.classify
 from cylleneus.engine.compat import iteritems, iterkeys, itervalues, xrange
 from greekwordnet import greekwordnet
 from latinwordnet import latinwordnet
+from sanskritwordnet import sanskritwordnet
 from natsort import natsorted
 from cylleneus.utils import *
 from whoosh.idsets import BitSet, DocIdSet
@@ -1883,7 +1884,7 @@ def term_lists(q, ixreader):
             ls.append(ts)
     else:
         ls.extend(product(*ors))
-    return sorted(ls)
+    return sorted([sorted(l, key=lambda x: x[0]) for l in ls])
 
 
 class CylleneusHit(Hit):
@@ -1901,6 +1902,8 @@ class CylleneusHit(Hit):
     def filter_fragments(self, query, minscore: int = 1):
         if self["language"] == "grk":
             WN = greekwordnet.GreekWordNet()
+        elif self["language"] == "skt":
+            WN = sanskritwordnet.SanskritWordNet()
         else:
             WN = latinwordnet.LatinWordNet()
 
@@ -1953,6 +1956,8 @@ class CylleneusHit(Hit):
             [isinstance(subq, cylleneus.engine.query.positional.Collocation) for subq in query]
         ):
             for fragment in merged:
+                print_debug(DEBUG_HIGH, "   - fragment: {}".format(fragment))
+
                 morphos = []
                 lemma_groups = defaultdict(
                     lambda: defaultdict(lambda: defaultdict(list))
@@ -2013,21 +2018,23 @@ class CylleneusHit(Hit):
 
                 for uri, lemma, group in candidates:
                     semifinalists.update(matches_by_lemma[uri][lemma][group])
+                print_debug(DEBUG_HIGH, "    - semifinalists: {}".format(len(semifinalists)))
 
                 finalists = []
-                tt = permutations(
-                    sorted(
-                        [
-                            (semifinalist.fieldname, semifinalist.text.split("::")[0])
-                            for semifinalist in semifinalists
-                        ]
-                    ),
-                    r=len(termlists[0]),
-                )
+                tt = sorted(set(
+                    [
+                        (semifinalist.fieldname, semifinalist.text.split("::")[0])
+                        for semifinalist in semifinalists
+                    ]
+                ), key=lambda x: x[0])
 
                 if len(semifinalists) >= len(termlists[0]) and any(
                     [
-                        any([all([item in terms for item in t]) for t in tt])
+                        all(
+                            [
+                                item in terms for item in tt
+                            ]
+                        )
                         for terms in termlists
                     ]
                 ):
@@ -2057,7 +2064,6 @@ class CylleneusHit(Hit):
                                         [hdict(lemma) for lemma in semfield["lemmas"]]
                                     )
                                 uris.update([lemma["uri"] for lemma in lemmas])
-
                     for semifinalist in semifinalists:
                         if semifinalist.fieldname == "annotation":
                             if len(uris) > 0:
@@ -2070,16 +2076,14 @@ class CylleneusHit(Hit):
                                 finalists.append(semifinalist)
                         else:
                             finalists.append(semifinalist)
+                print_debug(DEBUG_HIGH, "    - finalists: {}".format(len(finalists)))
 
                 winners = []
-                tt = permutations(
-                    sorted(
-                        [
-                            (finalist.fieldname, finalist.text.split("::")[0])
-                            for finalist in finalists
-                        ]
-                    ),
-                    r=len(termlists[0]),
+                tt = sorted(
+                    [
+                        (finalist.fieldname, finalist.text.split("::")[0])
+                        for finalist in finalists
+                    ], key=lambda x: x[0]
                 )
 
                 field_counts_by_meta = {}
@@ -2092,7 +2096,11 @@ class CylleneusHit(Hit):
 
                 if len(finalists) >= len(termlists[0]) and any(
                     [
-                        any([all([item in terms for item in t]) for t in tt])
+                        all(
+                            [
+                                item in terms for item in tt
+                            ]
+                        )
                         for terms in termlists
                     ]
                 ):
@@ -2115,6 +2123,7 @@ class CylleneusHit(Hit):
                         )
                     ]
                 fragment.matches = winners
+                print_debug(DEBUG_HIGH, "    - winners: {}".format(len(winners)))
 
         filtered = []
         for fragment in merged:
@@ -2150,10 +2159,8 @@ class CylleneusHit(Hit):
 
             for fragment in filtered:
                 newmatches = []
-                for y in sorted(
-                    fragment.matches, key=lambda m: (m.pos, field_order[m.fieldname])
-                ):
-                    if not newmatches:
+                for y in fragment.matches:
+                    if len(newmatches) == 0:
                         newmatches.append(y)
                     else:
                         x = newmatches[-1]
@@ -2174,9 +2181,16 @@ class CylleneusHit(Hit):
                                 ):
                                     # For strict sequences, slop == 1
                                     if (
-                                        y.pos - x.pos <= query.slop
+                                        0 < (y.pos - x.pos) <= query.slop
                                         and y.startchar - x.endchar <= 1
                                     ):
+                                        newmatches.append(y)
+                                    else:
+                                        newmatches.pop()
+                                        newmatches.append(y)
+                                else:
+                                    if len(newmatches) == 1:
+                                        newmatches.pop()
                                         newmatches.append(y)
                 fragment.matches = newmatches
 
