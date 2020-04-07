@@ -108,10 +108,10 @@ class CachedLemmaFilter(Filter):
                                         self._cache.append(copy.copy(t))
                                     yield t
 
-                                    # Emit Devanagari
-                                    t.text = f"{slp2deva(iast2slp(lemma))}:{uri}={morpho}"
-                                    t.mode = "skip"
-                                    yield t
+                                    # # Emit Devanagari
+                                    # t.text = f"{slp2deva(iast2slp(lemma))}:{uri}={morpho}"
+                                    # t.mode = "skip"
+                                    # yield t
 
                             else:
                                 t.morpho = f"{morpho}::{uri}:{i}>{morpho}"

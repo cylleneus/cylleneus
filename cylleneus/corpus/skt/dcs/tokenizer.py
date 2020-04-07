@@ -103,7 +103,7 @@ class CachedTokenizer(Tokenizer):
                                             t.pos = sent_pos
                                             continue
                                     else:
-                                        t.mode = "index"
+                                        # t.mode = "index"
 
                                         if FORM == "_":
                                             t.text = t.original
@@ -132,14 +132,14 @@ class CachedTokenizer(Tokenizer):
                                         t.endchar = start_char + len(t.original)
                                         yield t
 
-                                        # Emit Devanagari
-                                        t.text = slp2deva(iast2slp(t.text))
-                                        t.mode = "skip"
-                                        yield t
+                                        # # Emit Devanagari
+                                        # t.text = slp2deva(iast2slp(t.text))
+                                        # t.mode = "skip"
+                                        # yield t
 
                                         start_char += len(t.original) + 1
                                 else:
-                                    t.mode = "index"
+                                    # t.mode = "index"
 
                                     if FORM == "_":
                                         t.text = t.original
@@ -170,9 +170,9 @@ class CachedTokenizer(Tokenizer):
                                     t.endchar = start_char + len(t.original)
                                     yield t
 
-                                    # Emit Devanagari
-                                    t.text = slp2deva(iast2slp(t.text))
-                                    t.mode = "skip"
-                                    yield t
+                                    # # Emit Devanagari
+                                    # t.text = slp2deva(iast2slp(t.text))
+                                    # t.mode = "skip"
+                                    # yield t
 
                                     start_char += len(t.original) + 1
