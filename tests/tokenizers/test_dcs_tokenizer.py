@@ -33,4 +33,4 @@ class TestDCSTokenizer(unittest.TestCase):
 
         T = CachedTokenizer()
         for t in T({"text": doc, "meta": meta}, mode='index', docix=0):
-            print(t)
+            assert t

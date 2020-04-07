@@ -67,6 +67,7 @@ class CachedTokenizer(Tokenizer):
                     }
 
                     sect_pos = 0
+                    sent_pos = 0
                     for line in value["text"]:
                         line = line.strip()
                         if line:
@@ -78,30 +79,77 @@ class CachedTokenizer(Tokenizer):
                                 label = label.split(" ", maxsplit=1)[1].strip()
                                 value = value.strip()
                                 _meta[label] = value if not value.isnumeric() else int(value)
+
+                                if label == "text_line_counter":
+                                    sent_pos = 0
+                                elif label == "text_line_subcounter":
+                                    sent_pos = 0
                             else:
                                 try:
                                     ID, FORM, LEMMA, UPOS, XPOS, MORPHO, _, _, _, _, LEMMA_ID, PADA, SEM = line.split(
                                         '\t')
                                 except ValueError:
                                     try:
-                                        ID, FORM, _, _, _, _, _, _, _, _ = line.split('\t')
+                                        ID, FORM, LEMMA, _, XPOS, _, _, _, _, LEMMA_ID, _, _ = line.split('\t')
                                     except ValueError:
-                                        continue
+                                        try:
+                                            ID, FORM, _, _, _, _, _, _, _, _ = line.split('\t')
+                                        except ValueError:
+                                            continue
+                                        else:
+                                            t.original = FORM
+                                            sect_pos += 1
+                                            sent_pos += 1
+                                            t.pos = sent_pos
+                                            continue
                                     else:
-                                        t.original = FORM
-                                        _meta["text_line_subcounter"] = int(ID.split("-")[0])
-                                        continue
+                                        t.mode = "index"
+
+                                        if FORM == "_":
+                                            t.text = t.original
+                                        else:
+                                            sect_pos += 1
+                                            sent_pos += 1
+
+                                            t.text = FORM
+                                            t.original = FORM
+                                            t.pos = sent_pos
+                                        t.lemma = LEMMA
+                                        t.dcs_id = LEMMA_ID
+                                        t.morphosyntax = XPOS
+                                        t.morpho = None
+
+                                        t.meta = {
+                                            "meta":      "chapter-line",
+                                            "chapter":   _meta["chapter"],
+                                            "line":      _meta["text_line_counter"],
+                                            "sect_pos":  sect_pos,
+                                            "sect_sent": _meta["text_line_counter"],
+                                            "sent_id":   _meta["text_line_id"],
+                                            "sent_pos":  sent_pos,
+                                        }
+                                        t.startchar = start_char
+                                        t.endchar = start_char + len(t.original)
+                                        yield t
+
+                                        # Emit Devanagari
+                                        t.text = slp2deva(iast2slp(t.text))
+                                        t.mode = "skip"
+                                        yield t
+
+                                        start_char += len(t.original) + 1
                                 else:
                                     t.mode = "index"
 
-                                    sect_pos += 1
                                     if FORM == "_":
                                         t.text = t.original
                                     else:
+                                        sect_pos += 1
+                                        sent_pos += 1
+
                                         t.text = FORM
                                         t.original = FORM
-                                        _meta["text_line_subcounter"] = int(ID)
-                                        t.pos = int(_meta["text_line_subcounter"])
+                                        t.pos = sent_pos
                                     t.lemma = LEMMA
                                     t.dcs_id = LEMMA_ID
                                     t.morphosyntax = XPOS
@@ -116,7 +164,7 @@ class CachedTokenizer(Tokenizer):
                                         "sect_pos":  sect_pos,
                                         "sect_sent": _meta["text_line_counter"],
                                         "sent_id":   _meta["text_line_id"],
-                                        "sent_pos":  _meta["text_line_subcounter"],
+                                        "sent_pos":  sent_pos,
                                     }
                                     t.startchar = start_char
                                     t.endchar = start_char + len(t.original)

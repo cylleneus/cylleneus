@@ -28,21 +28,23 @@ class TestGreekQueryTypes(unittest.TestCase):
         """Test permissible query types for Greek."""
 
         queries = [
-            ("dcs", "<deva>", (64, 3, 1)),
-            ("dcs", "'tadantareṇa'", (7, 2, 1)),
-            ("dcs", "<deva>|GEN.PL.", (7, 2, 1)),
-            ("dcs", "[en?woman]", (1298, 3, 1)),
-            ("dcs", "[en?woman]|DAT.PL.", (64, 3, 1)),
-            ("dcs", "[en?woman]|DAT.SG.", (64, 3, 1)),
-            ("dcs", "[n#07354565]", (771, 3, 1)),
-            ("dcs", "<avama> AND 'viṣṇuḥ'", (1, 1, 1)),
-            ("dcs", "<devatā> THEN <viṣṇu>", (1, 1, 1)),
-            ("dcs", ":GEN.PL.", (3071, 3, 1)),
-            ("dcs", "[it?re]", (849, 3, 1)),
+            ("dcs", "<deva>", (7, 1, 1)),
+            ("dcs", "'saṃkrīḍamānaḥ'", (1, 1, 1)),
+            ("dcs", "<svāpa>|ACC.SG.", (1, 1, 1)),
+            ("dcs", "[en?praise]", (3, 1, 1)),
+            ("dcs", "[en?praise]|ACC.PL.", (0, 0, 0)),
+            ("dcs", "[en?praise]|INS.SG.", (1, 1, 1)),
+            ("dcs", "[n#07354565]", (1, 1, 1)),
+            ("dcs", "<kāma> AND 'śivaśiva'", (1, 1, 1)),
+            ("dcs", "<māsa> THEN <kathaṃcid>", (7, 3, 1)),
+            ("dcs", ":GEN.PL.", (107, 4, 1)),
+            ("dcs", "[it?re]", (1, 1, 1))
         ]
         for c, q, n in queries:
             corpus = Corpus(c)
+            if not corpus.is_searchable:
+                corpus.download()
             clct = Collection(works=corpus.works)
             searcher = Searcher(Collection(works=clct))
             results = searcher.search(q)
-            print(c, q, n, results.count, list(results.highlights))
+            assert results.count == n

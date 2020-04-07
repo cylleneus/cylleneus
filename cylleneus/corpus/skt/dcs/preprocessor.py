@@ -9,9 +9,9 @@ class Preprocessor(BasePreprocessor):
     def parse(self, file: Path):
         filename = file.name
         author = "-"
-        title = filename.rstrip('.conllu').split('-')[0]
+        title = filename.split('.conllu')[0].split('-')[0]
 
-        urn = filename.rstrip('.conllu')
+        urn = filename.split('.conllu')[0]
         meta = "chapter-line"
 
         with codecs.open(file, 'r', 'utf8') as fp:
