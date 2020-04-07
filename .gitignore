@@ -101,9 +101,9 @@ ENV/
 # mypy
 .mypy_cache/
 
-# Tests require installation of sample corpora
-/tests/test_greek_queries.py
-/tests/test_sanksrit_queries.py
-
 /.idea/
 /.vscode/
+
+# Tests require installation of sample corpora
+/tests/test_sanskrit_queries.py
+/tests/test_greek_queries.py
