@@ -11,6 +11,19 @@ from . import indexer
 from .manifest import meta
 
 
+class ProgressPrinter(RemoteProgress):
+    def __init__(self, default_message=''):
+        super().__init__()
+        self.default_message = default_message
+
+    def update(self, op_code, cur_count, max_count=None, message=''):
+        if not message:
+            message = self.default_message
+        if message:
+            percentage = '%.0f' % (100 * cur_count / (max_count or 100.0))
+            sys.stdout.write('Downloaded %s%% %s \r' % (percentage, message))
+
+
 class Corpus:
     def __init__(self, name: str):
         self._name = name
@@ -179,12 +192,6 @@ class Corpus:
         return self.name, work.author, work.title, urn, reference, text
 
     def download(self, branch: str = "master"):
-        class ProgressPrinter(RemoteProgress):
-            def update(self, op_code, cur_count, max_count=None, message=''):
-                if message:
-                    percentage = '%.0f' % (100 * cur_count / (max_count or 100.0))
-                    sys.stdout.write('Downloaded %s%% %s \r' % (percentage, message))
-
         git_uri = self.meta.repo["origin"]
 
         if not self.path.exists():
@@ -195,7 +202,7 @@ class Corpus:
                     self.path,
                     branch=branch,
                     depth=1,
-                    progress=ProgressPrinter()
+                    progress=ProgressPrinter(self.name)
                 )
             except Exception as e:
                 raise e

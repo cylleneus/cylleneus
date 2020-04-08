@@ -1,4 +1,5 @@
 import copy
+import re
 
 from cylleneus.engine.analysis.acore import CylleneusToken
 from cylleneus.engine.analysis.tokenizers import Tokenizer
@@ -34,7 +35,7 @@ class CachedTokenizer(Tokenizer):
                 if not tokenize:
                     lines = []
                     for line in value["text"]:
-                        line = line.strip()
+                        line = re.sub(r"\t+", "\t", line.strip())
                         if line:
                             if line.startswith("# text_line"):
                                 text = line.split("# text_line: ")[1]

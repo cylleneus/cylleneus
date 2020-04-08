@@ -1,7 +1,5 @@
 import codecs
-import re
 import json
-
 from pathlib import Path
 
 dir = Path(__file__).parent
