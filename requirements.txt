@@ -6,11 +6,11 @@ click-spinner==0.1.8
 cltk==0.1.117
 future==0.18.2
 gitpython==3.1.0
-greekwordnet==0.0.4
+greekwordnet==0.0.5
 idna==2.8
 indic-transliteration==1.9.4
 isodate==0.6.0
-latinwordnet==0.2.6
+latinwordnet==0.3.0
 LinkHeader==0.4.3
 lxml==4.4.2
 multiwordnet==0.0.7
@@ -23,7 +23,7 @@ python-docx==0.8.10
 rdflib==4.2.2
 rdflib-jsonld==0.4.0
 requests==2.22.0
-sanskritwordnet==0.0.3
+sanskritwordnet==0.0.4
 six==1.14.0
 tqdm==4.41.1
 typing==3.7.4.1
