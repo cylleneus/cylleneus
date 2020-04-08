@@ -46,6 +46,24 @@ def index(corpus):
     else:
         click.echo(f"[-] nothing indexed for '{corpus}'")
 
+@main.command()
+@click.option("--corpus", "-c", "corpus", required=True)
+def verify(corpus):
+    c = Corpus(corpus)
+    docs = sorted(c.iter_docs(), key=lambda x: x[0])
+    manifest = c.manifest
+
+    for docix, doc in docs:
+        docix = str(docix)
+        try:
+            valid = all(manifest[docix][k] == doc[k]
+                        for k in ["author", "title", "filename"])
+        except KeyError:
+            click.echo(f"[-] {doc['author']}, {doc['title']} [{doc['filename']}] [{doc['docix']}]")
+        else:
+            click.echo(
+                f"[{'+' if valid else '!'}] {doc['author']}, {doc['title']} [{doc['filename']}] [{doc['docix']}]"
+            )
 
 @main.command()
 @click.option("--corpus", "-c", "corpus", required=True)
@@ -182,7 +200,7 @@ def create(corpus, destructive):
 
         for file in c.text_dir.glob(c.glob):
             w = Work(corpus=c)
-            _ = w.indexer.from_file(file)
+            _ = w.indexer.from_file(file, destructive=destructive)
 
     ndocs = c.doc_count_all
     if ndocs > 0:

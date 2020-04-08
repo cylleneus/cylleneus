@@ -1,3 +1,5 @@
+import codecs
+import json
 import sys
 from pathlib import Path
 
@@ -35,6 +37,18 @@ class Corpus:
         self._preprocessor = self._meta.preprocessor(self)
         self._glob = self._meta.glob
         self._fetch = self._meta.fetch
+        mfest = self.path / Path("manifest.json")
+        if mfest.exists():
+            with codecs.open(mfest, "r", "utf8") as fp:
+                self._manifest = json.load(fp)
+        else:
+            self._manifest = {}
+
+    def __del__(self):
+        if self.manifest:
+            mfest = self.path / Path("manifest.json")
+            with codecs.open(mfest, "w", "utf8") as fp:
+                json.dump(self.manifest, fp, ensure_ascii=False)
 
     @property
     def name(self):
@@ -43,6 +57,10 @@ class Corpus:
     @property
     def meta(self):
         return self._meta
+
+    @property
+    def manifest(self):
+        return self._manifest
 
     @property
     def language(self):
@@ -99,6 +117,9 @@ class Corpus:
     def destroy(self):
         for ixr in self.indexers:
             ixr.destroy()
+        mfest = self.path / Path("manifest.json")
+        if mfest.exists():
+            mfest.unlink()
 
     def delete_by(self, **kwargs):
         for reader in self.readers:

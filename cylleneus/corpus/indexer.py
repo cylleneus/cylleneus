@@ -5,6 +5,7 @@ from pathlib import Path
 import cylleneus.engine.index
 from cylleneus.engine.writing import CLEAR
 from cylleneus.utils import DEBUG_HIGH, DEBUG_MEDIUM, print_debug, slugify
+from cylleneus.settings import CORPUS_DIR
 
 
 class IndexingError(Exception):
@@ -111,76 +112,99 @@ class Indexer:
         docix = self.from_file(path)
         return docix
 
-    def from_file(self, path: Path):
-        if self.path and self.path.exists():
-            self.destroy()
-
+    def from_file(self, path: Path, destructive: bool = False):
         if path.exists():
-            docix = self.corpus.doc_count_all
-
             kwargs = self.corpus.preprocessor.parse(path)
             if "author" not in kwargs and self.work.author:
                 kwargs["author"] = self.work.author
             if "title" not in kwargs and self.work.title:
                 kwargs["title"] = self.work.title
             kwargs["corpus"] = self.corpus.name
-            kwargs["docix"] = docix
 
-            self.path = Path(
-                self.corpus.index_dir
-                / slugify(kwargs["author"])
-                / slugify(kwargs["title"])
-            )
-            ix = self.open(indexname=f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}"
-                                     f"_{docix}")
+            if destructive and self.path and self.path.exists():
+                self.destroy()
+            else:
+                for docix, doc in self.corpus.manifest.items():
+                    if doc["author"] == kwargs["author"] and \
+                        doc["title"] == kwargs["title"] and \
+                        doc["filename"] == path.name:
+                        return docix
+                else:
+                    docix = self.corpus.doc_count_all
+                    kwargs["docix"] = docix
 
-            writer = ix.writer(limitmb=4096, procs=1, multisegment=True)
-            try:
-                print_debug(
-                    DEBUG_MEDIUM,
-                    "Add document: {}, {} [{}] to '{}' [{}]".format(
-                        kwargs["author"], kwargs["title"], path, self.corpus.name, docix
-                    ),
-                )
-                writer.add_document(**kwargs)
-                writer.commit()
-            except queue.Empty as e:
-                pass
+                    self.path = Path(
+                        self.corpus.index_dir
+                        / slugify(kwargs["author"])
+                        / slugify(kwargs["title"])
+                    )
+                    indexname = f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}"
+                    ix = self.open(indexname=indexname)
 
-            return docix
+                    writer = ix.writer(limitmb=4096, procs=1, multisegment=True)
+                    try:
+                        print_debug(
+                            DEBUG_MEDIUM,
+                            "Add document: {}, {} [{}] to '{}' [{}]".format(
+                                kwargs["author"], kwargs["title"], path, self.corpus.name, docix
+                            ),
+                        )
+                        writer.add_document(**kwargs)
+                        writer.commit()
+                    except queue.Empty as e:
+                        pass
 
-    def from_string(self, content: str, **kwargs):
-        if self.path and self.path.exists():
-            self.destroy()
+                    self.corpus.manifest[docix] = {
+                        "author":   kwargs["author"],
+                        "title":    kwargs["title"],
+                        "filename": str(path.name),
+                        "path":     str(self.path.relative_to(CORPUS_DIR)),
+                        "index":    indexname
+                    }
+                    return docix
 
+    def from_string(self, content, destructive: bool = False, **kwargs):
         if content:
-            docix = self.corpus.doc_count_all
-
             parsed = self.corpus.preprocessor.parse(content)
             kwargs.update(parsed)
 
-            self.path = Path(
-                self.corpus.index_dir
-                / slugify(kwargs["author"])
-                / slugify(kwargs["title"])
-            )
-            ix = self.open(indexname=f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}"
-                                     f"_{docix}")
+            if destructive and self.path and self.path.exists():
+                self.destroy()
+            else:
+                for docix, doc in self.corpus.manifest.items():
+                    if doc["author"] == kwargs["author"] and \
+                        doc["title"] == kwargs["title"]:
+                        return docix
+                else:
+                    docix = self.corpus.doc_count_all
+                    kwargs["docix"] = docix
 
-            writer = ix.writer(limitmb=4096, procs=1, multisegment=True)
-            try:
-                print_debug(
-                    DEBUG_MEDIUM,
-                    "Add document: '{}', {}, {}, {} [...]".format(
-                        self.corpus.name,
-                        docix,
-                        kwargs["author"],
-                        kwargs["title"],
-                    ),
-                )
-                writer.add_document(corpus=self.corpus.name, docix=docix, **kwargs)
-                writer.commit()
-            except queue.Empty as e:
-                pass
+                    self.path = Path(
+                        self.corpus.index_dir
+                        / slugify(kwargs["author"])
+                        / slugify(kwargs["title"])
+                    )
+                    indexname = f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}"
+                    ix = self.open(indexname=indexname)
 
-            return docix
+                    writer = ix.writer(limitmb=4096, procs=1, multisegment=True)
+                    try:
+                        print_debug(
+                            DEBUG_MEDIUM,
+                            "Add document: {}, {} to '{}' [{}]".format(
+                                kwargs["author"], kwargs["title"], self.corpus.name, docix
+                            ),
+                        )
+                        writer.add_document(**kwargs)
+                        writer.commit()
+                    except queue.Empty as e:
+                        pass
+                    tocfilename = cylleneus.engine.index.TOC._filename(indexname, ix.latest_generation())
+                    self.corpus.manifest[docix] = {
+                        "author":   kwargs["author"],
+                        "title":    kwargs["title"],
+                        "filename": None,
+                        "path":     str(self.path.relative_to(CORPUS_DIR)),
+                        "index":    indexname
+                    }
+                    return docix
