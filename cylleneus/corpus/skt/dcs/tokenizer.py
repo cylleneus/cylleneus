@@ -154,7 +154,7 @@ class CachedTokenizer(Tokenizer):
                                     t.lemma = LEMMA
                                     t.dcs_id = LEMMA_ID
                                     t.morphosyntax = XPOS
-                                    if MORPHO == "_":
+                                    if MORPHO == "_" or not MORPHO:
                                         t.morpho = None
                                     else:
                                         t.morpho = parse_morpho(XPOS, MORPHO)
