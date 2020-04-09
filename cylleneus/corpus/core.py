@@ -50,6 +50,12 @@ class Corpus:
             with codecs.open(mfest, "w", "utf8") as fp:
                 json.dump(self.manifest, fp, ensure_ascii=False)
 
+    def update_manifest(self):
+        if self.manifest:
+            mfest = self.path / Path("manifest.json")
+            with codecs.open(mfest, "w", "utf8") as fp:
+                json.dump(self.manifest, fp, ensure_ascii=False)
+
     @property
     def name(self):
         return self._name

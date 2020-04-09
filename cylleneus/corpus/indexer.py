@@ -207,4 +207,5 @@ class Indexer:
                         "path":     str(self.path.relative_to(CORPUS_DIR)),
                         "index":    indexname
                     }
+                    self.corpus.update_manifest()
                     return docix
