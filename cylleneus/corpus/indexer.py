@@ -154,13 +154,14 @@ class Indexer:
                     except queue.Empty as e:
                         pass
 
-                    self.corpus.manifest[docix] = {
+                    work_manifest = {
                         "author":   kwargs["author"],
                         "title":    kwargs["title"],
                         "filename": str(path.name),
                         "path":     str(self.path.relative_to(CORPUS_DIR)),
                         "index":    indexname
                     }
+                    self.corpus.update_manifest(docix, work_manifest)
                     return docix
 
     def from_string(self, content, destructive: bool = False, **kwargs):
@@ -199,13 +200,12 @@ class Indexer:
                         writer.commit()
                     except queue.Empty as e:
                         pass
-                    tocfilename = cylleneus.engine.index.TOC._filename(indexname, ix.latest_generation())
-                    self.corpus.manifest[docix] = {
+                    work_manifest = {
                         "author":   kwargs["author"],
                         "title":    kwargs["title"],
                         "filename": None,
                         "path":     str(self.path.relative_to(CORPUS_DIR)),
                         "index":    indexname
                     }
-                    self.corpus.update_manifest()
+                    self.corpus.update_manifest(docix, work_manifest)
                     return docix

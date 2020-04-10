@@ -26,12 +26,16 @@ def main():
 
 @main.command()
 def where():
+    """Display location of corpus directory. """
+
     click.echo(f"[-] {CORPUS_DIR}")
 
 
 @main.command()
 @click.option("--corpus", "-c", "corpus", required=True)
 def index(corpus):
+    """List indexed works in a corpus. """
+
     c = Corpus(corpus)
     docs = sorted(c.iter_docs(), key=lambda x: x[0])
 
@@ -46,9 +50,12 @@ def index(corpus):
     else:
         click.echo(f"[-] nothing indexed for '{corpus}'")
 
+
 @main.command()
 @click.option("--corpus", "-c", "corpus", required=True)
 def verify(corpus):
+    """Verify the indexes of a corpus against its manifest. """
+
     c = Corpus(corpus)
     docs = sorted(c.iter_docs(), key=lambda x: x[0])
     manifest = c.manifest
@@ -56,18 +63,26 @@ def verify(corpus):
     for docix, doc in docs:
         docix = str(docix)
         try:
-            valid = all(manifest[docix][k] == doc[k]
-                        for k in ["author", "title", "filename"])
+            matched = all(
+                manifest[docix][k] == doc[k]
+                for k in ["author", "title", "filename"]
+            )
         except KeyError:
-            click.echo(f"[-] {doc['author']}, {doc['title']} [{doc['filename']}] [{doc['docix']}]")
+            click.echo(f"[{doc['docix']}] {doc['author']}, {doc['title']} ({doc['filename']})]... not "
+                       f"in manifest!")
         else:
             click.echo(
-                f"[{'+' if valid else '!'}] {doc['author']}, {doc['title']} [{doc['filename']}] [{doc['docix']}]"
+                f"[{doc['docix']}] {doc['author']}, {doc['title']} ({doc['filename']})... "
+                f"{'manifest ✓' if matched else 'manifest ✗'}, "
+                f"{'index ✓' if c.work_by_docix(int(docix)).is_searchable else 'index ✗'}"
             )
+
 
 @main.command()
 @click.option("--corpus", "-c", "corpus", required=True)
 def clear(corpus):
+    """Clear the indexes of a corpus without deleting them. """
+
     with click_spinner.spinner():
         c = Corpus(corpus)
         c.clear()
@@ -81,6 +96,8 @@ def clear(corpus):
 @main.command()
 @click.option("--corpus", "-c", "corpus", required=True)
 def destroy(corpus):
+    """Destroy the indexes and manifest of a corpus. """
+
     if click.confirm(f"Are you sure?", default=False):
         with click_spinner.spinner():
             c = Corpus(corpus)
@@ -95,17 +112,23 @@ def destroy(corpus):
 @main.command()
 @click.option("--corpus", "-c", "corpus", required=True)
 def optimize(corpus):
+    """Optimize the indexes of a corpus. """
+
     with click_spinner.spinner():
         c = Corpus(corpus)
-        c.optimize()
-
-    click.echo(f"[+] optimized '{corpus}'")
+        if c.is_searchable:
+            c.optimize()
+            click.echo(f"[+] optimized '{corpus}'")
+        else:
+            click.echo(f"[-] failed")
 
 
 @main.command()
 @click.option("--corpus", "-c", "corpus", required=True)
 @click.option("--docix", "-d", "docix", required=True)
 def delete(corpus, docix):
+    """Delete a document in a corpus by index number. """
+
     with click_spinner.spinner():
         c = Corpus(corpus)
         c.delete_by_ix(int(docix))
@@ -121,6 +144,8 @@ def delete(corpus, docix):
 @click.option("--author", "-a", "author")
 @click.option("--title", "-t", "title")
 def deleteby(corpus, **kwargs):
+    """Delete documents in a corpus by author name and/or title. """
+
     with click_spinner.spinner():
         c = Corpus(corpus)
         pre_ndocs = c.doc_count_all
@@ -139,6 +164,8 @@ def deleteby(corpus, **kwargs):
 @click.option("--docix", "-d", "docix", required=True)
 @click.option("--path", "-p", "path", required=True)
 def update(corpus, docix, path):
+    """Reindex a document by index number. """
+
     with click_spinner.spinner():
         c = Corpus(corpus)
         c.update(docix=docix, path=Path(path))
@@ -155,6 +182,8 @@ def update(corpus, docix, path):
 @click.option("--title", "-t", "title")
 @click.option("--path", "-p", "path", required=True)
 def updateby(corpus, **kwargs):
+    """Reindex a document by author name and/or title. """
+
     with click_spinner.spinner():
         kwargs["path"] = Path(kwargs["path"])
         c = Corpus(corpus)
@@ -172,6 +201,8 @@ def updateby(corpus, **kwargs):
 @click.option("--author", "-a", "author")
 @click.option("--title", "-t", "title")
 def add(corpus, path, author, title):
+    """Index a specific file. """
+
     with click_spinner.spinner():
         c = Corpus(corpus)
         pre_ndocs = c.doc_count_all
@@ -192,7 +223,10 @@ def add(corpus, path, author, title):
 @main.command()
 @click.option("--corpus", "-c", "corpus", required=True)
 @click.option("--destructive/--not-destructive", "-d/-D", default=True)
-def create(corpus, destructive):
+@click.option("--optimize", "-o", is_flag=True)
+def create(corpus, destructive, optimize):
+    """Create all corpus indexes from source files. """
+
     with click_spinner.spinner():
         c = Corpus(corpus)
         if destructive:
@@ -201,6 +235,9 @@ def create(corpus, destructive):
         for file in c.text_dir.glob(c.glob):
             w = Work(corpus=c)
             _ = w.indexer.from_file(file, destructive=destructive)
+
+        if optimize:
+            c.optimize()
 
     ndocs = c.doc_count_all
     if ndocs > 0:
@@ -215,6 +252,8 @@ def create(corpus, destructive):
 @click.option("--corpus", "-c", "corpus", required=True)
 @click.option("--fieldname", "-f", "fieldname", required=True)
 def lexicon(corpus, fieldname):
+    """List the contents of an index by field name. """
+
     c = Corpus(corpus)
 
     lexicon = set()
@@ -238,13 +277,16 @@ def download(corpus, branch):
         for name, meta in REMOTE_CORPORA.items():
             click.echo(f"[-] '{name}' [{meta.repo['origin']}]")
     else:
-        c = Corpus(corpus)
-        try:
-            c.download(branch)
-        except Exception as e:
-            click.echo("[-] failed", e)
+        if corpus not in REMOTE_CORPORA:
+            click.echo(f"[-] no remote location for '{corpus}'")
         else:
-            click.echo(f"[+] downloaded '{corpus}' [{c.meta.repo['origin']}]")
+            c = Corpus(corpus)
+            try:
+                c.download(branch)
+            except Exception as e:
+                click.echo("[-] failed", e)
+            else:
+                click.echo(f"[+] downloaded '{corpus}' [{c.meta.repo['origin']}]")
 
 
 if __name__ == "__main__":

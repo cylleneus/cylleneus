@@ -9,8 +9,7 @@ from cylleneus import settings
 from cylleneus.engine.fields import Schema
 from cylleneus.engine.searching import CylleneusHit, CylleneusSearcher
 from cylleneus.utils import slugify
-from . import indexer
-from .manifest import meta
+from . import indexer, manifest
 
 
 class ProgressPrinter(RemoteProgress):
@@ -30,30 +29,24 @@ class Corpus:
     def __init__(self, name: str):
         self._name = name
 
-        self._meta = meta.get(name, meta["default"])
+        self._meta = manifest.meta.get(name, manifest.meta["default"])
         self._language = self._meta.language
         self._schema = self._meta.schema()
         self._tokenizer = self._meta.tokenizer()
         self._preprocessor = self._meta.preprocessor(self)
         self._glob = self._meta.glob
         self._fetch = self._meta.fetch
-        mfest = self.path / Path("manifest.json")
-        if mfest.exists():
-            with codecs.open(mfest, "r", "utf8") as fp:
+        manifest_file = self.path / Path("manifest.json")
+        if manifest_file.exists():
+            with codecs.open(manifest_file, "r", "utf8") as fp:
                 self._manifest = json.load(fp)
         else:
             self._manifest = {}
 
     def __del__(self):
-        if self.manifest:
-            mfest = self.path / Path("manifest.json")
-            with codecs.open(mfest, "w", "utf8") as fp:
-                json.dump(self.manifest, fp, ensure_ascii=False)
-
-    def update_manifest(self):
-        if self.manifest:
-            mfest = self.path / Path("manifest.json")
-            with codecs.open(mfest, "w", "utf8") as fp:
+        if len(self.manifest) != 0:
+            manifest_file = self.path / Path("manifest.json")
+            with codecs.open(manifest_file, "w", "utf8") as fp:
                 json.dump(self.manifest, fp, ensure_ascii=False)
 
     @property
@@ -67,6 +60,12 @@ class Corpus:
     @property
     def manifest(self):
         return self._manifest
+
+    def update_manifest(self, docix, work_manifest):
+        self.manifest[docix] = work_manifest
+        manifest_file = self.path / Path("manifest.json")
+        with codecs.open(manifest_file, "w", "utf8") as fp:
+            json.dump(self.manifest, fp, ensure_ascii=False)
 
     @property
     def language(self):

@@ -88,7 +88,7 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
     ],
-    description="Next-generation search engine for electronic corpora of Greek and Latin",
+    description="Next-generation search engine for electronic corpora of ancient languages",
     entry_points={"console_scripts": ["cylleneus=cylleneus.cli:main", ], },
     install_requires=requirements,
     license="Apache Software License 2.0",
