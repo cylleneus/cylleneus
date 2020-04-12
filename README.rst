@@ -32,12 +32,14 @@ Cylleneus is a next-generation search engine for electronic corpora of Greek and
 Features
 --------
 
+* Advanced search capabilities for Greek, Latin, Sanskrit (and soon ancient Egyptian)
 * Semantic search: find words based on their meanings in English, Italian, Spanish, or French
 * Syntactic search: finds words based on the kinds of grammatical constructions they appear in
 * Morphological search: find words, or filter the results of other queries, based on morphological properties
 * Fast: once a corpus is indexed, most query types produce results nearly instantaneously
 * Sophisticated: query types can be combined into complex search patterns
-* Extensible: indexing pipelines can be created for any corpus type
+* Extensible: indexing pipelines can be created for any corpus type 
+* Currently supports: Atlas, AGLDT, LASLA, Perseus (XML or JSON format), CAMENA, PROIEL and any plaintext source (e.g. Digital Latin Library); Digital Corpus of Sanskrit; Ramses. Diorisis support in development.
 * Free: completely open-source and redistributable
 
 
