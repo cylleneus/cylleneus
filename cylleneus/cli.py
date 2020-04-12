@@ -14,7 +14,7 @@ from cylleneus.settings import CORPUS_DIR
 
 REMOTE_CORPORA = {
     name: meta
-    for name, meta in manifest.meta.items()
+    for name, meta in manifest.items()
     if meta.repo["location"] == "remote"
 }
 

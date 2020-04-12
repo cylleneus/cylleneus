@@ -9,7 +9,8 @@ from cylleneus import settings
 from cylleneus.engine.fields import Schema
 from cylleneus.engine.searching import CylleneusHit, CylleneusSearcher
 from cylleneus.utils import slugify
-from . import indexer, manifest
+from . import indexer
+from .meta import manifest
 
 
 class ProgressPrinter(RemoteProgress):
@@ -29,7 +30,7 @@ class Corpus:
     def __init__(self, name: str):
         self._name = name
 
-        self._meta = manifest.meta.get(name, manifest.meta["default"])
+        self._meta = manifest.get(name, manifest["default"])
         self._language = self._meta.language
         self._schema = self._meta.schema()
         self._tokenizer = self._meta.tokenizer()

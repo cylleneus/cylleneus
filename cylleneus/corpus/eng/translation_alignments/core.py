@@ -1,5 +1,4 @@
 import codecs
-from pathlib import Path
 
 import lxml.etree as et
 from nltk.tokenize import word_tokenize
