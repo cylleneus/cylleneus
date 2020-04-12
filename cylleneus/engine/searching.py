@@ -33,7 +33,7 @@ from __future__ import division
 import copy
 import weakref
 from collections import defaultdict, namedtuple, Counter
-from itertools import permutations, product
+from itertools import product
 from math import ceil
 
 import cylleneus.engine.collectors
