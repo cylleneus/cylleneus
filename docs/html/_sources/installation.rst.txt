@@ -32,13 +32,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/wmshort/cylleneus
+    $ git clone git://github.com/cylleneus/cylleneus
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/wmshort/cylleneus/tarball/master
+    $ curl  -OL https://github.com/cylleneus/cylleneus/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +47,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/wmshort/cylleneus
-.. _tarball: https://github.com/wmshort/cylleneus/tarball/master
+.. _Github repo: https://github.com/cylleneus/cylleneus
+.. _tarball: https://github.com/cylleneus/cylleneus/tarball/master

@@ -3,5 +3,5 @@
 """Top-level package for Cylleneus."""
 
 __author__ = """William Michael Short"""
-__email__ = 'w.short@exeter.ac.uk'
-__version__ = '0.3.3'
+__email__ = "w.short@exeter.ac.uk"
+__version__ = "0.3.3"
