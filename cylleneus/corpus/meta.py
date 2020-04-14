@@ -2,7 +2,7 @@ from collections import namedtuple
 import importlib
 import pkgutil
 
-from . import default
+from . import default, __path__
 
 CorpusMeta = namedtuple(
     "CorpusMeta", ["language", "schema", "tokenizer", "preprocessor", "glob", "fetch", "repo"]
@@ -20,7 +20,7 @@ manifest = {
     )
 }
 
-for l_finder, l_name, l_is_pkg in pkgutil.walk_packages(["cylleneus/corpus"], "cylleneus.corpus."):
+for l_finder, l_name, l_is_pkg in pkgutil.walk_packages(__path__, "cylleneus.corpus."):
     if l_is_pkg:
         l_pkg = importlib.import_module(l_name)
         for c_finder, c_name, c_is_pkg in pkgutil.walk_packages(l_pkg.__path__, l_pkg.__name__ + "."):

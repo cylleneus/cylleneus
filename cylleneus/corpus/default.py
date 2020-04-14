@@ -122,6 +122,7 @@ class CachedTokenizer(Tokenizer):
                             start_char += original_length
                         start_char += 1
 
+
 Tokens = CachedTokenizer(chars=True)
 Lemmas = CachedLemmaFilter(chars=True)
 Synsets = CachedSynsetFilter()
