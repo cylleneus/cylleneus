@@ -1,22 +1,14 @@
 import copy
 import re
 
-from cylleneus.engine.analysis.filters import Filter
-from multiwordnet.wordnet import WordNet
-from latinwordnet import LatinWordNet
 from greekwordnet import GreekWordNet
+from latinwordnet import LatinWordNet
+from latinwordnet.latinwordnet import relation_types
+from multiwordnet.wordnet import WordNet
 from nltk.stem import WordNetLemmatizer
 
-from latinwordnet.latinwordnet import relation_types
-
-_iso_639 = {
-    'en': 'english',
-    'la': 'latin',
-    'es': 'spanish',
-    'he': 'hebrew',
-    'it': 'italian',
-    'fr': 'french'
-}
+from cylleneus.engine.analysis.filters import Filter
+from cylleneus.lang import iso_639
 
 EWN = WordNet("english")
 
@@ -189,14 +181,14 @@ class CachedSynsetFilter(Filter):
                         text = t.text
 
                         if hasattr(t, 'reltype'):
-                            for lemma in WordNet(_iso_639[language]).get(text):
+                            for lemma in WordNet(iso_639[language]).get(text):
                                 if t.reltype in ['\\', '/', '+c', '-c']:
                                     lexical = True
                                 else:
                                     lexical = False
-                                for relation in WordNet(_iso_639[language]).get_relations(w_source=lemma,
-                                                                                          type=t.reltype,
-                                                                                          lexical=lexical):
+                                for relation in WordNet(iso_639[language]).get_relations(w_source=lemma,
+                                                                                         type=t.reltype,
+                                                                                         lexical=lexical):
                                     if relation.is_lexical:
                                         for synset in relation.w_target.synsets:
                                             t.text = synset.id
@@ -218,7 +210,7 @@ class CachedSynsetFilter(Filter):
                                             t.text = f"{synset['pos']}#{synset['offset']}"
                                             yield t
                             else:
-                                for lemma in WordNet(_iso_639[language]).get(text):
+                                for lemma in WordNet(iso_639[language]).get(text):
                                     for synset in lemma.synsets:
                                         t.text = synset.id
                                         yield t

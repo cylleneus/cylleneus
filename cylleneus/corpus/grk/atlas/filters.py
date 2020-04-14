@@ -2,13 +2,13 @@ import copy
 import re
 from itertools import chain
 
-from cylleneus.engine.analysis.filters import Filter
 from greekwordnet import GreekWordNet
 from greekwordnet.greekwordnet import relation_types
-from cylleneus.lang import iso_639
-from cylleneus.lang.morpho import leipzig2wn
 from multiwordnet.wordnet import WordNet
 
+from cylleneus.engine.analysis.filters import Filter
+from cylleneus.lang import iso_639
+from cylleneus.lang.morpho import leipzig2wn
 from .core import relations
 
 
