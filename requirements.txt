@@ -6,7 +6,7 @@ click-spinner==0.1.8
 cltk==0.1.117
 future==0.18.2
 gitpython==3.1.0
-greekwordnet==0.0.6
+greekwordnet==0.0.7
 idna==2.8
 indic-transliteration==1.9.4
 isodate==0.6.0
