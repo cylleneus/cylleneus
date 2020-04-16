@@ -252,7 +252,7 @@ class Corpus:
                     url = f"http://raw.github.com/{(remote_path / Path(file)).as_posix()}"
                     r = requests.get(url)
                     if r:
-                        with codecs.open(local_path / Path(file + '_TEST'), "wb") as fp:
+                        with codecs.open(local_path / Path(file), "wb") as fp:
                             fp.write(r.content)
 
                 filename = manifest["filename"]
@@ -261,7 +261,7 @@ class Corpus:
                 r = requests.get(url)
 
                 if r:
-                    with codecs.open(self.text_dir / Path(filename + '_TEST'), "wb") as fp:
+                    with codecs.open(self.text_dir / Path(filename), "wb") as fp:
                         fp.write(r.content)
                 self.update_manifest(docix, manifest)
 
