@@ -231,14 +231,11 @@ def create(corpus, destructive, optimize):
         c = Corpus(corpus)
         if destructive:
             c.destroy()
-
         for file in c.text_dir.glob(c.glob):
             w = Work(corpus=c)
             _ = w.indexer.from_file(file, destructive=destructive)
-
         if optimize:
             c.optimize()
-
     ndocs = c.doc_count_all
     if ndocs > 0:
         click.echo(

@@ -3,6 +3,7 @@ import json
 import sys
 from pathlib import Path
 
+import requests
 from git import RemoteProgress, Repo
 
 from cylleneus import settings
@@ -62,11 +63,24 @@ class Corpus:
     def manifest(self):
         return self._manifest
 
+    @manifest.setter
+    def manifest(self, manifest):
+        self._manifest = manifest
+
     def update_manifest(self, docix, work_manifest):
-        self.manifest[docix] = work_manifest
+        self.manifest[str(docix)] = work_manifest
         manifest_file = self.path / Path("manifest.json")
         with codecs.open(manifest_file, "w", "utf8") as fp:
             json.dump(self.manifest, fp, ensure_ascii=False)
+
+    # repos on GitHub
+    def fetch_manifest(self):
+        if self.meta.repo["location"] == "remote":
+            repo = self.meta.repo["origin"].replace(".git", "").replace("github.com", "raw.github.com")
+            url = repo + "/master/manifest.json"
+            result = requests.get(url)
+            if result:
+                return json.loads(result.content)
 
     @property
     def language(self):
@@ -187,8 +201,8 @@ class Corpus:
         yield from ixrs
 
     def indexer_for_docix(self, docix: int):
-        for doc in self.iter_docs():
-            if doc["docix"] == int(docix):
+        for docix, doc in self.iter_docs():
+            if docix == int(docix):
                 return Work(corpus=self, doc=doc).indexer
 
     @property
@@ -219,28 +233,29 @@ class Corpus:
         return self.name, work.author, work.title, urn, reference, text
 
     def download(self, branch: str = "master"):
-        git_uri = self.meta.repo["origin"]
+        if self.meta.repo["location"] == "remote":
+            git_uri = self.meta.repo["origin"]
 
-        if not self.path.exists():
-            self.path.mkdir(exist_ok=True, parents=True)
-            try:
-                Repo.clone_from(
-                    git_uri,
-                    self.path,
-                    branch=branch,
-                    depth=1,
-                    progress=ProgressPrinter(self.name)
-                )
-            except Exception as e:
-                raise e
-        else:
-            try:
-                repo = Repo(self.path)
-                if not repo.bare:
-                    git_origin = repo.remotes.origin
-                    git_origin.pull()
-            except Exception as e:
-                raise e
+            if not self.path.exists():
+                self.path.mkdir(exist_ok=True, parents=True)
+                try:
+                    Repo.clone_from(
+                        git_uri,
+                        self.path,
+                        branch=branch,
+                        depth=1,
+                        progress=ProgressPrinter(self.name)
+                    )
+                except Exception as e:
+                    raise e
+            else:
+                try:
+                    repo = Repo(self.path)
+                    if not repo.bare:
+                        git_origin = repo.remotes.origin
+                        git_origin.pull()
+                except Exception as e:
+                    raise e
 
     def __str__(self):
         return self.name

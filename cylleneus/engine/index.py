@@ -440,6 +440,7 @@ class FileIndex(Index):
     def optimize(self, **kwargs):
         w = self.writer(**kwargs)
         w.commit(optimize=True)
+        return TOC._filename(self.indexname, self.latest_generation()), w.newsegment.make_filename(".seg")
 
     # searcher
 
