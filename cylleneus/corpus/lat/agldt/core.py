@@ -13,8 +13,9 @@ glob = "*.tb.txt"
 
 # Repo
 repo = {
-    'origin':   'https://github.com/cylleneus/agldt.git',
-    'location': 'remote'
+    "origin":   "https://github.com/cylleneus/agldt.git",
+    "raw":      "http://raw.github.com/cylleneus/agldt/master/",
+    "location": "remote",
 }
 
 

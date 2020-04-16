@@ -13,8 +13,9 @@ glob = "*.xml"
 
 # Repo
 repo = {
-    'origin':   'https://github.com/cylleneus/atlas.git',
-    'location': 'remote'
+    "origin":   "https://git.exeter.ac.uk/cylleneus/atlas.git",
+    "raw":      "http://git.exeter.ac.uk/cylleneus/atlas/-/raw/master/",
+    "location": "remote",
 }
 
 

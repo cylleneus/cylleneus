@@ -12,7 +12,11 @@ language = "lat"
 glob = "*.xml"
 
 # Repo
-repo = {"origin": "https://github.com/cylleneus/camena.git", "location": "remote"}
+repo = {
+    "origin":   "https://github.com/cylleneus/camena.git",
+    "raw":      "http://raw.github.com/cylleneus/camena/master/",
+    "location": "remote"
+}
 
 
 # Function to fetch text from corpus

@@ -15,18 +15,17 @@ from .meta import manifest
 
 
 class ProgressPrinter(RemoteProgress):
-    def __init__(self, default_message='', out=sys.stdout):
+    def __init__(self, default_message="", out=sys.stdout):
         super().__init__()
         self.default_message = default_message
         self.out = out
 
-    def update(self, op_code, cur_count, max_count=None, message=''):
-        if not message:
-            message = self.default_message
-        if message:
-            percentage = '%.0f' % (100 * cur_count / (max_count or 100.0))
-            if self.out:
-                self.out.write(f'[{percentage:>3}%] {message} \r')
+    def update(self, op_code, cur_count, max_count=None, message=""):
+        if self.out:
+            percentage = "%.0f" % (100 * cur_count / (max_count or 100.0))
+            if not message:
+                message = self.default_message
+            self.out.write(" ".join([f"[{percentage:>3}%]", message, "\r"]))
 
 
 class Corpus:
@@ -75,11 +74,9 @@ class Corpus:
         with codecs.open(manifest_file, "w", "utf8") as fp:
             json.dump(self.manifest, fp, ensure_ascii=False)
 
-    # repos on GitHub
     def fetch_manifest(self):
         if self.meta.repo["location"] == "remote":
-            repo = self.meta.repo["origin"].replace(".git", "").replace("github.com", "raw.github.com")
-            url = repo + "/master/manifest.json"
+            url = self.meta.repo["raw"] + "manifest.json"
             result = requests.get(url)
             if result:
                 return json.loads(result.content)
@@ -118,7 +115,11 @@ class Corpus:
 
     @property
     def is_searchable(self):
-        return self.schema and self.doc_count_all and any([work.is_searchable for work in self.works])
+        return (
+            self.schema
+            and self.doc_count_all
+            and any([work.is_searchable for work in self.works])
+        )
 
     @property
     def works(self):
@@ -242,24 +243,23 @@ class Corpus:
 
                 files = manifest["index"]
                 for file in files:
-                    remote_path = Path(
-                        f"cylleneus\\{self.name}\\master\\" + manifest["path"].split("\\", maxsplit=2)[-1])
-                    local_path = (Path(settings.CORPUS_DIR) / Path(manifest["path"]))
+                    remote_path = Path(manifest["path"].split("\\", maxsplit=2)[-1])
+                    local_path = Path(settings.CORPUS_DIR) / Path(manifest["path"])
 
                     if not local_path.exists():
                         local_path.mkdir(parents=True, exist_ok=True)
 
-                    url = f"http://raw.github.com/{(remote_path / Path(file)).as_posix()}"
+                    url = self.meta.repo["raw"] + (remote_path / Path(file)).as_posix()
                     r = requests.get(url)
                     if r:
                         with codecs.open(local_path / Path(file), "wb") as fp:
                             fp.write(r.content)
 
                 filename = manifest["filename"]
-                remote_path = Path(f"cylleneus\\{self.name}\\master\\text").as_posix()
-                url = f"http://raw.github.com/{(remote_path / Path(filename)).as_posix()}"
+                url = (
+                    self.meta.repo["raw"] + (Path("/text") / Path(filename)).as_posix()
+                )
                 r = requests.get(url)
-
                 if r:
                     with codecs.open(self.text_dir / Path(filename), "wb") as fp:
                         fp.write(r.content)
@@ -279,7 +279,9 @@ class Corpus:
                         self.path,
                         branch=branch,
                         depth=1,
-                        progress=ProgressPrinter(f"{self.name} [{self.meta.repo['origin']}]")
+                        progress=ProgressPrinter(
+                            f"{self.name} [{self.meta.repo['origin']}]"
+                        ),
                     )
                 except Exception as e:
                     raise e
@@ -322,13 +324,17 @@ class Work:
             if "title" in doc:
                 self._title = doc["title"]
             if "docix" in doc:
-                self._docix = [doc["docix"], ]
+                self._docix = [
+                    doc["docix"],
+                ]
             if "urn" in doc:
                 self._urn = doc["urn"]
             else:
                 self._urn = None
             if "filename" in doc:
-                self._filename = [doc["filename"],]
+                self._filename = [
+                    doc["filename"],
+                ]
             else:
                 self._filename = None
             if "datetime" in doc:
@@ -355,7 +361,9 @@ class Work:
                     self._author = author
                     self._title = title
             else:
-                self._doc = self._author = self._title = self._urn = self._filename = self._timestamp = None
+                self._doc = (
+                    self._author
+                ) = self._title = self._urn = self._filename = self._timestamp = None
         self._indexer = indexer.Indexer(corpus, self)
         self.fetch = self.corpus._fetch
         self._language = language

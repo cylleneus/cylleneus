@@ -13,9 +13,7 @@ from cylleneus.search import CylleneusSearcher
 from cylleneus.settings import CORPUS_DIR
 
 REMOTE_CORPORA = {
-    name: meta
-    for name, meta in manifest.items()
-    if meta.repo["location"] == "remote"
+    name: meta for name, meta in manifest.items() if meta.repo["location"] == "remote"
 }
 
 
@@ -64,12 +62,13 @@ def verify(corpus):
         docix = str(docix)
         try:
             matched = all(
-                manifest[docix][k] == doc[k]
-                for k in ["author", "title", "filename"]
+                manifest[docix][k] == doc[k] for k in ["author", "title", "filename"]
             )
         except KeyError:
-            click.echo(f"[{doc['docix']}] {doc['author']}, {doc['title']} ({doc['filename']})]... not "
-                       f"in manifest!")
+            click.echo(
+                f"[{doc['docix']}] {doc['author']}, {doc['title']} ({doc['filename']})]... not "
+                f"in manifest!"
+            )
         else:
             click.echo(
                 f"[{doc['docix']}] {doc['author']}, {doc['title']} ({doc['filename']})... "
@@ -233,9 +232,8 @@ def create(corpus, destructive, optimize):
             c.destroy()
         for file in c.text_dir.glob(c.glob):
             w = Work(corpus=c)
-            _ = w.indexer.from_file(file, destructive=destructive)
-        if optimize:
-            c.optimize()
+            _ = w.indexer.from_file(file, destructive=destructive, optimize=optimize)
+
     ndocs = c.doc_count_all
     if ndocs > 0:
         click.echo(
@@ -277,7 +275,9 @@ def download(corpus, branch):
         if corpus not in REMOTE_CORPORA:
             click.echo(f"[-] no remote location for '{corpus}'")
         else:
-            if click.confirm(f"This will overwrite any index files! Are you sure?", default=False):
+            if click.confirm(
+                f"This will overwrite any index files! Are you sure?", default=False
+            ):
                 c = Corpus(corpus)
                 try:
                     c.download(branch)

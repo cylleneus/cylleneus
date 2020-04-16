@@ -12,8 +12,9 @@ glob = "*.xml"
 
 # Repo
 repo = {
-    'origin':   'https://github.com/cylleneus/proiel.git',
-    'location': 'remote'
+    "origin":   "https://github.com/cylleneus/proiel.git",
+    "raw":      "http://raw.github.com/cylleneus/proiel/master/",
+    "location": "remote",
 }
 
 

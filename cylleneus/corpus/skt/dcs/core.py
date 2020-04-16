@@ -8,12 +8,13 @@ dir = Path(__file__).parent
 language = "skt"
 
 # Glob pattern for indexing
-glob = '*.conllu'
+glob = "*.conllu"
 
 # Repo
 repo = {
-    'origin':   'https://github.com/cylleneus/dcs.git',
-    'location': 'remote'
+    "origin":   "https://github.com/cylleneus/dcs.git",
+    "raw":      "http://raw.github.com/cylleneus/dcs/master/",
+    "location": "remote",
 }
 
 
@@ -22,18 +23,18 @@ def fetch(work, meta, fragment):
     filename = work.filename[0]
     path = work.corpus.text_dir / filename
 
-    urn = work.doc[0].get('urn', None)
+    urn = work.doc[0].get("urn", None)
 
-    divs = meta['meta'].split('-')
+    divs = meta["meta"].split("-")
 
     # Reference and hlite values
-    ref_start = ', '.join(
-        [f"{item}: {meta['start'][item]}" for item in meta['start'] if item in divs]
+    ref_start = ", ".join(
+        [f"{item}: {meta['start'][item]}" for item in meta["start"] if item in divs]
     )
-    ref_end = ', '.join(
-        [f"{item}: {meta['end'][item]}" for item in meta['end'] if item in divs]
+    ref_end = ", ".join(
+        [f"{item}: {meta['end'][item]}" for item in meta["end"] if item in divs]
     )
-    reference = '-'.join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    reference = "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
 
     # Collect text and context
     with codecs.open(path, "r", "utf8") as fp:
@@ -51,9 +52,11 @@ def fetch(work, meta, fragment):
         elif line.startswith("# text_line_counter: "):
             if text_line is not None:
                 text_line_counter = line.split("# text_line_counter: ")[1].strip()
-                text_lines.append((chapter, text_line_id, text_line_counter, text_line.split()))
+                text_lines.append(
+                    (chapter, text_line_id, text_line_counter, text_line.split())
+                )
 
-    start = meta['start']["sent_id"]
+    start = meta["start"]["sent_id"]
     end = meta["end"]["sent_id"]
 
     target_lines = []
@@ -67,18 +70,20 @@ def fetch(work, meta, fragment):
             append_line = False
 
     match = []
-    match_text = ' '.join(
+    match_text = " ".join(
         [
-            f'<em>{word}</em>' if [chapter, target_line_counter, str(i + 1)] in meta["hlites"] else word
+            f"<em>{word}</em>"
+            if [chapter, target_line_counter, str(i + 1)] in meta["hlites"]
+            else word
             for chapter, target_line_id, target_line_counter, target_line in target_lines
             for i, word in enumerate(target_line)
         ]
     )
     match.append(f"<match>{match_text}</match>")
 
-    joiner = '\n'
+    joiner = "\n"
     parts = match
-    text = f'{joiner}'.join(parts)
+    text = f"{joiner}".join(parts)
 
     return urn, reference, text
 
@@ -122,37 +127,37 @@ xpos_mapping = {
     "PRI":  ("indefinite pronoun", "PRON"),
     "PRL":  ("relative pronoun", "PRON/DET"),
     "PRQ":  ("interrogative pronoun", "PRON/DET"),
-    "V":    ("finite verbal form", "VERB")
+    "V":    ("finite verbal form", "VERB"),
 }
 
 pos_mapping = {
-    'adverb':                    'CAD',
-    'preverbs (abhi)':           'CADA',
-    'preverbs (pra)':            'CADP',
-    'coordinating conjunction':  'CCD',
-    'particles for comparison':  'CCM',
-    'emphatic particle':         'CEM',
-    'absolutive, gerund':        'CGDA',
-    'infinitive':                'CGDI',
-    'negation':                  'CNG',
-    'quotation particle':        'CQT',
-    'subordinating conjunction': 'CSB',
-    'other adverbs':             'CX',
-    'adjective':                 'JJ',
-    'quantifying adjective':     'JQ',
-    'gerundive':                 'KDG2',
-    'participle':                'KDP',
-    'common noun':               'NC',
-    'number':                    'NUM',
-    'past participle':           'PPP',
-    'personal pronoun':          'PPR',
-    'other pronouns':            'PPX',
-    'reciprocal pronoun':        'PRC',
-    'demonstrative pronoun':     'PRD',
-    'indefinite pronoun':        'PRI',
-    'relative pronoun':          'PRL',
-    'interrogative pronoun':     'PRQ',
-    'finite verbal form':        'V'
+    "adverb":                    "CAD",
+    "preverbs (abhi)":           "CADA",
+    "preverbs (pra)":            "CADP",
+    "coordinating conjunction":  "CCD",
+    "particles for comparison":  "CCM",
+    "emphatic particle":         "CEM",
+    "absolutive, gerund":        "CGDA",
+    "infinitive":                "CGDI",
+    "negation":                  "CNG",
+    "quotation particle":        "CQT",
+    "subordinating conjunction": "CSB",
+    "other adverbs":             "CX",
+    "adjective":                 "JJ",
+    "quantifying adjective":     "JQ",
+    "gerundive":                 "KDG2",
+    "participle":                "KDP",
+    "common noun":               "NC",
+    "number":                    "NUM",
+    "past participle":           "PPP",
+    "personal pronoun":          "PPR",
+    "other pronouns":            "PPX",
+    "reciprocal pronoun":        "PRC",
+    "demonstrative pronoun":     "PRD",
+    "indefinite pronoun":        "PRI",
+    "relative pronoun":          "PRL",
+    "interrogative pronoun":     "PRQ",
+    "finite verbal form":        "V",
 }
 
 
@@ -169,19 +174,18 @@ def parse_morpho(upos, morpho: str):
         "case":     "-",
         "group":    "-",
         "stem":     "-",
-        "verbform": "-"
+        "verbform": "-",
     }
-    inflections.update({
-        tuple(parse.split("="))
-        for parse in parses
-    })
+    inflections.update({tuple(parse.split("=")) for parse in parses})
 
     for k, v in inflections.items():
         if k not in ["group", "stem", "formation"]:
             inflections[k] = morpho_mappings[k].get(v, "-")
     if inflections["verbform"] != "-" and inflections["mood"] == "-":
         inflections["mood"] = inflections["verbform"]
-    return "".join([v for k, v in inflections.items() if k != "verbform" and k != "formation"])
+    return "".join(
+        [v for k, v in inflections.items() if k != "verbform" and k != "formation"]
+    )
 
 
 morpho_mappings = {
@@ -201,68 +205,36 @@ morpho_mappings = {
         "NP":   "n",
         "NUM":  "n",
         "PPP":  "v",
-        "V":    "v"
+        "V":    "v",
     },
-    "person":
-                {
-                    # PERSON
-                    "1": "1",
-                    "2": "2",
-                    "3": "3"
-                },
-    "number":
-                {
-                    "1":    "s",
-                    "2":    "d",
-                    "3":    "p",
-                    "sing": "s",
-                    "plur": "p"
-                },
-    "tense":
-                {
-                    "pres": "p",
-                    "perf": "r",
-                    "aor":  "a",
-                    "fut":  "f",
-                    "impf": "i"
-                },
-    "mood":
-                {
-                    "ind":  "i",
-                    "imp":  "m",
-                    "opt":  "o",
-                    "sub":  "s",
-                    "prec": "r",
-                    "cond": "c",
-                    "inj":  "j"
-                },
-    "voice":
-                {
-                    "act":  "a",
-                    "mid":  "m",
-                    "pass": "p",
-                },
-    "verbform": {
-        "abs":  "a",
-        "ppp":  "p",
-        "ger":  "g",
-        "part": "p",
-        "inf":  "n"
+    "person":   {
+        # PERSON
+        "1": "1",
+        "2": "2",
+        "3": "3",
     },
-    "case":
-                {
-                    "nom": "n",
-                    "cpd": "c",
-                    "gen": "g",
-                    "dat": "d",
-                    "acc": "a",
-                    "abl": "b",
-                    "loc": "l",
-                    "ins": "i"
-                },
-    "gender":   {
-        "masc": "m",
-        "neut": "n",
-        "fem":  "f"
-    }
+    "number":   {"1": "s", "2": "d", "3": "p", "sing": "s", "plur": "p"},
+    "tense":    {"pres": "p", "perf": "r", "aor": "a", "fut": "f", "impf": "i"},
+    "mood":     {
+        "ind":  "i",
+        "imp":  "m",
+        "opt":  "o",
+        "sub":  "s",
+        "prec": "r",
+        "cond": "c",
+        "inj":  "j",
+    },
+    "voice":    {"act": "a", "mid": "m", "pass": "p", },
+    "verbform": {"abs": "a", "ppp": "p", "ger": "g", "part": "p", "inf": "n"},
+    "case":     {
+        "nom": "n",
+        "cpd": "c",
+        "gen": "g",
+        "dat": "d",
+        "acc": "a",
+        "abl": "b",
+        "loc": "l",
+        "ins": "i",
+    },
+    "gender":   {"masc": "m", "neut": "n", "fem": "f"},
 }

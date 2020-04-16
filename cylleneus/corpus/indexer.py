@@ -18,14 +18,18 @@ class Indexer:
     def docs_for(cls, corpus, author: str = "*", title: str = "*"):
         paths = corpus.index_dir.glob(f"{slugify(author)}/{slugify(title)}")
         for path in paths:
-            indexes = Path(path).glob('*.toc')
+            indexes = Path(path).glob("*.toc")
             for index in indexes:
-                indexname = ('_'.join(index.name.replace('.toc', '').rsplit('_', maxsplit=4)[:4])).strip('_')
+                indexname = (
+                    "_".join(index.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
+                ).strip("_")
                 if cylleneus.engine.index.exists_in(path, indexname=indexname):
-                    ix = cylleneus.engine.index.open_dir(path, schema=corpus.schema, indexname=indexname)
+                    ix = cylleneus.engine.index.open_dir(
+                        path, schema=corpus.schema, indexname=indexname
+                    )
                     yield from ix.reader().iter_docs()
 
-    def __init__(self, corpus, work, language='lat'):
+    def __init__(self, corpus, work, language="lat"):
         self._corpus = corpus
         self._work = work
         self._language = language
@@ -39,13 +43,17 @@ class Indexer:
             self._path = None
 
         if self.path:
-            indexes = Path(self.path).glob('*.toc')
+            indexes = Path(self.path).glob("*.toc")
 
             for index in indexes:
-                indexname = ('_'.join(index.name.replace('.toc', '').rsplit('_', maxsplit=4)[:4])).strip('_')
+                indexname = (
+                    "_".join(index.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
+                ).strip("_")
 
                 if cylleneus.engine.index.exists_in(self.path, indexname=indexname):
-                    ix = cylleneus.engine.index.open_dir(self.path, schema=corpus.schema, indexname=indexname)
+                    ix = cylleneus.engine.index.open_dir(
+                        self.path, schema=corpus.schema, indexname=indexname
+                    )
                     self._indexes.append(ix)
 
     @property
@@ -98,20 +106,22 @@ class Indexer:
             tocfilename, indexname = ix.optimize()
             for docix in ix.reader().all_doc_ixs():
                 manifest = self.corpus.manifest[str(docix)]
-                manifest["index"] = [
-                    tocfilename, indexname
-                ]
+                manifest["index"] = [tocfilename, indexname]
                 self.corpus.update_manifest(str(docix), manifest)
 
     def create(self, indexname: str = None):
         if not self.path.exists():
             self.path.mkdir(parents=True)
-        cylleneus.engine.index.create_in(self.path, schema=self.corpus.schema, indexname=indexname)
+        cylleneus.engine.index.create_in(
+            self.path, schema=self.corpus.schema, indexname=indexname
+        )
 
     def open(self, indexname: str):
         if not cylleneus.engine.index.exists_in(self.path, indexname=indexname):
             self.create(indexname=indexname)
-        ix = cylleneus.engine.index.open_dir(self.path, schema=self.corpus.schema, indexname=indexname)
+        ix = cylleneus.engine.index.open_dir(
+            self.path, schema=self.corpus.schema, indexname=indexname
+        )
         return ix
 
     def update(self, path: Path):
@@ -120,7 +130,7 @@ class Indexer:
         docix = self.from_file(path)
         return docix
 
-    def from_file(self, path: Path, destructive: bool = False):
+    def from_file(self, path: Path, destructive: bool = False, optimize: bool = False):
         if path.exists():
 
             kwargs = self.corpus.preprocessor.parse(path)
@@ -133,9 +143,11 @@ class Indexer:
             # Check if docix exists
             existing = None
             for docix, doc in self.corpus.manifest.items():
-                if doc["author"] == kwargs["author"] and \
-                    doc["title"] == kwargs["title"] and \
-                    doc["filename"] == path.name:
+                if (
+                    doc["author"] == kwargs["author"]
+                    and doc["title"] == kwargs["title"]
+                    and doc["filename"] == path.name
+                ):
                     existing = docix
 
             if existing is not None:
@@ -164,7 +176,7 @@ class Indexer:
                     ),
                 )
                 writer.add_document(**kwargs)
-                writer.commit()
+                writer.commit(optimize=optimize)
             except queue.Empty as e:
                 pass
 
@@ -174,14 +186,18 @@ class Indexer:
                 "filename": str(path.name),
                 "path":     str(self.path.relative_to(CORPUS_DIR)),
                 "index":    [
-                    cylleneus.engine.index.TOC._filename(indexname, ix.latest_generation()),
-                    writer.newsegment.make_filename(".seg")
-                ]
+                    cylleneus.engine.index.TOC._filename(
+                        indexname, ix.latest_generation()
+                    ),
+                    writer.newsegment.make_filename(".seg"),
+                ],
             }
             self.corpus.update_manifest(docix, work_manifest)
             return docix
 
-    def from_string(self, content, destructive: bool = False, **kwargs):
+    def from_string(
+        self, content, destructive: bool = False, optimize: bool = False, **kwargs
+    ):
         if content:
             parsed = self.corpus.preprocessor.parse(content)
             kwargs.update(parsed)
@@ -190,8 +206,10 @@ class Indexer:
                 self.destroy()
 
             for docix, doc in self.corpus.manifest.items():
-                if doc["author"] == kwargs["author"] and \
-                    doc["title"] == kwargs["title"]:
+                if (
+                    doc["author"] == kwargs["author"]
+                    and doc["title"] == kwargs["title"]
+                ):
                     return docix
             else:
                 docix = self.corpus.doc_count_all
@@ -214,7 +232,7 @@ class Indexer:
                         ),
                     )
                     writer.add_document(**kwargs)
-                    writer.commit()
+                    writer.commit(optimize=optimize)
                 except queue.Empty as e:
                     pass
                 work_manifest = {
@@ -223,9 +241,11 @@ class Indexer:
                     "filename": None,
                     "path":     str(self.path.relative_to(CORPUS_DIR)),
                     "index":    [
-                        cylleneus.engine.index.TOC._filename(indexname, ix.latest_generation()),
-                        writer.newsegment.make_filename(".seg")
-                    ]
+                        cylleneus.engine.index.TOC._filename(
+                            indexname, ix.latest_generation()
+                        ),
+                        writer.newsegment.make_filename(".seg"),
+                    ],
                 }
                 self.corpus.update_manifest(docix, work_manifest)
                 return docix
