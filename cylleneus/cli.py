@@ -277,13 +277,14 @@ def download(corpus, branch):
         if corpus not in REMOTE_CORPORA:
             click.echo(f"[-] no remote location for '{corpus}'")
         else:
-            c = Corpus(corpus)
-            try:
-                c.download(branch)
-            except Exception as e:
-                click.echo("[-] failed", e)
+            if click.confirm(f"This will overwrite any index files! Are you sure?", default=False):
+                c = Corpus(corpus)
+                try:
+                    c.download(branch)
+                except Exception as e:
+                    click.echo("[-] failed", e)
             else:
-                click.echo(f"[+] downloaded '{corpus}' [{c.meta.repo['origin']}]")
+                click.echo("[-] aborted")
 
 
 if __name__ == "__main__":

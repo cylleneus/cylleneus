@@ -15,16 +15,18 @@ from .meta import manifest
 
 
 class ProgressPrinter(RemoteProgress):
-    def __init__(self, default_message=''):
+    def __init__(self, default_message='', out=sys.stdout):
         super().__init__()
         self.default_message = default_message
+        self.out = out
 
     def update(self, op_code, cur_count, max_count=None, message=''):
         if not message:
             message = self.default_message
         if message:
             percentage = '%.0f' % (100 * cur_count / (max_count or 100.0))
-            sys.stdout.write('Downloaded %s%% %s \r' % (percentage, message))
+            if self.out:
+                self.out.write(f'[{percentage:>3}%] {message} \r')
 
 
 class Corpus:
@@ -232,9 +234,42 @@ class Corpus:
         urn, reference, text = work.fetch(work, meta, fragment)
         return self.name, work.author, work.title, urn, reference, text
 
+    def download_by_docix(self, docix):
+        if self.meta.repo["location"] == "remote":
+            remote_manifest = self.fetch_manifest()
+            if remote_manifest and str(docix) in remote_manifest:
+                manifest = remote_manifest[str(docix)]
+
+                files = manifest["index"]
+                for file in files:
+                    remote_path = Path(
+                        f"cylleneus\\{self.name}\\master\\" + manifest["path"].split("\\", maxsplit=2)[-1])
+                    local_path = (Path(settings.CORPUS_DIR) / Path(manifest["path"]))
+
+                    if not local_path.exists():
+                        local_path.mkdir(parents=True, exist_ok=True)
+
+                    url = f"http://raw.github.com/{(remote_path / Path(file)).as_posix()}"
+                    r = requests.get(url)
+                    if r:
+                        with codecs.open(local_path / Path(file + '_TEST'), "wb") as fp:
+                            fp.write(r.content)
+
+                filename = manifest["filename"]
+                remote_path = Path(f"cylleneus\\{self.name}\\master\\text").as_posix()
+                url = f"http://raw.github.com/{(remote_path / Path(filename)).as_posix()}"
+                r = requests.get(url)
+
+                if r:
+                    with codecs.open(self.text_dir / Path(filename + '_TEST'), "wb") as fp:
+                        fp.write(r.content)
+                self.update_manifest(docix, manifest)
+
     def download(self, branch: str = "master"):
         if self.meta.repo["location"] == "remote":
             git_uri = self.meta.repo["origin"]
+
+            self.destroy()
 
             if not self.path.exists():
                 self.path.mkdir(exist_ok=True, parents=True)
@@ -244,7 +279,7 @@ class Corpus:
                         self.path,
                         branch=branch,
                         depth=1,
-                        progress=ProgressPrinter(self.name)
+                        progress=ProgressPrinter(f"{self.name} [{self.meta.repo['origin']}]")
                     )
                 except Exception as e:
                     raise e
