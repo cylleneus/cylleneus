@@ -280,11 +280,40 @@ def download(corpus, branch):
             ):
                 c = Corpus(corpus)
                 try:
-                    c.download(branch)
+                    with click_spinner.spinner():
+                        c.download(branch)
                 except Exception as e:
                     click.echo("[-] failed", e)
             else:
                 click.echo("[-] aborted")
+
+
+@main.command()
+@click.option("--corpus", "-c", "corpus", required=False)
+@click.option("--docix", "-i", "docix", required=False)
+def downloadby(corpus, docix):
+    """Download a single document from a remote corpus repository. """
+
+    if not corpus:
+        for name, meta in REMOTE_CORPORA.items():
+            click.echo(f"[-] '{name}' [{meta.repo['origin']}]")
+    elif not docix:
+        c = Corpus(corpus)
+        manifest = c.fetch_manifest()
+        for docix, meta in manifest.items():
+            click.echo(
+                f"[{docix}] {meta['author']}, {meta['title']} [{meta['filename']}]"
+            )
+    else:
+        if corpus not in REMOTE_CORPORA:
+            click.echo(f"[-] no remote location for '{corpus}'")
+        else:
+            c = Corpus(corpus)
+            try:
+                with click_spinner.spinner():
+                    c.download_by_docix(int(docix))
+            except Exception as e:
+                click.echo("[-] failed", e)
 
 
 if __name__ == "__main__":
