@@ -46,7 +46,7 @@ def fetch(work, meta, fragment):
     start_sentence = doc.find(f".//sentence[@id='{start}']")
     end_sentence = doc.find(f".//sentence[@id='{end}']")
 
-    hlites = set([hlite[-1] for hlite in meta["hlites"]])  # only need token ids
+    hlites = set([hlite["sent_pos"] for hlite in meta["hlites"]])  # only need token ids
 
     match = []
     current_sentence = start_sentence
@@ -100,7 +100,7 @@ def fetch(work, meta, fragment):
                 if token.get("form")
             ]
         )
-        pre.append(f"<post>{text}</post>")
+        post.append(f"<post>{text}</post>")
         current_sentence = current_sentence.getnext()
         i += 1
 
@@ -108,6 +108,7 @@ def fetch(work, meta, fragment):
         joiner = "\n\n"
     else:
         joiner = " "
+
     parts = pre + match + post
     text = f"{joiner}".join(parts)
     return urn, reference, text

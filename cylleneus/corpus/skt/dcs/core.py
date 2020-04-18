@@ -12,8 +12,8 @@ glob = "*.conllu"
 
 # Repo
 repo = {
-    "origin":   "https://github.com/cylleneus/dcs.git",
-    "raw":      "http://raw.github.com/cylleneus/dcs/master/",
+    "origin":   "https://github.com/cylleneus/dcs.git",  # "http://git.exeter.ac.uk/cylleneus/dcs.git"
+    "raw":      "http://raw.github.com/cylleneus/dcs/master/",  # "http://git.exeter.ac.uk/cylleneus/dcs/-/raw/master/"
     "location": "remote",
 }
 
@@ -56,6 +56,11 @@ def fetch(work, meta, fragment):
                     (chapter, text_line_id, text_line_counter, text_line.split())
                 )
 
+    hlites = [
+        (hlite["chapter"], hlite["line"], hlite["sent_pos"])
+        for hlite in meta["hlites"]
+    ]
+
     start = meta["start"]["sent_id"]
     end = meta["end"]["sent_id"]
 
@@ -73,7 +78,7 @@ def fetch(work, meta, fragment):
     match_text = " ".join(
         [
             f"<em>{word}</em>"
-            if [chapter, target_line_counter, str(i + 1)] in meta["hlites"]
+            if (chapter, target_line_counter, str(i + 1)) in hlites
             else word
             for chapter, target_line_id, target_line_counter, target_line in target_lines
             for i, word in enumerate(target_line)

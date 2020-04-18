@@ -35,6 +35,15 @@ def fetch(work, meta, fragment):
     )
     reference = "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
 
+    hlites = sorted(
+        set(
+            [
+                tuple(v for k, v in hlite.items() if k in divs + ["sent_pos", ])
+                for hlite in meta["hlites"]
+            ]
+        )
+    )
+
     # Collect text and context
     start = [alnum(v) for k, v in meta["start"].items() if k in divs]
     end = [alnum(v) for k, v in meta["end"].items() if k in divs]
@@ -59,7 +68,6 @@ def fetch(work, meta, fragment):
             pre.append(f"<pre>{content}</pre>")
 
     match = []
-    hlites = sorted(set([tuple(hlite) for hlite in meta["hlites"]]))
     for ref in nrange(start, end, zero=False, negative=False):
         content = doc["text"]
 
@@ -921,7 +929,7 @@ index = {
     },
     100: {
         "author": "Horace",
-        "work":   {
+        "work": {
             "title": "Odes",
             "meta":  "book-poem-line",
             "urn":   "urn:cts:latinLit:phi0893.phi001.perseus-lat2-simple",
@@ -929,7 +937,7 @@ index = {
     },
     101: {
         "author": "Horace",
-        "work":   {
+        "work": {
             "title": "Satires",
             "meta":  "book-poem-line",
             "urn":   "urn:cts:latinLit:phi0893.phi004.perseus-lat2-simple",
@@ -937,7 +945,7 @@ index = {
     },
     102: {
         "author": "Jerome Saint D. 419 Or 20",
-        "work":   {
+        "work": {
             "title": "Epistolae",
             "meta":  "letter-section",
             "urn":   "urn:cts:latinLit:stoa0162.stoa004.perseus-lat2-simple",
@@ -945,7 +953,7 @@ index = {
     },
     103: {
         "author": "Juvenal",
-        "work":   {
+        "work": {
             "title": "Satires",
             "meta":  "book-poem-line",
             "urn":   "urn:cts:latinLit:phi1276.phi001.perseus-lat2-simple",
@@ -953,7 +961,7 @@ index = {
     },
     104: {
         "author": "Lucan",
-        "work":   {
+        "work": {
             "title": "Civil War",
             "meta":  "book-line",
             "urn":   "urn:cts:latinLit:phi0917.phi001.perseus-lat2-simple",
@@ -961,7 +969,7 @@ index = {
     },
     105: {
         "author": "Lucretius",
-        "work":   {
+        "work": {
             "title": "De Rerum Natura",
             "meta":  "book-line",
             "urn":   "urn:cts:latinLit:phi0550.phi001.perseus-lat1-simple",
@@ -969,7 +977,7 @@ index = {
     },
     106: {
         "author": "Martial",
-        "work":   {
+        "work": {
             "title": "Epigrammata",
             "meta":  "book-poem-line",
             "urn":   "urn:cts:latinLit:phi1294.phi002.perseus-lat2-simple",
@@ -977,7 +985,7 @@ index = {
     },
     107: {
         "author": "Minucius Felix, Marcus",
-        "work":   {
+        "work": {
             "title": "Octavius",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:stoa0203.stoa001.perseus-lat2-simple",
@@ -985,7 +993,7 @@ index = {
     },
     108: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Agesilaus",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo017.perseus-lat2-simple",
@@ -993,7 +1001,7 @@ index = {
     },
     109: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Alcibiades",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo007.perseus-lat2-simple",
@@ -1001,7 +1009,7 @@ index = {
     },
     110: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Aristides",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo003.perseus-lat2-simple",
@@ -1009,7 +1017,7 @@ index = {
     },
     111: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Atticus",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo025.perseus-lat2-simple",
@@ -1017,7 +1025,7 @@ index = {
     },
     112: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Cato",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo024.perseus-lat2-simple",
@@ -1025,7 +1033,7 @@ index = {
     },
     113: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Chabrias",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo012.perseus-lat2-simple",
@@ -1033,7 +1041,7 @@ index = {
     },
     114: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Cimon",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo005.perseus-lat2-simple",
@@ -1041,7 +1049,7 @@ index = {
     },
     115: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Conon",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo009.perseus-lat2-simple",
@@ -1049,7 +1057,7 @@ index = {
     },
     116: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Datames",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo014.perseus-lat2-simple",
@@ -1057,7 +1065,7 @@ index = {
     },
     117: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "De Regibus",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo021.perseus-lat2-simple",
@@ -1065,7 +1073,7 @@ index = {
     },
     118: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Dion",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo010.perseus-lat2-simple",
@@ -1073,7 +1081,7 @@ index = {
     },
     119: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Epaminondas",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo015.perseus-lat2-simple",
@@ -1081,7 +1089,7 @@ index = {
     },
     120: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Eumenes",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo018.perseus-lat2-simple",
@@ -1089,7 +1097,7 @@ index = {
     },
     121: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Hamilcar",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo022.perseus-lat2-simple",
@@ -1097,7 +1105,7 @@ index = {
     },
     122: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Hannibal",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo023.perseus-lat2-simple",
@@ -1105,7 +1113,7 @@ index = {
     },
     123: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Iphicrates",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo011.perseus-lat2-simple",
@@ -1113,7 +1121,7 @@ index = {
     },
     124: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Lysander",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo006.perseus-lat2-simple",
@@ -1121,7 +1129,7 @@ index = {
     },
     125: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Miltiades",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo001.perseus-lat2-simple",
@@ -1129,7 +1137,7 @@ index = {
     },
     126: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Pausanias",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo004.perseus-lat2-simple",
@@ -1137,7 +1145,7 @@ index = {
     },
     127: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Pelopidas",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo016.perseus-lat2-simple",
@@ -1145,7 +1153,7 @@ index = {
     },
     128: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Phocion",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo019.perseus-lat2-simple",
@@ -1153,7 +1161,7 @@ index = {
     },
     129: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Themistocles",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo002.perseus-lat2-simple",
@@ -1161,7 +1169,7 @@ index = {
     },
     130: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Thrasybulus",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo008.perseus-lat2-simple",
@@ -1169,7 +1177,7 @@ index = {
     },
     131: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Timoleon",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo020.perseus-lat2-simple",
@@ -1177,7 +1185,7 @@ index = {
     },
     132: {
         "author": "Nepos, Cornelius",
-        "work":   {
+        "work": {
             "title": "Timotheus",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi0588.abo013.perseus-lat2-simple",
@@ -1185,7 +1193,7 @@ index = {
     },
     133: {
         "author": "Ovid",
-        "work":   {
+        "work": {
             "title": "Amores",
             "meta":  "book-poem-line",
             "urn":   "urn:cts:latinLit:phi0959.phi001.perseus-lat2-simple",
@@ -1193,7 +1201,7 @@ index = {
     },
     134: {
         "author": "Ovid",
-        "work":   {
+        "work": {
             "title": "Medicamina faciei femineae",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0959.phi003.perseus-lat2-simple",
@@ -1201,7 +1209,7 @@ index = {
     },
     135: {
         "author": "Ovid",
-        "work":   {
+        "work": {
             "title": "Ars Amatoria",
             "meta":  "book-line",
             "urn":   "urn:cts:latinLit:phi0959.phi004.perseus-lat2-simple",
@@ -1209,7 +1217,7 @@ index = {
     },
     136: {
         "author": "Ovid",
-        "work":   {
+        "work": {
             "title": "Fasti",
             "meta":  "book-line",
             "urn":   "urn:cts:latinLit:phi0959.phi007.perseus-lat2-simple",
@@ -1217,7 +1225,7 @@ index = {
     },
     137: {
         "author": "Ovid",
-        "work":   {
+        "work": {
             "title": "Epistulae",
             "meta":  "poem-line",
             "urn":   "urn:cts:latinLit:phi0959.phi002.perseus-lat2-simple",
@@ -1225,7 +1233,7 @@ index = {
     },
     138: {
         "author": "Ovid",
-        "work":   {
+        "work": {
             "title": "Ibis",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0959.phi010.perseus-lat2-simple",
@@ -1233,7 +1241,7 @@ index = {
     },
     139: {
         "author": "Ovid",
-        "work":   {
+        "work": {
             "title": "Ex Ponto",
             "meta":  "book-poem-line",
             "urn":   "urn:cts:latinLit:phi0959.phi009.perseus-lat2-simple",
@@ -1241,7 +1249,7 @@ index = {
     },
     140: {
         "author": "Ovid",
-        "work":   {
+        "work": {
             "title": "Metamorphoses",
             "meta":  "book-line",
             "urn":   "urn:cts:latinLit:phi0959.phi006.perseus-lat2-simple",
@@ -1249,7 +1257,7 @@ index = {
     },
     141: {
         "author": "Ovid",
-        "work":   {
+        "work": {
             "title": "Remedia amoris",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0959.phi005.perseus-lat2-simple",
@@ -1257,7 +1265,7 @@ index = {
     },
     142: {
         "author": "Ovid",
-        "work":   {
+        "work": {
             "title": "Tristia",
             "meta":  "book-poem-line",
             "urn":   "urn:cts:latinLit:phi0959.phi008.perseus-lat2-simple",
@@ -1265,7 +1273,7 @@ index = {
     },
     143: {
         "author": "Paris, Julius",
-        "work":   {
+        "work": {
             "title": "Facta et Dicta Memorabilia",
             "meta":  "book-chapter-section",
             "urn":   "urn:cts:latinLit:phi1038.phi001.perseus-lat1-simple",
@@ -1273,7 +1281,7 @@ index = {
     },
     144: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Asinaria",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi002.perseus-lat2-simple",
@@ -1281,7 +1289,7 @@ index = {
     },
     145: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Aulularia",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi003.perseus-lat2-simple",
@@ -1289,7 +1297,7 @@ index = {
     },
     146: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Bacchides",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi004.perseus-lat2-simple",
@@ -1297,7 +1305,7 @@ index = {
     },
     147: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Captivi",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi005.perseus-lat2-simple",
@@ -1305,7 +1313,7 @@ index = {
     },
     148: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Casina",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi006.perseus-lat2-simple",
@@ -1313,7 +1321,7 @@ index = {
     },
     149: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Curculio",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi008.perseus-lat2-simple",
@@ -1321,7 +1329,7 @@ index = {
     },
     150: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Epidicus",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi009.perseus-lat2-simple",
@@ -1329,7 +1337,7 @@ index = {
     },
     151: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Menaechmi",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi010.perseus-lat2-simple",
@@ -1337,7 +1345,7 @@ index = {
     },
     152: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Mercator",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi011.perseus-lat2-simple",
@@ -1345,7 +1353,7 @@ index = {
     },
     153: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Miles Gloriosus",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi012.perseus-lat2-simple",
@@ -1353,7 +1361,7 @@ index = {
     },
     154: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Mostellaria",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi013.perseus-lat2-simple",
@@ -1361,7 +1369,7 @@ index = {
     },
     155: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Persa",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi014.perseus-lat2-simple",
@@ -1369,7 +1377,7 @@ index = {
     },
     156: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Poenulus",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi015.perseus-lat2-simple",
@@ -1377,7 +1385,7 @@ index = {
     },
     157: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Rudens",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi017.perseus-lat2-simple",
@@ -1385,7 +1393,7 @@ index = {
     },
     158: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Stichus",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi018.perseus-lat2-simple",
@@ -1393,7 +1401,7 @@ index = {
     },
     159: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Trinummus",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi019.perseus-lat2-simple",
@@ -1401,7 +1409,7 @@ index = {
     },
     160: {
         "author": "Plautus, Titus Maccius",
-        "work":   {
+        "work": {
             "title": "Truculentus",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0119.phi020.perseus-lat2-simple",
@@ -1409,7 +1417,7 @@ index = {
     },
     161: {
         "author": "Pliny, The Elder",
-        "work":   {
+        "work": {
             "title": "Naturalis Historia",
             "meta":  "book-chapter",
             "urn":   "urn:cts:latinLit:phi0978.phi001.perseus-lat2-simple",
@@ -1417,7 +1425,7 @@ index = {
     },
     162: {
         "author": "Pliny, The Younger",
-        "work":   {
+        "work": {
             "title": "Epistulae",
             "meta":  "book-letter-section",
             "urn":   "urn:cts:latinLit:phi1318.phi001.perseus-lat1-simple",
@@ -1425,7 +1433,7 @@ index = {
     },
     163: {
         "author": "Propertius, Sextus",
-        "work":   {
+        "work": {
             "title": "Elegies",
             "meta":  "book-poem-line",
             "urn":   "urn:cts:latinLit:phi0620.phi001.perseus-lat3-simple",
@@ -1433,7 +1441,7 @@ index = {
     },
     164: {
         "author": "Prudentius B. 348",
-        "work":   {
+        "work": {
             "title": "Apotheosis",
             "meta":  "section-line",
             "urn":   "urn:cts:latinLit:stoa0238.stoa005.perseus-lat2-simple",
@@ -1441,7 +1449,7 @@ index = {
     },
     165: {
         "author": "Prudentius B. 348",
-        "work":   {
+        "work": {
             "title": "Cathemerina",
             "meta":  "poem-line",
             "urn":   "urn:cts:latinLit:stoa0238.stoa004.perseus-lat2-simple",
@@ -1449,7 +1457,7 @@ index = {
     },
     166: {
         "author": "Prudentius B. 348",
-        "work":   {
+        "work": {
             "title": "Contra Orationem Symmachia",
             "meta":  "book-section-line",
             "urn":   "urn:cts:latinLit:stoa0238.stoa007.perseus-lat2-simple",
@@ -1457,7 +1465,7 @@ index = {
     },
     167: {
         "author": "Prudentius B. 348",
-        "work":   {
+        "work": {
             "title": "Dittochaeon",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:stoa0238.stoa008.perseus-lat2-simple",
@@ -1465,7 +1473,7 @@ index = {
     },
     168: {
         "author": "Prudentius B. 348",
-        "work":   {
+        "work": {
             "title": "Epilogus",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:stoa0238.stoa009.perseus-lat2-simple",
@@ -1473,7 +1481,7 @@ index = {
     },
     169: {
         "author": "Prudentius B. 348",
-        "work":   {
+        "work": {
             "title": "Hamartigenia",
             "meta":  "section-line",
             "urn":   "urn:cts:latinLit:stoa0238.stoa006.perseus-lat2-simple",
@@ -1481,7 +1489,7 @@ index = {
     },
     170: {
         "author": "Prudentius B. 348",
-        "work":   {
+        "work": {
             "title": "Liber Peristephanon",
             "meta":  "poem-line",
             "urn":   "urn:cts:latinLit:stoa0238.stoa001.perseus-lat2-simple",
@@ -1489,7 +1497,7 @@ index = {
     },
     171: {
         "author": "Prudentius B. 348",
-        "work":   {
+        "work": {
             "title": "Praefetio",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:stoa0238.stoa003.perseus-lat2-simple",
@@ -1497,7 +1505,7 @@ index = {
     },
     172: {
         "author": "Prudentius B. 348",
-        "work":   {
+        "work": {
             "title": "Psychomachia",
             "meta":  "section-line",
             "urn":   "urn:cts:latinLit:stoa0238.stoa002.perseus-lat2-simple",
@@ -1505,7 +1513,7 @@ index = {
     },
     173: {
         "author": "Quintus Tullius Cicero",
-        "work":   {
+        "work": {
             "title": "Commentariolum Petitionis",
             "meta":  "section",
             "urn":   "urn:cts:latinLit:phi0478.phi003.perseus-lat2-simple",
@@ -1513,7 +1521,7 @@ index = {
     },
     174: {
         "author": "Sallust",
-        "work":   {
+        "work": {
             "title": "Bellum Iugurthinum",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi0631.phi002.perseus-lat4-simple",
@@ -1521,7 +1529,7 @@ index = {
     },
     175: {
         "author": "Sallust",
-        "work":   {
+        "work": {
             "title": "Catilinae Coniuratio",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi0631.phi001.perseus-lat3-simple",
@@ -1529,7 +1537,7 @@ index = {
     },
     176: {
         "author": "Sallust",
-        "work":   {
+        "work": {
             "title": "Historiae",
             "meta":  "book-section",
             "urn":   "urn:cts:latinLit:phi0631.phi003.perseus-lat2-simple",
@@ -1537,7 +1545,7 @@ index = {
     },
     177: {
         "author": "Seneca, Lucius Annaeus, 55 B.C.-Ca. 39 A.D",
-        "work":   {
+        "work": {
             "title": "Controversiae",
             "meta":  "book-chapter-section",
             "urn":   "urn:cts:latinLit:phi1014.phi001.perseus-lat1-simple",
@@ -1545,7 +1553,7 @@ index = {
     },
     178: {
         "author": "Seneca, Lucius Annaeus, 55 B.C.-Ca. 39 A.D",
-        "work":   {
+        "work": {
             "title": "Excerpta Controversiae",
             "meta":  "book-chapter",
             "urn":   "urn:cts:latinLit:phi1014.phi002.perseus-lat1-simple",
@@ -1553,7 +1561,7 @@ index = {
     },
     179: {
         "author": "Seneca, Lucius Annaeus, 55 B.C.-Ca. 39 A.D",
-        "work":   {
+        "work": {
             "title": "Fragmenta",
             "meta":  "fragment",
             "urn":   "urn:cts:latinLit:phi1014.phi004.perseus-lat1-simple",
@@ -1561,7 +1569,7 @@ index = {
     },
     180: {
         "author": "Seneca, Lucius Annaeus, 55 B.C.-Ca. 39 A.D",
-        "work":   {
+        "work": {
             "title": "Suasoriae",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi1014.phi003.perseus-lat1-simple",
@@ -1569,7 +1577,7 @@ index = {
     },
     181: {
         "author": "Seneca, Lucius Annaeus (Plays)",
-        "work":   {
+        "work": {
             "title": "Agamemnon",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi1017.phi007.perseus-lat2-simple",
@@ -1577,7 +1585,7 @@ index = {
     },
     182: {
         "author": "Seneca, Lucius Annaeus (Plays)",
-        "work":   {
+        "work": {
             "title": "Apocolocyntosis",
             "meta":  "section",
             "urn":   "urn:cts:latinLit:phi1017.phi011.perseus-lat2-simple",
@@ -1585,7 +1593,7 @@ index = {
     },
     183: {
         "author": "Seneca, Lucius Annaeus (Plays)",
-        "work":   {
+        "work": {
             "title": "De Clementia",
             "meta":  "book-chapter-section",
             "urn":   "urn:cts:latinLit:phi1017.phi014.perseus-lat2-simple",
@@ -1593,7 +1601,7 @@ index = {
     },
     184: {
         "author": "Seneca, Lucius Annaeus (Plays)",
-        "work":   {
+        "work": {
             "title": "Hercules Furens",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi1017.phi001.perseus-lat2-simple",
@@ -1601,7 +1609,7 @@ index = {
     },
     185: {
         "author": "Seneca, Lucius Annaeus (Plays)",
-        "work":   {
+        "work": {
             "title": "Hercules Oetaeus",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi1017.phi009.perseus-lat2-simple",
@@ -1609,7 +1617,7 @@ index = {
     },
     186: {
         "author": "Seneca, Lucius Annaeus (Plays)",
-        "work":   {
+        "work": {
             "title": "Medea",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi1017.phi004.perseus-lat2-simple",
@@ -1617,7 +1625,7 @@ index = {
     },
     187: {
         "author": "Seneca, Lucius Annaeus (Plays)",
-        "work":   {
+        "work": {
             "title": "Octavia",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi1017.phi010.perseus-lat2-simple",
@@ -1625,7 +1633,7 @@ index = {
     },
     188: {
         "author": "Seneca, Lucius Annaeus (Plays)",
-        "work":   {
+        "work": {
             "title": "Oedipus",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi1017.phi006.perseus-lat2-simple",
@@ -1633,7 +1641,7 @@ index = {
     },
     189: {
         "author": "Seneca, Lucius Annaeus (Plays)",
-        "work":   {
+        "work": {
             "title": "Phaedra",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi1017.phi005.perseus-lat2-simple",
@@ -1641,7 +1649,7 @@ index = {
     },
     190: {
         "author": "Seneca, Lucius Annaeus (Plays)",
-        "work":   {
+        "work": {
             "title": "Phoenissae",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi1017.phi003.perseus-lat2-simple",
@@ -1649,7 +1657,7 @@ index = {
     },
     191: {
         "author": "Seneca, Lucius Annaeus (Plays)",
-        "work":   {
+        "work": {
             "title": "Thyestes",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi1017.phi008.perseus-lat2-simple",
@@ -1657,7 +1665,7 @@ index = {
     },
     192: {
         "author": "Seneca, Lucius Annaeus (Plays)",
-        "work":   {
+        "work": {
             "title": "Troades Furens",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi1017.phi002.perseus-lat2-simple",
@@ -1665,7 +1673,7 @@ index = {
     },
     193: {
         "author": "Seneca, Lucius Annaeus",
-        "work":   {
+        "work": {
             "title": "de Brevitate Vitae",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:stoa0255.stoa004.perseus-lat2-simple",
@@ -1673,7 +1681,7 @@ index = {
     },
     194: {
         "author": "Seneca, Lucius Annaeus",
-        "work":   {
+        "work": {
             "title": "de consolatione ad Helviam",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:stoa0255.stoa006.perseus-lat2-simple",
@@ -1681,7 +1689,7 @@ index = {
     },
     195: {
         "author": "Seneca, Lucius Annaeus",
-        "work":   {
+        "work": {
             "title": "de consolatione ad Marciam",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:stoa0255.stoa007.perseus-lat2-simple",
@@ -1689,7 +1697,7 @@ index = {
     },
     196: {
         "author": "Seneca, Lucius Annaeus",
-        "work":   {
+        "work": {
             "title": "de consolatione ad Polybium",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:stoa0255.stoa008.perseus-lat2-simple",
@@ -1697,7 +1705,7 @@ index = {
     },
     197: {
         "author": "Seneca, Lucius Annaeus",
-        "work":   {
+        "work": {
             "title": "de Constantia",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:stoa0255.stoa009.perseus-lat2-simple",
@@ -1705,7 +1713,7 @@ index = {
     },
     198: {
         "author": "Seneca, Lucius Annaeus",
-        "work":   {
+        "work": {
             "title": "de Ira",
             "meta":  "book-chapter-section",
             "urn":   "urn:cts:latinLit:stoa0255.stoa010.perseus-lat2-simple",
@@ -1713,7 +1721,7 @@ index = {
     },
     199: {
         "author": "Seneca, Lucius Annaeus",
-        "work":   {
+        "work": {
             "title": "de Otio Sapientis",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:stoa0255.stoa011.perseus-lat2-simple",
@@ -1721,7 +1729,7 @@ index = {
     },
     200: {
         "author": "Seneca, Lucius Annaeus",
-        "work":   {
+        "work": {
             "title": "de Providentia",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:stoa0255.stoa012.perseus-lat2-simple",
@@ -1729,7 +1737,7 @@ index = {
     },
     201: {
         "author": "Seneca, Lucius Annaeus",
-        "work":   {
+        "work": {
             "title": "de Tranquilitate Animi",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:stoa0255.stoa013.perseus-lat2-simple",
@@ -1737,7 +1745,7 @@ index = {
     },
     202: {
         "author": "Seneca, Lucius Annaeus",
-        "work":   {
+        "work": {
             "title": "de Vita Beata",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:stoa0255.stoa014.perseus-lat2-simple",
@@ -1745,7 +1753,7 @@ index = {
     },
     203: {
         "author": "Silius Italicus, Tiberius Catius",
-        "work":   {
+        "work": {
             "title": "Punica",
             "meta":  "book-line",
             "urn":   "urn:cts:latinLit:phi1345.phi001.perseus-lat2-simple",
@@ -1753,7 +1761,7 @@ index = {
     },
     204: {
         "author": "Statius, P. Papinius (Publius Papinius)",
-        "work":   {
+        "work": {
             "title": "Achilleis",
             "meta":  "book-line",
             "urn":   "urn:cts:latinLit:phi1020.phi003.perseus-lat2-simple",
@@ -1761,7 +1769,7 @@ index = {
     },
     205: {
         "author": "Statius, P. Papinius (Publius Papinius)",
-        "work":   {
+        "work": {
             "title": "Silvae",
             "meta":  "book-poem-line",
             "urn":   "urn:cts:latinLit:phi1020.phi002.perseus-lat2-simple",
@@ -1769,7 +1777,7 @@ index = {
     },
     206: {
         "author": "Suetonius Ca. 69-Ca. 122",
-        "work":   {
+        "work": {
             "title": "Caligula",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi1348.abo014.perseus-lat2-simple",
@@ -1777,7 +1785,7 @@ index = {
     },
     207: {
         "author": "Suetonius Ca. 69-Ca. 122",
-        "work":   {
+        "work": {
             "title": "Divus Augustus",
             "meta":  "unknown",
             "urn":   "urn:cts:latinLit:phi1348.abo012.perseus-lat2-simple",
@@ -1785,7 +1793,7 @@ index = {
     },
     208: {
         "author": "Suetonius Ca. 69-Ca. 122",
-        "work":   {
+        "work": {
             "title": "Divus Claudius",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi1348.abo015.perseus-lat2-simple",
@@ -1793,7 +1801,7 @@ index = {
     },
     209: {
         "author": "Suetonius Ca. 69-Ca. 122",
-        "work":   {
+        "work": {
             "title": "Divus Julius",
             "meta":  "unknown",
             "urn":   "urn:cts:latinLit:phi1348.abo011.perseus-lat2-simple",
@@ -1801,7 +1809,7 @@ index = {
     },
     210: {
         "author": "Suetonius Ca. 69-Ca. 122",
-        "work":   {
+        "work": {
             "title": "Divus Titus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi1348.abo021.perseus-lat2-simple",
@@ -1809,7 +1817,7 @@ index = {
     },
     211: {
         "author": "Suetonius Ca. 69-Ca. 122",
-        "work":   {
+        "work": {
             "title": "Divus Vespasianus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi1348.abo020.perseus-lat2-simple",
@@ -1817,7 +1825,7 @@ index = {
     },
     212: {
         "author": "Suetonius Ca. 69-Ca. 122",
-        "work":   {
+        "work": {
             "title": "Domitianus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi1348.abo022.perseus-lat2-simple",
@@ -1825,7 +1833,7 @@ index = {
     },
     213: {
         "author": "Suetonius Ca. 69-Ca. 122",
-        "work":   {
+        "work": {
             "title": "Galba",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi1348.abo017.perseus-lat2-simple",
@@ -1833,7 +1841,7 @@ index = {
     },
     214: {
         "author": "Suetonius Ca. 69-Ca. 122",
-        "work":   {
+        "work": {
             "title": "Nero",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi1348.abo016.perseus-lat2-simple",
@@ -1841,7 +1849,7 @@ index = {
     },
     215: {
         "author": "Suetonius Ca. 69-Ca. 122",
-        "work":   {
+        "work": {
             "title": "Otho",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi1348.abo018.perseus-lat2-simple",
@@ -1849,7 +1857,7 @@ index = {
     },
     216: {
         "author": "Suetonius Ca. 69-Ca. 122",
-        "work":   {
+        "work": {
             "title": "Tiberius",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi1348.abo013.perseus-lat2-simple",
@@ -1857,7 +1865,7 @@ index = {
     },
     217: {
         "author": "Suetonius Ca. 69-Ca. 122",
-        "work":   {
+        "work": {
             "title": "Vitellius",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi1348.abo019.perseus-lat2-simple",
@@ -1865,7 +1873,7 @@ index = {
     },
     218: {
         "author": "Tacitus, Cornelius",
-        "work":   {
+        "work": {
             "title": "Agricola",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi1351.phi001.perseus-lat1-simple",
@@ -1873,7 +1881,7 @@ index = {
     },
     219: {
         "author": "Tacitus, Cornelius",
-        "work":   {
+        "work": {
             "title": "Germania",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:phi1351.phi002.perseus-lat1-simple",
@@ -1881,7 +1889,7 @@ index = {
     },
     220: {
         "author": "Terence",
-        "work":   {
+        "work": {
             "title": "Andria",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0134.phi001.perseus-lat2-simple",
@@ -1889,7 +1897,7 @@ index = {
     },
     221: {
         "author": "Terence",
-        "work":   {
+        "work": {
             "title": "Phormio",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0134.phi004.perseus-lat2-simple",
@@ -1897,7 +1905,7 @@ index = {
     },
     222: {
         "author": "Terence",
-        "work":   {
+        "work": {
             "title": "The Brothers",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0134.phi006.perseus-lat2-simple",
@@ -1905,7 +1913,7 @@ index = {
     },
     223: {
         "author": "Terence",
-        "work":   {
+        "work": {
             "title": "The Eunuch",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0134.phi003.perseus-lat2-simple",
@@ -1913,7 +1921,7 @@ index = {
     },
     224: {
         "author": "Terence",
-        "work":   {
+        "work": {
             "title": "The Mother-in-Law",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0134.phi005.perseus-lat2-simple",
@@ -1921,7 +1929,7 @@ index = {
     },
     225: {
         "author": "Terence",
-        "work":   {
+        "work": {
             "title": "The Self-Tormenter",
             "meta":  "line",
             "urn":   "urn:cts:latinLit:phi0134.phi002.perseus-lat2-simple",
@@ -1929,7 +1937,7 @@ index = {
     },
     226: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "Ad Martyras",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa001.opp-lat1-simple",
@@ -1937,7 +1945,7 @@ index = {
     },
     227: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "Ad Nationes Libri Duo",
             "meta":  "book-chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa002.opp-lat1-simple",
@@ -1945,7 +1953,7 @@ index = {
     },
     228: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "Ad Scapulam",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa003.opp-lat1-simple",
@@ -1953,7 +1961,7 @@ index = {
     },
     229: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "Ad Uxorem",
             "meta":  "book-chapter",
             "urn":   "urn:cts:latinLit:stoa0276.stoa002.opp-lat1-simple",
@@ -1961,7 +1969,7 @@ index = {
     },
     230: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "Adversus Hermogenem",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa004.opp-lat1-simple",
@@ -1969,7 +1977,7 @@ index = {
     },
     231: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "Adversus Judaeos Liber",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa005.opp-lat1-simple",
@@ -1977,7 +1985,7 @@ index = {
     },
     232: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "Adversus Marcionem",
             "meta":  "book-chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa006.opp-lat1-simple",
@@ -1985,7 +1993,7 @@ index = {
     },
     233: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "Adversus Praxean",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa007.opp-lat1-simple",
@@ -1993,7 +2001,7 @@ index = {
     },
     234: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "Adversus Valentinianos",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa008.opp-lat1-simple",
@@ -2001,7 +2009,7 @@ index = {
     },
     235: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "Apologeticum",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:stoa0275.stoa009.perseus-lat2-simple",
@@ -2009,7 +2017,7 @@ index = {
     },
     236: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Anima",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa010.opp-lat1-simple",
@@ -2017,7 +2025,7 @@ index = {
     },
     237: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Baptismo",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa011.opp-lat1-simple",
@@ -2025,7 +2033,7 @@ index = {
     },
     238: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Carne Christi",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa012.opp-lat1-simple",
@@ -2033,7 +2041,7 @@ index = {
     },
     239: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Carnis Resurrectione",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa026.opp-lat1-simple",
@@ -2041,7 +2049,7 @@ index = {
     },
     240: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Corona",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa013.opp-lat1-simple",
@@ -2049,7 +2057,7 @@ index = {
     },
     241: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Cultu Feminarum",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa014.opp-lat1-simple",
@@ -2057,7 +2065,7 @@ index = {
     },
     242: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Exhortatione Castitatis Liber",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa015.opp-lat1-simple",
@@ -2065,7 +2073,7 @@ index = {
     },
     243: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Fuga in Persecutione",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa016.opp-lat1-simple",
@@ -2073,7 +2081,7 @@ index = {
     },
     244: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De idolatria",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa017.opp-lat1-simple",
@@ -2081,7 +2089,7 @@ index = {
     },
     245: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De ieiunio adversus psychicos",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa018.opp-lat1-simple",
@@ -2089,7 +2097,7 @@ index = {
     },
     246: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Monogamia",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa019.opp-lat1-simple",
@@ -2097,7 +2105,7 @@ index = {
     },
     247: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Oratione",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa020.opp-lat1-simple",
@@ -2105,7 +2113,7 @@ index = {
     },
     248: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Paenitentia",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa021.opp-lat1-simple",
@@ -2113,7 +2121,7 @@ index = {
     },
     249: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Pallio",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa022.opp-lat1-simple",
@@ -2121,7 +2129,7 @@ index = {
     },
     250: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Patientia",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa023.opp-lat1-simple",
@@ -2129,7 +2137,7 @@ index = {
     },
     251: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Praescriptionibus Hereticorum",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa024.opp-lat1-simple",
@@ -2137,7 +2145,7 @@ index = {
     },
     252: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Pudicitia",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa025.opp-lat1-simple",
@@ -2145,7 +2153,7 @@ index = {
     },
     253: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Spectaculis",
             "meta":  "chapter-section",
             "urn":   "urn:cts:latinLit:stoa0275.stoa027.perseus-lat2-simple",
@@ -2153,7 +2161,7 @@ index = {
     },
     254: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Testimionio Animae",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa028.opp-lat1-simple",
@@ -2161,7 +2169,7 @@ index = {
     },
     255: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "De Virginibus Velandis",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa029.opp-lat1-simple",
@@ -2169,7 +2177,7 @@ index = {
     },
     256: {
         "author": "Tertullian Ca. 160-Ca. 230",
-        "work":   {
+        "work": {
             "title": "Scorpiace",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:stoa0275.stoa030.opp-lat1-simple",
@@ -2177,7 +2185,7 @@ index = {
     },
     257: {
         "author": "Tibullus",
-        "work":   {
+        "work": {
             "title": "Elegiae",
             "meta":  "poem-line",
             "urn":   "urn:cts:latinLit:phi0660.phi003.perseus-lat2-simple",
@@ -2185,7 +2193,7 @@ index = {
     },
     258: {
         "author": "Valerius Flaccus, Gaius",
-        "work":   {
+        "work": {
             "title": "Argonautica",
             "meta":  "book-line",
             "urn":   "urn:cts:latinLit:phi1035.phi001.perseus-lat2-simple",
@@ -2193,7 +2201,7 @@ index = {
     },
     259: {
         "author": "Virgil",
-        "work":   {
+        "work": {
             "title": "Aeneid",
             "meta":  "Book-line",
             "urn":   "urn:cts:latinLit:phi0690.phi003.perseus-lat2-simple",
@@ -2201,7 +2209,7 @@ index = {
     },
     260: {
         "author": "Virgil",
-        "work":   {
+        "work": {
             "title": "Eclogues",
             "meta":  "poem-line",
             "urn":   "urn:cts:latinLit:phi0690.phi001.perseus-lat2-simple",
@@ -2209,7 +2217,7 @@ index = {
     },
     261: {
         "author": "Virgil",
-        "work":   {
+        "work": {
             "title": "Georgics",
             "meta":  "poem-line",
             "urn":   "urn:cts:latinLit:phi0690.phi002.perseus-lat2-simple",
@@ -2217,7 +2225,7 @@ index = {
     },
     262: {
         "author": "Vitruvius Pollio",
-        "work":   {
+        "work": {
             "title": "On Architecture",
             "meta":  "book-chapter-section",
             "urn":   "urn:cts:latinLit:phi1056.phi001.perseus-lat1-simple",
@@ -2225,7 +2233,7 @@ index = {
     },
     263: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Alexander Severus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi018.perseus-lat2-simple",
@@ -2233,7 +2241,7 @@ index = {
     },
     264: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Antoninus Caracalla",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi013.perseus-lat2-simple",
@@ -2241,7 +2249,7 @@ index = {
     },
     265: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Antoninus Geta",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi014.perseus-lat2-simple",
@@ -2249,7 +2257,7 @@ index = {
     },
     266: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Antoninus Heliogobalus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi017.perseus-lat2-simple",
@@ -2257,7 +2265,7 @@ index = {
     },
     267: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Antoninus Pius",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi003.perseus-lat2-simple",
@@ -2265,7 +2273,7 @@ index = {
     },
     268: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Avidius Casius",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi006.perseus-lat2-simple",
@@ -2273,7 +2281,7 @@ index = {
     },
     269: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Carus et Carinus et Numerianus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi030.perseus-lat2-simple",
@@ -2281,7 +2289,7 @@ index = {
     },
     270: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Clodinus Albinus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi012.perseus-lat2-simple",
@@ -2289,7 +2297,7 @@ index = {
     },
     271: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Commodus Antoninus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi007.perseus-lat2-simple",
@@ -2297,7 +2305,7 @@ index = {
     },
     272: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "De Vita Hadriani",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi001.perseus-lat2-simple",
@@ -2305,7 +2313,7 @@ index = {
     },
     273: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Diadumenus Antoninus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi016.perseus-lat2-simple",
@@ -2313,7 +2321,7 @@ index = {
     },
     274: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Didius Julianus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi009.perseus-lat2-simple",
@@ -2321,7 +2329,7 @@ index = {
     },
     275: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Divus Aurelianus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi026.perseus-lat2-simple",
@@ -2329,7 +2337,7 @@ index = {
     },
     276: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Divus Claudius",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi025.perseus-lat2-simple",
@@ -2337,7 +2345,7 @@ index = {
     },
     277: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Firmus Saturninus, Proculus et Bonosus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi029.perseus-lat2-simple",
@@ -2345,7 +2353,7 @@ index = {
     },
     278: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Gallieni Duo",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi023.perseus-lat2-simple",
@@ -2353,7 +2361,7 @@ index = {
     },
     279: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Goridani Tres",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi020.perseus-lat2-simple",
@@ -2361,7 +2369,7 @@ index = {
     },
     280: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Helius",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi002.perseus-lat2-simple",
@@ -2369,7 +2377,7 @@ index = {
     },
     281: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Marcus Antoninus Philosophus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi004.perseus-lat2-simple",
@@ -2377,7 +2385,7 @@ index = {
     },
     282: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Maximini Duo",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi019.perseus-lat2-simple",
@@ -2385,7 +2393,7 @@ index = {
     },
     283: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Maximus et Balbinus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi021.perseus-lat2-simple",
@@ -2393,7 +2401,7 @@ index = {
     },
     284: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Opilius Macrinus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi015.perseus-lat2-simple",
@@ -2401,7 +2409,7 @@ index = {
     },
     285: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Pertinax",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi008.perseus-lat2-simple",
@@ -2409,7 +2417,7 @@ index = {
     },
     286: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Pescennius Niger",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi011.perseus-lat2-simple",
@@ -2417,7 +2425,7 @@ index = {
     },
     287: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Probus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi028.perseus-lat2-simple",
@@ -2425,7 +2433,7 @@ index = {
     },
     288: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Severus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi010.perseus-lat2-simple",
@@ -2433,7 +2441,7 @@ index = {
     },
     289: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Tacitus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi027.perseus-lat2-simple",
@@ -2441,7 +2449,7 @@ index = {
     },
     290: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Tyranni Triginta",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi024.perseus-lat2-simple",
@@ -2449,7 +2457,7 @@ index = {
     },
     291: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Valeriani Duo",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi022.perseus-lat2-simple",
@@ -2457,7 +2465,7 @@ index = {
     },
     292: {
         "author": "Vopiscus, Flavius Fl. 3./4. Jh",
-        "work":   {
+        "work": {
             "title": "Verus",
             "meta":  "chapter",
             "urn":   "urn:cts:latinLit:phi2331.phi005.perseus-lat2-simple",

@@ -2288,7 +2288,11 @@ class CylleneusHit(Hit):
 
         # Attach collated meta data to fragments, if available
         if self.get("meta", False):
-            divs = [div for div in self["meta"].lower().split("-")]
+            tags = self["meta"].lower()
+            if tags != "-":
+                divs = [div for div in tags.split("-")]
+            else:
+                divs = []
 
             for score, fragment in filtered:
                 matches = natsorted(
@@ -2298,19 +2302,30 @@ class CylleneusHit(Hit):
                 first = matches[0]
                 last = matches[-1]
                 meta = {"meta": self["meta"].lower()}
-                startmeta = {}
-                endmeta = {}
 
-                hlites = [
-                    [
-                        v
-                        for k, v in match.meta.items()
-                        if k in match.meta["meta"].split("-") or k == "sent_pos"
+                tags = ["sect_sent", "sect_pos", "sent_id", "sent_pos"]
+                if divs:
+                    hlites = [
+                        {
+                            k: v
+                            for k, v in match.meta.items()
+                            if k in match.meta["meta"].split("-") or k in tags
+                        }
+                        for match in matches
                     ]
-                    for match in matches
-                ]
+                else:
+                    hlites = [
+                        {
+                            k: v
+                            for k, v in match.meta.items()
+                            if k in tags
+                        }
+                        for match in matches
+                    ]
                 meta["hlites"] = hlites
 
+                startmeta = {}
+                endmeta = {}
                 for div in divs:
                     startmeta[div] = getattr(first, "meta")[div]
                     endmeta[div] = getattr(last, "meta")[div]

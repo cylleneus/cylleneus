@@ -41,6 +41,11 @@ def fetch(work, meta, fragment):
     )
     reference = "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
 
+    hlites = set(
+        hlite["sent_pos"]
+        for hlite in meta["hlites"]
+    )  # only need token ids?
+
     # Collect text and context
     start = {div: alnum(meta["start"][div]) for div in divs}
     end = {div: alnum(meta["end"][div]) for div in divs}
@@ -68,9 +73,6 @@ def fetch(work, meta, fragment):
         namespaces={"tei": "http://www.tei-c.org/ns/1.0"},
     )[0]
 
-    hlites = set(
-        [(hlite[0], hlite[-1]) for hlite in meta["hlites"]]
-    )  # only need token ids?
     match = []
     current_sentence = start_sentence
     limit_sentence = end_sentence.getnext()
@@ -80,7 +82,7 @@ def fetch(work, meta, fragment):
             text = " ".join(
                 [
                     f"<em>{token}</em>"
-                    if (current_sentence.get("n"), str(i)) in hlites
+                    if str(i) in hlites
                     else f"{token}"
                     for i, token in enumerate(_text.split())
                 ]

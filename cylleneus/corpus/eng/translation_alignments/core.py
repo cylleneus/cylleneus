@@ -54,7 +54,7 @@ def fetch(work, meta, fragment):
         + "']"
     )
 
-    hlites = set([hlite[-1] for hlite in meta["hlites"]])  # only need token ids?
+    hlites = set([hlite["sent_pos"] for hlite in meta["hlites"]])  # only need token ids?
 
     match = []
     current_sentence = start_sentence
