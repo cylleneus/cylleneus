@@ -142,7 +142,7 @@ def delete(corpus, docix):
 @click.option("--corpus", "-c", "corpus", required=True)
 @click.option("--author", "-a", "author")
 @click.option("--title", "-t", "title")
-def deleteby(corpus, **kwargs):
+def delete_by(corpus, **kwargs):
     """Delete documents in a corpus by author name and/or title. """
 
     with click_spinner.spinner():
@@ -180,7 +180,7 @@ def update(corpus, docix, path):
 @click.option("--author", "-a", "author")
 @click.option("--title", "-t", "title")
 @click.option("--path", "-p", "path", required=True)
-def updateby(corpus, **kwargs):
+def update_by(corpus, **kwargs):
     """Reindex a document by author name and/or title. """
 
     with click_spinner.spinner():
@@ -289,31 +289,60 @@ def download(corpus, branch):
 
 
 @main.command()
-@click.option("--corpus", "-c", "corpus", required=False)
+@click.option("--corpus", "-c", "corpus", required=True)
 @click.option("--docix", "-i", "docix", required=False)
-def downloadby(corpus, docix):
-    """Download a single document from a remote corpus repository. """
+def download_by_docix(corpus, docix):
+    """Download a document by number from a remote corpus. """
 
-    if not corpus:
-        for name, meta in REMOTE_CORPORA.items():
-            click.echo(f"[-] '{name}' [{meta.repo['origin']}]")
-    elif not docix:
-        c = Corpus(corpus)
-        manifest = c.fetch_manifest()
-        for docix, meta in manifest.items():
-            click.echo(
-                f"[{docix}] {meta['author']}, {meta['title']} [{meta['filename']}]"
-            )
+    if corpus not in REMOTE_CORPORA:
+        click.echo(f"[-] no remote location for '{corpus}'")
     else:
-        if corpus not in REMOTE_CORPORA:
-            click.echo(f"[-] no remote location for '{corpus}'")
-        else:
-            c = Corpus(corpus)
-            try:
+        c = Corpus(corpus)
+        try:
+            if not docix:
+                manifest = c.fetch_manifest()
+                for docix, meta in manifest.items():
+                    click.echo(
+                        f"[{docix}] {meta['author']}, {meta['title']} [{meta['filename']}]"
+                    )
+            else:
                 with click_spinner.spinner():
                     c.download_by_docix(int(docix))
-            except Exception as e:
-                click.echo("[-] failed", e)
+                meta = c.manifest[docix]
+                click.echo(
+                    f"[{docix}] {meta['author']}, {meta['title']} [{meta['filename']}]"
+                )
+        except Exception as e:
+            click.echo("[-] failed", e)
+
+
+@main.command()
+@click.option("--corpus", "-c", "corpus", required=True)
+@click.option("--author", "-a", "author", required=False)
+@click.option("--title", "-t", "title", required=False)
+def download_by(corpus, author, title):
+    """Download documents by author and title from a remote corpus. """
+
+    if corpus not in REMOTE_CORPORA:
+        click.echo(f"[-] no remote location for '{corpus}'")
+    else:
+        try:
+            c = Corpus(corpus)
+            if not author and not title:
+                manifest = c.fetch_manifest()
+                for docix, meta in manifest.items():
+                    click.echo(
+                        f"[{docix}] {meta['author']}, {meta['title']} [{meta['filename']}]"
+                    )
+            else:
+                n = len(c.manifest)
+                with click_spinner.spinner():
+                    c.download_by(author, title)
+                click.echo(
+                    f"[+] downloaded {len(c.manifest) - n} documents"
+                )
+        except Exception as e:
+            click.echo("[-] failed", e)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 import codecs
+from collections import defaultdict
 import json
 import sys
 from pathlib import Path
@@ -235,9 +236,38 @@ class Corpus:
         urn, reference, text = work.fetch(work, meta, fragment)
         return self.name, work.author, work.title, urn, reference, text
 
-    def download_by_docix(self, docix):
+    def download_by(self, author: str = None, title: str = None):
         if self.meta.repo["location"] == "remote":
             remote_manifest = self.fetch_manifest()
+            if author:
+                manifest_by_author = defaultdict(lambda: defaultdict(list))
+                for docix, meta in remote_manifest.items():
+                    manifest_by_author[meta["author"]][meta["title"]].append((docix, meta))
+                if title:
+                    docs = manifest_by_author[author][title]
+                else:
+                    docs = [
+                        author[work]
+                        for work in manifest_by_author[author]
+                    ]
+            else:
+                if title:
+                    manifest_by_title = defaultdict(list)
+                    for docix, meta in remote_manifest.items():
+                        manifest_by_title[meta["title"]].append((docix, meta))
+                    docs = manifest_by_title[title]
+                else:
+                    docs = []
+            for docix, meta in docs:
+                self.download_by_docix(docix, meta)
+
+    def download_by_docix(self, docix, meta=None):
+        if self.meta.repo["location"] == "remote":
+            if not meta:
+                remote_manifest = self.fetch_manifest()
+            else:
+                remote_manifest = {docix: meta}
+
             if remote_manifest and str(docix) in remote_manifest:
                 manifest = remote_manifest[str(docix)]
 
