@@ -98,8 +98,9 @@ class Indexer:
         if self.path and self.path.exists():
             shutil.rmtree(self.path)
             self._indexes = []
-        if docix:
+        if docix is not None:
             self.corpus.manifest.pop(docix)
+            self.corpus.update_manifest()
 
     def optimize(self):
         for ix in self.indexes:
@@ -136,7 +137,6 @@ class Indexer:
 
     def from_file(self, path: Path, destructive: bool = False, optimize: bool = False):
         if path.exists():
-
             kwargs = self.corpus.preprocessor.parse(path)
             if "author" not in kwargs and self.work.author:
                 kwargs["author"] = self.work.author

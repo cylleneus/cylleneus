@@ -64,7 +64,7 @@ class Corpus:
         self._manifest = manifest
 
     def update_manifest(self, docix=None, work_manifest=None):
-        if docix and work_manifest:
+        if docix is not None and work_manifest:
             self.manifest[str(docix)] = work_manifest
         manifest_file = self.path / Path("manifest.json")
         with codecs.open(manifest_file, "w", "utf8") as fp:
@@ -204,8 +204,8 @@ class Corpus:
         yield from ixrs
 
     def indexer_for_docix(self, docix: int):
-        for docix, doc in self.iter_docs():
-            if docix == int(docix):
+        for _docix, doc in self.iter_docs():
+            if docix == _docix:
                 return Work(corpus=self, doc=doc).indexer
 
     @property
