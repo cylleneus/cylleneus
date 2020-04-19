@@ -104,6 +104,10 @@ class Indexer:
     def optimize(self):
         for ix in self.indexes:
             tocfilename, indexname = ix.optimize()
+            print_debug(
+                DEBUG_MEDIUM,
+                f"Optimized: [{tocfilename}] {indexname}"
+            )
             for docix in ix.reader().all_doc_ixs():
                 manifest = self.corpus.manifest[str(docix)]
                 manifest["index"] = [tocfilename, indexname]

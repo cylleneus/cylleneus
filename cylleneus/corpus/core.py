@@ -47,12 +47,6 @@ class Corpus:
         else:
             self._manifest = {}
 
-    def __del__(self):
-        if len(self.manifest) != 0:
-            manifest_file = self.path / Path("manifest.json")
-            with codecs.open(manifest_file, "w", "utf8") as fp:
-                json.dump(self.manifest, fp, ensure_ascii=False)
-
     @property
     def name(self):
         return self._name
@@ -69,8 +63,9 @@ class Corpus:
     def manifest(self, manifest):
         self._manifest = manifest
 
-    def update_manifest(self, docix, work_manifest):
-        self.manifest[str(docix)] = work_manifest
+    def update_manifest(self, docix=None, work_manifest=None):
+        if docix and work_manifest:
+            self.manifest[str(docix)] = work_manifest
         manifest_file = self.path / Path("manifest.json")
         with codecs.open(manifest_file, "w", "utf8") as fp:
             json.dump(self.manifest, fp, ensure_ascii=False)
@@ -115,12 +110,16 @@ class Corpus:
             ixr.optimize()
 
     @property
-    def is_searchable(self):
-        return (
-            self.schema
-            and self.doc_count_all
-            and any([work.is_searchable for work in self.works])
-        )
+    def searchable(self):
+        docix_toc = set([
+            file.name.split("_")[5]
+            for file in self.index_dir.glob("*/*/*.toc")
+        ])
+        docix_seg = set([
+            file.name.split("_")[4]
+            for file in self.index_dir.glob("*/*/*.seg")
+        ])
+        return self.schema and docix_toc.symmetric_difference(docix_seg)
 
     @property
     def works(self):
@@ -299,8 +298,6 @@ class Corpus:
         if self.meta.repo["location"] == "remote":
             git_uri = self.meta.repo["origin"]
 
-            self.destroy()
-
             if not self.path.exists():
                 self.path.mkdir(exist_ok=True, parents=True)
                 try:
@@ -310,7 +307,7 @@ class Corpus:
                         branch=branch,
                         depth=1,
                         progress=ProgressPrinter(
-                            f"{self.name} [{self.meta.repo['origin']}]"
+                            default_message=f"corpus '{self.name}', origin: {self.meta.repo['origin']}"
                         ),
                     )
                 except Exception as e:
@@ -399,8 +396,8 @@ class Work:
         self._language = language
 
     @property
-    def is_searchable(self):
-        return self.corpus.schema and self.indexes
+    def searchable(self):
+        return len(self.indexes) != 0
 
     @property
     def language(self):

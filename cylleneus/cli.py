@@ -11,6 +11,7 @@ import click_spinner
 from cylleneus.corpus import Corpus, Work, manifest
 from cylleneus.search import CylleneusSearcher
 from cylleneus.settings import CORPUS_DIR
+from cylleneus.utils import slugify
 
 REMOTE_CORPORA = {
     name: meta for name, meta in manifest.items() if meta.repo["location"] == "remote"
@@ -55,26 +56,51 @@ def verify(corpus):
     """Verify the indexes of a corpus against its manifest. """
 
     c = Corpus(corpus)
-    docs = sorted(c.iter_docs(), key=lambda x: x[0])
     manifest = c.manifest
+    if click.confirm(
+        f"{len(manifest)} documents in corpus '{c.name}'. "
+        + (
+            f"This can take a while for very large corpora! "
+            if len(manifest) > 100
+            else ""
+        )
+        + f"Proceed?",
+        default=True,
+    ):
+        with click_spinner.spinner():
+            docs = sorted(c.iter_docs(), key=lambda x: x[0])
 
-    for docix, doc in docs:
-        docix = str(docix)
-        try:
-            matched = all(
-                manifest[docix][k] == doc[k] for k in ["author", "title", "filename"]
-            )
-        except KeyError:
-            click.echo(
-                f"[{doc['docix']}] {doc['author']}, {doc['title']} ({doc['filename']})]... not "
-                f"in manifest!"
-            )
-        else:
-            click.echo(
-                f"[{doc['docix']}] {doc['author']}, {doc['title']} ({doc['filename']})... "
-                f"{'manifest ✓' if matched else 'manifest ✗'}, "
-                f"{'index ✓' if c.work_by_docix(int(docix)).is_searchable else 'index ✗'}"
-            )
+            verified = []
+            for docix, doc in docs:
+                docix = str(docix)
+                try:
+                    matched = all(
+                        manifest[docix][k] == doc[k]
+                        for k in ["author", "title", "filename"]
+                    )
+                except KeyError:
+                    docix = doc["docix"]
+                    verified.append(
+                        f"[{docix}] {doc['author']}, {doc['title']} ({doc['filename']})]... fixed!"
+                    )
+                    w = c.work_by_docix(docix)
+                    manifest = {
+                        "author":   w.author,
+                        "title":    w.title,
+                        "filename": w.filename,
+                        "path":     (
+                                        Path(c.index_dir)
+                                        / Path(slugify(w.author))
+                                        / Path(slugify(w.title))
+                                    ).relative_to(Path(CORPUS_DIR)),
+                    }
+                    c.update_manifest(str(docix), manifest)
+                else:
+                    verified.append(
+                        f"[{doc['docix']}] {doc['author']}, {doc['title']} ({doc['filename']})... "
+                        f"{'ok' if matched and c.work_by_docix(int(docix)).searchable else 'error!'}"
+                    )
+        click.echo_via_pager("\n".join(verified))
 
 
 @main.command()
@@ -102,7 +128,7 @@ def destroy(corpus):
             c = Corpus(corpus)
             c.destroy()
 
-        if c.is_searchable:
+        if c.searchable:
             click.echo("[-] failed")
         else:
             click.echo(f"[+] destroyed '{corpus}'")
@@ -115,7 +141,7 @@ def optimize(corpus):
 
     with click_spinner.spinner():
         c = Corpus(corpus)
-        if c.is_searchable:
+        if c.searchable:
             c.optimize()
             click.echo(f"[+] optimized '{corpus}'")
         else:
@@ -275,17 +301,11 @@ def download(corpus, branch):
         if corpus not in REMOTE_CORPORA:
             click.echo(f"[-] no remote location for '{corpus}'")
         else:
-            if click.confirm(
-                f"This will overwrite any index files! Are you sure?", default=False
-            ):
-                c = Corpus(corpus)
-                try:
-                    with click_spinner.spinner():
-                        c.download(branch)
-                except Exception as e:
-                    click.echo("[-] failed", e)
-            else:
-                click.echo("[-] aborted")
+            c = Corpus(corpus)
+            try:
+                c.download(branch)
+            except Exception as e:
+                click.echo("[-] failed", e)
 
 
 @main.command()
@@ -338,9 +358,7 @@ def download_by(corpus, author, title):
                 n = len(c.manifest)
                 with click_spinner.spinner():
                     c.download_by(author, title)
-                click.echo(
-                    f"[+] downloaded {len(c.manifest) - n} documents"
-                )
+                click.echo(f"[+] downloaded {len(c.manifest) - n} documents")
         except Exception as e:
             click.echo("[-] failed", e)
 
