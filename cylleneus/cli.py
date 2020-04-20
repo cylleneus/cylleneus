@@ -12,6 +12,7 @@ from cylleneus.corpus import Corpus, Work, manifest
 from cylleneus.search import CylleneusSearcher
 from cylleneus.settings import CORPUS_DIR
 from cylleneus.utils import slugify
+import cylleneus.engine
 
 REMOTE_CORPORA = {
     name: meta for name, meta in manifest.items() if meta.repo["location"] == "remote"
@@ -52,55 +53,158 @@ def index(corpus):
 
 @main.command()
 @click.option("--corpus", "-c", "corpus", required=True)
-def verify(corpus):
-    """Verify the indexes of a corpus against its manifest. """
+@click.option("--verbatim", "-v", is_flag=True)
+@click.option("--dry-run", "-d", is_flag=True)
+def verify(corpus, verbatim, dry_run):
+    """Verify the integrity of corpus indexes and manifest. """
 
     c = Corpus(corpus)
     manifest = c.manifest
-    if click.confirm(
-        f"{len(manifest)} documents in corpus '{c.name}'. "
-        + (
-            f"This can take a while for very large corpora! "
-            if len(manifest) > 100
-            else ""
-        )
+    if c.index_dir.exists() and click.confirm(
+        f"{len(manifest)} documents manifested for corpus '{c.name}'. "
+        + (f"This may take a while! " if len(manifest) > 30 else "")
         + f"Proceed?",
         default=True,
     ):
         with click_spinner.spinner():
-            docs = sorted(c.iter_docs(), key=lambda x: x[0])
-
+            # Check indexed docs against manifest
             verified = []
-            for docix, doc in docs:
-                docix = str(docix)
+            for docix, doc in c.iter_docs():
+                w = c.work_by_docix(docix)
                 try:
-                    matched = all(
-                        manifest[docix][k] == doc[k]
-                        for k in ["author", "title", "filename"]
+                    ok = (
+                        manifest[str(docix)]["author"] == doc["author"]
+                        and manifest[str(docix)]["title"] == doc["title"]
+                        and manifest[str(docix)]["filename"]
+                        == Path(doc["filename"]).name
+                        and Path(
+                        w.indexer.path / Path(manifest[str(docix)]["index"][0])
+                    ).exists()
+                        and Path(
+                        w.indexer.path / Path(manifest[str(docix)]["index"][1])
+                    ).exists()
                     )
                 except KeyError:
-                    docix = doc["docix"]
-                    verified.append(
-                        f"[{docix}] {doc['author']}, {doc['title']} ({doc['filename']})]... fixed!"
-                    )
-                    w = c.work_by_docix(docix)
-                    manifest = {
+                    meta = {
                         "author":   w.author,
                         "title":    w.title,
-                        "filename": w.filename,
+                        "filename": w.filename[0],
                         "path":     (
+                            (
+                                Path(c.index_dir)
+                                / Path(slugify(w.author))
+                                / Path(slugify(w.title))
+                            )
+                                .relative_to(Path(CORPUS_DIR))
+                                .as_posix()
+                        ),
+                        "index":    [
+                            cylleneus.engine.index.TOC._filename(
+                                w.indexes[0].indexname, w.indexes[0].latest_generation()
+                            ),
+                            w.indexes[0].reader().segment().make_filename(".seg"),
+                        ],
+                    }
+                    if not dry_run:
+                        c.update_manifest(str(docix), meta)
+                    verified.append(
+                        (
+                            docix,
+                            f"[{docix}] {doc['author']}, {doc['title']} ({doc['filename']}), added to manifest",
+                        )
+                    )
+                else:
+                    indexname = w.indexes[0].indexname
+
+                    storage = cylleneus.engine.filedb.filestore.FileStorage(
+                        w.indexer.path
+                    )
+                    tocfiles = list(c.index_dir.glob(f"*/*/*{indexname}*.toc"))
+                    if len(tocfiles) > 1:
+                        latest_toc = sorted(tocfiles)[-1]
+                    else:
+                        latest_toc = tocfiles[0]
+                    gen = latest_toc.name.rsplit("_", maxsplit=1)[1].replace(".toc", "")
+                    TOC = cylleneus.engine.index.TOC.read(
+                        storage, indexname, gen=int(gen)
+                    )
+                    segments = [
+                        segment.segment_id() + ".seg" for segment in TOC.segments
+                    ]
+                    segfiles = list(c.index_dir.glob(f"*/*/*{indexname}*.seg"))
+
+                    extraneous = []
+                    for fp in tocfiles:
+                        if fp.name != latest_toc.name:
+                            extraneous.append(fp)
+                    for fp in segfiles:
+                        if fp.name not in segments:
+                            extraneous.append(fp)
+
+                    if extraneous:
+                        for fp in extraneous:
+                            if not dry_run:
+                                fp.unlink()
+                        verified.append(
+                            (
+                                docix,
+                                f"[{docix}] {doc['author']}, {doc['title']} ({doc['filename']}), deleted "
+                                f"orphaned index files!"
+                                + (
+                                    f"(= {', '.join([f'{fp.name}' for fp in extraneous])})"
+                                    if cylleneus.settings.DEBUG
+                                    else ""
+                                ),
+                            )
+                        )
+                    else:
+                        if ok and w.searchable:
+                            verified.append(
+                                (
+                                    doc["docix"],
+                                    f"[{doc['docix']}] {doc['author']}, {doc['title']} ({doc['filename']}), ok",
+                                )
+                            )
+                        else:
+                            meta = {
+                                "author":   w.author,
+                                "title":    w.title,
+                                "filename": w.filename[0],
+                                "path":     (
+                                    (
                                         Path(c.index_dir)
                                         / Path(slugify(w.author))
                                         / Path(slugify(w.title))
-                                    ).relative_to(Path(CORPUS_DIR)),
-                    }
-                    c.update_manifest(str(docix), manifest)
-                else:
-                    verified.append(
-                        f"[{doc['docix']}] {doc['author']}, {doc['title']} ({doc['filename']})... "
-                        f"{'ok' if matched and c.work_by_docix(int(docix)).searchable else 'error!'}"
-                    )
-        click.echo_via_pager("\n".join(verified))
+                                    )
+                                        .relative_to(Path(CORPUS_DIR))
+                                        .as_posix()
+                                ),
+                                "index":    [
+                                    cylleneus.engine.index.TOC._filename(
+                                        w.indexes[0].indexname,
+                                        w.indexes[0].latest_generation(),
+                                    ),
+                                    w.indexes[0]
+                                        .reader()
+                                        .segment()
+                                        .make_filename(".seg"),
+                                ],
+                            }
+                            if not dry_run:
+                                c.update_manifest(str(docix), meta)
+                            verified.append(
+                                (
+                                    docix,
+                                    f"[{docix}] {doc['author']}, {doc['title']} ({doc['filename']}), "
+                                    f"fixed manifest!",
+                                )
+                            )
+        if verbatim:
+            click.echo_via_pager(
+                "\n".join(
+                    [("*" if dry_run else "") + item[1] for item in sorted(verified, key=lambda item: item[0])]
+                )
+            )
 
 
 @main.command()

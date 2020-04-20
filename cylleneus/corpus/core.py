@@ -111,15 +111,13 @@ class Corpus:
 
     @property
     def searchable(self):
-        docix_toc = set([
-            file.name.split("_")[5]
-            for file in self.index_dir.glob("*/*/*.toc")
-        ])
-        docix_seg = set([
-            file.name.split("_")[4]
-            for file in self.index_dir.glob("*/*/*.seg")
-        ])
-        return self.schema and docix_toc.symmetric_difference(docix_seg)
+        docix_toc = set(
+            [file.name.split("_")[5] for file in self.index_dir.glob("*/*/*.toc")]
+        )
+        docix_seg = set(
+            [file.name.split("_")[4] for file in self.index_dir.glob("*/*/*.seg")]
+        )
+        return self.schema and not docix_toc.symmetric_difference(docix_seg)
 
     @property
     def works(self):
@@ -241,14 +239,13 @@ class Corpus:
             if author:
                 manifest_by_author = defaultdict(lambda: defaultdict(list))
                 for docix, meta in remote_manifest.items():
-                    manifest_by_author[meta["author"]][meta["title"]].append((docix, meta))
+                    manifest_by_author[meta["author"]][meta["title"]].append(
+                        (docix, meta)
+                    )
                 if title:
                     docs = manifest_by_author[author][title]
                 else:
-                    docs = [
-                        author[work]
-                        for work in manifest_by_author[author]
-                    ]
+                    docs = [author[work] for work in manifest_by_author[author]]
             else:
                 if title:
                     manifest_by_title = defaultdict(list)
