@@ -418,7 +418,7 @@ class Search:
         self.results = []
 
         for work in self.collection:
-            if work.is_searchable:
+            if work.searchable:
                 parser = CylleneusQueryParser("form", work.corpus.schema)
                 self.query = parser.parse(self.spec, debug=debug)
                 print_debug(DEBUG_MEDIUM, "Query: {}".format(self.query))

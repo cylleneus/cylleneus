@@ -302,7 +302,7 @@ class Corpus:
                         branch=branch,
                         depth=1,
                         progress=ProgressPrinter(
-                            default_message=f"corpus '{self.name}', origin: {self.meta.repo['origin']}"
+                            default_message=f"download corpus '{self.name}', origin: {self.meta.repo['origin']}"
                         ),
                     )
                 except Exception as e:
