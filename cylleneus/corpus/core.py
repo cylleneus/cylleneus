@@ -111,13 +111,11 @@ class Corpus:
 
     @property
     def searchable(self):
-        docix_toc = set(
-            [file.name.split("_")[5] for file in self.index_dir.glob("*/*/*.toc")]
+        return self.schema and any(
+            [
+                work.searchable for work in self.works
+            ]
         )
-        docix_seg = set(
-            [file.name.split("_")[4] for file in self.index_dir.glob("*/*/*.seg")]
-        )
-        return self.schema and not docix_toc.symmetric_difference(docix_seg)
 
     @property
     def works(self):
