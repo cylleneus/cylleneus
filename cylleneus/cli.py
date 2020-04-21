@@ -426,7 +426,7 @@ def download_by_docix(corpus, docix):
         c = Corpus(corpus)
         try:
             if not docix:
-                manifest = c.fetch_manifest()
+                manifest = c.remote_manifest()
                 for docix, meta in manifest.items():
                     click.echo(
                         f"[{docix}] {meta['author']}, {meta['title']} [{meta['filename']}]"
@@ -455,7 +455,7 @@ def download_by(corpus, author, title):
         try:
             c = Corpus(corpus)
             if not author and not title:
-                manifest = c.fetch_manifest()
+                manifest = c.remote_manifest()
                 for docix, meta in manifest.items():
                     click.echo(
                         f"[{docix}] {meta['author']}, {meta['title']} [{meta['filename']}]"

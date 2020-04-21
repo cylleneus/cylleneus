@@ -105,8 +105,9 @@ class Indexer:
     def optimize(self):
         for ix in self.indexes:
             tocfilename, indexname = ix.optimize()
-            print_debug(DEBUG_MEDIUM, f"Optimized: [{tocfilename}] {indexname}")
+            print_debug(DEBUG_MEDIUM, f"- Optimized: {tocfilename}, {indexname}")
             for docix in ix.reader().all_doc_ixs():
+                print_debug(DEBUG_HIGH, f"- Updating manifest for: {docix}")
                 manifest = self.corpus.manifest[str(docix)]
                 manifest["index"] = [tocfilename, indexname]
                 self.corpus.update_manifest(str(docix), manifest)
@@ -154,7 +155,9 @@ class Indexer:
             if existing is not None:
                 if destructive:
                     self.destroy(existing)
+                    print_debug(DEBUG_HIGH, f"- Docix {existing} already exists, deleting")
                 else:
+                    print_debug(DEBUG_HIGH, f"- Docix {existing} already exists, skipping")
                     return existing
 
             docix = self.corpus.doc_count_all
@@ -170,12 +173,6 @@ class Indexer:
 
             writer = ix.writer(limitmb=4096, procs=1, multisegment=True)
             try:
-                print_debug(
-                    DEBUG_MEDIUM,
-                    "Add document: {}, {} [{}] to '{}' [{}]".format(
-                        kwargs["author"], kwargs["title"], path, self.corpus.name, docix
-                    ),
-                )
                 writer.add_document(**kwargs)
                 writer.commit(optimize=optimize)
             except queue.Empty as e:
@@ -194,6 +191,10 @@ class Indexer:
                 ],
             }
             self.corpus.update_manifest(docix, work_manifest)
+            print_debug(
+                DEBUG_MEDIUM,
+                f"- Indexed '{self.corpus.name}' docix {docix}: {kwargs['author']}, {kwargs['title']} ({path})"
+            )
             return docix
 
     def from_string(
@@ -203,50 +204,63 @@ class Indexer:
             parsed = self.corpus.preprocessor.parse(content)
             kwargs.update(parsed)
 
-            if destructive:
-                self.destroy()
-
+            # Check if docix exists
+            existing = None
             for docix, doc in self.corpus.manifest.items():
                 if (
                     doc["author"] == kwargs["author"]
                     and doc["title"] == kwargs["title"]
+                    and doc["filename"] == kwargs["filename"]
                 ):
-                    return docix
-            else:
-                docix = self.corpus.doc_count_all
-                kwargs["docix"] = docix
+                    existing = docix
 
-                self.path = Path(
-                    self.corpus.index_dir
-                    / slugify(kwargs["author"])
-                    / slugify(kwargs["title"])
+            if existing is not None:
+                if destructive:
+                    self.destroy(existing)
+                    print_debug(DEBUG_HIGH, f"- Docix {existing} already exists, deleting")
+                else:
+                    print_debug(DEBUG_HIGH, f"- Docix {existing} already exists, skipping")
+                    return existing
+
+            docix = self.corpus.doc_count_all
+            kwargs["docix"] = docix
+
+            self.path = Path(
+                self.corpus.index_dir
+                / slugify(kwargs["author"])
+                / slugify(kwargs["title"])
+            )
+            indexname = f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}"
+            ix = self.open(indexname=indexname)
+
+            writer = ix.writer(limitmb=4096, procs=1, multisegment=True)
+            try:
+                print_debug(
+                    DEBUG_MEDIUM,
+                    "Add document: {}, {} to '{}' [{}]".format(
+                        kwargs["author"], kwargs["title"], self.corpus.name, docix
+                    ),
                 )
-                indexname = f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}"
-                ix = self.open(indexname=indexname)
-
-                writer = ix.writer(limitmb=4096, procs=1, multisegment=True)
-                try:
-                    print_debug(
-                        DEBUG_MEDIUM,
-                        "Add document: {}, {} to '{}' [{}]".format(
-                            kwargs["author"], kwargs["title"], self.corpus.name, docix
-                        ),
-                    )
-                    writer.add_document(**kwargs)
-                    writer.commit(optimize=optimize)
-                except queue.Empty as e:
-                    pass
-                work_manifest = {
-                    "author":   kwargs["author"],
-                    "title":    kwargs["title"],
-                    "filename": None,
-                    "path":     str(self.path.relative_to(CORPUS_DIR)),
-                    "index":    [
-                        cylleneus.engine.index.TOC._filename(
-                            indexname, ix.latest_generation()
-                        ),
-                        writer.newsegment.make_filename(".seg"),
-                    ],
-                }
-                self.corpus.update_manifest(docix, work_manifest)
-                return docix
+                writer.add_document(**kwargs)
+                writer.commit(optimize=optimize)
+            except queue.Empty as e:
+                pass
+            work_manifest = {
+                "author":   kwargs["author"],
+                "title":    kwargs["title"],
+                "filename": None,
+                "path":     str(self.path.relative_to(CORPUS_DIR)),
+                "index":    [
+                    cylleneus.engine.index.TOC._filename(
+                        indexname, ix.latest_generation()
+                    ),
+                    writer.newsegment.make_filename(".seg"),
+                ],
+            }
+            print_debug(
+                DEBUG_MEDIUM,
+                f"- Indexed '{self.corpus.name}' docix {docix}: {kwargs['author']}, {kwargs['title']} (\"{content[:24]}"
+                f"...\")"
+            )
+            self.corpus.update_manifest(docix, work_manifest)
+            return docix
