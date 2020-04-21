@@ -67,6 +67,8 @@ class Corpus:
         if docix is not None and work_manifest:
             self.manifest[str(docix)] = work_manifest
         manifest_file = self.path / Path("manifest.json")
+        if not self.path.exists():
+            self.path.mkdir(parents=True, exist_ok=True)
         with codecs.open(manifest_file, "w", "utf8") as fp:
             json.dump(self.manifest, fp, ensure_ascii=False)
 
