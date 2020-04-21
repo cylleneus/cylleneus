@@ -62,6 +62,7 @@ class Corpus:
                 self._manifest = json.load(fp)
         else:
             self._manifest = {}
+        self._remote_manifest = None
 
     @property
     def name(self):
@@ -88,12 +89,18 @@ class Corpus:
         with codecs.open(manifest_file, "w", "utf8") as fp:
             json.dump(self.manifest, fp, ensure_ascii=False)
 
-    def fetch_manifest(self):
-        if self.meta.repo["location"] == "remote":
+    @property
+    def remote_manifest(self):
+        if self._remote_manifest is None and self.meta.repo["location"] == "remote":
             url = self.meta.repo["raw"] + "manifest.json"
             result = requests.get(url)
             if result:
-                return json.loads(result.content)
+                self._remote_manifest = json.loads(result.content)
+        return self._remote_manifest
+
+    @remote_manifest.setter
+    def remote_manifest(self, manifest):
+        self._remote_manifest = manifest
 
     @property
     def language(self):
@@ -170,7 +177,7 @@ class Corpus:
 
     @property
     def doc_count_all(self):
-        return sum([reader.doc_count_all() for reader in self.readers])
+        return len(list(self.index_dir.glob("*/*/*.toc")))
 
     def all_doc_ixs(self):
         docixs = []
@@ -247,7 +254,7 @@ class Corpus:
 
     def download_by(self, author: str = None, title: str = None):
         if self.meta.repo["location"] == "remote":
-            remote_manifest = self.fetch_manifest()
+            remote_manifest = self.remote_manifest()
             if author:
                 manifest_by_author = defaultdict(lambda: defaultdict(list))
                 for docix, meta in remote_manifest.items():
@@ -272,7 +279,7 @@ class Corpus:
     def download_by_docix(self, docix, meta=None):
         if self.meta.repo["location"] == "remote":
             if not meta:
-                remote_manifest = self.fetch_manifest()
+                remote_manifest = self.remote_manifest()
             else:
                 remote_manifest = {docix: meta}
 
