@@ -105,10 +105,7 @@ class Indexer:
     def optimize(self):
         for ix in self.indexes:
             tocfilename, indexname = ix.optimize()
-            print_debug(
-                DEBUG_MEDIUM,
-                f"Optimized: [{tocfilename}] {indexname}"
-            )
+            print_debug(DEBUG_MEDIUM, f"Optimized: [{tocfilename}] {indexname}")
             for docix in ix.reader().all_doc_ixs():
                 manifest = self.corpus.manifest[str(docix)]
                 manifest["index"] = [tocfilename, indexname]
@@ -150,7 +147,7 @@ class Indexer:
                 if (
                     doc["author"] == kwargs["author"]
                     and doc["title"] == kwargs["title"]
-                    and doc["filename"] == path.name
+                    and doc["filename"] == kwargs["filename"]
                 ):
                     existing = docix
 
@@ -187,7 +184,7 @@ class Indexer:
             work_manifest = {
                 "author":   kwargs["author"],
                 "title":    kwargs["title"],
-                "filename": str(path.name),
+                "filename": kwargs["filename"],
                 "path":     str(self.path.relative_to(CORPUS_DIR)),
                 "index":    [
                     cylleneus.engine.index.TOC._filename(

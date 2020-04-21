@@ -75,8 +75,7 @@ def verify(corpus, verbatim, dry_run):
                     ok = (
                         manifest[str(docix)]["author"] == doc["author"]
                         and manifest[str(docix)]["title"] == doc["title"]
-                        and manifest[str(docix)]["filename"]
-                        == Path(doc["filename"]).name
+                        and manifest[str(docix)]["filename"] == doc["filename"]
                         and Path(
                         w.indexer.path / Path(manifest[str(docix)]["index"][0])
                     ).exists()
@@ -202,7 +201,10 @@ def verify(corpus, verbatim, dry_run):
         if verbatim:
             click.echo_via_pager(
                 "\n".join(
-                    [("*" if dry_run else "") + item[1] for item in sorted(verified, key=lambda item: item[0])]
+                    [
+                        ("*" if dry_run else "") + item[1]
+                        for item in sorted(verified, key=lambda item: item[0])
+                    ]
                 )
             )
 

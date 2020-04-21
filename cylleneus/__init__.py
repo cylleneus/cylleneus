@@ -4,4 +4,4 @@
 
 __author__ = """William Michael Short"""
 __email__ = "w.short@exeter.ac.uk"
-__version__ = "0.4.8"
+__version__ = "0.4.9"

@@ -10,9 +10,25 @@ from git import RemoteProgress, Repo
 from cylleneus import settings
 from cylleneus.engine.fields import Schema
 from cylleneus.engine.searching import CylleneusHit, CylleneusSearcher
-from cylleneus.utils import slugify
+from cylleneus.utils import slugify, print_debug, DEBUG_HIGH, DEBUG_MEDIUM
 from . import indexer
 from .meta import manifest
+
+
+class DefaultProgressPrinter:
+    def __init__(self, max_count, default_message="", out=sys.stdout):
+        self.max_count = max_count
+        self.default_message = default_message
+        self.out = out
+
+    def update(self, cur_count, max_count=None, message=""):
+        if not max_count:
+            max_count = self.max_count
+        if self.out:
+            percentage = "%.0f" % (100 * cur_count / (max_count or 100.0))
+            if not message:
+                message = self.default_message
+            self.out.write(" ".join([f"[{percentage:>3}%]", message, "\r"]))
 
 
 class ProgressPrinter(RemoteProgress):
@@ -113,11 +129,7 @@ class Corpus:
 
     @property
     def searchable(self):
-        return self.schema and any(
-            [
-                work.searchable for work in self.works
-            ]
-        )
+        return self.schema and any([work.searchable for work in self.works])
 
     @property
     def works(self):
@@ -269,26 +281,63 @@ class Corpus:
 
                 files = manifest["index"]
                 for file in files:
-                    remote_path = Path(manifest["path"].split("\\", maxsplit=2)[-1])
-                    local_path = Path(settings.CORPUS_DIR) / Path(manifest["path"])
+                    remote_path = (
+                        Path(manifest["path"]).as_posix().split("/", maxsplit=2)[-1]
+                    )
+                    local_path = (
+                        Path(settings.CORPUS_DIR) / Path(manifest["path"]).as_posix()
+                    )
 
                     if not local_path.exists():
                         local_path.mkdir(parents=True, exist_ok=True)
 
                     url = self.meta.repo["raw"] + (remote_path / Path(file)).as_posix()
-                    r = requests.get(url)
-                    if r:
+                    with requests.get(url, stream=True) as r:
+                        r.raise_for_status()
                         with codecs.open(local_path / Path(file), "wb") as fp:
-                            fp.write(r.content)
+                            max_count = int(r.headers["Content-Length"])
+                            progress = DefaultProgressPrinter(
+                                max_count,
+                                default_message=f"download corpus '{self.name}', "
+                                                f"document {docix}, "
+                                                f"origin: {self.meta.repo['origin']}, "
+                                                f"file: 'index/{file}'",
+                            )
+                            cur_count = 0
+                            for chunk in r.iter_content(chunk_size=8192):
+                                if chunk:  # filter out keep-alive new chunks
+                                    fp.write(chunk)
+                                    cur_count += len(chunk)
+                                    progress.update(cur_count)
 
                 filename = manifest["filename"]
-                url = (
+                text_url = (
                     self.meta.repo["raw"] + (Path("/text") / Path(filename)).as_posix()
                 )
-                r = requests.get(url)
-                if r:
-                    with codecs.open(self.text_dir / Path(filename), "wb") as fp:
-                        fp.write(r.content)
+                file_path = self.text_dir / Path(filename)
+                if not file_path.parent.exists():
+                    file_path.parent.mkdir(parents=True, exist_ok=True)
+                with requests.get(text_url, stream=True) as r:
+                    try:
+                        r.raise_for_status()
+                    except requests.exceptions.HTTPError as e:
+                        pass
+                    else:
+                        with codecs.open(file_path, "wb") as fp:
+                            max_count = int(r.headers["Content-Length"])
+                            progress = DefaultProgressPrinter(
+                                max_count,
+                                default_message=f"download corpus '{self.name}', "
+                                                f"document {docix}, "
+                                                f"origin: {self.meta.repo['origin']}, "
+                                                f"file: 'text/{filename}'",
+                            )
+                            cur_count = 0
+                            for chunk in r.iter_content(chunk_size=8192):
+                                if chunk:  # filter out keep-alive new chunks
+                                    fp.write(chunk)
+                                    cur_count += len(chunk)
+                                    progress.update(cur_count)
                 self.update_manifest(docix, manifest)
 
     def download(self, branch: str = "master"):
