@@ -20,6 +20,7 @@ class DefaultProgressPrinter:
         self.max_count = max_count
         self.default_message = default_message
         self.out = out
+        self.out.write("\033[K")
 
     def update(self, cur_count, max_count=None, message=""):
         if not max_count:

@@ -12,8 +12,8 @@ glob = "*.conllu"
 
 # Repo
 repo = {
-    "origin":   "https://github.com/cylleneus/dcs.git",  # "http://git.exeter.ac.uk/cylleneus/dcs.git"
-    "raw":      "http://raw.github.com/cylleneus/dcs/master/",  # "http://git.exeter.ac.uk/cylleneus/dcs/-/raw/master/"
+    "origin":   "https://git.exeter.ac.uk/cylleneus/dcs.git",
+    "raw":      "https://git.exeter.ac.uk/cylleneus/dcs/-/raw/master/",
     "location": "remote",
 }
 
@@ -40,6 +40,8 @@ def fetch(work, meta, fragment):
     with codecs.open(path, "r", "utf8") as fp:
         lines = fp.readlines()
 
+    chapter = None
+    text_line_id = None
     text_lines = []
     text_line = None
     for line in lines:
