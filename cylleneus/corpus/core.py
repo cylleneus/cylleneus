@@ -16,20 +16,25 @@ from .meta import manifest
 
 
 class DefaultProgressPrinter:
-    def __init__(self, max_count, default_message="", out=sys.stdout):
+    def __init__(self, max_count, default_message="", out=sys.stderr):
         self.max_count = max_count
         self.default_message = default_message
         self.out = out
-        self.out.write("\033[K")
 
-    def update(self, cur_count, max_count=None, message=""):
+    def __del__(self):
+        self.out.write("\n")
+
+    def update(self, cur_count, max_count=None, message=None):
         if not max_count:
             max_count = self.max_count
+        if cur_count > self.max_count:
+            cur_count = self.max_count
         if self.out:
             percentage = "%.0f" % (100 * cur_count / (max_count or 100.0))
             if not message:
                 message = self.default_message
-            self.out.write(" ".join([f"[{percentage:>3}%]", message, "\r"]))
+            self.out.write(f"\r[{percentage:>3}%] {message}")
+            self.out.flush()
 
 
 class ProgressPrinter(RemoteProgress):
@@ -43,7 +48,7 @@ class ProgressPrinter(RemoteProgress):
             percentage = "%.0f" % (100 * cur_count / (max_count or 100.0))
             if not message:
                 message = self.default_message
-            self.out.write(" ".join([f"[{percentage:>3}%]", message, "\r"]))
+            self.out.write(f"\r[{percentage:>3}%] {message}")
 
 
 class Corpus:
@@ -288,7 +293,7 @@ class Corpus:
                 manifest = remote_manifest[str(docix)]
 
                 files = manifest["index"]
-                for file in files:
+                for i, file in enumerate(files):
                     remote_path = (
                         Path(manifest["path"]).as_posix().split("/", maxsplit=2)[-1]
                     )
@@ -305,14 +310,11 @@ class Corpus:
                         with codecs.open(local_path / Path(file), "wb") as fp:
                             max_count = int(r.headers["Content-Length"])
                             progress = DefaultProgressPrinter(
-                                max_count,
-                                default_message=f"download corpus '{self.name}', "
-                                                f"document {docix}, "
-                                                f"origin: {self.meta.repo['origin']}, "
-                                                f"file: 'index/{file}'",
+                                max_count=max_count,
+                                default_message=f"({i + 1} / 3) index/{file}"
                             )
                             cur_count = 0
-                            for chunk in r.iter_content(chunk_size=8192):
+                            for chunk in r.iter_content(chunk_size=10 * 1024):
                                 if chunk:  # filter out keep-alive new chunks
                                     fp.write(chunk)
                                     cur_count += len(chunk)
@@ -334,14 +336,11 @@ class Corpus:
                         with codecs.open(file_path, "wb") as fp:
                             max_count = int(r.headers["Content-Length"])
                             progress = DefaultProgressPrinter(
-                                max_count,
-                                default_message=f"download corpus '{self.name}', "
-                                                f"document {docix}, "
-                                                f"origin: {self.meta.repo['origin']}, "
-                                                f"file: 'text/{filename}'",
+                                max_count=max_count,
+                                default_message=f"(3 / 3) text/{filename}"
                             )
                             cur_count = 0
-                            for chunk in r.iter_content(chunk_size=8192):
+                            for chunk in r.iter_content(chunk_size=None):
                                 if chunk:  # filter out keep-alive new chunks
                                     fp.write(chunk)
                                     cur_count += len(chunk)
@@ -362,7 +361,7 @@ class Corpus:
                         branch=branch,
                         depth=1,
                         progress=ProgressPrinter(
-                            default_message=f"download corpus '{self.name}', origin: {self.meta.repo['origin']}"
+                            default_message=f"'{self.name}', origin/{branch}: {self.meta.repo['origin']}"
                         ),
                     )
                 except Exception as e:
