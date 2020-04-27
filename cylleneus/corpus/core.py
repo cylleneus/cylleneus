@@ -156,9 +156,8 @@ class Corpus:
             yield Work(self, author=path.parts[-2], title=path.name)
 
     def work_by_docix(self, docix: int):
-        for _docix, doc in self.iter_docs():
-            if _docix == docix:
-                return Work(self, doc=doc)
+        doc = indexer.doc_for_docix(self, docix)
+        return Work(self, doc=doc)
 
     def destroy(self):
         for ixr in self.indexers:
@@ -227,9 +226,8 @@ class Corpus:
         yield from ixrs
 
     def indexer_for_docix(self, docix: int):
-        for _docix, doc in self.iter_docs():
-            if docix == _docix:
-                return Work(corpus=self, doc=doc).indexer
+        doc = indexer.doc_for_docix(self, docix)
+        return Work(corpus=self, doc=doc).indexer
 
     @property
     def readers(self):
@@ -311,7 +309,7 @@ class Corpus:
                             max_count = int(r.headers["Content-Length"])
                             progress = DefaultProgressPrinter(
                                 max_count=max_count,
-                                default_message=f"({i + 1} / 3) index/{file}"
+                                default_message=f"({i + 1} / 3) index/{file}",
                             )
                             cur_count = 0
                             for chunk in r.iter_content(chunk_size=10 * 1024):
@@ -337,7 +335,7 @@ class Corpus:
                             max_count = int(r.headers["Content-Length"])
                             progress = DefaultProgressPrinter(
                                 max_count=max_count,
-                                default_message=f"(3 / 3) text/{filename}"
+                                default_message=f"(3 / 3) text/{filename}",
                             )
                             cur_count = 0
                             for chunk in r.iter_content(chunk_size=None):
@@ -428,7 +426,7 @@ class Work:
         else:
             if author and title:
                 docs = [
-                    doc[1] for doc in indexer.Indexer.docs_for(corpus, author, title)
+                    doc[1] for doc in indexer.docs_for(corpus, author, title)
                 ]
                 if docs:
                     self._doc = docs

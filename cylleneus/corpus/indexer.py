@@ -12,28 +12,44 @@ class IndexingError(Exception):
     pass
 
 
+def doc_for_docix(corpus, docix: int):
+    toc_filename = next(corpus.index_dir.glob(f"*/*/*_{docix}_?.toc"))
+
+    indexname = (
+        "_".join(toc_filename.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
+    ).strip("_")
+    path = Path(toc_filename).parent
+
+    if cylleneus.engine.index.exists_in(path, indexname=indexname):
+        ix = cylleneus.engine.index.open_dir(
+            path, schema=corpus.schema, indexname=indexname
+        )
+        doc = ix.reader().stored_fields(0)
+        return doc
+
+
+def docs_for(corpus, author: str = "*", title: str = "*"):
+    paths = corpus.index_dir.glob(f"{slugify(author)}/{slugify(title)}")
+    for path in paths:
+        indexes = Path(path).glob("*.toc")
+        for index in indexes:
+            indexname = (
+                "_".join(index.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
+            ).strip("_")
+
+            if cylleneus.engine.index.exists_in(path, indexname=indexname):
+                ix = cylleneus.engine.index.open_dir(
+                    path, schema=corpus.schema, indexname=indexname
+                )
+                yield from ix.reader().iter_docs()
+
+
 class Indexer:
-    @classmethod
-    def docs_for(cls, corpus, author: str = "*", title: str = "*"):
-        paths = corpus.index_dir.glob(f"{slugify(author)}/{slugify(title)}")
-        for path in paths:
-            indexes = Path(path).glob("*.toc")
-            for index in indexes:
-                indexname = (
-                    "_".join(index.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
-                ).strip("_")
-
-                if cylleneus.engine.index.exists_in(path, indexname=indexname):
-                    ix = cylleneus.engine.index.open_dir(
-                        path, schema=corpus.schema, indexname=indexname
-                    )
-                    yield from ix.reader().iter_docs()
-
     def __init__(self, corpus, work, language="lat"):
         self._corpus = corpus
         self._work = work
         self._language = language
-        self._indexes = []
+        self._index_files = []
 
         if work.author and work.title:
             self._path = Path(
@@ -43,18 +59,7 @@ class Indexer:
             self._path = None
 
         if self.path:
-            indexes = Path(self.path).glob("*.toc")
-
-            for index in indexes:
-                indexname = (
-                    "_".join(index.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
-                ).strip("_")
-
-                if cylleneus.engine.index.exists_in(self.path, indexname=indexname):
-                    ix = cylleneus.engine.index.open_dir(
-                        self.path, schema=corpus.schema, indexname=indexname
-                    )
-                    self._indexes.append(ix)
+            self._index_files = Path(self.path).glob("*.toc")
 
     @property
     def work(self):
@@ -68,9 +73,32 @@ class Indexer:
     def corpus(self, cp):
         self._corpus = cp
 
+    def index_for_docix(self, docix: int):
+        toc_filename = next(self.path.glob(f"*_{docix}_?.toc"))
+
+        indexname = (
+            "_".join(toc_filename.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
+        ).strip("_")
+        path = Path(toc_filename).parent
+
+        if cylleneus.engine.index.exists_in(path, indexname=indexname):
+            ix = cylleneus.engine.index.open_dir(
+                path, schema=self.corpus.schema, indexname=indexname
+            )
+            return ix
+
     @property
     def indexes(self):
-        return self._indexes
+        for index in self._index_files:
+            indexname = (
+                "_".join(index.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
+            ).strip("_")
+
+            if cylleneus.engine.index.exists_in(self.path, indexname=indexname):
+                ix = cylleneus.engine.index.open_dir(
+                    self.path, schema=self.corpus.schema, indexname=indexname
+                )
+                yield ix
 
     @indexes.setter
     def indexes(self, ixs):
@@ -130,7 +158,7 @@ class Indexer:
     def update(self, path: Path):
         if self.path and self.path.exists():
             self.destroy()
-        docix = self.from_file(path)
+        docix = self.from_file(path, destructive=True)
         return docix
 
     def from_file(self, path: Path, destructive: bool = False, optimize: bool = False):

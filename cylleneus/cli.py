@@ -62,26 +62,28 @@ def verify(corpus, verbose, dry_run):
     manifest = c.manifest
     if c.index_dir.exists() and click.confirm(
         f"{len(manifest)} documents manifested for corpus '{c.name}'. "
-        + (f"This may take a while! " if len(manifest) > 30 else "")
+        + (f"This might take a while! " if len(manifest) > 30 else "")
         + f"Proceed?",
         default=True,
     ):
-        with click.progressbar(c.iter_docs(), label=f"Verifying '{c.name}'") as bar:
+        with click.progressbar(
+            manifest,
+            length=len(manifest),
+            show_percent=True,
+            label=f"Verifying '{c.name}'",
+        ) as bar:
             # Check indexed docs against manifest
             verified = []
-            for docix, doc in bar:
+            for docix in bar:
                 w = c.work_by_docix(docix)
+
                 try:
                     ok = (
-                        manifest[str(docix)]["author"] == doc["author"]
-                        and manifest[str(docix)]["title"] == doc["title"]
-                        and manifest[str(docix)]["filename"] == doc["filename"]
-                        and Path(
-                        w.indexer.path / Path(manifest[str(docix)]["index"][0])
-                    ).exists()
-                        and Path(
-                        w.indexer.path / Path(manifest[str(docix)]["index"][1])
-                    ).exists()
+                        manifest[str(docix)]["author"] == w.author
+                        and manifest[str(docix)]["title"] == w.title
+                        and manifest[str(docix)]["filename"] == w.filename[0]
+                        and (w.indexer.path / Path(manifest[str(docix)]["index"][0])).exists()
+                        and (w.indexer.path / Path(manifest[str(docix)]["index"][1])).exists()
                     )
                 except KeyError:
                     meta = {
@@ -109,11 +111,11 @@ def verify(corpus, verbose, dry_run):
                     verified.append(
                         (
                             docix,
-                            f"[{docix}] {doc['author']}, {doc['title']} ({doc['filename']}), added to manifest",
+                            f"[{docix}] {w.author}, {w.title} ({w.filename[0]}), added to manifest",
                         )
                     )
                 else:
-                    indexname = w.indexes[0].indexname
+                    indexname = w.indexer.index_for_docix(docix).indexname
 
                     storage = cylleneus.engine.filedb.filestore.FileStorage(
                         w.indexer.path
@@ -147,7 +149,7 @@ def verify(corpus, verbose, dry_run):
                         verified.append(
                             (
                                 docix,
-                                f"[{docix}] {doc['author']}, {doc['title']} ({doc['filename']}), deleted "
+                                f"[{docix}] {w.author}, {w.title} ({w.filename[0]}), deleted "
                                 f"orphaned index files!"
                                 + (
                                     f"(= {', '.join([f'{fp.name}' for fp in extraneous])})"
@@ -160,8 +162,8 @@ def verify(corpus, verbose, dry_run):
                         if ok and w.searchable:
                             verified.append(
                                 (
-                                    doc["docix"],
-                                    f"[{doc['docix']}] {doc['author']}, {doc['title']} ({doc['filename']}), ok",
+                                    docix,
+                                    f"[{docix}] {w.author}, {w.title} ({w.filename[0]}), ok",
                                 )
                             )
                         else:
@@ -194,7 +196,7 @@ def verify(corpus, verbose, dry_run):
                             verified.append(
                                 (
                                     docix,
-                                    f"[{docix}] {doc['author']}, {doc['title']} ({doc['filename']}), "
+                                    f"[{docix}] {w.author}, {w.title} ({w.filename[0]}), "
                                     f"fixed manifest!",
                                 )
                             )
@@ -297,11 +299,12 @@ def delete_by(corpus, **kwargs):
 def update(corpus, docix, path):
     """Reindex a document by index number. """
 
+    docix = int(docix)
     with click_spinner.spinner():
         c = Corpus(corpus)
         c.update(docix=docix, path=Path(path))
 
-    if docix in [doc["docix"] for doc in c.iter_docs()]:
+    if c.work_by_docix(docix).searchable:
         click.echo(f"[+] updated document {docix} in '{corpus}'")
     else:
         click.echo(f"[-] failed")

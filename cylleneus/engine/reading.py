@@ -328,7 +328,7 @@ class IndexReader(object):
         """
 
         for docnum in range(self.doc_count_all()):
-             yield self.stored_fields(docnum)['docix'], self.stored_fields(docnum)
+             yield docnum, self.stored_fields(docnum)
 
     @abstractmethod
     def is_deleted(self, docnum):
