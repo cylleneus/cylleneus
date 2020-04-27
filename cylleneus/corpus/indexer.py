@@ -1,12 +1,11 @@
-import codecs
 import queue
 import shutil
 from pathlib import Path
 
 import cylleneus.engine.index
 from cylleneus.engine.writing import CLEAR
-from cylleneus.utils import DEBUG_HIGH, DEBUG_MEDIUM, print_debug, slugify
 from cylleneus.settings import CORPUS_DIR
+from cylleneus.utils import DEBUG_HIGH, DEBUG_MEDIUM, print_debug, slugify
 
 
 class IndexingError(Exception):
@@ -23,6 +22,7 @@ class Indexer:
                 indexname = (
                     "_".join(index.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
                 ).strip("_")
+
                 if cylleneus.engine.index.exists_in(path, indexname=indexname):
                     ix = cylleneus.engine.index.open_dir(
                         path, schema=corpus.schema, indexname=indexname

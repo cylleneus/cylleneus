@@ -53,9 +53,9 @@ def index(corpus):
 
 @main.command()
 @click.option("--corpus", "-c", "corpus", required=True)
-@click.option("--verbatim", "-v", is_flag=True)
+@click.option("--verbose", "-v", is_flag=True)
 @click.option("--dry-run", "-d", is_flag=True)
-def verify(corpus, verbatim, dry_run):
+def verify(corpus, verbose, dry_run):
     """Verify the integrity of corpus indexes and manifest. """
 
     c = Corpus(corpus)
@@ -66,10 +66,10 @@ def verify(corpus, verbatim, dry_run):
         + f"Proceed?",
         default=True,
     ):
-        with click_spinner.spinner():
+        with click.progressbar(c.iter_docs(), label=f"Verifying '{c.name}'") as bar:
             # Check indexed docs against manifest
             verified = []
-            for docix, doc in c.iter_docs():
+            for docix, doc in bar:
                 w = c.work_by_docix(docix)
                 try:
                     ok = (
@@ -198,7 +198,7 @@ def verify(corpus, verbatim, dry_run):
                                     f"fixed manifest!",
                                 )
                             )
-        if verbatim:
+        if verbose:
             click.echo_via_pager(
                 "\n".join(
                     [
