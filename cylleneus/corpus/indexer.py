@@ -13,7 +13,7 @@ class IndexingError(Exception):
 
 
 def doc_for_docix(corpus, docix: int):
-    toc_filename = next(corpus.index_dir.glob(f"*/*/*_{docix}_?.toc"))
+    toc_filename = next(corpus.index_dir.glob(f"*/*/*_{docix}_*.toc"))
 
     indexname = (
         "_".join(toc_filename.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
@@ -77,7 +77,7 @@ class Indexer:
         self._corpus = cp
 
     def index_for_docix(self, docix: int):
-        toc_filename = next(self.path.glob(f"*_{docix}_?.toc"))
+        toc_filename = next(self.path.glob(f"*_{docix}_*.toc"))
 
         indexname = (
             "_".join(toc_filename.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])

@@ -82,18 +82,24 @@ def verify(corpus, verbose, dry_run):
         ) as bar:
             # Check indexed docs against manifest
             verified = []
+            passes = orphans = fixes = adds = 0
             for docix in bar:
                 w = c.work_by_docix(docix)
 
                 try:
-                    ok = (
+                    passed = (
                         manifest[str(docix)]["author"] == w.author
                         and manifest[str(docix)]["title"] == w.title
                         and manifest[str(docix)]["filename"] == w.filename[0]
-                        and (w.indexer.path / Path(manifest[str(docix)]["index"][0])).exists()
-                        and (w.indexer.path / Path(manifest[str(docix)]["index"][1])).exists()
+                        and (
+                            w.indexer.path / Path(manifest[str(docix)]["index"][0])
+                        ).exists()
+                        and (
+                            w.indexer.path / Path(manifest[str(docix)]["index"][1])
+                        ).exists()
                     )
                 except KeyError:
+                    ix = w.indexer.index_for_docix(docix)
                     meta = {
                         "author":   w.author,
                         "title":    w.title,
@@ -109,9 +115,9 @@ def verify(corpus, verbose, dry_run):
                         ),
                         "index":    [
                             cylleneus.engine.index.TOC._filename(
-                                w.indexes[0].indexname, w.indexes[0].latest_generation()
+                                ix.indexname, ix.latest_generation()
                             ),
-                            w.indexes[0].reader().segment().make_filename(".seg"),
+                            ix.reader().segment().make_filename(".seg"),
                         ],
                     }
                     if not dry_run:
@@ -122,13 +128,14 @@ def verify(corpus, verbose, dry_run):
                             f"[{docix}] {w.author}, {w.title} ({w.filename[0]}), added to manifest",
                         )
                     )
+                    adds += 1
                 else:
                     indexname = w.indexer.index_for_docix(docix).indexname
 
                     storage = cylleneus.engine.filedb.filestore.FileStorage(
                         w.indexer.path
                     )
-                    tocfiles = list(c.index_dir.glob(f"*/*/*{indexname}*.toc"))
+                    tocfiles = list(c.index_dir.glob(f"*/*/_{indexname}_*.toc"))
                     if len(tocfiles) > 1:
                         latest_toc = sorted(tocfiles)[-1]
                     else:
@@ -140,7 +147,7 @@ def verify(corpus, verbose, dry_run):
                     segments = [
                         segment.segment_id() + ".seg" for segment in TOC.segments
                     ]
-                    segfiles = list(c.index_dir.glob(f"*/*/*{indexname}*.seg"))
+                    segfiles = list(c.index_dir.glob(f"*/*/{indexname}_*.seg"))
 
                     extraneous = []
                     for fp in tocfiles:
@@ -166,15 +173,19 @@ def verify(corpus, verbose, dry_run):
                                 ),
                             )
                         )
+                        orphans += 1
                     else:
-                        if ok and w.searchable:
+                        if passed and w.searchable:
                             verified.append(
                                 (
                                     docix,
-                                    f"[{docix}] {w.author}, {w.title} ({w.filename[0]}), ok",
+                                    f"[{docix}] {w.author}, {w.title} ({w.filename[0]}), passed!",
                                 )
                             )
+                            passes += 1
                         else:
+                            ix = w.indexer.index_for_docix(docix)
+
                             meta = {
                                 "author":   w.author,
                                 "title":    w.title,
@@ -190,13 +201,9 @@ def verify(corpus, verbose, dry_run):
                                 ),
                                 "index":    [
                                     cylleneus.engine.index.TOC._filename(
-                                        w.indexes[0].indexname,
-                                        w.indexes[0].latest_generation(),
+                                        ix.indexname, ix.latest_generation(),
                                     ),
-                                    w.indexes[0]
-                                        .reader()
-                                        .segment()
-                                        .make_filename(".seg"),
+                                    ix.reader().segment().make_filename(".seg"),
                                 ],
                             }
                             if not dry_run:
@@ -208,7 +215,9 @@ def verify(corpus, verbose, dry_run):
                                     f"fixed manifest!",
                                 )
                             )
-        if verbose:
+                            fixes += 1
+
+        if verbose and len(verified) != 0:
             click.echo_via_pager(
                 "\n".join(
                     [
@@ -217,6 +226,17 @@ def verify(corpus, verbose, dry_run):
                     ]
                 )
             )
+        click.echo(
+            f"[-] '{corpus}': {len(manifest)} checked, {passes} passed"
+            + (f", {fixes} fixed in manifest" if fixes else "")
+            + (f", {adds} added to manifest, " if adds else "")
+            + (f", {orphans} orphaned files deleted" if orphans else "")
+            + (
+                f" -- changes have NOT been committed!"
+                if dry_run and passes < len(manifest)
+                else ""
+            )
+        )
 
 
 @main.command()
