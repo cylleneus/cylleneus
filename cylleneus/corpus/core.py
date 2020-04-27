@@ -450,7 +450,7 @@ class Work:
 
     @property
     def searchable(self):
-        return len(self.indexes) != 0
+        return self.indexer.exists()
 
     @property
     def language(self):

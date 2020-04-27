@@ -13,6 +13,7 @@ from cylleneus.search import CylleneusSearcher
 from cylleneus.settings import CORPUS_DIR
 from cylleneus.utils import slugify
 import cylleneus.engine
+from cylleneus import __version__
 
 REMOTE_CORPORA = {
     name: meta for name, meta in manifest.items() if meta.repo["location"] == "remote"
@@ -29,6 +30,13 @@ def where():
     """Display location of corpus directory. """
 
     click.echo(f"[-] {CORPUS_DIR}")
+
+
+@main.command()
+def version():
+    """Display the current engine version number. """
+
+    click.echo(f"[+] Cylleneus v{__version__}")
 
 
 @main.command()

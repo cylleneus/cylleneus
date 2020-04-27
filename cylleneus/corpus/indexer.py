@@ -69,6 +69,9 @@ class Indexer:
     def corpus(self):
         return self._corpus
 
+    def exists(self):
+        return cylleneus.engine.index.exists_in(self.path)
+
     @corpus.setter
     def corpus(self, cp):
         self._corpus = cp
