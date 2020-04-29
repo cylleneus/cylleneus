@@ -6,6 +6,9 @@ import lxml.etree as et
 from cylleneus import settings
 from cylleneus.utils import alnum, stringify
 
+# Description
+description = "Perseus Digital Library (XML)"
+
 # Language
 language = "lat"
 

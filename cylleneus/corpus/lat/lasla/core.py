@@ -8,6 +8,9 @@ from requests.exceptions import HTTPError
 from cylleneus import settings
 from cylleneus.utils import nrange, alnum
 
+# Description
+description = "LASLA"
+
 # Language
 language = "lat"
 

@@ -4,6 +4,9 @@ import lxml.etree as et
 
 from cylleneus import settings
 
+# Description
+description = "PROIEL"
+
 # Language
 language = "lat"
 

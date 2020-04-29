@@ -5,6 +5,9 @@ import lxml.etree as et
 from cylleneus.settings import LINES_OF_CONTEXT
 from cylleneus.lang.lat import word_tokenizer
 
+# Description
+description = "CAMENA Corpus of Neo-Latin"
+
 # Language
 language = "lat"
 

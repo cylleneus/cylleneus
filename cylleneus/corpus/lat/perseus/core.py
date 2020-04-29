@@ -5,6 +5,9 @@ from pathlib import Path
 from cylleneus import settings
 from cylleneus.utils import nrange, alnum
 
+# Description
+description = "Perseus Digital Library (JSON)"
+
 # Language
 language = "lat"
 

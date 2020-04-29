@@ -1,3 +1,6 @@
+# Description
+description = "Packhard Humanities Institute"
+
 # Language
 language = "lat"
 

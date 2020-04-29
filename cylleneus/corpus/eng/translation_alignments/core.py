@@ -4,6 +4,9 @@ import lxml.etree as et
 from nltk.tokenize import word_tokenize
 from cylleneus.utils import stringify
 
+# Description
+description = "Corpus of Greek/English translation alignments"
+
 # Language
 language = "eng"
 

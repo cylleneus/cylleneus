@@ -5,6 +5,9 @@ import lxml.etree as et
 
 from cylleneus import settings
 
+# Description
+description = "ATLAS"
+
 # Language
 language = "grk"
 

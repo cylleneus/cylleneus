@@ -6,10 +6,12 @@ import lxml.etree as et
 
 from cylleneus import settings
 from cylleneus.lang.lat import sent_tokenizer, word_tokenizer
-
-# Language
 from cylleneus.utils import nrange
 
+# Description
+description = "DigilibLT"
+
+# Language
 language = "lat"
 
 # Glob pattern for indexing

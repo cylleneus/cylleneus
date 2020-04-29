@@ -5,11 +5,12 @@ import pkgutil
 from . import default, __path__
 
 CorpusMeta = namedtuple(
-    "CorpusMeta", ["language", "schema", "tokenizer", "preprocessor", "glob", "fetch", "repo"]
+    "CorpusMeta", ["description", "language", "schema", "tokenizer", "preprocessor", "glob", "fetch", "repo"]
 )
 
 manifest = {
     "default": CorpusMeta(
+        default.description,
         default.language,
         default.DocumentSchema,
         default.Tokenizer,

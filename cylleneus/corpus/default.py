@@ -15,6 +15,9 @@ from cylleneus.engine.schemas import BaseSchema
 from cylleneus.lang.lat import convert_diphthongs, jvmap, sent_tokenizer, word_tokenizer, strip_diacritics
 from cylleneus.utils import autotrim
 
+# Description
+description = "Default plaintext corpus"
+
 # Language
 language = ""
 

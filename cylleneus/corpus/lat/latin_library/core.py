@@ -5,6 +5,9 @@ from pathlib import Path
 from cylleneus import settings
 from cylleneus.utils import autotrim
 
+# Description
+description = "Digital Latin Library"
+
 # Language
 language = "lat"
 
