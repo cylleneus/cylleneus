@@ -5,7 +5,9 @@ from .tokenizer import Tokenizer
 
 from cylleneus.corpus.meta import CorpusMeta
 
+# Manifest information
 meta = CorpusMeta(
+    description,
     language,
     DocumentSchema,
     Tokenizer,
