@@ -2,7 +2,7 @@
 Cylleneus
 =========
 
-.. image:: https://img.shields.io/badge/cylleneus-next--gen%20search%20for%20electronic%20corpora%20of%20ancient%20languages-blue
+.. image:: https://img.shields.io/badge/cylleneus-next--gen%20corpus%20search%20for%20electronic%20corpora%20of%20ancient%20languages-blue
         :target: https://github.com/cylleneus/cylleneus
 
 .. image:: https://img.shields.io/pypi/v/cylleneus.svg
