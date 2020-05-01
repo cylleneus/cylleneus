@@ -23,11 +23,15 @@ def doc_for_docix(corpus, docix: int):
         ).strip("_")
         path = Path(toc_filename).parent
 
-        if cylleneus.engine.index.exists_in(path, indexname=indexname):
-            ix = cylleneus.engine.index.open_dir(
-                path, schema=corpus.schema, indexname=indexname
-            )
-            doc = ix.reader().stored_fields(0)
+        try:
+            if cylleneus.engine.index.exists_in(path, indexname=indexname):
+                ix = cylleneus.engine.index.open_dir(
+                    path, schema=corpus.schema, indexname=indexname
+                )
+                doc = ix.reader().stored_fields(0)
+        except FileNotFoundError:
+            return None
+        else:
             return doc
 
 
@@ -176,13 +180,13 @@ class Indexer:
 
             # Check if docix exists
             existing = None
-            for docix, doc in self.corpus.manifest.items():
+            for docix_, doc in self.corpus.manifest.items():
                 if (
                     doc["author"] == kwargs["author"]
                     and doc["title"] == kwargs["title"]
                     and doc["filename"] == kwargs["filename"]
                 ):
-                    existing = docix
+                    existing = docix_
 
             if existing is not None:
                 if not destructive:
@@ -205,10 +209,10 @@ class Indexer:
             indexname = f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}"
             ix = self.open(indexname=indexname)
 
-            writer = ix.writer(limitmb=4096, procs=1, multisegment=True)
+            writer = ix.writer(limitmb=4096, procs=1)
             try:
                 writer.add_document(**kwargs)
-                writer.commit(optimize=optimize)
+                writer.commit(mergetype=CLEAR, optimize=optimize)
             except queue.Empty as e:
                 pass
 
@@ -240,23 +244,25 @@ class Indexer:
 
             # Check if docix exists
             existing = None
-            for docix, doc in self.corpus.manifest.items():
+            for docix_, doc in self.corpus.manifest.items():
                 if (
                     doc["author"] == kwargs["author"]
                     and doc["title"] == kwargs["title"]
                     and doc["filename"] == kwargs["filename"]
                 ):
-                    existing = docix
+                    existing = docix_
 
             if existing is not None:
-                if destructive:
-                    self.destroy(existing)
-                    print_debug(DEBUG_HIGH, f"- Docix {existing} already exists, deleting")
-                else:
+                if not destructive:
                     print_debug(DEBUG_HIGH, f"- Docix {existing} already exists, skipping")
                     return existing
+                else:
+                    print_debug(DEBUG_HIGH, f"- Docix {existing} already exists, deleting")
+                    self.destroy(existing)
+                    docix = existing
+            else:
+                docix = self.corpus.doc_count_all
 
-            docix = self.corpus.doc_count_all
             kwargs["docix"] = docix
 
             self.path = Path(
