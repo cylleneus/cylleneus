@@ -88,7 +88,7 @@ def verify(corpus, verbose, dry_run):
                 status, (docix, author, title, filename, info) = c.verify_by_docix(
                     item, dry_run=dry_run
                 )
-                msg = f"[{docix}] {author if author else ''}, {title if title else ''} ({filename if filename else ''})"
+                msg = f"[{docix}] {author}, {title} ({filename})"
                 if status == 0:
                     msg += ", passed!"
                     passes += 1
@@ -102,6 +102,8 @@ def verify(corpus, verbose, dry_run):
                     msg += ", deleted orphaned index files"
                     orphans += 1
                 elif status == 4:
+                    msg = f"[{docix}] {manifest[item]['author']}, {manifest[item]['title']} (" \
+                          f"{manifest[item]['filename']})"
                     msg += ", missing index files!"
                     missing[item] = manifest[item]
                 if info is not None and cylleneus.settings.DEBUG:
@@ -131,21 +133,27 @@ def verify(corpus, verbose, dry_run):
             if click.confirm(
                 f"Try to re-index {len(missing)} missing documents?", default=True,
             ):
-                with click_spinner.spinner():
-                    for docix, meta in missing.items():
-                        if meta["filename"]:
-                            path = c.text_dir / Path(meta["filename"])
+                for docix, meta in missing.items():
+                    if meta["filename"]:
+                        path = c.text_dir / Path(meta["filename"])
+                        with click_spinner.spinner():
                             updated_docix = (
                                 c.update(docix, path) if not dry_run else None
                             )
-                            if updated_docix is not None:
+                        if updated_docix is not None:
+                            click.echo(
+                                f"[{updated_docix}] {meta['author']}, {meta['title']} ({meta['filename']}), "
+                                f"index created!"
+                            )
+                        else:
+                            if dry_run:
                                 click.echo(
-                                    f"[{updated_docix}] {meta['author']}, {meta['title']} ({meta['filename']}), "
-                                    f"index created!"
+                                    f"*[-] {meta['author']}, {meta['title']} "
+                                    f"({meta['filename']}) -- document NOT re-indexed!"
                                 )
                             else:
                                 click.echo(
-                                    f"[-] failed re-indexing {meta['author']}, {meta['title']} ({meta['filename']})"
+                                    f"[-] {meta['author']}, {meta['title']} ({meta['filename']}), failed"
                                 )
 
 

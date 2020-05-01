@@ -13,19 +13,22 @@ class IndexingError(Exception):
 
 
 def doc_for_docix(corpus, docix: int):
-    toc_filename = next(corpus.index_dir.glob(f"*/*/*_{docix}_*.toc"))
+    try:
+        toc_filename = next(corpus.index_dir.glob(f"*/*/*_{docix}_*.toc"))
+    except StopIteration:
+        return None
+    else:
+        indexname = (
+            "_".join(toc_filename.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
+        ).strip("_")
+        path = Path(toc_filename).parent
 
-    indexname = (
-        "_".join(toc_filename.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
-    ).strip("_")
-    path = Path(toc_filename).parent
-
-    if cylleneus.engine.index.exists_in(path, indexname=indexname):
-        ix = cylleneus.engine.index.open_dir(
-            path, schema=corpus.schema, indexname=indexname
-        )
-        doc = ix.reader().stored_fields(0)
-        return doc
+        if cylleneus.engine.index.exists_in(path, indexname=indexname):
+            ix = cylleneus.engine.index.open_dir(
+                path, schema=corpus.schema, indexname=indexname
+            )
+            doc = ix.reader().stored_fields(0)
+            return doc
 
 
 def docs_for(corpus, author: str = "*", title: str = "*"):
