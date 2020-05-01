@@ -185,14 +185,16 @@ class Indexer:
                     existing = docix
 
             if existing is not None:
-                if destructive:
-                    self.destroy(existing)
-                    print_debug(DEBUG_HIGH, f"- Docix {existing} already exists, deleting")
-                else:
+                if not destructive:
                     print_debug(DEBUG_HIGH, f"- Docix {existing} already exists, skipping")
                     return existing
+                else:
+                    print_debug(DEBUG_HIGH, f"- Docix {existing} already exists, deleting")
+                    self.destroy(existing)
+                    docix = existing
+            else:
+                docix = self.corpus.doc_count_all
 
-            docix = self.corpus.doc_count_all
             kwargs["docix"] = docix
 
             self.path = Path(
