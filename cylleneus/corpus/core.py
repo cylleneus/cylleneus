@@ -146,9 +146,13 @@ class Corpus:
         FIXED = 1
         ADDED = 2
         ORPHANS = 3
+        MISSING = 4
 
         docix = int(docix)
         work = self.work_by_docix(docix)
+
+        if work is None:
+            return MISSING, (docix, None, None, None, None)
 
         try:
             passed = (
@@ -276,7 +280,8 @@ class Corpus:
 
     def work_by_docix(self, docix: int):
         doc = indexer.doc_for_docix(self, docix)
-        return Work(self, doc=doc)
+        if doc is not None:
+            return Work(self, doc=doc)
 
     def destroy(self):
         for ixr in self.indexers:
@@ -316,12 +321,13 @@ class Corpus:
 
     def update(self, docix: int, path: Path):
         ixr = self.indexer_for_docix(docix)
-        ixr.update(path)
+        updated_docix = ixr.update(path)
+        return updated_docix
 
     def update_by(self, author: str, title: str, path: Path):
         ixr = list(self.indexers_for(author, title))[0]
-        docix = ixr.update(path)
-        return docix
+        updated_docix = ixr.update(path)
+        return updated_docix
 
     @property
     def index_dir(self):

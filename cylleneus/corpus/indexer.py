@@ -159,10 +159,8 @@ class Indexer:
         return ix
 
     def update(self, path: Path):
-        if self.path and self.path.exists():
-            self.destroy()
-        docix = self.from_file(path, destructive=True)
-        return docix
+        updated_docix = self.from_file(path, destructive=True)
+        return updated_docix
 
     def from_file(self, path: Path, destructive: bool = False, optimize: bool = False):
         if path.exists():

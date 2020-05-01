@@ -76,6 +76,7 @@ def verify(corpus, verbose, dry_run):
     ):
         verified = []
         passes = fixes = adds = orphans = 0
+        missing = {}
 
         with click.progressbar(
             manifest,
@@ -84,8 +85,10 @@ def verify(corpus, verbose, dry_run):
             label=f"Verifying '{c.name}'",
         ) as bar:
             for item in bar:
-                status, (docix, author, title, filename, info) = c.verify_by_docix(item, dry_run=dry_run)
-                msg = f"[{docix}] {author}, {title} ({filename})"
+                status, (docix, author, title, filename, info) = c.verify_by_docix(
+                    item, dry_run=dry_run
+                )
+                msg = f"[{docix}] {author if author else ''}, {title if title else ''} ({filename if filename else ''})"
                 if status == 0:
                     msg += ", passed!"
                     passes += 1
@@ -98,6 +101,9 @@ def verify(corpus, verbose, dry_run):
                 elif status == 3:
                     msg += ", deleted orphaned index files"
                     orphans += 1
+                elif status == 4:
+                    msg += ", missing index files!"
+                    missing[item] = manifest[item]
                 if info is not None and cylleneus.settings.DEBUG:
                     msg += f" (= {info})"
                 verified.append((docix, msg))
@@ -121,6 +127,26 @@ def verify(corpus, verbose, dry_run):
                 else ""
             )
         )
+        if len(missing) != 0:
+            if click.confirm(
+                f"Try to re-index {len(missing)} missing documents?", default=True,
+            ):
+                with click_spinner.spinner():
+                    for docix, meta in missing.items():
+                        if meta["filename"]:
+                            path = c.text_dir / Path(meta["filename"])
+                            updated_docix = (
+                                c.update(docix, path) if not dry_run else None
+                            )
+                            if updated_docix is not None:
+                                click.echo(
+                                    f"[{updated_docix}] {meta['author']}, {meta['title']} ({meta['filename']}), "
+                                    f"index created!"
+                                )
+                            else:
+                                click.echo(
+                                    f"[-] failed re-indexing {meta['author']}, {meta['title']} ({meta['filename']})"
+                                )
 
 
 @main.command()
