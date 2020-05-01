@@ -8,6 +8,7 @@ import requests
 from git import RemoteProgress, Repo
 
 from cylleneus import settings
+import cylleneus.engine.index
 from cylleneus.engine.fields import Schema
 from cylleneus.engine.searching import CylleneusHit, CylleneusSearcher
 from cylleneus.utils import slugify, print_debug, DEBUG_HIGH, DEBUG_MEDIUM
@@ -139,6 +140,124 @@ class Corpus:
     def optimize(self):
         for ixr in self.indexers:
             ixr.optimize()
+
+    def verify_by_docix(self, docix, dry_run: bool = True):
+        PASSED = 0
+        FIXED = 1
+        ADDED = 2
+        ORPHANS = 3
+
+        docix = int(docix)
+        work = self.work_by_docix(docix)
+
+        try:
+            passed = (
+                self.manifest[str(docix)]["author"] == work.author
+                and self.manifest[str(docix)]["title"] == work.title
+                and self.manifest[str(docix)]["filename"] == work.filename[0]
+                and (
+                    work.indexer.path / Path(self.manifest[str(docix)]["index"][0])
+                ).exists()
+                and (
+                    work.indexer.path / Path(self.manifest[str(docix)]["index"][1])
+                ).exists()
+            )
+        except KeyError:
+            ix = work.indexer.index_for_docix(docix)
+            meta = {
+                "author":   work.author,
+                "title":    work.title,
+                "filename": work.filename[0],
+                "path":     (
+                    (
+                        Path(self.index_dir)
+                        / Path(slugify(work.author))
+                        / Path(slugify(work.title))
+                    )
+                        .relative_to(Path(settings.CORPUS_DIR))
+                        .as_posix()
+                ),
+                "index":    [
+                    cylleneus.engine.index.TOC._filename(
+                        ix.indexname, ix.latest_generation()
+                    ),
+                    ix.reader().segment().make_filename(".seg"),
+                ],
+            }
+            if not dry_run:
+                self.update_manifest(str(docix), meta)
+            return ADDED, (docix, work.author, work.title, work.filename[0], None)
+        else:
+            indexname = work.indexer.index_for_docix(docix).indexname
+
+            storage = cylleneus.engine.filedb.filestore.FileStorage(work.indexer.path)
+            tocfiles = list(self.index_dir.glob(f"*/*/_{indexname}_*.toc"))
+            if len(tocfiles) > 1:
+                latest_toc = sorted(tocfiles)[-1]
+            else:
+                latest_toc = tocfiles[0]
+            gen = latest_toc.name.rsplit("_", maxsplit=1)[1].replace(".toc", "")
+            TOC = cylleneus.engine.index.TOC.read(storage, indexname, gen=int(gen))
+            segments = [segment.segment_id() + ".seg" for segment in TOC.segments]
+            segfiles = list(self.index_dir.glob(f"*/*/{indexname}_*.seg"))
+
+            extraneous = []
+            for fp in tocfiles:
+                if fp.name != latest_toc.name:
+                    extraneous.append(fp)
+            for fp in segfiles:
+                if fp.name not in segments:
+                    extraneous.append(fp)
+
+            if extraneous:
+                for fp in extraneous:
+                    if not dry_run:
+                        fp.unlink()
+                return (
+                    ORPHANS,
+                    (
+                        docix,
+                        work.author,
+                        work.title,
+                        work.filename[0],
+                        ", ".join([f"{fp.name}" for fp in extraneous]),
+                    ),
+                )
+            else:
+                if passed and work.searchable:
+                    return (
+                        PASSED,
+                        (docix, work.author, work.title, work.filename[0], None),
+                    )
+                else:
+                    ix = work.indexer.index_for_docix(docix)
+
+                    meta = {
+                        "author":   work.author,
+                        "title":    work.title,
+                        "filename": work.filename[0],
+                        "path":     (
+                            (
+                                Path(self.index_dir)
+                                / Path(slugify(work.author))
+                                / Path(slugify(work.title))
+                            )
+                                .relative_to(Path(settings.CORPUS_DIR))
+                                .as_posix()
+                        ),
+                        "index":    [
+                            cylleneus.engine.index.TOC._filename(
+                                ix.indexname, ix.latest_generation(),
+                            ),
+                            ix.reader().segment().make_filename(".seg"),
+                        ],
+                    }
+                    if not dry_run:
+                        self.update_manifest(str(docix), meta)
+                    return (
+                        FIXED,
+                        (docix, work.author, work.title, work.filename[0], None),
+                    )
 
     @property
     def searchable(self):
@@ -425,9 +544,7 @@ class Work:
                 self._language = doc["language"]
         else:
             if author and title:
-                docs = [
-                    doc[1] for doc in indexer.docs_for(corpus, author, title)
-                ]
+                docs = [doc[1] for doc in indexer.docs_for(corpus, author, title)]
                 if docs:
                     self._doc = docs
                     self._docix = [doc["docix"] for doc in docs]
