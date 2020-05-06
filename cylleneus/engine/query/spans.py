@@ -58,11 +58,13 @@ from whoosh.util import make_binary_tree
 
 # Span class
 
-class Span(object):
-    __slots__ = ("start", "end", "startchar", "endchar", "divs", "boost")
 
-    def __init__(self, start, end=None, startchar=None, endchar=None, divs=None,
-                 boost=1.0):
+class Span(object):
+    __slots__ = ("start", "end", "startchar", "endchar", "divs", "boost", "meta")
+
+    def __init__(
+        self, start, end=None, startchar=None, endchar=None, divs=None, boost=1.0
+    ):
         if end is None:
             end = start
         assert start <= end
@@ -72,38 +74,58 @@ class Span(object):
         self.endchar = endchar
         self.boost = boost
         self.divs = divs
+        if self.divs:
+            self.meta = dict([tuple(item.split("=")) for item in self.divs[0][0]])
+        else:
+            self.meta = {}
 
     def __repr__(self):
         if self.startchar is not None or self.endchar is not None:
-            return "<%d-%d %d:%d>" % (self.start, self.end, self.startchar,
-                                      self.endchar)
+            return "<{} {} {}:{} >".format(
+                ", ".join(
+                    [
+                        f"{k}: {v}"
+                        for k, v in self.meta.items()
+                        if k in self.meta["meta"].split("-")
+                    ]
+                ),
+                (
+                    f"({self.start}"
+                    + (f"-{self.end}" if self.end != self.start else "")
+                    + ")"
+                ),
+                self.startchar,
+                self.endchar,
+            )
         else:
             return "<%d-%d>" % (self.start, self.end)
 
     def __eq__(self, span):
         if self.divs and span.divs:
-            samediv = (self.divs == span.divs)
+            samediv = self.divs == span.divs
         else:
             samediv = True
-        return (samediv
-                and self.start == span.start
-                and self.end == span.end
-                and self.startchar == span.startchar
-                and self.endchar == span.endchar)
+        return (
+            samediv
+            and self.start == span.start
+            and self.end == span.end
+            and self.startchar == span.startchar
+            and self.endchar == span.endchar
+        )
 
     def __ne__(self, span):
         return self.start != span.start or self.end != span.end
 
     def __lt__(self, span):
         if self.divs and span.divs:
-            prevdiv = (self.divs < span.divs)
+            prevdiv = self.divs < span.divs
         else:
             prevdiv = True
         return prevdiv and self.start < span.start
 
     def __gt__(self, span):
         if self.divs and span.divs:
-            folldiv = (self.divs > span.divs)
+            folldiv = self.divs > span.divs
         else:
             folldiv = True
         return folldiv and self.start > span.start
@@ -159,21 +181,23 @@ class Span(object):
         return self.__class__(minpos, maxpos, minchar, maxchar)
 
     def overlaps(self, span):
-        return ((self.startchar >= span.startchar and self.startchar <= span.endchar)
-                or (self.endchar >= span.startchar and self.endchar <= span.endchar)
-                or (span.startchar >= self.startchar and span.startchar <= self.endchar)
-                or (span.endchar >= self.startchar and span.endchar <= self.endchar))
+        return (
+            (self.startchar >= span.startchar and self.startchar <= span.endchar)
+            or (self.endchar >= span.startchar and self.endchar <= span.endchar)
+            or (span.startchar >= self.startchar and span.startchar <= self.endchar)
+            or (span.endchar >= self.startchar and span.endchar <= self.endchar)
+        )
 
     def surrounds(self, span):
         if self.divs and span.divs:
-            surrdiv = (self.divs <= span.divs)
+            surrdiv = self.divs <= span.divs
         else:
             surrdiv = True
         return surrdiv and self.start < span.start and self.end > span.end
 
     def is_within(self, span):
         if self.divs and span.divs:
-            indiv = (self.divs >= span.divs)
+            indiv = self.divs >= span.divs
         else:
             indiv = True
         return indiv and self.start >= span.start and self.end <= span.end
@@ -181,30 +205,30 @@ class Span(object):
     def is_before(self, span):
         if self.divs and span.divs and (self.divs[0] and span.divs[0]):
             sdivs = tuple(
-                div.split('=')[1]
+                div.split("=")[1]
                 for div in self.divs[0][0]
-                if div.split('=')[0] != 'meta'
+                if div.split("=")[0] != "meta"
             )
             odivs = tuple(
-                div.split('=')[1]
+                div.split("=")[1]
                 for div in span.divs[0][0]
-                if div.split('=')[0] != 'meta'
+                if div.split("=")[0] != "meta"
             )
-            beforediv = (sdivs <= odivs)
+            beforediv = sdivs <= odivs
         else:
             beforediv = True
         return beforediv and self.end < span.start
 
     def is_after(self, span):
         if self.divs and span.divs:
-            afterdiv = (self.divs >= span.divs)
+            afterdiv = self.divs >= span.divs
         else:
             afterdiv = True
         return afterdiv and self.start > span.end
 
     def touches(self, span):
         if self.divs and span.divs:
-            samediv = (self.divs == span.divs)
+            samediv = self.divs == span.divs
         else:
             samediv = True
         return samediv and self.start == span.end + 1 or self.end == span.start - 1
@@ -230,7 +254,22 @@ def bisect_spans(spans, start):
     return lo
 
 
+def bisect_spans_by_meta(spans, startmeta):
+    lo = 0
+    hi = len(spans)
+    while lo < hi:
+        mid = (lo + hi) // 2
+        span_values = tuple([int(v) for k, v in spans[mid].meta.items() if k != "meta"])
+        start_values = tuple([int(v) for k, v in startmeta.items() if k != "meta"])
+        if span_values < start_values:
+            lo = mid + 1
+        else:
+            hi = mid
+    return lo
+
+
 # Base matchers
+
 
 class SpanWrappingMatcher(cylleneus.engine.matching.wrappers.WrappingMatcher):
     """An abstract matcher class that wraps a "regular" matcher. This matcher
@@ -306,6 +345,7 @@ class SpanBiMatcher(SpanWrappingMatcher):
 
 # Queries
 
+
 class SpanQuery(cylleneus.engine.query.qcore.Query):
     """Abstract base class for span-based queries. Each span query type wraps
     a "regular" query that implements the basic document-matching functionality
@@ -324,8 +364,7 @@ class SpanQuery(cylleneus.engine.query.qcore.Query):
         return "%s(%r)" % (self.__class__.__name__, self.q)
 
     def __eq__(self, other):
-        return (other and self.__class__ is other.__class__
-                and self.q == other.q)
+        return other and self.__class__ is other.__class__ and self.q == other.q
 
     def __hash__(self):
         return hash(self.__class__.__name__) ^ hash(self.q)
@@ -365,8 +404,12 @@ class SpanFirst(WrappingSpan):
         self.limit = limit
 
     def __eq__(self, other):
-        return (other and self.__class__ is other.__class__
-                and self.q == other.q and self.limit == other.limit)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.q == other.q
+            and self.limit == other.limit
+        )
 
     def __hash__(self):
         return hash(self.q) ^ hash(self.limit)
@@ -387,8 +430,7 @@ class SpanFirst(WrappingSpan):
             return self.__class__(newchild, limit=self.limit)
 
         def _get_spans(self):
-            return [span for span in self.child.spans()
-                    if span.end <= self.limit]
+            return [span for span in self.child.spans() if span.end <= self.limit]
 
 
 class SpanNear(SpanQuery):
@@ -446,33 +488,51 @@ class SpanNear(SpanQuery):
         self.mindist = mindist
 
     def __repr__(self):
-        return ("%s(%r, slop=%d, ordered=%s, mindist=%d)"
-                % (self.__class__.__name__, self.q, self.slop, self.ordered,
-                   self.mindist))
+        return "%s(%r, slop=%d, ordered=%s, mindist=%d)" % (
+            self.__class__.__name__,
+            self.q,
+            self.slop,
+            self.ordered,
+            self.mindist,
+        )
 
     def __eq__(self, other):
-        return (other and self.__class__ == other.__class__
-                and self.q == other.q and self.slop == other.slop
-                and self.ordered == other.ordered
-                and self.mindist == other.mindist)
+        return (
+            other
+            and self.__class__ == other.__class__
+            and self.q == other.q
+            and self.slop == other.slop
+            and self.ordered == other.ordered
+            and self.mindist == other.mindist
+        )
 
     def __hash__(self):
-        return (hash(self.a) ^ hash(self.b) ^ hash(self.slop)
-                ^ hash(self.ordered) ^ hash(self.mindist))
+        return (
+            hash(self.a)
+            ^ hash(self.b)
+            ^ hash(self.slop)
+            ^ hash(self.ordered)
+            ^ hash(self.mindist)
+        )
 
     def is_leaf(self):
         return False
 
     def apply(self, fn):
-        return self.__class__(fn(self.a), fn(self.b), slop=self.slop,
-                              ordered=self.ordered, mindist=self.mindist)
+        return self.__class__(
+            fn(self.a),
+            fn(self.b),
+            slop=self.slop,
+            ordered=self.ordered,
+            mindist=self.mindist,
+        )
 
     def matcher(self, searcher, context=None):
         ma = self.a.matcher(searcher, context)
         mb = self.b.matcher(searcher, context)
-        return SpanNear.SpanNearMatcher(ma, mb, slop=self.slop,
-                                        ordered=self.ordered,
-                                        mindist=self.mindist)
+        return SpanNear.SpanNearMatcher(
+            ma, mb, slop=self.slop, ordered=self.ordered, mindist=self.mindist
+        )
 
     @classmethod
     def phrase(cls, fieldname, words, slop=1, ordered=True):
@@ -505,8 +565,13 @@ class SpanNear(SpanQuery):
             super(SpanNear.SpanNearMatcher, self).__init__(isect)
 
         def copy(self):
-            return self.__class__(self.a.copy(), self.b.copy(), slop=self.slop,
-                                  ordered=self.ordered, mindist=self.mindist)
+            return self.__class__(
+                self.a.copy(),
+                self.b.copy(),
+                slop=self.slop,
+                ordered=self.ordered,
+                mindist=self.mindist,
+            )
 
         def replace(self, minquality=0):
             # TODO: fix this
@@ -527,8 +592,9 @@ class SpanNear(SpanQuery):
                 for bspan in bspans:
                     if bspan is None:
                         continue
-                    if (bspan.end < aspan.start - slop
-                        or (ordered and aspan.startchar > bspan.startchar)):
+                    if bspan.end < aspan.start - slop or (
+                        ordered and aspan.startchar > bspan.startchar
+                    ):
                         # B is too far in front of A, or B is in front of A
                         # *at all* when ordered is True
                         continue
@@ -541,31 +607,49 @@ class SpanNear(SpanQuery):
                         if mindist <= dist <= slop:
                             spans.add(aspan.to(bspan))
                     else:
-                        if aspan.divs and bspan.divs and (aspan.divs[0][0] and bspan.divs[0][0]):
-                            ameta = aspan.divs[0][0][0].split('-')
+                        if (
+                            aspan.divs
+                            and bspan.divs
+                            and (aspan.divs[0][0] and bspan.divs[0][0])
+                        ):
+                            ameta = aspan.divs[0][0][0].split("-")
                             adivs = []
                             for div in aspan.divs[0][0]:
-                                k, v = div.split('=')
+                                k, v = div.split("=")
                                 if k in ameta:
                                     if v.isnumeric():
                                         adivs.append(int(v))
                                     elif v.isalpha():
                                         adivs.append(v)
                                     else:
-                                        adivs.extend([int(m) if m.isnumeric() else m for m in re.match(r'(\d+)([A-Za-z]+)?(\d+)?',v).groups() if m])
-                            bmeta = bspan.divs[0][0][0].split('-')
+                                        adivs.extend(
+                                            [
+                                                int(m) if m.isnumeric() else m
+                                                for m in re.match(
+                                                r"(\d+)([A-Za-z]+)?(\d+)?", v
+                                            ).groups()
+                                                if m
+                                            ]
+                                        )
+                            bmeta = bspan.divs[0][0][0].split("-")
                             bdivs = []
                             for div in bspan.divs[0][0]:
-                                k, v = div.split('=')
+                                k, v = div.split("=")
                                 if k in bmeta:
                                     if v.isnumeric():
                                         bdivs.append(int(v))
                                     elif v.isalpha():
                                         bdivs.append(v)
                                     else:
-                                        bdivs.extend([int(m) if m.isnumeric() else m for m in re.match(r'(\d+)([A-Za-z]+)?('
-                                                                                                 r'\d+)?',
-                                                                                   v).groups() if m])
+                                        bdivs.extend(
+                                            [
+                                                int(m) if m.isnumeric() else m
+                                                for m in re.match(
+                                                r"(\d+)([A-Za-z]+)?(" r"\d+)?", v
+                                            ).groups()
+                                                if m
+                                            ]
+                                        )
 
                             diffs = []
                             for a, b in zip(adivs, bdivs):
@@ -573,12 +657,16 @@ class SpanNear(SpanQuery):
                                     diffs.append(int(b) - int(a))
                                 elif a.isalpha() and b.isalpha():
                                     if len(a) > 1 and len(b) > 1:
-                                        diffs.append(SequenceMatcher(None, a, b).ratio())
+                                        diffs.append(
+                                            SequenceMatcher(None, a, b).ratio()
+                                        )
                                     else:
                                         diffs.append(ord(b) - ord(a))
 
-                            if (diffs[-1] > slop
-                                or (all(map(lambda x: x == 0, diffs)) and bspan.start > aspan.end + slop)):
+                            if diffs[-1] > slop or (
+                                all(map(lambda x: x == 0, diffs))
+                                and bspan.start > aspan.end + slop
+                            ):
                                 # B is too far from A. Since spans are listed in
                                 # start position order, we know that all spans after
                                 # this one will also be too far.
@@ -638,15 +726,23 @@ class SpanNear2(SpanQuery):
         self.mindist = mindist
 
     def __repr__(self):
-        return ("%s(%r, slop=%d, ordered=%s, mindist=%d)"
-                % (self.__class__.__name__, self.qs, self.slop, self.ordered,
-                   self.mindist))
+        return "%s(%r, slop=%d, ordered=%s, mindist=%d)" % (
+            self.__class__.__name__,
+            self.qs,
+            self.slop,
+            self.ordered,
+            self.mindist,
+        )
 
     def __eq__(self, other):
-        return (other and self.__class__ == other.__class__
-                and self.qs == other.qs and self.slop == other.slop
-                and self.ordered == other.ordered
-                and self.mindist == other.mindist)
+        return (
+            other
+            and self.__class__ == other.__class__
+            and self.qs == other.qs
+            and self.slop == other.slop
+            and self.ordered == other.ordered
+            and self.mindist == other.mindist
+        )
 
     def __hash__(self):
         h = hash(self.slop) ^ hash(self.ordered) ^ hash(self.mindist)
@@ -670,13 +766,18 @@ class SpanNear2(SpanQuery):
         return self.qs
 
     def apply(self, fn):
-        return self.__class__([fn(q) for q in self.qs], slop=self.slop,
-                              ordered=self.ordered, mindist=self.mindist)
+        return self.__class__(
+            [fn(q) for q in self.qs],
+            slop=self.slop,
+            ordered=self.ordered,
+            mindist=self.mindist,
+        )
 
     def matcher(self, searcher, context=None):
         ms = [q.matcher(searcher, context) for q in self.qs]
-        return self.SpanNear2Matcher(ms, slop=self.slop, ordered=self.ordered,
-                                     mindist=self.mindist)
+        return self.SpanNear2Matcher(
+            ms, slop=self.slop, ordered=self.ordered, mindist=self.mindist
+        )
 
     class SpanNear2Matcher(SpanWrappingMatcher):
         def __init__(self, ms, slop=1, ordered=True, mindist=1):
@@ -684,12 +785,18 @@ class SpanNear2(SpanQuery):
             self.slop = slop
             self.ordered = ordered
             self.mindist = mindist
-            isect = make_binary_tree(cylleneus.engine.matching.binary.IntersectionMatcher, ms)
+            isect = make_binary_tree(
+                cylleneus.engine.matching.binary.IntersectionMatcher, ms
+            )
             super(SpanNear2.SpanNear2Matcher, self).__init__(isect)
 
         def copy(self):
-            return self.__class__([m.copy() for m in self.ms], slop=self.slop,
-                                  ordered=self.ordered, mindist=self.mindist)
+            return self.__class__(
+                [m.copy() for m in self.ms],
+                slop=self.slop,
+                ordered=self.ordered,
+                mindist=self.mindist,
+            )
 
         def replace(self, minquality=0):
             # TODO: fix this
@@ -721,8 +828,9 @@ class SpanNear2(SpanQuery):
                         bspan = bspans[j]
                         j += 1
 
-                        if (bspan.end < aspan.start - slop
-                            or (ordered and aspan.start > bspan.start)):
+                        if bspan.end < aspan.start - slop or (
+                            ordered and aspan.start > bspan.start
+                        ):
                             # B is too far in front of A, or B is in front of A
                             # *at all* when ordered is True
                             continue
@@ -785,8 +893,7 @@ class SpanOr(SpanQuery):
                 if b_active:
                     b_id = self.b.id()
                     if a_id == b_id:
-                        spans = sorted(set(self.a.spans())
-                                       | set(self.b.spans()))
+                        spans = sorted(set(self.a.spans()) | set(self.b.spans()))
                     elif a_id < b_id:
                         spans = self.a.spans()
                     else:
@@ -998,15 +1105,23 @@ class SpanWith2(SpanQuery):
         self.mindist = mindist
 
     def __repr__(self):
-        return ("%s(%r, slop=%d, ordered=%s, mindist=%d)"
-                % (self.__class__.__name__, self.qs, self.slop, self.ordered,
-                   self.mindist))
+        return "%s(%r, slop=%d, ordered=%s, mindist=%d)" % (
+            self.__class__.__name__,
+            self.qs,
+            self.slop,
+            self.ordered,
+            self.mindist,
+        )
 
     def __eq__(self, other):
-        return (other and self.__class__ == other.__class__
-                and self.qs == other.qs and self.slop == other.slop
-                and self.ordered == other.ordered
-                and self.mindist == other.mindist)
+        return (
+            other
+            and self.__class__ == other.__class__
+            and self.qs == other.qs
+            and self.slop == other.slop
+            and self.ordered == other.ordered
+            and self.mindist == other.mindist
+        )
 
     def __hash__(self):
         h = hash(self.slop) ^ hash(self.ordered) ^ hash(self.mindist)
@@ -1030,13 +1145,18 @@ class SpanWith2(SpanQuery):
         return self.qs
 
     def apply(self, fn):
-        return self.__class__([fn(q) for q in self.qs], slop=self.slop,
-                              ordered=self.ordered, mindist=self.mindist)
+        return self.__class__(
+            [fn(q) for q in self.qs],
+            slop=self.slop,
+            ordered=self.ordered,
+            mindist=self.mindist,
+        )
 
     def matcher(self, searcher, context=None):
         ms = [q.matcher(searcher, context) for q in self.qs]
-        return self.SpanWith2Matcher(ms, slop=self.slop, ordered=self.ordered,
-                                     mindist=self.mindist)
+        return self.SpanWith2Matcher(
+            ms, slop=self.slop, ordered=self.ordered, mindist=self.mindist
+        )
 
     class SpanWith2Matcher(SpanWrappingMatcher):
         def __init__(self, ms, slop=1, ordered=True, mindist=1):
@@ -1044,12 +1164,18 @@ class SpanWith2(SpanQuery):
             self.slop = slop
             self.ordered = ordered
             self.mindist = mindist
-            isect = make_binary_tree(cylleneus.engine.matching.binary.IntersectionMatcher, ms)
+            isect = make_binary_tree(
+                cylleneus.engine.matching.binary.IntersectionMatcher, ms
+            )
             super(SpanWith2.SpanWith2Matcher, self).__init__(isect)
 
         def copy(self):
-            return self.__class__([m.copy() for m in self.ms], slop=self.slop,
-                                  ordered=self.ordered, mindist=self.mindist)
+            return self.__class__(
+                [m.copy() for m in self.ms],
+                slop=self.slop,
+                ordered=self.ordered,
+                mindist=self.mindist,
+            )
 
         def replace(self, minquality=0):
             # TODO: fix this
@@ -1061,8 +1187,8 @@ class SpanWith2(SpanQuery):
             slop = self.slop
             mindist = self.mindist
             ordered = self.ordered
-            ms = self.ms
 
+            ms = self.ms
             aspans = ms[0].spans()
             i = 1
             while i < len(ms) and aspans:
@@ -1071,20 +1197,27 @@ class SpanWith2(SpanQuery):
                 for aspan in aspans:
                     # Use a binary search to find the first position we should
                     # start looking for possible matches
-                    if ordered:
-                        start = aspan.start
-                    else:
-                        start = max(0, aspan.start - slop)
-                    j = bisect_spans(bspans, start)
+                    startmeta = aspan.meta
+                    if not startmeta:
+                        continue
+                    j = bisect_spans_by_meta(bspans, startmeta)
 
                     while j < len(bspans):
                         bspan = bspans[j]
                         j += 1
 
-                        if bspan.startchar == aspan.startchar and \
-                            bspan.endchar == aspan.endchar and \
-                            bspan.divs == aspan.divs:
+                        if (
+                            bspan.startchar == aspan.startchar
+                            and bspan.endchar == aspan.endchar
+                            and bspan.divs == aspan.divs
+                        ):
                             spans.add(aspan.to(bspan))
+                        elif bspan.startchar > aspan.endchar and tuple(
+                            [int(v) for k, v in bspan.meta.items() if k != "meta"]
+                        ) > tuple(
+                            [int(v) for k, v in aspan.meta.items() if k != "meta"]
+                        ):
+                            break
                 aspans = sorted(spans)
                 i += 1
 
