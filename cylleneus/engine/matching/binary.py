@@ -559,7 +559,7 @@ class IntersectionMatcher(AdditiveBiMatcher):
             return ar or nr
 
     def spans(self):
-        return sorted(set(self.a.spans()) | set(self.b.spans()))
+        return sorted(set(self.a.spans()) | set(self.b.spans()), key=lambda x: (x.startchar, x.endchar))
 
 
 class AndNotMatcher(BiMatcher):

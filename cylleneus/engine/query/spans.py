@@ -1190,9 +1190,11 @@ class SpanWith2(SpanQuery):
 
             ms = self.ms
             aspans = ms[0].spans()
+
             i = 1
             while i < len(ms) and aspans:
                 bspans = ms[i].spans()
+
                 spans = set()
                 for aspan in aspans:
                     # Use a binary search to find the first position we should
@@ -1209,7 +1211,11 @@ class SpanWith2(SpanQuery):
                         if (
                             bspan.startchar == aspan.startchar
                             and bspan.endchar == aspan.endchar
-                            and bspan.divs == aspan.divs
+                            and tuple(
+                            [int(v) for k, v in bspan.meta.items() if k != "meta"]
+                        ) == tuple(
+                            [int(v) for k, v in aspan.meta.items() if k != "meta"]
+                        )
                         ):
                             spans.add(aspan.to(bspan))
                         elif bspan.startchar > aspan.endchar and tuple(
@@ -1218,7 +1224,7 @@ class SpanWith2(SpanQuery):
                             [int(v) for k, v in aspan.meta.items() if k != "meta"]
                         ):
                             break
-                aspans = sorted(spans)
+                aspans = spans
                 i += 1
 
             if i == len(ms):
