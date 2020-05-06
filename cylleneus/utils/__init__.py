@@ -13,7 +13,7 @@ DEBUG_OFF = 0
 DEBUG_LOW = 1
 DEBUG_MEDIUM = 2
 DEBUG_HIGH = 3
-
+DEBUG_ON = DEBUG_HIGH + 1
 
 # Debug helper function
 def print_debug(level, msg, out=sys.stderr):
