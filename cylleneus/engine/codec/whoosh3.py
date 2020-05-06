@@ -75,7 +75,7 @@ class W3Codec(base.Codec):
     VPOSTS_EXT = ".vps"  # Vector postings
     COLUMN_EXT = ".col"  # Per-document value columns
 
-    def __init__(self, blocklimit=128, compression=3, inlinelimit=1):
+    def __init__(self, blocklimit=128, compression=zlib.Z_DEFAULT_COMPRESSION, inlinelimit=1):
         self._blocklimit = blocklimit
         self._compression = compression
         self._inlinelimit = inlinelimit
@@ -650,7 +650,7 @@ class W3PostingsWriter(base.PostingsWriter):
     through the postings.
     """
 
-    def __init__(self, postfile, blocklimit, byteids=False, compression=3,
+    def __init__(self, postfile, blocklimit, byteids=False, compression=zlib.Z_DEFAULT_COMPRESSION,
                  inlinelimit=1):
         self._postfile = postfile
         self._blocklimit = blocklimit

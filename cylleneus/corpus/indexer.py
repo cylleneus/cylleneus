@@ -137,7 +137,7 @@ class Indexer:
             shutil.rmtree(self.path)
             self._indexes = []
         if docix is not None:
-            self.corpus.manifest.pop(docix)
+            self.corpus.manifest.pop(str(docix))
             self.corpus.update_manifest()
 
     def optimize(self):
@@ -186,7 +186,7 @@ class Indexer:
                     and doc["title"] == kwargs["title"]
                     and doc["filename"] == kwargs["filename"]
                 ):
-                    existing = docix_
+                    existing = int(docix_)
 
             if existing is not None:
                 if not destructive:
