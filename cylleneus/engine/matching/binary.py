@@ -188,7 +188,7 @@ class UnionMatcher(AdditiveBiMatcher):
     # Using sets is faster in most cases, but could potentially use a lot of
     # memory. Comment out this method override to not use sets.
     def all_ids(self):
-        return iter(sorted(set(self.a.all_ids()) | set(self.b.all_ids())))
+        return iter(sorted(set(self.a.all_ids() + self.b.all_ids())))
 
     def next(self):
         self._id = None
@@ -232,7 +232,9 @@ class UnionMatcher(AdditiveBiMatcher):
             return self.b.spans()
         else:
             return sorted(
-                set(self.a.spans()) | set(self.b.spans()),
+                set(
+                    self.a.spans() + self.b.spans()
+                ),  # set(self.a.spans()) | set(self.b.spans()),
                 key=lambda x: (x.startchar, x.endchar),
             )
 
@@ -559,7 +561,12 @@ class IntersectionMatcher(AdditiveBiMatcher):
             return ar or nr
 
     def spans(self):
-        return sorted(set(self.a.spans()) | set(self.b.spans()), key=lambda x: (x.startchar, x.endchar))
+        return sorted(
+            set(
+                self.a.spans() + self.b.spans()
+            ),  # set(self.a.spans()) | set(self.b.spans()),
+            key=lambda x: (x.startchar, x.endchar),
+        )
 
 
 class AndNotMatcher(BiMatcher):

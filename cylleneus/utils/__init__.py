@@ -20,7 +20,7 @@ def print_debug(level, msg, out=sys.stderr):
     from cylleneus.settings import DEBUG
 
     if level <= DEBUG:
-        out.write("%s%s\n" % (" " * level, msg))
+        out.write("%s%s\n" % ("  " * level, msg))
 
 
 @total_ordering

@@ -66,7 +66,7 @@ class Indexer:
             self._path = None
 
         if self.path:
-            self._index_files = Path(self.path).glob("*.toc")
+            self._index_files = list(Path(self.path).glob("*.toc"))
 
     @property
     def work(self):

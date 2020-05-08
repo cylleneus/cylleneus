@@ -17,7 +17,7 @@ from cylleneus.engine.highlight import (
 )
 from cylleneus.engine.qparser.default import CylleneusQueryParser
 from cylleneus.engine.searching import CylleneusSearcher, HitRef
-from cylleneus.utils import DEBUG_HIGH, DEBUG_MEDIUM, print_debug, slugify
+from cylleneus.utils import DEBUG_HIGH, DEBUG_MEDIUM, DEBUG_LOW, print_debug, slugify
 
 
 class Collection:
@@ -421,7 +421,7 @@ class Search:
             if work.searchable:
                 parser = CylleneusQueryParser("form", work.corpus.schema)
                 self.query = parser.parse(self.spec, debug=debug)
-                print_debug(DEBUG_MEDIUM, "Query: {}".format(self.query))
+                print_debug(DEBUG_LOW, "Query: {}".format(self.query))
 
                 for ix in work.indexes:
                     reader = ix.reader()

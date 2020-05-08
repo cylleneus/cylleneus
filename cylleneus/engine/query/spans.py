@@ -102,7 +102,9 @@ class Span(object):
 
     def __eq__(self, span):
         if self.divs and span.divs:
-            samediv = self.divs == span.divs
+            samediv = tuple(
+                [int(v) for k, v in self.meta.items() if k != "meta"]
+            ) == tuple([int(v) for k, v in span.meta.items() if k != "meta"])
         else:
             samediv = True
         return (
@@ -114,24 +116,30 @@ class Span(object):
         )
 
     def __ne__(self, span):
-        return self.start != span.start or self.end != span.end
+        return tuple([int(v) for k, v in self.meta.items() if k != "meta"]) != tuple(
+            [int(v) for k, v in span.meta.items() if k != "meta"]
+        )
 
     def __lt__(self, span):
         if self.divs and span.divs:
-            prevdiv = self.divs < span.divs
+            prevdiv = tuple(
+                [int(v) for k, v in self.meta.items() if k != "meta"]
+            ) < tuple([int(v) for k, v in span.meta.items() if k != "meta"])
         else:
             prevdiv = True
         return prevdiv and self.start < span.start
 
     def __gt__(self, span):
         if self.divs and span.divs:
-            folldiv = self.divs > span.divs
+            folldiv = tuple(
+                [int(v) for k, v in self.meta.items() if k != "meta"]
+            ) == tuple([int(v) for k, v in span.meta.items() if k != "meta"])
         else:
             folldiv = True
         return folldiv and self.start > span.start
 
     def __hash__(self):
-        return hash((self.start, self.end))
+        return hash(tuple([int(v) for k, v in self.meta.items() if k != "meta"]))
 
     @classmethod
     def merge(cls, spans):
@@ -1194,7 +1202,6 @@ class SpanWith2(SpanQuery):
             i = 1
             while i < len(ms) and aspans:
                 bspans = ms[i].spans()
-
                 spans = set()
                 for aspan in aspans:
                     # Use a binary search to find the first position we should
@@ -1213,7 +1220,8 @@ class SpanWith2(SpanQuery):
                             and bspan.endchar == aspan.endchar
                             and tuple(
                             [int(v) for k, v in bspan.meta.items() if k != "meta"]
-                        ) == tuple(
+                        )
+                            == tuple(
                             [int(v) for k, v in aspan.meta.items() if k != "meta"]
                         )
                         ):
