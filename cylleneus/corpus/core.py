@@ -6,6 +6,7 @@ from pathlib import Path
 
 import requests
 from git import RemoteProgress, Repo
+import safer
 
 from cylleneus import settings
 import cylleneus.engine.index
@@ -93,7 +94,7 @@ class Corpus:
         manifest_file = self.path / Path("manifest.json")
         if not self.path.exists():
             self.path.mkdir(parents=True, exist_ok=True)
-        with codecs.open(manifest_file, "w", "utf8") as fp:
+        with safer.open(manifest_file, "w", encoding="utf8") as fp:
             json.dump(self.manifest, fp, ensure_ascii=False)
 
     @property
@@ -430,7 +431,7 @@ class Corpus:
                     url = self.meta.repo["raw"] + (remote_path / Path(file)).as_posix()
                     with requests.get(url, stream=True) as r:
                         r.raise_for_status()
-                        with codecs.open(local_path / Path(file), "wb") as fp:
+                        with safer.open(local_path / Path(file), "wb") as fp:
                             max_count = int(r.headers["Content-Length"])
                             progress = DefaultProgressPrinter(
                                 max_count=max_count,
@@ -456,7 +457,7 @@ class Corpus:
                     except requests.exceptions.HTTPError as e:
                         pass
                     else:
-                        with codecs.open(file_path, "wb") as fp:
+                        with safer.open(file_path, "wb") as fp:
                             max_count = int(r.headers["Content-Length"])
                             progress = DefaultProgressPrinter(
                                 max_count=max_count,

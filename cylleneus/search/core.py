@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Iterable
 
 import docx
+import safer
 
 from cylleneus import __version__, settings
 from cylleneus.corpus.core import Corpus, Work
@@ -51,7 +52,7 @@ class Collection:
             collections = {}
 
         collections[name] = list(self.iter_all())
-        with codecs.open(".collections", "w", "utf8") as fp:
+        with safer.open(".collections", "w", encoding="utf8", ) as fp:
             json.dump(collections, fp)
 
     def load(self, name: str):
@@ -324,9 +325,7 @@ class Search:
                 h.add_run(f"{reference}")
 
                 p = doc.add_paragraph()
-                for run in re.finditer(
-                    r"<(\w+?)>(.*?)</\1>", text, flags=re.DOTALL
-                ):
+                for run in re.finditer(r"<(\w+?)>(.*?)</\1>", text, flags=re.DOTALL):
                     if run.group(1) == "match":
                         for t in run.group(2).split():
                             if re.match(r"<em>.*?</em>", t):
@@ -339,7 +338,7 @@ class Search:
                             elif t.startswith("</em>"):
                                 r = p.add_run(re.sub(r"</em>", "", t) + " ")
                                 r.font.bold = False
-                            elif t == '\n':
+                            elif t == "\n":
                                 r.add_break()
                             else:
                                 r = p.add_run(t + " ")
