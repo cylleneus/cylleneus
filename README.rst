@@ -259,7 +259,6 @@ To Do
 
 In no particular order...
 
-* Optimization
 * Perseus CTS alignment for corpora with non-standard text annotations
 * implement high-order syntactic search for different annotation schemes
 * manually-curated WordNet-based semantic mark-up ('sembanks') for texts
