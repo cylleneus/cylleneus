@@ -2551,11 +2551,14 @@ class CylleneusSearcher(Searcher):
 
         # Call the lower-level method to run the collector
         self.search_with_collector(q, c)
-        docs = c.results().docs()
+        results = c.results()
+        docs = results.docs()
         print_debug(
             DEBUG_LOW,
             "Matched in document{} {}, after {} secs.".format(
-                "s" if len(docs) > 1 else "", ", ".join(docs), c.runtime
+                "s" if len(docs) > 1 else "",
+                ", ".join([str(doc) for doc in docs]),
+                results.runtime,
             ),
         )
         # Return the results object from the collector
