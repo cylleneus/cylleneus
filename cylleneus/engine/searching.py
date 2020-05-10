@@ -2097,7 +2097,8 @@ class CylleneusHit(Hit):
 
         return filtered
 
-    def _merge_fragments(self, fragments):
+    @staticmethod
+    def _merge_fragments(fragments):
         """ Merge overlapping, adjacent, and same-passage fragments together """
 
         fragment = None
@@ -2109,12 +2110,7 @@ class CylleneusHit(Hit):
                 fragment.overlaps(other) or fragment.is_adjacent(other)
             ) or fragment.has_same_divs(other):
                 fragment.matches.extend(other.matches)
-                fragment.matches.sort(
-                    key=lambda x: (
-                        x.startchar,
-                        x.fieldname
-                    )
-                )
+                fragment.matches.sort(key=lambda x: (x.startchar, x.fieldname))
                 fragment.matched_terms.update(other.matched_terms)
 
                 if other.startchar < fragment.startchar:
@@ -2473,7 +2469,7 @@ class CylleneusHit(Hit):
                 ),
             )
         else:
-            fragments = sorted(fragments, key=lambda x: x[1].startchar, )
+            fragments = sorted(fragments, key=lambda x: x[1].startchar)
         formatted = self.results.highlighter.formatter.format(fragments)
 
         hlites = []
@@ -2555,7 +2551,12 @@ class CylleneusSearcher(Searcher):
 
         # Call the lower-level method to run the collector
         self.search_with_collector(q, c)
-        print_debug(DEBUG_LOW, "Matched in docs: {}".format(len(c.results().docs())))
-
+        docs = c.results().docs()
+        print_debug(
+            DEBUG_LOW,
+            "Matched in document{} {}, after {} secs.".format(
+                "s" if len(docs) > 1 else "", ", ".join(docs), c.runtime
+            ),
+        )
         # Return the results object from the collector
         return c.results()
