@@ -498,6 +498,10 @@ class Corpus:
                         git_origin.pull()
                 except Exception as e:
                     raise e
+            manifest_file = self.path / Path("manifest.json")
+            if manifest_file.exists():
+                with codecs.open(manifest_file, "r", "utf8") as fp:
+                    self._manifest = json.load(fp)
             return repo
 
     def __str__(self):
