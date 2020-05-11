@@ -1803,18 +1803,20 @@ def term_lists(q, ixreader):
     represented as nested lists.
     """
 
+    all_terms = list(q.iter_all_terms(ixreader))
+
     ts = []
     ors = []
     if isinstance(q, cylleneus.engine.query.compound.CylleneusCompoundQuery):
         if isinstance(q, cylleneus.engine.query.compound.Or):
-            ors.append(list(q.iter_all_terms(ixreader)))
+            ors.append(all_terms)
         elif isinstance(q, cylleneus.engine.query.terms.Annotation):
             ts.extend(
                 list(
                     set(
                         [
                             (fieldname, text.split("::")[0])
-                            for fieldname, text in q.iter_all_terms(ixreader)
+                            for fieldname, text in all_terms
                         ]
                     )
                 )
@@ -1825,22 +1827,23 @@ def term_lists(q, ixreader):
                     set(
                         [
                             (fieldname, text.split("::")[0])
-                            for fieldname, text in q.iter_all_terms(ixreader)
+                            for fieldname, text in all_terms
                         ]
                     )
                 )
             )
         else:
             for sq in q:
+                sq_all_terms = list(sq.iter_all_terms(ixreader))
                 if isinstance(sq, cylleneus.engine.query.compound.Or):
-                    ors.append(list(sq.iter_all_terms(ixreader)))
+                    ors.append(sq_all_terms)
                 elif isinstance(sq, cylleneus.engine.query.terms.Annotation):
                     ts.extend(
                         list(
                             set(
                                 [
                                     (fieldname, text.split("::")[0])
-                                    for fieldname, text in sq.iter_all_terms(ixreader)
+                                    for fieldname, text in sq_all_terms
                                 ]
                             )
                         )
@@ -1851,23 +1854,23 @@ def term_lists(q, ixreader):
                             set(
                                 [
                                     (fieldname, text.split("::")[0])
-                                    for fieldname, text in sq.iter_all_terms(ixreader)
+                                    for fieldname, text in sq_all_terms
                                 ]
                             )
                         )
                     )
                 else:
-                    ts.extend(list(sq.iter_all_terms(ixreader)))
+                    ts.extend(sq_all_terms)
     else:
         if isinstance(q, cylleneus.engine.query.compound.Or):
-            ors.append(list(q.iter_all_terms(ixreader)))
+            ors.append(all_terms)
         elif isinstance(q, cylleneus.engine.query.terms.Annotation):
             ts.extend(
                 list(
                     set(
                         [
                             (fieldname, text.split("::")[0])
-                            for fieldname, text in q.iter_all_terms(ixreader)
+                            for fieldname, text in all_terms
                         ]
                     )
                 )
@@ -1878,20 +1881,21 @@ def term_lists(q, ixreader):
                     set(
                         [
                             (fieldname, text.split("::")[0])
-                            for fieldname, text in q.iter_all_terms(ixreader)
+                            for fieldname, text in all_terms
                         ]
                     )
                 )
             )
         else:
-            ts.extend(list(q.iter_all_terms(ixreader)))
+            ts.extend(all_terms)
+
     ls = []
     if len(ts) != 0:
         if ors:
             for or_ in ors:
                 for _t in or_:
                     temp = ts[:]
-                    ls.append(list(set(temp + [_t,])))
+                    ls.append(list(set(temp + [_t, ])))
         else:
             ls.append(ts)
     else:
@@ -1913,6 +1917,7 @@ class CylleneusHit(Hit):
 
     def _filter_by_annotation(self, query, termlists, fragments):
         """ For compound annotation queries, preserve same-analysis groups """
+
         if self["language"] == "grk":
             WN = greekwordnet.GreekWordNet()
         elif self["language"] == "skt":

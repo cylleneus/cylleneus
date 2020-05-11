@@ -309,10 +309,7 @@ class CylleneusHighlighter(object):
             tokens.sort(key=lambda t: t.startchar)
 
             if text is None:
-                if "content" not in hitobj:
-                    text = ""
-                else:
-                    text = hitobj["content"]
+                text = hitobj.get("content", "")
             fragments = self.fragmenter.fragment_matches(text, tokens)
         else:
             # Retokenize the text
