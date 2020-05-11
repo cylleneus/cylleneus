@@ -5,7 +5,7 @@ from nltk.tokenize import word_tokenize
 from cylleneus.utils import stringify
 
 # Description
-description = "Corpus of Greek/English translation alignments"
+description = "The Perseids Project (translation alignment)"
 
 # Language
 language = "eng"

@@ -6,7 +6,7 @@ import lxml.etree as et
 from cylleneus import settings
 
 # Description
-description = "Ancient Greek and Latin Dependency Treebank"
+description = "Ancient Greek and Latin Dependency Treebank (AGLDT)"
 
 # Language
 language = "lat"

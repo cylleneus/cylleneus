@@ -5,7 +5,7 @@ from pathlib import Path
 dir = Path(__file__).parent
 
 # Description
-description = "Digital Corpus of Sanskrit"
+description = "Digital Corpus of Sanskrit (DCS)"
 
 # Language
 language = "skt"

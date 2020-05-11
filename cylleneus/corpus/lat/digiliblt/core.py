@@ -9,7 +9,7 @@ from cylleneus.lang.lat import sent_tokenizer, word_tokenizer
 from cylleneus.utils import nrange
 
 # Description
-description = "DigilibLT"
+description = "Digital Library of Late-Antique Latin Texts (DigilibLT)"
 
 # Language
 language = "lat"

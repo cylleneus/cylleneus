@@ -6,7 +6,7 @@ import lxml.etree as et
 from cylleneus import settings
 
 # Description
-description = "ATLAS"
+description = "Aligned Text and Linguistic Annotation Server (ATLAS)"
 
 # Language
 language = "grk"

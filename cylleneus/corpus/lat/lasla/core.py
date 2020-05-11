@@ -9,7 +9,7 @@ from cylleneus import settings
 from cylleneus.utils import nrange, alnum
 
 # Description
-description = "LASLA"
+description = "Laboratoire d’Analyse Statistique des Langues Anciennes (LASLA)"
 
 # Language
 language = "lat"

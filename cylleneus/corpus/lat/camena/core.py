@@ -6,7 +6,7 @@ from cylleneus.settings import LINES_OF_CONTEXT
 from cylleneus.lang.lat import word_tokenizer
 
 # Description
-description = "CAMENA Corpus of Neo-Latin"
+description = "Corpus Automatum Multiplex Electorum Neolatinitatis Auctorum (CAMENA)"
 
 # Language
 language = "lat"

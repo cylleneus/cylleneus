@@ -5,7 +5,7 @@ import lxml.etree as et
 from cylleneus import settings
 
 # Description
-description = "PROIEL"
+description = "Pragmatic Resources in Old Indo-European Languages (PROIEL) Treebank"
 
 # Language
 language = "lat"
