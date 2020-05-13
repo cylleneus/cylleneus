@@ -4,6 +4,7 @@ import re
 from datetime import datetime
 from pathlib import Path
 from typing import Iterable
+from math import ceil
 
 import docx
 import safer
@@ -385,9 +386,8 @@ class Search:
                 results = [(hit, meta) for hit, meta, _ in self.results]
                 corpora = len(set([hit["corpus"] for hit, _ in results]))
                 docs = len(set([hit["docix"] for hit, _ in results]))
-                # The number of highlighted words in all fragments
-
-                matches = (
+                # The rounded number of highlighted tokens divided by query terms
+                matches = ceil(
                     sum(
                         [
                             len(
@@ -397,7 +397,7 @@ class Search:
                             if "hlites" in meta
                         ]
                     )
-                    // self.query.nterms()
+                    / self.query.nterms()
                 )
                 self._count = matches, docs, corpora
             else:
