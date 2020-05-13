@@ -52,7 +52,7 @@ class Collection:
             collections = {}
 
         collections[name] = list(self.iter_all())
-        with safer.open(".collections", "w", encoding="utf8", ) as fp:
+        with safer.open(".collections", "w", encoding="utf8") as fp:
             json.dump(collections, fp)
 
     def load(self, name: str):
@@ -382,14 +382,18 @@ class Search:
     def count(self):
         if not self._count:
             if self.results and len(self.results) > 0:
-                corpora = len(set([hit["corpus"] for hit, _, _ in self.results]))
-                docs = len(set([hit["docix"] for hit, _, _ in self.results]))
+                results = [(hit, meta) for hit, meta, _ in self.results]
+                corpora = len(set([hit["corpus"] for hit, _ in results]))
+                docs = len(set([hit["docix"] for hit, _ in results]))
                 # The number of highlighted words in all fragments
+
                 matches = (
                     sum(
                         [
-                            len(set([tuple(hlite) for hlite in meta["hlites"]]))
-                            for _, meta, _ in self.results
+                            len(
+                                set([tuple(hlite.values()) for hlite in meta["hlites"]])
+                            )
+                            for _, meta in results
                             if "hlites" in meta
                         ]
                     )
@@ -397,7 +401,7 @@ class Search:
                 )
                 self._count = matches, docs, corpora
             else:
-                self._count = 0, 0, 0
+                self._count = None
         return self._count
 
     @count.setter
@@ -427,7 +431,7 @@ class Search:
                     with CylleneusSearcher(
                         reader, weighting=scoring.NullWeighting
                     ) as searcher:
-                        results = searcher.search(self.query, terms=True, limit=None, )
+                        results = searcher.search(self.query, terms=True, limit=None)
 
                         if results:
                             results.fragmenter = CylleneusPinpointFragmenter(
@@ -467,7 +471,7 @@ class Search:
         self._query = q
 
     def __repr__(self):
-        return f"Search(spec={self.spec}, collection={self.collection}, results={self.count})"
+        return f"Search(query={self.spec}, collection={self.collection}, results={self.count})"
 
     def __str__(self):
         return self.spec
