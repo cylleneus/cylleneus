@@ -32,25 +32,27 @@ from __future__ import division
 
 import copy
 import weakref
-from collections import defaultdict, namedtuple, Counter
+from collections import Counter, defaultdict, namedtuple
 from itertools import product
 from math import ceil
+
+import whoosh.classify
+from greekwordnet import greekwordnet
+from latinwordnet import latinwordnet
+from natsort import natsorted
+from sanskritwordnet import sanskritwordnet
+from whoosh.idsets import BitSet, DocIdSet
+from whoosh.reading import TermNotFound
+from whoosh.util.cache import lru_cache
 
 import cylleneus.engine.collectors
 import cylleneus.engine.highlight
 import cylleneus.engine.query
 import cylleneus.engine.query.positional
 import cylleneus.engine.scoring
-import whoosh.classify
 from cylleneus.engine.compat import iteritems, iterkeys, itervalues, xrange
-from greekwordnet import greekwordnet
-from latinwordnet import latinwordnet
-from sanskritwordnet import sanskritwordnet
-from natsort import natsorted
+from cylleneus.lang import lat
 from cylleneus.utils import *
-from whoosh.idsets import BitSet, DocIdSet
-from whoosh.reading import TermNotFound
-from whoosh.util.cache import lru_cache
 
 HitRef = namedtuple("HitRef", ["corpus", "author", "title", "urn", "reference", "text"])
 
@@ -1798,109 +1800,64 @@ field_order = {
 }
 
 
-def term_lists(q, ixreader):
+def query_term_lists(query, ixreader):
     """Returns the terms in the query tree, with the query hierarchy
     represented as nested lists.
     """
 
-    all_terms = list(q.iter_all_terms(ixreader))
+    def _get_term_lists(q):
+        all_terms = list(q.iter_all_terms(ixreader))
 
-    ts = []
-    ors = []
-    if isinstance(q, cylleneus.engine.query.compound.CylleneusCompoundQuery):
-        if isinstance(q, cylleneus.engine.query.compound.Or):
-            ors.append(all_terms)
-        elif isinstance(q, cylleneus.engine.query.terms.Annotation):
-            ts.extend(
-                list(
-                    set(
-                        [
-                            (fieldname, text.split("::")[0])
-                            for fieldname, text in all_terms
-                        ]
-                    )
-                )
-            )
-        elif isinstance(q, cylleneus.engine.query.terms.PatternQuery):
-            ors.append(
-                list(
-                    set(
-                        [
-                            (fieldname, text.split("::")[0])
-                            for fieldname, text in all_terms
-                        ]
-                    )
-                )
-            )
-        else:
-            for sq in q:
-                sq_all_terms = list(sq.iter_all_terms(ixreader))
-                if isinstance(sq, cylleneus.engine.query.compound.Or):
-                    ors.append(sq_all_terms)
-                elif isinstance(sq, cylleneus.engine.query.terms.Annotation):
-                    ts.extend(
-                        list(
-                            set(
-                                [
-                                    (fieldname, text.split("::")[0])
-                                    for fieldname, text in sq_all_terms
-                                ]
-                            )
+        and_terms = []
+        or_terms = []
+        if isinstance(q, cylleneus.engine.query.compound.CylleneusCompoundQuery):
+            if isinstance(q, cylleneus.engine.query.compound.Or):
+                or_terms.append(all_terms)
+            elif isinstance(q, cylleneus.engine.query.terms.PatternQuery):
+                or_terms.append(
+                    list(
+                        set(
+                            [
+                                (fieldname, text.split("::")[0])
+                                for fieldname, text in all_terms
+                            ]
                         )
                     )
-                elif isinstance(sq, cylleneus.engine.query.terms.PatternQuery):
-                    ors.append(
-                        list(
-                            set(
-                                [
-                                    (fieldname, text.split("::")[0])
-                                    for fieldname, text in sq_all_terms
-                                ]
-                            )
-                        )
-                    )
-                else:
-                    ts.extend(sq_all_terms)
-    else:
-        if isinstance(q, cylleneus.engine.query.compound.Or):
-            ors.append(all_terms)
-        elif isinstance(q, cylleneus.engine.query.terms.Annotation):
-            ts.extend(
-                list(
-                    set(
-                        [
-                            (fieldname, text.split("::")[0])
-                            for fieldname, text in all_terms
-                        ]
-                    )
                 )
-            )
-        elif isinstance(q, cylleneus.engine.query.terms.PatternQuery):
-            ors.append(
-                list(
-                    set(
-                        [
-                            (fieldname, text.split("::")[0])
-                            for fieldname, text in all_terms
-                        ]
-                    )
-                )
-            )
+            else:
+                for sq in q:
+                    _and_terms, _or_terms = _get_term_lists(sq)
+                    if _and_terms:
+                        and_terms.extend(_and_terms)
+                    if _or_terms:
+                        or_terms.extend(_or_terms)
         else:
-            ts.extend(all_terms)
+            and_terms.extend(
+                list(
+                    set(
+                        [
+                            (fieldname, text.split("::")[0])
+                            for fieldname, text in all_terms
+                        ]
+                    )
+                )
+            )
+        return and_terms, or_terms
 
-    ls = []
-    if len(ts) != 0:
-        if ors:
-            for or_ in ors:
-                for _t in or_:
-                    temp = ts[:]
-                    ls.append(list(set(temp + [_t, ])))
+    and_terms, or_terms = _get_term_lists(query)
+
+    term_lists = []
+    if len(and_terms) != 0:
+        if or_terms:
+            terms = or_terms + [
+                and_terms,
+            ]
+            term_lists.extend(product(*terms))
         else:
-            ls.append(ts)
+            term_lists.append(and_terms)
     else:
-        ls.extend(product(*ors))
-    return sorted([sorted(l, key=lambda x: x[0]) for l in ls])
+        term_lists.extend(product(*or_terms))
+    return sorted([sorted(term_list, key=lambda x: x[0]) for term_list in term_lists])
 
 
 class CylleneusHit(Hit):
@@ -1915,7 +1872,7 @@ class CylleneusHit(Hit):
             self._fields = self.searcher.stored_fields(0)
         return self._fields
 
-    def _filter_by_annotation(self, query, termlists, fragments):
+    def filter_by_annotation(self, query, termlists, fragments):
         """ For compound annotation queries, preserve same-analysis groups """
 
         if self["language"] == "grk":
@@ -1929,8 +1886,8 @@ class CylleneusHit(Hit):
 
         if isinstance(query, cylleneus.engine.query.positional.Collocation) or any(
             [
-                isinstance(subq, cylleneus.engine.query.positional.Collocation)
-                for subq in query
+                isinstance(sq, cylleneus.engine.query.positional.Collocation)
+                for sq in query
             ]
         ):
             for fragment in fragments:
@@ -2066,27 +2023,65 @@ class CylleneusHit(Hit):
                 field_counts_by_meta = {}
                 for finalist in finalists:
                     meta = hdict(finalist.meta)
+                    for k in ["sent_pos", "sect_pos"]:
+                        meta.pop(k)
                     if meta not in field_counts_by_meta:
                         field_counts_by_meta[meta] = Counter(
-                            [f.fieldname for f in finalists if hdict(f.meta) == meta]
+                            [
+                                f.fieldname
+                                for f in finalists
+                                if hdict(
+                                {
+                                    k: v
+                                    for k, v in f.meta.items()
+                                    if k not in ["sent_pos", "sect_pos"]
+                                }
+                            )
+                                   == meta
+                            ]
                         )
-
                 if len(finalists) >= len(termlists[0]) and any(
                     [all([item in terms for item in tt]) for terms in termlists]
                 ):
                     meta_counts = Counter(
-                        [hdict(finalist.meta) for finalist in finalists]
+                        [
+                            hdict(
+                                {
+                                    k: v
+                                    for k, v in finalist.meta.items()
+                                    if k not in ["sent_pos", "sect_pos"]
+                                }
+                            )
+                            for finalist in finalists
+                        ]
                     )
 
                     winners = [
                         finalist
                         for finalist in finalists
-                        if meta_counts[hdict(finalist.meta)] >= len(termlists[0])
+                        if meta_counts[
+                               hdict(
+                                   {
+                                       k: v
+                                       for k, v in finalist.meta.items()
+                                       if k not in ["sent_pos", "sect_pos"]
+                                   }
+                               )
+                           ]
+                           >= len(termlists[0])
                            and (finalist.fieldname, finalist.text.split("::")[0])
                            in set([term for termlist in termlists for term in termlist])
                            and all(
                             [
-                                field_counts_by_meta[hdict(finalist.meta)][field]
+                                field_counts_by_meta[
+                                    hdict(
+                                        {
+                                            k: v
+                                            for k, v in finalist.meta.items()
+                                            if k not in ["sent_pos", "sect_pos"]
+                                        }
+                                    )
+                                ][field]
                                 >= term_field_counts[field]
                                 for field in term_field_counts
                             ]
@@ -2099,11 +2094,10 @@ class CylleneusHit(Hit):
         for fragment in fragments:
             if len(fragment.matches) != 0:
                 filtered.append(fragment)
-
         return filtered
 
     @staticmethod
-    def _merge_fragments(fragments):
+    def merge_fragments(fragments):
         """ Merge overlapping, adjacent, and same-passage fragments together """
 
         fragment = None
@@ -2133,127 +2127,80 @@ class CylleneusHit(Hit):
         if fragment is not None:
             yield fragment
 
-    def _filter_by_sequence(self, query, fragments):
-        if isinstance(query, cylleneus.engine.query.positional.Sequence):
-            ordering = {}
-            for i, q in enumerate(query):
-                if isinstance(
-                    q,
-                    (
-                        cylleneus.engine.query.compound.CylleneusCompoundQuery,
-                        cylleneus.engine.query.positional.Collocation,
-                    ),
-                ):
-                    for sq in q:
-                        for term in sq.iter_all_terms(self.reader):
-                            ordering[(term[0], term[1].split("::")[0])] = (
-                                i,
-                                getattr(sq, "pos", -1),
-                            )
+    def filter_by_sequence(self, query, fragments):
+        def _filter_matches_by_order(matches, ordering):
+            matches = sorted(
+                matches, key=lambda x: (x.startchar, field_order[x.fieldname]),
+            )
+            ordered = []
+            other = None
+            for match in matches:
+                if other is None:
+                    other = match
+                    continue
                 else:
-                    for term in q.iter_all_terms(self.reader):
-                        ordering[(term[0], term[1].split("::")[0])] = (
-                            i,
-                            getattr(q, "pos", -1),
-                        )
+                    if (match.fieldname, match.text.split("::")[0]) in ordering and (
+                        other.fieldname,
+                        other.text.split("::")[0],
+                    ) in ordering:
+                        if (
+                            match.fieldname == "annotation"
+                            and other.fieldname == "annotation"
+                            and match.startchar == other.startchar
+                        ) or (
+                            match.pos - other.pos == 0 and match.text in lat.enclitics
+                        ):
+                            ordered.extend([other, match])
+                        else:
+                            if (
+                                ordering[(match.fieldname, match.text.split("::")[0])]
+                                >= ordering[
+                                (other.fieldname, other.text.split("::")[0])
+                            ]
+                            ):
+                                # For strict sequences, matches must be adjacent
+                                if match.pos - other.pos == 1:
+                                    ordered.extend([other, match])
+                    else:
+                        # If the match is unrelated to the ordering...
+                        ordered.append(match)
+            return list(set(ordered))
+
+        def _ordering_for_query(q, seq: int = 0):
+            for i, sq in enumerate(q):
+                if isinstance(
+                    sq, cylleneus.engine.query.compound.CylleneusCompoundQuery
+                ):
+                    yield from _ordering_for_query(sq, i)
+                else:
+                    yield (sq.fieldname, sq.text.split("::")[0]), (
+                        seq,
+                        getattr(sq, "pos", 0),
+                    )
+
+        if isinstance(query, cylleneus.engine.query.positional.Sequence):
+            ordering = {k: v for k, v in _ordering_for_query(query)}
 
             for fragment in fragments:
-                newmatches = []
-                for y in fragment.matches:
-                    if len(newmatches) == 0:
-                        newmatches.append(y)
-                    else:
-                        x = newmatches[-1]
-                        if (x.fieldname, x.text.split("::")[0]) in ordering and (
-                            y.fieldname,
-                            y.text.split("::")[0],
-                        ) in ordering:
-                            if (
-                                x.fieldname == "annotation"
-                                and y.fieldname == "annotation"
-                                and y.pos == x.pos
-                            ):
-                                newmatches.append(y)
-                            else:
-                                if (
-                                    ordering[(y.fieldname, y.text.split("::")[0])]
-                                    >= ordering[(x.fieldname, x.text.split("::")[0])]
-                                ):
-                                    # For strict sequences, slop == 1
-                                    if (
-                                        0 < (y.pos - x.pos) <= query.slop
-                                        and y.startchar - x.endchar <= 1
-                                    ):
-                                        newmatches.append(y)
-                                    else:
-                                        newmatches.pop()
-                                        newmatches.append(y)
-                                else:
-                                    if len(newmatches) == 1:
-                                        newmatches.pop()
-                                        newmatches.append(y)
-                fragment.matches = newmatches
+                fragment.matches = _filter_matches_by_order(fragment.matches, ordering)
+        else:
+            for i, subquery in enumerate(query):
+                if isinstance(subquery, cylleneus.engine.query.positional.Sequence):
+                    ordering = {k: v for k, v in _ordering_for_query(subquery, i)}
 
-        for subq in query:
-            if isinstance(subq, cylleneus.engine.query.positional.Sequence):
-                ordered = {}
-                for i, q in enumerate(subq):
-                    if isinstance(
-                        q,
-                        (
-                            cylleneus.engine.query.compound.CylleneusCompoundQuery,
-                            cylleneus.engine.query.positional.Collocation,
-                        ),
-                    ):
-                        for sq in q:
-                            ordered[(sq.fieldname, sq.text.split("::")[0])] = (
-                                i,
-                                getattr(sq, "pos", 0),
-                            )
-                    else:
-                        ordered[(q.fieldname, q.text.split("::")[0])] = (
-                            i,
-                            getattr(q, "pos", 0),
+                    for fragment in fragments:
+                        fragment.matches = _filter_matches_by_order(
+                            fragment.matches, ordering
                         )
 
-                for fragment in fragments:
-                    newmatches = []
-                    for y in sorted(
-                        fragment.matches,
-                        key=lambda m: (m.pos, field_order[m.fieldname]),
-                    ):
-                        if not newmatches:
-                            newmatches.append(y)
-                        else:
-                            x = newmatches[-1]
-                            if (x.fieldname, x.text.split("::")[0]) in ordered and (
-                                y.fieldname,
-                                y.text.split("::")[0],
-                            ) in ordered:
-                                if (
-                                    x.fieldname == "annotation"
-                                    and y.fieldname == "annotation"
-                                    and y.pos == x.pos
-                                ):
-                                    newmatches.append(y)
-                                else:
-                                    if (
-                                        ordered[(y.fieldname, y.text.split("::")[0])]
-                                        >= ordered[(x.fieldname, x.text.split("::")[0])]
-                                    ):
-                                        # For strict sequences, slop == 1
-                                        if (
-                                            y.pos - x.pos <= subq.slop
-                                            and y.startchar - x.endchar <= 1
-                                        ):
-                                            newmatches.append(y)
-                            else:
-                                # If the match is unrelated to the ordering...
-                                newmatches.append(y)
-                    fragment.matches = newmatches
-        return fragments
+        nterms = query.nterms()
+        newfragments = []
+        for fragment in fragments:
+            if len(fragment.matches) >= nterms:
+                newfragments.append(fragment)
+        return newfragments
 
-    def _filter_by_score(self, query, termlists, fragments):
+    def filter_by_score(self, query, termlists, fragments):
         scored = []
         for fragment in fragments:
             if len(fragment.matches) != 0:
@@ -2272,7 +2219,7 @@ class CylleneusHit(Hit):
         return scored
 
     def filter_fragments(self, query, minscore: int = 1):
-        termlists = sorted(term_lists(query, self.reader))
+        termlists = query_term_lists(query, self.reader)
 
         fieldnames = set([term[0] for terms in termlists for term in terms])
         results = [
@@ -2286,19 +2233,19 @@ class CylleneusHit(Hit):
         results.sort(key=lambda x: x.startchar)
 
         # Merge overlapping and adjacent unique-field fragments
-        merged = list(self._merge_fragments(results))
+        merged = list(self.merge_fragments(results))
         print_debug(DEBUG_MEDIUM, "- Merged fragments: {}".format(len(merged)))
 
         # Preserve same-analysis groupings in compound queries
-        filtered = self._filter_by_annotation(query, termlists, merged)
+        filtered = self.filter_by_annotation(query, termlists, merged)
         print_debug(DEBUG_MEDIUM, "- Filtered by annotation: {}".format(len(filtered)))
 
         # Preserve ordering in sequential (adjacency) queries
-        filtered = self._filter_by_sequence(query, filtered)
+        filtered = self.filter_by_sequence(query, filtered)
         print_debug(DEBUG_MEDIUM, "- Filtered by sequence: {}".format(len(filtered)))
 
         # Keep only fragments that reach the minimum score threshold
-        scored = self._filter_by_score(query, termlists, filtered)
+        scored = self.filter_by_score(query, termlists, filtered)
         print_debug(DEBUG_MEDIUM, "- Filtered by score: {}".format(len(scored)))
 
         finalists = list(
@@ -2460,6 +2407,7 @@ class CylleneusHit(Hit):
                 meta["start"] = startmeta
                 meta["end"] = endmeta
                 fragment.meta = meta
+
         return filtered
 
     def highlights(self, fieldname, text=None, top=1000000, minscore=None):
@@ -2557,13 +2505,13 @@ class CylleneusSearcher(Searcher):
         # Call the lower-level method to run the collector
         self.search_with_collector(q, c)
         results = c.results()
-        docs = results.docs()
+        docixs = [hit["docix"] for hit in results]
         print_debug(
             DEBUG_LOW,
-            "Matched in document{} {}, after {} secs.".format(
-                "s" if len(docs) > 1 else "",
-                ", ".join([str(doc) for doc in docs]),
-                results.runtime,
+            "Matched in docix{} {} in {} secs.".format(
+                "s" if len(docixs) > 1 else "",
+                ", ".join([str(docix) for docix in docixs]),
+                f"{results.runtime:.3f}",
             ),
         )
         # Return the results object from the collector
