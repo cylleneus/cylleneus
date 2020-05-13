@@ -559,7 +559,10 @@ class SpanNear(SpanQuery):
         :param ordered: whether the terms must occur in order. Default is True.
         """
 
-        terms = [engine.query.terms.CylleneusTerm(fieldname, word) for word in words]
+        terms = [
+            cylleneus.engine.query.terms.CylleneusTerm(fieldname, word)
+            for word in words
+        ]
         return make_binary_tree(cls, terms, slop=slop, ordered=ordered)
 
     class SpanNearMatcher(SpanWrappingMatcher):
@@ -671,7 +674,7 @@ class SpanNear(SpanQuery):
                                     else:
                                         diffs.append(ord(b) - ord(a))
 
-                            if diffs[-1] > slop or (
+                            if (diffs and diffs[-1] > slop) or (
                                 all(map(lambda x: x == 0, diffs))
                                 and bspan.start > aspan.end + slop
                             ):
