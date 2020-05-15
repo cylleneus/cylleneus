@@ -54,7 +54,9 @@ from cylleneus.engine.compat import iteritems, iterkeys, itervalues, xrange
 from cylleneus.lang import lat
 from cylleneus.utils import *
 
-HitRef = namedtuple("HitRef", ["corpus", "author", "title", "urn", "reference", "text"])
+HitRef = namedtuple(
+    "HitRef", ["corpus", "author", "title", "urn", "reference", "text"]
+)
 
 
 class NoTermsException(Exception):
@@ -84,7 +86,9 @@ class SearchContext(object):
     by the collector or the query objects to change how they operate.
     """
 
-    def __init__(self, needs_current=False, weighting=None, top_query=None, limit=None):
+    def __init__(
+        self, needs_current=False, weighting=None, top_query=None, limit=None
+    ):
         """
         :param needs_current: if True, the search requires that the matcher
             tree be "valid" and able to access information about the current
@@ -169,7 +173,8 @@ class Searcher(object):
         if not self.ixreader.is_atomic():
             self.leafreaders = self.ixreader.leaf_readers()
             self.subsearchers = [
-                (self._subsearcher(r), offset) for r, offset in self.leafreaders
+                (self._subsearcher(r), offset)
+                for r, offset in self.leafreaders
             ]
 
         # Copy attributes/methods from wrapped reader
@@ -282,7 +287,9 @@ class Searcher(object):
         # possible
         self.is_closed = True
         newreader = self._ix.reader(reuse=self.ixreader)
-        return self.__class__(newreader, fromindex=self._ix, weighting=self.weighting)
+        return self.__class__(
+            newreader, fromindex=self._ix, weighting=self.weighting
+        )
 
     def close(self):
         if self._closereader:
@@ -338,7 +345,9 @@ class Searcher(object):
                 if term in r:
                     # Make a segment-specific scorer; the scorer should call
                     # searcher.parent() to get global stats
-                    scorer = weighting.scorer(subsearcher, fieldname, text, qf=qf)
+                    scorer = weighting.scorer(
+                        subsearcher, fieldname, text, qf=qf
+                    )
                     m = r.postings(fieldname, text, scorer=scorer)
                     matchers.append(m)
                     docoffsets.append(offset)
@@ -400,7 +409,8 @@ class Searcher(object):
 
         ixreader = self.ixreader
         return (
-            ixreader.stored_fields(docnum) for docnum in self.document_numbers(**kw)
+            ixreader.stored_fields(docnum)
+            for docnum in self.document_numbers(**kw)
         )
 
     def _kw_to_text(self, kw):
@@ -411,7 +421,9 @@ class Searcher(object):
     def _query_for_kw(self, kw):
         subqueries = []
         for key, value in iteritems(kw):
-            subqueries.append(cylleneus.engine.query.terms.CylleneusTerm(key, value))
+            subqueries.append(
+                cylleneus.engine.query.terms.CylleneusTerm(key, value)
+            )
         if subqueries:
             q = cylleneus.engine.query.compound.And(subqueries).normalize()
         else:
@@ -482,7 +494,9 @@ class Searcher(object):
         elif isinstance(obj, cylleneus.engine.query.qcore.Query):
             c = self._query_to_comb(obj)
         else:
-            raise Exception("Don't know what to do with filter object %r" % obj)
+            raise Exception(
+                "Don't know what to do with filter object %r" % obj
+            )
 
         return c
 
@@ -543,7 +557,9 @@ class Searcher(object):
         :returns: a list of ("term", score) tuples.
         """
 
-        expander = whoosh.classify.Expander(self.ixreader, fieldname, model=model)
+        expander = whoosh.classify.Expander(
+            self.ixreader, fieldname, model=model
+        )
         for docnum in docnums:
             expander.add_document(docnum)
         return expander.expanded_terms(numterms, normalize=normalize)
@@ -562,7 +578,9 @@ class Searcher(object):
             module.
         """
 
-        expander = whoosh.classify.Expander(self.ixreader, fieldname, model=model)
+        expander = whoosh.classify.Expander(
+            self.ixreader, fieldname, model=model
+        )
         expander.add_text(text)
         return expander.expanded_terms(numterms, normalize=normalize)
 
@@ -605,16 +623,26 @@ class Searcher(object):
 
         if text:
             kts = self.key_terms_from_text(
-                fieldname, text, numterms=numterms, model=model, normalize=normalize
+                fieldname,
+                text,
+                numterms=numterms,
+                model=model,
+                normalize=normalize,
             )
         else:
             kts = self.key_terms(
-                [docnum], fieldname, numterms=numterms, model=model, normalize=normalize
+                [docnum],
+                fieldname,
+                numterms=numterms,
+                model=model,
+                normalize=normalize,
             )
         # Create an Or query from the key terms
         q = cylleneus.engine.query.compound.Or(
             [
-                cylleneus.engine.query.terms.Term(fieldname, word, boost=weight)
+                cylleneus.engine.query.terms.Term(
+                    fieldname, word, boost=weight
+                )
                 for word, weight in kts
             ]
         )
@@ -742,7 +770,9 @@ class Searcher(object):
             )
         elif groupedby or reverse or not limit or limit >= self.doc_count():
             # A collector that gathers every matching document
-            c = cylleneus.engine.collectors.CylleneusUnlimitedCollector(reverse=reverse)
+            c = cylleneus.engine.collectors.CylleneusUnlimitedCollector(
+                reverse=reverse
+            )
         else:
             # A collector that uses block quality optimizations and a heap
             # queue to only collect the top N documents
@@ -763,7 +793,9 @@ class Searcher(object):
 
         # Filtering wraps last so it sees the docs first
         if filter or mask:
-            c = cylleneus.engine.collectors.CylleneusFilterCollector(c, filter, mask)
+            c = cylleneus.engine.collectors.CylleneusFilterCollector(
+                c, filter, mask
+            )
         return c
 
     def search(self, q, **kwargs):
@@ -847,7 +879,14 @@ class Searcher(object):
         collector.run()
 
     def correct_query(
-        self, q, qstring, correctors=None, terms=None, maxdist=2, prefix=0, aliases=None
+        self,
+        q,
+        qstring,
+        correctors=None,
+        terms=None,
+        maxdist=2,
+        prefix=0,
+        aliases=None,
     ):
         """
         Returns a corrected version of the given user query using a default
@@ -1031,7 +1070,8 @@ class Results(object):
         else:
             if n >= len(self.top_n):
                 raise IndexError(
-                    "results[%r]: Results only has %s hits" % (n, len(self.top_n))
+                    "results[%r]: Results only has %s hits"
+                    % (n, len(self.top_n))
                 )
             return Hit(self, self.top_n[n][1], n, self.top_n[n][0])
 
@@ -1119,7 +1159,9 @@ class Results(object):
             # for Python 3
             name = list(self._facetmaps.keys())[0]
         elif name not in self._facetmaps:
-            raise KeyError("%r not in facet names %r" % (name, self.facet_names()))
+            raise KeyError(
+                "%r not in facet names %r" % (name, self.facet_names())
+            )
         return self._facetmaps[name].as_dict()
 
     def has_exact_length(self):
@@ -1638,7 +1680,9 @@ class ResultsPage(object):
         offset = self.offset
         if isinstance(n, slice):
             start, stop, step = n.indices(self.pagelen)
-            return self.results.__getitem__(slice(start + offset, stop + offset, step))
+            return self.results.__getitem__(
+                slice(start + offset, stop + offset, step)
+            )
         else:
             return self.results.__getitem__(n + offset)
 
@@ -1711,7 +1755,8 @@ class CylleneusResults(Results):
         else:
             if n >= len(self.top_n):
                 raise IndexError(
-                    "results[%r]: Results only has %s hits" % (n, len(self.top_n))
+                    "results[%r]: Results only has %s hits"
+                    % (n, len(self.top_n))
                 )
             return CylleneusHit(self, self.top_n[n][1], n, self.top_n[n][0])
 
@@ -1725,7 +1770,9 @@ class CylleneusResults(Results):
 
 def total_terms(query):
     terms = 0
-    if isinstance(query, (cylleneus.engine.query.compound.CylleneusCompoundQuery)):
+    if isinstance(
+        query, (cylleneus.engine.query.compound.CylleneusCompoundQuery)
+    ):
         for t in query.children():
             terms += total_terms(t)
     else:
@@ -1735,7 +1782,9 @@ def total_terms(query):
 
 def total_fields(query, ixreader):
     """ Calculate total number of fields matched by a complex query """
-    return len(set([fieldname for fieldname, _ in query.iter_all_terms(ixreader)]))
+    return len(
+        set([fieldname for fieldname, _ in query.iter_all_terms(ixreader)])
+    )
 
 
 def min_score(query):
@@ -1810,7 +1859,9 @@ def query_term_lists(query, ixreader):
 
         and_terms = []
         or_terms = []
-        if isinstance(q, cylleneus.engine.query.compound.CylleneusCompoundQuery):
+        if isinstance(
+            q, cylleneus.engine.query.compound.CylleneusCompoundQuery
+        ):
             if isinstance(q, cylleneus.engine.query.compound.Or):
                 or_terms.append(all_terms)
             elif isinstance(q, cylleneus.engine.query.terms.PatternQuery):
@@ -1845,19 +1896,18 @@ def query_term_lists(query, ixreader):
         return and_terms, or_terms
 
     and_terms, or_terms = _get_term_lists(query)
-
     term_lists = []
     if len(and_terms) != 0:
         if or_terms:
-            terms = or_terms + [
-                and_terms,
-            ]
-            term_lists.extend(product(*terms))
+            for terms in product(*or_terms):
+                term_lists.extend([and_terms + list(terms)])
         else:
             term_lists.append(and_terms)
     else:
         term_lists.extend(product(*or_terms))
-    return sorted([sorted(term_list, key=lambda x: x[0]) for term_list in term_lists])
+    return sorted(
+        [sorted(term_list, key=lambda x: x[0]) for term_list in term_lists]
+    )
 
 
 class CylleneusHit(Hit):
@@ -1884,7 +1934,9 @@ class CylleneusHit(Hit):
 
         term_field_counts = Counter([field for field, value in termlists[0]])
 
-        if isinstance(query, cylleneus.engine.query.positional.Collocation) or any(
+        if isinstance(
+            query, cylleneus.engine.query.positional.Collocation
+        ) or any(
             [
                 isinstance(sq, cylleneus.engine.query.positional.Collocation)
                 for sq in query
@@ -1954,14 +2006,18 @@ class CylleneusHit(Hit):
                 for uri, lemma, group in candidates:
                     semifinalists.update(matches_by_lemma[uri][lemma][group])
                 print_debug(
-                    DEBUG_HIGH, "- semifinalists: {}".format(len(semifinalists))
+                    DEBUG_HIGH,
+                    "- semifinalists: {}".format(len(semifinalists)),
                 )
 
                 finalists = []
                 tt = sorted(
                     set(
                         [
-                            (semifinalist.fieldname, semifinalist.text.split("::")[0])
+                            (
+                                semifinalist.fieldname,
+                                semifinalist.text.split("::")[0],
+                            )
                             for semifinalist in semifinalists
                         ]
                     ),
@@ -1969,7 +2025,10 @@ class CylleneusHit(Hit):
                 )
 
                 if len(semifinalists) >= len(termlists[0]) and any(
-                    [all([item in terms for item in tt]) for terms in termlists]
+                    [
+                        all([item in terms for item in tt])
+                        for terms in termlists
+                    ]
                 ):
                     lemmas = set()
                     uris = set()
@@ -1979,7 +2038,9 @@ class CylleneusHit(Hit):
                                 uris.add(term[1].split("=")[0].split(":")[1])
                             elif term[0] == "synset":
                                 pos, offset = term[1].split("#")
-                                for synset in WN.synsets(pos=pos, offset=offset).lemmas:
+                                for synset in WN.synsets(
+                                    pos=pos, offset=offset
+                                ).lemmas:
                                     for signification in synset["lemmas"]:
                                         lemmas.update(
                                             [
@@ -1994,14 +2055,19 @@ class CylleneusHit(Hit):
                                 code = term[1]
                                 for semfield in WN.semfields(code=code).lemmas:
                                     lemmas.update(
-                                        [hdict(lemma) for lemma in semfield["lemmas"]]
+                                        [
+                                            hdict(lemma)
+                                            for lemma in semfield["lemmas"]
+                                        ]
                                     )
                                 uris.update([lemma["uri"] for lemma in lemmas])
                     for semifinalist in semifinalists:
                         if semifinalist.fieldname == "annotation":
                             if len(uris) > 0:
                                 if (
-                                    semifinalist.text.split("::")[1].split(":")[0]
+                                    semifinalist.text.split("::")[1].split(
+                                        ":"
+                                    )[0]
                                     in uris
                                 ):
                                     finalists.append(semifinalist)
@@ -2009,7 +2075,9 @@ class CylleneusHit(Hit):
                                 finalists.append(semifinalist)
                         else:
                             finalists.append(semifinalist)
-                print_debug(DEBUG_HIGH, "- finalists: {}".format(len(finalists)))
+                print_debug(
+                    DEBUG_HIGH, "- finalists: {}".format(len(finalists))
+                )
 
                 winners = []
                 tt = sorted(
@@ -2041,7 +2109,10 @@ class CylleneusHit(Hit):
                             ]
                         )
                 if len(finalists) >= len(termlists[0]) and any(
-                    [all([item in terms for item in tt]) for terms in termlists]
+                    [
+                        all([item in terms for item in tt])
+                        for terms in termlists
+                    ]
                 ):
                     meta_counts = Counter(
                         [
@@ -2070,7 +2141,13 @@ class CylleneusHit(Hit):
                            ]
                            >= len(termlists[0])
                            and (finalist.fieldname, finalist.text.split("::")[0])
-                           in set([term for termlist in termlists for term in termlist])
+                           in set(
+                            [
+                                term
+                                for termlist in termlists
+                                for term in termlist
+                            ]
+                        )
                            and all(
                             [
                                 field_counts_by_meta[
@@ -2078,7 +2155,8 @@ class CylleneusHit(Hit):
                                         {
                                             k: v
                                             for k, v in finalist.meta.items()
-                                            if k not in ["sent_pos", "sect_pos"]
+                                            if k
+                                               not in ["sent_pos", "sect_pos"]
                                         }
                                     )
                                 ][field]
@@ -2106,8 +2184,10 @@ class CylleneusHit(Hit):
             if fragment is None:
                 fragment = copy.deepcopy(other)
             elif (
-                fragment.overlaps(other) or fragment.is_adjacent(other)
-            ) or fragment.has_same_divs(other):
+                fragment.is_adjacent(other)
+                or fragment.overlaps(other)
+                or fragment.has_same_divs(other)
+            ):
                 fragment.matches.extend(other.matches)
                 fragment.matches.sort(key=lambda x: (x.startchar, x.fieldname))
                 fragment.matched_terms.update(other.matched_terms)
@@ -2132,39 +2212,89 @@ class CylleneusHit(Hit):
             matches = sorted(
                 matches, key=lambda x: (x.startchar, field_order[x.fieldname]),
             )
-            ordered = []
+            ordered = set()
             other = None
             for match in matches:
                 if other is None:
+                    if (
+                        match.fieldname,
+                        match.text.split("::")[0],
+                    ) not in ordering:
+                        ordered.add(match)
                     other = match
                     continue
                 else:
-                    if (match.fieldname, match.text.split("::")[0]) in ordering and (
-                        other.fieldname,
-                        other.text.split("::")[0],
-                    ) in ordering:
+                    if (
+                        (match.fieldname, match.text.split("::")[0])
+                        in ordering
+                        and (other.fieldname, other.text.split("::")[0],)
+                        in ordering
+                    ):
                         if (
-                            match.fieldname == "annotation"
-                            and other.fieldname == "annotation"
-                            and match.startchar == other.startchar
-                        ) or (
-                            match.pos - other.pos == 0 and match.text in lat.enclitics
+                            (
+                                match.fieldname == "annotation"
+                                and match.startchar == other.startchar
+                            )
+                            or (
+                            match.pos - other.pos == 0
+                            and match.text in lat.enclitics
+                        )
+                            or (
+                            ordering[
+                                (
+                                    match.fieldname,
+                                    match.text.split("::")[0],
+                                )
+                            ]
+                            == ordering[
+                                (
+                                    other.fieldname,
+                                    other.text.split("::")[0],
+                                )
+                            ]
+                            and match.has_same_divs(other)
+                        )
                         ):
-                            ordered.extend([other, match])
+                            ordered.add(other)
+                            ordered.add(match)
                         else:
                             if (
-                                ordering[(match.fieldname, match.text.split("::")[0])]
-                                >= ordering[
-                                (other.fieldname, other.text.split("::")[0])
+                                ordering[
+                                    (
+                                        match.fieldname,
+                                        match.text.split("::")[0],
+                                    )
+                                ]
+                                > ordering[
+                                (
+                                    other.fieldname,
+                                    other.text.split("::")[0],
+                                )
                             ]
                             ):
-                                # For strict sequences, matches must be adjacent
-                                if match.pos - other.pos == 1:
-                                    ordered.extend([other, match])
+                                # For strict sequences, matches must be adjacent;
+                                # ordered queries have a slop tolerance
+                                if (
+                                    0
+                                    < match.pos - other.pos
+                                    < (
+                                    query.slop
+                                    if hasattr(query, "slop")
+                                    else 1
+                                )
+                                    + 1
+                                ):
+                                    ordered.add(other)
+                                    ordered.add(match)
                     else:
                         # If the match is unrelated to the ordering...
-                        ordered.append(match)
-            return list(set(ordered))
+                        if (
+                            match.fieldname,
+                            match.text.split("::")[0],
+                        ) not in ordering:
+                            ordered.add(match)
+                other = match
+            return sorted(ordered, key=lambda x: x.startchar)
 
         def _ordering_for_query(q, seq: int = 0):
             for i, sq in enumerate(q):
@@ -2173,26 +2303,56 @@ class CylleneusHit(Hit):
                 ):
                     yield from _ordering_for_query(sq, i)
                 else:
-                    yield (sq.fieldname, sq.text.split("::")[0]), (
-                        seq,
-                        getattr(sq, "pos", 0),
-                    )
+                    if seq == 0:
+                        yield (sq.fieldname, sq.text.split("::")[0]), (i, 0)
+                    else:
+                        yield (sq.fieldname, sq.text.split("::")[0]), (seq, i)
 
         if isinstance(query, cylleneus.engine.query.positional.Sequence):
             ordering = {k: v for k, v in _ordering_for_query(query)}
 
             for fragment in fragments:
-                fragment.matches = _filter_matches_by_order(fragment.matches, ordering)
+                fragment.matches = _filter_matches_by_order(
+                    fragment.matches, ordering
+                )
         else:
-            for i, subquery in enumerate(query):
-                if isinstance(subquery, cylleneus.engine.query.positional.Sequence):
-                    ordering = {k: v for k, v in _ordering_for_query(subquery, i)}
-
-                    for fragment in fragments:
-                        fragment.matches = _filter_matches_by_order(
-                            fragment.matches, ordering
+            for fragment in fragments:
+                matches = set()
+                for i, subquery in enumerate(query):
+                    if isinstance(
+                        subquery, cylleneus.engine.query.positional.Sequence
+                    ):
+                        ordering = {
+                            k: v for k, v in _ordering_for_query(subquery, i)
+                        }
+                        matches.update(
+                            set(
+                                _filter_matches_by_order(
+                                    fragment.matches, ordering
+                                )
+                            )
                         )
-
+                    else:
+                        termlists = query_term_lists(subquery, self.reader)
+                        matches.update(
+                            set(
+                                [
+                                    match
+                                    for match in fragment.matches
+                                    if any(
+                                    [
+                                        (
+                                            match.fieldname,
+                                            match.text.split("::")[0],
+                                        )
+                                        in termlist
+                                        for termlist in termlists
+                                    ]
+                                )
+                                ]
+                            )
+                        )
+                fragment.matches = list(matches)
         nterms = query.nterms()
         newfragments = []
         for fragment in fragments:
@@ -2211,7 +2371,10 @@ class CylleneusHit(Hit):
                     ]
                 )
                 if len(fterms) != 0 and any(
-                    [all([term in fterms for term in terms]) for terms in termlists]
+                    [
+                        all([term in fterms for term in terms])
+                        for terms in termlists
+                    ]
                 ):
                     score = self.results.highlighter.scorer(query, fragment)
                     if score:
@@ -2225,9 +2388,13 @@ class CylleneusHit(Hit):
         results = [
             fragment
             for fieldname in fieldnames
-            for fragment in self.results.highlighter.fragment_hit(self, fieldname)
+            for fragment in self.results.highlighter.fragment_hit(
+                self, fieldname
+            )
         ]
-        print_debug(DEBUG_MEDIUM, "- Initial fragments: {}".format(len(results)))
+        print_debug(
+            DEBUG_MEDIUM, "- Initial fragments: {}".format(len(results))
+        )
 
         # Sort for merging
         results.sort(key=lambda x: x.startchar)
@@ -2238,18 +2405,30 @@ class CylleneusHit(Hit):
 
         # Preserve same-analysis groupings in compound queries
         filtered = self.filter_by_annotation(query, termlists, merged)
-        print_debug(DEBUG_MEDIUM, "- Filtered by annotation: {}".format(len(filtered)))
+        print_debug(
+            DEBUG_MEDIUM, "- Filtered by annotation: {}".format(len(filtered))
+        )
 
         # Preserve ordering in sequential (adjacency) queries
         filtered = self.filter_by_sequence(query, filtered)
-        print_debug(DEBUG_MEDIUM, "- Filtered by sequence: {}".format(len(filtered)))
+        print_debug(
+            DEBUG_MEDIUM, "- Filtered by sequence: {}".format(len(filtered))
+        )
 
         # Keep only fragments that reach the minimum score threshold
         scored = self.filter_by_score(query, termlists, filtered)
-        print_debug(DEBUG_MEDIUM, "- Filtered by score: {}".format(len(scored)))
+        print_debug(
+            DEBUG_MEDIUM, "- Filtered by score: {}".format(len(scored))
+        )
 
         finalists = list(
-            set([(score, fragment) for score, fragment in scored if score >= minscore])
+            set(
+                [
+                    (score, fragment)
+                    for score, fragment in scored
+                    if score >= minscore
+                ]
+            )
         )
         print_debug(DEBUG_MEDIUM, "- Final count: {}".format(len(finalists)))
 
@@ -2303,13 +2482,17 @@ class CylleneusHit(Hit):
 
                 # Translation alignment
                 if "alignment" in getattr(first, "meta"):
-                    startmeta["alignment"] = getattr(first, "meta")["alignment"]
+                    startmeta["alignment"] = getattr(first, "meta")[
+                        "alignment"
+                    ]
                 if "alignment" in getattr(last, "meta"):
                     endmeta["alignment"] = getattr(last, "meta")["alignment"]
 
                 # Sentence in section
                 if "sect_sent" in getattr(first, "meta"):
-                    startmeta["sect_sent"] = getattr(first, "meta")["sect_sent"]
+                    startmeta["sect_sent"] = getattr(first, "meta")[
+                        "sect_sent"
+                    ]
                 else:
                     startmeta["sect_sent"] = None
                 if "sect_sent" in getattr(last, "meta"):
@@ -2382,7 +2565,8 @@ class CylleneusHit(Hit):
                 endmeta = {}
 
                 hlites = [
-                    (match.startchar, match.endchar, match.pos) for match in matches
+                    (match.startchar, match.endchar, match.pos)
+                    for match in matches
                 ]
                 meta["hlites"] = hlites
 
@@ -2467,7 +2651,9 @@ class CylleneusSearcher(Searcher):
             )
         elif groupedby or reverse or not limit or limit >= self.doc_count():
             # A collector that gathers every matching document
-            c = cylleneus.engine.collectors.CylleneusUnlimitedCollector(reverse=reverse)
+            c = cylleneus.engine.collectors.CylleneusUnlimitedCollector(
+                reverse=reverse
+            )
         else:
             # A collector that uses block quality optimizations and a heap
             # queue to only collect the top N documents
@@ -2488,7 +2674,9 @@ class CylleneusSearcher(Searcher):
             )
         # Filtering wraps last so it sees the docs first
         if filter or mask:
-            c = cylleneus.engine.collectors.CylleneusFilterCollector(c, filter, mask)
+            c = cylleneus.engine.collectors.CylleneusFilterCollector(
+                c, filter, mask
+            )
 
         return c
 
