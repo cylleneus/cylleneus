@@ -11,7 +11,9 @@ class Sequence(cylleneus.engine.query.compound.CylleneusCompoundQuery):
     JOINT = " THEN "
     intersect_merge = True
 
-    def __init__(self, subqueries, slop=1, ordered=True, boost=1.0, meta=False):
+    def __init__(
+        self, subqueries, slop=1, ordered=True, boost=1.0, meta=False
+    ):
         """
         :param subqueries: a list of :class:`whoosh.query.Query` objects to
             match in sequence.
@@ -24,7 +26,9 @@ class Sequence(cylleneus.engine.query.compound.CylleneusCompoundQuery):
             this query.
         """
 
-        cylleneus.engine.query.compound.CylleneusCompoundQuery.__init__(self, subqueries, boost=1.0)
+        cylleneus.engine.query.compound.CylleneusCompoundQuery.__init__(
+            self, subqueries, boost=1.0
+        )
         self.slop = slop
         self.ordered = ordered
         self.meta = meta
@@ -36,14 +40,20 @@ class Sequence(cylleneus.engine.query.compound.CylleneusCompoundQuery):
             self.meta = True
 
     def __eq__(self, other):
-        return (other and type(self) is type(other)
-                and self.subqueries == other.subqueries
-                and self.boost == other.boost)
+        return (
+            other
+            and type(self) is type(other)
+            and self.subqueries == other.subqueries
+            and self.boost == other.boost
+        )
 
     def __repr__(self):
-        return "%s(%r, slop=%d, boost=%f)" % (self.__class__.__name__,
-                                              self.subqueries, self.slop,
-                                              self.boost)
+        return "%s(%r, slop=%d, boost=%f)" % (
+            self.__class__.__name__,
+            self.subqueries,
+            self.slop,
+            self.boost,
+        )
 
     def __hash__(self):
         h = hash(self.slop) ^ hash(self.boost)
@@ -54,8 +64,12 @@ class Sequence(cylleneus.engine.query.compound.CylleneusCompoundQuery):
     def normalize(self):
         # Because the subqueries are in sequence, we can't do the fancy merging
         # that CompoundQuery does
-        return self.__class__([q.normalize() for q in self.subqueries],
-                              self.slop, self.ordered, self.boost)
+        return self.__class__(
+            [q.normalize() for q in self.subqueries],
+            self.slop,
+            self.ordered,
+            self.boost,
+        )
 
     def _and_query(self):
         return cylleneus.engine.query.compound.And(self.subqueries)
@@ -72,9 +86,15 @@ class Sequence(cylleneus.engine.query.compound.CylleneusCompoundQuery):
         # Tell the sub-queries this matcher will need the current match to get
         # spans
         context = context.set(needs_current=True)
-        m = self._tree_matcher(subs, cylleneus.engine.query.spans.SpanNear.SpanNearMatcher, searcher,
-                               context, None, slop=self.slop,
-                               ordered=self.ordered)
+        m = self._tree_matcher(
+            subs,
+            cylleneus.engine.query.spans.SpanNear.SpanNearMatcher,
+            searcher,
+            context,
+            None,
+            slop=self.slop,
+            ordered=self.ordered,
+        )
         return m
 
 
@@ -88,7 +108,15 @@ class Collocation(cylleneus.engine.query.compound.CylleneusCompoundQuery):
     JOINT = " WITH "
     intersect_merge = True
 
-    def __init__(self, subqueries, slop=0, ordered=True, boost=1.0, annotation=None, meta=False):
+    def __init__(
+        self,
+        subqueries,
+        slop=0,
+        ordered=True,
+        boost=1.0,
+        annotation=None,
+        meta=False,
+    ):
         """
         :param subqueries: a list of :class:`whoosh.query.Query` objects to
             match in sequence.
@@ -101,7 +129,9 @@ class Collocation(cylleneus.engine.query.compound.CylleneusCompoundQuery):
             this query.
         """
 
-        cylleneus.engine.query.compound.CylleneusCompoundQuery.__init__(self, subqueries, boost=1.0)
+        cylleneus.engine.query.compound.CylleneusCompoundQuery.__init__(
+            self, subqueries, boost=1.0
+        )
         self.slop = slop
         self.ordered = ordered
         self.meta = meta
@@ -114,14 +144,20 @@ class Collocation(cylleneus.engine.query.compound.CylleneusCompoundQuery):
             self.slop = 2 if slop < 2 else slop
 
     def __eq__(self, other):
-        return (other and type(self) is type(other)
-                and self.subqueries == other.subqueries
-                and self.boost == other.boost)
+        return (
+            other
+            and type(self) is type(other)
+            and self.subqueries == other.subqueries
+            and self.boost == other.boost
+        )
 
     def __repr__(self):
-        return "%s(%r, slop=%d, boost=%f)" % (self.__class__.__name__,
-                                              self.subqueries, self.slop,
-                                              self.boost)
+        return "%s(%r, slop=%d, boost=%f)" % (
+            self.__class__.__name__,
+            self.subqueries,
+            self.slop,
+            self.boost,
+        )
 
     def __hash__(self):
         h = hash(self.slop) ^ hash(self.boost)
@@ -143,12 +179,15 @@ class Collocation(cylleneus.engine.query.compound.CylleneusCompoundQuery):
                 subqueries.append(s)
 
         # If every subquery is Null, this query is Null
-        if all(q is cylleneus.engine.query.qcore.NullQuery for q in subqueries):
+        if all(
+            q is cylleneus.engine.query.qcore.NullQuery for q in subqueries
+        ):
             return cylleneus.engine.query.qcore.NullQuery
 
         # If there's an unfielded Every inside, then this query is Every
-        if any((isinstance(q, Every) and q.fieldname is None)
-               for q in subqueries):
+        if any(
+            (isinstance(q, Every) and q.fieldname is None) for q in subqueries
+        ):
             return Every()
 
         # Merge ranges and Everys
@@ -187,7 +226,9 @@ class Collocation(cylleneus.engine.query.compound.CylleneusCompoundQuery):
             subqs.append(s)
 
         # Remove NullQuerys
-        subqs = [q for q in subqs if q is not cylleneus.engine.query.qcore.NullQuery]
+        subqs = [
+            q for q in subqs if q is not cylleneus.engine.query.qcore.NullQuery
+        ]
 
         if not subqs:
             return cylleneus.engine.query.qcore.NullQuery
@@ -216,7 +257,9 @@ class Collocation(cylleneus.engine.query.compound.CylleneusCompoundQuery):
         # Tell the sub-queries this matcher will need the current match to get
         # spans
         context = context.set(needs_current=True)
-        m = cylleneus.engine.query.spans.SpanWith2(subs).matcher(searcher, context)
+        m = cylleneus.engine.query.spans.SpanWith2(subs).matcher(
+            searcher, context
+        )
         return m
 
 
@@ -226,8 +269,37 @@ class Ordered(Sequence):
 
     JOINT = " BEFORE "
 
+    def __init__(
+        self, subqueries, slop=2, ordered=True, boost=1.0, meta=False
+    ):
+        """
+        :param subqueries: a list of :class:`whoosh.query.Query` objects to
+            match in sequence.
+        :param slop: the maximum difference in position allowed between the
+            subqueries.
+        :param ordered: if True, the position differences between subqueries
+            must be positive (that is, each subquery in the list must appear
+            after the previous subquery in the document).
+        :param boost: a boost factor to add to the score of documents matching
+            this query.
+        """
+
+        cylleneus.engine.query.compound.CylleneusCompoundQuery.__init__(
+            self, subqueries, boost=1.0
+        )
+        self.slop = slop
+        self.ordered = ordered
+        self.meta = meta
+        self.boost = boost if boost > 1 else len(subqueries)
+        for i, subq in enumerate(subqueries):
+            subq.boost = self.boost
+            subq.pos = i
+        if any([subq.meta for subq in subqueries]):
+            self.meta = True
+
     def _matcher(self, subs, searcher, context):
         from cylleneus.engine.query.spans import SpanBefore
 
-        return self._tree_matcher(subs, SpanBefore._Matcher, searcher,
-                                  context, None)
+        return self._tree_matcher(
+            subs, SpanBefore._Matcher, searcher, context, None
+        )
