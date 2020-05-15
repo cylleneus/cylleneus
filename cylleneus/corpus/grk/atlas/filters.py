@@ -15,9 +15,9 @@ from .core import relations
 class CachedLemmaFilter(Filter):
     is_morph = True
 
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedLemmaFilter, self).__init__()
-        self.cached = True
+        self.cached = cached
         self._cache = None
         self._docix = None
         self.__dict__.update(**kwargs)
@@ -55,14 +55,17 @@ class CachedLemmaFilter(Filter):
                             for result in results:
                                 # FIXME
                                 if result["morpho"]:
-                                    morpho = morpho[:-2] + result["morpho"][-2:]
+                                    morpho = (
+                                        morpho[:-2] + result["morpho"][-2:]
+                                    )
                                 else:
                                     morpho = morpho[:-2] + "--"
-                                if morpho[5] == "p" and result["morpho"][5] == "d":
+                                if (
+                                    morpho[5] == "p"
+                                    and result["morpho"][5] == "d"
+                                ):
                                     morpho = morpho[:5] + "d" + morpho[6:]
-                                t.morpho = (
-                                    f"{result['morpho']}::{result['uri']}:0>{morpho}"
-                                )
+                                t.morpho = f"{result['morpho']}::{result['uri']}:0>{morpho}"
                                 t.text = (
                                     f"{result['lemma']}:"
                                     f"{result['uri']}={result['morpho']}"
@@ -98,12 +101,15 @@ class CachedLemmaFilter(Filter):
                                     for k, v in zip(
                                         keys,
                                         re.search(
-                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text
+                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
                                         ).groups(),
                                     )
                                 }
                                 if kwargs["uri"] is not None:
-                                    results = GWN.lemmas_by_uri(kwargs["uri"]).relations
+                                    results = GWN.lemmas_by_uri(
+                                        kwargs["uri"]
+                                    ).relations
                                 else:
                                     kwargs.pop("uri")
                                     results = GWN.lemmas(**kwargs).relations
@@ -114,7 +120,8 @@ class CachedLemmaFilter(Filter):
                                     for k, v in zip(
                                         keys,
                                         re.search(
-                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text
+                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
                                         ).groups(),
                                     )
                                 }
@@ -124,7 +131,9 @@ class CachedLemmaFilter(Filter):
                                     ).synsets_relations
                                 else:
                                     kwargs.pop("uri")
-                                    results = GWN.lemmas(**kwargs).synsets_relations
+                                    results = GWN.lemmas(
+                                        **kwargs
+                                    ).synsets_relations
                             if results:
                                 for result in results:
                                     if (
@@ -152,7 +161,8 @@ class CachedLemmaFilter(Filter):
                                     for k, v in zip(
                                         keys,
                                         re.search(
-                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text
+                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
                                         ).groups(),
                                     )
                                 }
@@ -204,11 +214,11 @@ class MorphosyntaxFilter(Filter):
 class CachedSynsetFilter(Filter):
     is_morph = True
 
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedSynsetFilter, self).__init__()
         self._cache = None
         self._docix = None
-        self.cached = True
+        self.cached = cached
         self.__dict__.update(**kwargs)
 
     @property
@@ -294,10 +304,14 @@ class CachedSynsetFilter(Filter):
                                 for relation in WordNet(
                                     iso_639[language]
                                 ).get_relations(
-                                    w_source=lemma, type=t.reltype, lexical=lexical
+                                    w_source=lemma,
+                                    type=t.reltype,
+                                    lexical=lexical,
                                 ):
                                     if relation.is_lexical:
-                                        for synset in relation.w_target.synsets:
+                                        for (
+                                            synset
+                                        ) in relation.w_target.synsets:
                                             t.text = synset.id
                                             yield t
                                     else:

@@ -8,38 +8,50 @@ from .core import proiel2wn
 
 
 class CachedTokenizer(Tokenizer):
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedTokenizer, self).__init__()
         self._cache = None
         self._docix = None
-        self.cached = True
+        self.cached = cached
         self.__dict__.update(**kwargs)
 
     @property
     def cache(self):
         return copy.deepcopy(self._cache)
 
-    def __call__(self, data, positions=True, chars=True,
-                 keeporiginal=True, removestops=True, tokenize=True,
-                 start_pos=0, start_char=0, mode='', **kwargs):
-        if kwargs.get('docix', None) == self._docix and self._cache:
+    def __call__(
+        self,
+        data,
+        positions=True,
+        chars=True,
+        keeporiginal=True,
+        removestops=True,
+        tokenize=True,
+        start_pos=0,
+        start_char=0,
+        mode="",
+        **kwargs,
+    ):
+        if kwargs.get("docix", None) == self._docix and self._cache:
             yield from self.cache
         else:
-            t = CylleneusToken(positions, chars, removestops=removestops, mode=mode, **kwargs)
+            t = CylleneusToken(
+                positions, chars, removestops=removestops, mode=mode, **kwargs
+            )
 
-            if t.mode == 'query':
+            if t.mode == "query":
                 t.original = data
                 t.text = data.translate(jvmap)
                 yield t
             else:
                 if not tokenize:
-                    t.original = ''
-                    for token in data.iter('token'):
-                        form = token.get('form')
+                    t.original = ""
+                    for token in data.iter("token"):
+                        form = token.get("form")
                         if not form:
                             continue
-                        after = token.get('presentation-after', '')
-                        before = token.get('presentation-before', '')
+                        after = token.get("presentation-after", "")
+                        before = token.get("presentation-before", "")
                         t.original += f"{before}{form}{after}"
                     t.text = t.original
                     t.boost = 1.0
@@ -51,32 +63,35 @@ class CachedTokenizer(Tokenizer):
                     yield t
                 else:
                     self._cache = []
-                    self._docix = kwargs.get('docix', None)
+                    self._docix = kwargs.get("docix", None)
 
-                    for sentence in data['text'].iter('sentence'):
-                        for pos, token in enumerate(sentence.iter('token')):
-                            form = token.get('form')
+                    for sentence in data["text"].iter("sentence"):
+                        for pos, token in enumerate(sentence.iter("token")):
+                            form = token.get("form")
                             if not form:
                                 continue
                             else:
-                                form = form.replace(' ', ' ').replace(' ', ' ')
-                                form = re.sub(r"\.([^ ]|^$)", r'. \1', form)
-                            t.lemma = token.get('lemma')
-                            t.morpho = proiel2wn(token.get('part-of-speech'), token.get('morphology'))
-                            t.morphosyntax = token.get('relation', None)
+                                form = form.replace(" ", " ").replace(" ", " ")
+                                form = re.sub(r"\.([^ ]|^$)", r". \1", form)
+                            t.lemma = token.get("lemma")
+                            t.morpho = proiel2wn(
+                                token.get("part-of-speech"),
+                                token.get("morphology"),
+                            )
+                            t.morphosyntax = token.get("relation", None)
                             t.boost = 1.0
 
-                            meta = {
-                                'meta': data['meta'].lower()
-                            }
-                            for i, div in enumerate(data['meta'].split('-')):
-                                meta[div] = token.get('citation-part').split('.')[i]
-                            meta['sent_id'] = sentence.get('id')
-                            meta['sent_pos'] = token.get('id')
+                            meta = {"meta": data["meta"].lower()}
+                            for i, div in enumerate(data["meta"].split("-")):
+                                meta[div] = token.get("citation-part").split(
+                                    "."
+                                )[i]
+                            meta["sent_id"] = sentence.get("id")
+                            meta["sent_pos"] = token.get("id")
                             t.meta = meta
 
-                            before = token.get('presentation-before', '')
-                            after = token.get('presentation-after', '')
+                            before = token.get("presentation-before", "")
+                            after = token.get("presentation-after", "")
 
                             if keeporiginal:
                                 t.original = f"{before}{form}{after}"
@@ -85,12 +100,18 @@ class CachedTokenizer(Tokenizer):
                                 t.pos = start_pos + pos
                             original_len = len(form)
 
-                            if form.istitle() and pos == 0 and not t.lemma.istitle():
+                            if (
+                                form.istitle()
+                                and pos == 0
+                                and not t.lemma.istitle()
+                            ):
                                 form = form.lower()
                             t.text = form
                             if chars:
                                 t.startchar = start_char + len(before)
-                                t.endchar = start_char + len(before) + original_len
+                                t.endchar = (
+                                    start_char + len(before) + original_len
+                                )
                             self._cache.append(copy.deepcopy(t))
                             yield t
 
@@ -99,4 +120,3 @@ class CachedTokenizer(Tokenizer):
                                 self._cache.append(copy.deepcopy(t))
                                 yield t
                             start_char += len(before) + len(form) + len(after)
-

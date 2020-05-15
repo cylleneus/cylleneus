@@ -6,9 +6,9 @@ from cylleneus.corpus.lat.agldt import agldt2wn
 
 
 class CachedTokenizer(Tokenizer):
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedTokenizer, self).__init__()
-        self.cached = True
+        self.cached = cached
         self._cache = None
         self._docix = None
         self.__dict__.update(**kwargs)
@@ -94,7 +94,9 @@ class CachedTokenizer(Tokenizer):
                             divs = data["meta"].split("-")
 
                             refs = (
-                                token.get("cite").rsplit(":", maxsplit=1)[1].split(".")
+                                token.get("cite")
+                                    .rsplit(":", maxsplit=1)[1]
+                                    .split(".")
                             )
                             for i, div in enumerate(divs):
                                 meta[div] = refs[i]

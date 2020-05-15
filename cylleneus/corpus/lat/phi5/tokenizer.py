@@ -18,11 +18,11 @@ from cylleneus.lang.lat import (
 
 
 class CachedTokenizer(Tokenizer):
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedTokenizer, self).__init__()
         self._cache = None
         self._docix = None
-        self.cached = True
+        self.cached = cached
         self.__dict__.update(**kwargs)
 
     @property
@@ -75,7 +75,8 @@ class CachedTokenizer(Tokenizer):
                     )
 
                     divs = {
-                        i: div.lower() for i, div in enumerate(value["meta"].split("-"))
+                        i: div.lower()
+                        for i, div in enumerate(value["meta"].split("-"))
                     }
 
                     lines = iter(value["text"].split("\n"))
@@ -101,9 +102,13 @@ class CachedTokenizer(Tokenizer):
                                     xtitle = text.translate(stopchars).strip()
                                 if y == "t":
                                     if z:
-                                        ytitle = text.translate(stopchars).strip()
+                                        ytitle = text.translate(
+                                            stopchars
+                                        ).strip()
                                     else:
-                                        speaker = text.translate(stopchars).strip()
+                                        speaker = text.translate(
+                                            stopchars
+                                        ).strip()
                                     result.append((None, [text]))
                                 elif z == "t":
                                     ztitle = text.translate(stopchars).strip()
@@ -111,7 +116,9 @@ class CachedTokenizer(Tokenizer):
                                 elif "        {" in text:
                                     result.append((None, [text]))
                                 else:
-                                    temp_tokens = word_tokenizer.word_tokenize(text)
+                                    temp_tokens = word_tokenizer.word_tokenize(
+                                        text
+                                    )
                                     if temp_tokens:
                                         if (
                                             temp_tokens[0]
@@ -119,7 +126,9 @@ class CachedTokenizer(Tokenizer):
                                                 .replace("v", "u")
                                             not in proper_names.proper_names
                                         ):
-                                            temp_tokens[0] = temp_tokens[0].lower()
+                                            temp_tokens[0] = temp_tokens[
+                                                0
+                                            ].lower()
 
                                         if (
                                             temp_tokens[-1].endswith(".")
@@ -130,7 +139,9 @@ class CachedTokenizer(Tokenizer):
                                             temp_tokens += [final_word, "."]
 
                                         if temp_tokens[-1].endswith("-"):
-                                            buffer += list(parse_phi_line(next(lines)))
+                                            buffer += list(
+                                                parse_phi_line(next(lines))
+                                            )
                                             new_ref, new_tokens = buffer.pop()
                                             merged_word = (
                                                 "2&"
@@ -141,15 +152,28 @@ class CachedTokenizer(Tokenizer):
                                             temp_tokens += [merged_word]
                                             del new_tokens[0]
                                             if new_tokens:
-                                                if new_tokens[0] in string.punctuation:
-                                                    new_token = f"^1{new_tokens[0]}"
+                                                if (
+                                                    new_tokens[0]
+                                                    in string.punctuation
+                                                ):
+                                                    new_token = (
+                                                        f"^1{new_tokens[0]}"
+                                                    )
                                                     del new_tokens[0]
-                                                    new_tokens.insert(0, new_token)
-                                                buffer.appendleft((new_ref, new_tokens))
+                                                    new_tokens.insert(
+                                                        0, new_token
+                                                    )
+                                                buffer.appendleft(
+                                                    (new_ref, new_tokens)
+                                                )
 
-                                        for ix, token in enumerate(temp_tokens):
+                                        for ix, token in enumerate(
+                                            temp_tokens
+                                        ):
                                             if temp_tokens[ix] == ". . .":
-                                                temp_tokens.insert(ix + 1, "&1")
+                                                temp_tokens.insert(
+                                                    ix + 1, "&1"
+                                                )
                                             if "&" in token:
                                                 ppp = compound.is_ppp(
                                                     re.sub(r"[&\d]", "", token)
@@ -180,8 +204,16 @@ class CachedTokenizer(Tokenizer):
                                                         temp_tokens[ix + 1]
                                                     )
 
-                                                if copula and ppp[1] == copula[2]:
-                                                    tense, mood, number, i = copula
+                                                if (
+                                                    copula
+                                                    and ppp[1] == copula[2]
+                                                ):
+                                                    (
+                                                        tense,
+                                                        mood,
+                                                        number,
+                                                        i,
+                                                    ) = copula
                                                     if buffer:
                                                         token = f"{token} &2{compound.copula[tense][mood][number][i]}"
                                                     else:
@@ -191,21 +223,31 @@ class CachedTokenizer(Tokenizer):
                                                         del buffer[0][1][0]
                                                     else:
                                                         del temp_tokens[ix]
-                                                    temp_tokens.insert(ix, token)
-                                                    if ix != len(temp_tokens) - 1:
+                                                    temp_tokens.insert(
+                                                        ix, token
+                                                    )
+                                                    if (
+                                                        ix
+                                                        != len(temp_tokens) - 1
+                                                    ):
                                                         if (
                                                             temp_tokens[ix + 1]
                                                             in string.punctuation
                                                         ):
                                                             new_token = f"^1{temp_tokens[ix + 1]} "
-                                                            del temp_tokens[ix + 1]
+                                                            del temp_tokens[
+                                                                ix + 1
+                                                                ]
                                                             temp_tokens.insert(
-                                                                ix + 1, new_token
+                                                                ix + 1,
+                                                                new_token,
                                                             )
                                     if buffer:
                                         for i in range(len(buffer)):
                                             result.append(buffer.pop())
-                                    result.append(((v, w, x, y, z), temp_tokens))
+                                    result.append(
+                                        ((v, w, x, y, z), temp_tokens)
+                                    )
                             yield from result
 
                         result = list(parse_phi_line(line))
@@ -217,7 +259,9 @@ class CachedTokenizer(Tokenizer):
                                 continue
                             elif not ref:
                                 text = tokens[0].strip().strip("{}")
-                                if re.match(r"[IVXLDMivxldm]+\.[IVXLDMivxldm]+", text):
+                                if re.match(
+                                    r"[IVXLDMivxldm]+\.[IVXLDMivxldm]+", text
+                                ):
                                     act, scene = text.split(".")
                                     act = str(roman_to_arabic(act))
                                     scene = str(roman_to_arabic(scene))
@@ -249,15 +293,21 @@ class CachedTokenizer(Tokenizer):
                                     # setattr(t, divs[len(divs) - (i + 1)], ref[-(5 - (5 - (i + 1)))].strip('t'))
                                     if xtitle:
                                         if len(divs) >= 3:
-                                            meta[f"{divs[len(divs) - 3]}_title"] = xtitle
+                                            meta[
+                                                f"{divs[len(divs) - 3]}_title"
+                                            ] = xtitle
                                             # setattr(t, f"{divs[len(divs)-3]}_title", xtitle)
                                     if ytitle:
                                         if len(divs) >= 2:
-                                            meta[f"{divs[len(divs) - 2]}_title"] = ytitle
+                                            meta[
+                                                f"{divs[len(divs) - 2]}_title"
+                                            ] = ytitle
                                             # setattr(t, f"{divs[len(divs)-2]}_title", ytitle)
                                     if ztitle:
                                         if len(divs) >= 1:
-                                            meta[f"{divs[len(divs)-1]}_title"] = ztitle
+                                            meta[
+                                                f"{divs[len(divs) - 1]}_title"
+                                            ] = ztitle
                                             # setattr(t, f"{divs[len(divs)-1]}_title", ztitle)
                                 if act:
                                     meta["act"] = act
@@ -313,23 +363,33 @@ class CachedTokenizer(Tokenizer):
                                         not in exceptions
                                     ):
                                         if token in replacements:  # t.original
-                                            for subtoken in replacements[token]:
+                                            for subtoken in replacements[
+                                                token
+                                            ]:
                                                 t.text = subtoken.lower()
                                                 t.startchar = start_char
-                                                t.endchar = start_char + original_length
+                                                t.endchar = (
+                                                    start_char
+                                                    + original_length
+                                                )
                                                 if mode == "index":
                                                     if self.cached:
-                                                        self._cache.append(copy.copy(t))
+                                                        self._cache.append(
+                                                            copy.copy(t)
+                                                        )
                                                 yield t
                                             start_char += original_length
                                             tpos += 1
                                             continue
 
                                         if re.match(
-                                            r"(?:[\d]&)?[\w]+\s(?:&[\d])?[\w]+", token
+                                            r"(?:[\d]&)?[\w]+\s(?:&[\d])?[\w]+",
+                                            token,
                                         ):
                                             ppp, copula = token.split(" ")
-                                            post = re.match(r"([\d])&[\w]+", ppp)
+                                            post = re.match(
+                                                r"([\d])&[\w]+", ppp
+                                            )
                                             if post:
                                                 offset += int(post.group(1))
                                                 ppp = re.sub(r"[\d]&", "", ppp)
@@ -337,34 +397,51 @@ class CachedTokenizer(Tokenizer):
                                                 enjambed = True
                                             t.text = ppp.lower()
                                             t.startchar = start_char
-                                            t.endchar = start_char + len(ppp) + offset
+                                            t.endchar = (
+                                                start_char + len(ppp) + offset
+                                            )
                                             if mode == "index":
                                                 if self.cached:
-                                                    self._cache.append(copy.copy(t))
+                                                    self._cache.append(
+                                                        copy.copy(t)
+                                                    )
                                             yield t
                                             pre = re.search(r"&(\d+?)", copula)
                                             if pre:
                                                 start_char += int(pre.group(1))
-                                                copula = re.sub(r"&\d+?", "", copula)
+                                                copula = re.sub(
+                                                    r"&\d+?", "", copula
+                                                )
                                                 original_length -= 2
                                                 enjambed = True
                                             t.text = copula.lower()
-                                            t.startchar = start_char + len(ppp) + 1
+                                            t.startchar = (
+                                                start_char + len(ppp) + 1
+                                            )
                                             t.endchar = (
-                                                start_char + len(ppp) + 1 + len(copula)
+                                                start_char
+                                                + len(ppp)
+                                                + 1
+                                                + len(copula)
                                             )
                                             if mode == "index":
                                                 if self.cached:
-                                                    self._cache.append(copy.copy(t))
+                                                    self._cache.append(
+                                                        copy.copy(t)
+                                                    )
                                             yield t
                                             start_char += original_length
                                             tpos += 1
                                             continue
                                         else:
-                                            post = re.match(r"([\d])&[\w]+", token)
+                                            post = re.match(
+                                                r"([\d])&[\w]+", token
+                                            )
                                             if post:
                                                 offset += int(post.group(1))
-                                                token = re.sub(r"[\d]&", "", token)
+                                                token = re.sub(
+                                                    r"[\d]&", "", token
+                                                )
                                                 original_length -= 2
                                                 enjambed = True
                                             else:
@@ -372,7 +449,9 @@ class CachedTokenizer(Tokenizer):
 
                                         is_enclitic = False
                                         for enclitic in enclitics:
-                                            if token.lower().endswith(enclitic):
+                                            if token.lower().endswith(
+                                                enclitic
+                                            ):
                                                 is_enclitic = True
                                                 if enclitic == "ne":
                                                     t.text = (
@@ -380,7 +459,8 @@ class CachedTokenizer(Tokenizer):
                                                     ).lower()
                                                     t.startchar = start_char
                                                     t.endchar = start_char + (
-                                                        len(token) - len(enclitic)
+                                                        len(token)
+                                                        - len(enclitic)
                                                     )
                                                     if mode == "index":
                                                         if self.cached:
@@ -391,12 +471,24 @@ class CachedTokenizer(Tokenizer):
                                                     t.text = "ne"
                                                     t.startchar = (
                                                         start_char
-                                                        + len(token[: -len(enclitic)])
+                                                        + len(
+                                                        token[
+                                                        : -len(
+                                                            enclitic
+                                                        )
+                                                        ]
+                                                    )
                                                         + offset
                                                     )
                                                     t.endchar = (
                                                         start_char
-                                                        + len(token[: -len(enclitic)])
+                                                        + len(
+                                                        token[
+                                                        : -len(
+                                                            enclitic
+                                                        )
+                                                        ]
+                                                    )
                                                         + len(enclitic)
                                                         + offset
                                                     )
@@ -408,7 +500,8 @@ class CachedTokenizer(Tokenizer):
                                                     yield t
                                                 elif enclitic == "n":
                                                     t.text = (
-                                                        token[: -len(enclitic)] + "s"
+                                                        token[: -len(enclitic)]
+                                                        + "s"
                                                     ).lower()
                                                     t.startchar = start_char
                                                     t.endchar = (
@@ -425,12 +518,24 @@ class CachedTokenizer(Tokenizer):
                                                     t.text = "ne"
                                                     t.startchar = (
                                                         start_char
-                                                        + len(token[: -len(enclitic)])
+                                                        + len(
+                                                        token[
+                                                        : -len(
+                                                            enclitic
+                                                        )
+                                                        ]
+                                                    )
                                                         + offset
                                                     )
                                                     t.endchar = (
                                                         start_char
-                                                        + len(token[: -len(enclitic)])
+                                                        + len(
+                                                        token[
+                                                        : -len(
+                                                            enclitic
+                                                        )
+                                                        ]
+                                                    )
                                                         + len(enclitic)
                                                         + offset
                                                     )
@@ -443,14 +548,24 @@ class CachedTokenizer(Tokenizer):
                                                 elif enclitic == "st":
                                                     if token.endswith("ust"):
                                                         t.text = (
-                                                            token[: -len(enclitic) + 1]
+                                                            token[
+                                                            : -len(
+                                                                enclitic
+                                                            )
+                                                              + 1
+                                                            ]
                                                         ).lower()
-                                                        t.startchar = start_char
+                                                        t.startchar = (
+                                                            start_char
+                                                        )
                                                         t.endchar = (
                                                             start_char
                                                             + len(
                                                             token[
-                                                            : -len(enclitic) + 1
+                                                            : -len(
+                                                                enclitic
+                                                            )
+                                                              + 1
                                                             ]
                                                         )
                                                             - len(enclitic)
@@ -458,7 +573,9 @@ class CachedTokenizer(Tokenizer):
                                                         if mode == "index":
                                                             if self.cached:
                                                                 self._cache.append(
-                                                                    copy.copy(t)
+                                                                    copy.copy(
+                                                                        t
+                                                                    )
                                                                 )
                                                         yield t
                                                         t.text = "est"
@@ -466,7 +583,10 @@ class CachedTokenizer(Tokenizer):
                                                             start_char
                                                             + len(
                                                             token[
-                                                            : -len(enclitic) + 1
+                                                            : -len(
+                                                                enclitic
+                                                            )
+                                                              + 1
                                                             ]
                                                         )
                                                             + offset
@@ -475,7 +595,10 @@ class CachedTokenizer(Tokenizer):
                                                             start_char
                                                             + len(
                                                             token[
-                                                            : -len(enclitic) + 1
+                                                            : -len(
+                                                                enclitic
+                                                            )
+                                                              + 1
                                                             ]
                                                         )
                                                             + len(enclitic)
@@ -484,39 +607,61 @@ class CachedTokenizer(Tokenizer):
                                                         if mode == "index":
                                                             if self.cached:
                                                                 self._cache.append(
-                                                                    copy.copy(t)
+                                                                    copy.copy(
+                                                                        t
+                                                                    )
                                                                 )
                                                         yield t
                                                     else:
                                                         t.text = (
-                                                            token[: -len(enclitic)]
+                                                            token[
+                                                            : -len(
+                                                                enclitic
+                                                            )
+                                                            ]
                                                         ).lower()
-                                                        t.startchar = start_char
+                                                        t.startchar = (
+                                                            start_char
+                                                        )
                                                         t.endchar = (
                                                             start_char
                                                             + len(
-                                                            token[: -len(enclitic)]
+                                                            token[
+                                                            : -len(
+                                                                enclitic
+                                                            )
+                                                            ]
                                                         )
                                                             - len(enclitic)
                                                         )
                                                         if mode == "index":
                                                             if self.cached:
                                                                 self._cache.append(
-                                                                    copy.copy(t)
+                                                                    copy.copy(
+                                                                        t
+                                                                    )
                                                                 )
                                                         yield t
                                                         t.text = "est"
                                                         t.startchar = (
                                                             start_char
                                                             + len(
-                                                            token[: -len(enclitic)]
+                                                            token[
+                                                            : -len(
+                                                                enclitic
+                                                            )
+                                                            ]
                                                         )
                                                             + offset
                                                         )
                                                         t.endchar = (
                                                             start_char
                                                             + len(
-                                                            token[: -len(enclitic)]
+                                                            token[
+                                                            : -len(
+                                                                enclitic
+                                                            )
+                                                            ]
                                                         )
                                                             + len(enclitic)
                                                             + offset
@@ -524,13 +669,19 @@ class CachedTokenizer(Tokenizer):
                                                         if mode == "index":
                                                             if self.cached:
                                                                 self._cache.append(
-                                                                    copy.copy(t)
+                                                                    copy.copy(
+                                                                        t
+                                                                    )
                                                                 )
                                                         yield t
                                                 elif enclitic == "'s":
-                                                    t.text = token.lower() + "s"
+                                                    t.text = (
+                                                        token.lower() + "s"
+                                                    )
                                                     t.startchar = start_char
-                                                    t.endchar = start_char + len(token)
+                                                    t.endchar = (
+                                                        start_char + len(token)
+                                                    )
                                                     if mode == "index":
                                                         if self.cached:
                                                             self._cache.append(
@@ -539,7 +690,9 @@ class CachedTokenizer(Tokenizer):
                                                     yield t
                                                     t.text = "es"
                                                     t.startchar = (
-                                                        start_char + len(token) + 1
+                                                        start_char
+                                                        + len(token)
+                                                        + 1
                                                     )
                                                     t.endchar = (
                                                         start_char
@@ -557,8 +710,15 @@ class CachedTokenizer(Tokenizer):
                                                         token[: -len(enclitic)]
                                                     ).lower()
                                                     t.startchar = start_char
-                                                    t.endchar = start_char + len(
-                                                        token[: -len(enclitic)]
+                                                    t.endchar = (
+                                                        start_char
+                                                        + len(
+                                                        token[
+                                                        : -len(
+                                                            enclitic
+                                                        )
+                                                        ]
+                                                    )
                                                     )
                                                     if mode == "index":
                                                         if self.cached:
@@ -569,12 +729,24 @@ class CachedTokenizer(Tokenizer):
                                                     t.text = enclitic
                                                     t.startchar = (
                                                         start_char
-                                                        + len(token[: -len(enclitic)])
+                                                        + len(
+                                                        token[
+                                                        : -len(
+                                                            enclitic
+                                                        )
+                                                        ]
+                                                    )
                                                         + offset
                                                     )
                                                     t.endchar = (
                                                         start_char
-                                                        + len(token[: -len(enclitic)])
+                                                        + len(
+                                                        token[
+                                                        : -len(
+                                                            enclitic
+                                                        )
+                                                        ]
+                                                    )
                                                         + len(enclitic)
                                                         + offset
                                                     )
@@ -605,7 +777,9 @@ class CachedTokenizer(Tokenizer):
                                             )
                                         if mode == "index":
                                             if self.cached:
-                                                self._cache.append(copy.copy(t))
+                                                self._cache.append(
+                                                    copy.copy(t)
+                                                )
                                         yield t
                                         tpos += 1
                                     if enjambed:

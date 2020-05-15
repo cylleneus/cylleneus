@@ -8,11 +8,11 @@ from cylleneus.utils import flatten, stringify
 
 
 class CachedTokenizer(Tokenizer):
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedTokenizer, self).__init__()
         self._cache = None
         self._docix = None
-        self.cached = True
+        self.cached = cached
         self.__dict__.update(**kwargs)
 
     @property
@@ -32,7 +32,10 @@ class CachedTokenizer(Tokenizer):
         mode="",
         **kwargs
     ):
-        if kwargs.get("docix", None) == self._docix and self._cache is not None:
+        if (
+            kwargs.get("docix", None) == self._docix
+            and self._cache is not None
+        ):
             yield from self.cache
         else:
             t = CylleneusToken(
@@ -63,7 +66,9 @@ class CachedTokenizer(Tokenizer):
                     divs = [
                         cref.get("n")
                         for cref in reversed(
-                            doc.findall(".//{http://www.tei-c.org/ns/1.0}cRefPattern")
+                            doc.findall(
+                                ".//{http://www.tei-c.org/ns/1.0}cRefPattern"
+                            )
                         )
                     ]
 
@@ -85,9 +90,16 @@ class CachedTokenizer(Tokenizer):
                         j = 0
                         while el is not None:
                             if el.getparent() is not None:
-                                if el.getparent().get("type", None) == "textpart":
+                                if (
+                                    el.getparent().get("type", None)
+                                    == "textpart"
+                                ):
                                     j -= 1
-                                    if divs[j] in meta and el.getparent().get("n") != meta[divs[j]]:
+                                    if (
+                                        divs[j] in meta
+                                        and el.getparent().get("n")
+                                        != meta[divs[j]]
+                                    ):
                                         sect_sent = 0
                                         sect_pos = 0
                                     meta[divs[j]] = el.getparent().get("n")

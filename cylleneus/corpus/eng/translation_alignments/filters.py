@@ -16,9 +16,9 @@ EWN = WordNet("english")
 class CachedLemmaFilter(Filter):
     is_morph = True
 
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedLemmaFilter, self).__init__()
-        self.cached = True
+        self.cached = cached
         self._cache = None
         self._docix = None
         self.__dict__.update(**kwargs)
@@ -28,25 +28,27 @@ class CachedLemmaFilter(Filter):
         return copy.deepcopy(self._cache)
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.__dict__ == other.__dict__)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.__dict__ == other.__dict__
+        )
 
     def __ne__(self, other):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if kwargs.get('docix', None) == self._docix and self._cache:
+        if kwargs.get("docix", None) == self._docix and self._cache:
             yield from self.cache
         else:
             self._cache = []
-            self._docix = kwargs.get('docix', None)
+            self._docix = kwargs.get("docix", None)
 
             EWN = WordNet("english")
             lemmatizer = WordNetLemmatizer()
 
             for t in tokens:
-                if t.mode == 'index':
+                if t.mode == "index":
                     text = t.text.lower()
                     word = lemmatizer.lemmatize(text)
 
@@ -56,77 +58,90 @@ class CachedLemmaFilter(Filter):
                         if self.cached:
                             self._cache.append(copy.copy(t))
                         yield t
-                elif t.mode == 'query':
-                    if '::' in t.text:
-                        reltype, query = t.text.split('::')
+                elif t.mode == "query":
+                    if "::" in t.text:
+                        reltype, query = t.text.split("::")
                         t.reltype = reltype
                         t.text = query
 
                     text = t.text
 
-                    if '#' in text:
+                    if "#" in text:
                         yield t
-                    elif '?' in text:
-                        language, word = text.split('?')
+                    elif "?" in text:
+                        language, word = text.split("?")
                         t.language = language
                         t.text = word
                         yield t
                     else:
                         # </::love=VB>
-                        if hasattr(t, 'reltype'):
-                            keys = ['lemma', 'pos']
+                        if hasattr(t, "reltype"):
+                            keys = ["lemma", "pos"]
                             kwargs = {
                                 k: v
                                 for k, v in zip(
                                     keys,
-                                    re.search(r"(\w+)(?:=(.+))?", text).groups()
+                                    re.search(
+                                        r"(\w+)(?:=(.+))?", text
+                                    ).groups(),
                                 )
                             }
-                            if 'pos' in kwargs and kwargs['pos']:
-                                kwargs['pos'] = {
-                                    'NN':   'n',
-                                    'VB':   'v',
-                                    'ADJ':  'a',
-                                    'ADV':  'r',
-                                    'PREP': 'p'
-                                }[kwargs['pos']]
+                            if "pos" in kwargs and kwargs["pos"]:
+                                kwargs["pos"] = {
+                                    "NN":   "n",
+                                    "VB":   "v",
+                                    "ADJ":  "a",
+                                    "ADV":  "r",
+                                    "PREP": "p",
+                                }[kwargs["pos"]]
 
-                            if t.reltype in ['\\', '/', '+c', '-c']:
-                                if t.reltype == '/':
+                            if t.reltype in ["\\", "/", "+c", "-c"]:
+                                if t.reltype == "/":
                                     results = EWN.get_lemma(**kwargs).relatives
-                                elif t.reltype == '\\':
+                                elif t.reltype == "\\":
                                     results = EWN.get_lemma(**kwargs).derivates
-                                elif t.reltype == '+c':
+                                elif t.reltype == "+c":
                                     results = EWN.get_lemma(**kwargs).composes
                                 else:
-                                    results = EWN.get_lemma(**kwargs).composed_of
+                                    results = EWN.get_lemma(
+                                        **kwargs
+                                    ).composed_of
                             else:
                                 # FIXME: This returns lexical not semantic relations!
                                 lemma = EWN.get_lemma(**kwargs)
-                                results = EWN.get_relations(w_source=lemma, type=t.reltype)
+                                results = EWN.get_relations(
+                                    w_source=lemma, type=t.reltype
+                                )
                             if results:
                                 for result in results:
-                                    if relation_types[t.reltype] in result['relations'].keys():
-                                        for relation in result['relations'][relation_types[t.reltype]]:
+                                    if (
+                                        relation_types[t.reltype]
+                                        in result["relations"].keys()
+                                    ):
+                                        for relation in result["relations"][
+                                            relation_types[t.reltype]
+                                        ]:
                                             t.text = f"{relation['lemma']}={relation['morpho']}"
                                             yield t
                         else:
-                            keys = ['lemma', 'pos']
+                            keys = ["lemma", "pos"]
                             kwargs = {
                                 k: v
                                 for k, v in zip(
                                     keys,
-                                    re.search(r"(\w+)(?:=(.+))?", text).groups()
+                                    re.search(
+                                        r"(\w+)(?:=(.+))?", text
+                                    ).groups(),
                                 )
                             }
-                            if 'pos' in kwargs and kwargs['pos']:
-                                kwargs['pos'] = {
-                                    'NN':   'n',
-                                    'VB':   'v',
-                                    'ADJ':  'a',
-                                    'ADV':  'r',
-                                    'PREP': 'p'
-                                }[kwargs['pos']]
+                            if "pos" in kwargs and kwargs["pos"]:
+                                kwargs["pos"] = {
+                                    "NN":   "n",
+                                    "VB":   "v",
+                                    "ADJ":  "a",
+                                    "ADV":  "r",
+                                    "PREP": "p",
+                                }[kwargs["pos"]]
 
                             results = EWN.get(**kwargs)
                             for result in results:
@@ -137,11 +152,11 @@ class CachedLemmaFilter(Filter):
 class CachedSynsetFilter(Filter):
     is_morph = True
 
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedSynsetFilter, self).__init__()
         self._cache = None
         self._docix = None
-        self.cached = True
+        self.cached = cached
         self.__dict__.update(**kwargs)
 
     @property
@@ -149,74 +164,98 @@ class CachedSynsetFilter(Filter):
         return copy.deepcopy(self._cache)
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.__dict__ == other.__dict__)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.__dict__ == other.__dict__
+        )
 
     def __ne__(self, other):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if kwargs.get('docix', None) == self._docix and self._cache:
+        if kwargs.get("docix", None) == self._docix and self._cache:
             yield from self.cache
         else:
             self._cache = []
-            self._docix = kwargs.get('docix', None)
+            self._docix = kwargs.get("docix", None)
 
             for t in tokens:
-                if t.mode == 'index':
-                    lemma, pos = t.text.split('=')
+                if t.mode == "index":
+                    lemma, pos = t.text.split("=")
 
                     synsets = EWN.get_lemma(lemma=lemma, pos=pos).synsets
                     for synset in synsets:
-                        t.code = ' '.join([semfield_mapping[semfield.english] for semfield in synset.semfield
-                                           if semfield_mapping[semfield.english] is not None])
+                        t.code = " ".join(
+                            [
+                                semfield_mapping[semfield.english]
+                                for semfield in synset.semfield
+                                if semfield_mapping[semfield.english]
+                                   is not None
+                            ]
+                        )
                         t.text = synset.id
                         if self.cached:
                             self._cache.append(copy.copy(t))
                         yield t
-                elif t.mode == 'query':
-                    if hasattr(t, 'language'):
+                elif t.mode == "query":
+                    if hasattr(t, "language"):
                         language = t.language
                         text = t.text
 
-                        if hasattr(t, 'reltype'):
+                        if hasattr(t, "reltype"):
                             for lemma in WordNet(iso_639[language]).get(text):
-                                if t.reltype in ['\\', '/', '+c', '-c']:
+                                if t.reltype in ["\\", "/", "+c", "-c"]:
                                     lexical = True
                                 else:
                                     lexical = False
-                                for relation in WordNet(iso_639[language]).get_relations(w_source=lemma,
-                                                                                         type=t.reltype,
-                                                                                         lexical=lexical):
+                                for relation in WordNet(
+                                    iso_639[language]
+                                ).get_relations(
+                                    w_source=lemma,
+                                    type=t.reltype,
+                                    lexical=lexical,
+                                ):
                                     if relation.is_lexical:
-                                        for synset in relation.w_target.synsets:
+                                        for (
+                                            synset
+                                        ) in relation.w_target.synsets:
                                             t.text = synset.id
                                             yield t
                                     else:
                                         t.text = relation.id_target
                                         yield t
                         else:
-                            if language == 'la':
-                                for lemma in LatinWordNet().lemmas(lemma=text).synsets:
-                                    for signification in lemma['synsets']:
-                                        for synset in lemma['synsets'][signification]:
+                            if language == "la":
+                                for lemma in (
+                                    LatinWordNet().lemmas(lemma=text).synsets
+                                ):
+                                    for signification in lemma["synsets"]:
+                                        for synset in lemma["synsets"][
+                                            signification
+                                        ]:
                                             t.text = f"{synset['pos']}#{synset['offset']}"
                                             yield t
-                            elif language == 'gr':
-                                for lemma in GreekWordNet().lemmas(lemma=text).synsets:
-                                    for signification in lemma['synsets']:
-                                        for synset in lemma['synsets'][signification]:
+                            elif language == "gr":
+                                for lemma in (
+                                    GreekWordNet().lemmas(lemma=text).synsets
+                                ):
+                                    for signification in lemma["synsets"]:
+                                        for synset in lemma["synsets"][
+                                            signification
+                                        ]:
                                             t.text = f"{synset['pos']}#{synset['offset']}"
                                             yield t
                             else:
-                                for lemma in WordNet(iso_639[language]).get(text):
+                                for lemma in WordNet(iso_639[language]).get(
+                                    text
+                                ):
                                     for synset in lemma.synsets:
                                         t.text = synset.id
                                         yield t
-                    elif '#' in t.text:  # raw synset
-                        if hasattr(t, 'reltype'):
-                            pos, offset = t.text.split('#')
+                    elif "#" in t.text:  # raw synset
+                        if hasattr(t, "reltype"):
+                            pos, offset = t.text.split("#")
                             result = EWN.synsets(pos, offset).relations
                             if t.reltype in result.keys():
                                 for relation in result[t.reltype]:

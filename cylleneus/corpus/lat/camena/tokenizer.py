@@ -8,9 +8,9 @@ from cylleneus.lang.lat import enclitics, jvmap, word_tokenizer
 
 
 class CachedTokenizer(Tokenizer):
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedTokenizer, self).__init__()
-        self.cached = True
+        self.cached = cached
         self._cache = None
         self._docix = None
         self.__dict__.update(**kwargs)
@@ -123,7 +123,11 @@ class CachedTokenizer(Tokenizer):
                                 pos += 1
                                 sect_pos += 1
 
-                                t.text = token.translate(punc).lower().translate(jvmap)
+                                t.text = (
+                                    token.translate(punc)
+                                        .lower()
+                                        .translate(jvmap)
+                                )
                                 if not t.text or t.text in string.whitespace:
                                     start_char += 1
                                     continue
@@ -153,7 +157,9 @@ class CachedTokenizer(Tokenizer):
                                                 len(token) - len(enclitic)
                                             )
                                             if mode == "index":
-                                                self._cache.append(copy.deepcopy(t))
+                                                self._cache.append(
+                                                    copy.deepcopy(t)
+                                                )
                                             yield t
                                             t.text = "ne"
                                             t.startchar = start_char + len(
@@ -165,16 +171,24 @@ class CachedTokenizer(Tokenizer):
                                                 + len(enclitic)
                                             )
                                             if mode == "index":
-                                                self._cache.append(copy.deepcopy(t))
+                                                self._cache.append(
+                                                    copy.deepcopy(t)
+                                                )
                                             yield t
                                         elif enclitic == "n":
-                                            t.text = token[: -len(enclitic)] + "s"
+                                            t.text = (
+                                                token[: -len(enclitic)] + "s"
+                                            )
                                             t.startchar = start_char
                                             t.endchar = (
-                                                start_char + len(token) - len(enclitic)
+                                                start_char
+                                                + len(token)
+                                                - len(enclitic)
                                             )
                                             if mode == "index":
-                                                self._cache.append(copy.deepcopy(t))
+                                                self._cache.append(
+                                                    copy.deepcopy(t)
+                                                )
                                             yield t
                                             t.text = "ne"
                                             t.startchar = start_char + len(
@@ -186,19 +200,27 @@ class CachedTokenizer(Tokenizer):
                                                 + len(enclitic)
                                             )
                                             if mode == "index":
-                                                self._cache.append(copy.deepcopy(t))
+                                                self._cache.append(
+                                                    copy.deepcopy(t)
+                                                )
                                             yield t
                                         elif enclitic == "st":
                                             if token.endswith("ust"):
-                                                t.text = token[: -len(enclitic)]
+                                                t.text = token[
+                                                         : -len(enclitic)
+                                                         ]
                                                 t.startchar = start_char
                                                 t.endchar = (
                                                     start_char
-                                                    + len(token[: -len(enclitic)])
+                                                    + len(
+                                                    token[: -len(enclitic)]
+                                                )
                                                     - len(enclitic)
                                                 )
                                                 if mode == "index":
-                                                    self._cache.append(copy.deepcopy(t))
+                                                    self._cache.append(
+                                                        copy.deepcopy(t)
+                                                    )
                                                 yield t
                                                 t.text = "est"
                                                 t.startchar = start_char + len(
@@ -206,22 +228,32 @@ class CachedTokenizer(Tokenizer):
                                                 )
                                                 t.endchar = (
                                                     start_char
-                                                    + len(token[: -len(enclitic)])
+                                                    + len(
+                                                    token[: -len(enclitic)]
+                                                )
                                                     + len(enclitic)
                                                 )
                                                 if mode == "index":
-                                                    self._cache.append(copy.deepcopy(t))
+                                                    self._cache.append(
+                                                        copy.deepcopy(t)
+                                                    )
                                                 yield t
                                             else:
-                                                t.text = token[: -len(enclitic)]
+                                                t.text = token[
+                                                         : -len(enclitic)
+                                                         ]
                                                 t.startchar = start_char
                                                 t.endchar = (
                                                     start_char
-                                                    + len(token[: -len(enclitic)])
+                                                    + len(
+                                                    token[: -len(enclitic)]
+                                                )
                                                     - len(enclitic)
                                                 )
                                                 if mode == "index":
-                                                    self._cache.append(copy.deepcopy(t))
+                                                    self._cache.append(
+                                                        copy.deepcopy(t)
+                                                    )
                                                 yield t
                                                 t.text = "est"
                                                 t.startchar = start_char + len(
@@ -229,26 +261,38 @@ class CachedTokenizer(Tokenizer):
                                                 )
                                                 t.endchar = (
                                                     start_char
-                                                    + len(token[: -len(enclitic)])
+                                                    + len(
+                                                    token[: -len(enclitic)]
+                                                )
                                                     + len(enclitic)
                                                 )
                                                 if mode == "index":
-                                                    self._cache.append(copy.deepcopy(t))
+                                                    self._cache.append(
+                                                        copy.deepcopy(t)
+                                                    )
                                                 yield t
                                         elif enclitic == "'s":
                                             t.text = token + "s"
                                             t.startchar = start_char
                                             t.endchar = start_char + len(token)
                                             if mode == "index":
-                                                self._cache.append(copy.deepcopy(t))
+                                                self._cache.append(
+                                                    copy.deepcopy(t)
+                                                )
                                             yield t
                                             t.text = "es"
-                                            t.startchar = start_char + len(token) + 1
+                                            t.startchar = (
+                                                start_char + len(token) + 1
+                                            )
                                             t.endchar = (
-                                                start_char + len(token) + len(enclitic)
+                                                start_char
+                                                + len(token)
+                                                + len(enclitic)
                                             )
                                             if mode == "index":
-                                                self._cache.append(copy.deepcopy(t))
+                                                self._cache.append(
+                                                    copy.deepcopy(t)
+                                                )
                                             yield t
                                         else:
                                             t.text = token[: -len(enclitic)]
@@ -257,7 +301,9 @@ class CachedTokenizer(Tokenizer):
                                                 token[: -len(enclitic)]
                                             )
                                             if mode == "index":
-                                                self._cache.append(copy.deepcopy(t))
+                                                self._cache.append(
+                                                    copy.deepcopy(t)
+                                                )
                                             yield t
                                             t.text = enclitic
                                             t.startchar = start_char + len(
@@ -269,7 +315,9 @@ class CachedTokenizer(Tokenizer):
                                                 + len(enclitic)
                                             )
                                             if mode == "index":
-                                                self._cache.append(copy.deepcopy(t))
+                                                self._cache.append(
+                                                    copy.deepcopy(t)
+                                                )
                                             yield t
                                         is_enclitic = True
                                         break

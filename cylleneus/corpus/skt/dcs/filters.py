@@ -4,7 +4,13 @@ from cylleneus.engine.analysis.filters import Filter
 from cylleneus.lang import iso_639
 from cylleneus.lang.morpho import leipzig2wn, Morph
 from cylleneus.lang.skt import iast2slp, slp2deva
-from .core import lemma_morpho, lemma_id, pos_mapping, xpos_mapping, lemma_synsets
+from .core import (
+    lemma_morpho,
+    lemma_id,
+    pos_mapping,
+    xpos_mapping,
+    lemma_synsets,
+)
 
 from sanskritwordnet import SanskritWordNet, relation_types
 from multiwordnet.wordnet import WordNet
@@ -51,9 +57,9 @@ class MorphosyntaxFilter(Filter):
 class CachedLemmaFilter(Filter):
     is_morph = True
 
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedLemmaFilter, self).__init__()
-        self.cached = True
+        self.cached = cached
         self._cache = None
         self._docix = None
         self.__dict__.update(**kwargs)
@@ -101,8 +107,12 @@ class CachedLemmaFilter(Filter):
                                     annotation,
                                 ]
                                 for desc in annotations:
-                                    annotation = str(Morph(morpho) + Morph(desc))
-                                    t.morpho = f"{morpho}::{uri}:{i}>{annotation}"
+                                    annotation = str(
+                                        Morph(morpho) + Morph(desc)
+                                    )
+                                    t.morpho = (
+                                        f"{morpho}::{uri}:{i}>{annotation}"
+                                    )
                                     t.text = f"{lemma}:{uri}={morpho}"
                                     if self.cached:
                                         self._cache.append(copy.copy(t))
@@ -147,12 +157,15 @@ class CachedLemmaFilter(Filter):
                                     for k, v in zip(
                                         keys,
                                         re.search(
-                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text
+                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
                                         ).groups(),
                                     )
                                 }
                                 if kwargs["uri"] is not None:
-                                    results = SWN.lemmas_by_uri(kwargs["uri"]).relations
+                                    results = SWN.lemmas_by_uri(
+                                        kwargs["uri"]
+                                    ).relations
                                 else:
                                     kwargs.pop("uri")
                                     results = SWN.lemmas(**kwargs).relations
@@ -163,7 +176,8 @@ class CachedLemmaFilter(Filter):
                                     for k, v in zip(
                                         keys,
                                         re.search(
-                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text
+                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
                                         ).groups(),
                                     )
                                 }
@@ -173,7 +187,9 @@ class CachedLemmaFilter(Filter):
                                     ).synsets_relations
                                 else:
                                     kwargs.pop("uri")
-                                    results = SWN.lemmas(**kwargs).synsets_relations
+                                    results = SWN.lemmas(
+                                        **kwargs
+                                    ).synsets_relations
                             if results:
                                 for result in results:
                                     if (
@@ -183,8 +199,10 @@ class CachedLemmaFilter(Filter):
                                         for relation in result["relations"][
                                             relation_types[t.reltype]
                                         ]:
-                                            t.text = f"{relation['transliteration']}:{relation['uri']}" \
-                                                     f"={relation['morpho']}"
+                                            t.text = (
+                                                f"{relation['transliteration']}:{relation['uri']}"
+                                                f"={relation['morpho']}"
+                                            )
                                             yield t
                         else:
                             # query may be provided as lemma:uri=morpho
@@ -202,7 +220,8 @@ class CachedLemmaFilter(Filter):
                                     for k, v in zip(
                                         keys,
                                         re.search(
-                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text
+                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
                                         ).groups(),
                                     )
                                 }
@@ -214,7 +233,7 @@ class CachedLemmaFilter(Filter):
 
                                 if results:
                                     for result in results:
-                                        if result['uri'] is not None:
+                                        if result["uri"] is not None:
                                             t.text = f"{result['transliteration']}:{result['uri']}={result['morpho']}"
                                             yield t
 
@@ -222,11 +241,11 @@ class CachedLemmaFilter(Filter):
 class CachedSynsetFilter(Filter):
     is_morph = True
 
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedSynsetFilter, self).__init__()
         self._cache = None
         self._docix = None
-        self.cached = True
+        self.cached = cached
         self.__dict__.update(**kwargs)
 
     @property
@@ -234,22 +253,24 @@ class CachedSynsetFilter(Filter):
         return copy.deepcopy(self._cache)
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.__dict__ == other.__dict__)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.__dict__ == other.__dict__
+        )
 
     def __ne__(self, other):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if kwargs.get('docix', None) == self._docix and self._cache:
+        if kwargs.get("docix", None) == self._docix and self._cache:
             yield from self.cache
         else:
             self._cache = []
-            self._docix = kwargs.get('docix', None)
+            self._docix = kwargs.get("docix", None)
 
             for t in tokens:
-                if t.mode == 'index':
+                if t.mode == "index":
                     dcs_id = t.dcs_id
                     if dcs_id:
                         for synset_id in lemma_synsets.get(dcs_id, []):
@@ -257,26 +278,38 @@ class CachedSynsetFilter(Filter):
                             synsets = SWN.synsets(pos=pos, offset=offset).get()
                             if synsets:
                                 for synset in synsets:
-                                    t.code = " ".join([semfield["code"] for semfield in synset["semfield"]])
+                                    t.code = " ".join(
+                                        [
+                                            semfield["code"]
+                                            for semfield in synset["semfield"]
+                                        ]
+                                    )
                                     t.text = synset_id
                                     if self.cached:
                                         self._cache.append(copy.copy(t))
                                     yield t
-                elif t.mode == 'query':
-                    if hasattr(t, 'language'):
+                elif t.mode == "query":
+                    if hasattr(t, "language"):
                         language = t.language
                         text = t.text
 
-                        if hasattr(t, 'reltype'):
+                        if hasattr(t, "reltype"):
                             for lemma in WordNet(iso_639[language]).get(text):
-                                if t.reltype in ['\\', '/', '+c', '-c']:
+                                if t.reltype in ["\\", "/", "+c", "-c"]:
                                     lexical = True
                                 else:
                                     lexical = False
-                                for relation in WordNet(iso_639[language]).get_relations(w_source=lemma, type=t.reltype,
-                                                                                         lexical=lexical):
+                                for relation in WordNet(
+                                    iso_639[language]
+                                ).get_relations(
+                                    w_source=lemma,
+                                    type=t.reltype,
+                                    lexical=lexical,
+                                ):
                                     if relation.is_lexical:
-                                        for synset in relation.w_target.synsets:
+                                        for (
+                                            synset
+                                        ) in relation.w_target.synsets:
                                             t.text = synset.id
                                             yield t
                                     else:
@@ -287,9 +320,9 @@ class CachedSynsetFilter(Filter):
                                 for synset in lemma.synsets:
                                     t.text = synset.id
                                     yield t
-                    elif '#' in t.text:  # raw synset
-                        if hasattr(t, 'reltype'):
-                            pos, offset = t.text.split('#')
+                    elif "#" in t.text:  # raw synset
+                        if hasattr(t, "reltype"):
+                            pos, offset = t.text.split("#")
                             result = SWN.synsets(pos, offset).relations
                             if t.reltype in result.keys():
                                 for relation in result[t.reltype]:

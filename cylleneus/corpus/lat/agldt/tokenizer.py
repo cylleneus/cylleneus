@@ -8,9 +8,9 @@ from cylleneus.corpus.lat.agldt import agldt2wn
 
 
 class CachedTokenizer(Tokenizer):
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedTokenizer, self).__init__()
-        self.cached = True
+        self.cached = cached
         self._cache = None
         self._docix = None
         self.__dict__.update(**kwargs)
@@ -74,9 +74,15 @@ class CachedTokenizer(Tokenizer):
                                 form = form.replace(" ", " ").replace(" ", " ")
                                 form = re.sub(r"\.([^ ]|^$)", r". \1", form)
                             lemma = token.get("lemma", None)
-                            if not lemma or lemma in (".", ",", "punc1", "comma1", "PERIOD1"):
+                            if not lemma or lemma in (
+                                ".",
+                                ",",
+                                "punc1",
+                                "comma1",
+                                "PERIOD1",
+                            ):
                                 continue
-                            t.lemma = lemma.strip('0123456789')
+                            t.lemma = lemma.strip("0123456789")
                             t.morpho = agldt2wn(token.get("postag"))
                             t.morphosyntax = token.get("relation", None)
                             t.boost = 1.0
@@ -85,7 +91,9 @@ class CachedTokenizer(Tokenizer):
                             divs = data["meta"].split("-")
                             for i, div in enumerate(divs):
                                 if not (len(divs) > 2 and div == "line"):
-                                    meta[div] = sentence.get("subdoc").split(".")[i]
+                                    meta[div] = sentence.get("subdoc").split(
+                                        "."
+                                    )[i]
                             meta["sent_id"] = sentence.get("id")
                             meta["sent_pos"] = token.get("id")
                             t.meta = meta
@@ -97,7 +105,11 @@ class CachedTokenizer(Tokenizer):
                                 t.pos = start_pos + pos
                             original_len = len(form)
 
-                            if form.istitle() and pos == 0 and not t.lemma.istitle():
+                            if (
+                                form.istitle()
+                                and pos == 0
+                                and not t.lemma.istitle()
+                            ):
                                 form = form.lower()
                             t.text = form
                             if chars:

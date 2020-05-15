@@ -12,9 +12,9 @@ from .core import relations
 class CachedLemmaFilter(Filter):
     is_morph = True
 
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedLemmaFilter, self).__init__()
-        self.cached = True
+        self.cached = cached
         self._cache = None
         self._docix = None
         self.__dict__.update(**kwargs)
@@ -60,11 +60,12 @@ class CachedLemmaFilter(Filter):
                         if results:
                             for result in results:
                                 morpho = morpho[:-2] + result["morpho"][-2:]
-                                if morpho[5] == "p" and result["morpho"][5] == "d":
+                                if (
+                                    morpho[5] == "p"
+                                    and result["morpho"][5] == "d"
+                                ):
                                     morpho = morpho[:5] + "d" + morpho[6:]
-                                t.morpho = (
-                                    f"{result['morpho']}::{result['uri']}:0>{morpho}"
-                                )
+                                t.morpho = f"{result['morpho']}::{result['uri']}:0>{morpho}"
                                 t.text = (
                                     f"{result['lemma']}:"
                                     f"{result['uri']}={result['morpho']}"
@@ -100,12 +101,15 @@ class CachedLemmaFilter(Filter):
                                     for k, v in zip(
                                         keys,
                                         re.search(
-                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text
+                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
                                         ).groups(),
                                     )
                                 }
                                 if kwargs["uri"] is not None:
-                                    results = LWN.lemmas_by_uri(kwargs["uri"]).relations
+                                    results = LWN.lemmas_by_uri(
+                                        kwargs["uri"]
+                                    ).relations
                                 else:
                                     kwargs.pop("uri")
                                     results = LWN.lemmas(**kwargs).relations
@@ -116,7 +120,8 @@ class CachedLemmaFilter(Filter):
                                     for k, v in zip(
                                         keys,
                                         re.search(
-                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text
+                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
                                         ).groups(),
                                     )
                                 }
@@ -126,7 +131,9 @@ class CachedLemmaFilter(Filter):
                                     ).synsets_relations
                                 else:
                                     kwargs.pop("uri")
-                                    results = LWN.lemmas(**kwargs).synsets_relations
+                                    results = LWN.lemmas(
+                                        **kwargs
+                                    ).synsets_relations
                             if results:
                                 for result in results:
                                     if (
@@ -154,7 +161,8 @@ class CachedLemmaFilter(Filter):
                                     for k, v in zip(
                                         keys,
                                         re.search(
-                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text
+                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
                                         ).groups(),
                                     )
                                 }

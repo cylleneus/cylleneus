@@ -48,9 +48,9 @@ class MorphosyntaxFilter(Filter):
 class CachedLemmaFilter(Filter):
     is_morph = True
 
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedLemmaFilter, self).__init__()
-        self.cached = True
+        self.cached = cached
         self._cache = None
         self._docix = None
         self.__dict__.update(**kwargs)
@@ -102,14 +102,17 @@ class CachedLemmaFilter(Filter):
                                             annotation,
                                         ).groups()
                                         annotations = [
-                                            f"{head}{alt}{tail}" for alt in alts
+                                            f"{head}{alt}{tail}"
+                                            for alt in alts
                                         ]
                                     else:
                                         annotations = [
                                             annotation,
                                         ]
                                     for annotation in annotations:
-                                        t.morpho = f"{morpho}::{uri}:{i}>{annotation}"
+                                        t.morpho = (
+                                            f"{morpho}::{uri}:{i}>{annotation}"
+                                        )
                                         t.text = f"{lemma}:{uri}={morpho}"
                                         if self.cached:
                                             self._cache.append(copy.copy(t))
@@ -148,12 +151,15 @@ class CachedLemmaFilter(Filter):
                                     for k, v in zip(
                                         keys,
                                         re.search(
-                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text
+                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
                                         ).groups(),
                                     )
                                 }
                                 if kwargs["uri"] is not None:
-                                    results = LWN.lemmas_by_uri(kwargs["uri"]).relations
+                                    results = LWN.lemmas_by_uri(
+                                        kwargs["uri"]
+                                    ).relations
                                 else:
                                     kwargs.pop("uri")
                                     results = LWN.lemmas(**kwargs).relations
@@ -164,7 +170,8 @@ class CachedLemmaFilter(Filter):
                                     for k, v in zip(
                                         keys,
                                         re.search(
-                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text
+                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
                                         ).groups(),
                                     )
                                 }
@@ -174,7 +181,9 @@ class CachedLemmaFilter(Filter):
                                     ).synsets_relations
                                 else:
                                     kwargs.pop("uri")
-                                    results = LWN.lemmas(**kwargs).synsets_relations
+                                    results = LWN.lemmas(
+                                        **kwargs
+                                    ).synsets_relations
                             if results:
                                 for result in results:
                                     if (
@@ -202,7 +211,8 @@ class CachedLemmaFilter(Filter):
                                     for k, v in zip(
                                         keys,
                                         re.search(
-                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text
+                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
                                         ).groups(),
                                     )
                                 }
