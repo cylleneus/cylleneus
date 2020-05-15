@@ -19,7 +19,13 @@ from cylleneus.engine.highlight import (
 )
 from cylleneus.engine.qparser.default import CylleneusQueryParser
 from cylleneus.engine.searching import CylleneusSearcher, HitRef
-from cylleneus.utils import DEBUG_HIGH, DEBUG_MEDIUM, DEBUG_LOW, print_debug, slugify
+from cylleneus.utils import (
+    DEBUG_HIGH,
+    DEBUG_MEDIUM,
+    DEBUG_LOW,
+    print_debug,
+    slugify,
+)
 
 
 class Collection:
@@ -114,9 +120,8 @@ class Searcher:
         """ Execute the specified search specification """
 
         search = Search(spec, self.collection, minscore=minscore, debug=debug)
-        matches, docs, corpora = search.run()
-        if matches and matches > 0:
-            self.searches.append(search)
+        _ = search.run()
+        self.searches.append(search)
         return search
 
     @property
@@ -130,7 +135,12 @@ class Searcher:
 
 class Search:
     def __init__(
-        self, spec: str, collection: Collection, minscore=None, top=1000000, debug=False
+        self,
+        spec: str,
+        collection: Collection,
+        minscore=None,
+        top=1000000,
+        debug=False,
     ):
         self._spec = spec
         self._collection = collection
@@ -239,10 +249,12 @@ class Search:
                     "urn":    hit["urn"],
                     "meta":   {
                         "start": {
-                            div: meta["start"][div] for div in meta["meta"].split("-")
+                            div: meta["start"][div]
+                            for div in meta["meta"].split("-")
                         },
                         "end":   {
-                            div: meta["end"][div] for div in meta["meta"].split("-")
+                            div: meta["end"][div]
+                            for div in meta["meta"].split("-")
                         },
                     },
                 }
@@ -326,7 +338,9 @@ class Search:
                 h.add_run(f"{reference}")
 
                 p = doc.add_paragraph()
-                for run in re.finditer(r"<(\w+?)>(.*?)</\1>", text, flags=re.DOTALL):
+                for run in re.finditer(
+                    r"<(\w+?)>(.*?)</\1>", text, flags=re.DOTALL
+                ):
                     if run.group(1) == "match":
                         for t in run.group(2).split():
                             if re.match(r"<em>.*?</em>", t):
@@ -384,14 +398,19 @@ class Search:
         if not self._count:
             if self.results and len(self.results) > 0:
                 results = [(hit, meta) for hit, meta, _ in self.results]
+
                 corpora = len(set([hit["corpus"] for hit, _ in results]))
                 docs = len(set([hit["docix"] for hit, _ in results]))
-                # The rounded number of highlighted tokens divided by query terms
                 matches = ceil(
                     sum(
                         [
                             len(
-                                set([tuple(hlite.values()) for hlite in meta["hlites"]])
+                                set(
+                                    [
+                                        tuple(hlite.values())
+                                        for hlite in meta["hlites"]
+                                    ]
+                                )
                             )
                             for _, meta in results
                             if "hlites" in meta
@@ -401,7 +420,7 @@ class Search:
                 )
                 self._count = matches, docs, corpora
             else:
-                self._count = None
+                self._count = 0, 0, 0
         return self._count
 
     @count.setter
@@ -431,7 +450,9 @@ class Search:
                     with CylleneusSearcher(
                         reader, weighting=scoring.NullWeighting
                     ) as searcher:
-                        results = searcher.search(self.query, terms=True, limit=None)
+                        results = searcher.search(
+                            self.query, terms=True, limit=None
+                        )
 
                         if results:
                             results.fragmenter = CylleneusPinpointFragmenter(
@@ -445,9 +466,16 @@ class Search:
 
                             for hit in sorted(
                                 results,
-                                key=lambda x: (x["corpus"], x["author"], x["title"]),
+                                key=lambda x: (
+                                    x["corpus"],
+                                    x["author"],
+                                    x["title"],
+                                ),
                             ):
-                                if (hit["corpus"], hit["docix"]) in self.docixs:
+                                if (
+                                    hit["corpus"],
+                                    hit["docix"],
+                                ) in self.docixs:
                                     self.results.extend(
                                         hit.highlights(
                                             fieldname="content",
@@ -456,11 +484,7 @@ class Search:
                                         )
                                     )
         self.end_time = datetime.now()
-
-        if self.results:
-            return self.count
-        else:
-            return None, None, None
+        return self.count
 
     @property
     def query(self):
@@ -479,3 +503,6 @@ class Search:
     def __iter__(self):
         if self.results:
             yield from self.highlights
+
+    def __bool__(self):
+        return any(self.count)
