@@ -46,16 +46,50 @@ LWN = LatinWordNet()
 # them). This list is used by the StopFilter class, which allows you to supply
 # an optional list to override this one.
 
-STOP_WORDS = frozenset(('a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'can',
-                        'for', 'from', 'have', 'if', 'in', 'is', 'it', 'may',
-                        'not', 'of', 'on', 'or', 'tbd', 'that', 'the', 'this',
-                        'to', 'us', 'we', 'when', 'will', 'with', 'yet',
-                        'you', 'your'))
+STOP_WORDS = frozenset(
+    (
+        "a",
+        "an",
+        "and",
+        "are",
+        "as",
+        "at",
+        "be",
+        "by",
+        "can",
+        "for",
+        "from",
+        "have",
+        "if",
+        "in",
+        "is",
+        "it",
+        "may",
+        "not",
+        "of",
+        "on",
+        "or",
+        "tbd",
+        "that",
+        "the",
+        "this",
+        "to",
+        "us",
+        "we",
+        "when",
+        "will",
+        "with",
+        "yet",
+        "you",
+        "your",
+    )
+)
 
 
 # Simple pattern for filtering URLs, may be useful
 
-url_pattern = rcompile("""
+url_pattern = rcompile(
+    """
 (
     [A-Za-z+]+://          # URL protocol
     \\S+?                  # URL body
@@ -63,10 +97,13 @@ url_pattern = rcompile("""
 ) | (                      # or...
     \w+([:.]?\w+)*         # word characters, with opt. internal colons/dots
 )
-""", verbose=True)
+""",
+    verbose=True,
+)
 
 
 # Filters
+
 
 class Filter(Composable):
     """Base class for Filter objects. A Filter subclass must implement a
@@ -78,9 +115,11 @@ class Filter(Composable):
     """
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.__dict__ == other.__dict__)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.__dict__ == other.__dict__
+        )
 
     def __ne__(self, other):
         return not self == other
@@ -110,6 +149,7 @@ class LoggingFilter(Filter):
 
         if logger is None:
             import logging
+
             logger = logging.getLogger("")
         self.logger = logger
 
@@ -141,9 +181,11 @@ class MultiFilter(Filter):
         self.filters = kwargs
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.filters == other.filters)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.filters == other.filters
+        )
 
     def __call__(self, tokens):
         # Only selects on the first token
@@ -183,8 +225,9 @@ class TeeFilter(Filter):
         self.filters = filters
 
     def __eq__(self, other):
-        return (self.__class__ is other.__class__
-                and self.filters == other.fitlers)
+        return (
+            self.__class__ is other.__class__ and self.filters == other.fitlers
+        )
 
     def __call__(self, tokens):
         from itertools import tee
@@ -192,8 +235,10 @@ class TeeFilter(Filter):
         count = len(self.filters)
         # Tee the token iterator and wrap each teed iterator with the
         # corresponding filter
-        gens = [filter(t.copy() for t in gen) for filter, gen
-                in zip(self.filters, tee(tokens, count))]
+        gens = [
+            filter(t.copy() for t in gen)
+            for filter, gen in zip(self.filters, tee(tokens, count))
+        ]
         # Keep a count of the number of running iterators
         running = count
         while running:
@@ -263,8 +308,14 @@ class StopFilter(Filter):
     has a stop word list available.
     """
 
-    def __init__(self, stoplist=STOP_WORDS, minsize=2, maxsize=None,
-                 renumber=True, lang=None):
+    def __init__(
+        self,
+        stoplist=STOP_WORDS,
+        minsize=2,
+        maxsize=None,
+        renumber=True,
+        lang=None,
+    ):
         """
         :param stoplist: A collection of words to remove from the stream.
             This is converted to a frozenset. The default is a list of
@@ -293,11 +344,13 @@ class StopFilter(Filter):
         self.renumber = renumber
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.stops == other.stops
-                and self.min == other.min
-                and self.renumber == other.renumber)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.stops == other.stops
+            and self.min == other.min
+            and self.renumber == other.renumber
+        )
 
     def __call__(self, tokens):
         stoplist = self.stops
@@ -308,9 +361,11 @@ class StopFilter(Filter):
         pos = None
         for t in tokens:
             text = t.text
-            if (len(text) >= minsize
+            if (
+                len(text) >= minsize
                 and (maxsize is None or len(text) <= maxsize)
-                and text not in stoplist):
+                and text not in stoplist
+            ):
                 # This is not a stop word
                 if renumber and t.positions:
                     if pos is None:
@@ -368,9 +423,11 @@ class CharsetFilter(Filter):
         self.charmap = charmap
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.charmap == other.charmap)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.charmap == other.charmap
+        )
 
     def __call__(self, tokens):
         assert hasattr(tokens, "__iter__")
@@ -399,8 +456,9 @@ class DelimitedAttributeFilter(Filter):
     data as part of the token!
     """
 
-    def __init__(self, delimiter="^", attribute="boost", default=1.0,
-                 type=float):
+    def __init__(
+        self, delimiter="^", attribute="boost", default=1.0, type=float
+    ):
         """
         :param delimiter: a string that, when present in a token's text,
             separates the actual text from the "data" payload.
@@ -419,10 +477,13 @@ class DelimitedAttributeFilter(Filter):
         self.type = type
 
     def __eq__(self, other):
-        return (other and self.__class__ is other.__class__
-                and self.delim == other.delim
-                and self.attr == other.attr
-                and self.default == other.default)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.delim == other.delim
+            and self.attr == other.attr
+            and self.default == other.default
+        )
 
     def __call__(self, tokens):
         delim = self.delim
@@ -474,9 +535,12 @@ class SubstitutionFilter(Filter):
         self.replacement = replacement
 
     def __eq__(self, other):
-        return (other and self.__class__ is other.__class__
-                and self.pattern == other.pattern
-                and self.replacement == other.replacement)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.pattern == other.pattern
+            and self.replacement == other.replacement
+        )
 
     def __call__(self, tokens):
         pattern = self.pattern
@@ -490,11 +554,11 @@ class SubstitutionFilter(Filter):
 class CachedLemmaFilter(Filter):
     is_morph = True
 
-    def __init__(self, **kwargs):
+    def __init__(self, cached=True, **kwargs):
         super(CachedLemmaFilter, self).__init__()
         self._cache = None
         self._docix = None
-        self.cached = True
+        self.cached = cached
         self.__dict__.update(**kwargs)
 
     @property
@@ -502,103 +566,129 @@ class CachedLemmaFilter(Filter):
         return copy.deepcopy(self._cache)
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.__dict__ == other.__dict__)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.__dict__ == other.__dict__
+        )
 
     def __ne__(self, other):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if kwargs.get('docix', None) == self._docix and self._cache:
+        if kwargs.get("docix", None) == self._docix and self._cache:
             yield from self.cache
         else:
             self._cache = []
-            self._docix = kwargs.get('docix', None)
+            self._docix = kwargs.get("docix", None)
 
             for t in tokens:
-                if t.mode == 'index':
+                if t.mode == "index":
                     if t.text:
                         text = t.text
                         results = LWN.lemmatize(text)
                         if results:
                             for i, lemma in enumerate(results):
-                                t.morpho = f"{lemma['lemma']['morpho']}::{lemma['lemma']['uri']}:{i}>{' '.join(lemma['morpho'])}"
+                                t.morpho = f"{lemma['lemma']['morpho']}::{lemma['lemma']['uri']}:{i}>" \
+                                           f"{' '.join(lemma['morpho'])}"
                                 t.text = f"{lemma['lemma']['lemma']}:{lemma['lemma']['uri']}={lemma['lemma']['morpho']}"
-                                if self.cached: self._cache.append(copy.copy(t))
+                                if self.cached:
+                                    self._cache.append(copy.copy(t))
                                 yield t
-                elif t.mode == 'query':
+                elif t.mode == "query":
                     # Lexical relation
-                    if '::' in t.text:
-                        reltype, query = t.text.split('::')
+                    if "::" in t.text:
+                        reltype, query = t.text.split("::")
                         t.reltype = reltype
                         t.text = query
                     text = t.text
-                    if '?' in text:
-                        language, word = text.split('?')
+                    if "?" in text:
+                        language, word = text.split("?")
                         t.language = language
                         t.text = word
                         yield t
-                    elif '#' in text:
+                    elif "#" in text:
                         yield t
-                    elif leipzig2wn(t.original) != '----------':
+                    elif leipzig2wn(t.original) != "----------":
                         yield t
                     elif text.isnumeric():
                         yield t
                     else:
-                        if hasattr(t, 'reltype'):
-                            if t.reltype in ['\\', '/', '+c', '-c']:
-                                keys = ['lemma', 'uri', 'morpho']
+                        if hasattr(t, "reltype"):
+                            if t.reltype in ["\\", "/", "+c", "-c"]:
+                                keys = ["lemma", "uri", "morpho"]
                                 kwargs = {
                                     k: v
                                     for k, v in zip(
                                         keys,
-                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                        re.search(
+                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
+                                        ).groups(),
                                     )
                                 }
-                                if kwargs['uri'] is not None:
-                                    results = LWN.lemmas_by_uri(kwargs['uri']).relations
+                                if kwargs["uri"] is not None:
+                                    results = LWN.lemmas_by_uri(
+                                        kwargs["uri"]
+                                    ).relations
                                 else:
-                                    kwargs.pop('uri')
+                                    kwargs.pop("uri")
                                     results = LWN.lemmas(**kwargs).relations
                             else:
-                                keys = ['lemma', 'uri', 'morpho']
+                                keys = ["lemma", "uri", "morpho"]
                                 kwargs = {
                                     k: v
                                     for k, v in zip(
                                         keys,
-                                        re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                        re.search(
+                                            r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
+                                        ).groups(),
                                     )
                                 }
-                                if kwargs['uri'] is not None:
-                                    results = LWN.lemmas_by_uri(kwargs['uri']).synsets_relations
+                                if kwargs["uri"] is not None:
+                                    results = LWN.lemmas_by_uri(
+                                        kwargs["uri"]
+                                    ).synsets_relations
                                 else:
-                                    kwargs.pop('uri')
-                                    results = LWN.lemmas(**kwargs).synsets_relations
+                                    kwargs.pop("uri")
+                                    results = LWN.lemmas(
+                                        **kwargs
+                                    ).synsets_relations
                             if results:
                                 for result in results:
-                                    if t.reltype in result['relations'].keys():
-                                        for relation in result['relations'][t.reltype]:
+                                    if t.reltype in result["relations"].keys():
+                                        for relation in result["relations"][
+                                            t.reltype
+                                        ]:
                                             t.text = f"{relation['lemma']}:{relation['uri']}={relation['morpho']}"
                                             yield t
                         else:
                             # query may be provided as lemma:uri=morpho
-                            if all(re.match(r"([\w\-]+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()):
+                            if all(
+                                re.match(
+                                    r"([\w\-]+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                    text,
+                                ).groups()
+                            ):
                                 t.text = text
                                 yield t
                             else:
-                                keys = ['lemma', 'uri', 'morpho']
+                                keys = ["lemma", "uri", "morpho"]
                                 kwargs = {
                                     k: v
                                     for k, v in zip(
                                         keys,
-                                        re.search(r"([\w\-]+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                        re.search(
+                                            r"([\w\-]+)(?::([A-z0-9]+))?(?:=(.+))?",
+                                            text,
+                                        ).groups(),
                                     )
                                 }
-                                if kwargs['uri'] is not None:
-                                    results = LWN.lemmas_by_uri(kwargs['uri'])
+                                if kwargs["uri"] is not None:
+                                    results = LWN.lemmas_by_uri(kwargs["uri"])
                                 else:
-                                    kwargs.pop('uri')
+                                    kwargs.pop("uri")
                                     results = LWN.lemmas(**kwargs)
 
                                 if results:
@@ -615,37 +705,39 @@ class AnnotationFilter(Filter):
         self.__dict__.update(**kwargs)
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.__dict__ == other.__dict__)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.__dict__ == other.__dict__
+        )
 
     def __ne__(self, other):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
         for t in tokens:
-            if t.mode == 'query':
+            if t.mode == "query":
                 annotation = leipzig2wn(t.original)
-                if annotation == '----------':
+                if annotation == "----------":
                     continue
                 else:
                     for i, v in enumerate(annotation):
-                        if v != '-':
+                        if v != "-":
                             text = f"{'-' * i}{v}{'-' * (9 - i)}"
-                            t.text = f'{text}::([\w\d$]+):(\d+):(\d+)$'
+                            t.text = f"{text}::([\w\d$]+):(\d+):(\d+)$"
                             yield t
-            elif t.mode == 'index':
+            elif t.mode == "index":
                 text = t.morpho
                 if text:
-                    morpho, annotations = text.split('>')
-                    r = morpho.split('::')[1]
-                    uri, n = r.split(':')
+                    morpho, annotations = text.split(">")
+                    r = morpho.split("::")[1]
+                    uri, n = r.split(":")
                     for i, annotation in enumerate(annotations.split()):
                         t.text = f"{annotation}::{uri}:{n}:{i}"
                         yield t
 
                         for j, v in enumerate(annotation):
-                            if v != '-':
+                            if v != "-":
                                 text = f"{'-' * j}{v}{'-' * (9 - j)}::{uri}:{n}:{i}"
                                 t.text = text
                                 yield t
@@ -659,26 +751,28 @@ class SemfieldFilter(Filter):
         self.__dict__.update(**kwargs)
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.__dict__ == other.__dict__)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.__dict__ == other.__dict__
+        )
 
     def __ne__(self, other):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
         for t in tokens:
-            if t.mode == 'index':
-                if hasattr(t, 'code'):
-                    codes = t.code.split(' ')
+            if t.mode == "index":
+                if hasattr(t, "code"):
+                    codes = t.code.split(" ")
                     if codes:
                         for code in codes:
                             t.text = code
                             yield t
                 else:
-                    t.text = ''
+                    t.text = ""
                     yield t
-            elif t.mode == 'query':
+            elif t.mode == "query":
                 text = t.original
                 if text:
                     if text.isnumeric():
@@ -687,7 +781,7 @@ class SemfieldFilter(Filter):
                         results = LWN.semfields(english=text).search()
                     if results:
                         for result in results:
-                            t.text = result['code']
+                            t.text = result["code"]
                             yield t
                 else:
                     yield t
@@ -708,68 +802,89 @@ class CachedSynsetFilter(Filter):
         return copy.deepcopy(self._cache)
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.__dict__ == other.__dict__)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.__dict__ == other.__dict__
+        )
 
     def __ne__(self, other):
         return not self == other
 
     def __call__(self, tokens, **kwargs):
-        if kwargs.get('docix', None) == self._docix and self._cache:
+        if kwargs.get("docix", None) == self._docix and self._cache:
             yield from self.cache
         else:
             self._cache = []
-            self._docix = kwargs.get('docix', None)
+            self._docix = kwargs.get("docix", None)
 
             for t in tokens:
-                if t.mode == 'index':
+                if t.mode == "index":
                     text = t.text
                     if text:
-                        keys = ['lemma', 'uri', 'morpho']
+                        keys = ["lemma", "uri", "morpho"]
                         kwargs = {
                             k: v
                             for k, v in zip(
                                 keys,
-                                re.search(r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text).groups()
+                                re.search(
+                                    r"(\w+)(?::([A-z0-9]+))?(?:=(.+))?", text
+                                ).groups(),
                             )
                         }
-                        if kwargs['uri'] is not None:
-                            results = LWN.lemmas_by_uri(kwargs['uri']).synsets
+                        if kwargs["uri"] is not None:
+                            results = LWN.lemmas_by_uri(kwargs["uri"]).synsets
                         else:
-                            kwargs.pop('uri')
+                            kwargs.pop("uri")
                             results = LWN.lemmas(**kwargs).synsets
                         for result in results:
-                            for synset in chain(result['synsets']['literal'],
-                                                result['synsets']['metonymic'],
-                                                result['synsets']['metaphoric']):
-                                t.code = ' '.join([semfield['code'] for semfield in synset['semfield']]) ## kludgy
+                            for synset in chain(
+                                result["synsets"]["literal"],
+                                result["synsets"]["metonymic"],
+                                result["synsets"]["metaphoric"],
+                            ):
+                                t.code = " ".join(
+                                    [
+                                        semfield["code"]
+                                        for semfield in synset["semfield"]
+                                    ]
+                                )  ## kludgy
                                 t.text = f"{synset['pos']}#{synset['offset']}"
-                                if self.cached: self._cache.append(copy.copy(t))
+                                if self.cached:
+                                    self._cache.append(copy.copy(t))
                                 yield t
                         else:
-                            t.code = ''
-                            t.text = ''
-                            if self.cached: self._cache.append(copy.copy(t))
+                            t.code = ""
+                            t.text = ""
+                            if self.cached:
+                                self._cache.append(copy.copy(t))
                             yield t
                     else:
-                        if self.cached: self._cache.append(copy.copy(t))
+                        if self.cached:
+                            self._cache.append(copy.copy(t))
                         yield t
-                elif t.mode == 'query':
-                    if hasattr(t, 'language'):
+                elif t.mode == "query":
+                    if hasattr(t, "language"):
                         language = t.language
                         text = t.text
 
-                        if hasattr(t, 'reltype'):
+                        if hasattr(t, "reltype"):
                             for lemma in WordNet(iso_639[language]).get(text):
-                                if t.reltype in ['\\', '/', '+c', '-c']:
+                                if t.reltype in ["\\", "/", "+c", "-c"]:
                                     lexical = True
                                 else:
                                     lexical = False
-                                for relation in WordNet(iso_639[language]).get_relations(w_source=lemma, type=t.reltype,
-                                                                                         lexical=lexical):
+                                for relation in WordNet(
+                                    iso_639[language]
+                                ).get_relations(
+                                    w_source=lemma,
+                                    type=t.reltype,
+                                    lexical=lexical,
+                                ):
                                     if relation.is_lexical:
-                                        for synset in relation.w_target.synsets:
+                                        for (
+                                            synset
+                                        ) in relation.w_target.synsets:
                                             t.text = synset.id
                                             yield t
                                     else:
@@ -780,9 +895,9 @@ class CachedSynsetFilter(Filter):
                                 for synset in lemma.synsets:
                                     t.text = synset.id
                                     yield t
-                    elif '#' in t.text:  # raw synset
-                        if hasattr(t, 'reltype'):
-                            pos, offset = t.text.split('#')
+                    elif "#" in t.text:  # raw synset
+                        if hasattr(t, "reltype"):
+                            pos, offset = t.text.split("#")
                             result = LWN.synsets(pos, offset).relations
                             if t.reltype in result.keys():
                                 for relation in result[t.reltype]:
@@ -839,8 +954,14 @@ class MappingFilter(Filter):
                         text = f"{source.upper()} FOR {target.upper()}"
                     else:
                         text = None
-                    if text and re.match(r"([\w\s]+) (IS|FOR) ([\w\s]+)", text) and all(
-                        re.match(r"([\w\s]+) (IS|FOR) ([\w\s]+)", text).groups()
+                    if (
+                        text
+                        and re.match(r"([\w\s]+) (IS|FOR) ([\w\s]+)", text)
+                        and all(
+                        re.match(
+                            r"([\w\s]+) (IS|FOR) ([\w\s]+)", text
+                        ).groups()
+                    )
                     ):
                         t.text = text
                         yield t
@@ -848,6 +969,9 @@ class MappingFilter(Filter):
                 text = t.text
                 if text:
                     if all(
-                        re.match(r"([\w\s]+|\*) (IS|(?:STANDS )?FOR) ([\w\s]+|\*)", text).groups()
+                        re.match(
+                            r"([\w\s]+|\*) (IS|(?:STANDS )?FOR) ([\w\s]+|\*)",
+                            text,
+                        ).groups()
                     ):
                         yield t
