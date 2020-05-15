@@ -17,7 +17,14 @@ class CylleneusFragment(object):
     """
 
     def __init__(
-        self, text, matches, startchar=0, endchar=-1, meta=None, start=None, end=None
+        self,
+        text,
+        matches,
+        startchar=0,
+        endchar=-1,
+        meta=None,
+        start=None,
+        end=None,
     ):
         """
         :param text: the source text of the fragment.
@@ -47,21 +54,49 @@ class CylleneusFragment(object):
         self.end = end
 
     def __repr__(self):
-        return "<Fragment %d:%d %d>" % (self.startchar, self.endchar, len(self.matches))
+        return "<Fragment %d:%d %d>" % (
+            self.startchar,
+            self.endchar,
+            len(self.matches),
+        )
 
     def __len__(self):
         return self.endchar - self.startchar
 
     def has_same_divs(self, other):
-        self_values = set([tuple(match.meta.values()) for match in self.matches])
-        other_values = set([tuple(match.meta.values()) for match in other.matches])
+        self_values = set(
+            [
+                tuple(
+                    [
+                        v
+                        for k, v in match.meta.items()
+                        if k not in ["sent_pos", "sect_pos", "pos"]
+                    ]
+                )
+                for match in self.matches
+            ]
+        )
+        other_values = set(
+            [
+                tuple(
+                    [
+                        v
+                        for k, v in match.meta.items()
+                        if k not in ["sent_pos", "sect_pos", "pos"]
+                    ]
+                )
+                for match in other.matches
+            ]
+        )
         return bool(len(self_values.intersection(other_values)))
 
     def is_adjacent(self, other):
         return other.matches[0].startchar - self.matches[-1].endchar == 1
 
     def overlaps(self, other):
-        if not any([self.startchar, other.startchar, self.endchar, other.endchar]):
+        if not any(
+            [self.startchar, other.startchar, self.endchar, other.endchar]
+        ):
             s = self.start
             e = self.end
             fs = other.start
@@ -72,7 +107,7 @@ class CylleneusFragment(object):
             ec = self.endchar
             fsc = other.startchar
             fec = other.endchar
-        return ((sc <= fsc <= ec) or (sc <= fec <= ec))
+        return (sc <= fsc <= ec) or (sc <= fec <= ec)
 
     def overlapped_length(self, fragment):
         sc = self.startchar
@@ -86,7 +121,9 @@ class CylleneusFragment(object):
             divs = self.matches[0].meta["meta"].split("-")
             return tuple(
                 [v for k, v in self.matches[0].meta.items() if k in divs]
-            ) < tuple([v for k, v in other.matches[0].meta.items() if k in divs])
+            ) < tuple(
+                [v for k, v in other.matches[0].meta.items() if k in divs]
+            )
         else:
             return self.startchar < other.startchar
 
@@ -112,7 +149,9 @@ def top_fragments(query, fragments, count, scorer, order, minscore=1):
     scored_fragments = ((scorer(query, f), f) for f in fragments)
     scored_fragments = nlargest(count, scored_fragments)
     best_fragments = [
-        (score, fragment) for score, fragment in scored_fragments if score >= minscore
+        (score, fragment)
+        for score, fragment in scored_fragments
+        if score >= minscore
     ]
     best_fragments.sort(key=lambda x: order(x[1]))
     return best_fragments
@@ -259,7 +298,11 @@ class CylleneusHighlighter(object):
 
         # Get the terms searched for/matched in this field
         if results.has_matched_terms():
-            bterms = (term for term in results.matched_terms() if term[0] == fieldname)
+            bterms = (
+                term
+                for term in results.matched_terms()
+                if term[0] == fieldname
+            )
         else:
             bterms = results.query_terms(expand=True, fieldname=fieldname)
 
@@ -270,7 +313,9 @@ class CylleneusHighlighter(object):
         if self.can_load_chars(results, fieldname):
             # Build the docnum->[(startchar, endchar),] map
             if fieldname not in results._char_cache:
-                self._load_chars(results, fieldname, words, to_bytes)  # fieldname
+                self._load_chars(
+                    results, fieldname, words, to_bytes
+                )  # fieldname
             hitterms = (
                 from_bytes(term[1])
                 for term in hitobj.matched_terms()
@@ -343,7 +388,11 @@ class CylleneusHighlighter(object):
 
         # Get the terms searched for/matched in this field
         if results.has_matched_terms():
-            bterms = (term for term in results.matched_terms() if term[0] == fieldname)
+            bterms = (
+                term
+                for term in results.matched_terms()
+                if term[0] == fieldname
+            )
         else:
             bterms = results.query_terms(expand=True, fieldname=fieldname)
         # Convert bytes to unicode
@@ -390,7 +439,11 @@ class CylleneusHighlighter(object):
             # Retokenize the text
             analyzer = results.searcher.schema[fieldname].analyzer
             tokens = analyzer(
-                text, positions=True, chars=True, mode="index", removestops=False
+                text,
+                positions=True,
+                chars=True,
+                mode="index",
+                removestops=False,
             )
             # Set Token.matched attribute for tokens that match a query term
             tokens = whoosh.highlight.set_matched_filter(tokens, words)
@@ -398,7 +451,12 @@ class CylleneusHighlighter(object):
             fragments = self.fragmenter.fragment_tokens(text, tokens)
 
         fragments = top_fragments(
-            hitobj.results.q, fragments, top, self.scorer, self.order, minscore=minscore
+            hitobj.results.q,
+            fragments,
+            top,
+            self.scorer,
+            self.order,
+            minscore=minscore,
         )
         output = self.formatter.format(fragments)
         return output
@@ -563,7 +621,11 @@ class CylleneusPinpointFragmenter(whoosh.highlight.Fragmenter):
         # For corpora without pinpoint support, return each token as a fragment
         if any(
             [
-                (token.pos == 0 and token.startchar == 0 and token.endchar == 0)
+                (
+                    token.pos == 0
+                    and token.startchar == 0
+                    and token.endchar == 0
+                )
                 for token in tokens
             ]
         ):
@@ -606,7 +668,9 @@ class CylleneusPinpointFragmenter(whoosh.highlight.Fragmenter):
                     left = max(0, left - surround)
                     right = min(len(text), right + surround)
 
-                fragment = CylleneusFragment(text, tokens[i: j + 1], left, right)
+                fragment = CylleneusFragment(
+                    text, tokens[i: j + 1], left, right
+                )
                 if autotrim:
                     self._autotrim(fragment)
                 yield fragment
@@ -699,7 +763,9 @@ class CylleneusFormatter(object):
         """Returns a formatted version of the given text, using a list of
         :class:`Fragment` objects.
         """
-        formatted = [self.format_fragment(f, replace=replace) for s, f in fragments]
+        formatted = [
+            self.format_fragment(f, replace=replace) for s, f in fragments
+        ]
         return formatted
 
     def __call__(self, text, fragments):
