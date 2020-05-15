@@ -38,12 +38,22 @@ def fetch(work, meta, fragment):
 
     # Reference and hlite values
     ref_start = ", ".join(
-        [f"{item}: {meta['start'][item]}" for item in meta["start"] if item in divs]
+        [
+            f"{item}: {meta['start'][item]}"
+            for item in meta["start"]
+            if item in divs
+        ]
     )
     ref_end = ", ".join(
-        [f"{item}: {meta['end'][item]}" for item in meta["end"] if item in divs]
+        [
+            f"{item}: {meta['end'][item]}"
+            for item in meta["end"]
+            if item in divs
+        ]
     )
-    reference = "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    reference = (
+        "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    )
 
     # Collect text and context
     start_sentence = doc.find(
@@ -57,7 +67,9 @@ def fetch(work, meta, fragment):
         + "']"
     )
 
-    hlites = set([hlite["sent_pos"] for hlite in meta["hlites"]])  # only need token ids?
+    hlites = set(
+        [hlite["sent_pos"] for hlite in meta["hlites"]]
+    )  # only need token ids?
 
     match = []
     current_sentence = start_sentence

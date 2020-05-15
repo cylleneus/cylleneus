@@ -160,7 +160,6 @@ class CylleneusSyntaxNode(object):
         self._parent = weakref.ref(parent)
 
 
-
 class CylleneusGroupNode(CylleneusSyntaxNode):
     """Base class for abstract syntax tree node types that group together
     sub-nodes.
@@ -187,8 +186,10 @@ class CylleneusGroupNode(CylleneusSyntaxNode):
         self.kwargs = kwargs
 
     def r(self):
-        return "%s %s" % (self.__class__.__name__,
-                          ", ".join(repr(n) for n in self.nodes))
+        return "%s %s" % (
+            self.__class__.__name__,
+            ", ".join(repr(n) for n in self.nodes),
+        )
 
     @property
     def startchar(self):
@@ -203,8 +204,12 @@ class CylleneusGroupNode(CylleneusSyntaxNode):
         return self.nodes[-1].endchar
 
     def apply(self, fn):
-        return self.__class__(self.type, [fn(node) for node in self.nodes],
-                              boost=self.boost, **self.kwargs)
+        return self.__class__(
+            self.type,
+            [fn(node) for node in self.nodes],
+            boost=self.boost,
+            **self.kwargs,
+        )
 
     def query(self, parser):
         subs = []
@@ -326,6 +331,7 @@ class OrGroup(CylleneusGroupNode):
     def factory(cls, scale=1.0):
         def maker(nodes=None, **kwargs):
             return cls(nodes=nodes, scale=scale, **kwargs)
+
         return maker
 
 
@@ -335,9 +341,15 @@ class WordNetNode(TextNode):
     def query(self, parser):
         fieldname = self.fieldname or parser.fieldname
         termclass = self.qclass or parser.termclass
-        q = parser.term_query(fieldname, self.text, termclass,
-                              boost=self.boost, tokenize=self.tokenize,
-                              removestops=self.removestops, annotation=self.annotation)
+        q = parser.term_query(
+            fieldname,
+            self.text,
+            termclass,
+            boost=self.boost,
+            tokenize=self.tokenize,
+            removestops=self.removestops,
+            annotation=self.annotation,
+        )
 
         return whoosh.qparser.common.attach(q, self)
 
@@ -348,7 +360,7 @@ class FormNode(WordNetNode):
     removestops = False
 
     def __init__(self, text):
-        self.fieldname = 'form'
+        self.fieldname = "form"
         self.text = text
         self.boost = 1.0
 
@@ -375,7 +387,7 @@ class LemmaNode(WordNetNode):
     removestops = False
 
     def __init__(self, text):
-        self.fieldname = 'lemma'
+        self.fieldname = "lemma"
         self.text = text
         self.boost = 1.0
 
@@ -399,7 +411,7 @@ class GlossNode(WordNetNode):
     removestops = False
 
     def __init__(self, text):
-        self.fieldname = 'synset'
+        self.fieldname = "synset"
         self.text = text
         self.boost = 1.0
 
@@ -423,7 +435,7 @@ class SemfieldNode(WordNetNode):
     removestops = False
 
     def __init__(self, text):
-        self.fieldname = 'semfield'
+        self.fieldname = "semfield"
         self.text = text
         self.boost = 1.0
 
@@ -447,7 +459,7 @@ class AnnotationNode(WordNetNode):
     removestops = False
 
     def __init__(self, text):
-        self.fieldname = 'annotation'
+        self.fieldname = "annotation"
         self.text = text
         self.boost = 1.0
 
@@ -471,7 +483,7 @@ class AnnotationFilterNode(WordNetNode):
     removestops = False
 
     def __init__(self, text):
-        self.fieldname = 'annotation'
+        self.fieldname = "annotation"
         self.text = text
         self.boost = 1.0
 
@@ -495,7 +507,7 @@ class MorphosyntaxNode(TextNode):
     removestops = False
 
     def __init__(self, text):
-        self.fieldname = 'morphosyntax'
+        self.fieldname = "morphosyntax"
         self.text = text
         self.boost = 1.0
 
@@ -519,7 +531,7 @@ class MappingNode(TextNode):
     removestops = False
 
     def __init__(self, text):
-        self.fieldname = 'mapping'
+        self.fieldname = "mapping"
         self.text = text
         self.boost = 1.0
 
@@ -568,8 +580,9 @@ class BinaryGroup(CylleneusGroupNode):
         elif qb is None:
             q = qa
         else:
-            q = self.qclass(self.nodes[0].query(parser),
-                            self.nodes[1].query(parser))
+            q = self.qclass(
+                self.nodes[0].query(parser), self.nodes[1].query(parser)
+            )
 
         return attach(q, self)
 
@@ -624,8 +637,10 @@ class OrGroup(CylleneusGroupNode):
             def __init__(self, nodes=None, **kwargs):
                 if "scale" in kwargs:
                     del kwargs["scale"]
-                super(ScaledOrGroup, self).__init__(nodes=nodes, scale=scale,
-                                                    **kwargs)
+                super(ScaledOrGroup, self).__init__(
+                    nodes=nodes, scale=scale, **kwargs
+                )
+
         return ScaledOrGroup
 
 
@@ -682,9 +697,14 @@ class RangeNode(CylleneusSyntaxNode):
             field = parser.schema[fieldname]
             if field.self_parsing():
                 try:
-                    q = field.parse_range(fieldname, start, end,
-                                          self.startexcl, self.endexcl,
-                                          boost=self.boost)
+                    q = field.parse_range(
+                        fieldname,
+                        start,
+                        end,
+                        self.startexcl,
+                        self.endexcl,
+                        boost=self.boost,
+                    )
                     if q is not None:
                         return attach(q, self)
                 except whoosh.qparser.QueryParserError:
@@ -692,14 +712,22 @@ class RangeNode(CylleneusSyntaxNode):
                     return attach(whoosh.query.error_query(e), self)
 
             if start:
-                start = whoosh.qparser.get_single_text(field, start, tokenize=False,
-                                        removestops=False)
+                start = whoosh.qparser.get_single_text(
+                    field, start, tokenize=False, removestops=False
+                )
             if end:
-                end = whoosh.qparser.get_single_text(field, end, tokenize=False,
-                                      removestops=False)
+                end = whoosh.qparser.get_single_text(
+                    field, end, tokenize=False, removestops=False
+                )
 
-        q = cylleneus.engine.query.ranges.TermRange(fieldname, start, end, self.startexcl,
-                                                    self.endexcl, boost=self.boost)
+        q = cylleneus.engine.query.ranges.TermRange(
+            fieldname,
+            start,
+            end,
+            self.startexcl,
+            self.endexcl,
+            boost=self.boost,
+        )
         return attach(q, self)
 
 

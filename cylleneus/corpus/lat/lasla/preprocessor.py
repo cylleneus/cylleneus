@@ -11,7 +11,7 @@ from .core import AUTHOR_TAB, FILE_TAB
 class Preprocessor(BasePreprocessor):
     def parse(self, file: Path):
         filename = file.name
-        file_author, file_title, abbrev = filename.rstrip('.BPN').split('_')
+        file_author, file_title, abbrev = filename.rstrip(".BPN").split("_")
 
         uids = FILE_TAB[file_author][file_title]
         if len(uids) > 1 and abbrev[-1].isdigit():
@@ -19,34 +19,31 @@ class Preprocessor(BasePreprocessor):
             uid = uids[i]
         else:
             uid = uids[0]
-        author = AUTHOR_TAB[uid[0]]['author']
-        codes = AUTHOR_TAB[uid[0]]['code']
+        author = AUTHOR_TAB[uid[0]]["author"]
+        codes = AUTHOR_TAB[uid[0]]["code"]
         for code in codes:
             if uid[1:] in AUTHOR_TAB[uid[0]][code]:
                 author_code = code
-                work_code = AUTHOR_TAB[uid[0]][code][uid[1:]]['code']
-                title = AUTHOR_TAB[uid[0]][code][uid[1:]]['title']
-                meta = AUTHOR_TAB[uid[0]][code][uid[1:]]['meta']
+                work_code = AUTHOR_TAB[uid[0]][code][uid[1:]]["code"]
+                title = AUTHOR_TAB[uid[0]][code][uid[1:]]["title"]
+                meta = AUTHOR_TAB[uid[0]][code][uid[1:]]["meta"]
 
-        urn = f'urn:cts:latinLit:{author_code}.{work_code}'
-        with codecs.open(file, 'r', 'utf8') as f:
+        urn = f"urn:cts:latinLit:{author_code}.{work_code}"
+        with codecs.open(file, "r", "utf8") as f:
             doc = f.readlines()
-        data = {
-            'text': doc,
-            'meta': meta
-        }
+        data = {"text": doc, "meta": meta}
         return {
-            'author':       author,
-            'title':        title,
-            'language':     'lat',
-            'urn':          urn,
-            'meta':         meta,
-            'form':         data,
-            'lemma':        data,
-            'synset':       data,
-            'annotation':   data,
-            'semfield':     data,
-            'morphosyntax': data,
-            'filename':     file.name,
-            'datetime':     datetime.now()
+            "author":       author,
+            "title":        title,
+            "language":     "lat",
+            "urn":          urn,
+            "meta":         meta,
+            "form":         data,
+            "lemma":        data,
+            "synset":       data,
+            "annotation":   data,
+            "semfield":     data,
+            "morphosyntax": data,
+            "filename":     file.name,
+            "datetime":     datetime.now(),
         }

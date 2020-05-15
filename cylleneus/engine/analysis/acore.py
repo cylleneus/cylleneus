@@ -30,11 +30,13 @@ from cylleneus.engine.compat import iteritems
 
 # Exceptions
 
+
 class CompositionError(Exception):
     pass
 
 
 # Utility functions
+
 
 def unstopped(tokenstream):
     """Removes tokens from a token stream where token.stopped = True.
@@ -42,8 +44,14 @@ def unstopped(tokenstream):
     return (t for t in tokenstream if not t.stopped)
 
 
-def entoken(textstream, positions=False, chars=False, start_pos=0,
-            start_char=0, **kwargs):
+def entoken(
+    textstream,
+    positions=False,
+    chars=False,
+    start_pos=0,
+    start_char=0,
+    **kwargs
+):
     """Takes a sequence of unicode strings and yields a series of Token objects
     (actually the same Token object over and over, for performance reasons),
     with the attributes filled in with reasonable values (for example, if
@@ -71,6 +79,7 @@ def entoken(textstream, positions=False, chars=False, start_pos=0,
 
 
 # Token object
+
 
 class Token(object):
     """
@@ -101,8 +110,9 @@ class Token(object):
     ...or, call token.copy() to get a copy of the token object.
     """
 
-    def __init__(self, positions=False, chars=False, removestops=True, mode='',
-                 **kwargs):
+    def __init__(
+        self, positions=False, chars=False, removestops=True, mode="", **kwargs
+    ):
         """
         :param positions: Whether tokens should have the token position in the
             'pos' attribute.
@@ -123,8 +133,9 @@ class Token(object):
         self.__dict__.update(kwargs)
 
     def __repr__(self):
-        parms = ", ".join("%s=%r" % (name, value)
-                          for name, value in iteritems(self.__dict__))
+        parms = ", ".join(
+            "%s=%r" % (name, value) for name, value in iteritems(self.__dict__)
+        )
         return "%s(%s)" % (self.__class__.__name__, parms)
 
     def copy(self):
@@ -134,11 +145,13 @@ class Token(object):
 
 # Composition support
 
+
 class Composable(object):
     is_morph = False
 
     def __or__(self, other):
         from cylleneus.engine.analysis.analyzers import CompositeAnalyzer
+
         if not isinstance(other, Composable):
             raise TypeError("%r is not composable with %r" % (self, other))
         return CompositeAnalyzer(self, other)
@@ -146,24 +159,27 @@ class Composable(object):
     def __repr__(self):
         attrs = ""
         if self.__dict__:
-            attrs = ", ".join("%s=%r" % (key, value)
-                              for key, value
-                              in iteritems(self.__dict__))
+            attrs = ", ".join(
+                "%s=%r" % (key, value)
+                for key, value in iteritems(self.__dict__)
+            )
         return self.__class__.__name__ + "(%s)" % attrs
 
     def has_morph(self):
         return self.is_morph
 
+
 # Token object
 class CylleneusToken(object):
-        """
+    """
         Represents a "token" (usually a word) extracted from the source text being
         indexed.
         """
 
-        def __init__(self, positions=False, chars=False, removestops=True, mode='',
-                     **kwargs):
-            """
+    def __init__(
+        self, positions=False, chars=False, removestops=True, mode="", **kwargs
+    ):
+        """
             :param positions: Whether tokens should have the token position in the
                 'pos' attribute.
             :param chars: Whether tokens should have character offsets in the
@@ -174,39 +190,52 @@ class CylleneusToken(object):
                 analyzer is being called, i.e. 'index' or 'query'.
             """
 
-            self.positions = positions
-            self.chars = chars
-            self.stopped = False
-            self.boost = 1.0
-            self.removestops = removestops
-            self.mode = mode
-            self.__dict__.update(kwargs)
+        self.positions = positions
+        self.chars = chars
+        self.stopped = False
+        self.boost = 1.0
+        self.removestops = removestops
+        self.mode = mode
+        self.__dict__.update(kwargs)
 
-        def __repr__(self):
-            parms = ", ".join("%s=%r" % (name, value)
-                              for name, value in iteritems(self.__dict__))
-            return "%s(%s)" % (self.__class__.__name__, parms)
+    def __repr__(self):
+        parms = ", ".join(
+            "%s=%r" % (name, value) for name, value in iteritems(self.__dict__)
+        )
+        return "%s(%s)" % (self.__class__.__name__, parms)
 
-        def copy(self):
-            # This is faster than using the copy module
-            return CylleneusToken(**self.__dict__)
+    def copy(self):
+        # This is faster than using the copy module
+        return CylleneusToken(**self.__dict__)
 
-        def __hash__(self):
-            return hash(tuple(sorted(self.__dict__)))
+    def __hash__(self):
+        return hash(tuple(sorted(self.__dict__)))
 
-        def __eq__(self, other):
-            return getattr(self, 'docnum', None) == getattr(other, 'docnum', None) \
-                    and getattr(self, 'text', None) == getattr(other, 'text', None) \
-                    and getattr(self, 'pos', None) == getattr(other, 'pos', None) \
-                    and getattr(self, 'startchar', None) == getattr(other, 'startchar', None) \
-                    and getattr(self, 'endchar', None) == getattr(other, 'endchar', None) \
-                    and getattr(self, 'fieldname', None) == getattr(other, 'fieldname', None)
+    def __eq__(self, other):
+        return (
+            getattr(self, "docnum", None) == getattr(other, "docnum", None)
+            and getattr(self, "text", None) == getattr(other, "text", None)
+            and getattr(self, "pos", None) == getattr(other, "pos", None)
+            and getattr(self, "startchar", None)
+            == getattr(other, "startchar", None)
+            and getattr(self, "endchar", None)
+            == getattr(other, "endchar", None)
+            and getattr(self, "fieldname", None)
+            == getattr(other, "fieldname", None)
+        )
 
-        def __lt__(self, other):
-            return self.docnum == other.docnum and \
-            ((getattr(self, 'pos', None), getattr(self, 'startchar', None)) \
-                   < (getattr(other, 'pos', None), getattr(other, 'startchar', None)))
+    def __lt__(self, other):
+        return self.docnum == other.docnum and (
+            (getattr(self, "pos", None), getattr(self, "startchar", None))
+            < (getattr(other, "pos", None), getattr(other, "startchar", None))
+        )
 
+    def has_same_divs(self, other):
+        if hasattr(self, "meta") and hasattr(other, "meta"):
+            self_values = self.meta.items()
+            other_values = other.meta.items()
+            return self_values == other_values
+        return False
 
 
 # Monkey patch

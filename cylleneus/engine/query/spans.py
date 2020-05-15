@@ -60,10 +60,24 @@ from whoosh.util import make_binary_tree
 
 
 class Span(object):
-    __slots__ = ("start", "end", "startchar", "endchar", "divs", "boost", "meta")
+    __slots__ = (
+        "start",
+        "end",
+        "startchar",
+        "endchar",
+        "divs",
+        "boost",
+        "meta",
+    )
 
     def __init__(
-        self, start, end=None, startchar=None, endchar=None, divs=None, boost=1.0
+        self,
+        start,
+        end=None,
+        startchar=None,
+        endchar=None,
+        divs=None,
+        boost=1.0,
     ):
         if end is None:
             end = start
@@ -75,7 +89,9 @@ class Span(object):
         self.boost = boost
         self.divs = divs
         if self.divs:
-            self.meta = dict([tuple(item.split("=")) for item in self.divs[0][0]])
+            self.meta = dict(
+                [tuple(item.split("=")) for item in self.divs[0][0]]
+            )
         else:
             self.meta = {}
 
@@ -116,9 +132,9 @@ class Span(object):
         )
 
     def __ne__(self, span):
-        return tuple([int(v) for k, v in self.meta.items() if k != "meta"]) != tuple(
-            [int(v) for k, v in span.meta.items() if k != "meta"]
-        )
+        return tuple(
+            [int(v) for k, v in self.meta.items() if k != "meta"]
+        ) != tuple([int(v) for k, v in span.meta.items() if k != "meta"])
 
     def __lt__(self, span):
         if self.divs and span.divs:
@@ -139,7 +155,9 @@ class Span(object):
         return folldiv and self.start > span.start
 
     def __hash__(self):
-        return hash(tuple([int(v) for k, v in self.meta.items() if k != "meta"]))
+        return hash(
+            tuple([int(v) for k, v in self.meta.items() if k != "meta"])
+        )
 
     @classmethod
     def merge(cls, spans):
@@ -190,10 +208,20 @@ class Span(object):
 
     def overlaps(self, span):
         return (
-            (self.startchar >= span.startchar and self.startchar <= span.endchar)
-            or (self.endchar >= span.startchar and self.endchar <= span.endchar)
-            or (span.startchar >= self.startchar and span.startchar <= self.endchar)
-            or (span.endchar >= self.startchar and span.endchar <= self.endchar)
+            (
+                self.startchar >= span.startchar
+                and self.startchar <= span.endchar
+            )
+            or (
+                self.endchar >= span.startchar and self.endchar <= span.endchar
+            )
+            or (
+                span.startchar >= self.startchar
+                and span.startchar <= self.endchar
+            )
+            or (
+                span.endchar >= self.startchar and span.endchar <= self.endchar
+            )
         )
 
     def surrounds(self, span):
@@ -239,7 +267,11 @@ class Span(object):
             samediv = self.divs == span.divs
         else:
             samediv = True
-        return samediv and self.start == span.end + 1 or self.end == span.start - 1
+        return (
+            samediv
+            and self.start == span.end + 1
+            or self.end == span.start - 1
+        )
 
     def distance_to(self, span):
         if self.overlaps(span):
@@ -267,8 +299,12 @@ def bisect_spans_by_meta(spans, startmeta):
     hi = len(spans)
     while lo < hi:
         mid = (lo + hi) // 2
-        span_values = tuple([int(v) for k, v in spans[mid].meta.items() if k != "meta"])
-        start_values = tuple([int(v) for k, v in startmeta.items() if k != "meta"])
+        span_values = tuple(
+            [int(v) for k, v in spans[mid].meta.items() if k != "meta"]
+        )
+        start_values = tuple(
+            [int(v) for k, v in startmeta.items() if k != "meta"]
+        )
         if span_values < start_values:
             lo = mid + 1
         else:
@@ -372,7 +408,9 @@ class SpanQuery(cylleneus.engine.query.qcore.Query):
         return "%s(%r)" % (self.__class__.__name__, self.q)
 
     def __eq__(self, other):
-        return other and self.__class__ is other.__class__ and self.q == other.q
+        return (
+            other and self.__class__ is other.__class__ and self.q == other.q
+        )
 
     def __hash__(self):
         return hash(self.__class__.__name__) ^ hash(self.q)
@@ -438,7 +476,9 @@ class SpanFirst(WrappingSpan):
             return self.__class__(newchild, limit=self.limit)
 
         def _get_spans(self):
-            return [span for span in self.child.spans() if span.end <= self.limit]
+            return [
+                span for span in self.child.spans() if span.end <= self.limit
+            ]
 
 
 class SpanNear(SpanQuery):
@@ -610,7 +650,10 @@ class SpanNear(SpanQuery):
                         # *at all* when ordered is True
                         continue
 
-                    if len(aspan.divs[0][0]) == 2 and len(bspan.divs[0][0]) == 2:
+                    if (
+                        len(aspan.divs[0][0]) == 2
+                        and len(bspan.divs[0][0]) == 2
+                    ):
                         # Only startchar, endchar and pos
                         # Check the distance between the spans
                         dist = aspan.distance_to(bspan)
@@ -637,7 +680,8 @@ class SpanNear(SpanQuery):
                                             [
                                                 int(m) if m.isnumeric() else m
                                                 for m in re.match(
-                                                r"(\d+)([A-Za-z]+)?(\d+)?", v
+                                                r"(\d+)([A-Za-z]+)?(\d+)?",
+                                                v,
                                             ).groups()
                                                 if m
                                             ]
@@ -656,7 +700,9 @@ class SpanNear(SpanQuery):
                                             [
                                                 int(m) if m.isnumeric() else m
                                                 for m in re.match(
-                                                r"(\d+)([A-Za-z]+)?(" r"\d+)?", v
+                                                r"(\d+)([A-Za-z]+)?("
+                                                r"\d+)?",
+                                                v,
                                             ).groups()
                                                 if m
                                             ]
@@ -904,7 +950,9 @@ class SpanOr(SpanQuery):
                 if b_active:
                     b_id = self.b.id()
                     if a_id == b_id:
-                        spans = sorted(set(self.a.spans()) | set(self.b.spans()))
+                        spans = sorted(
+                            set(self.a.spans()) | set(self.b.spans())
+                        )
                     elif a_id < b_id:
                         spans = self.a.spans()
                     else:
@@ -1222,17 +1270,33 @@ class SpanWith2(SpanQuery):
                             bspan.startchar == aspan.startchar
                             and bspan.endchar == aspan.endchar
                             and tuple(
-                            [int(v) for k, v in bspan.meta.items() if k != "meta"]
+                            [
+                                int(v)
+                                for k, v in bspan.meta.items()
+                                if k != "meta"
+                            ]
                         )
                             == tuple(
-                            [int(v) for k, v in aspan.meta.items() if k != "meta"]
+                            [
+                                int(v)
+                                for k, v in aspan.meta.items()
+                                if k != "meta"
+                            ]
                         )
                         ):
                             spans.add(aspan.to(bspan))
                         elif bspan.startchar > aspan.endchar and tuple(
-                            [int(v) for k, v in bspan.meta.items() if k != "meta"]
+                            [
+                                int(v)
+                                for k, v in bspan.meta.items()
+                                if k != "meta"
+                            ]
                         ) > tuple(
-                            [int(v) for k, v in aspan.meta.items() if k != "meta"]
+                            [
+                                int(v)
+                                for k, v in aspan.meta.items()
+                                if k != "meta"
+                            ]
                         ):
                             break
                 aspans = spans

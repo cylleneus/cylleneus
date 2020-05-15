@@ -99,7 +99,10 @@ class Corpus:
 
     @property
     def remote_manifest(self):
-        if self._remote_manifest is None and self.meta.repo["location"] == "remote":
+        if (
+            self._remote_manifest is None
+            and self.meta.repo["location"] == "remote"
+        ):
             url = self.meta.repo["raw"] + "manifest.json"
             result = requests.get(url)
             if result:
@@ -161,10 +164,12 @@ class Corpus:
                 and self.manifest[str(docix)]["title"] == work.title
                 and self.manifest[str(docix)]["filename"] == work.filename[0]
                 and (
-                    work.indexer.path / Path(self.manifest[str(docix)]["index"][0])
+                    work.indexer.path
+                    / Path(self.manifest[str(docix)]["index"][0])
                 ).exists()
                 and (
-                    work.indexer.path / Path(self.manifest[str(docix)]["index"][1])
+                    work.indexer.path
+                    / Path(self.manifest[str(docix)]["index"][1])
                 ).exists()
             )
         except KeyError:
@@ -191,19 +196,30 @@ class Corpus:
             }
             if not dry_run:
                 self.update_manifest(str(docix), meta)
-            return ADDED, (docix, work.author, work.title, work.filename[0], None)
+            return (
+                ADDED,
+                (docix, work.author, work.title, work.filename[0], None),
+            )
         else:
             indexname = work.indexer.index_for_docix(docix).indexname
 
-            storage = cylleneus.engine.filedb.filestore.FileStorage(work.indexer.path)
+            storage = cylleneus.engine.filedb.filestore.FileStorage(
+                work.indexer.path
+            )
             tocfiles = list(self.index_dir.glob(f"*/*/_{indexname}_*.toc"))
             if len(tocfiles) > 1:
                 latest_toc = sorted(tocfiles)[-1]
             else:
                 latest_toc = tocfiles[0]
-            gen = latest_toc.name.rsplit("_", maxsplit=1)[1].replace(".toc", "")
-            TOC = cylleneus.engine.index.TOC.read(storage, indexname, gen=int(gen))
-            segments = [segment.segment_id() + ".seg" for segment in TOC.segments]
+            gen = latest_toc.name.rsplit("_", maxsplit=1)[1].replace(
+                ".toc", ""
+            )
+            TOC = cylleneus.engine.index.TOC.read(
+                storage, indexname, gen=int(gen)
+            )
+            segments = [
+                segment.segment_id() + ".seg" for segment in TOC.segments
+            ]
             segfiles = list(self.index_dir.glob(f"*/*/{indexname}_*.seg"))
 
             extraneous = []
@@ -232,7 +248,13 @@ class Corpus:
                 if passed and work.searchable:
                     return (
                         PASSED,
-                        (docix, work.author, work.title, work.filename[0], None),
+                        (
+                            docix,
+                            work.author,
+                            work.title,
+                            work.filename[0],
+                            None,
+                        ),
                     )
                 else:
                     ix = work.indexer.index_for_docix(docix)
@@ -261,7 +283,13 @@ class Corpus:
                         self.update_manifest(str(docix), meta)
                     return (
                         FIXED,
-                        (docix, work.author, work.title, work.filename[0], None),
+                        (
+                            docix,
+                            work.author,
+                            work.title,
+                            work.filename[0],
+                            None,
+                        ),
                     )
 
     @property
@@ -375,7 +403,9 @@ class Corpus:
 
     @property
     def path(self):
-        return Path(settings.CORPUS_DIR) / Path(self.language) / Path(self.name)
+        return (
+            Path(settings.CORPUS_DIR) / Path(self.language) / Path(self.name)
+        )
 
     def fetch(self, hit, meta, fragment):
         work = Work(corpus=self, doc=hit)
@@ -394,7 +424,9 @@ class Corpus:
                 if title:
                     docs = manifest_by_author[author][title]
                 else:
-                    docs = [author[work] for work in manifest_by_author[author]]
+                    docs = [
+                        author[work] for work in manifest_by_author[author]
+                    ]
             else:
                 if title:
                     manifest_by_title = defaultdict(list)
@@ -419,16 +451,22 @@ class Corpus:
                 files = manifest["index"]
                 for i, file in enumerate(files):
                     remote_path = (
-                        Path(manifest["path"]).as_posix().split("/", maxsplit=2)[-1]
+                        Path(manifest["path"])
+                            .as_posix()
+                            .split("/", maxsplit=2)[-1]
                     )
                     local_path = (
-                        Path(settings.CORPUS_DIR) / Path(manifest["path"]).as_posix()
+                        Path(settings.CORPUS_DIR)
+                        / Path(manifest["path"]).as_posix()
                     )
 
                     if not local_path.exists():
                         local_path.mkdir(parents=True, exist_ok=True)
 
-                    url = self.meta.repo["raw"] + (remote_path / Path(file)).as_posix()
+                    url = (
+                        self.meta.repo["raw"]
+                        + (remote_path / Path(file)).as_posix()
+                    )
                     with requests.get(url, stream=True) as r:
                         r.raise_for_status()
                         with safer.open(local_path / Path(file), "wb") as fp:
@@ -446,7 +484,8 @@ class Corpus:
 
                 filename = manifest["filename"]
                 text_url = (
-                    self.meta.repo["raw"] + (Path("/text") / Path(filename)).as_posix()
+                    self.meta.repo["raw"]
+                    + (Path("/text") / Path(filename)).as_posix()
                 )
                 file_path = self.text_dir / Path(filename)
                 if not file_path.parent.exists():
@@ -555,23 +594,31 @@ class Work:
                 self._language = doc["language"]
         else:
             if author and title:
-                docs = [doc[1] for doc in indexer.docs_for(corpus, author, title)]
+                docs = [
+                    doc[1] for doc in indexer.docs_for(corpus, author, title)
+                ]
                 if docs:
                     self._doc = docs
                     self._docix = [doc["docix"] for doc in docs]
                     self._author = self.doc[0]["author"]
                     self._title = self.doc[0]["title"]
                     self._urn = self.doc[0].get("urn", None)
-                    self._filename = [doc.get("filename", None) for doc in self.doc]
+                    self._filename = [
+                        doc.get("filename", None) for doc in self.doc
+                    ]
                     self._timestamp = self.doc[0].get("datetime", None)
                 else:
-                    self._doc = self._urn = self._filename = self._timestamp = None
+                    self._doc = (
+                        self._urn
+                    ) = self._filename = self._timestamp = None
                     self._author = author
                     self._title = title
             else:
                 self._doc = (
                     self._author
-                ) = self._title = self._urn = self._filename = self._timestamp = None
+                ) = (
+                    self._title
+                ) = self._urn = self._filename = self._timestamp = None
         self._indexer = indexer.Indexer(corpus, self)
         self.fetch = self.corpus._fetch
         self._language = language

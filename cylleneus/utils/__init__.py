@@ -37,7 +37,10 @@ class alnum:
         else:
             items = list(items)
             if items:
-                if not isinstance(items[0], Number) and not items[0].isnumeric():
+                if (
+                    not isinstance(items[0], Number)
+                    and not items[0].isnumeric()
+                ):
                     items.pop(0)
                 n = items[0]
                 for item in items[1:]:
@@ -213,7 +216,9 @@ def slugify(value, allow_unicode=False):
                 .encode("ascii", "ignore")
                 .decode("ascii")
         )
-    value = re.sub(r"[^\w\s-]", "", re.sub(r"[:=]", "-", value).strip().lower())
+    value = re.sub(
+        r"[^\w\s-]", "", re.sub(r"[:=]", "-", value).strip().lower()
+    )
     return re.sub(r"[\s]+", "-", value)
 
 
@@ -267,7 +272,9 @@ def flatten(l, max_depth=math.inf):
     else:
         if max_depth > 0:
             for el in l:
-                if isinstance(el, Iterable) and not isinstance(el, (str, bytes)):
+                if isinstance(el, Iterable) and not isinstance(
+                    el, (str, bytes)
+                ):
                     yield from flatten(el, max_depth - 1)
                 else:
                     yield el
@@ -277,7 +284,9 @@ def flatten(l, max_depth=math.inf):
 
 def nrange(start, end, zero=True, negative=True):
     start, end = zip(
-        *zip_longest([int(n) for n in start], [int(n) for n in end], fillvalue=0)
+        *zip_longest(
+            [int(n) for n in start], [int(n) for n in end], fillvalue=0
+        )
     )
     base = max(max(chain(start, end)), 9) + 1
 

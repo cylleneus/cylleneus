@@ -81,7 +81,14 @@ class SequencePlugin(whoosh.qparser.plugins.Plugin):
             self.slop = int(slop) if slop else 1
 
     def taggers(self, parser):
-        return [(whoosh.qparser.taggers.FnTagger(self.expr, self.QuoteNode, "quote"), 0)]
+        return [
+            (
+                whoosh.qparser.taggers.FnTagger(
+                    self.expr, self.QuoteNode, "quote"
+                ),
+                0,
+            )
+        ]
 
     def filters(self, parser):
         return [(self.do_quotes, 499)]
@@ -207,26 +214,29 @@ class FormPlugin(whoosh.qparser.plugins.TaggingPlugin):
     expr = r"('(?P<text>.*?)')"  # r"(^|(?<=\W))'(?P<text>.*?)'(?=\s|\]|[)}]|\"|$)"
     nodetype = FormNode
 
+
 # <>
 class LemmaPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify lemmas by enclosing them in guillemets."""
 
-    expr = r'<(?P<text>[\u0370-\u03FF\u0900-\u097F\w\d=:!@~#%msp|+-rc\/*>^$&<]+?)>'  # r'(^|(?<=\W))<(?P<text>[
+    expr = r"<(?P<text>[\u0370-\u03FF\u0900-\u097F\w\d=:!@~#%msp|+-rc\/*>^$&<]+?)>"  # r'(^|(?<=\W))<(?P<text>[
     # \w]+?)>(?=\s|\]|[)}]|:|"|$)'
     nodetype = LemmaNode
+
 
 # []
 class GlossPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify glosses by enclosing them in square brackets."""
 
-    expr = r'\[(?P<text>[\w?#=!@~#%msp=|+-rc\/*>^$&<]+?)\]'  # r'(^|(?<=\W))\[(?P<text>[\w#]+?)\](?=\s|\]|[)}]|:|"|$)'
+    expr = r"\[(?P<text>[\w?#=!@~#%msp=|+-rc\/*>^$&<]+?)\]"  # r'(^|(?<=\W))\[(?P<text>[\w#]+?)\](?=\s|\]|[)}]|:|"|$)'
     nodetype = GlossNode
+
 
 # {}
 class SemfieldPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify semfields by enclosing them in curly brackets."""
 
-    expr = r'{(?P<text>[\w\d ]+?)}'  # r'(^|(?<=\W)){(?P<text>[\w\d ]+?)}(?=\s|\]|[)}]|:|"|$)'
+    expr = r"{(?P<text>[\w\d ]+?)}"  # r'(^|(?<=\W)){(?P<text>[\w\d ]+?)}(?=\s|\]|[)}]|:|"|$)'
     nodetype = SemfieldNode
 
 
@@ -234,7 +244,7 @@ class SemfieldPlugin(whoosh.qparser.plugins.TaggingPlugin):
 class MorphosyntaxPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify morphosyntax queries by enclosing them in forward slashes."""
 
-    expr = r'/(?P<text>[\w\d ]+?)/'  # r'(^|(?<=\W))/(?P<text>[\w\d ]+?)/(?=\s|\]|[)}]|:|"|$)'
+    expr = r"/(?P<text>[\w\d ]+?)/"  # r'(^|(?<=\W))/(?P<text>[\w\d ]+?)/(?=\s|\]|[)}]|:|"|$)'
     nodetype = MorphosyntaxNode
 
 
@@ -242,7 +252,7 @@ class MorphosyntaxPlugin(whoosh.qparser.plugins.TaggingPlugin):
 class MappingPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify mapping queries by enclosing them in backward slashes."""
 
-    expr = r'(?P<text>[A-Z\s*-]+ (?:IS|(?:STANDS )?FOR) [A-Z\s*-]+)'
+    expr = r"(?P<text>[A-Z\s*-]+ (?:IS|(?:STANDS )?FOR) [A-Z\s*-]+)"
     nodetype = MappingNode
 
 
@@ -290,7 +300,9 @@ class AnnotationFilterPlugin(whoosh.qparser.plugins.TaggingPlugin):
                     # ignore annotation if the previous node is a FormNode
                     if isinstance(newgroup[-1], FormNode):
                         pass
-                    elif isinstance(newgroup[-1], (LemmaNode, GlossNode, SemfieldNode)):
+                    elif isinstance(
+                        newgroup[-1], (LemmaNode, GlossNode, SemfieldNode)
+                    ):
                         prev = newgroup.pop()
                         collocation = CollocationGroup()
                         collocation.extend([prev, node])
@@ -323,8 +335,20 @@ class GroupPlugin(whoosh.qparser.plugins.Plugin):
         self.closeexpr = closeexpr
 
     def taggers(self, parser):
-        return [(whoosh.qparser.taggers.FnTagger(self.openexpr, self.OpenBracket, "openB"), 0),
-                (whoosh.qparser.taggers.FnTagger(self.closeexpr, self.CloseBracket, "closeB"), 0)]
+        return [
+            (
+                whoosh.qparser.taggers.FnTagger(
+                    self.openexpr, self.OpenBracket, "openB"
+                ),
+                0,
+            ),
+            (
+                whoosh.qparser.taggers.FnTagger(
+                    self.closeexpr, self.CloseBracket, "closeB"
+                ),
+                0,
+            ),
+        ]
 
     def filters(self, parser):
         return [(self.do_groups, 0)]
@@ -371,7 +395,7 @@ class BoostPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to boost clauses of the query using the circumflex.
     """
 
-    expr = "\\^(?P<boost>[0-9]*(\\.[0-9]+)?)($|(?=[ \t\r\n)\"]))"
+    expr = '\\^(?P<boost>[0-9]*(\\.[0-9]+)?)($|(?=[ \t\r\n)"]))'
 
     class BoostNode(CylleneusSyntaxNode):
         def __init__(self, original, boost):
@@ -407,7 +431,7 @@ class BoostPlugin(whoosh.qparser.plugins.TaggingPlugin):
         bnode = self.BoostNode
         for i, node in enumerate(group):
             if isinstance(node, bnode):
-                if (not i or not group[i - 1].has_boost):
+                if not i or not group[i - 1].has_boost:
                     group[i] = whoosh.qparser.syntax.to_word(node)
         return group
 
@@ -421,7 +445,7 @@ class BoostPlugin(whoosh.qparser.plugins.TaggingPlugin):
             if isinstance(node, CylleneusGroupNode):
                 node = self.do_boost(parser, node)
             elif isinstance(node, self.BoostNode):
-                if (newgroup and newgroup[-1].has_boost):
+                if newgroup and newgroup[-1].has_boost:
                     # Apply the BoostNode's boost to the previous node
                     newgroup[-1].set_boost(node.boost)
                     # Skip adding the BoostNode to the new group
@@ -456,8 +480,14 @@ class OperatorsPlugin(whoosh.qparser.plugins.Plugin):
     """
 
     class OpTagger(RegexTagger):
-        def __init__(self, expr, grouptype, optype=whoosh.qparser.syntax.InfixOperator,
-                     leftassoc=True, memo=""):
+        def __init__(
+            self,
+            expr,
+            grouptype,
+            optype=whoosh.qparser.syntax.InfixOperator,
+            leftassoc=True,
+            memo="",
+        ):
             RegexTagger.__init__(self, expr)
             self.grouptype = grouptype
             self.optype = optype
@@ -465,19 +495,26 @@ class OperatorsPlugin(whoosh.qparser.plugins.Plugin):
             self.memo = memo
 
         def __repr__(self):
-            return "<%s %r (%s)>" % (self.__class__.__name__,
-                                     self.expr.pattern, self.memo)
+            return "<%s %r (%s)>" % (
+                self.__class__.__name__,
+                self.expr.pattern,
+                self.memo,
+            )
 
         def create(self, parser, match):
             return self.optype(match.group(0), self.grouptype, self.leftassoc)
 
-    def __init__(self, ops=None, clean=False,
-                 And=r"(?<=\s)AND(?=\s)",
-                 Or=r"(?<=\s)OR(?=\s)",
-                 AndNot=r"(?<=\s)ANDNOT(?=\s)",
-                 AndMaybe=r"(?<=\s)ANDMAYBE(?=\s)",
-                 Not=r"(^|(?<=(\s|[()])))NOT(?=\s)",
-                 Require=r"(^|(?<=\s))REQUIRE(?=\s)"):
+    def __init__(
+        self,
+        ops=None,
+        clean=False,
+        And=r"(?<=\s)AND(?=\s)",
+        Or=r"(?<=\s)OR(?=\s)",
+        AndNot=r"(?<=\s)ANDNOT(?=\s)",
+        AndMaybe=r"(?<=\s)ANDMAYBE(?=\s)",
+        Not=r"(^|(?<=(\s|[()])))NOT(?=\s)",
+        Require=r"(^|(?<=\s))REQUIRE(?=\s)",
+    ):
         if ops:
             ops = list(ops)
         else:
@@ -486,21 +523,27 @@ class OperatorsPlugin(whoosh.qparser.plugins.Plugin):
         if not clean:
             ot = self.OpTagger
             if Not:
-                ops.append((ot(Not, NotGroup, whoosh.qparser.syntax.PrefixOperator,
-                               memo="not"), 0))
+                ops.append(
+                    (
+                        ot(
+                            Not,
+                            NotGroup,
+                            whoosh.qparser.syntax.PrefixOperator,
+                            memo="not",
+                        ),
+                        0,
+                    )
+                )
             if And:
                 ops.append((ot(And, AndGroup, memo="and"), 0))
             if Or:
                 ops.append((ot(Or, OrGroup, memo="or"), 0))
             if AndNot:
-                ops.append((ot(AndNot, AndNotGroup,
-                               memo="anot"), -5))
+                ops.append((ot(AndNot, AndNotGroup, memo="anot"), -5))
             if AndMaybe:
-                ops.append((ot(AndMaybe, AndMaybeGroup,
-                               memo="amaybe"), -5))
+                ops.append((ot(AndMaybe, AndMaybeGroup, memo="amaybe"), -5))
             if Require:
-                ops.append((ot(Require, RequireGroup,
-                               memo="req"), 0))
+                ops.append((ot(Require, RequireGroup, memo="req"), 0))
 
         self.ops = ops
 
@@ -550,6 +593,7 @@ class OperatorsPlugin(whoosh.qparser.plugins.Plugin):
 
 #
 
+
 class PlusMinusPlugin(whoosh.qparser.plugins.Plugin):
     """Adds the ability to use + and - in a flat OR query to specify required
     and prohibited terms.
@@ -571,8 +615,10 @@ class PlusMinusPlugin(whoosh.qparser.plugins.Plugin):
         self.minusexpr = minusexpr
 
     def taggers(self, parser):
-        return [(FnTagger(self.plusexpr, self.Plus, "plus"), 0),
-                (FnTagger(self.minusexpr, self.Minus, "minus"), 0)]
+        return [
+            (FnTagger(self.plusexpr, self.Plus, "plus"), 0),
+            (FnTagger(self.minusexpr, self.Minus, "minus"), 0),
+        ]
 
     def filters(self, parser):
         return [(self.do_plusminus, 510)]
@@ -613,7 +659,9 @@ class PlusMinusPlugin(whoosh.qparser.plugins.Plugin):
         return group
 
 
-CollocationTagger = OperatorsPlugin.OpTagger(r"(?<=\s)WITH(?=\s)", CollocationGroup,
-                                          whoosh.qparser.syntax.InfixOperator)
-SequenceTagger = OperatorsPlugin.OpTagger(r"(?<=\s)THEN(?=\s)", SequenceGroup,
-                                          whoosh.qparser.syntax.InfixOperator)
+CollocationTagger = OperatorsPlugin.OpTagger(
+    r"(?<=\s)WITH(?=\s)", CollocationGroup, whoosh.qparser.syntax.InfixOperator
+)
+SequenceTagger = OperatorsPlugin.OpTagger(
+    r"(?<=\s)THEN(?=\s)", SequenceGroup, whoosh.qparser.syntax.InfixOperator
+)

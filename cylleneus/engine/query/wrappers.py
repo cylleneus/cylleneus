@@ -103,8 +103,11 @@ class Not(cylleneus.engine.query.qcore.Query):
         self.boost = boost
 
     def __eq__(self, other):
-        return other and self.__class__ is other.__class__ and\
-        self.query == other.query
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.query == other.query
+        )
 
     def __repr__(self):
         return "%s(%s)" % (self.__class__.__name__, repr(self.query))
@@ -115,9 +118,9 @@ class Not(cylleneus.engine.query.qcore.Query):
     __str__ = __unicode__
 
     def __hash__(self):
-        return (hash(self.__class__.__name__)
-                ^ hash(self.query)
-                ^ hash(self.boost))
+        return (
+            hash(self.__class__.__name__) ^ hash(self.query) ^ hash(self.boost)
+        )
 
     def is_leaf(self):
         return False
@@ -149,8 +152,9 @@ class Not(cylleneus.engine.query.qcore.Query):
         # as And and Or do special handling of Not subqueries.
         reader = searcher.reader()
         child = self.query.matcher(searcher, searcher.boolean_context())
-        return cylleneus.engine.matching.wrappers.InverseMatcher(child, reader.doc_count_all(),
-                                                                 missing=reader.is_deleted)
+        return cylleneus.engine.matching.wrappers.InverseMatcher(
+            child, reader.doc_count_all(), missing=reader.is_deleted
+        )
 
 
 class ConstantScoreQuery(WrappingQuery):
@@ -165,8 +169,12 @@ class ConstantScoreQuery(WrappingQuery):
         self.score = score
 
     def __eq__(self, other):
-        return (other and self.__class__ is other.__class__
-                and self.child == other.child and self.score == other.score)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.child == other.child
+            and self.score == other.score
+        )
 
     def __hash__(self):
         return hash(self.child) ^ hash(self.score)
@@ -179,12 +187,15 @@ class ConstantScoreQuery(WrappingQuery):
 
         context = context or SearchContext()
         m = self.child.matcher(searcher, context)
-        if context.needs_current or isinstance(m, cylleneus.engine.matching.mcore.NullMatcherClass):
+        if context.needs_current or isinstance(
+            m, cylleneus.engine.matching.mcore.NullMatcherClass
+        ):
             return m
         else:
             ids = array("I", m.all_ids())
-            return cylleneus.engine.matching.mcore.ListMatcher(ids, all_weights=self.score,
-                                                               term=m.term())
+            return cylleneus.engine.matching.mcore.ListMatcher(
+                ids, all_weights=self.score, term=m.term()
+            )
 
 
 class WeightingQuery(WrappingQuery):

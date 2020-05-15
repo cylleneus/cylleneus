@@ -32,12 +32,22 @@ def fetch(work, meta, fragment):
 
     # Reference and hlite values
     ref_start = ", ".join(
-        [f"{item}: {meta['start'][item]}" for item in meta["start"] if item in divs]
+        [
+            f"{item}: {meta['start'][item]}"
+            for item in meta["start"]
+            if item in divs
+        ]
     )
     ref_end = ", ".join(
-        [f"{item}: {meta['end'][item]}" for item in meta["end"] if item in divs]
+        [
+            f"{item}: {meta['end'][item]}"
+            for item in meta["end"]
+            if item in divs
+        ]
     )
-    reference = "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    reference = (
+        "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    )
 
     # Collect text and context
     with codecs.open(path, "r", "utf8") as fp:
@@ -56,9 +66,16 @@ def fetch(work, meta, fragment):
             text_line_id = line.split("# text_line_id: ")[1].strip()
         elif line.startswith("# text_line_counter: "):
             if text_line is not None:
-                text_line_counter = line.split("# text_line_counter: ")[1].strip()
+                text_line_counter = line.split("# text_line_counter: ")[
+                    1
+                ].strip()
                 text_lines.append(
-                    (chapter, text_line_id, text_line_counter, text_line.split())
+                    (
+                        chapter,
+                        text_line_id,
+                        text_line_counter,
+                        text_line.split(),
+                    )
                 )
 
     hlites = [
@@ -75,7 +92,9 @@ def fetch(work, meta, fragment):
         if text_line_id == start:
             append_line = True
         if append_line:
-            target_lines.append((chapter, text_line_id, text_line_counter, text_line))
+            target_lines.append(
+                (chapter, text_line_id, text_line_counter, text_line)
+            )
         if text_line_id == end:
             append_line = False
 
@@ -194,7 +213,11 @@ def parse_morpho(upos, morpho: str):
     if inflections["verbform"] != "-" and inflections["mood"] == "-":
         inflections["mood"] = inflections["verbform"]
     return "".join(
-        [v for k, v in inflections.items() if k != "verbform" and k != "formation"]
+        [
+            v
+            for k, v in inflections.items()
+            if k != "verbform" and k != "formation"
+        ]
     )
 
 

@@ -24,7 +24,9 @@ repo = {
 
 # Fetch text
 def fetch(work, meta, fragment):
-    with codecs.open(work.corpus.text_dir / work.filename[0].replace("\\", "/")) as fp:
+    with codecs.open(
+        work.corpus.text_dir / work.filename[0].replace("\\", "/")
+    ) as fp:
         content = fp.read()
 
     content = re.sub(r"(\s)+", r"\1", content)
@@ -38,10 +40,14 @@ def fetch(work, meta, fragment):
     hlite_ends = [endchar for startchar, endchar, pos in meta["hlites"]]
 
     # Collect text and context
-    pre_raw = content[hlite_starts[0] - settings.CHARS_OF_CONTEXT: hlite_starts[0]]
+    pre_raw = content[
+              hlite_starts[0] - settings.CHARS_OF_CONTEXT: hlite_starts[0]
+              ]
     pre = f"<pre>{autotrim(pre_raw, right=False)}</pre>"
 
-    post_raw = content[hlite_ends[-1] + 1: hlite_ends[-1] + settings.CHARS_OF_CONTEXT]
+    post_raw = content[
+               hlite_ends[-1] + 1: hlite_ends[-1] + settings.CHARS_OF_CONTEXT
+               ]
     post = f"<post>{autotrim(post_raw, left=False)}</post>"
 
     match_raw = content[hlite_starts[0]: hlite_ends[-1] + 1]
@@ -70,76 +76,104 @@ def fetch(work, meta, fragment):
 
 
 FILE_TAB = {
-    "12tables.txt":                            {"fileid": 0, "author": None, "title": "DUODECIM TABULARUM LEGES"},
-    "1644.txt":                                {"fileid": 1, "author": None, "title": "Cafraria"},
-    "abbofloracensis.txt":                     {"fileid": 2, "author": None, "title": "Abbo Floriacensis"},
-    "abelard/dialogus.txt":                    {
+    "12tables.txt":                          {
+        "fileid": 0,
+        "author": None,
+        "title":  "DUODECIM TABULARUM LEGES",
+    },
+    "1644.txt":                              {"fileid": 1, "author": None, "title": "Cafraria"},
+    "abbofloracensis.txt":                   {
+        "fileid": 2,
+        "author": None,
+        "title":  "Abbo Floriacensis",
+    },
+    "abelard/dialogus.txt":                  {
         "fileid": 3,
         "author": "PETRUS ABAELARDUS",
         "title":  "DIALOGUS INTER PHILOSOPHUM, IUDAEUM ET CHRISTIANUM",
     },
-    "abelard/epistola.txt":                    {
+    "abelard/epistola.txt":                  {
         "fileid": 4,
         "author": "PETRUS ABAELARDUS",
         "title":  "HELOYSAE EPISTOLA AD ABELARDUM",
     },
-    "abelard/historia.txt":                    {
+    "abelard/historia.txt":                  {
         "fileid": 5,
         "author": "PETRUS ABAELARDUS",
         "title":  "AD AMICUM SUUM CONSOLATORIA",
     },
-    "addison/barometri.txt":                   {
+    "addison/barometri.txt":                 {
         "fileid": 6,
         "author": "JOSEPHUS ADDISON",
         "title":  "BAROMETRI DESCRIPTIO",
     },
-    "addison/burnett.txt":                     {
+    "addison/burnett.txt":                   {
         "fileid": 7,
         "author": "JOSEPHUS ADDISON",
         "title":  "AD INSIGNISSIMUM VIRUM",
     },
-    "addison/hannes.txt":                      {"fileid": 8, "author": "Joseph Addison", "title": ""},
-    "addison/machinae.txt":                    {"fileid": 9, "author": None, "title": "Joseph Addison "},
-    "addison/pax.txt":                         {
+    "addison/hannes.txt":                    {
+        "fileid": 8,
+        "author": "Joseph Addison",
+        "title":  "",
+    },
+    "addison/machinae.txt":                  {
+        "fileid": 9,
+        "author": None,
+        "title":  "Joseph Addison ",
+    },
+    "addison/pax.txt":                       {
         "fileid": 10,
         "author": "Joseph Addison",
         "title":  "Pax Gulielmi ",
     },
-    "addison/praelium.txt":                    {"fileid": 11, "author": None, "title": "Joseph Addison "},
-    "addison/preface.txt":                     {
+    "addison/praelium.txt":                  {
+        "fileid": 11,
+        "author": None,
+        "title":  "Joseph Addison ",
+    },
+    "addison/preface.txt":                   {
         "fileid": 12,
         "author": "Addison",
         "title":  "Preface and Dedication ",
     },
-    "addison/resurr.txt":                      {"fileid": 13, "author": None, "title": "Joseph Addison "},
-    "addison/sphaer.txt":                      {
+    "addison/resurr.txt":                    {
+        "fileid": 13,
+        "author": None,
+        "title":  "Joseph Addison ",
+    },
+    "addison/sphaer.txt":                    {
         "fileid": 14,
         "author": "Joseph Addison",
         "title":  "Sphaeristerium ",
     },
-    "adso.txt":                                {"fileid": 15, "author": None, "title": "Adso Deruensis"},
-    "aelredus.txt":                            {
+    "adso.txt":                              {"fileid": 15, "author": None, "title": "Adso Deruensis"},
+    "aelredus.txt":                          {
         "fileid": 16,
         "author": "Aelredus Rievallensis",
         "title":  "de Amicitia",
     },
-    "agnes.txt":                               {"fileid": 17, "author": None, "title": "Blessed Agnes of Bohemia"},
-    "alanus/alanus1.txt":                      {
+    "agnes.txt":                             {
+        "fileid": 17,
+        "author": None,
+        "title":  "Blessed Agnes of Bohemia",
+    },
+    "alanus/alanus1.txt":                    {
         "fileid": 18,
         "author": "Alanus de Insulis",
         "title":  "Liber de plantcu naturae",
     },
-    "alanus/alanus2.txt":                      {
+    "alanus/alanus2.txt":                    {
         "fileid": 19,
         "author": "Alanus de Insulis",
         "title":  "Anticlaudianus",
     },
-    "albertanus/albertanus.arsloquendi.txt":   {
+    "albertanus/albertanus.arsloquendi.txt": {
         "fileid": 20,
         "author": None,
         "title":  "Albertano of Brescia",
     },
-    "albertanus/albertanus.liberconsol.txt":   {
+    "albertanus/albertanus.liberconsol.txt": {
         "fileid": 21,
         "author": None,
         "title":  "Albertano of Brescia ",
@@ -239,173 +273,285 @@ FILE_TAB = {
         "author": "Albert of Aix",
         "title":  "Historia Hierosolymitanae expeditionis",
     },
-    "albertofaix/hist8.txt":                   {
+    "albertofaix/hist8.txt":                 {
         "fileid": 41,
         "author": "Albert of Aix",
         "title":  "Historia Hierosolymitanae expeditionis",
     },
-    "albertofaix/hist9.txt":                   {
+    "albertofaix/hist9.txt":                 {
         "fileid": 42,
         "author": "Albert of Aix",
         "title":  "Historia Hierosolymitanae expeditionis",
     },
-    "alcuin/cella.txt":                        {
+    "alcuin/cella.txt":                      {
         "fileid": 43,
         "author": "[Fredugis]",
         "title":  "Cella Alcuini",
     },
-    "alcuin/conflictus.txt":                   {
+    "alcuin/conflictus.txt":                 {
         "fileid": 44,
         "author": "Alcuin",
         "title":  "Conflictus Veris et Hiemis",
     },
-    "alcuin/epitaphium.txt":                   {"fileid": 45, "author": "Alcuin", "title": "Epitaphium"},
-    "alcuin/luscinia.txt":                     {"fileid": 46, "author": "Alcuin", "title": "de Luscinia"},
-    "alcuin/propos.txt":                       {"fileid": 47, "author": "Alcuin", "title": "Propositiones "},
-    "alcuin/rec.txt":                          {
+    "alcuin/epitaphium.txt":                 {
+        "fileid": 45,
+        "author": "Alcuin",
+        "title":  "Epitaphium",
+    },
+    "alcuin/luscinia.txt":                   {
+        "fileid": 46,
+        "author": "Alcuin",
+        "title":  "de Luscinia",
+    },
+    "alcuin/propos.txt":                     {
+        "fileid": 47,
+        "author": "Alcuin",
+        "title":  "Propositiones ",
+    },
+    "alcuin/rec.txt":                        {
         "fileid": 48,
         "author": "Alcuin",
         "title":  "Letter of Recommendation",
     },
-    "alcuin/rhetorica.txt":                    {
+    "alcuin/rhetorica.txt":                  {
         "fileid": 49,
         "author": "Alcuin",
         "title":  "Disputatio de Rhetorica",
     },
-    "alcuin/sequentia.txt":                    {
+    "alcuin/sequentia.txt":                  {
         "fileid": 50,
         "author": "Alcuin",
         "title":  "Sequentia de Sancto Michaele",
     },
-    "alcuin/versus.txt":                       {
+    "alcuin/versus.txt":                     {
         "fileid": 51,
         "author": "Alcuin",
         "title":  "Versus de Cuculo",
     },
-    "alfonsi.disciplina.txt":                  {
+    "alfonsi.disciplina.txt":                {
         "fileid": 52,
         "author": "Peter Alfonsi",
         "title":  "Disciplina clericalis",
     },
-    "ambrose/epist.txt":                       {
+    "ambrose/epist.txt":                     {
         "fileid": 53,
         "author": "Ambrosius",
         "title":  "ad sororem Marcellinam",
     },
-    "ambrose/epistvaria.txt":                  {
+    "ambrose/epistvaria.txt":                {
         "fileid": 54,
         "author": "Ambrosi",
         "title":  "Epistulae Variae",
     },
-    "ambrose/hymns.txt":                       {"fileid": 55, "author": "Ambrosius", "title": "Hymni"},
-    "ambrose/mysteriis.txt":                   {
+    "ambrose/hymns.txt":                     {
+        "fileid": 55,
+        "author": "Ambrosius",
+        "title":  "Hymni",
+    },
+    "ambrose/mysteriis.txt":                 {
         "fileid": 56,
         "author": "Ambrosius",
         "title":  "de Mysteriis",
     },
-    "ammianus/14.txt":                         {"fileid": 57, "author": "Ammianus", "title": "Liber XIV"},
-    "ammianus/15.txt":                         {"fileid": 58, "author": "Ammianus", "title": "Liber XV"},
-    "ammianus/16.txt":                         {"fileid": 59, "author": "Ammianus", "title": "Liber XVI"},
-    "ammianus/17.txt":                         {"fileid": 60, "author": "Ammianus", "title": "Liber XVII"},
-    "ammianus/18.txt":                         {"fileid": 61, "author": "Ammianus", "title": "Liber XVIII"},
-    "ammianus/19.txt":                         {"fileid": 62, "author": "Ammianus", "title": "Liber XIX"},
-    "ammianus/20.txt":                         {"fileid": 63, "author": "Ammianus", "title": "Liber XX"},
-    "ammianus/21.txt":                         {"fileid": 64, "author": "Ammianus", "title": "Liber XXI"},
-    "ammianus/22.txt":                         {"fileid": 65, "author": "Ammianus", "title": "Liber XXII"},
-    "ammianus/23.txt":                         {"fileid": 66, "author": "Ammianus", "title": "Liber XXIII"},
-    "ammianus/24.txt":                         {"fileid": 67, "author": "Ammianus", "title": "Liber XVIV"},
-    "ammianus/25.txt":                         {"fileid": 68, "author": "Ammianus", "title": "Liber XXV"},
-    "ammianus/26.txt":                         {"fileid": 69, "author": "Ammianus", "title": "Liber XXVI"},
-    "ammianus/27.txt":                         {"fileid": 70, "author": "Ammianus", "title": "Liber XXVII"},
-    "ammianus/28.txt":                         {"fileid": 71, "author": "Ammianus", "title": "Liber XXVIII"},
-    "ammianus/29.txt":                         {"fileid": 72, "author": "Ammianus", "title": "Liber XXIX"},
-    "ammianus/30.txt":                         {"fileid": 73, "author": "Ammianus", "title": "Liber XXX"},
-    "ammianus/31.txt":                         {"fileid": 74, "author": "Ammianus", "title": "Liber XXXI"},
-    "ampelius.txt":                            {"fileid": 75, "author": "Ampelius", "title": "Liber Memorialis"},
-    "andecavis.txt":                           {"fileid": 76, "author": None, "title": "Andecavis Abbas "},
-    "andreasbergoma.txt":                      {"fileid": 77, "author": None, "title": "Andreas of Bergoma"},
-    "andronicus.txt":                          {"fileid": 78, "author": "Livius Andronicus", "title": "Odussia"},
-    "angilbert.txt":                           {"fileid": 79, "author": None, "title": "Angilbert"},
-    "annalesregnifrancorum.txt":               {
+    "ammianus/14.txt":                       {
+        "fileid": 57,
+        "author": "Ammianus",
+        "title":  "Liber XIV",
+    },
+    "ammianus/15.txt":                       {
+        "fileid": 58,
+        "author": "Ammianus",
+        "title":  "Liber XV",
+    },
+    "ammianus/16.txt":                       {
+        "fileid": 59,
+        "author": "Ammianus",
+        "title":  "Liber XVI",
+    },
+    "ammianus/17.txt":                       {
+        "fileid": 60,
+        "author": "Ammianus",
+        "title":  "Liber XVII",
+    },
+    "ammianus/18.txt":                       {
+        "fileid": 61,
+        "author": "Ammianus",
+        "title":  "Liber XVIII",
+    },
+    "ammianus/19.txt":                       {
+        "fileid": 62,
+        "author": "Ammianus",
+        "title":  "Liber XIX",
+    },
+    "ammianus/20.txt":                       {
+        "fileid": 63,
+        "author": "Ammianus",
+        "title":  "Liber XX",
+    },
+    "ammianus/21.txt":                       {
+        "fileid": 64,
+        "author": "Ammianus",
+        "title":  "Liber XXI",
+    },
+    "ammianus/22.txt":                       {
+        "fileid": 65,
+        "author": "Ammianus",
+        "title":  "Liber XXII",
+    },
+    "ammianus/23.txt":                       {
+        "fileid": 66,
+        "author": "Ammianus",
+        "title":  "Liber XXIII",
+    },
+    "ammianus/24.txt":                       {
+        "fileid": 67,
+        "author": "Ammianus",
+        "title":  "Liber XVIV",
+    },
+    "ammianus/25.txt":                       {
+        "fileid": 68,
+        "author": "Ammianus",
+        "title":  "Liber XXV",
+    },
+    "ammianus/26.txt":                       {
+        "fileid": 69,
+        "author": "Ammianus",
+        "title":  "Liber XXVI",
+    },
+    "ammianus/27.txt":                       {
+        "fileid": 70,
+        "author": "Ammianus",
+        "title":  "Liber XXVII",
+    },
+    "ammianus/28.txt":                       {
+        "fileid": 71,
+        "author": "Ammianus",
+        "title":  "Liber XXVIII",
+    },
+    "ammianus/29.txt":                       {
+        "fileid": 72,
+        "author": "Ammianus",
+        "title":  "Liber XXIX",
+    },
+    "ammianus/30.txt":                       {
+        "fileid": 73,
+        "author": "Ammianus",
+        "title":  "Liber XXX",
+    },
+    "ammianus/31.txt":                       {
+        "fileid": 74,
+        "author": "Ammianus",
+        "title":  "Liber XXXI",
+    },
+    "ampelius.txt":                          {
+        "fileid": 75,
+        "author": "Ampelius",
+        "title":  "Liber Memorialis",
+    },
+    "andecavis.txt":                         {
+        "fileid": 76,
+        "author": None,
+        "title":  "Andecavis Abbas ",
+    },
+    "andreasbergoma.txt":                    {
+        "fileid": 77,
+        "author": None,
+        "title":  "Andreas of Bergoma",
+    },
+    "andronicus.txt":                        {
+        "fileid": 78,
+        "author": "Livius Andronicus",
+        "title":  "Odussia",
+    },
+    "angilbert.txt":                         {"fileid": 79, "author": None, "title": "Angilbert"},
+    "annalesregnifrancorum.txt":             {
         "fileid": 80,
         "author": None,
         "title":  "Annesl Regni Francorum",
     },
-    "annalesvedastini.txt":                    {
+    "annalesvedastini.txt":                  {
         "fileid": 81,
         "author": None,
         "title":  "Annales Vedastini",
     },
-    "anon.deramis.txt":                        {
+    "anon.deramis.txt":                      {
         "fileid": 82,
         "author": None,
         "title":  "Carmen de Martyrio Maccabaeorum",
     },
-    "anon.martyrio.txt":                       {
+    "anon.martyrio.txt":                     {
         "fileid": 83,
         "author": None,
         "title":  "Carmen de Martyrio Maccabaeorum",
     },
-    "anon.nev.txt":                            {"fileid": 84, "author": None, "title": "Anonymus Neveleti"},
-    "anselmepistula.txt":                      {"fileid": 85, "author": None, "title": "Anselm"},
-    "anselmproslogion.txt":                    {"fileid": 86, "author": None, "title": "Anselm"},
-    "apicius/apicius1.txt":                    {
+    "anon.nev.txt":                          {
+        "fileid": 84,
+        "author": None,
+        "title":  "Anonymus Neveleti",
+    },
+    "anselmepistula.txt":                    {"fileid": 85, "author": None, "title": "Anselm"},
+    "anselmproslogion.txt":                  {"fileid": 86, "author": None, "title": "Anselm"},
+    "apicius/apicius1.txt":                  {
         "fileid": 87,
         "author": "Apicius",
         "title":  "de Re Coquinaria Liber I",
     },
-    "apicius/apicius2.txt":                    {
+    "apicius/apicius2.txt":                  {
         "fileid": 88,
         "author": "Apicius",
         "title":  "de Re Coquinaria Liber II",
     },
-    "apicius/apicius3.txt":                    {
+    "apicius/apicius3.txt":                  {
         "fileid": 89,
         "author": "Apicius",
         "title":  "de Re Coquinaria Liber III",
     },
-    "apicius/apicius4.txt":                    {
+    "apicius/apicius4.txt":                  {
         "fileid": 90,
         "author": "Apicius",
         "title":  "de Re Coquinaria Liber IV",
     },
-    "apicius/apicius5.txt":                    {
+    "apicius/apicius5.txt":                  {
         "fileid": 91,
         "author": "Apicius",
         "title":  "de Re Coquinaria Liber V",
     },
-    "appverg.aetna.txt":                       {
+    "appverg.aetna.txt":                     {
         "fileid": 92,
         "author": "Appendix Vergiliana",
         "title":  "Aetna  ",
     },
-    "appverg.catalepton.txt":                  {
+    "appverg.catalepton.txt":                {
         "fileid": 93,
         "author": "Appendix Vergiliana",
         "title":  "Catalepton  ",
     },
-    "appverg.ciris.txt":                       {
+    "appverg.ciris.txt":                     {
         "fileid": 94,
         "author": "Appendix Vergiliana",
         "title":  "Ciris  ",
     },
-    "appvergcomp.txt":                         {"fileid": 95, "author": None, "title": "Appendix Vergiliana"},
-    "appvergculex.txt":                        {
+    "appvergcomp.txt":                       {
+        "fileid": 95,
+        "author": None,
+        "title":  "Appendix Vergiliana",
+    },
+    "appvergculex.txt":                      {
         "fileid": 96,
         "author": "Appendix Vergiliana",
         "title":  "Culex",
     },
-    "apuleius/apuleius.apol.txt":              {
+    "apuleius/apuleius.apol.txt":            {
         "fileid": 97,
         "author": "Apuleius",
         "title":  "Apology",
     },
-    "apuleius/apuleius.cupid.txt":             {
+    "apuleius/apuleius.cupid.txt":           {
         "fileid": 98,
         "author": "Apuleius",
         "title":  "Cupid and Psyche",
     },
-    "apuleius/apuleius.deosocratis.txt":       {
+    "apuleius/apuleius.deosocratis.txt":     {
         "fileid": 99,
         "author": "Apuleius",
         "title":  "de Deo Socratis",
@@ -910,86 +1056,94 @@ FILE_TAB = {
         "author": "St. Thomas Aquinas",
         "title":  "Summa Theologica, Quaestio LXXXII ",
     },
-    "aquinas/q1.83.txt":                       {
+    "aquinas/q1.83.txt":                     {
         "fileid": 198,
         "author": "St. Thomas Aquinas",
         "title":  "Summa Theologica, Quaestio LXXXIII ",
     },
-    "aquinas/q1.86.txt":                       {
+    "aquinas/q1.86.txt":                     {
         "fileid": 199,
         "author": "St. Thomas Aquinas",
         "title":  "Summa Theologica, Quaestio LXXXVI ",
     },
-    "aquinas/q1.87.txt":                       {
+    "aquinas/q1.87.txt":                     {
         "fileid": 200,
         "author": "St. Thomas Aquinas",
         "title":  "Summa Theologica, Quaestio LXXXVII ",
     },
-    "aquinas/q1.9.txt":                        {
+    "aquinas/q1.9.txt":                      {
         "fileid": 201,
         "author": "St. Thomas Aquinas",
         "title":  "Summa Theologica, Prima Pars Quaestio IX ",
     },
-    "arbroath.txt":                            {"fileid": 202, "author": None, "title": "Declaration of Arbroath"},
-    "archpoet.txt":                            {"fileid": 203, "author": None, "title": "Archpoeta"},
-    "arnobius/arnobius1.txt":                  {
+    "arbroath.txt":                          {
+        "fileid": 202,
+        "author": None,
+        "title":  "Declaration of Arbroath",
+    },
+    "archpoet.txt":                          {"fileid": 203, "author": None, "title": "Archpoeta"},
+    "arnobius/arnobius1.txt":                {
         "fileid": 204,
         "author": "Arnobius",
         "title":  "Adversus Nationes Liber I",
     },
-    "arnobius/arnobius2.txt":                  {
+    "arnobius/arnobius2.txt":                {
         "fileid": 205,
         "author": "Arnobius",
         "title":  "Adversus Nationes Liber II",
     },
-    "arnobius/arnobius3.txt":                  {
+    "arnobius/arnobius3.txt":                {
         "fileid": 206,
         "author": "Arnobius",
         "title":  "Adversus Nationes Liber III",
     },
-    "arnobius/arnobius4.txt":                  {
+    "arnobius/arnobius4.txt":                {
         "fileid": 207,
         "author": "Arnobius",
         "title":  "Adversus Nationes Liber IV",
     },
-    "arnobius/arnobius5.txt":                  {
+    "arnobius/arnobius5.txt":                {
         "fileid": 208,
         "author": "Arnobius",
         "title":  "Adversus Nationes Liber V",
     },
-    "arnobius/arnobius6.txt":                  {
+    "arnobius/arnobius6.txt":                {
         "fileid": 209,
         "author": "Arnobius",
         "title":  "Adversus Nationes Liber VI",
     },
-    "arnobius/arnobius7.txt":                  {
+    "arnobius/arnobius7.txt":                {
         "fileid": 210,
         "author": "Arnobius",
         "title":  "Adversus Nationes Liber VII",
     },
-    "arnulf.txt":                              {
+    "arnulf.txt":                            {
         "fileid": 211,
         "author": "Arnulf of Lisieux",
         "title":  "De Nativitate Domini",
     },
-    "asconius.txt":                            {"fileid": 212, "author": None, "title": "Asconius"},
-    "asserius.txt":                            {"fileid": 213, "author": "Asserius", "title": "Life of Alfred"},
-    "augustine/catechizandis.txt":             {
+    "asconius.txt":                          {"fileid": 212, "author": None, "title": "Asconius"},
+    "asserius.txt":                          {
+        "fileid": 213,
+        "author": "Asserius",
+        "title":  "Life of Alfred",
+    },
+    "augustine/catechizandis.txt":           {
         "fileid": 214,
         "author": "Augustinus",
         "title":  "de Catechizandis Rudibus",
     },
-    "augustine/civ1.txt":                      {
+    "augustine/civ1.txt":                    {
         "fileid": 215,
         "author": "Augustine",
         "title":  "De Civitate Dei Liber I",
     },
-    "augustine/civ10.txt":                     {
+    "augustine/civ10.txt":                   {
         "fileid": 216,
         "author": "Augustine",
         "title":  "De Civitate Dei Liber X",
     },
-    "augustine/civ11.txt":                     {
+    "augustine/civ11.txt":                   {
         "fileid": 217,
         "author": "Augustine",
         "title":  "De Civitate Dei Liber XI",
@@ -1139,64 +1293,72 @@ FILE_TAB = {
         "author": "Augustine",
         "title":  "Confessions VI",
     },
-    "augustine/conf7.txt":                     {
+    "augustine/conf7.txt":                   {
         "fileid": 247,
         "author": "Augustine",
         "title":  "Confessions VII",
     },
-    "augustine/conf8.txt":                     {
+    "augustine/conf8.txt":                   {
         "fileid": 248,
         "author": "Augustine",
         "title":  "Confessions VIII",
     },
-    "augustine/conf9.txt":                     {
+    "augustine/conf9.txt":                   {
         "fileid": 249,
         "author": "Augustine",
         "title":  "Confessions IX",
     },
-    "augustine/dia.txt":                       {
+    "augustine/dia.txt":                     {
         "fileid": 250,
         "author": "Augustine",
         "title":  "de Dialectica",
     },
-    "augustine/epistula.txt":                  {"fileid": 251, "author": None, "title": "Augustine"},
-    "augustine/fide.txt":                      {
+    "augustine/epistula.txt":                {
+        "fileid": 251,
+        "author": None,
+        "title":  "Augustine",
+    },
+    "augustine/fide.txt":                    {
         "fileid": 252,
         "author": "Augustine",
         "title":  "de Fide et Symbolo",
     },
-    "augustine/iulianus1.txt":                 {
+    "augustine/iulianus1.txt":               {
         "fileid": 253,
         "author": None,
         "title":  "St. Augustine",
     },
-    "augustine/iulianus2.txt":                 {
+    "augustine/iulianus2.txt":               {
         "fileid": 254,
         "author": None,
         "title":  "St. Augustine",
     },
-    "augustine/reg.txt":                       {
+    "augustine/reg.txt":                     {
         "fileid": 255,
         "author": None,
         "title":  "Rule of St. Augustine",
     },
-    "augustine/serm1.txt":                     {"fileid": 256, "author": "Augustine", "title": "Sermon 1"},
-    "augustine/serm10.txt":                    {
+    "augustine/serm1.txt":                   {
+        "fileid": 256,
+        "author": "Augustine",
+        "title":  "Sermon 1",
+    },
+    "augustine/serm10.txt":                  {
         "fileid": 257,
         "author": "Augustine",
         "title":  "Sermon 10",
     },
-    "augustine/serm11.txt":                    {
+    "augustine/serm11.txt":                  {
         "fileid": 258,
         "author": "Augustine",
         "title":  "Sermon 11",
     },
-    "augustine/serm12.txt":                    {
+    "augustine/serm12.txt":                  {
         "fileid": 259,
         "author": "Augustine",
         "title":  "Sermon 12",
     },
-    "augustine/serm13.txt":                    {
+    "augustine/serm13.txt":                  {
         "fileid": 260,
         "author": "Augustine",
         "title":  "Sermon 13",
@@ -1211,52 +1373,72 @@ FILE_TAB = {
         "author": "Augustine",
         "title":  "Sermon 15",
     },
-    "augustine/serm16.txt":                    {
+    "augustine/serm16.txt":                  {
         "fileid": 263,
         "author": "Augustine",
         "title":  "Sermon 16",
     },
-    "augustine/serm17.txt":                    {
+    "augustine/serm17.txt":                  {
         "fileid": 264,
         "author": "Augustine",
         "title":  "Sermon 17",
     },
-    "augustine/serm18.txt":                    {
+    "augustine/serm18.txt":                  {
         "fileid": 265,
         "author": "Augustine",
         "title":  "Sermon 18",
     },
-    "augustine/serm19.txt":                    {
+    "augustine/serm19.txt":                  {
         "fileid": 266,
         "author": "Augustine",
         "title":  "Sermon 19",
     },
-    "augustine/serm2.txt":                     {"fileid": 267, "author": "Augustine", "title": "Sermon 2"},
-    "augustine/serm20.txt":                    {
+    "augustine/serm2.txt":                   {
+        "fileid": 267,
+        "author": "Augustine",
+        "title":  "Sermon 2",
+    },
+    "augustine/serm20.txt":                  {
         "fileid": 268,
         "author": "Augustine",
         "title":  "Sermon 20",
     },
-    "augustine/serm4.txt":                     {"fileid": 269, "author": "Augustine", "title": "Sermon 4"},
-    "augustine/serm5.txt":                     {"fileid": 270, "author": "Augustine", "title": "Sermon 5"},
-    "augustine/serm6.txt":                     {"fileid": 271, "author": "Augustine", "title": "Sermon 6"},
-    "augustine/serm7.txt":                     {"fileid": 272, "author": "Augustine", "title": "Sermon 7"},
-    "augustine/serm71.txt":                    {
+    "augustine/serm4.txt":                   {
+        "fileid": 269,
+        "author": "Augustine",
+        "title":  "Sermon 4",
+    },
+    "augustine/serm5.txt":                   {
+        "fileid": 270,
+        "author": "Augustine",
+        "title":  "Sermon 5",
+    },
+    "augustine/serm6.txt":                   {
+        "fileid": 271,
+        "author": "Augustine",
+        "title":  "Sermon 6",
+    },
+    "augustine/serm7.txt":                   {
+        "fileid": 272,
+        "author": "Augustine",
+        "title":  "Sermon 7",
+    },
+    "augustine/serm71.txt":                  {
         "fileid": 273,
         "author": "Augustine",
         "title":  "Sermon 71",
     },
-    "augustine/serm72.txt":                    {
+    "augustine/serm72.txt":                  {
         "fileid": 274,
         "author": "Augustine",
         "title":  "Sermon 72",
     },
-    "augustine/serm73.txt":                    {
+    "augustine/serm73.txt":                  {
         "fileid": 275,
         "author": "Augustine",
         "title":  "Sermon 73",
     },
-    "augustine/serm74.txt":                    {
+    "augustine/serm74.txt":                  {
         "fileid": 276,
         "author": "Augustine",
         "title":  "Sermon 74",
@@ -1266,74 +1448,82 @@ FILE_TAB = {
         "author": "Augustine",
         "title":  "Sermon 75",
     },
-    "augustine/serm76.txt":                    {
+    "augustine/serm76.txt":                  {
         "fileid": 278,
         "author": "Augustine",
         "title":  "Sermon 76",
     },
-    "augustine/serm77.txt":                    {
+    "augustine/serm77.txt":                  {
         "fileid": 279,
         "author": "Augustine",
         "title":  "Sermon 77",
     },
-    "augustine/serm78.txt":                    {
+    "augustine/serm78.txt":                  {
         "fileid": 280,
         "author": "Augustine",
         "title":  "Sermon 78",
     },
-    "augustine/serm79.txt":                    {
+    "augustine/serm79.txt":                  {
         "fileid": 281,
         "author": "Augustine",
         "title":  "Sermon 79",
     },
-    "augustine/serm8.txt":                     {"fileid": 282, "author": "Augustine", "title": "Sermon 8"},
-    "augustine/serm80.txt":                    {
+    "augustine/serm8.txt":                   {
+        "fileid": 282,
+        "author": "Augustine",
+        "title":  "Sermon 8",
+    },
+    "augustine/serm80.txt":                  {
         "fileid": 283,
         "author": "Augustine",
         "title":  "Sermon 80",
     },
-    "augustine/serm81.txt":                    {
+    "augustine/serm81.txt":                  {
         "fileid": 284,
         "author": "Augustine",
         "title":  "Sermon 81",
     },
-    "augustine/serm82.txt":                    {
+    "augustine/serm82.txt":                  {
         "fileid": 285,
         "author": "Augustine",
         "title":  "Sermon 82",
     },
-    "augustine/serm83.txt":                    {
+    "augustine/serm83.txt":                  {
         "fileid": 286,
         "author": "Augustine",
         "title":  "Sermon 83",
     },
-    "augustine/serm87.txt":                    {
+    "augustine/serm87.txt":                  {
         "fileid": 287,
         "author": "Augustine",
         "title":  "Sermon 87",
     },
-    "augustine/serm88.txt":                    {
+    "augustine/serm88.txt":                  {
         "fileid": 288,
         "author": "Augustine",
         "title":  "Sermon 88",
     },
-    "augustine/serm9.txt":                     {"fileid": 289, "author": "Augustine", "title": "Sermon 9"},
-    "augustine/serm90.txt":                    {
+    "augustine/serm9.txt":                   {
+        "fileid": 289,
+        "author": "Augustine",
+        "title":  "Sermon 9",
+    },
+    "augustine/serm90.txt":                  {
         "fileid": 290,
         "author": "Augustine",
         "title":  "Sermon 90",
     },
-    "augustine/serm92.txt":                    {
+    "augustine/serm92.txt":                  {
         "fileid": 291,
         "author": "Augustine",
         "title":  "Sermon 92",
     },
-    "augustine/serm95.txt":                    {
+    "augustine/serm95.txt":                  {
         "fileid": 292,
         "author": "Augustine",
         "title":  "Sermon 95",
     },
-    "augustine/serm99.txt":                    {
+    "augustine/serm99.txt":                  {
         "fileid": 293,
         "author": "Augustine",
         "title":  "Sermon 99",
@@ -1398,58 +1588,66 @@ FILE_TAB = {
         "author": "Augustinus",
         "title":  "de Trinitate Liber VI",
     },
-    "augustine/trin7.txt":                     {
+    "augustine/trin7.txt":                   {
         "fileid": 306,
         "author": "Augustinus",
         "title":  "de Trinitate Liber VII",
     },
-    "augustine/trin8.txt":                     {
+    "augustine/trin8.txt":                   {
         "fileid": 307,
         "author": "Augustinus",
         "title":  "de Trinitate Liber VIII",
     },
-    "augustine/trin9.txt":                     {
+    "augustine/trin9.txt":                   {
         "fileid": 308,
         "author": "Augustinus",
         "title":  "de Trinitate Liber IX",
     },
-    "aus.mos.txt":                             {"fileid": 309, "author": "Ausonius", "title": "Mosella"},
-    "aus.sept.sent.txt":                       {
+    "aus.mos.txt":                           {"fileid": 309, "author": "Ausonius", "title": "Mosella"},
+    "aus.sept.sent.txt":                     {
         "fileid": 310,
         "author": "Ausonius",
         "title":  "Septem Sapientum Sententiae",
     },
-    "ave.phoen.txt":                           {"fileid": 311, "author": None, "title": "Phoenix"},
-    "avianus.txt":                             {"fileid": 312, "author": "Avianus", "title": "Fabulae"},
-    "avienus.ora.txt":                         {"fileid": 313, "author": "Avienus", "title": "Ora Maritima"},
-    "avienus.periegesis.txt":                  {
+    "ave.phoen.txt":                         {"fileid": 311, "author": None, "title": "Phoenix"},
+    "avianus.txt":                           {"fileid": 312, "author": "Avianus", "title": "Fabulae"},
+    "avienus.ora.txt":                       {
+        "fileid": 313,
+        "author": "Avienus",
+        "title":  "Ora Maritima",
+    },
+    "avienus.periegesis.txt":                {
         "fileid": 314,
         "author": "Avienus",
         "title":  "Periegesis",
     },
-    "axio.txt":                                {"fileid": 315, "author": None, "title": "Pseudo-Plato "},
-    "bacon/bacon.distributio.txt":             {
+    "axio.txt":                              {"fileid": 315, "author": None, "title": "Pseudo-Plato "},
+    "bacon/bacon.distributio.txt":           {
         "fileid": 316,
         "author": "Bacon",
         "title":  "Distributio",
     },
-    "bacon/bacon.epistola.txt":                {"fileid": 317, "author": "Bacon", "title": "Epistola"},
-    "bacon/bacon.hist1.txt":                   {
+    "bacon/bacon.epistola.txt":              {
+        "fileid": 317,
+        "author": "Bacon",
+        "title":  "Epistola",
+    },
+    "bacon/bacon.hist1.txt":                 {
         "fileid": 318,
         "author": "Bacon",
         "title":  "History of the Reign of Henry VII",
     },
-    "bacon/bacon.hist10.txt":                  {
+    "bacon/bacon.hist10.txt":                {
         "fileid": 319,
         "author": "Bacon",
         "title":  "History of the Reign of Henry VII",
     },
-    "bacon/bacon.hist11.txt":                  {
+    "bacon/bacon.hist11.txt":                {
         "fileid": 320,
         "author": "Bacon",
         "title":  "History of the Reign of Henry VII",
     },
-    "bacon/bacon.hist2.txt":                   {
+    "bacon/bacon.hist2.txt":                 {
         "fileid": 321,
         "author": "Bacon",
         "title":  "History of the Reign of Henry VII",
@@ -1509,290 +1707,446 @@ FILE_TAB = {
         "author": "Bacon",
         "title":  "Praefatio",
     },
-    "bacon/bacon.praefatio2.txt":              {
+    "bacon/bacon.praefatio2.txt":            {
         "fileid": 333,
         "author": "Bacon",
         "title":  "Praefatio ",
     },
-    "bacon/bacon.sermones.txt":                {
+    "bacon/bacon.sermones.txt":              {
         "fileid": 334,
         "author": "Francis Bacon",
         "title":  "Sermones Fideles sive Interiora Rerum",
     },
-    "bacon/bacon.titlepage.txt":               {
+    "bacon/bacon.titlepage.txt":             {
         "fileid": 335,
         "author": "Bacon",
         "title":  "Title Page",
     },
-    "balbus.txt":                              {"fileid": 336, "author": None, "title": "Balbus"},
-    "balde1.txt":                              {"fileid": 337, "author": "Balde", "title": "Melancholia"},
-    "balde2.txt":                              {
+    "balbus.txt":                            {"fileid": 336, "author": None, "title": "Balbus"},
+    "balde1.txt":                            {"fileid": 337, "author": "Balde", "title": "Melancholia"},
+    "balde2.txt":                            {
         "fileid": 338,
         "author": "Balde",
         "title":  "Ad Iulium Orstenam de more unguendorum cadaverum",
     },
-    "baldo.txt":                               {"fileid": 339, "author": "Baldo", "title": "Novus Aesopus"},
-    "bebel.txt":                               {"fileid": 340, "author": "Bebel", "title": "Liber Facetiarum"},
-    "bede/bede1.txt":                          {"fileid": 341, "author": "Bede", "title": "Book I"},
-    "bede/bede2.txt":                          {"fileid": 342, "author": "Bede", "title": "Book II"},
-    "bede/bede3.txt":                          {"fileid": 343, "author": "Bede", "title": "Book III"},
-    "bede/bede4.txt":                          {"fileid": 344, "author": "Bede", "title": "Book IV"},
-    "bede/bede5.txt":                          {"fileid": 345, "author": "Bede", "title": "Book V"},
-    "bede/bedecontinuatio.txt":                {
+    "baldo.txt":                             {"fileid": 339, "author": "Baldo", "title": "Novus Aesopus"},
+    "bebel.txt":                             {
+        "fileid": 340,
+        "author": "Bebel",
+        "title":  "Liber Facetiarum",
+    },
+    "bede/bede1.txt":                        {"fileid": 341, "author": "Bede", "title": "Book I"},
+    "bede/bede2.txt":                        {"fileid": 342, "author": "Bede", "title": "Book II"},
+    "bede/bede3.txt":                        {"fileid": 343, "author": "Bede", "title": "Book III"},
+    "bede/bede4.txt":                        {"fileid": 344, "author": "Bede", "title": "Book IV"},
+    "bede/bede5.txt":                        {"fileid": 345, "author": "Bede", "title": "Book V"},
+    "bede/bedecontinuatio.txt":              {
         "fileid": 346,
         "author": "[Bede",
         "title":  "Continuatio]",
     },
-    "bede/bedepraef.txt":                      {"fileid": 347, "author": "Bede", "title": "Praefatio"},
-    "bede/bedeproverbs.txt":                   {
+    "bede/bedepraef.txt":                    {
+        "fileid": 347,
+        "author": "Bede",
+        "title":  "Praefatio",
+    },
+    "bede/bedeproverbs.txt":                 {
         "fileid": 348,
         "author": "Psuedo-Bede",
         "title":  "Proverbs",
     },
-    "benedict.txt":                            {"fileid": 349, "author": None, "title": "Rule of St. Benedict"},
-    "berengar.txt":                            {"fileid": 350, "author": "Berengar", "title": "Apologeticus"},
-    "bernardcluny1.txt":                       {
+    "benedict.txt":                          {
+        "fileid": 349,
+        "author": None,
+        "title":  "Rule of St. Benedict",
+    },
+    "berengar.txt":                          {
+        "fileid": 350,
+        "author": "Berengar",
+        "title":  "Apologeticus",
+    },
+    "bernardcluny1.txt":                     {
         "fileid": 351,
         "author": "Bernard of Cluny",
         "title":  "De contemptu mundi I",
     },
-    "bernardcluny2.txt":                       {
+    "bernardcluny2.txt":                     {
         "fileid": 352,
         "author": "Bernard of Cluny",
         "title":  "De contemptu mundi II",
     },
-    "bible/acts.txt":                          {"fileid": 353, "author": "Vulgate", "title": "Acts"},
-    "bible/amos.txt":                          {"fileid": 354, "author": "Vulgate", "title": "Amos "},
-    "bible/baruch.txt":                        {"fileid": 355, "author": "Vulgate", "title": "Baruch "},
-    "bible/chronicles1.txt":                   {
+    "bible/acts.txt":                        {"fileid": 353, "author": "Vulgate", "title": "Acts"},
+    "bible/amos.txt":                        {"fileid": 354, "author": "Vulgate", "title": "Amos "},
+    "bible/baruch.txt":                      {
+        "fileid": 355,
+        "author": "Vulgate",
+        "title":  "Baruch ",
+    },
+    "bible/chronicles1.txt":                 {
         "fileid": 356,
         "author": "Vulgate",
         "title":  "First Chronicles ",
     },
-    "bible/chronicles2.txt":                   {
+    "bible/chronicles2.txt":                 {
         "fileid": 357,
         "author": "Vulgate",
         "title":  "Second Chronicles ",
     },
-    "bible/colossians.txt":                    {
+    "bible/colossians.txt":                  {
         "fileid": 358,
         "author": "Vulgate",
         "title":  "Paul to the Colossians ",
     },
-    "bible/corinthians1.txt":                  {
+    "bible/corinthians1.txt":                {
         "fileid": 359,
         "author": "Vulgate",
         "title":  "Paul to the Corinthians I ",
     },
-    "bible/corinthians2.txt":                  {
+    "bible/corinthians2.txt":                {
         "fileid": 360,
         "author": "Vulgate",
         "title":  "Paul to the Corinthians II ",
     },
-    "bible/daniel.txt":                        {"fileid": 361, "author": "Vulgate", "title": "Daniel "},
-    "bible/deuteronomy.txt":                   {
+    "bible/daniel.txt":                      {
+        "fileid": 361,
+        "author": "Vulgate",
+        "title":  "Daniel ",
+    },
+    "bible/deuteronomy.txt":                 {
         "fileid": 362,
         "author": "Vulgate",
         "title":  "Deuteronomy ",
     },
-    "bible/ecclesiastes.txt":                  {
+    "bible/ecclesiastes.txt":                {
         "fileid": 363,
         "author": "Vulgate",
         "title":  "Ecclesiastes ",
     },
-    "bible/ephesians.txt":                     {
+    "bible/ephesians.txt":                   {
         "fileid": 364,
         "author": "Vulgate",
         "title":  "Paul to the Ephesians ",
     },
-    "bible/esdras1.txt":                       {
+    "bible/esdras1.txt":                     {
         "fileid": 365,
         "author": "Vulgate",
         "title":  "First Book of Esdras ",
     },
-    "bible/esdras2.txt":                       {
+    "bible/esdras2.txt":                     {
         "fileid": 366,
         "author": "Vulgate",
         "title":  "Second Book of Esdras ",
     },
-    "bible/esther.txt":                        {"fileid": 367, "author": "Vulgate", "title": "Esther "},
-    "bible/exodus.txt":                        {"fileid": 368, "author": "Vulgate", "title": "Exodus"},
-    "bible/ezekiel.txt":                       {"fileid": 369, "author": "Vulgate", "title": "Ezekiel "},
-    "bible/ezra.txt":                          {"fileid": 370, "author": "Vulgate", "title": "Ezra "},
-    "bible/galatians.txt":                     {
+    "bible/esther.txt":                      {
+        "fileid": 367,
+        "author": "Vulgate",
+        "title":  "Esther ",
+    },
+    "bible/exodus.txt":                      {
+        "fileid": 368,
+        "author": "Vulgate",
+        "title":  "Exodus",
+    },
+    "bible/ezekiel.txt":                     {
+        "fileid": 369,
+        "author": "Vulgate",
+        "title":  "Ezekiel ",
+    },
+    "bible/ezra.txt":                        {"fileid": 370, "author": "Vulgate", "title": "Ezra "},
+    "bible/galatians.txt":                   {
         "fileid": 371,
         "author": "Vulgate",
         "title":  "Paul to the Galatians ",
     },
-    "bible/genesis.txt":                       {"fileid": 372, "author": "Vulgate", "title": "Genesis"},
-    "bible/habakkuk.txt":                      {"fileid": 373, "author": "Vulgate", "title": "Habakkuk "},
-    "bible/haggai.txt":                        {"fileid": 374, "author": "Vulgate", "title": "Haggai "},
-    "bible/hebrews.txt":                       {
+    "bible/genesis.txt":                     {
+        "fileid": 372,
+        "author": "Vulgate",
+        "title":  "Genesis",
+    },
+    "bible/habakkuk.txt":                    {
+        "fileid": 373,
+        "author": "Vulgate",
+        "title":  "Habakkuk ",
+    },
+    "bible/haggai.txt":                      {
+        "fileid": 374,
+        "author": "Vulgate",
+        "title":  "Haggai ",
+    },
+    "bible/hebrews.txt":                     {
         "fileid": 375,
         "author": "Vulgate",
         "title":  "Letter to Hebrews ",
     },
-    "bible/hosea.txt":                         {"fileid": 376, "author": "Vulgate", "title": "Hosea "},
-    "bible/isaiah.txt":                        {"fileid": 377, "author": "Vulgate", "title": "Isaiah "},
-    "bible/james.txt":                         {
+    "bible/hosea.txt":                       {"fileid": 376, "author": "Vulgate", "title": "Hosea "},
+    "bible/isaiah.txt":                      {
+        "fileid": 377,
+        "author": "Vulgate",
+        "title":  "Isaiah ",
+    },
+    "bible/james.txt":                       {
         "fileid": 378,
         "author": "Vulgate",
         "title":  "A Letter to James ",
     },
-    "bible/jeremiah.txt":                      {"fileid": 379, "author": "Vulgate", "title": "Jeremiah "},
-    "bible/job.txt":                           {"fileid": 380, "author": "Vulgate", "title": "Job "},
-    "bible/joel.txt":                          {"fileid": 381, "author": "Vulgate", "title": "Joel "},
-    "bible/john.txt":                          {"fileid": 382, "author": "Vulgate", "title": "John "},
-    "bible/john1.txt":                         {"fileid": 383, "author": None, "title": "John 1 "},
-    "bible/john2.txt":                         {"fileid": 384, "author": None, "title": "John 2 "},
-    "bible/john3.txt":                         {"fileid": 385, "author": None, "title": "John 3 "},
-    "bible/jonah.txt":                         {"fileid": 386, "author": "Vulgate", "title": "Jonah "},
-    "bible/joshua.txt":                        {"fileid": 387, "author": "Vulgate", "title": "Joshua "},
-    "bible/jude.txt":                          {"fileid": 388, "author": "Vulgate", "title": "Letter of Jude "},
-    "bible/judges.txt":                        {"fileid": 389, "author": "Vulgate", "title": "Judges "},
-    "bible/judith.txt":                        {"fileid": 390, "author": "Vulgate", "title": "Judith "},
-    "bible/kings1.txt":                        {"fileid": 391, "author": "Vulgate", "title": "Kings I "},
-    "bible/kings2.txt":                        {"fileid": 392, "author": "Vulgate", "title": "Kings II "},
-    "bible/lamentations.txt":                  {
+    "bible/jeremiah.txt":                    {
+        "fileid": 379,
+        "author": "Vulgate",
+        "title":  "Jeremiah ",
+    },
+    "bible/job.txt":                         {"fileid": 380, "author": "Vulgate", "title": "Job "},
+    "bible/joel.txt":                        {"fileid": 381, "author": "Vulgate", "title": "Joel "},
+    "bible/john.txt":                        {"fileid": 382, "author": "Vulgate", "title": "John "},
+    "bible/john1.txt":                       {"fileid": 383, "author": None, "title": "John 1 "},
+    "bible/john2.txt":                       {"fileid": 384, "author": None, "title": "John 2 "},
+    "bible/john3.txt":                       {"fileid": 385, "author": None, "title": "John 3 "},
+    "bible/jonah.txt":                       {"fileid": 386, "author": "Vulgate", "title": "Jonah "},
+    "bible/joshua.txt":                      {
+        "fileid": 387,
+        "author": "Vulgate",
+        "title":  "Joshua ",
+    },
+    "bible/jude.txt":                        {
+        "fileid": 388,
+        "author": "Vulgate",
+        "title":  "Letter of Jude ",
+    },
+    "bible/judges.txt":                      {
+        "fileid": 389,
+        "author": "Vulgate",
+        "title":  "Judges ",
+    },
+    "bible/judith.txt":                      {
+        "fileid": 390,
+        "author": "Vulgate",
+        "title":  "Judith ",
+    },
+    "bible/kings1.txt":                      {
+        "fileid": 391,
+        "author": "Vulgate",
+        "title":  "Kings I ",
+    },
+    "bible/kings2.txt":                      {
+        "fileid": 392,
+        "author": "Vulgate",
+        "title":  "Kings II ",
+    },
+    "bible/lamentations.txt":                {
         "fileid": 393,
         "author": "Vulgate",
         "title":  "Lamentations ",
     },
-    "bible/leviticus.txt":                     {"fileid": 394, "author": "Vulgate", "title": "Leviticus "},
-    "bible/luke.txt":                          {"fileid": 395, "author": "Vulgate", "title": "Luke "},
-    "bible/macabees1.txt":                     {
+    "bible/leviticus.txt":                   {
+        "fileid": 394,
+        "author": "Vulgate",
+        "title":  "Leviticus ",
+    },
+    "bible/luke.txt":                        {"fileid": 395, "author": "Vulgate", "title": "Luke "},
+    "bible/macabees1.txt":                   {
         "fileid": 396,
         "author": "Vulgate",
         "title":  "First Book of Macabees ",
     },
-    "bible/macabees2.txt":                     {
+    "bible/macabees2.txt":                   {
         "fileid": 397,
         "author": "Vulgate",
         "title":  "Second Book of Macabees ",
     },
-    "bible/malachias.txt":                     {"fileid": 398, "author": "Vulgate", "title": "Malachias "},
-    "bible/manasses.txt":                      {
+    "bible/malachias.txt":                   {
+        "fileid": 398,
+        "author": "Vulgate",
+        "title":  "Malachias ",
+    },
+    "bible/manasses.txt":                    {
         "fileid": 399,
         "author": "Vulgate",
         "title":  "Prayer of Manasses ",
     },
-    "bible/mark.txt":                          {"fileid": 400, "author": None, "title": "Gospel of Mark "},
-    "bible/matthew.txt":                       {"fileid": 401, "author": ">Vulgate", "title": "Matthew"},
-    "bible/micah.txt":                         {"fileid": 402, "author": "Vulgate", "title": "Micah "},
-    "bible/nahum.txt":                         {"fileid": 403, "author": "Vulgate", "title": "Nahum "},
-    "bible/nehemiah.txt":                      {"fileid": 404, "author": "Vulgate", "title": "Nehemiah "},
-    "bible/numbers.txt":                       {"fileid": 405, "author": "Vulgate", "title": "Numbers "},
-    "bible/obadiah.txt":                       {"fileid": 406, "author": "Vulgate", "title": "Obadiah "},
-    "bible/peter1.txt":                        {
+    "bible/mark.txt":                        {
+        "fileid": 400,
+        "author": None,
+        "title":  "Gospel of Mark ",
+    },
+    "bible/matthew.txt":                     {
+        "fileid": 401,
+        "author": ">Vulgate",
+        "title":  "Matthew",
+    },
+    "bible/micah.txt":                       {"fileid": 402, "author": "Vulgate", "title": "Micah "},
+    "bible/nahum.txt":                       {"fileid": 403, "author": "Vulgate", "title": "Nahum "},
+    "bible/nehemiah.txt":                    {
+        "fileid": 404,
+        "author": "Vulgate",
+        "title":  "Nehemiah ",
+    },
+    "bible/numbers.txt":                     {
+        "fileid": 405,
+        "author": "Vulgate",
+        "title":  "Numbers ",
+    },
+    "bible/obadiah.txt":                     {
+        "fileid": 406,
+        "author": "Vulgate",
+        "title":  "Obadiah ",
+    },
+    "bible/peter1.txt":                      {
         "fileid": 407,
         "author": "Vulgate",
         "title":  "First Letter of Peter ",
     },
-    "bible/peter2.txt":                        {
+    "bible/peter2.txt":                      {
         "fileid": 408,
         "author": "Vulgate",
         "title":  "Second Letter of Peter ",
     },
-    "bible/philemon.txt":                      {
+    "bible/philemon.txt":                    {
         "fileid": 409,
         "author": "Vulgate",
         "title":  "Paul to Philemon ",
     },
-    "bible/philip.txt":                        {
+    "bible/philip.txt":                      {
         "fileid": 410,
         "author": None,
         "title":  "Epistula ad Philippenses ",
     },
-    "bible/prologi.txt":                       {"fileid": 411, "author": None, "title": "The Bible"},
-    "bible/proverbs.txt":                      {"fileid": 412, "author": "Vulgate", "title": "Proverbs "},
-    "bible/psalms.txt":                        {"fileid": 413, "author": "Vulgate", "title": "Psalms"},
-    "bible/revelation.txt":                    {
+    "bible/prologi.txt":                     {"fileid": 411, "author": None, "title": "The Bible"},
+    "bible/proverbs.txt":                    {
+        "fileid": 412,
+        "author": "Vulgate",
+        "title":  "Proverbs ",
+    },
+    "bible/psalms.txt":                      {
+        "fileid": 413,
+        "author": "Vulgate",
+        "title":  "Psalms",
+    },
+    "bible/revelation.txt":                  {
         "fileid": 414,
         "author": "Vulgate",
         "title":  "Revelation of John ",
     },
-    "bible/romans.txt":                        {
+    "bible/romans.txt":                      {
         "fileid": 415,
         "author": "Vulgate",
         "title":  "Paul to the Romans ",
     },
-    "bible/ruth.txt":                          {"fileid": 416, "author": "Vulgate", "title": "Ruth "},
-    "bible/samuel1.txt":                       {"fileid": 417, "author": "Vulgate", "title": "Samuel "},
-    "bible/samuel2.txt":                       {
+    "bible/ruth.txt":                        {"fileid": 416, "author": "Vulgate", "title": "Ruth "},
+    "bible/samuel1.txt":                     {
+        "fileid": 417,
+        "author": "Vulgate",
+        "title":  "Samuel ",
+    },
+    "bible/samuel2.txt":                     {
         "fileid": 418,
         "author": "Vulgate",
         "title":  "Second Samuel ",
     },
-    "bible/sirach.txt":                        {"fileid": 419, "author": "Vulgate", "title": "Sirach "},
-    "bible/songofsongs.txt":                   {
+    "bible/sirach.txt":                      {
+        "fileid": 419,
+        "author": "Vulgate",
+        "title":  "Sirach ",
+    },
+    "bible/songofsongs.txt":                 {
         "fileid": 420,
         "author": "Vulgate",
         "title":  "Song of Songs ",
     },
-    "bible/thessalonians1.txt":                {
+    "bible/thessalonians1.txt":              {
         "fileid": 421,
         "author": "Vulgate",
         "title":  "Paul to the Thessalonians I ",
     },
-    "bible/thessalonians2.txt":                {
+    "bible/thessalonians2.txt":              {
         "fileid": 422,
         "author": "Vulgate",
         "title":  "Paul to the Thessalonians II ",
     },
-    "bible/timothy1.txt":                      {
+    "bible/timothy1.txt":                    {
         "fileid": 423,
         "author": "Vulgate",
         "title":  "Paul to Timothy I ",
     },
-    "bible/timothy2.txt":                      {
+    "bible/timothy2.txt":                    {
         "fileid": 424,
         "author": "Vulgate",
         "title":  "Paul to Timothy II ",
     },
-    "bible/titum.txt":                         {"fileid": 425, "author": None, "title": "Epistula ad Titum "},
-    "bible/tobia.txt":                         {"fileid": 426, "author": "Vulgate", "title": "Tobias "},
-    "bible/wisdom.txt":                        {"fileid": 427, "author": "Vulgate", "title": "Wisdom "},
-    "bible/zacharias.txt":                     {"fileid": 428, "author": "Vulgate", "title": "Zacharias "},
-    "bible/zephaniah.txt":                     {"fileid": 429, "author": "Vulgate", "title": "Zephaniah "},
-    "biggs.txt":                               {
+    "bible/titum.txt":                       {
+        "fileid": 425,
+        "author": None,
+        "title":  "Epistula ad Titum ",
+    },
+    "bible/tobia.txt":                       {
+        "fileid": 426,
+        "author": "Vulgate",
+        "title":  "Tobias ",
+    },
+    "bible/wisdom.txt":                      {
+        "fileid": 427,
+        "author": "Vulgate",
+        "title":  "Wisdom ",
+    },
+    "bible/zacharias.txt":                   {
+        "fileid": 428,
+        "author": "Vulgate",
+        "title":  "Zacharias ",
+    },
+    "bible/zephaniah.txt":                   {
+        "fileid": 429,
+        "author": "Vulgate",
+        "title":  "Zephaniah ",
+    },
+    "biggs.txt":                             {
         "fileid": 430,
         "author": "Bigges",
         "title":  "Expeditio Francisci Draki Equitis Angli",
     },
-    "bill.rights.txt":                         {"fileid": 431, "author": None, "title": "Bill of Rights"},
-    "blesensis.txt":                           {"fileid": 432, "author": None, "title": "Petrus Blesensis"},
-    "boethiusdacia/deaeternitate.txt":         {
+    "bill.rights.txt":                       {
+        "fileid": 431,
+        "author": None,
+        "title":  "Bill of Rights",
+    },
+    "blesensis.txt":                         {
+        "fileid": 432,
+        "author": None,
+        "title":  "Petrus Blesensis",
+    },
+    "boethiusdacia/deaeternitate.txt":       {
         "fileid": 433,
         "author": None,
         "title":  "Boethius de Dacia",
     },
-    "boethiusdacia/desummobono.txt":           {
+    "boethiusdacia/desummobono.txt":         {
         "fileid": 434,
         "author": None,
         "title":  "Boethius de Dacia",
     },
-    "bonaventura.itinerarium.txt":             {
+    "bonaventura.itinerarium.txt":           {
         "fileid": 435,
         "author": None,
         "title":  "St. Bonaventure",
     },
-    "boskovic.txt":                            {"fileid": 436, "author": None, "title": "Bartolomej Boskovic"},
-    "brevechronicon.txt":                      {
+    "boskovic.txt":                          {
+        "fileid": 436,
+        "author": None,
+        "title":  "Bartolomej Boskovic",
+    },
+    "brevechronicon.txt":                    {
         "fileid": 437,
         "author": None,
         "title":  "Breve Chronicon Northmannicum",
     },
-    "buchanan.txt":                            {
+    "buchanan.txt":                          {
         "fileid": 438,
         "author": "Buchanan",
         "title":  "de Maria Scotorum Regina",
     },
-    "bultelius/bultelius1.txt":                {
+    "bultelius/bultelius1.txt":              {
         "fileid": 439,
         "author": "Bultelius",
         "title":  "Ad Noctem",
     },
-    "bultelius/bultelius2.txt":                {
+    "bultelius/bultelius2.txt":              {
         "fileid": 440,
         "author": "Bultelius",
         "title":  "Somnium",
@@ -1893,66 +2247,82 @@ FILE_TAB = {
         "author": "Campion",
         "title":  "Epigrams II",
     },
-    "campion/campion.misc.txt":                {
+    "campion/campion.misc.txt":              {
         "fileid": 461,
         "author": "Campion",
         "title":  "Miscellaneous Poetry",
     },
-    "campion/campion.plot1.txt":               {
+    "campion/campion.plot1.txt":             {
         "fileid": 462,
         "author": "Campion",
         "title":  "De Pulverea Coniuratione I",
     },
-    "campion/campion.plot2.txt":               {
+    "campion/campion.plot2.txt":             {
         "fileid": 463,
         "author": "Campion",
         "title":  "De Pulverea Coniuratione II",
     },
-    "campion/campion.thamesin.txt":            {
+    "campion/campion.thamesin.txt":          {
         "fileid": 464,
         "author": "Campion",
         "title":  "Ad Thamesin",
     },
-    "campion/campion.umbra.txt":               {"fileid": 465, "author": "Campion", "title": "Umbra"},
-    "capellanus/capellanus1.txt":              {
+    "campion/campion.umbra.txt":             {
+        "fileid": 465,
+        "author": "Campion",
+        "title":  "Umbra",
+    },
+    "capellanus/capellanus1.txt":            {
         "fileid": 466,
         "author": "Andreas Capellanus",
         "title":  "de Amore I",
     },
-    "capellanus/capellanus2.txt":              {
+    "capellanus/capellanus2.txt":            {
         "fileid": 467,
         "author": "Andreas Capellanus",
         "title":  "de Amore II",
     },
-    "capellanus/capellanus3.txt":              {
+    "capellanus/capellanus3.txt":            {
         "fileid": 468,
         "author": "Andreas Capellanus",
         "title":  "de Amore III",
     },
-    "carm.bur.txt":                            {"fileid": 469, "author": None, "title": "Carmina Burana "},
-    "carmenarvale.txt":                        {"fileid": 470, "author": None, "title": "Carmen Arvale"},
-    "carmeninvictoriam.txt":                   {
+    "carm.bur.txt":                          {
+        "fileid": 469,
+        "author": None,
+        "title":  "Carmina Burana ",
+    },
+    "carmenarvale.txt":                      {
+        "fileid": 470,
+        "author": None,
+        "title":  "Carmen Arvale",
+    },
+    "carmeninvictoriam.txt":                 {
         "fileid": 471,
         "author": None,
         "title":  "CARMEN IN VICTORIAM PISANORUM",
     },
-    "carmensaliare.txt":                       {"fileid": 472, "author": None, "title": "Carmen Saliare"},
-    "cassiodorus/anima.txt":                   {
+    "carmensaliare.txt":                     {
+        "fileid": 472,
+        "author": None,
+        "title":  "Carmen Saliare",
+    },
+    "cassiodorus/anima.txt":                 {
         "fileid": 473,
         "author": "Cassiodorus",
         "title":  "de Anima",
     },
-    "cassiodorus/epist.txt":                   {
+    "cassiodorus/epist.txt":                 {
         "fileid": 474,
         "author": "Cassiodorus",
         "title":  "Variae",
     },
-    "cassiodorus/musica.txt":                  {
+    "cassiodorus/musica.txt":                {
         "fileid": 475,
         "author": "Cassiodorus",
         "title":  "de Musica",
     },
-    "cassiodorus/orationes.txt":               {
+    "cassiodorus/orationes.txt":             {
         "fileid": 476,
         "author": "Cassiodorus",
         "title":  "Orationes",
@@ -2007,340 +2377,616 @@ FILE_TAB = {
         "author": "Cassiodorus",
         "title":  "Variae VI",
     },
-    "cassiodorus/varia7.txt":                  {
+    "cassiodorus/varia7.txt":                {
         "fileid": 487,
         "author": "Cassiodorus",
         "title":  "Variae VII",
     },
-    "cassiodorus/varia8.txt":                  {
+    "cassiodorus/varia8.txt":                {
         "fileid": 488,
         "author": "Cassiodorus",
         "title":  "Variae VIII",
     },
-    "cassiodorus/varia9.txt":                  {
+    "cassiodorus/varia9.txt":                {
         "fileid": 489,
         "author": "Cassiodorus",
         "title":  "Variae IX",
     },
-    "catalogueliberien.txt":                   {
+    "catalogueliberien.txt":                 {
         "fileid": 490,
         "author": None,
         "title":  "Catalogue Lib\u00e9rien",
     },
-    "cato.dis.txt":                            {"fileid": 491, "author": "[Cato]", "title": "Disticha Catonis"},
-    "cato/cato.agri.txt":                      {"fileid": 492, "author": "Cato", "title": "DE AGRI CVLTVRA"},
-    "cato/cato.frag.txt":                      {
+    "cato.dis.txt":                          {
+        "fileid": 491,
+        "author": "[Cato]",
+        "title":  "Disticha Catonis",
+    },
+    "cato/cato.agri.txt":                    {
+        "fileid": 492,
+        "author": "Cato",
+        "title":  "DE AGRI CVLTVRA",
+    },
+    "cato/cato.frag.txt":                    {
         "fileid": 493,
         "author": "Cato",
         "title":  "ORATIONVM M. PORCI CATONIS FRAGMENTA",
     },
-    "catullus.txt":                            {"fileid": 494, "author": "Catullus", "title": "Carmina"},
-    "celtis.odes.txt":                         {
+    "catullus.txt":                          {"fileid": 494, "author": "Catullus", "title": "Carmina"},
+    "celtis.odes.txt":                       {
         "fileid": 495,
         "author": "Conrad Celtis",
         "title":  "Odes   CONRADUS CELTIS: ODES    ",
     },
-    "celtis.oratio.txt":                       {"fileid": 496, "author": None, "title": ""},
-    "censorinus.txt":                          {
+    "celtis.oratio.txt":                     {"fileid": 496, "author": None, "title": ""},
+    "censorinus.txt":                        {
         "fileid": 497,
         "author": "Censorinus",
         "title":  "de Die Natali Liber",
     },
-    "cicero/acad.txt":                         {"fileid": 498, "author": "Cicero", "title": "Academica"},
-    "cicero/adbrutum1.txt":                    {"fileid": 499, "author": "Cicero", "title": "ad Brutum I"},
-    "cicero/adbrutum2.txt":                    {
+    "cicero/acad.txt":                       {
+        "fileid": 498,
+        "author": "Cicero",
+        "title":  "Academica",
+    },
+    "cicero/adbrutum1.txt":                  {
+        "fileid": 499,
+        "author": "Cicero",
+        "title":  "ad Brutum I",
+    },
+    "cicero/adbrutum2.txt":                  {
         "fileid": 500,
         "author": "Cicero",
         "title":  "ad Brutum II",
     },
-    "cicero/amic.txt":                         {"fileid": 501, "author": "Cicero", "title": "de Amicitia"},
-    "cicero/arch.txt":                         {"fileid": 502, "author": "Cicero", "title": "Pro Archia"},
-    "cicero/att1.txt":                         {"fileid": 503, "author": "Cicero", "title": "ad Atticum I"},
-    "cicero/att10.txt":                        {"fileid": 504, "author": "Cicero", "title": "ad Atticum X"},
-    "cicero/att11.txt":                        {"fileid": 505, "author": "Cicero", "title": "ad Atticum XI"},
-    "cicero/att12.txt":                        {"fileid": 506, "author": "Cicero", "title": "ad Atticum XII"},
-    "cicero/att13.txt":                        {"fileid": 507, "author": "Cicero", "title": "ad Atticum XIII"},
-    "cicero/att14.txt":                        {"fileid": 508, "author": "Cicero", "title": "ad Atticum XIV"},
-    "cicero/att15.txt":                        {"fileid": 509, "author": "Cicero", "title": "ad Atticum XV"},
-    "cicero/att16.txt":                        {"fileid": 510, "author": "Cicero", "title": "ad Atticum XVI"},
-    "cicero/att2.txt":                         {"fileid": 511, "author": "Cicero", "title": "ad Atticum II"},
-    "cicero/att3.txt":                         {"fileid": 512, "author": "Cicero", "title": "ad Atticum III"},
-    "cicero/att4.txt":                         {"fileid": 513, "author": "Cicero", "title": "ad Atticum IV"},
-    "cicero/att5.txt":                         {"fileid": 514, "author": "Cicero", "title": "ad Atticum V"},
-    "cicero/att6.txt":                         {"fileid": 515, "author": "Cicero", "title": "ad Atticum VI"},
-    "cicero/att7.txt":                         {"fileid": 516, "author": "Cicero", "title": "ad Atticum VII"},
-    "cicero/att8.txt":                         {"fileid": 517, "author": "Cicero", "title": "ad Atticum VIII"},
-    "cicero/att9.txt":                         {"fileid": 518, "author": "Cicero", "title": "ad Atticum IX"},
-    "cicero/balbo.txt":                        {
+    "cicero/amic.txt":                       {
+        "fileid": 501,
+        "author": "Cicero",
+        "title":  "de Amicitia",
+    },
+    "cicero/arch.txt":                       {
+        "fileid": 502,
+        "author": "Cicero",
+        "title":  "Pro Archia",
+    },
+    "cicero/att1.txt":                       {
+        "fileid": 503,
+        "author": "Cicero",
+        "title":  "ad Atticum I",
+    },
+    "cicero/att10.txt":                      {
+        "fileid": 504,
+        "author": "Cicero",
+        "title":  "ad Atticum X",
+    },
+    "cicero/att11.txt":                      {
+        "fileid": 505,
+        "author": "Cicero",
+        "title":  "ad Atticum XI",
+    },
+    "cicero/att12.txt":                      {
+        "fileid": 506,
+        "author": "Cicero",
+        "title":  "ad Atticum XII",
+    },
+    "cicero/att13.txt":                      {
+        "fileid": 507,
+        "author": "Cicero",
+        "title":  "ad Atticum XIII",
+    },
+    "cicero/att14.txt":                      {
+        "fileid": 508,
+        "author": "Cicero",
+        "title":  "ad Atticum XIV",
+    },
+    "cicero/att15.txt":                      {
+        "fileid": 509,
+        "author": "Cicero",
+        "title":  "ad Atticum XV",
+    },
+    "cicero/att16.txt":                      {
+        "fileid": 510,
+        "author": "Cicero",
+        "title":  "ad Atticum XVI",
+    },
+    "cicero/att2.txt":                       {
+        "fileid": 511,
+        "author": "Cicero",
+        "title":  "ad Atticum II",
+    },
+    "cicero/att3.txt":                       {
+        "fileid": 512,
+        "author": "Cicero",
+        "title":  "ad Atticum III",
+    },
+    "cicero/att4.txt":                       {
+        "fileid": 513,
+        "author": "Cicero",
+        "title":  "ad Atticum IV",
+    },
+    "cicero/att5.txt":                       {
+        "fileid": 514,
+        "author": "Cicero",
+        "title":  "ad Atticum V",
+    },
+    "cicero/att6.txt":                       {
+        "fileid": 515,
+        "author": "Cicero",
+        "title":  "ad Atticum VI",
+    },
+    "cicero/att7.txt":                       {
+        "fileid": 516,
+        "author": "Cicero",
+        "title":  "ad Atticum VII",
+    },
+    "cicero/att8.txt":                       {
+        "fileid": 517,
+        "author": "Cicero",
+        "title":  "ad Atticum VIII",
+    },
+    "cicero/att9.txt":                       {
+        "fileid": 518,
+        "author": "Cicero",
+        "title":  "ad Atticum IX",
+    },
+    "cicero/balbo.txt":                      {
         "fileid": 519,
         "author": "Cicero",
         "title":  "PRO L. CORNELIO BALBO ORATIO",
     },
-    "cicero/brut.txt":                         {"fileid": 520, "author": "Cicero", "title": "BRUTUS"},
-    "cicero/caecilium.txt":                    {
+    "cicero/brut.txt":                       {"fileid": 520, "author": "Cicero", "title": "BRUTUS"},
+    "cicero/caecilium.txt":                  {
         "fileid": 521,
         "author": "Cicero",
         "title":  "IN CAECILIUM ORATIO",
     },
-    "cicero/caecina.txt":                      {
+    "cicero/caecina.txt":                    {
         "fileid": 522,
         "author": "Cicero",
         "title":  "PRO A. CAECINA ORATIO",
     },
-    "cicero/cael.txt":                         {
+    "cicero/cael.txt":                       {
         "fileid": 523,
         "author": "Cicero",
         "title":  "PRO M. CAELIO ORATIO",
     },
-    "cicero/cat1.txt":                         {"fileid": 524, "author": "Cicero", "title": "In Catilinam I"},
-    "cicero/cat2.txt":                         {"fileid": 525, "author": "Cicero", "title": "In Catilinam II"},
-    "cicero/cat3.txt":                         {"fileid": 526, "author": "Cicero", "title": "In Catilinam III"},
-    "cicero/cat4.txt":                         {"fileid": 527, "author": "Cicero", "title": "In Catilinam IV"},
-    "cicero/cluentio.txt":                     {
+    "cicero/cat1.txt":                       {
+        "fileid": 524,
+        "author": "Cicero",
+        "title":  "In Catilinam I",
+    },
+    "cicero/cat2.txt":                       {
+        "fileid": 525,
+        "author": "Cicero",
+        "title":  "In Catilinam II",
+    },
+    "cicero/cat3.txt":                       {
+        "fileid": 526,
+        "author": "Cicero",
+        "title":  "In Catilinam III",
+    },
+    "cicero/cat4.txt":                       {
+        "fileid": 527,
+        "author": "Cicero",
+        "title":  "In Catilinam IV",
+    },
+    "cicero/cluentio.txt":                   {
         "fileid": 528,
         "author": "Cicero",
         "title":  "PRO A. CLVENTIO ORATIO",
     },
-    "cicero/compet.txt":                       {
+    "cicero/compet.txt":                     {
         "fileid": 529,
         "author": "Cicero",
         "title":  "COMMENTARIOLVM PETITIONIS",
     },
-    "cicero/consulatu.txt":                    {
+    "cicero/consulatu.txt":                  {
         "fileid": 530,
         "author": "Cicero",
         "title":  "DE CONSVLATV SVO FRAGMENTA",
     },
-    "cicero/deio.txt":                         {
+    "cicero/deio.txt":                       {
         "fileid": 531,
         "author": "Cicero",
         "title":  "PRO REGE DEIOTARO",
     },
-    "cicero/divinatione1.txt":                 {
+    "cicero/divinatione1.txt":               {
         "fileid": 532,
         "author": "Cicero",
         "title":  "DE DIVINATIONE LIBER PRIOR",
     },
-    "cicero/divinatione2.txt":                 {
+    "cicero/divinatione2.txt":               {
         "fileid": 533,
         "author": "Cicero",
         "title":  "DE DIVINATIONE LIBER ALTER",
     },
-    "cicero/domo.txt":                         {"fileid": 534, "author": "Cicero", "title": "DE DOMO SVA"},
-    "cicero/fam1.txt":                         {"fileid": 535, "author": "Cicero", "title": "ad Familiares I"},
-    "cicero/fam10.txt":                        {"fileid": 536, "author": "Cicero", "title": "ad Familiares X"},
-    "cicero/fam11.txt":                        {
+    "cicero/domo.txt":                       {
+        "fileid": 534,
+        "author": "Cicero",
+        "title":  "DE DOMO SVA",
+    },
+    "cicero/fam1.txt":                       {
+        "fileid": 535,
+        "author": "Cicero",
+        "title":  "ad Familiares I",
+    },
+    "cicero/fam10.txt":                      {
+        "fileid": 536,
+        "author": "Cicero",
+        "title":  "ad Familiares X",
+    },
+    "cicero/fam11.txt":                      {
         "fileid": 537,
         "author": "Cicero",
         "title":  "ad Familiares XI",
     },
-    "cicero/fam12.txt":                        {
+    "cicero/fam12.txt":                      {
         "fileid": 538,
         "author": "Cicero",
         "title":  "ad Familiares XII",
     },
-    "cicero/fam13.txt":                        {
+    "cicero/fam13.txt":                      {
         "fileid": 539,
         "author": "Cicero",
         "title":  "ad Familiares XIII",
     },
-    "cicero/fam14.txt":                        {
+    "cicero/fam14.txt":                      {
         "fileid": 540,
         "author": "Cicero",
         "title":  "ad Familiares XIV",
     },
-    "cicero/fam15.txt":                        {
+    "cicero/fam15.txt":                      {
         "fileid": 541,
         "author": "Cicero",
         "title":  "ad Familiares XV",
     },
-    "cicero/fam16.txt":                        {
+    "cicero/fam16.txt":                      {
         "fileid": 542,
         "author": "Cicero",
         "title":  "ad Familiares XVI",
     },
-    "cicero/fam2.txt":                         {"fileid": 543, "author": "Cicero", "title": "ad Familiares II"},
-    "cicero/fam3.txt":                         {
+    "cicero/fam2.txt":                       {
+        "fileid": 543,
+        "author": "Cicero",
+        "title":  "ad Familiares II",
+    },
+    "cicero/fam3.txt":                       {
         "fileid": 544,
         "author": "Cicero",
         "title":  "ad Familiares III",
     },
-    "cicero/fam4.txt":                         {"fileid": 545, "author": "Cicero", "title": "ad Familiares IV"},
-    "cicero/fam5.txt":                         {"fileid": 546, "author": "Cicero", "title": "ad Familiares V"},
-    "cicero/fam6.txt":                         {"fileid": 547, "author": "Cicero", "title": "ad Familiares VI"},
-    "cicero/fam7.txt":                         {
+    "cicero/fam4.txt":                       {
+        "fileid": 545,
+        "author": "Cicero",
+        "title":  "ad Familiares IV",
+    },
+    "cicero/fam5.txt":                       {
+        "fileid": 546,
+        "author": "Cicero",
+        "title":  "ad Familiares V",
+    },
+    "cicero/fam6.txt":                       {
+        "fileid": 547,
+        "author": "Cicero",
+        "title":  "ad Familiares VI",
+    },
+    "cicero/fam7.txt":                       {
         "fileid": 548,
         "author": "Cicero",
         "title":  "ad Familiares VII",
     },
-    "cicero/fam8.txt":                         {
+    "cicero/fam8.txt":                       {
         "fileid": 549,
         "author": "Cicero",
         "title":  "ad Familiares VIII",
     },
-    "cicero/fam9.txt":                         {"fileid": 550, "author": "Cicero", "title": "ad Familiares IX"},
-    "cicero/fato.txt":                         {"fileid": 551, "author": "Cicero", "title": "de Fato"},
-    "cicero/fin1.txt":                         {"fileid": 552, "author": "Cicero", "title": "de Finibus I"},
-    "cicero/fin2.txt":                         {"fileid": 553, "author": "Cicero", "title": "de Finibus II"},
-    "cicero/fin3.txt":                         {"fileid": 554, "author": "Cicero", "title": "de Finibus III"},
-    "cicero/fin4.txt":                         {"fileid": 555, "author": "Cicero", "title": "de Finibus IV"},
-    "cicero/fin5.txt":                         {"fileid": 556, "author": "Cicero", "title": "de Finibus V"},
-    "cicero/flacco.txt":                       {"fileid": 557, "author": "Cicero", "title": "PRO L. FLACCO"},
-    "cicero/fonteio.txt":                      {
+    "cicero/fam9.txt":                       {
+        "fileid": 550,
+        "author": "Cicero",
+        "title":  "ad Familiares IX",
+    },
+    "cicero/fato.txt":                       {"fileid": 551, "author": "Cicero", "title": "de Fato"},
+    "cicero/fin1.txt":                       {
+        "fileid": 552,
+        "author": "Cicero",
+        "title":  "de Finibus I",
+    },
+    "cicero/fin2.txt":                       {
+        "fileid": 553,
+        "author": "Cicero",
+        "title":  "de Finibus II",
+    },
+    "cicero/fin3.txt":                       {
+        "fileid": 554,
+        "author": "Cicero",
+        "title":  "de Finibus III",
+    },
+    "cicero/fin4.txt":                       {
+        "fileid": 555,
+        "author": "Cicero",
+        "title":  "de Finibus IV",
+    },
+    "cicero/fin5.txt":                       {
+        "fileid": 556,
+        "author": "Cicero",
+        "title":  "de Finibus V",
+    },
+    "cicero/flacco.txt":                     {
+        "fileid": 557,
+        "author": "Cicero",
+        "title":  "PRO L. FLACCO",
+    },
+    "cicero/fonteio.txt":                    {
         "fileid": 558,
         "author": "Cicero",
         "title":  "PRO PRO M. FONTEIO",
     },
-    "cicero/fratrem1.txt":                     {
+    "cicero/fratrem1.txt":                   {
         "fileid": 559,
         "author": "Cicero",
         "title":  "ad Quintum Fratrem I",
     },
-    "cicero/fratrem2.txt":                     {
+    "cicero/fratrem2.txt":                   {
         "fileid": 560,
         "author": "Cicero",
         "title":  "ad Quintum Fratrem II",
     },
-    "cicero/fratrem3.txt":                     {
+    "cicero/fratrem3.txt":                   {
         "fileid": 561,
         "author": "Cicero",
         "title":  "ad Quintum Fratrem III",
     },
-    "cicero/haruspicum.txt":                   {
+    "cicero/haruspicum.txt":                 {
         "fileid": 562,
         "author": "Cicero",
         "title":  "ORATIO DE HARVSPICVM RESPONSO",
     },
-    "cicero/imp.txt":                          {
+    "cicero/imp.txt":                        {
         "fileid": 563,
         "author": "Cicero",
         "title":  "DE IMPERIO CN. POMPEI",
     },
-    "cicero/inventione1.txt":                  {
+    "cicero/inventione1.txt":                {
         "fileid": 564,
         "author": "Cicero",
         "title":  "de Inventione I",
     },
-    "cicero/inventione2.txt":                  {
+    "cicero/inventione2.txt":                {
         "fileid": 565,
         "author": "Cicero",
         "title":  "de Inventione II",
     },
-    "cicero/leg1.txt":                         {"fileid": 566, "author": "Cicero", "title": "de Legibus I"},
-    "cicero/leg2.txt":                         {"fileid": 567, "author": "Cicero", "title": "de Legibus II"},
-    "cicero/leg3.txt":                         {"fileid": 568, "author": "Cicero", "title": "de Legibus III"},
-    "cicero/legagr1.txt":                      {
+    "cicero/leg1.txt":                       {
+        "fileid": 566,
+        "author": "Cicero",
+        "title":  "de Legibus I",
+    },
+    "cicero/leg2.txt":                       {
+        "fileid": 567,
+        "author": "Cicero",
+        "title":  "de Legibus II",
+    },
+    "cicero/leg3.txt":                       {
+        "fileid": 568,
+        "author": "Cicero",
+        "title":  "de Legibus III",
+    },
+    "cicero/legagr1.txt":                    {
         "fileid": 569,
         "author": "Cicero",
         "title":  "de Lege Agraria I",
     },
-    "cicero/legagr2.txt":                      {
+    "cicero/legagr2.txt":                    {
         "fileid": 570,
         "author": "Cicero",
         "title":  "de Lege Agraria II",
     },
-    "cicero/legagr3.txt":                      {
+    "cicero/legagr3.txt":                    {
         "fileid": 571,
         "author": "Cicero",
         "title":  "de Lege Agraria III",
     },
-    "cicero/lig.txt":                          {"fileid": 572, "author": "Cicero", "title": "pro Ligario"},
-    "cicero/marc.txt":                         {"fileid": 573, "author": "Cicero", "title": "pro Marcello"},
-    "cicero/milo.txt":                         {"fileid": 574, "author": "Cicero", "title": "pro Milone"},
-    "cicero/murena.txt":                       {"fileid": 575, "author": "Cicero", "title": "pro Murena"},
-    "cicero/nd1.txt":                          {
+    "cicero/lig.txt":                        {
+        "fileid": 572,
+        "author": "Cicero",
+        "title":  "pro Ligario",
+    },
+    "cicero/marc.txt":                       {
+        "fileid": 573,
+        "author": "Cicero",
+        "title":  "pro Marcello",
+    },
+    "cicero/milo.txt":                       {
+        "fileid": 574,
+        "author": "Cicero",
+        "title":  "pro Milone",
+    },
+    "cicero/murena.txt":                     {
+        "fileid": 575,
+        "author": "Cicero",
+        "title":  "pro Murena",
+    },
+    "cicero/nd1.txt":                        {
         "fileid": 576,
         "author": "Cicero",
         "title":  "De Natura Deorum I",
     },
-    "cicero/nd2.txt":                          {
+    "cicero/nd2.txt":                        {
         "fileid": 577,
         "author": "Cicero",
         "title":  "De Natura Deorum II",
     },
-    "cicero/nd3.txt":                          {
+    "cicero/nd3.txt":                        {
         "fileid": 578,
         "author": "Cicero",
         "title":  "De Natura Deorum III",
     },
-    "cicero/off1.txt":                         {"fileid": 579, "author": "Cicero", "title": "de Officiis I"},
-    "cicero/off2.txt":                         {"fileid": 580, "author": "Cicero", "title": "de Officiis II"},
-    "cicero/off3.txt":                         {"fileid": 581, "author": "Cicero", "title": "de Officiis III"},
-    "cicero/optgen.txt":                       {
+    "cicero/off1.txt":                       {
+        "fileid": 579,
+        "author": "Cicero",
+        "title":  "de Officiis I",
+    },
+    "cicero/off2.txt":                       {
+        "fileid": 580,
+        "author": "Cicero",
+        "title":  "de Officiis II",
+    },
+    "cicero/off3.txt":                       {
+        "fileid": 581,
+        "author": "Cicero",
+        "title":  "de Officiis III",
+    },
+    "cicero/optgen.txt":                     {
         "fileid": 582,
         "author": "Cicero",
         "title":  "de Optimo Genere Oratorum",
     },
-    "cicero/orator.txt":                       {
+    "cicero/orator.txt":                     {
         "fileid": 583,
         "author": "Cicero",
         "title":  "Orator ad M. Brutum",
     },
-    "cicero/oratore1.txt":                     {"fileid": 584, "author": "Cicero", "title": "de Oratore I"},
-    "cicero/oratore2.txt":                     {
+    "cicero/oratore1.txt":                   {
+        "fileid": 584,
+        "author": "Cicero",
+        "title":  "de Oratore I",
+    },
+    "cicero/oratore2.txt":                   {
         "fileid": 585,
         "author": "Cicero",
         "title":  "de Oratore II",
     },
-    "cicero/oratore3.txt":                     {
+    "cicero/oratore3.txt":                   {
         "fileid": 586,
         "author": "Cicero",
         "title":  "de Oratore III",
     },
-    "cicero/paradoxa.txt":                     {"fileid": 587, "author": "Cicero", "title": "Paradoxa"},
-    "cicero/partitione.txt":                   {
+    "cicero/paradoxa.txt":                   {
+        "fileid": 587,
+        "author": "Cicero",
+        "title":  "Paradoxa",
+    },
+    "cicero/partitione.txt":                 {
         "fileid": 588,
         "author": "Cicero",
         "title":  "de Partitione",
     },
-    "cicero/phil1.txt":                        {"fileid": 589, "author": "Cicero", "title": "Philippic I"},
-    "cicero/phil10.txt":                       {"fileid": 590, "author": "Cicero", "title": "Philippic X"},
-    "cicero/phil11.txt":                       {"fileid": 591, "author": "Cicero", "title": "Philippic XI"},
-    "cicero/phil12.txt":                       {"fileid": 592, "author": "Cicero", "title": "Philippic XII"},
-    "cicero/phil13.txt":                       {"fileid": 593, "author": "Cicero", "title": "Philippic XIII"},
-    "cicero/phil14.txt":                       {"fileid": 594, "author": "Cicero", "title": "Philippic XIV"},
-    "cicero/phil2.txt":                        {"fileid": 595, "author": "Cicero", "title": "Philippic II"},
-    "cicero/phil3.txt":                        {"fileid": 596, "author": "Cicero", "title": "Philippic III"},
-    "cicero/phil4.txt":                        {"fileid": 597, "author": "Cicero", "title": "Philippic IV"},
-    "cicero/phil5.txt":                        {"fileid": 598, "author": "Cicero", "title": "Philippic V"},
-    "cicero/phil6.txt":                        {"fileid": 599, "author": "Cicero", "title": "Philippic VI"},
-    "cicero/phil7.txt":                        {"fileid": 600, "author": "Cicero", "title": "Philippic VII"},
-    "cicero/phil8.txt":                        {"fileid": 601, "author": "Cicero", "title": "Philippic VIII"},
-    "cicero/phil9.txt":                        {"fileid": 602, "author": "Cicero", "title": "Philippic IX"},
-    "cicero/piso.txt":                         {"fileid": 603, "author": "Cicero", "title": "In Pisonem"},
-    "cicero/plancio.txt":                      {"fileid": 604, "author": "Cicero", "title": "Pro Plancio"},
-    "cicero/postreditum.txt":                  {
+    "cicero/phil1.txt":                      {
+        "fileid": 589,
+        "author": "Cicero",
+        "title":  "Philippic I",
+    },
+    "cicero/phil10.txt":                     {
+        "fileid": 590,
+        "author": "Cicero",
+        "title":  "Philippic X",
+    },
+    "cicero/phil11.txt":                     {
+        "fileid": 591,
+        "author": "Cicero",
+        "title":  "Philippic XI",
+    },
+    "cicero/phil12.txt":                     {
+        "fileid": 592,
+        "author": "Cicero",
+        "title":  "Philippic XII",
+    },
+    "cicero/phil13.txt":                     {
+        "fileid": 593,
+        "author": "Cicero",
+        "title":  "Philippic XIII",
+    },
+    "cicero/phil14.txt":                     {
+        "fileid": 594,
+        "author": "Cicero",
+        "title":  "Philippic XIV",
+    },
+    "cicero/phil2.txt":                      {
+        "fileid": 595,
+        "author": "Cicero",
+        "title":  "Philippic II",
+    },
+    "cicero/phil3.txt":                      {
+        "fileid": 596,
+        "author": "Cicero",
+        "title":  "Philippic III",
+    },
+    "cicero/phil4.txt":                      {
+        "fileid": 597,
+        "author": "Cicero",
+        "title":  "Philippic IV",
+    },
+    "cicero/phil5.txt":                      {
+        "fileid": 598,
+        "author": "Cicero",
+        "title":  "Philippic V",
+    },
+    "cicero/phil6.txt":                      {
+        "fileid": 599,
+        "author": "Cicero",
+        "title":  "Philippic VI",
+    },
+    "cicero/phil7.txt":                      {
+        "fileid": 600,
+        "author": "Cicero",
+        "title":  "Philippic VII",
+    },
+    "cicero/phil8.txt":                      {
+        "fileid": 601,
+        "author": "Cicero",
+        "title":  "Philippic VIII",
+    },
+    "cicero/phil9.txt":                      {
+        "fileid": 602,
+        "author": "Cicero",
+        "title":  "Philippic IX",
+    },
+    "cicero/piso.txt":                       {
+        "fileid": 603,
+        "author": "Cicero",
+        "title":  "In Pisonem",
+    },
+    "cicero/plancio.txt":                    {
+        "fileid": 604,
+        "author": "Cicero",
+        "title":  "Pro Plancio",
+    },
+    "cicero/postreditum.txt":                {
         "fileid": 605,
         "author": "Cicero",
         "title":  "Post Reditum in Senatu",
     },
-    "cicero/postreditum2.txt":                 {
+    "cicero/postreditum2.txt":               {
         "fileid": 606,
         "author": "Cicero",
         "title":  "Post Reditum ad Quirites",
     },
-    "cicero/prov.txt":                         {
+    "cicero/prov.txt":                       {
         "fileid": 607,
         "author": "Cicero",
         "title":  "De Provinciis Consularibus",
     },
-    "cicero/quinc.txt":                        {"fileid": 608, "author": "Cicero", "title": "Pro Quinctio"},
-    "cicero/rabirio.txt":                      {
+    "cicero/quinc.txt":                      {
+        "fileid": 608,
+        "author": "Cicero",
+        "title":  "Pro Quinctio",
+    },
+    "cicero/rabirio.txt":                    {
         "fileid": 609,
         "author": "Cicero",
         "title":  "Pro Rabiro Perduellionis",
     },
-    "cicero/rabiriopost.txt":                  {
+    "cicero/rabiriopost.txt":                {
         "fileid": 610,
         "author": "Cicero",
         "title":  "Pro Rabiro Postumo",
     },
-    "cicero/repub1.txt":                       {
+    "cicero/repub1.txt":                     {
         "fileid": 611,
         "author": "Cicero",
         "title":  "de Re Publica I",
     },
-    "cicero/repub2.txt":                       {
+    "cicero/repub2.txt":                     {
         "fileid": 612,
         "author": "Cicero",
         "title":  "de Re Publica II",
@@ -2350,145 +2996,193 @@ FILE_TAB = {
         "author": "Cicero",
         "title":  "de Re Publica III",
     },
-    "cicero/repub4.txt":                       {
+    "cicero/repub4.txt":                     {
         "fileid": 614,
         "author": "Cicero",
         "title":  "de Re Publica IV",
     },
-    "cicero/repub5.txt":                       {
+    "cicero/repub5.txt":                     {
         "fileid": 615,
         "author": "Cicero",
         "title":  "de Re Publica V",
     },
-    "cicero/repub6.txt":                       {
+    "cicero/repub6.txt":                     {
         "fileid": 616,
         "author": "Cicero",
         "title":  "de Re Publica VI",
     },
-    "cicero/rosccom.txt":                      {
+    "cicero/rosccom.txt":                    {
         "fileid": 617,
         "author": "Cicero",
         "title":  "Pro Roscio Comodeo",
     },
-    "cicero/scauro.txt":                       {"fileid": 618, "author": "Cicero", "title": "Pro Scauro"},
-    "cicero/senectute.txt":                    {
+    "cicero/scauro.txt":                     {
+        "fileid": 618,
+        "author": "Cicero",
+        "title":  "Pro Scauro",
+    },
+    "cicero/senectute.txt":                  {
         "fileid": 619,
         "author": "Cicero",
         "title":  "de Senectute",
     },
-    "cicero/sestio.txt":                       {"fileid": 620, "author": "Cicero", "title": "Pro Sestio"},
-    "cicero/sex.rosc.txt":                     {
+    "cicero/sestio.txt":                     {
+        "fileid": 620,
+        "author": "Cicero",
+        "title":  "Pro Sestio",
+    },
+    "cicero/sex.rosc.txt":                   {
         "fileid": 621,
         "author": "Cicero",
         "title":  "Pro Sex. Roscio Amerino",
     },
-    "cicero/sulla.txt":                        {"fileid": 622, "author": "Cicero", "title": "Pro Sulla"},
-    "cicero/topica.txt":                       {"fileid": 623, "author": "Cicero", "title": "Topica"},
-    "cicero/tusc1.txt":                        {
+    "cicero/sulla.txt":                      {
+        "fileid": 622,
+        "author": "Cicero",
+        "title":  "Pro Sulla",
+    },
+    "cicero/topica.txt":                     {
+        "fileid": 623,
+        "author": "Cicero",
+        "title":  "Topica",
+    },
+    "cicero/tusc1.txt":                      {
         "fileid": 624,
         "author": "Cicero",
         "title":  "Tusculan Disputations I",
     },
-    "cicero/tusc2.txt":                        {
+    "cicero/tusc2.txt":                      {
         "fileid": 625,
         "author": "Cicero",
         "title":  "Tusculan Disputations II",
     },
-    "cicero/tusc3.txt":                        {
+    "cicero/tusc3.txt":                      {
         "fileid": 626,
         "author": "Cicero",
         "title":  "Tusculan Disputations III",
     },
-    "cicero/tusc4.txt":                        {
+    "cicero/tusc4.txt":                      {
         "fileid": 627,
         "author": "Cicero",
         "title":  "Tusculan Disputations IV",
     },
-    "cicero/tusc5.txt":                        {
+    "cicero/tusc5.txt":                      {
         "fileid": 628,
         "author": "Cicero",
         "title":  "Tusculan Disputations IV",
     },
-    "cicero/vatin.txt":                        {"fileid": 629, "author": "Cicero", "title": "In Vatinium"},
-    "cicero/ver1.txt":                         {"fileid": 630, "author": "Cicero", "title": "In Verrem I"},
-    "cicero/verres.2.1.txt":                   {
+    "cicero/vatin.txt":                      {
+        "fileid": 629,
+        "author": "Cicero",
+        "title":  "In Vatinium",
+    },
+    "cicero/ver1.txt":                       {
+        "fileid": 630,
+        "author": "Cicero",
+        "title":  "In Verrem I",
+    },
+    "cicero/verres.2.1.txt":                 {
         "fileid": 631,
         "author": "Cicero",
         "title":  "In Verrem II.1",
     },
-    "cicero/verres.2.2.txt":                   {
+    "cicero/verres.2.2.txt":                 {
         "fileid": 632,
         "author": "Cicero",
         "title":  "In Verrem II.2",
     },
-    "cicero/verres.2.3.txt":                   {
+    "cicero/verres.2.3.txt":                 {
         "fileid": 633,
         "author": "Cicero",
         "title":  "In Verrem II.3",
     },
-    "cicero/verres.2.4.txt":                   {
+    "cicero/verres.2.4.txt":                 {
         "fileid": 634,
         "author": "Cicero",
         "title":  "In Verrem II.4",
     },
-    "cicero/verres.2.5.txt":                   {
+    "cicero/verres.2.5.txt":                 {
         "fileid": 635,
         "author": "Cicero",
         "title":  "In Verrem II.5",
     },
-    "cinna.txt":                               {"fileid": 636, "author": None, "title": "Helvius Cinna"},
-    "claud.inscr.txt":                         {"fileid": 637, "author": None, "title": "Speech of Claudius"},
-    "claudian/claudian.cons6.txt":             {"fileid": 638, "author": None, "title": "Claudian"},
-    "claudian/claudian.olyb.txt":              {
+    "cinna.txt":                             {"fileid": 636, "author": None, "title": "Helvius Cinna"},
+    "claud.inscr.txt":                       {
+        "fileid": 637,
+        "author": None,
+        "title":  "Speech of Claudius",
+    },
+    "claudian/claudian.cons6.txt":           {
+        "fileid": 638,
+        "author": None,
+        "title":  "Claudian",
+    },
+    "claudian/claudian.olyb.txt":            {
         "fileid": 639,
         "author": "Claudian",
         "title":  "Panegyricus Dictus Olybrio et Probino Consulibus",
     },
-    "claudian/claudian.proserp1.txt":          {
+    "claudian/claudian.proserp1.txt":        {
         "fileid": 640,
         "author": "Claudian",
         "title":  "De Raptu Proserpinae I ",
     },
-    "claudian/claudian.proserp2.txt":          {
+    "claudian/claudian.proserp2.txt":        {
         "fileid": 641,
         "author": "Claudian",
         "title":  "De Raptu Proserpinae II ",
     },
-    "claudian/claudian.proserp3.txt":          {
+    "claudian/claudian.proserp3.txt":        {
         "fileid": 642,
         "author": "Claudian",
         "title":  "De Raptu Proserpinae III ",
     },
-    "claudian/claudian.ruf1.txt":              {
+    "claudian/claudian.ruf1.txt":            {
         "fileid": 643,
         "author": "Claudian",
         "title":  "In Rufinum I ",
     },
-    "clitophon.txt":                           {"fileid": 644, "author": "Pseudo-Plato", "title": "Clitophon"},
-    "colman.txt":                              {"fileid": 645, "author": None, "title": "Coleman the Irishman "},
-    "columba1.txt":                            {"fileid": 646, "author": "Life of St. Columba", "title": "Book I"},
-    "columba2.txt":                            {
+    "clitophon.txt":                         {
+        "fileid": 644,
+        "author": "Pseudo-Plato",
+        "title":  "Clitophon",
+    },
+    "colman.txt":                            {
+        "fileid": 645,
+        "author": None,
+        "title":  "Coleman the Irishman ",
+    },
+    "columba1.txt":                          {
+        "fileid": 646,
+        "author": "Life of St. Columba",
+        "title":  "Book I",
+    },
+    "columba2.txt":                          {
         "fileid": 647,
         "author": "Life of St. Columba",
         "title":  "Book II",
     },
-    "columbus.txt":                            {"fileid": 648, "author": None, "title": "Christopher Columbus"},
-    "columella/columella.arbor.txt":           {
+    "columbus.txt":                          {
+        "fileid": 648,
+        "author": None,
+        "title":  "Christopher Columbus",
+    },
+    "columella/columella.arbor.txt":         {
         "fileid": 649,
         "author": "Columella",
         "title":  "de Arboribus ",
     },
-    "columella/columella.rr1.txt":             {
+    "columella/columella.rr1.txt":           {
         "fileid": 650,
         "author": "Columella",
         "title":  "de Re Rustica I ",
     },
-    "columella/columella.rr10.txt":            {
+    "columella/columella.rr10.txt":          {
         "fileid": 651,
         "author": "Columella",
         "title":  "de Re Rustica X ",
     },
-    "columella/columella.rr11.txt":            {
+    "columella/columella.rr11.txt":          {
         "fileid": 652,
         "author": "Columella",
         "title":  "de Re Rustica XI ",
@@ -2549,116 +3243,140 @@ FILE_TAB = {
         "author": "Commodianus",
         "title":  "Instructiones",
     },
-    "commodianus/commodianus3.txt":            {
+    "commodianus/commodianus3.txt":          {
         "fileid": 665,
         "author": "Commodian",
         "title":  "De Saeculi Istius Fine",
     },
-    "corvinus1.txt":                           {
+    "corvinus1.txt":                         {
         "fileid": 666,
         "author": "Laurentius Corvinus",
         "title":  "ad Famam",
     },
-    "corvinus2.txt":                           {
+    "corvinus2.txt":                         {
         "fileid": 667,
         "author": "Laurentius Corvinus",
         "title":  "Epithalamium",
     },
-    "cotta.txt":                               {
+    "cotta.txt":                             {
         "fileid": 668,
         "author": None,
         "title":  "Poems of Giovanni Cotta (1480-1510)",
     },
-    "creeds.txt":                              {"fileid": 669, "author": None, "title": "Early Christian Creeds"},
-    "curtius/curtius10.txt":                   {
+    "creeds.txt":                            {
+        "fileid": 669,
+        "author": None,
+        "title":  "Early Christian Creeds",
+    },
+    "curtius/curtius10.txt":                 {
         "fileid": 670,
         "author": "Curtius Rufus",
         "title":  "Historiae Alexandri Magni X",
     },
-    "curtius/curtius3.txt":                    {
+    "curtius/curtius3.txt":                  {
         "fileid": 671,
         "author": "Curtius Rufus",
         "title":  "Historiae Alexandri Magni III",
     },
-    "curtius/curtius4.txt":                    {
+    "curtius/curtius4.txt":                  {
         "fileid": 672,
         "author": "Curtius Rufus",
         "title":  "Historiae Alexandri Magni IV",
     },
-    "curtius/curtius5.txt":                    {
+    "curtius/curtius5.txt":                  {
         "fileid": 673,
         "author": "Curtius Rufus",
         "title":  "Historiae Alexandri Magni V",
     },
-    "curtius/curtius6.txt":                    {
+    "curtius/curtius6.txt":                  {
         "fileid": 674,
         "author": "Curtius Rufus",
         "title":  "Historiae Alexandri Magni VI",
     },
-    "curtius/curtius7.txt":                    {
+    "curtius/curtius7.txt":                  {
         "fileid": 675,
         "author": "Curtius Rufus",
         "title":  "Historiae Alexandri Magni VII",
     },
-    "curtius/curtius8.txt":                    {
+    "curtius/curtius8.txt":                  {
         "fileid": 676,
         "author": "Curtius Rufus",
         "title":  "Historiae Alexandri Magni VIII",
     },
-    "curtius/curtius9.txt":                    {
+    "curtius/curtius9.txt":                  {
         "fileid": 677,
         "author": "Curtius Rufus",
         "title":  "Historiae Alexandri Magni III",
     },
-    "dante/ec1.txt":                           {"fileid": 678, "author": "Dante", "title": "Ecloga I"},
-    "dante/ep.txt":                            {"fileid": 679, "author": "Dante", "title": "Epistolae"},
-    "dante/mon1.txt":                          {"fileid": 680, "author": "Dante", "title": "Monarchia I"},
-    "dante/mon2.txt":                          {"fileid": 681, "author": "Dante", "title": "Monarchia II"},
-    "dante/mon3.txt":                          {"fileid": 682, "author": "Dante", "title": "Monarchia III"},
-    "dante/vulgar.txt":                        {
+    "dante/ec1.txt":                         {"fileid": 678, "author": "Dante", "title": "Ecloga I"},
+    "dante/ep.txt":                          {"fileid": 679, "author": "Dante", "title": "Epistolae"},
+    "dante/mon1.txt":                        {
+        "fileid": 680,
+        "author": "Dante",
+        "title":  "Monarchia I",
+    },
+    "dante/mon2.txt":                        {
+        "fileid": 681,
+        "author": "Dante",
+        "title":  "Monarchia II",
+    },
+    "dante/mon3.txt":                        {
+        "fileid": 682,
+        "author": "Dante",
+        "title":  "Monarchia III",
+    },
+    "dante/vulgar.txt":                      {
         "fileid": 683,
         "author": "Dante",
         "title":  "De Vulgari Eloquentia I",
     },
-    "dante/vulgar2.txt":                       {
+    "dante/vulgar2.txt":                     {
         "fileid": 684,
         "author": "Dante",
         "title":  "De Vulgari Eloquentia II",
     },
-    "dares.txt":                               {
+    "dares.txt":                             {
         "fileid": 685,
         "author": "Dares the Phrygian",
         "title":  "De Excidio Trojae Historia",
     },
-    "dares1.txt":                              {
+    "dares1.txt":                            {
         "fileid": 686,
         "author": "Dares the Phrygian",
         "title":  "De Excidio Trojae Historia",
     },
-    "debury.txt":                              {"fileid": 687, "author": "de Bury", "title": "Philobiblon"},
-    "declaratio.txt":                          {
+    "debury.txt":                            {"fileid": 687, "author": "de Bury", "title": "Philobiblon"},
+    "declaratio.txt":                        {
         "fileid": 688,
         "author": None,
         "title":  "Universal Declaration of Human Rights",
     },
-    "decretum.txt":                            {"fileid": 689, "author": None, "title": "Decretum Gelasianum"},
-    "descartes/des.ep.txt":                    {"fileid": 690, "author": "Descartes", "title": "Epistula"},
-    "descartes/des.med1.txt":                  {
+    "decretum.txt":                          {
+        "fileid": 689,
+        "author": None,
+        "title":  "Decretum Gelasianum",
+    },
+    "descartes/des.ep.txt":                  {
+        "fileid": 690,
+        "author": "Descartes",
+        "title":  "Epistula",
+    },
+    "descartes/des.med1.txt":                {
         "fileid": 691,
         "author": "Descartes",
         "title":  "Meditatio I",
     },
-    "descartes/des.med2.txt":                  {
+    "descartes/des.med2.txt":                {
         "fileid": 692,
         "author": "Descartes",
         "title":  "Meditatio II",
     },
-    "descartes/des.med3.txt":                  {
+    "descartes/des.med3.txt":                {
         "fileid": 693,
         "author": "Descartes",
         "title":  "Meditatio III",
     },
-    "descartes/des.med4.txt":                  {
+    "descartes/des.med4.txt":                {
         "fileid": 694,
         "author": "Descartes",
         "title":  "Meditatio IV",
@@ -2668,130 +3386,162 @@ FILE_TAB = {
         "author": "Descartes",
         "title":  "Meditatio V",
     },
-    "descartes/des.med6.txt":                  {
+    "descartes/des.med6.txt":                {
         "fileid": 696,
         "author": "Descartes",
         "title":  "Meditatio VI",
     },
-    "descartes/des.pr.txt":                    {
+    "descartes/des.pr.txt":                  {
         "fileid": 697,
         "author": "Descartes",
         "title":  "Praefatio",
     },
-    "descartes/des.syn.txt":                   {
+    "descartes/des.syn.txt":                 {
         "fileid": 698,
         "author": "Descartes",
         "title":  "Synopsis",
     },
-    "dicchristi.txt":                          {"fileid": 699, "author": None, "title": ""},
-    "dicquid.txt":                             {"fileid": 700, "author": None, "title": "Dic quid agis "},
-    "diesirae.txt":                            {"fileid": 701, "author": None, "title": "Dies Irae"},
-    "diravi.txt":                              {
+    "dicchristi.txt":                        {"fileid": 699, "author": None, "title": ""},
+    "dicquid.txt":                           {"fileid": 700, "author": None, "title": "Dic quid agis "},
+    "diesirae.txt":                          {"fileid": 701, "author": None, "title": "Dies Irae"},
+    "diravi.txt":                            {
         "fileid": 702,
         "author": "Anonymous",
         "title":  "Dira vi amoris teror ",
     },
-    "don.txt":                                 {"fileid": 703, "author": "Donatus", "title": "Ars Minor"},
-    "donation.txt":                            {"fileid": 704, "author": None, "title": "Donation of Constantine"},
-    "dulcesolum.txt":                          {"fileid": 705, "author": None, "title": ""},
-    "dumdiane.txt":                            {
+    "don.txt":                               {"fileid": 703, "author": "Donatus", "title": "Ars Minor"},
+    "donation.txt":                          {
+        "fileid": 704,
+        "author": None,
+        "title":  "Donation of Constantine",
+    },
+    "dulcesolum.txt":                        {"fileid": 705, "author": None, "title": ""},
+    "dumdiane.txt":                          {
         "fileid": 706,
         "author": "Anonymous",
         "title":  "Dum Diane vitrea ",
     },
-    "dumdomus.txt":                            {"fileid": 707, "author": None, "title": "Dum domus lapidea "},
-    "dumestas.txt":                            {"fileid": 708, "author": None, "title": ""},
-    "ebulo.txt":                               {
+    "dumdomus.txt":                          {
+        "fileid": 707,
+        "author": None,
+        "title":  "Dum domus lapidea ",
+    },
+    "dumestas.txt":                          {"fileid": 708, "author": None, "title": ""},
+    "ebulo.txt":                             {
         "fileid": 709,
         "author": "Petrus de Ebulo",
         "title":  "Liber ad honorem Augusti sive de rebus Siculis",
     },
-    "egeria1.txt":                             {
+    "egeria1.txt":                           {
         "fileid": 710,
         "author": "Egeria",
         "title":  "Itinerarium Pars Prima",
     },
-    "egeria2.txt":                             {
+    "egeria2.txt":                           {
         "fileid": 711,
         "author": "Egeria",
         "title":  "Itinerarium Pars Secunda",
     },
-    "ein.txt":                                 {"fileid": 712, "author": "Einhard", "title": "Life of Charlemagne"},
-    "ency.fides.txt":                          {"fileid": 713, "author": None, "title": ""},
-    "enn.txt":                                 {"fileid": 714, "author": "Ennius", "title": "Fragments"},
-    "ennodius.txt":                            {
+    "ein.txt":                               {
+        "fileid": 712,
+        "author": "Einhard",
+        "title":  "Life of Charlemagne",
+    },
+    "ency.fides.txt":                        {"fileid": 713, "author": None, "title": ""},
+    "enn.txt":                               {"fileid": 714, "author": "Ennius", "title": "Fragments"},
+    "ennodius.txt":                          {
         "fileid": 715,
         "author": "Ennodius",
         "title":  "Panegyricus Regi Theoderico",
     },
-    "ep.priapismo.txt":                        {
+    "ep.priapismo.txt":                      {
         "fileid": 716,
         "author": None,
         "title":  "Epistolae de Priapismo Cleopatrae eiusque Remediis",
     },
-    "epistaustras.txt":                        {
+    "epistaustras.txt":                      {
         "fileid": 717,
         "author": None,
         "title":  "Epistolae Austrasicae",
     },
-    "epitaphs.txt":                            {"fileid": 718, "author": None, "title": "ROMAN EPITAPHS"},
-    "epitomecononiana.txt":                    {
+    "epitaphs.txt":                          {"fileid": 718, "author": None, "title": "ROMAN EPITAPHS"},
+    "epitomecononiana.txt":                  {
         "fileid": 719,
         "author": None,
         "title":  "Epitome Cononiana",
     },
-    "epitomefeliciana.txt":                    {
+    "epitomefeliciana.txt":                  {
         "fileid": 720,
         "author": None,
         "title":  "Epitome Feliciana",
     },
-    "erasmus/antibarb.txt":                    {
+    "erasmus/antibarb.txt":                  {
         "fileid": 721,
         "author": "Eramus",
         "title":  "Libri Antibarbarorum",
     },
-    "erasmus/coll.txt":                        {"fileid": 722, "author": "Eramus", "title": "Colloquia"},
-    "erasmus/ep.txt":                          {"fileid": 723, "author": "Eramus", "title": "Selected Writings"},
-    "erasmus/inst.txt":                        {"fileid": 724, "author": "Erasmus", "title": "Institutio"},
-    "erasmus/laude.txt":                       {
+    "erasmus/coll.txt":                      {
+        "fileid": 722,
+        "author": "Eramus",
+        "title":  "Colloquia",
+    },
+    "erasmus/ep.txt":                        {
+        "fileid": 723,
+        "author": "Eramus",
+        "title":  "Selected Writings",
+    },
+    "erasmus/inst.txt":                      {
+        "fileid": 724,
+        "author": "Erasmus",
+        "title":  "Institutio",
+    },
+    "erasmus/laude.txt":                     {
         "fileid": 725,
         "author": "Erasmus",
         "title":  "de Laude Matrimonii",
     },
-    "erasmus/moriae.txt":                      {
+    "erasmus/moriae.txt":                    {
         "fileid": 726,
         "author": "Eramus",
         "title":  "The Praise of Folly",
     },
-    "erasmus/querela.txt":                     {
+    "erasmus/querela.txt":                   {
         "fileid": 727,
         "author": "Eramus",
         "title":  "Querela Pacis",
     },
-    "erchempert.txt":                          {
+    "erchempert.txt":                        {
         "fileid": 728,
         "author": "Erchempert",
         "title":  "Historia Langabardorum Beneventarnorum",
     },
-    "estas.txt":                               {"fileid": 729, "author": None, "title": "Estas non apparuit "},
-    "eucherius.txt":                           {"fileid": 730, "author": "Eucherius", "title": "De laude eremi"},
-    "eugenius.txt":                            {"fileid": 731, "author": None, "title": ""},
-    "eugippius.txt":                           {
+    "estas.txt":                             {
+        "fileid": 729,
+        "author": None,
+        "title":  "Estas non apparuit ",
+    },
+    "eucherius.txt":                         {
+        "fileid": 730,
+        "author": "Eucherius",
+        "title":  "De laude eremi",
+    },
+    "eugenius.txt":                          {"fileid": 731, "author": None, "title": ""},
+    "eugippius.txt":                         {
         "fileid": 732,
         "author": "Eugippius",
         "title":  "Life of Saint Severinus",
     },
-    "eutropius/eutropius1.txt":                {
+    "eutropius/eutropius1.txt":              {
         "fileid": 733,
         "author": "Eutropius",
         "title":  "Book I",
     },
-    "eutropius/eutropius10.txt":               {
+    "eutropius/eutropius10.txt":             {
         "fileid": 734,
         "author": "Eutropius",
         "title":  "Book X",
     },
-    "eutropius/eutropius2.txt":                {
+    "eutropius/eutropius2.txt":              {
         "fileid": 735,
         "author": "Eutropius",
         "title":  "Book II",
@@ -2811,73 +3561,105 @@ FILE_TAB = {
         "author": "Eutropius",
         "title":  "Book V",
     },
-    "eutropius/eutropius6.txt":                {
+    "eutropius/eutropius6.txt":              {
         "fileid": 739,
         "author": "Eutropius",
         "title":  "Book II",
     },
-    "eutropius/eutropius7.txt":                {
+    "eutropius/eutropius7.txt":              {
         "fileid": 740,
         "author": "Eutropius",
         "title":  "Book VII",
     },
-    "eutropius/eutropius8.txt":                {
+    "eutropius/eutropius8.txt":              {
         "fileid": 741,
         "author": "Eutropius",
         "title":  "Book VIII",
     },
-    "eutropius/eutropius9.txt":                {
+    "eutropius/eutropius9.txt":              {
         "fileid": 742,
         "author": "Eutropius",
         "title":  "Book IX",
     },
-    "exivi.txt":                               {"fileid": 743, "author": None, "title": "Exivi de paradiso "},
-    "fabe.txt":                                {"fileid": 744, "author": None, "title": "Guido Fabe "},
-    "falcandus.txt":                           {"fileid": 745, "author": None, "title": "Hugo Falcandus"},
-    "falcone.txt":                             {"fileid": 746, "author": None, "title": "Chronicon Beneventanum"},
-    "ferraria.txt":                            {"fileid": 747, "author": None, "title": "Nicolai Borbonii "},
-    "ficino.txt":                              {"fileid": 748, "author": "Marsilio Ficino", "title": "Theages "},
-    "fletcher.txt":                            {"fileid": 749, "author": None, "title": "Locustae "},
-    "florus1.txt":                             {
+    "exivi.txt":                             {
+        "fileid": 743,
+        "author": None,
+        "title":  "Exivi de paradiso ",
+    },
+    "fabe.txt":                              {"fileid": 744, "author": None, "title": "Guido Fabe "},
+    "falcandus.txt":                         {
+        "fileid": 745,
+        "author": None,
+        "title":  "Hugo Falcandus",
+    },
+    "falcone.txt":                           {
+        "fileid": 746,
+        "author": None,
+        "title":  "Chronicon Beneventanum",
+    },
+    "ferraria.txt":                          {
+        "fileid": 747,
+        "author": None,
+        "title":  "Nicolai Borbonii ",
+    },
+    "ficino.txt":                            {
+        "fileid": 748,
+        "author": "Marsilio Ficino",
+        "title":  "Theages ",
+    },
+    "fletcher.txt":                          {"fileid": 749, "author": None, "title": "Locustae "},
+    "florus1.txt":                           {
         "fileid": 750,
         "author": "Florus",
         "title":  "Epitome of Roman Wars",
     },
-    "florus2.txt":                             {
+    "florus2.txt":                           {
         "fileid": 751,
         "author": "Florus",
         "title":  "Epitome of Roman Wars",
     },
-    "foedusaeternum.txt":                      {
+    "foedusaeternum.txt":                    {
         "fileid": 752,
         "author": None,
         "title":  "Eternal Bond of Brothers",
     },
-    "forsett1.txt":                            {"fileid": 753, "author": "Pedantius", "title": "Act I  "},
-    "forsett2.txt":                            {"fileid": 754, "author": "Pedantius", "title": "Act II  "},
-    "fortunat.txt":                            {"fileid": 755, "author": None, "title": "Venance Fortunat "},
-    "fragmentumlaurentianum.txt":              {
+    "forsett1.txt":                          {"fileid": 753, "author": "Pedantius", "title": "Act I  "},
+    "forsett2.txt":                          {
+        "fileid": 754,
+        "author": "Pedantius",
+        "title":  "Act II  ",
+    },
+    "fortunat.txt":                          {
+        "fileid": 755,
+        "author": None,
+        "title":  "Venance Fortunat ",
+    },
+    "fragmentumlaurentianum.txt":            {
         "fileid": 756,
         "author": None,
         "title":  "Fragmentum Laurentianum",
     },
-    "fredegarius.txt":                         {"fileid": 757, "author": "Fredegarius", "title": "Chronicon"},
-    "frodebertus.txt":                         {
+    "fredegarius.txt":                       {
+        "fileid": 757,
+        "author": "Fredegarius",
+        "title":  "Chronicon",
+    },
+    "frodebertus.txt":                       {
         "fileid": 758,
         "author": None,
         "title":  "Frodebertus & Importunus",
     },
-    "frontinus/aqua1.txt":                     {
+    "frontinus/aqua1.txt":                   {
         "fileid": 759,
         "author": "Frontinus",
         "title":  "De aquaeductu urbis Romae I",
     },
-    "frontinus/aqua2.txt":                     {
+    "frontinus/aqua2.txt":                   {
         "fileid": 760,
         "author": "Frontinus",
         "title":  "De aquaeductu urbis Romae II",
     },
-    "frontinus/contro.txt":                    {
+    "frontinus/contro.txt":                  {
         "fileid": 761,
         "author": "Frontinus",
         "title":  "De Controversiis",
@@ -2902,81 +3684,97 @@ FILE_TAB = {
         "author": "Frontinus",
         "title":  "Strategemata I",
     },
-    "frontinus/strat2.txt":                    {
+    "frontinus/strat2.txt":                  {
         "fileid": 766,
         "author": "Frontinus",
         "title":  "Strategemata II",
     },
-    "frontinus/strat3.txt":                    {
+    "frontinus/strat3.txt":                  {
         "fileid": 767,
         "author": "Frontinus",
         "title":  "Strategemata III",
     },
-    "frontinus/strat4.txt":                    {
+    "frontinus/strat4.txt":                  {
         "fileid": 768,
         "author": "Frontinus",
         "title":  "Strategemata IIII",
     },
-    "fronto.txt":                              {
+    "fronto.txt":                            {
         "fileid": 769,
         "author": "M. Cornelius Fronto",
         "title":  "Epistulae ",
     },
-    "fulbert.txt":                             {"fileid": 770, "author": None, "title": "St. Fulbert of Chartres"},
-    "fulgentius/fulgentius1.txt":              {
+    "fulbert.txt":                           {
+        "fileid": 770,
+        "author": None,
+        "title":  "St. Fulbert of Chartres",
+    },
+    "fulgentius/fulgentius1.txt":            {
         "fileid": 771,
         "author": "Fulgentius",
         "title":  "Mitologiarum Liber I",
     },
-    "fulgentius/fulgentius2.txt":              {
+    "fulgentius/fulgentius2.txt":            {
         "fileid": 772,
         "author": "Fulgentius",
         "title":  "Mitologiarum Liber II",
     },
-    "fulgentius/fulgentius3.txt":              {
+    "fulgentius/fulgentius3.txt":            {
         "fileid": 773,
         "author": "Fulgentius",
         "title":  "Mitologiarum Liber III",
     },
-    "fulgentius/fulgentius4.txt":              {
+    "fulgentius/fulgentius4.txt":            {
         "fileid": 774,
         "author": "Fulgentius",
         "title":  "Expositio Sermonum Antiquorum",
     },
-    "fulgentius/fulgentius5.txt":              {
+    "fulgentius/fulgentius5.txt":            {
         "fileid": 775,
         "author": "Fulgentius",
         "title":  "Expositio Virgilianae",
     },
-    "gaius1.txt":                              {"fileid": 776, "author": "Gaius", "title": "Commentary I"},
-    "gaius2.txt":                              {"fileid": 777, "author": "Gaius", "title": "Commentary II"},
-    "gaius3.txt":                              {"fileid": 778, "author": "Gaius", "title": "Commentary III"},
-    "gaius4.txt":                              {"fileid": 779, "author": "Gaius", "title": "Commentary IV"},
-    "galileo/galileo.sid.txt":                 {
+    "gaius1.txt":                            {"fileid": 776, "author": "Gaius", "title": "Commentary I"},
+    "gaius2.txt":                            {"fileid": 777, "author": "Gaius", "title": "Commentary II"},
+    "gaius3.txt":                            {
+        "fileid": 778,
+        "author": "Gaius",
+        "title":  "Commentary III",
+    },
+    "gaius4.txt":                            {"fileid": 779, "author": "Gaius", "title": "Commentary IV"},
+    "galileo/galileo.sid.txt":               {
         "fileid": 780,
         "author": "Galileo Galilei",
         "title":  "Sidereus Nuncius",
     },
-    "garcilaso.txt":                           {"fileid": 781, "author": None, "title": "Garcilaso de la Vega "},
-    "garland.txt":                             {"fileid": 782, "author": None, "title": "John of Garland"},
-    "gaud.txt":                                {"fileid": 783, "author": None, "title": "Gaudeamus Igitur"},
-    "gauss.txt":                               {"fileid": 784, "author": "Gauss", "title": "Demonstratio Nova"},
-    "gellius/gellius1.txt":                    {
+    "garcilaso.txt":                         {
+        "fileid": 781,
+        "author": None,
+        "title":  "Garcilaso de la Vega ",
+    },
+    "garland.txt":                           {"fileid": 782, "author": None, "title": "John of Garland"},
+    "gaud.txt":                              {"fileid": 783, "author": None, "title": "Gaudeamus Igitur"},
+    "gauss.txt":                             {
+        "fileid": 784,
+        "author": "Gauss",
+        "title":  "Demonstratio Nova",
+    },
+    "gellius/gellius1.txt":                  {
         "fileid": 785,
         "author": "Auli Gellii Noctes Atticae",
         "title":  "Liber I",
     },
-    "gellius/gellius10.txt":                   {
+    "gellius/gellius10.txt":                 {
         "fileid": 786,
         "author": "Auli Gellii Noctes Atticae",
         "title":  "Liber X",
     },
-    "gellius/gellius11.txt":                   {
+    "gellius/gellius11.txt":                 {
         "fileid": 787,
         "author": "Auli Gellii Noctes Atticae",
         "title":  "Liber XI",
     },
-    "gellius/gellius13.txt":                   {
+    "gellius/gellius13.txt":                 {
         "fileid": 788,
         "author": "Auli Gellii Noctes Atticae",
         "title":  "Liber XIII",
@@ -3016,43 +3814,47 @@ FILE_TAB = {
         "author": "Auli Gellii Noctes Atticae",
         "title":  "Liber VII",
     },
-    "gellius/gellius8.txt":                    {
+    "gellius/gellius8.txt":                  {
         "fileid": 796,
         "author": "Auli Gellii Noctes Atticae",
         "title":  "Liber VIII",
     },
-    "gellius/gellius9.txt":                    {
+    "gellius/gellius9.txt":                  {
         "fileid": 797,
         "author": "Auli Gellii Noctes Atticae",
         "title":  "Liber IX",
     },
-    "gellius/gelliuscapitula.txt":             {
+    "gellius/gelliuscapitula.txt":           {
         "fileid": 798,
         "author": "Auli Gellii Noctes Atticae",
         "title":  "Capitula",
     },
-    "gellius/gelliuspraef.txt":                {
+    "gellius/gelliuspraef.txt":              {
         "fileid": 799,
         "author": "Auli Gellii Noctes Atticae",
         "title":  "Praefatio",
     },
-    "germanicus.txt":                          {"fileid": 800, "author": "Germanicus", "title": "Aratea"},
-    "gestafrancorum/gestafrancorum1.txt":      {
+    "germanicus.txt":                        {
+        "fileid": 800,
+        "author": "Germanicus",
+        "title":  "Aratea",
+    },
+    "gestafrancorum/gestafrancorum1.txt":    {
         "fileid": 801,
         "author": None,
         "title":  "Gesta Francorum I",
     },
-    "gestafrancorum/gestafrancorum10.txt":     {
+    "gestafrancorum/gestafrancorum10.txt":   {
         "fileid": 802,
         "author": None,
         "title":  "Gesta Francorum X",
     },
-    "gestafrancorum/gestafrancorum2.txt":      {
+    "gestafrancorum/gestafrancorum2.txt":    {
         "fileid": 803,
         "author": None,
         "title":  "Gesta Francorum II",
     },
-    "gestafrancorum/gestafrancorum3.txt":      {
+    "gestafrancorum/gestafrancorum3.txt":    {
         "fileid": 804,
         "author": None,
         "title":  "Gesta Francorum III",
@@ -3067,61 +3869,77 @@ FILE_TAB = {
         "author": None,
         "title":  "Gesta Francorum V",
     },
-    "gestafrancorum/gestafrancorum6.txt":      {
+    "gestafrancorum/gestafrancorum6.txt":    {
         "fileid": 807,
         "author": None,
         "title":  "Gesta Francorum VI",
     },
-    "gestafrancorum/gestafrancorum7.txt":      {
+    "gestafrancorum/gestafrancorum7.txt":    {
         "fileid": 808,
         "author": None,
         "title":  "Gesta Francorum VII",
     },
-    "gestafrancorum/gestafrancorum8.txt":      {
+    "gestafrancorum/gestafrancorum8.txt":    {
         "fileid": 809,
         "author": None,
         "title":  "Gesta Francorum VIII",
     },
-    "gestafrancorum/gestafrancorum9.txt":      {
+    "gestafrancorum/gestafrancorum9.txt":    {
         "fileid": 810,
         "author": None,
         "title":  "Gesta Francorum IX",
     },
-    "gestarom.txt":                            {"fileid": 811, "author": None, "title": "Gesta Romanorum"},
-    "gioacchino.txt":                          {
+    "gestarom.txt":                          {
+        "fileid": 811,
+        "author": None,
+        "title":  "Gesta Romanorum",
+    },
+    "gioacchino.txt":                        {
         "fileid": 812,
         "author": "Gioacchino da Fiore",
         "title":  "Adversus Iudeos",
     },
-    "godfrey.epigrammata.txt":                 {
+    "godfrey.epigrammata.txt":               {
         "fileid": 813,
         "author": "Godfrey of Winchester",
         "title":  "Epigrammata",
     },
-    "godfrey.epigrammatahist.txt":             {
+    "godfrey.epigrammatahist.txt":           {
         "fileid": 814,
         "author": "Godfrey of Winchester",
         "title":  "Epigrammata Historica",
     },
-    "grattius.txt":                            {"fileid": 815, "author": "Grattius", "title": "Cynegetica"},
-    "gravissimas.txt":                         {"fileid": 816, "author": None, "title": "Inter Gravissimas "},
-    "greg.txt":                                {"fileid": 817, "author": None, "title": "Letter of Gregory the Great"},
-    "gregdecretals1.txt":                      {
+    "grattius.txt":                          {
+        "fileid": 815,
+        "author": "Grattius",
+        "title":  "Cynegetica",
+    },
+    "gravissimas.txt":                       {
+        "fileid": 816,
+        "author": None,
+        "title":  "Inter Gravissimas ",
+    },
+    "greg.txt":                              {
+        "fileid": 817,
+        "author": None,
+        "title":  "Letter of Gregory the Great",
+    },
+    "gregdecretals1.txt":                    {
         "fileid": 818,
         "author": "Gregory IX",
         "title":  "Decretals I",
     },
-    "gregdecretals2.txt":                      {
+    "gregdecretals2.txt":                    {
         "fileid": 819,
         "author": "Gregory IX",
         "title":  "Decretals II",
     },
-    "gregdecretals3.txt":                      {
+    "gregdecretals3.txt":                    {
         "fileid": 820,
         "author": "Gregory IX",
         "title":  "Decretals III",
     },
-    "gregdecretals4.txt":                      {
+    "gregdecretals4.txt":                    {
         "fileid": 821,
         "author": "Gregory IX",
         "title":  "Decretals IV",
@@ -3176,234 +3994,358 @@ FILE_TAB = {
         "author": None,
         "title":  "Gregory of Tours VII",
     },
-    "gregorytours/gregorytours8.txt":          {
+    "gregorytours/gregorytours8.txt":        {
         "fileid": 832,
         "author": None,
         "title":  "Gregory of Tours VIII",
     },
-    "gregorytours/gregorytours9.txt":          {
+    "gregorytours/gregorytours9.txt":        {
         "fileid": 833,
         "author": None,
         "title":  "Gregory of Tours IX",
     },
-    "gwinne1.txt":                             {"fileid": 834, "author": "Nero", "title": "Act I  "},
-    "gwinne2.txt":                             {"fileid": 835, "author": "Nero", "title": "Act II  "},
-    "gwinne3.txt":                             {"fileid": 836, "author": "Nero", "title": "Act III "},
-    "gwinne4.txt":                             {"fileid": 837, "author": "Nero", "title": "Act IV "},
-    "gwinne5.1.txt":                           {"fileid": 838, "author": "Nero", "title": "Act V.1 "},
-    "gwinne5.2.txt":                           {"fileid": 839, "author": "Nero", "title": "Act V.2 "},
-    "gwinne5.3.txt":                           {"fileid": 840, "author": "Nero", "title": "Act V.3 "},
-    "gwinne5.4.txt":                           {"fileid": 841, "author": "Nero", "title": "Act V.4 "},
-    "halley.txt":                              {
+    "gwinne1.txt":                           {"fileid": 834, "author": "Nero", "title": "Act I  "},
+    "gwinne2.txt":                           {"fileid": 835, "author": "Nero", "title": "Act II  "},
+    "gwinne3.txt":                           {"fileid": 836, "author": "Nero", "title": "Act III "},
+    "gwinne4.txt":                           {"fileid": 837, "author": "Nero", "title": "Act IV "},
+    "gwinne5.1.txt":                         {"fileid": 838, "author": "Nero", "title": "Act V.1 "},
+    "gwinne5.2.txt":                         {"fileid": 839, "author": "Nero", "title": "Act V.2 "},
+    "gwinne5.3.txt":                         {"fileid": 840, "author": "Nero", "title": "Act V.3 "},
+    "gwinne5.4.txt":                         {"fileid": 841, "author": "Nero", "title": "Act V.4 "},
+    "halley.txt":                            {
         "fileid": 842,
         "author": None,
         "title":  "Edmond Halley (1656\u20131742)",
     },
-    "hebet.txt":                               {"fileid": 843, "author": None, "title": "Hebet Sidus Leti Visus"},
-    "henry1.txt":                              {
+    "hebet.txt":                             {
+        "fileid": 843,
+        "author": None,
+        "title":  "Hebet Sidus Leti Visus",
+    },
+    "henry1.txt":                            {
         "fileid": 844,
         "author": None,
         "title":  "Correspondence of Henry VII",
     },
-    "henry2.txt":                              {
+    "henry2.txt":                            {
         "fileid": 845,
         "author": None,
         "title":  "Correspondence of Henry VII",
     },
-    "henry3.txt":                              {
+    "henry3.txt":                            {
         "fileid": 846,
         "author": None,
         "title":  "Correspondence of Henry VII",
     },
-    "henrysettimello.txt":                     {
+    "henrysettimello.txt":                   {
         "fileid": 847,
         "author": "Henry of Settimello",
         "title":  "Elegia",
     },
-    "hipp.txt":                                {"fileid": 848, "author": None, "title": "Pseudo-Plato "},
-    "histapoll.txt":                           {
+    "hipp.txt":                              {"fileid": 848, "author": None, "title": "Pseudo-Plato "},
+    "histapoll.txt":                         {
         "fileid": 849,
         "author": None,
         "title":  "Historia Apollonii regis Tyri",
     },
-    "histbrit.txt":                            {"fileid": 850, "author": None, "title": "Historia Brittonum"},
-    "holberg.txt":                             {"fileid": 851, "author": None, "title": "Augustin T\u00fcnger"},
-    "horace/arspoet.txt":                      {"fileid": 852, "author": "Horace", "title": "Ars Poetica"},
-    "horace/carm1.txt":                        {"fileid": 853, "author": "Horace", "title": "Odes I"},
-    "horace/carm2.txt":                        {"fileid": 854, "author": "Horace", "title": "Odes II"},
-    "horace/carm3.txt":                        {"fileid": 855, "author": "Horace", "title": "Odes III"},
-    "horace/carm4.txt":                        {"fileid": 856, "author": "Horace", "title": "Odes IV"},
-    "horace/carmsaec.txt":                     {
+    "histbrit.txt":                          {
+        "fileid": 850,
+        "author": None,
+        "title":  "Historia Brittonum",
+    },
+    "holberg.txt":                           {
+        "fileid": 851,
+        "author": None,
+        "title":  "Augustin T\u00fcnger",
+    },
+    "horace/arspoet.txt":                    {
+        "fileid": 852,
+        "author": "Horace",
+        "title":  "Ars Poetica",
+    },
+    "horace/carm1.txt":                      {"fileid": 853, "author": "Horace", "title": "Odes I"},
+    "horace/carm2.txt":                      {
+        "fileid": 854,
+        "author": "Horace",
+        "title":  "Odes II",
+    },
+    "horace/carm3.txt":                      {
+        "fileid": 855,
+        "author": "Horace",
+        "title":  "Odes III",
+    },
+    "horace/carm4.txt":                      {
+        "fileid": 856,
+        "author": "Horace",
+        "title":  "Odes IV",
+    },
+    "horace/carmsaec.txt":                   {
         "fileid": 857,
         "author": "Horace",
         "title":  "Carmen Saeculare",
     },
-    "horace/ep.txt":                           {"fileid": 858, "author": "Horace", "title": "Epodes"},
-    "horace/epist1.txt":                       {"fileid": 859, "author": "Horace", "title": "Epistulae I"},
-    "horace/epist2.txt":                       {"fileid": 860, "author": "Horace", "title": "Epistulae II"},
-    "horace/serm1.txt":                        {
+    "horace/ep.txt":                         {"fileid": 858, "author": "Horace", "title": "Epodes"},
+    "horace/epist1.txt":                     {
+        "fileid": 859,
+        "author": "Horace",
+        "title":  "Epistulae I",
+    },
+    "horace/epist2.txt":                     {
+        "fileid": 860,
+        "author": "Horace",
+        "title":  "Epistulae II",
+    },
+    "horace/serm1.txt":                      {
         "fileid": 861,
         "author": "Horace",
         "title":  "Sermonum Liber I",
     },
-    "horace/serm2.txt":                        {
+    "horace/serm2.txt":                      {
         "fileid": 862,
         "author": "Horace",
         "title":  "Sermonum Liber II",
     },
-    "hrabanus.txt":                            {"fileid": 863, "author": None, "title": "Hrabanus Maurus "},
-    "hugo/hugo.solo.txt":                      {
+    "hrabanus.txt":                          {
+        "fileid": 863,
+        "author": None,
+        "title":  "Hrabanus Maurus ",
+    },
+    "hugo/hugo.solo.txt":                    {
         "fileid": 864,
         "author": None,
         "title":  "Hugo of Saint Victor",
     },
-    "hugo/hugo1.txt":                          {
+    "hugo/hugo1.txt":                        {
         "fileid": 865,
         "author": "Hugo of St. Victor",
         "title":  "Didascalicon I",
     },
-    "hugo/hugo2.txt":                          {
+    "hugo/hugo2.txt":                        {
         "fileid": 866,
         "author": "Hugo of St. Victor",
         "title":  "Didascalicon II",
     },
-    "hugo/hugo3.txt":                          {
+    "hugo/hugo3.txt":                        {
         "fileid": 867,
         "author": "Hugo of St. Victor",
         "title":  "Didascalicon III",
     },
-    "hugo/hugo4.txt":                          {
+    "hugo/hugo4.txt":                        {
         "fileid": 868,
         "author": "Hugo of St. Victor",
         "title":  "Didascalicon IV",
     },
-    "hugo/hugo5.txt":                          {
+    "hugo/hugo5.txt":                        {
         "fileid": 869,
         "author": "Hugo of St. Victor",
         "title":  "Didascalicon V",
     },
-    "hugo/hugo6.txt":                          {
+    "hugo/hugo6.txt":                        {
         "fileid": 870,
         "author": "Hugo of St. Victor",
         "title":  "Didascalicon VI",
     },
-    "hydatiuschronicon.txt":                   {
+    "hydatiuschronicon.txt":                 {
         "fileid": 871,
         "author": "Hydatius",
         "title":  "Chronicon",
     },
-    "hydatiusfasti.txt":                       {"fileid": 872, "author": "Hydatius", "title": "Fasti"},
-    "hyginus/hyginus1.txt":                    {
+    "hydatiusfasti.txt":                     {
+        "fileid": 872,
+        "author": "Hydatius",
+        "title":  "Fasti",
+    },
+    "hyginus/hyginus1.txt":                  {
         "fileid": 873,
         "author": "Hyginus",
         "title":  "de Astronomia I",
     },
-    "hyginus/hyginus2.txt":                    {
+    "hyginus/hyginus2.txt":                  {
         "fileid": 874,
         "author": "Hyginus",
         "title":  "de Astronomia II",
     },
-    "hyginus/hyginus3.txt":                    {
+    "hyginus/hyginus3.txt":                  {
         "fileid": 875,
         "author": "Hyginus",
         "title":  "de Astronomia III",
     },
-    "hyginus/hyginus4.txt":                    {
+    "hyginus/hyginus4.txt":                  {
         "fileid": 876,
         "author": "Hyginus",
         "title":  "de Astronomia IV",
     },
-    "hyginus/hyginus5.txt":                    {"fileid": 877, "author": "Hyginus", "title": "Fabulae"},
-    "hyginus/hyginus6.txt":                    {
+    "hyginus/hyginus5.txt":                  {
+        "fileid": 877,
+        "author": "Hyginus",
+        "title":  "Fabulae",
+    },
+    "hyginus/hyginus6.txt":                  {
         "fileid": 878,
         "author": "Pseudo-Hyginus",
         "title":  "de Munitionibus Castrorum",
     },
-    "hymni.txt":                               {"fileid": 879, "author": None, "title": ""},
-    "iabervocius.txt":                         {
+    "hymni.txt":                             {"fileid": 879, "author": None, "title": ""},
+    "iabervocius.txt":                       {
         "fileid": 880,
         "author": "Lewis Carroll",
         "title":  "Jabberwocky ",
     },
-    "iamdulcis.txt":                           {
+    "iamdulcis.txt":                         {
         "fileid": 881,
         "author": "Anonymous",
         "title":  "Iam, dulcis amica ",
     },
-    "ilias.txt":                               {"fileid": 882, "author": None, "title": ""},
-    "index.txt":                               {"fileid": 883, "author": None, "title": ""},
-    "indices.txt":                             {"fileid": 884, "author": None, "title": "INDEX AUCTORUM"},
-    "innocent1.txt":                           {
+    "ilias.txt":                             {"fileid": 882, "author": None, "title": ""},
+    "index.txt":                             {"fileid": 883, "author": None, "title": ""},
+    "indices.txt":                           {"fileid": 884, "author": None, "title": "INDEX AUCTORUM"},
+    "innocent1.txt":                         {
         "fileid": 885,
         "author": "Lotario dei Segni",
         "title":  "De Miseria Condicionis Humane",
     },
-    "innocent2.txt":                           {
+    "innocent2.txt":                         {
         "fileid": 886,
         "author": "Lotario dei Segni",
         "title":  "Dialogus inter Deum et Peccatorem",
     },
-    "inquisitio.txt":                          {"fileid": 887, "author": None, "title": "Inquisitio"},
-    "inscriptions.txt":                        {"fileid": 888, "author": None, "title": "Inscriptiones"},
-    "iordanes1.txt":                           {
+    "inquisitio.txt":                        {"fileid": 887, "author": None, "title": "Inquisitio"},
+    "inscriptions.txt":                      {
+        "fileid": 888,
+        "author": None,
+        "title":  "Inscriptiones",
+    },
+    "iordanes1.txt":                         {
         "fileid": 889,
         "author": None,
         "title":  "Iordanis de Origine Actibusque Getarum",
     },
-    "iordanes2.txt":                           {
+    "iordanes2.txt":                         {
         "fileid": 890,
         "author": "Iordanes",
         "title":  "De summa temporum vel origine actibusque gentis Romanorum",
     },
-    "ipsavivere.txt":                          {
+    "ipsavivere.txt":                        {
         "fileid": 891,
         "author": "Anonymous",
         "title":  "Ipsa vivere mihi reddidit! ",
     },
-    "isidore/1.txt":                           {"fileid": 892, "author": "Isidore", "title": "Etymologiae I"},
-    "isidore/10.txt":                          {"fileid": 893, "author": "Isidore", "title": "Etymologiae X"},
-    "isidore/11.txt":                          {"fileid": 894, "author": "Isidore", "title": "Etymologiae XI"},
-    "isidore/12.txt":                          {"fileid": 895, "author": "Isidore", "title": "Etymologiae XII"},
-    "isidore/13.txt":                          {"fileid": 896, "author": "Isidore", "title": "Etymologiae XIII"},
-    "isidore/14.txt":                          {"fileid": 897, "author": "Isidore", "title": "Etymologiae XIV"},
-    "isidore/15.txt":                          {"fileid": 898, "author": "Isidore", "title": "Etymologiae XV"},
-    "isidore/16.txt":                          {"fileid": 899, "author": "Isidore", "title": "Etymologiae XVI"},
-    "isidore/17.txt":                          {
+    "isidore/1.txt":                         {
+        "fileid": 892,
+        "author": "Isidore",
+        "title":  "Etymologiae I",
+    },
+    "isidore/10.txt":                        {
+        "fileid": 893,
+        "author": "Isidore",
+        "title":  "Etymologiae X",
+    },
+    "isidore/11.txt":                        {
+        "fileid": 894,
+        "author": "Isidore",
+        "title":  "Etymologiae XI",
+    },
+    "isidore/12.txt":                        {
+        "fileid": 895,
+        "author": "Isidore",
+        "title":  "Etymologiae XII",
+    },
+    "isidore/13.txt":                        {
+        "fileid": 896,
+        "author": "Isidore",
+        "title":  "Etymologiae XIII",
+    },
+    "isidore/14.txt":                        {
+        "fileid": 897,
+        "author": "Isidore",
+        "title":  "Etymologiae XIV",
+    },
+    "isidore/15.txt":                        {
+        "fileid": 898,
+        "author": "Isidore",
+        "title":  "Etymologiae XV",
+    },
+    "isidore/16.txt":                        {
+        "fileid": 899,
+        "author": "Isidore",
+        "title":  "Etymologiae XVI",
+    },
+    "isidore/17.txt":                        {
         "fileid": 900,
         "author": "Isidore",
         "title":  "Etymologiae XVII ",
     },
-    "isidore/18.txt":                          {
+    "isidore/18.txt":                        {
         "fileid": 901,
         "author": "Isidore",
         "title":  "Etymologiae XVIII ",
     },
-    "isidore/19.txt":                          {"fileid": 902, "author": "Isidore", "title": "Etymologiae XIX "},
-    "isidore/2.txt":                           {"fileid": 903, "author": "Isidore", "title": "Etymologiae II"},
-    "isidore/20.txt":                          {"fileid": 904, "author": "Isidore", "title": "Etymologiae XX "},
-    "isidore/3.txt":                           {"fileid": 905, "author": "Isidore", "title": "Etymologiae III"},
-    "isidore/4.txt":                           {"fileid": 906, "author": "Isidore", "title": "Etymologiae IV"},
-    "isidore/5.txt":                           {"fileid": 907, "author": "Isidore", "title": "Etymologiae V"},
-    "isidore/6.txt":                           {"fileid": 908, "author": "Isidore", "title": "Etymologiae VI"},
-    "isidore/7.txt":                           {"fileid": 909, "author": "Isidore", "title": "Etymologiae VII"},
-    "isidore/8.txt":                           {"fileid": 910, "author": "Isidore", "title": "Etymologiae VIII"},
-    "isidore/9.txt":                           {"fileid": 911, "author": "Isidore", "title": "Etymologiae IX"},
-    "isidore/historia.txt":                    {
+    "isidore/19.txt":                        {
+        "fileid": 902,
+        "author": "Isidore",
+        "title":  "Etymologiae XIX ",
+    },
+    "isidore/2.txt":                         {
+        "fileid": 903,
+        "author": "Isidore",
+        "title":  "Etymologiae II",
+    },
+    "isidore/20.txt":                        {
+        "fileid": 904,
+        "author": "Isidore",
+        "title":  "Etymologiae XX ",
+    },
+    "isidore/3.txt":                         {
+        "fileid": 905,
+        "author": "Isidore",
+        "title":  "Etymologiae III",
+    },
+    "isidore/4.txt":                         {
+        "fileid": 906,
+        "author": "Isidore",
+        "title":  "Etymologiae IV",
+    },
+    "isidore/5.txt":                         {
+        "fileid": 907,
+        "author": "Isidore",
+        "title":  "Etymologiae V",
+    },
+    "isidore/6.txt":                         {
+        "fileid": 908,
+        "author": "Isidore",
+        "title":  "Etymologiae VI",
+    },
+    "isidore/7.txt":                         {
+        "fileid": 909,
+        "author": "Isidore",
+        "title":  "Etymologiae VII",
+    },
+    "isidore/8.txt":                         {
+        "fileid": 910,
+        "author": "Isidore",
+        "title":  "Etymologiae VIII",
+    },
+    "isidore/9.txt":                         {
+        "fileid": 911,
+        "author": "Isidore",
+        "title":  "Etymologiae IX",
+    },
+    "isidore/historia.txt":                  {
         "fileid": 912,
         "author": "Isidorus Hispalensis",
         "title":  "Historia de regibus Gothorum, Vandalorum et Suevorum",
     },
-    "isidore/sententiae1.txt":                 {
+    "isidore/sententiae1.txt":               {
         "fileid": 913,
         "author": "Isidore",
         "title":  "Sentientiae I",
     },
-    "isidore/sententiae2.txt":                 {
+    "isidore/sententiae2.txt":               {
         "fileid": 914,
         "author": "Isidore",
         "title":  "Sentientiae II",
     },
-    "isidore/sententiae3.txt":                 {
+    "isidore/sententiae3.txt":               {
         "fileid": 915,
         "author": "Isidore",
         "title":  "Sentientiae III",
@@ -3452,57 +4394,69 @@ FILE_TAB = {
     "justin/17.txt":                           {"fileid": 933, "author": None, "title": "Justin XVII"},
     "justin/18.txt":                           {"fileid": 934, "author": None, "title": "Justin XVIII"},
     "justin/19.txt":                           {"fileid": 935, "author": None, "title": "Justin XIX"},
-    "justin/2.txt":                            {"fileid": 936, "author": None, "title": "Justin II"},
-    "justin/20.txt":                           {"fileid": 937, "author": None, "title": "Justin XX"},
-    "justin/21.txt":                           {"fileid": 938, "author": None, "title": "Justin XXI"},
-    "justin/22.txt":                           {"fileid": 939, "author": None, "title": "Justin XXII"},
-    "justin/23.txt":                           {"fileid": 940, "author": None, "title": "Justin XXIII"},
-    "justin/24.txt":                           {"fileid": 941, "author": None, "title": "Justin XXIV"},
-    "justin/25.txt":                           {"fileid": 942, "author": None, "title": "Justin XXV"},
-    "justin/26.txt":                           {"fileid": 943, "author": None, "title": "Justin XXVI"},
-    "justin/27.txt":                           {"fileid": 944, "author": None, "title": "Justin XXVII"},
-    "justin/28.txt":                           {"fileid": 945, "author": None, "title": "Justin XXVIII"},
-    "justin/29.txt":                           {"fileid": 946, "author": None, "title": "Justin XXIX"},
-    "justin/3.txt":                            {"fileid": 947, "author": None, "title": "Justin III"},
-    "justin/30.txt":                           {"fileid": 948, "author": None, "title": "Justin XXX"},
-    "justin/31.txt":                           {"fileid": 949, "author": None, "title": "Justin XXXI"},
-    "justin/32.txt":                           {"fileid": 950, "author": None, "title": "Justin XXXII"},
-    "justin/33.txt":                           {"fileid": 951, "author": None, "title": "Justin XXXIII"},
-    "justin/34.txt":                           {"fileid": 952, "author": None, "title": "Justin XXXIV"},
-    "justin/35.txt":                           {"fileid": 953, "author": None, "title": "Justin XXXV"},
-    "justin/36.txt":                           {"fileid": 954, "author": None, "title": "Justin XXXVI"},
-    "justin/37.txt":                           {"fileid": 955, "author": None, "title": "Justin XXXVII"},
-    "justin/38.txt":                           {"fileid": 956, "author": None, "title": "Justin XXXVIII"},
-    "justin/39.txt":                           {"fileid": 957, "author": None, "title": "Justin XXXIX"},
-    "justin/4.txt":                            {"fileid": 958, "author": None, "title": "Justin IV"},
-    "justin/40.txt":                           {"fileid": 959, "author": None, "title": "Justin XL"},
-    "justin/41.txt":                           {"fileid": 960, "author": None, "title": "Justin XLI"},
-    "justin/42.txt":                           {"fileid": 961, "author": None, "title": "Justin XLII"},
-    "justin/43.txt":                           {"fileid": 962, "author": None, "title": "Justin XLIII"},
-    "justin/44.txt":                           {"fileid": 963, "author": None, "title": "Justin XIVL"},
-    "justin/5.txt":                            {"fileid": 964, "author": None, "title": "Justin V"},
-    "justin/6.txt":                            {"fileid": 965, "author": None, "title": "Justin VI"},
-    "justin/7.txt":                            {"fileid": 966, "author": None, "title": "Justin VII"},
-    "justin/8.txt":                            {"fileid": 967, "author": None, "title": "Justin VIII"},
-    "justin/9.txt":                            {"fileid": 968, "author": None, "title": "Justin IX"},
-    "justin/praefatio.txt":                    {"fileid": 969, "author": "Justin", "title": "Praefatio"},
-    "justin/prologi.txt":                      {"fileid": 970, "author": "Justin", "title": "Prologues"},
-    "justinian/codex1.txt":                    {
+    "justin/2.txt":                          {"fileid": 936, "author": None, "title": "Justin II"},
+    "justin/20.txt":                         {"fileid": 937, "author": None, "title": "Justin XX"},
+    "justin/21.txt":                         {"fileid": 938, "author": None, "title": "Justin XXI"},
+    "justin/22.txt":                         {"fileid": 939, "author": None, "title": "Justin XXII"},
+    "justin/23.txt":                         {"fileid": 940, "author": None, "title": "Justin XXIII"},
+    "justin/24.txt":                         {"fileid": 941, "author": None, "title": "Justin XXIV"},
+    "justin/25.txt":                         {"fileid": 942, "author": None, "title": "Justin XXV"},
+    "justin/26.txt":                         {"fileid": 943, "author": None, "title": "Justin XXVI"},
+    "justin/27.txt":                         {"fileid": 944, "author": None, "title": "Justin XXVII"},
+    "justin/28.txt":                         {"fileid": 945, "author": None, "title": "Justin XXVIII"},
+    "justin/29.txt":                         {"fileid": 946, "author": None, "title": "Justin XXIX"},
+    "justin/3.txt":                          {"fileid": 947, "author": None, "title": "Justin III"},
+    "justin/30.txt":                         {"fileid": 948, "author": None, "title": "Justin XXX"},
+    "justin/31.txt":                         {"fileid": 949, "author": None, "title": "Justin XXXI"},
+    "justin/32.txt":                         {"fileid": 950, "author": None, "title": "Justin XXXII"},
+    "justin/33.txt":                         {"fileid": 951, "author": None, "title": "Justin XXXIII"},
+    "justin/34.txt":                         {"fileid": 952, "author": None, "title": "Justin XXXIV"},
+    "justin/35.txt":                         {"fileid": 953, "author": None, "title": "Justin XXXV"},
+    "justin/36.txt":                         {"fileid": 954, "author": None, "title": "Justin XXXVI"},
+    "justin/37.txt":                         {"fileid": 955, "author": None, "title": "Justin XXXVII"},
+    "justin/38.txt":                         {
+        "fileid": 956,
+        "author": None,
+        "title":  "Justin XXXVIII",
+    },
+    "justin/39.txt":                         {"fileid": 957, "author": None, "title": "Justin XXXIX"},
+    "justin/4.txt":                          {"fileid": 958, "author": None, "title": "Justin IV"},
+    "justin/40.txt":                         {"fileid": 959, "author": None, "title": "Justin XL"},
+    "justin/41.txt":                         {"fileid": 960, "author": None, "title": "Justin XLI"},
+    "justin/42.txt":                         {"fileid": 961, "author": None, "title": "Justin XLII"},
+    "justin/43.txt":                         {"fileid": 962, "author": None, "title": "Justin XLIII"},
+    "justin/44.txt":                         {"fileid": 963, "author": None, "title": "Justin XIVL"},
+    "justin/5.txt":                          {"fileid": 964, "author": None, "title": "Justin V"},
+    "justin/6.txt":                          {"fileid": 965, "author": None, "title": "Justin VI"},
+    "justin/7.txt":                          {"fileid": 966, "author": None, "title": "Justin VII"},
+    "justin/8.txt":                          {"fileid": 967, "author": None, "title": "Justin VIII"},
+    "justin/9.txt":                          {"fileid": 968, "author": None, "title": "Justin IX"},
+    "justin/praefatio.txt":                  {
+        "fileid": 969,
+        "author": "Justin",
+        "title":  "Praefatio",
+    },
+    "justin/prologi.txt":                    {
+        "fileid": 970,
+        "author": "Justin",
+        "title":  "Prologues",
+    },
+    "justinian/codex1.txt":                  {
         "fileid": 971,
         "author": "Codex of Justinian",
         "title":  "Liber I",
     },
-    "justinian/codex10.txt":                   {
+    "justinian/codex10.txt":                 {
         "fileid": 972,
         "author": "Codex of Justinian",
         "title":  "Liber X",
     },
-    "justinian/codex11.txt":                   {
+    "justinian/codex11.txt":                 {
         "fileid": 973,
         "author": "Codex of Justinian",
         "title":  "Liber XI",
     },
-    "justinian/codex12.txt":                   {
+    "justinian/codex12.txt":                 {
         "fileid": 974,
         "author": "Codex of Justinian",
         "title":  "Liber XII",
@@ -3802,102 +4756,178 @@ FILE_TAB = {
         "author": "The Institutes of Justinian",
         "title":  "Introduction",
     },
-    "justinian/institutes1.txt":               {
+    "justinian/institutes1.txt":             {
         "fileid": 1034,
         "author": "The Institutes of Justinian",
         "title":  "Book 1",
     },
-    "justinian/institutes2.txt":               {
+    "justinian/institutes2.txt":             {
         "fileid": 1035,
         "author": "The Institutes of Justinian",
         "title":  "Book 1",
     },
-    "justinian/institutes3.txt":               {
+    "justinian/institutes3.txt":             {
         "fileid": 1036,
         "author": "The Institutes of Justinian",
         "title":  "Book 3",
     },
-    "justinian/institutes4.txt":               {
+    "justinian/institutes4.txt":             {
         "fileid": 1037,
         "author": "The Institutes of Justinian",
         "title":  "Book 4",
     },
-    "juvenal/1.txt":                           {"fileid": 1038, "author": "Juvenal", "title": "Satires I"},
-    "juvenal/10.txt":                          {"fileid": 1039, "author": "Juvenal", "title": "Satires X"},
-    "juvenal/11.txt":                          {"fileid": 1040, "author": "Juvenal", "title": "Satires XI"},
-    "juvenal/12.txt":                          {"fileid": 1041, "author": "Juvenal", "title": "Satires XII"},
-    "juvenal/13.txt":                          {"fileid": 1042, "author": "Juvenal", "title": "Satires XIII"},
-    "juvenal/14.txt":                          {"fileid": 1043, "author": "Juvenal", "title": "Satires XIV"},
-    "juvenal/15.txt":                          {"fileid": 1044, "author": "Juvenal", "title": "Satires XV"},
-    "juvenal/16.txt":                          {"fileid": 1045, "author": "Juvenal", "title": "Satires XVI"},
-    "juvenal/2.txt":                           {"fileid": 1046, "author": "Juvenal", "title": "Satires II"},
-    "juvenal/3.txt":                           {"fileid": 1047, "author": "Juvenal", "title": "Satires III"},
-    "juvenal/4.txt":                           {"fileid": 1048, "author": "Juvenal", "title": "Satires IV"},
-    "juvenal/5.txt":                           {"fileid": 1049, "author": "Juvenal", "title": "Satires V"},
-    "juvenal/6.txt":                           {"fileid": 1050, "author": "Juvenal", "title": "Satires VI"},
-    "juvenal/7.txt":                           {"fileid": 1051, "author": "Juvenal", "title": "Satires VII"},
-    "juvenal/8.txt":                           {"fileid": 1052, "author": "Juvenal", "title": "Satires VIII"},
-    "juvenal/9.txt":                           {"fileid": 1053, "author": "Juvenal", "title": "Satires IX"},
-    "kalila.txt":                              {"fileid": 1054, "author": None, "title": "Liber Kalilae et Dimnae"},
-    "kempis/kempis1.txt":                      {
+    "juvenal/1.txt":                         {
+        "fileid": 1038,
+        "author": "Juvenal",
+        "title":  "Satires I",
+    },
+    "juvenal/10.txt":                        {
+        "fileid": 1039,
+        "author": "Juvenal",
+        "title":  "Satires X",
+    },
+    "juvenal/11.txt":                        {
+        "fileid": 1040,
+        "author": "Juvenal",
+        "title":  "Satires XI",
+    },
+    "juvenal/12.txt":                        {
+        "fileid": 1041,
+        "author": "Juvenal",
+        "title":  "Satires XII",
+    },
+    "juvenal/13.txt":                        {
+        "fileid": 1042,
+        "author": "Juvenal",
+        "title":  "Satires XIII",
+    },
+    "juvenal/14.txt":                        {
+        "fileid": 1043,
+        "author": "Juvenal",
+        "title":  "Satires XIV",
+    },
+    "juvenal/15.txt":                        {
+        "fileid": 1044,
+        "author": "Juvenal",
+        "title":  "Satires XV",
+    },
+    "juvenal/16.txt":                        {
+        "fileid": 1045,
+        "author": "Juvenal",
+        "title":  "Satires XVI",
+    },
+    "juvenal/2.txt":                         {
+        "fileid": 1046,
+        "author": "Juvenal",
+        "title":  "Satires II",
+    },
+    "juvenal/3.txt":                         {
+        "fileid": 1047,
+        "author": "Juvenal",
+        "title":  "Satires III",
+    },
+    "juvenal/4.txt":                         {
+        "fileid": 1048,
+        "author": "Juvenal",
+        "title":  "Satires IV",
+    },
+    "juvenal/5.txt":                         {
+        "fileid": 1049,
+        "author": "Juvenal",
+        "title":  "Satires V",
+    },
+    "juvenal/6.txt":                         {
+        "fileid": 1050,
+        "author": "Juvenal",
+        "title":  "Satires VI",
+    },
+    "juvenal/7.txt":                         {
+        "fileid": 1051,
+        "author": "Juvenal",
+        "title":  "Satires VII",
+    },
+    "juvenal/8.txt":                         {
+        "fileid": 1052,
+        "author": "Juvenal",
+        "title":  "Satires VIII",
+    },
+    "juvenal/9.txt":                         {
+        "fileid": 1053,
+        "author": "Juvenal",
+        "title":  "Satires IX",
+    },
+    "kalila.txt":                            {
+        "fileid": 1054,
+        "author": None,
+        "title":  "Liber Kalilae et Dimnae",
+    },
+    "kempis/kempis1.txt":                    {
         "fileid": 1055,
         "author": "THOMAS \u00c0 KEMPIS",
         "title":  "DE IMITATIONE CHRISTI LIBER PRIMUS",
     },
-    "kempis/kempis2.txt":                      {
+    "kempis/kempis2.txt":                    {
         "fileid": 1056,
         "author": "THOMAS \u00c0 KEMPIS",
         "title":  "DE IMITATIONE CHRISTI LIBER SECUNDUS",
     },
-    "kempis/kempis3.txt":                      {
+    "kempis/kempis3.txt":                    {
         "fileid": 1057,
         "author": "THOMAS \u00c0 KEMPIS",
         "title":  "DE IMITATIONE CHRISTI LIBER TERTIUS",
     },
-    "kempis/kempis4.txt":                      {
+    "kempis/kempis4.txt":                    {
         "fileid": 1058,
         "author": "THOMAS \u00c0 KEMPIS",
         "title":  "DE IMITATIONE CHRISTI LIBER QUARTUS",
     },
-    "kepler/strena.txt":                       {
+    "kepler/strena.txt":                     {
         "fileid": 1059,
         "author": "JOANNIS KEPLERI",
         "title":  "STRENA SEU DE NIVE SEXANGULA",
     },
-    "lactantius/demort.txt":                   {
+    "lactantius/demort.txt":                 {
         "fileid": 1060,
         "author": "Lactantius",
         "title":  "de Mortibus Persecutorum",
     },
-    "lactantius/divinst1.txt":                 {
+    "lactantius/divinst1.txt":               {
         "fileid": 1061,
         "author": "Lactantius",
         "title":  "Divinarum Institutionum Liber I",
     },
-    "landor.1858.txt":                         {
+    "landor.1858.txt":                       {
         "fileid": 1062,
         "author": "Dry Sticks Fagoted",
         "title":  "1858 ",
     },
-    "landor1795.txt":                          {"fileid": 1063, "author": None, "title": ""},
-    "landor1806.txt":                          {"fileid": 1064, "author": "Simonidea", "title": "1806 "},
-    "landor1810.txt":                          {"fileid": 1065, "author": "Landor", "title": "Simonidea, 1806 "},
-    "legenda.stephani.txt":                    {
+    "landor1795.txt":                        {"fileid": 1063, "author": None, "title": ""},
+    "landor1806.txt":                        {
+        "fileid": 1064,
+        "author": "Simonidea",
+        "title":  "1806 ",
+    },
+    "landor1810.txt":                        {
+        "fileid": 1065,
+        "author": "Landor",
+        "title":  "Simonidea, 1806 ",
+    },
+    "legenda.stephani.txt":                  {
         "fileid": 1066,
         "author": None,
         "title":  "Legenda Maior Sancti Regis Stephani",
     },
-    "leo1.txt":                                {
+    "leo1.txt":                              {
         "fileid": 1067,
         "author": "Leo of Naples",
         "title":  "Historia de preliis Alexandri Magni",
     },
-    "leo2.txt":                                {
+    "leo2.txt":                              {
         "fileid": 1068,
         "author": "Leo of Naples",
         "title":  "Historia de preliis Alexandri Magni",
     },
-    "leo3.txt":                                {
+    "leo3.txt":                              {
         "fileid": 1069,
         "author": "Leo of Naples",
         "title":  "Historia de preliis Alexandri Magni",
@@ -3917,490 +4947,1122 @@ FILE_TAB = {
         "author": "Anonymous",
         "title":  "Letabundus rediit ",
     },
-    "levis.txt":                               {"fileid": 1073, "author": None, "title": ""},
-    "lhomond.historiae.txt":                   {
+    "levis.txt":                             {"fileid": 1073, "author": None, "title": ""},
+    "lhomond.historiae.txt":                 {
         "fileid": 1074,
         "author": "Lhomond",
         "title":  "Epitome historiae sacrae",
     },
-    "lhomond.viris.txt":                       {
+    "lhomond.viris.txt":                     {
         "fileid": 1075,
         "author": "Lhomond",
         "title":  "de viris illustribus",
     },
-    "liberpontificalis1.txt":                  {
+    "liberpontificalis1.txt":                {
         "fileid": 1076,
         "author": None,
         "title":  "Liber Pontificalis",
     },
-    "livy/liv.1.txt":                          {"fileid": 1077, "author": "Livy", "title": "Book I"},
-    "livy/liv.10.txt":                         {"fileid": 1078, "author": "Livy", "title": "Book X"},
-    "livy/liv.2.txt":                          {"fileid": 1079, "author": "Livy", "title": "Book II"},
-    "livy/liv.21.txt":                         {"fileid": 1080, "author": "Livy", "title": "Book XXI"},
-    "livy/liv.22.txt":                         {"fileid": 1081, "author": "Livy", "title": "Book XXII"},
-    "livy/liv.23.txt":                         {"fileid": 1082, "author": "Livy", "title": "Book XXIII"},
-    "livy/liv.24.txt":                         {"fileid": 1083, "author": "Livy", "title": "Book XXIV"},
-    "livy/liv.25.txt":                         {"fileid": 1084, "author": "Livy", "title": "Book XXV"},
-    "livy/liv.26.txt":                         {"fileid": 1085, "author": "Livy", "title": "Book XXVI"},
-    "livy/liv.27.txt":                         {"fileid": 1086, "author": "Livy", "title": "Book XXVII"},
-    "livy/liv.28.txt":                         {"fileid": 1087, "author": "Livy", "title": "Book XXVIII"},
-    "livy/liv.29.txt":                         {"fileid": 1088, "author": "Livy", "title": "Book XXIX"},
-    "livy/liv.3.txt":                          {"fileid": 1089, "author": "Livy", "title": "Book III"},
-    "livy/liv.30.txt":                         {"fileid": 1090, "author": "Livy", "title": "Book XXX"},
-    "livy/liv.31.txt":                         {"fileid": 1091, "author": "Livy", "title": "Book XXXI"},
-    "livy/liv.32.txt":                         {"fileid": 1092, "author": "Livy", "title": "Book XXXII"},
-    "livy/liv.33.txt":                         {"fileid": 1093, "author": "Livy", "title": "Book XXXIII"},
-    "livy/liv.34.txt":                         {"fileid": 1094, "author": "Livy", "title": "Book XXXIV"},
-    "livy/liv.35.txt":                         {"fileid": 1095, "author": "Livy", "title": "Book XXXV"},
-    "livy/liv.36.txt":                         {"fileid": 1096, "author": "Livy", "title": "Book XXXVI"},
-    "livy/liv.37.txt":                         {"fileid": 1097, "author": "Livy", "title": "Book XXXVII"},
-    "livy/liv.38.txt":                         {"fileid": 1098, "author": "Livy", "title": "Book XXXVIII"},
-    "livy/liv.39.txt":                         {"fileid": 1099, "author": "Livy", "title": "Book XXXIX"},
-    "livy/liv.4.txt":                          {"fileid": 1100, "author": "Livy", "title": "Book IV"},
-    "livy/liv.40.txt":                         {"fileid": 1101, "author": "Livy", "title": "Book XL"},
-    "livy/liv.41.txt":                         {"fileid": 1102, "author": "Livy", "title": "Book XLI"},
-    "livy/liv.42.txt":                         {"fileid": 1103, "author": "Livy", "title": "Book XLII"},
-    "livy/liv.43.txt":                         {"fileid": 1104, "author": "Livy", "title": "Book XLIII"},
-    "livy/liv.44.txt":                         {"fileid": 1105, "author": "Livy", "title": "Book XLIV"},
-    "livy/liv.45.txt":                         {"fileid": 1106, "author": "Livy", "title": "Book XLV"},
-    "livy/liv.5.txt":                          {"fileid": 1107, "author": "Livy", "title": "Book V"},
-    "livy/liv.6.txt":                          {"fileid": 1108, "author": "Livy", "title": "Book VI"},
-    "livy/liv.7.txt":                          {"fileid": 1109, "author": "Livy", "title": "Book VII"},
-    "livy/liv.8.txt":                          {"fileid": 1110, "author": "Livy", "title": "Book VIII"},
-    "livy/liv.9.txt":                          {"fileid": 1111, "author": "Livy", "title": "Book IX"},
-    "livy/liv.per.txt":                        {"fileid": 1112, "author": "Livy", "title": "Periochae"},
-    "livy/liv.per1.txt":                       {"fileid": 1113, "author": "Livy", "title": "Periocha I"},
-    "livy/liv.per10.txt":                      {"fileid": 1114, "author": "Livy", "title": "Periocha X"},
-    "livy/liv.per100.txt":                     {"fileid": 1115, "author": "Livy", "title": "Periocha C"},
-    "livy/liv.per101.txt":                     {"fileid": 1116, "author": "Livy", "title": "Periocha CI"},
-    "livy/liv.per102.txt":                     {"fileid": 1117, "author": "Livy", "title": "Periocha CII"},
-    "livy/liv.per103.txt":                     {"fileid": 1118, "author": "Livy", "title": "Periocha CIII"},
-    "livy/liv.per104.txt":                     {"fileid": 1119, "author": "Livy", "title": "Periocha CIV"},
-    "livy/liv.per105.txt":                     {"fileid": 1120, "author": "Livy", "title": "Periocha CV"},
-    "livy/liv.per106.txt":                     {"fileid": 1121, "author": "Livy", "title": "Periocha CVI"},
-    "livy/liv.per107.txt":                     {"fileid": 1122, "author": "Livy", "title": "Periocha CVII"},
-    "livy/liv.per108.txt":                     {
+    "livy/liv.1.txt":                        {"fileid": 1077, "author": "Livy", "title": "Book I"},
+    "livy/liv.10.txt":                       {"fileid": 1078, "author": "Livy", "title": "Book X"},
+    "livy/liv.2.txt":                        {"fileid": 1079, "author": "Livy", "title": "Book II"},
+    "livy/liv.21.txt":                       {"fileid": 1080, "author": "Livy", "title": "Book XXI"},
+    "livy/liv.22.txt":                       {
+        "fileid": 1081,
+        "author": "Livy",
+        "title":  "Book XXII",
+    },
+    "livy/liv.23.txt":                       {
+        "fileid": 1082,
+        "author": "Livy",
+        "title":  "Book XXIII",
+    },
+    "livy/liv.24.txt":                       {
+        "fileid": 1083,
+        "author": "Livy",
+        "title":  "Book XXIV",
+    },
+    "livy/liv.25.txt":                       {"fileid": 1084, "author": "Livy", "title": "Book XXV"},
+    "livy/liv.26.txt":                       {
+        "fileid": 1085,
+        "author": "Livy",
+        "title":  "Book XXVI",
+    },
+    "livy/liv.27.txt":                       {
+        "fileid": 1086,
+        "author": "Livy",
+        "title":  "Book XXVII",
+    },
+    "livy/liv.28.txt":                       {
+        "fileid": 1087,
+        "author": "Livy",
+        "title":  "Book XXVIII",
+    },
+    "livy/liv.29.txt":                       {
+        "fileid": 1088,
+        "author": "Livy",
+        "title":  "Book XXIX",
+    },
+    "livy/liv.3.txt":                        {"fileid": 1089, "author": "Livy", "title": "Book III"},
+    "livy/liv.30.txt":                       {"fileid": 1090, "author": "Livy", "title": "Book XXX"},
+    "livy/liv.31.txt":                       {
+        "fileid": 1091,
+        "author": "Livy",
+        "title":  "Book XXXI",
+    },
+    "livy/liv.32.txt":                       {
+        "fileid": 1092,
+        "author": "Livy",
+        "title":  "Book XXXII",
+    },
+    "livy/liv.33.txt":                       {
+        "fileid": 1093,
+        "author": "Livy",
+        "title":  "Book XXXIII",
+    },
+    "livy/liv.34.txt":                       {
+        "fileid": 1094,
+        "author": "Livy",
+        "title":  "Book XXXIV",
+    },
+    "livy/liv.35.txt":                       {
+        "fileid": 1095,
+        "author": "Livy",
+        "title":  "Book XXXV",
+    },
+    "livy/liv.36.txt":                       {
+        "fileid": 1096,
+        "author": "Livy",
+        "title":  "Book XXXVI",
+    },
+    "livy/liv.37.txt":                       {
+        "fileid": 1097,
+        "author": "Livy",
+        "title":  "Book XXXVII",
+    },
+    "livy/liv.38.txt":                       {
+        "fileid": 1098,
+        "author": "Livy",
+        "title":  "Book XXXVIII",
+    },
+    "livy/liv.39.txt":                       {
+        "fileid": 1099,
+        "author": "Livy",
+        "title":  "Book XXXIX",
+    },
+    "livy/liv.4.txt":                        {"fileid": 1100, "author": "Livy", "title": "Book IV"},
+    "livy/liv.40.txt":                       {"fileid": 1101, "author": "Livy", "title": "Book XL"},
+    "livy/liv.41.txt":                       {"fileid": 1102, "author": "Livy", "title": "Book XLI"},
+    "livy/liv.42.txt":                       {
+        "fileid": 1103,
+        "author": "Livy",
+        "title":  "Book XLII",
+    },
+    "livy/liv.43.txt":                       {
+        "fileid": 1104,
+        "author": "Livy",
+        "title":  "Book XLIII",
+    },
+    "livy/liv.44.txt":                       {
+        "fileid": 1105,
+        "author": "Livy",
+        "title":  "Book XLIV",
+    },
+    "livy/liv.45.txt":                       {"fileid": 1106, "author": "Livy", "title": "Book XLV"},
+    "livy/liv.5.txt":                        {"fileid": 1107, "author": "Livy", "title": "Book V"},
+    "livy/liv.6.txt":                        {"fileid": 1108, "author": "Livy", "title": "Book VI"},
+    "livy/liv.7.txt":                        {"fileid": 1109, "author": "Livy", "title": "Book VII"},
+    "livy/liv.8.txt":                        {"fileid": 1110, "author": "Livy", "title": "Book VIII"},
+    "livy/liv.9.txt":                        {"fileid": 1111, "author": "Livy", "title": "Book IX"},
+    "livy/liv.per.txt":                      {
+        "fileid": 1112,
+        "author": "Livy",
+        "title":  "Periochae",
+    },
+    "livy/liv.per1.txt":                     {
+        "fileid": 1113,
+        "author": "Livy",
+        "title":  "Periocha I",
+    },
+    "livy/liv.per10.txt":                    {
+        "fileid": 1114,
+        "author": "Livy",
+        "title":  "Periocha X",
+    },
+    "livy/liv.per100.txt":                   {
+        "fileid": 1115,
+        "author": "Livy",
+        "title":  "Periocha C",
+    },
+    "livy/liv.per101.txt":                   {
+        "fileid": 1116,
+        "author": "Livy",
+        "title":  "Periocha CI",
+    },
+    "livy/liv.per102.txt":                   {
+        "fileid": 1117,
+        "author": "Livy",
+        "title":  "Periocha CII",
+    },
+    "livy/liv.per103.txt":                   {
+        "fileid": 1118,
+        "author": "Livy",
+        "title":  "Periocha CIII",
+    },
+    "livy/liv.per104.txt":                   {
+        "fileid": 1119,
+        "author": "Livy",
+        "title":  "Periocha CIV",
+    },
+    "livy/liv.per105.txt":                   {
+        "fileid": 1120,
+        "author": "Livy",
+        "title":  "Periocha CV",
+    },
+    "livy/liv.per106.txt":                   {
+        "fileid": 1121,
+        "author": "Livy",
+        "title":  "Periocha CVI",
+    },
+    "livy/liv.per107.txt":                   {
+        "fileid": 1122,
+        "author": "Livy",
+        "title":  "Periocha CVII",
+    },
+    "livy/liv.per108.txt":                   {
         "fileid": 1123,
         "author": "Livy",
         "title":  "Periocha CVIII",
     },
-    "livy/liv.per109.txt":                     {"fileid": 1124, "author": "Livy", "title": "Periocha CIX"},
-    "livy/liv.per11.txt":                      {"fileid": 1125, "author": "Livy", "title": "Periocha XI"},
-    "livy/liv.per110.txt":                     {"fileid": 1126, "author": "Livy", "title": "Periocha CX"},
-    "livy/liv.per111.txt":                     {"fileid": 1127, "author": "Livy", "title": "Periocha CXI"},
-    "livy/liv.per112.txt":                     {"fileid": 1128, "author": "Livy", "title": "Periocha CXII"},
-    "livy/liv.per113.txt":                     {
+    "livy/liv.per109.txt":                   {
+        "fileid": 1124,
+        "author": "Livy",
+        "title":  "Periocha CIX",
+    },
+    "livy/liv.per11.txt":                    {
+        "fileid": 1125,
+        "author": "Livy",
+        "title":  "Periocha XI",
+    },
+    "livy/liv.per110.txt":                   {
+        "fileid": 1126,
+        "author": "Livy",
+        "title":  "Periocha CX",
+    },
+    "livy/liv.per111.txt":                   {
+        "fileid": 1127,
+        "author": "Livy",
+        "title":  "Periocha CXI",
+    },
+    "livy/liv.per112.txt":                   {
+        "fileid": 1128,
+        "author": "Livy",
+        "title":  "Periocha CXII",
+    },
+    "livy/liv.per113.txt":                   {
         "fileid": 1129,
         "author": "Livy",
         "title":  "Periocha CXIII",
     },
-    "livy/liv.per114.txt":                     {"fileid": 1130, "author": "Livy", "title": "Periocha CXIV"},
-    "livy/liv.per115.txt":                     {"fileid": 1131, "author": "Livy", "title": "Periocha CXV"},
-    "livy/liv.per116.txt":                     {"fileid": 1132, "author": "Livy", "title": "Periocha CXVI"},
-    "livy/liv.per117.txt":                     {
+    "livy/liv.per114.txt":                   {
+        "fileid": 1130,
+        "author": "Livy",
+        "title":  "Periocha CXIV",
+    },
+    "livy/liv.per115.txt":                   {
+        "fileid": 1131,
+        "author": "Livy",
+        "title":  "Periocha CXV",
+    },
+    "livy/liv.per116.txt":                   {
+        "fileid": 1132,
+        "author": "Livy",
+        "title":  "Periocha CXVI",
+    },
+    "livy/liv.per117.txt":                   {
         "fileid": 1133,
         "author": "Livy",
         "title":  "Periocha CXVII",
     },
-    "livy/liv.per118.txt":                     {
+    "livy/liv.per118.txt":                   {
         "fileid": 1134,
         "author": "Livy",
         "title":  "Periocha CXVIII",
     },
-    "livy/liv.per119.txt":                     {"fileid": 1135, "author": "Livy", "title": "Periocha CXIX"},
-    "livy/liv.per12.txt":                      {"fileid": 1136, "author": "Livy", "title": "Periocha XII"},
-    "livy/liv.per120.txt":                     {"fileid": 1137, "author": "Livy", "title": "Periocha CXX"},
-    "livy/liv.per121.txt":                     {"fileid": 1138, "author": "Livy", "title": "Periocha CXXI"},
-    "livy/liv.per122.txt":                     {
+    "livy/liv.per119.txt":                   {
+        "fileid": 1135,
+        "author": "Livy",
+        "title":  "Periocha CXIX",
+    },
+    "livy/liv.per12.txt":                    {
+        "fileid": 1136,
+        "author": "Livy",
+        "title":  "Periocha XII",
+    },
+    "livy/liv.per120.txt":                   {
+        "fileid": 1137,
+        "author": "Livy",
+        "title":  "Periocha CXX",
+    },
+    "livy/liv.per121.txt":                   {
+        "fileid": 1138,
+        "author": "Livy",
+        "title":  "Periocha CXXI",
+    },
+    "livy/liv.per122.txt":                   {
         "fileid": 1139,
         "author": "Livy",
         "title":  "Periocha CXXII",
     },
-    "livy/liv.per123.txt":                     {
+    "livy/liv.per123.txt":                   {
         "fileid": 1140,
         "author": "Livy",
         "title":  "Periocha CXXIII",
     },
-    "livy/liv.per124.txt":                     {
+    "livy/liv.per124.txt":                   {
         "fileid": 1141,
         "author": "Livy",
         "title":  "Periocha CXXIV",
     },
-    "livy/liv.per125.txt":                     {"fileid": 1142, "author": "Livy", "title": "Periocha CXXV"},
-    "livy/liv.per126.txt":                     {
+    "livy/liv.per125.txt":                   {
+        "fileid": 1142,
+        "author": "Livy",
+        "title":  "Periocha CXXV",
+    },
+    "livy/liv.per126.txt":                   {
         "fileid": 1143,
         "author": "Livy",
         "title":  "Periocha CXXVI",
     },
-    "livy/liv.per127.txt":                     {
+    "livy/liv.per127.txt":                   {
         "fileid": 1144,
         "author": "Livy",
         "title":  "Periocha CXXVII",
     },
-    "livy/liv.per128.txt":                     {
+    "livy/liv.per128.txt":                   {
         "fileid": 1145,
         "author": "Livy",
         "title":  "Periocha CXXVIII",
     },
-    "livy/liv.per129.txt":                     {
+    "livy/liv.per129.txt":                   {
         "fileid": 1146,
         "author": "Livy",
         "title":  "Periocha CXXIX",
     },
-    "livy/liv.per13.txt":                      {"fileid": 1147, "author": "Livy", "title": "Periocha XIII"},
-    "livy/liv.per130.txt":                     {"fileid": 1148, "author": "Livy", "title": "Periocha CXXX"},
-    "livy/liv.per131.txt":                     {
+    "livy/liv.per13.txt":                    {
+        "fileid": 1147,
+        "author": "Livy",
+        "title":  "Periocha XIII",
+    },
+    "livy/liv.per130.txt":                   {
+        "fileid": 1148,
+        "author": "Livy",
+        "title":  "Periocha CXXX",
+    },
+    "livy/liv.per131.txt":                   {
         "fileid": 1149,
         "author": "Livy",
         "title":  "Periocha CXXXI",
     },
-    "livy/liv.per132.txt":                     {
+    "livy/liv.per132.txt":                   {
         "fileid": 1150,
         "author": "Livy",
         "title":  "Periocha CXXXII",
     },
-    "livy/liv.per133.txt":                     {
+    "livy/liv.per133.txt":                   {
         "fileid": 1151,
         "author": "Livy",
         "title":  "Periocha CXXXIII",
     },
-    "livy/liv.per134.txt":                     {
+    "livy/liv.per134.txt":                   {
         "fileid": 1152,
         "author": "Livy",
         "title":  "Periocha CXXXIV",
     },
-    "livy/liv.per135.txt":                     {
+    "livy/liv.per135.txt":                   {
         "fileid": 1153,
         "author": "Livy",
         "title":  "Periocha CXXXV",
     },
-    "livy/liv.per136-7.txt":                   {
+    "livy/liv.per136-7.txt":                 {
         "fileid": 1154,
         "author": "Livy",
         "title":  "Periocha CXXXVI et CXXXVII",
     },
-    "livy/liv.per138.txt":                     {
+    "livy/liv.per138.txt":                   {
         "fileid": 1155,
         "author": "Livy",
         "title":  "Periocha CXXXVIII",
     },
-    "livy/liv.per139.txt":                     {
+    "livy/liv.per139.txt":                   {
         "fileid": 1156,
         "author": "Livy",
         "title":  "Periocha CXXXIX",
     },
-    "livy/liv.per14.txt":                      {"fileid": 1157, "author": "Livy", "title": "Periocha XIV"},
-    "livy/liv.per140.txt":                     {"fileid": 1158, "author": "Livy", "title": "Periocha CXL"},
-    "livy/liv.per141.txt":                     {"fileid": 1159, "author": "Livy", "title": "Periocha CXLI"},
-    "livy/liv.per142.txt":                     {
+    "livy/liv.per14.txt":                    {
+        "fileid": 1157,
+        "author": "Livy",
+        "title":  "Periocha XIV",
+    },
+    "livy/liv.per140.txt":                   {
+        "fileid": 1158,
+        "author": "Livy",
+        "title":  "Periocha CXL",
+    },
+    "livy/liv.per141.txt":                   {
+        "fileid": 1159,
+        "author": "Livy",
+        "title":  "Periocha CXLI",
+    },
+    "livy/liv.per142.txt":                   {
         "fileid": 1160,
         "author": "Livy",
         "title":  "Periocha CXLII",
     },
-    "livy/liv.per15.txt":                      {"fileid": 1161, "author": "Livy", "title": "Periocha XV"},
-    "livy/liv.per16.txt":                      {"fileid": 1162, "author": "Livy", "title": "Periocha XVI"},
-    "livy/liv.per17.txt":                      {"fileid": 1163, "author": "Livy", "title": "Periocha XVI"},
-    "livy/liv.per18.txt":                      {"fileid": 1164, "author": "Livy", "title": "Periocha XVIII"},
-    "livy/liv.per19.txt":                      {"fileid": 1165, "author": "Livy", "title": "Periocha XIX"},
-    "livy/liv.per2.txt":                       {"fileid": 1166, "author": "Livy", "title": "Periocha II"},
-    "livy/liv.per20.txt":                      {"fileid": 1167, "author": "Livy", "title": "Periocha XX"},
-    "livy/liv.per21.txt":                      {"fileid": 1168, "author": "Livy", "title": "Periocha XXI"},
-    "livy/liv.per22.txt":                      {"fileid": 1169, "author": "Livy", "title": "Periocha XXII"},
-    "livy/liv.per23.txt":                      {"fileid": 1170, "author": "Livy", "title": "Periocha XXIII"},
-    "livy/liv.per24.txt":                      {"fileid": 1171, "author": "Livy", "title": "Periocha XXIV"},
-    "livy/liv.per25.txt":                      {"fileid": 1172, "author": "Livy", "title": "Periocha XXV"},
-    "livy/liv.per26.txt":                      {"fileid": 1173, "author": "Livy", "title": "Periocha XXVI"},
-    "livy/liv.per27.txt":                      {"fileid": 1174, "author": "Livy", "title": "Periocha XXVII"},
-    "livy/liv.per28.txt":                      {
+    "livy/liv.per15.txt":                    {
+        "fileid": 1161,
+        "author": "Livy",
+        "title":  "Periocha XV",
+    },
+    "livy/liv.per16.txt":                    {
+        "fileid": 1162,
+        "author": "Livy",
+        "title":  "Periocha XVI",
+    },
+    "livy/liv.per17.txt":                    {
+        "fileid": 1163,
+        "author": "Livy",
+        "title":  "Periocha XVI",
+    },
+    "livy/liv.per18.txt":                    {
+        "fileid": 1164,
+        "author": "Livy",
+        "title":  "Periocha XVIII",
+    },
+    "livy/liv.per19.txt":                    {
+        "fileid": 1165,
+        "author": "Livy",
+        "title":  "Periocha XIX",
+    },
+    "livy/liv.per2.txt":                     {
+        "fileid": 1166,
+        "author": "Livy",
+        "title":  "Periocha II",
+    },
+    "livy/liv.per20.txt":                    {
+        "fileid": 1167,
+        "author": "Livy",
+        "title":  "Periocha XX",
+    },
+    "livy/liv.per21.txt":                    {
+        "fileid": 1168,
+        "author": "Livy",
+        "title":  "Periocha XXI",
+    },
+    "livy/liv.per22.txt":                    {
+        "fileid": 1169,
+        "author": "Livy",
+        "title":  "Periocha XXII",
+    },
+    "livy/liv.per23.txt":                    {
+        "fileid": 1170,
+        "author": "Livy",
+        "title":  "Periocha XXIII",
+    },
+    "livy/liv.per24.txt":                    {
+        "fileid": 1171,
+        "author": "Livy",
+        "title":  "Periocha XXIV",
+    },
+    "livy/liv.per25.txt":                    {
+        "fileid": 1172,
+        "author": "Livy",
+        "title":  "Periocha XXV",
+    },
+    "livy/liv.per26.txt":                    {
+        "fileid": 1173,
+        "author": "Livy",
+        "title":  "Periocha XXVI",
+    },
+    "livy/liv.per27.txt":                    {
+        "fileid": 1174,
+        "author": "Livy",
+        "title":  "Periocha XXVII",
+    },
+    "livy/liv.per28.txt":                    {
         "fileid": 1175,
         "author": "Livy",
         "title":  "Periocha XXVIII",
     },
-    "livy/liv.per29.txt":                      {"fileid": 1176, "author": "Livy", "title": "Periocha XXIX"},
-    "livy/liv.per3.txt":                       {"fileid": 1177, "author": "Livy", "title": "Periocha III"},
-    "livy/liv.per30.txt":                      {"fileid": 1178, "author": "Livy", "title": "Periocha XXX"},
-    "livy/liv.per31.txt":                      {"fileid": 1179, "author": "Livy", "title": "Periocha XXXI"},
-    "livy/liv.per32.txt":                      {"fileid": 1180, "author": "Livy", "title": "Periocha XXXII"},
-    "livy/liv.per33.txt":                      {
+    "livy/liv.per29.txt":                    {
+        "fileid": 1176,
+        "author": "Livy",
+        "title":  "Periocha XXIX",
+    },
+    "livy/liv.per3.txt":                     {
+        "fileid": 1177,
+        "author": "Livy",
+        "title":  "Periocha III",
+    },
+    "livy/liv.per30.txt":                    {
+        "fileid": 1178,
+        "author": "Livy",
+        "title":  "Periocha XXX",
+    },
+    "livy/liv.per31.txt":                    {
+        "fileid": 1179,
+        "author": "Livy",
+        "title":  "Periocha XXXI",
+    },
+    "livy/liv.per32.txt":                    {
+        "fileid": 1180,
+        "author": "Livy",
+        "title":  "Periocha XXXII",
+    },
+    "livy/liv.per33.txt":                    {
         "fileid": 1181,
         "author": "Livy",
         "title":  "Periocha XXXIII",
     },
-    "livy/liv.per34.txt":                      {"fileid": 1182, "author": "Livy", "title": "Periocha XXXIV"},
-    "livy/liv.per35.txt":                      {"fileid": 1183, "author": "Livy", "title": "Periocha XXXV"},
-    "livy/liv.per36.txt":                      {"fileid": 1184, "author": "Livy", "title": "Periocha XXXVI"},
-    "livy/liv.per37.txt":                      {
+    "livy/liv.per34.txt":                    {
+        "fileid": 1182,
+        "author": "Livy",
+        "title":  "Periocha XXXIV",
+    },
+    "livy/liv.per35.txt":                    {
+        "fileid": 1183,
+        "author": "Livy",
+        "title":  "Periocha XXXV",
+    },
+    "livy/liv.per36.txt":                    {
+        "fileid": 1184,
+        "author": "Livy",
+        "title":  "Periocha XXXVI",
+    },
+    "livy/liv.per37.txt":                    {
         "fileid": 1185,
         "author": "Livy",
         "title":  "Periocha XXXVII",
     },
-    "livy/liv.per38.txt":                      {
+    "livy/liv.per38.txt":                    {
         "fileid": 1186,
         "author": "Livy",
         "title":  "Periocha XXXVIII",
     },
-    "livy/liv.per39.txt":                      {"fileid": 1187, "author": "Livy", "title": "Periocha XXXIX"},
-    "livy/liv.per4.txt":                       {"fileid": 1188, "author": "Livy", "title": "Periocha IV"},
-    "livy/liv.per40.txt":                      {"fileid": 1189, "author": "Livy", "title": "Periocha XL"},
-    "livy/liv.per41.txt":                      {"fileid": 1190, "author": "Livy", "title": "Periocha XLI"},
-    "livy/liv.per42.txt":                      {"fileid": 1191, "author": "Livy", "title": "Periocha XLII"},
-    "livy/liv.per43.txt":                      {"fileid": 1192, "author": "Livy", "title": "Periocha XLIII"},
-    "livy/liv.per44.txt":                      {"fileid": 1193, "author": "Livy", "title": "Periocha XLIV"},
-    "livy/liv.per45.txt":                      {"fileid": 1194, "author": "Livy", "title": "Periocha XLV"},
-    "livy/liv.per46.txt":                      {"fileid": 1195, "author": "Livy", "title": "Periocha XLVI"},
-    "livy/liv.per47.txt":                      {"fileid": 1196, "author": "Livy", "title": "Periocha XLVII"},
-    "livy/liv.per48.txt":                      {
+    "livy/liv.per39.txt":                    {
+        "fileid": 1187,
+        "author": "Livy",
+        "title":  "Periocha XXXIX",
+    },
+    "livy/liv.per4.txt":                     {
+        "fileid": 1188,
+        "author": "Livy",
+        "title":  "Periocha IV",
+    },
+    "livy/liv.per40.txt":                    {
+        "fileid": 1189,
+        "author": "Livy",
+        "title":  "Periocha XL",
+    },
+    "livy/liv.per41.txt":                    {
+        "fileid": 1190,
+        "author": "Livy",
+        "title":  "Periocha XLI",
+    },
+    "livy/liv.per42.txt":                    {
+        "fileid": 1191,
+        "author": "Livy",
+        "title":  "Periocha XLII",
+    },
+    "livy/liv.per43.txt":                    {
+        "fileid": 1192,
+        "author": "Livy",
+        "title":  "Periocha XLIII",
+    },
+    "livy/liv.per44.txt":                    {
+        "fileid": 1193,
+        "author": "Livy",
+        "title":  "Periocha XLIV",
+    },
+    "livy/liv.per45.txt":                    {
+        "fileid": 1194,
+        "author": "Livy",
+        "title":  "Periocha XLV",
+    },
+    "livy/liv.per46.txt":                    {
+        "fileid": 1195,
+        "author": "Livy",
+        "title":  "Periocha XLVI",
+    },
+    "livy/liv.per47.txt":                    {
+        "fileid": 1196,
+        "author": "Livy",
+        "title":  "Periocha XLVII",
+    },
+    "livy/liv.per48.txt":                    {
         "fileid": 1197,
         "author": "Livy",
         "title":  "Periocha XLVIII",
     },
-    "livy/liv.per49.txt":                      {"fileid": 1198, "author": "Livy", "title": "Periocha XLIX"},
-    "livy/liv.per5.txt":                       {"fileid": 1199, "author": "Livy", "title": "Periocha V"},
-    "livy/liv.per50.txt":                      {"fileid": 1200, "author": "Livy", "title": "Periocha L"},
-    "livy/liv.per51.txt":                      {"fileid": 1201, "author": "Livy", "title": "Periocha LI"},
-    "livy/liv.per52.txt":                      {"fileid": 1202, "author": "Livy", "title": "Periocha LII"},
-    "livy/liv.per53.txt":                      {"fileid": 1203, "author": "Livy", "title": "Periocha LIII"},
-    "livy/liv.per54.txt":                      {"fileid": 1204, "author": "Livy", "title": "Periocha LIV"},
-    "livy/liv.per55.txt":                      {"fileid": 1205, "author": "Livy", "title": "Periocha LV"},
-    "livy/liv.per56.txt":                      {"fileid": 1206, "author": "Livy", "title": "Periocha LVI"},
-    "livy/liv.per57.txt":                      {"fileid": 1207, "author": "Livy", "title": "Periocha LVII"},
-    "livy/liv.per58.txt":                      {"fileid": 1208, "author": "Livy", "title": "Periocha LVIII"},
-    "livy/liv.per59.txt":                      {"fileid": 1209, "author": "Livy", "title": "Periocha LIX"},
-    "livy/liv.per6.txt":                       {"fileid": 1210, "author": "Livy", "title": "Periocha VI"},
-    "livy/liv.per60.txt":                      {"fileid": 1211, "author": "Livy", "title": "Periocha LX"},
-    "livy/liv.per61.txt":                      {"fileid": 1212, "author": "Livy", "title": "Periocha LXI"},
-    "livy/liv.per62.txt":                      {"fileid": 1213, "author": "Livy", "title": "Periocha LXII"},
-    "livy/liv.per63.txt":                      {"fileid": 1214, "author": "Livy", "title": "Periocha LXIII"},
-    "livy/liv.per64.txt":                      {"fileid": 1215, "author": "Livy", "title": "Periocha LXIV"},
-    "livy/liv.per65.txt":                      {"fileid": 1216, "author": "Livy", "title": "Periocha LXV"},
-    "livy/liv.per66.txt":                      {"fileid": 1217, "author": "Livy", "title": "Periocha LXVI"},
-    "livy/liv.per67.txt":                      {"fileid": 1218, "author": "Livy", "title": "Periocha LXVII"},
-    "livy/liv.per68.txt":                      {
+    "livy/liv.per49.txt":                    {
+        "fileid": 1198,
+        "author": "Livy",
+        "title":  "Periocha XLIX",
+    },
+    "livy/liv.per5.txt":                     {
+        "fileid": 1199,
+        "author": "Livy",
+        "title":  "Periocha V",
+    },
+    "livy/liv.per50.txt":                    {
+        "fileid": 1200,
+        "author": "Livy",
+        "title":  "Periocha L",
+    },
+    "livy/liv.per51.txt":                    {
+        "fileid": 1201,
+        "author": "Livy",
+        "title":  "Periocha LI",
+    },
+    "livy/liv.per52.txt":                    {
+        "fileid": 1202,
+        "author": "Livy",
+        "title":  "Periocha LII",
+    },
+    "livy/liv.per53.txt":                    {
+        "fileid": 1203,
+        "author": "Livy",
+        "title":  "Periocha LIII",
+    },
+    "livy/liv.per54.txt":                    {
+        "fileid": 1204,
+        "author": "Livy",
+        "title":  "Periocha LIV",
+    },
+    "livy/liv.per55.txt":                    {
+        "fileid": 1205,
+        "author": "Livy",
+        "title":  "Periocha LV",
+    },
+    "livy/liv.per56.txt":                    {
+        "fileid": 1206,
+        "author": "Livy",
+        "title":  "Periocha LVI",
+    },
+    "livy/liv.per57.txt":                    {
+        "fileid": 1207,
+        "author": "Livy",
+        "title":  "Periocha LVII",
+    },
+    "livy/liv.per58.txt":                    {
+        "fileid": 1208,
+        "author": "Livy",
+        "title":  "Periocha LVIII",
+    },
+    "livy/liv.per59.txt":                    {
+        "fileid": 1209,
+        "author": "Livy",
+        "title":  "Periocha LIX",
+    },
+    "livy/liv.per6.txt":                     {
+        "fileid": 1210,
+        "author": "Livy",
+        "title":  "Periocha VI",
+    },
+    "livy/liv.per60.txt":                    {
+        "fileid": 1211,
+        "author": "Livy",
+        "title":  "Periocha LX",
+    },
+    "livy/liv.per61.txt":                    {
+        "fileid": 1212,
+        "author": "Livy",
+        "title":  "Periocha LXI",
+    },
+    "livy/liv.per62.txt":                    {
+        "fileid": 1213,
+        "author": "Livy",
+        "title":  "Periocha LXII",
+    },
+    "livy/liv.per63.txt":                    {
+        "fileid": 1214,
+        "author": "Livy",
+        "title":  "Periocha LXIII",
+    },
+    "livy/liv.per64.txt":                    {
+        "fileid": 1215,
+        "author": "Livy",
+        "title":  "Periocha LXIV",
+    },
+    "livy/liv.per65.txt":                    {
+        "fileid": 1216,
+        "author": "Livy",
+        "title":  "Periocha LXV",
+    },
+    "livy/liv.per66.txt":                    {
+        "fileid": 1217,
+        "author": "Livy",
+        "title":  "Periocha LXVI",
+    },
+    "livy/liv.per67.txt":                    {
+        "fileid": 1218,
+        "author": "Livy",
+        "title":  "Periocha LXVII",
+    },
+    "livy/liv.per68.txt":                    {
         "fileid": 1219,
         "author": "Livy",
         "title":  "Periocha LXVIII",
     },
-    "livy/liv.per69.txt":                      {"fileid": 1220, "author": "Livy", "title": "Periocha LXIX"},
-    "livy/liv.per7.txt":                       {"fileid": 1221, "author": "Livy", "title": "Periocha VII"},
-    "livy/liv.per70.txt":                      {"fileid": 1222, "author": "Livy", "title": "Periocha LXX"},
-    "livy/liv.per71.txt":                      {"fileid": 1223, "author": "Livy", "title": "Periocha LXXI"},
-    "livy/liv.per72.txt":                      {"fileid": 1224, "author": "Livy", "title": "Periocha LXXII"},
-    "livy/liv.per73.txt":                      {
+    "livy/liv.per69.txt":                    {
+        "fileid": 1220,
+        "author": "Livy",
+        "title":  "Periocha LXIX",
+    },
+    "livy/liv.per7.txt":                     {
+        "fileid": 1221,
+        "author": "Livy",
+        "title":  "Periocha VII",
+    },
+    "livy/liv.per70.txt":                    {
+        "fileid": 1222,
+        "author": "Livy",
+        "title":  "Periocha LXX",
+    },
+    "livy/liv.per71.txt":                    {
+        "fileid": 1223,
+        "author": "Livy",
+        "title":  "Periocha LXXI",
+    },
+    "livy/liv.per72.txt":                    {
+        "fileid": 1224,
+        "author": "Livy",
+        "title":  "Periocha LXXII",
+    },
+    "livy/liv.per73.txt":                    {
         "fileid": 1225,
         "author": "Livy",
         "title":  "Periocha LXXIII",
     },
-    "livy/liv.per74.txt":                      {"fileid": 1226, "author": "Livy", "title": "Periocha LXXIV"},
-    "livy/liv.per75.txt":                      {"fileid": 1227, "author": "Livy", "title": "Periocha LXXV"},
-    "livy/liv.per76.txt":                      {"fileid": 1228, "author": "Livy", "title": "Periocha LXXVI"},
-    "livy/liv.per77.txt":                      {
+    "livy/liv.per74.txt":                    {
+        "fileid": 1226,
+        "author": "Livy",
+        "title":  "Periocha LXXIV",
+    },
+    "livy/liv.per75.txt":                    {
+        "fileid": 1227,
+        "author": "Livy",
+        "title":  "Periocha LXXV",
+    },
+    "livy/liv.per76.txt":                    {
+        "fileid": 1228,
+        "author": "Livy",
+        "title":  "Periocha LXXVI",
+    },
+    "livy/liv.per77.txt":                    {
         "fileid": 1229,
         "author": "Livy",
         "title":  "Periocha LXXVII",
     },
-    "livy/liv.per78.txt":                      {
+    "livy/liv.per78.txt":                    {
         "fileid": 1230,
         "author": "Livy",
         "title":  "Periocha LXXVIII",
     },
-    "livy/liv.per79.txt":                      {"fileid": 1231, "author": "Livy", "title": "Periocha LXXIX"},
-    "livy/liv.per8.txt":                       {"fileid": 1232, "author": "Livy", "title": "Periocha VIII"},
-    "livy/liv.per80.txt":                      {"fileid": 1233, "author": "Livy", "title": "Periocha LXXX"},
-    "livy/liv.per81.txt":                      {"fileid": 1234, "author": "Livy", "title": "Periocha LXXXI"},
-    "livy/liv.per82.txt":                      {
+    "livy/liv.per79.txt":                    {
+        "fileid": 1231,
+        "author": "Livy",
+        "title":  "Periocha LXXIX",
+    },
+    "livy/liv.per8.txt":                     {
+        "fileid": 1232,
+        "author": "Livy",
+        "title":  "Periocha VIII",
+    },
+    "livy/liv.per80.txt":                    {
+        "fileid": 1233,
+        "author": "Livy",
+        "title":  "Periocha LXXX",
+    },
+    "livy/liv.per81.txt":                    {
+        "fileid": 1234,
+        "author": "Livy",
+        "title":  "Periocha LXXXI",
+    },
+    "livy/liv.per82.txt":                    {
         "fileid": 1235,
         "author": "Livy",
         "title":  "Periocha LXXXII",
     },
-    "livy/liv.per83.txt":                      {
+    "livy/liv.per83.txt":                    {
         "fileid": 1236,
         "author": "Livy",
         "title":  "Periocha LXXXIII",
     },
-    "livy/liv.per84.txt":                      {
+    "livy/liv.per84.txt":                    {
         "fileid": 1237,
         "author": "Livy",
         "title":  "Periocha LXXXIV",
     },
-    "livy/liv.per85.txt":                      {"fileid": 1238, "author": "Livy", "title": "Periocha LXXXV"},
-    "livy/liv.per86.txt":                      {
+    "livy/liv.per85.txt":                    {
+        "fileid": 1238,
+        "author": "Livy",
+        "title":  "Periocha LXXXV",
+    },
+    "livy/liv.per86.txt":                    {
         "fileid": 1239,
         "author": "Livy",
         "title":  "Periocha LXXXVI",
     },
-    "livy/liv.per87.txt":                      {
+    "livy/liv.per87.txt":                    {
         "fileid": 1240,
         "author": "Livy",
         "title":  "Periocha LXXXVII",
     },
-    "livy/liv.per88.txt":                      {
+    "livy/liv.per88.txt":                    {
         "fileid": 1241,
         "author": "Livy",
         "title":  "Periocha LXXXVIII",
     },
-    "livy/liv.per89.txt":                      {
+    "livy/liv.per89.txt":                    {
         "fileid": 1242,
         "author": "Livy",
         "title":  "Periocha LXXXIX",
     },
-    "livy/liv.per9.txt":                       {"fileid": 1243, "author": "Livy", "title": "Periocha IX"},
-    "livy/liv.per90.txt":                      {"fileid": 1244, "author": "Livy", "title": "Periocha XC"},
-    "livy/liv.per91.txt":                      {"fileid": 1245, "author": "Livy", "title": "Periocha XCI"},
-    "livy/liv.per92.txt":                      {"fileid": 1246, "author": "Livy", "title": "Periocha XCII"},
-    "livy/liv.per93.txt":                      {"fileid": 1247, "author": "Livy", "title": "Periocha XCIII"},
-    "livy/liv.per94.txt":                      {"fileid": 1248, "author": "Livy", "title": "Periocha XCIV"},
-    "livy/liv.per95.txt":                      {"fileid": 1249, "author": "Livy", "title": "Periocha XCV"},
-    "livy/liv.per96.txt":                      {"fileid": 1250, "author": "Livy", "title": "Periocha XCVI"},
-    "livy/liv.per97.txt":                      {"fileid": 1251, "author": "Livy", "title": "Periocha XCVII"},
-    "livy/liv.per98.txt":                      {
+    "livy/liv.per9.txt":                     {
+        "fileid": 1243,
+        "author": "Livy",
+        "title":  "Periocha IX",
+    },
+    "livy/liv.per90.txt":                    {
+        "fileid": 1244,
+        "author": "Livy",
+        "title":  "Periocha XC",
+    },
+    "livy/liv.per91.txt":                    {
+        "fileid": 1245,
+        "author": "Livy",
+        "title":  "Periocha XCI",
+    },
+    "livy/liv.per92.txt":                    {
+        "fileid": 1246,
+        "author": "Livy",
+        "title":  "Periocha XCII",
+    },
+    "livy/liv.per93.txt":                    {
+        "fileid": 1247,
+        "author": "Livy",
+        "title":  "Periocha XCIII",
+    },
+    "livy/liv.per94.txt":                    {
+        "fileid": 1248,
+        "author": "Livy",
+        "title":  "Periocha XCIV",
+    },
+    "livy/liv.per95.txt":                    {
+        "fileid": 1249,
+        "author": "Livy",
+        "title":  "Periocha XCV",
+    },
+    "livy/liv.per96.txt":                    {
+        "fileid": 1250,
+        "author": "Livy",
+        "title":  "Periocha XCVI",
+    },
+    "livy/liv.per97.txt":                    {
+        "fileid": 1251,
+        "author": "Livy",
+        "title":  "Periocha XCVII",
+    },
+    "livy/liv.per98.txt":                    {
         "fileid": 1252,
         "author": "Livy",
         "title":  "Periocha XCVIII",
     },
-    "livy/liv.per99.txt":                      {"fileid": 1253, "author": "Livy", "title": "Periocha XCIX"},
-    "livy/liv.pr.txt":                         {"fileid": 1254, "author": "Livy", "title": "Preface"},
-    "lotichius.txt":                           {
+    "livy/liv.per99.txt":                    {
+        "fileid": 1253,
+        "author": "Livy",
+        "title":  "Periocha XCIX",
+    },
+    "livy/liv.pr.txt":                       {"fileid": 1254, "author": "Livy", "title": "Preface"},
+    "lotichius.txt":                         {
         "fileid": 1255,
         "author": "Lotichius",
         "title":  "De puella infelici",
     },
-    "lucan/lucan1.txt":                        {"fileid": 1256, "author": "Lucan", "title": "Liber I"},
-    "lucan/lucan10.txt":                       {"fileid": 1257, "author": "Lucan", "title": "Liber X"},
-    "lucan/lucan2.txt":                        {"fileid": 1258, "author": "Lucan", "title": "Liber II"},
-    "lucan/lucan3.txt":                        {"fileid": 1259, "author": "Lucan", "title": "Liber III"},
-    "lucan/lucan4.txt":                        {"fileid": 1260, "author": "Lucan", "title": "Liber IV"},
-    "lucan/lucan5.txt":                        {"fileid": 1261, "author": "Lucan", "title": "Liber V"},
-    "lucan/lucan6.txt":                        {"fileid": 1262, "author": "Lucan", "title": "Liber VI"},
-    "lucan/lucan7.txt":                        {"fileid": 1263, "author": "Lucan", "title": "Liber VII"},
-    "lucan/lucan8.txt":                        {"fileid": 1264, "author": "Lucan", "title": "Liber VIII"},
-    "lucan/lucan9.txt":                        {"fileid": 1265, "author": "Lucan", "title": "Liber IX"},
-    "lucernarium.txt":                         {"fileid": 1266, "author": None, "title": "Ad Lucernarium "},
-    "lucretius/lucretius1.txt":                {
+    "lucan/lucan1.txt":                      {
+        "fileid": 1256,
+        "author": "Lucan",
+        "title":  "Liber I",
+    },
+    "lucan/lucan10.txt":                     {
+        "fileid": 1257,
+        "author": "Lucan",
+        "title":  "Liber X",
+    },
+    "lucan/lucan2.txt":                      {
+        "fileid": 1258,
+        "author": "Lucan",
+        "title":  "Liber II",
+    },
+    "lucan/lucan3.txt":                      {
+        "fileid": 1259,
+        "author": "Lucan",
+        "title":  "Liber III",
+    },
+    "lucan/lucan4.txt":                      {
+        "fileid": 1260,
+        "author": "Lucan",
+        "title":  "Liber IV",
+    },
+    "lucan/lucan5.txt":                      {
+        "fileid": 1261,
+        "author": "Lucan",
+        "title":  "Liber V",
+    },
+    "lucan/lucan6.txt":                      {
+        "fileid": 1262,
+        "author": "Lucan",
+        "title":  "Liber VI",
+    },
+    "lucan/lucan7.txt":                      {
+        "fileid": 1263,
+        "author": "Lucan",
+        "title":  "Liber VII",
+    },
+    "lucan/lucan8.txt":                      {
+        "fileid": 1264,
+        "author": "Lucan",
+        "title":  "Liber VIII",
+    },
+    "lucan/lucan9.txt":                      {
+        "fileid": 1265,
+        "author": "Lucan",
+        "title":  "Liber IX",
+    },
+    "lucernarium.txt":                       {
+        "fileid": 1266,
+        "author": None,
+        "title":  "Ad Lucernarium ",
+    },
+    "lucretius/lucretius1.txt":              {
         "fileid": 1267,
         "author": "Lucretius",
         "title":  "De Rerum Natura I",
     },
-    "lucretius/lucretius2.txt":                {
+    "lucretius/lucretius2.txt":              {
         "fileid": 1268,
         "author": "Lucretius",
         "title":  "De Rerum Natura II",
     },
-    "lucretius/lucretius3.txt":                {
+    "lucretius/lucretius3.txt":              {
         "fileid": 1269,
         "author": "Lucretius",
         "title":  "De Rerum Natura III",
     },
-    "lucretius/lucretius4.txt":                {
+    "lucretius/lucretius4.txt":              {
         "fileid": 1270,
         "author": "Lucretius",
         "title":  "De Rerum Natura IV",
     },
-    "lucretius/lucretius5.txt":                {
+    "lucretius/lucretius5.txt":              {
         "fileid": 1271,
         "author": "Lucretius",
         "title":  "De Rerum Natura V",
     },
-    "lucretius/lucretius6.txt":                {
+    "lucretius/lucretius6.txt":              {
         "fileid": 1272,
         "author": "Lucretius",
         "title":  "De Rerum Natura VI",
     },
-    "luther.95.txt":                           {"fileid": 1273, "author": "Luther", "title": "95 Theses "},
-    "luther.lteramus.txt":                     {
+    "luther.95.txt":                         {
+        "fileid": 1273,
+        "author": "Luther",
+        "title":  "95 Theses ",
+    },
+    "luther.lteramus.txt":                   {
         "fileid": 1274,
         "author": "Luther",
         "title":  "Letter to Erasmus ",
     },
-    "luther.praef.txt":                        {"fileid": 1275, "author": None, "title": ""},
-    "macarius.txt":                            {"fileid": 1276, "author": None, "title": "Macarius of Alexandria"},
-    "macarius1.txt":                           {
+    "luther.praef.txt":                      {"fileid": 1275, "author": None, "title": ""},
+    "macarius.txt":                          {
+        "fileid": 1276,
+        "author": None,
+        "title":  "Macarius of Alexandria",
+    },
+    "macarius1.txt":                         {
         "fileid": 1277,
         "author": "Marcarius the Great",
         "title":  "Apophthegmata",
     },
-    "magnacarta.txt":                          {"fileid": 1278, "author": None, "title": "Magna Carta"},
-    "maidstone.txt":                           {
+    "magnacarta.txt":                        {"fileid": 1278, "author": None, "title": "Magna Carta"},
+    "maidstone.txt":                         {
         "fileid": 1279,
         "author": None,
         "title":  "Martyrium Ricardi Archiepiscopi",
     },
-    "malaterra1.txt":                          {
+    "malaterra1.txt":                        {
         "fileid": 1280,
         "author": "Gaufredo Malaterra",
         "title":  "De rebus gestis Rogerii Calabriae et Siciliae Comitis et Roberti Guiscardi Ducis fratris eius",
     },
-    "malaterra2.txt":                          {
+    "malaterra2.txt":                        {
         "fileid": 1281,
         "author": "Gaufredo Malaterra",
         "title":  "De rebus gestis Rogerii Calabriae et Siciliae Comitis et Roberti Guiscardi Ducis fratris eius",
     },
-    "malaterra3.txt":                          {
+    "malaterra3.txt":                        {
         "fileid": 1282,
         "author": "Gaufredo Malaterra",
         "title":  "De rebus gestis Rogerii Calabriae et Siciliae Comitis et Roberti Guiscardi Ducis fratris eius",
     },
-    "malaterra4.txt":                          {
+    "malaterra4.txt":                        {
         "fileid": 1283,
         "author": "Gaufredo Malaterra",
         "title":  "De rebus gestis Rogerii Calabriae et Siciliae Comitis et Roberti Guiscardi Ducis fratris eius",
     },
-    "manilius1.txt":                           {"fileid": 1284, "author": "Manilius", "title": "Liber I"},
-    "manilius2.txt":                           {"fileid": 1285, "author": "Manilius", "title": "Liber II"},
-    "manilius3.txt":                           {"fileid": 1286, "author": "Manilius", "title": "Liber IIi"},
-    "manilius4.txt":                           {"fileid": 1287, "author": "Manilius", "title": "Liber IV"},
-    "manilius5.txt":                           {"fileid": 1288, "author": "Manilius", "title": "Liber V"},
-    "mapps1.txt":                              {
+    "manilius1.txt":                         {
+        "fileid": 1284,
+        "author": "Manilius",
+        "title":  "Liber I",
+    },
+    "manilius2.txt":                         {
+        "fileid": 1285,
+        "author": "Manilius",
+        "title":  "Liber II",
+    },
+    "manilius3.txt":                         {
+        "fileid": 1286,
+        "author": "Manilius",
+        "title":  "Liber IIi",
+    },
+    "manilius4.txt":                         {
+        "fileid": 1287,
+        "author": "Manilius",
+        "title":  "Liber IV",
+    },
+    "manilius5.txt":                         {
+        "fileid": 1288,
+        "author": "Manilius",
+        "title":  "Liber V",
+    },
+    "mapps1.txt":                            {
         "fileid": 1289,
         "author": "Walter Mapps",
         "title":  "de Mauro et Zoilo",
     },
-    "mapps2.txt":                              {
+    "mapps2.txt":                            {
         "fileid": 1290,
         "author": "Walter Mapps",
         "title":  "de Phillide et Flora",
     },
-    "marbodus.txt":                            {
+    "marbodus.txt":                          {
         "fileid": 1291,
         "author": "Marbodus",
         "title":  "Libellus de ornamentis verborum",
     },
-    "marcellinus1.txt":                        {"fileid": 1292, "author": None, "title": "Marcellinus Comes"},
-    "marcellinus2.txt":                        {"fileid": 1293, "author": None, "title": "Marcellinus Comes"},
-    "martial/mart.spec.txt":                   {
+    "marcellinus1.txt":                      {
+        "fileid": 1292,
+        "author": None,
+        "title":  "Marcellinus Comes",
+    },
+    "marcellinus2.txt":                      {
+        "fileid": 1293,
+        "author": None,
+        "title":  "Marcellinus Comes",
+    },
+    "martial/mart.spec.txt":                 {
         "fileid": 1294,
         "author": "Martial",
         "title":  "Liber de Spectaculis",
     },
-    "martial/mart1.txt":                       {"fileid": 1295, "author": None, "title": "Martial I"},
-    "martial/mart10.txt":                      {"fileid": 1296, "author": None, "title": "Martial X"},
-    "martial/mart11.txt":                      {"fileid": 1297, "author": None, "title": "Martial XI"},
-    "martial/mart12.txt":                      {"fileid": 1298, "author": None, "title": "Martial XII"},
-    "martial/mart13.txt":                      {"fileid": 1299, "author": None, "title": "Martial XIII"},
-    "martial/mart14.txt":                      {"fileid": 1300, "author": "Martial", "title": "Apophoreta"},
-    "martial/mart2.txt":                       {"fileid": 1301, "author": None, "title": "Martial II"},
-    "martial/mart3.txt":                       {"fileid": 1302, "author": None, "title": "Martial III"},
-    "martial/mart4.txt":                       {"fileid": 1303, "author": None, "title": "Martial IV"},
-    "martial/mart5.txt":                       {"fileid": 1304, "author": None, "title": "Martial V"},
-    "martial/mart6.txt":                       {"fileid": 1305, "author": None, "title": "Martial VI"},
-    "martial/mart7.txt":                       {"fileid": 1306, "author": None, "title": "Martial VII"},
-    "martial/mart8.txt":                       {"fileid": 1307, "author": None, "title": "Martial VIII"},
-    "martial/mart9.txt":                       {"fileid": 1308, "author": None, "title": "Martial IX"},
-    "martinbraga/capitula.txt":                {
+    "martial/mart1.txt":                     {
+        "fileid": 1295,
+        "author": None,
+        "title":  "Martial I",
+    },
+    "martial/mart10.txt":                    {
+        "fileid": 1296,
+        "author": None,
+        "title":  "Martial X",
+    },
+    "martial/mart11.txt":                    {
+        "fileid": 1297,
+        "author": None,
+        "title":  "Martial XI",
+    },
+    "martial/mart12.txt":                    {
+        "fileid": 1298,
+        "author": None,
+        "title":  "Martial XII",
+    },
+    "martial/mart13.txt":                    {
+        "fileid": 1299,
+        "author": None,
+        "title":  "Martial XIII",
+    },
+    "martial/mart14.txt":                    {
+        "fileid": 1300,
+        "author": "Martial",
+        "title":  "Apophoreta",
+    },
+    "martial/mart2.txt":                     {
+        "fileid": 1301,
+        "author": None,
+        "title":  "Martial II",
+    },
+    "martial/mart3.txt":                     {
+        "fileid": 1302,
+        "author": None,
+        "title":  "Martial III",
+    },
+    "martial/mart4.txt":                     {
+        "fileid": 1303,
+        "author": None,
+        "title":  "Martial IV",
+    },
+    "martial/mart5.txt":                     {
+        "fileid": 1304,
+        "author": None,
+        "title":  "Martial V",
+    },
+    "martial/mart6.txt":                     {
+        "fileid": 1305,
+        "author": None,
+        "title":  "Martial VI",
+    },
+    "martial/mart7.txt":                     {
+        "fileid": 1306,
+        "author": None,
+        "title":  "Martial VII",
+    },
+    "martial/mart8.txt":                     {
+        "fileid": 1307,
+        "author": None,
+        "title":  "Martial VIII",
+    },
+    "martial/mart9.txt":                     {
+        "fileid": 1308,
+        "author": None,
+        "title":  "Martial IX",
+    },
+    "martinbraga/capitula.txt":              {
         "fileid": 1309,
         "author": "Martin of Braga",
         "title":  "Capitula ex orientalium patrum synodis",
     },
-    "martinbraga/concilium1.txt":              {
+    "martinbraga/concilium1.txt":            {
         "fileid": 1310,
         "author": "Martin of Braga",
         "title":  "Concilium Bracarense Primum",
     },
-    "martinbraga/concilium2.txt":              {
+    "martinbraga/concilium2.txt":            {
         "fileid": 1311,
         "author": "Martin of Braga",
         "title":  "Concilium Bracarense Secundum",
     },
-    "martinbraga/exhortatio.txt":              {
+    "martinbraga/exhortatio.txt":            {
         "fileid": 1312,
         "author": "Martin of Braga",
         "title":  "Exhortatio Humilitatis",
@@ -4430,84 +6092,100 @@ FILE_TAB = {
         "author": "Martin of Braga",
         "title":  "pro Repellenda Iactantia",
     },
-    "martinbraga/rusticus.txt":                {
+    "martinbraga/rusticus.txt":              {
         "fileid": 1318,
         "author": "Martin of Braga",
         "title":  "de Correctione Rusticorum",
     },
-    "martinbraga/sententiae.txt":              {
+    "martinbraga/sententiae.txt":            {
         "fileid": 1319,
         "author": "Martin of Braga",
         "title":  "Sententiae Patrum Aegyptiorum",
     },
-    "martinbraga/superbia.txt":                {
+    "martinbraga/superbia.txt":              {
         "fileid": 1320,
         "author": "Martin of Braga",
         "title":  "Item de Superbia",
     },
-    "martinbraga/trina.txt":                   {
+    "martinbraga/trina.txt":                 {
         "fileid": 1321,
         "author": "Martin of Braga",
         "title":  "de Trina Mersione",
     },
-    "marullo.txt":                             {"fileid": 1322, "author": None, "title": "Michele Marullo"},
-    "marx.txt":                                {"fileid": 1323, "author": None, "title": "Karl Marx"},
-    "maximianus.txt":                          {"fileid": 1324, "author": "Maximianus", "title": "Elegies"},
-    "may/may1.txt":                            {"fileid": 1325, "author": "May", "title": "Liber I"},
-    "may/may2.txt":                            {"fileid": 1326, "author": "May", "title": "Liber II"},
-    "may/may3.txt":                            {"fileid": 1327, "author": "May", "title": "Liber III"},
-    "may/may4.txt":                            {"fileid": 1328, "author": "May", "title": "Liber IV"},
-    "may/may5.txt":                            {"fileid": 1329, "author": "May", "title": "Liber V"},
-    "may/may6.txt":                            {"fileid": 1330, "author": "May", "title": "Liber VI"},
-    "may/may7.txt":                            {"fileid": 1331, "author": "May", "title": "Liber VII"},
-    "may/maytitle.txt":                        {"fileid": 1332, "author": "May", "title": "Title Page"},
-    "melanchthon/conf.txt":                    {
+    "marullo.txt":                           {
+        "fileid": 1322,
+        "author": None,
+        "title":  "Michele Marullo",
+    },
+    "marx.txt":                              {"fileid": 1323, "author": None, "title": "Karl Marx"},
+    "maximianus.txt":                        {
+        "fileid": 1324,
+        "author": "Maximianus",
+        "title":  "Elegies",
+    },
+    "may/may1.txt":                          {"fileid": 1325, "author": "May", "title": "Liber I"},
+    "may/may2.txt":                          {"fileid": 1326, "author": "May", "title": "Liber II"},
+    "may/may3.txt":                          {"fileid": 1327, "author": "May", "title": "Liber III"},
+    "may/may4.txt":                          {"fileid": 1328, "author": "May", "title": "Liber IV"},
+    "may/may5.txt":                          {"fileid": 1329, "author": "May", "title": "Liber V"},
+    "may/may6.txt":                          {"fileid": 1330, "author": "May", "title": "Liber VI"},
+    "may/may7.txt":                          {"fileid": 1331, "author": "May", "title": "Liber VII"},
+    "may/maytitle.txt":                      {
+        "fileid": 1332,
+        "author": "May",
+        "title":  "Title Page",
+    },
+    "melanchthon/conf.txt":                  {
         "fileid": 1333,
         "author": "Melanchthon",
         "title":  "The Augsburg Confession",
     },
-    "melanchthon/hist.txt":                    {
+    "melanchthon/hist.txt":                  {
         "fileid": 1334,
         "author": "Melanchthon",
         "title":  "Life of Luther",
     },
-    "melanchthon/laude.txt":                   {
+    "melanchthon/laude.txt":                 {
         "fileid": 1335,
         "author": "Melanchthon",
         "title":  "De Laude Vitae Scholasticae Oratio",
     },
-    "melanchthon/obitu.txt":                   {
+    "melanchthon/obitu.txt":                 {
         "fileid": 1336,
         "author": "Melanchthon",
         "title":  "De Obitu Martini Lutheri",
     },
-    "milton.quintnov.txt":                     {
+    "milton.quintnov.txt":                   {
         "fileid": 1337,
         "author": "John Milton",
         "title":  "In Quintum Novembris",
     },
-    "minucius.txt":                            {
+    "minucius.txt":                          {
         "fileid": 1338,
         "author": "M. Minucius Felix",
         "title":  "Octavius",
     },
-    "mirabilia.txt":                           {"fileid": 1339, "author": None, "title": "Mirabilia Urbis Romae"},
-    "mirabilia1.txt":                          {
+    "mirabilia.txt":                         {
+        "fileid": 1339,
+        "author": None,
+        "title":  "Mirabilia Urbis Romae",
+    },
+    "mirabilia1.txt":                        {
         "fileid": 1340,
         "author": "Gregorius",
         "title":  "Narratio de Mirabilibus Urbis Romae",
     },
-    "mirandola/mir1.txt":                      {
+    "mirandola/mir1.txt":                    {
         "fileid": 1341,
         "author": None,
         "title":  "Carmina Ioannis Pici Mirandulae",
     },
-    "mirandola/mir2.txt":                      {
+    "mirandola/mir2.txt":                    {
         "fileid": 1342,
         "author": None,
         "title":  "Carmina Ioannis Pici Mirandulae",
     },
-    "mirandola/mir3.txt":                      {
+    "mirandola/mir3.txt":                    {
         "fileid": 1343,
         "author": None,
         "title":  "Carmina Ioannis Pici Mirandulae",
@@ -4532,71 +6210,95 @@ FILE_TAB = {
         "author": None,
         "title":  "Carmina Ioannis Pici Mirandulae",
     },
-    "mirandola/mir8.txt":                      {
+    "mirandola/mir8.txt":                    {
         "fileid": 1348,
         "author": None,
         "title":  "Carmina Ioannis Pici Mirandulae",
     },
-    "mirandola/mir9.txt":                      {
+    "mirandola/mir9.txt":                    {
         "fileid": 1349,
         "author": None,
         "title":  "Carmina Ioannis Pici Mirandulae",
     },
-    "mirandola/oratio.txt":                    {
+    "mirandola/oratio.txt":                  {
         "fileid": 1350,
         "author": "Pico della Mirandola",
         "title":  "Oratio de hominis dignitate",
     },
-    "montanus.txt":                            {
+    "montanus.txt":                          {
         "fileid": 1351,
         "author": "Fabricius Montanus",
         "title":  "De Wilhelmo Thellio elegia",
     },
-    "more.txt":                                {"fileid": 1352, "author": None, "title": "Thomas More"},
-    "musavenit.txt":                           {"fileid": 1353, "author": None, "title": "Musa venit carmine "},
-    "naevius.txt":                             {"fileid": 1354, "author": None, "title": "Naevius"},
-    "navagero.txt":                            {"fileid": 1355, "author": None, "title": "Naugerius"},
-    "nemesianus1.txt":                         {"fileid": 1356, "author": "Nemesianus", "title": "Ecloga I"},
-    "nemesianus2.txt":                         {"fileid": 1357, "author": "Nemesianus", "title": "Ecloga II"},
-    "nemesianus3.txt":                         {"fileid": 1358, "author": "Nemesianus", "title": "Ecloga III"},
-    "nemesianus4.txt":                         {"fileid": 1359, "author": "Nemesianus", "title": "Ecloga IV"},
-    "nepos/nepos.age.txt":                     {
+    "more.txt":                              {"fileid": 1352, "author": None, "title": "Thomas More"},
+    "musavenit.txt":                         {
+        "fileid": 1353,
+        "author": None,
+        "title":  "Musa venit carmine ",
+    },
+    "naevius.txt":                           {"fileid": 1354, "author": None, "title": "Naevius"},
+    "navagero.txt":                          {"fileid": 1355, "author": None, "title": "Naugerius"},
+    "nemesianus1.txt":                       {
+        "fileid": 1356,
+        "author": "Nemesianus",
+        "title":  "Ecloga I",
+    },
+    "nemesianus2.txt":                       {
+        "fileid": 1357,
+        "author": "Nemesianus",
+        "title":  "Ecloga II",
+    },
+    "nemesianus3.txt":                       {
+        "fileid": 1358,
+        "author": "Nemesianus",
+        "title":  "Ecloga III",
+    },
+    "nemesianus4.txt":                       {
+        "fileid": 1359,
+        "author": "Nemesianus",
+        "title":  "Ecloga IV",
+    },
+    "nepos/nepos.age.txt":                   {
         "fileid": 1360,
         "author": "Nepos",
         "title":  "Life of Agesilaus",
     },
-    "nepos/nepos.alc.txt":                     {
+    "nepos/nepos.alc.txt":                   {
         "fileid": 1361,
         "author": "Nepos",
         "title":  "Life of Alcibiades",
     },
-    "nepos/nepos.aris.txt":                    {
+    "nepos/nepos.aris.txt":                  {
         "fileid": 1362,
         "author": "Nepos",
         "title":  "Life of Aristides",
     },
-    "nepos/nepos.att.txt":                     {
+    "nepos/nepos.att.txt":                   {
         "fileid": 1363,
         "author": "Nepos",
         "title":  "Life of Atticus",
     },
-    "nepos/nepos.cat.txt":                     {"fileid": 1364, "author": "Nepos", "title": "Life of Cato"},
-    "nepos/nepos.cha.txt":                     {
+    "nepos/nepos.cat.txt":                   {
+        "fileid": 1364,
+        "author": "Nepos",
+        "title":  "Life of Cato",
+    },
+    "nepos/nepos.cha.txt":                   {
         "fileid": 1365,
         "author": "Nepos",
         "title":  "Life of Chabrias",
     },
-    "nepos/nepos.cim.txt":                     {
+    "nepos/nepos.cim.txt":                   {
         "fileid": 1366,
         "author": "Nepos",
         "title":  "Life of Cimon",
     },
-    "nepos/nepos.con.txt":                     {
+    "nepos/nepos.con.txt":                   {
         "fileid": 1367,
         "author": "Nepos",
         "title":  "Life of Conon",
     },
-    "nepos/nepos.dat.txt":                     {
+    "nepos/nepos.dat.txt":                   {
         "fileid": 1368,
         "author": "Nepos",
         "title":  "Life of Datames",
@@ -4616,221 +6318,397 @@ FILE_TAB = {
         "author": "Nepos",
         "title":  "Life of Eumenes",
     },
-    "nepos/nepos.fragmenta.txt":               {
+    "nepos/nepos.fragmenta.txt":             {
         "fileid": 1372,
         "author": "Nepos",
         "title":  "Fragments",
     },
-    "nepos/nepos.ham.txt":                     {
+    "nepos/nepos.ham.txt":                   {
         "fileid": 1373,
         "author": "Nepos",
         "title":  "Life of Hamilcar",
     },
-    "nepos/nepos.han.txt":                     {
+    "nepos/nepos.han.txt":                   {
         "fileid": 1374,
         "author": "Nepos",
         "title":  "Life of Hannibal",
     },
-    "nepos/nepos.iph.txt":                     {
+    "nepos/nepos.iph.txt":                   {
         "fileid": 1375,
         "author": "Nepos",
         "title":  "Life of Iphicrates",
     },
-    "nepos/nepos.kings.txt":                   {"fileid": 1376, "author": "Nepos", "title": "On Kings"},
-    "nepos/nepos.lys.txt":                     {
+    "nepos/nepos.kings.txt":                 {
+        "fileid": 1376,
+        "author": "Nepos",
+        "title":  "On Kings",
+    },
+    "nepos/nepos.lys.txt":                   {
         "fileid": 1377,
         "author": "Nepos",
         "title":  "Life of Lysander",
     },
-    "nepos/nepos.mil.txt":                     {
+    "nepos/nepos.mil.txt":                   {
         "fileid": 1378,
         "author": "Nepos",
         "title":  "Life of Miltiades",
     },
-    "nepos/nepos.paus.txt":                    {
+    "nepos/nepos.paus.txt":                  {
         "fileid": 1379,
         "author": "Nepos",
         "title":  "Life of Pausanias",
     },
-    "nepos/nepos.pel.txt":                     {
+    "nepos/nepos.pel.txt":                   {
         "fileid": 1380,
         "author": "Nepos",
         "title":  "Life of Pelopidas",
     },
-    "nepos/nepos.phoc.txt":                    {
+    "nepos/nepos.phoc.txt":                  {
         "fileid": 1381,
         "author": "Nepos",
         "title":  "Life of Phocion",
     },
-    "nepos/nepos.pr.txt":                      {"fileid": 1382, "author": "Nepos", "title": "Praefatio"},
-    "nepos/nepos.them.txt":                    {
+    "nepos/nepos.pr.txt":                    {
+        "fileid": 1382,
+        "author": "Nepos",
+        "title":  "Praefatio",
+    },
+    "nepos/nepos.them.txt":                  {
         "fileid": 1383,
         "author": "Nepos",
         "title":  "Life of Themistocles",
     },
-    "nepos/nepos.thras.txt":                   {
+    "nepos/nepos.thras.txt":                 {
         "fileid": 1384,
         "author": "Nepos",
         "title":  "Life of Thrasybulus",
     },
-    "nepos/nepos.tim.txt":                     {
+    "nepos/nepos.tim.txt":                   {
         "fileid": 1385,
         "author": "Nepos",
         "title":  "Life of Timoleon",
     },
-    "nepos/nepos.timo.txt":                    {
+    "nepos/nepos.timo.txt":                  {
         "fileid": 1386,
         "author": "Nepos",
         "title":  "Life of Timotheus",
     },
-    "newton.capita.txt":                       {
+    "newton.capita.txt":                     {
         "fileid": 1387,
         "author": "Newton",
         "title":  "Index Capitum from the Principia ",
     },
-    "newton.leges.txt":                        {
+    "newton.leges.txt":                      {
         "fileid": 1388,
         "author": "Newton",
         "title":  "Leges Motus from the Principia ",
     },
-    "newton.regulae.txt":                      {
+    "newton.regulae.txt":                    {
         "fileid": 1389,
         "author": "Newton",
         "title":  "Regulae Philosophandi from the Principia ",
     },
-    "newton.scholium.txt":                     {
+    "newton.scholium.txt":                   {
         "fileid": 1390,
         "author": "Newton",
         "title":  "Scholium Generale from the Principia ",
     },
-    "nithardus1.txt":                          {"fileid": 1391, "author": "Nithardus", "title": "Historiae I "},
-    "nithardus2.txt":                          {"fileid": 1392, "author": "Nithardus", "title": "Historiae II "},
-    "nithardus3.txt":                          {
+    "nithardus1.txt":                        {
+        "fileid": 1391,
+        "author": "Nithardus",
+        "title":  "Historiae I ",
+    },
+    "nithardus2.txt":                        {
+        "fileid": 1392,
+        "author": "Nithardus",
+        "title":  "Historiae II ",
+    },
+    "nithardus3.txt":                        {
         "fileid": 1393,
         "author": "Nithardus",
         "title":  "Historiae III ",
     },
-    "nithardus4.txt":                          {"fileid": 1394, "author": "Nithardus", "title": "Historiae IV "},
-    "nivis.txt":                               {"fileid": 1395, "author": None, "title": ""},
-    "nobilis.txt":                             {"fileid": 1396, "author": "Nobilis", "title": "me "},
-    "notitia1.txt":                            {"fileid": 1397, "author": None, "title": "Notitia Dignitatum"},
-    "notitia2.txt":                            {"fileid": 1398, "author": None, "title": "Notitia Dignitatum"},
-    "novatian.txt":                            {"fileid": 1399, "author": None, "title": "Novatian"},
-    "obsequens.txt":                           {"fileid": 1400, "author": None, "title": "Julius Obsequens"},
-    "omnegenus.txt":                           {
+    "nithardus4.txt":                        {
+        "fileid": 1394,
+        "author": "Nithardus",
+        "title":  "Historiae IV ",
+    },
+    "nivis.txt":                             {"fileid": 1395, "author": None, "title": ""},
+    "nobilis.txt":                           {"fileid": 1396, "author": "Nobilis", "title": "me "},
+    "notitia1.txt":                          {
+        "fileid": 1397,
+        "author": None,
+        "title":  "Notitia Dignitatum",
+    },
+    "notitia2.txt":                          {
+        "fileid": 1398,
+        "author": None,
+        "title":  "Notitia Dignitatum",
+    },
+    "novatian.txt":                          {"fileid": 1399, "author": None, "title": "Novatian"},
+    "obsequens.txt":                         {
+        "fileid": 1400,
+        "author": None,
+        "title":  "Julius Obsequens",
+    },
+    "omnegenus.txt":                         {
         "fileid": 1401,
         "author": None,
         "title":  "Omne genus demoniorum ",
     },
-    "oratio.stephani.txt":                     {
+    "oratio.stephani.txt":                   {
         "fileid": 1402,
         "author": None,
         "title":  "Oratio Stephani de Varda",
     },
-    "oresmius.txt":                            {"fileid": 1403, "author": None, "title": "Oresimius"},
-    "origo.txt":                               {
+    "oresmius.txt":                          {"fileid": 1403, "author": None, "title": "Oresimius"},
+    "origo.txt":                             {
         "fileid": 1404,
         "author": None,
         "title":  "Origo gentis Langobardorum",
     },
-    "orosius/orosius1.txt":                    {"fileid": 1405, "author": None, "title": "Orosius I"},
-    "orosius/orosius2.txt":                    {"fileid": 1406, "author": None, "title": "Orosius II"},
-    "orosius/orosius3.txt":                    {"fileid": 1407, "author": None, "title": "Orosius III"},
-    "orosius/orosius4.txt":                    {"fileid": 1408, "author": None, "title": "Orosius IV"},
-    "orosius/orosius5.txt":                    {"fileid": 1409, "author": None, "title": "Orosius V"},
-    "orosius/orosius6.txt":                    {"fileid": 1410, "author": None, "title": "Orosius VI"},
-    "orosius/orosius7.txt":                    {"fileid": 1411, "author": None, "title": "Orosius VII"},
-    "ottofreising/1.txt":                      {
+    "orosius/orosius1.txt":                  {
+        "fileid": 1405,
+        "author": None,
+        "title":  "Orosius I",
+    },
+    "orosius/orosius2.txt":                  {
+        "fileid": 1406,
+        "author": None,
+        "title":  "Orosius II",
+    },
+    "orosius/orosius3.txt":                  {
+        "fileid": 1407,
+        "author": None,
+        "title":  "Orosius III",
+    },
+    "orosius/orosius4.txt":                  {
+        "fileid": 1408,
+        "author": None,
+        "title":  "Orosius IV",
+    },
+    "orosius/orosius5.txt":                  {
+        "fileid": 1409,
+        "author": None,
+        "title":  "Orosius V",
+    },
+    "orosius/orosius6.txt":                  {
+        "fileid": 1410,
+        "author": None,
+        "title":  "Orosius VI",
+    },
+    "orosius/orosius7.txt":                  {
+        "fileid": 1411,
+        "author": None,
+        "title":  "Orosius VII",
+    },
+    "ottofreising/1.txt":                    {
         "fileid": 1412,
         "author": "Otto of Freising",
         "title":  "Liber I",
     },
-    "ottofreising/2.txt":                      {
+    "ottofreising/2.txt":                    {
         "fileid": 1413,
         "author": "Otto of Freising",
         "title":  "Liber II",
     },
-    "ottofreising/3.txt":                      {
+    "ottofreising/3.txt":                    {
         "fileid": 1414,
         "author": "Otto of Freising",
         "title":  "Liber III",
     },
-    "ottofreising/4.txt":                      {
+    "ottofreising/4.txt":                    {
         "fileid": 1415,
         "author": "Otto of Freising",
         "title":  "Liber IV",
     },
-    "ottofreising/epistola.txt":               {
+    "ottofreising/epistola.txt":             {
         "fileid": 1416,
         "author": "Otto of Freising",
         "title":  "Epistola",
     },
-    "ovid/ovid.amor1.txt":                     {"fileid": 1417, "author": "Ovid", "title": "Amores I"},
-    "ovid/ovid.amor2.txt":                     {"fileid": 1418, "author": "Ovid", "title": "Amores II"},
-    "ovid/ovid.amor3.txt":                     {"fileid": 1419, "author": "Ovid", "title": "Amores III"},
-    "ovid/ovid.artis1.txt":                    {
+    "ovid/ovid.amor1.txt":                   {
+        "fileid": 1417,
+        "author": "Ovid",
+        "title":  "Amores I",
+    },
+    "ovid/ovid.amor2.txt":                   {
+        "fileid": 1418,
+        "author": "Ovid",
+        "title":  "Amores II",
+    },
+    "ovid/ovid.amor3.txt":                   {
+        "fileid": 1419,
+        "author": "Ovid",
+        "title":  "Amores III",
+    },
+    "ovid/ovid.artis1.txt":                  {
         "fileid": 1420,
         "author": "Ovid",
         "title":  "Ars Amatoria I",
     },
-    "ovid/ovid.artis2.txt":                    {
+    "ovid/ovid.artis2.txt":                  {
         "fileid": 1421,
         "author": "Ovid",
         "title":  "Ars Amatoria II",
     },
-    "ovid/ovid.artis3.txt":                    {
+    "ovid/ovid.artis3.txt":                  {
         "fileid": 1422,
         "author": "Ovid",
         "title":  "Ars Amatoria III",
     },
-    "ovid/ovid.fasti1.txt":                    {"fileid": 1423, "author": "Ovid", "title": "Fasti I"},
-    "ovid/ovid.fasti2.txt":                    {"fileid": 1424, "author": "Ovid", "title": "Fasti II"},
-    "ovid/ovid.fasti3.txt":                    {"fileid": 1425, "author": "Ovid", "title": "Fasti III"},
-    "ovid/ovid.fasti4.txt":                    {"fileid": 1426, "author": "Ovid", "title": "Fasti IV"},
-    "ovid/ovid.fasti5.txt":                    {"fileid": 1427, "author": "Ovid", "title": "Fasti V"},
-    "ovid/ovid.fasti6.txt":                    {"fileid": 1428, "author": "Ovid", "title": "Fasti VI"},
-    "ovid/ovid.her1.txt":                      {"fileid": 1429, "author": "Ovid", "title": "Heroides I"},
-    "ovid/ovid.her10.txt":                     {"fileid": 1430, "author": "Ovid", "title": "Heroides X"},
-    "ovid/ovid.her11.txt":                     {"fileid": 1431, "author": "Ovid", "title": "Heroides XI"},
-    "ovid/ovid.her12.txt":                     {"fileid": 1432, "author": "Ovid", "title": "Heroides XII"},
-    "ovid/ovid.her13.txt":                     {"fileid": 1433, "author": "Ovid", "title": "Heroides XIII"},
-    "ovid/ovid.her14.txt":                     {"fileid": 1434, "author": "Ovid", "title": "Heroides XIV"},
-    "ovid/ovid.her15.txt":                     {"fileid": 1435, "author": "Ovid", "title": "Heroides XV"},
-    "ovid/ovid.her16.txt":                     {"fileid": 1436, "author": "Ovid", "title": "Heroides XVI"},
-    "ovid/ovid.her17.txt":                     {"fileid": 1437, "author": "Ovid", "title": "Heroides XVII"},
-    "ovid/ovid.her18.txt":                     {
+    "ovid/ovid.fasti1.txt":                  {
+        "fileid": 1423,
+        "author": "Ovid",
+        "title":  "Fasti I",
+    },
+    "ovid/ovid.fasti2.txt":                  {
+        "fileid": 1424,
+        "author": "Ovid",
+        "title":  "Fasti II",
+    },
+    "ovid/ovid.fasti3.txt":                  {
+        "fileid": 1425,
+        "author": "Ovid",
+        "title":  "Fasti III",
+    },
+    "ovid/ovid.fasti4.txt":                  {
+        "fileid": 1426,
+        "author": "Ovid",
+        "title":  "Fasti IV",
+    },
+    "ovid/ovid.fasti5.txt":                  {
+        "fileid": 1427,
+        "author": "Ovid",
+        "title":  "Fasti V",
+    },
+    "ovid/ovid.fasti6.txt":                  {
+        "fileid": 1428,
+        "author": "Ovid",
+        "title":  "Fasti VI",
+    },
+    "ovid/ovid.her1.txt":                    {
+        "fileid": 1429,
+        "author": "Ovid",
+        "title":  "Heroides I",
+    },
+    "ovid/ovid.her10.txt":                   {
+        "fileid": 1430,
+        "author": "Ovid",
+        "title":  "Heroides X",
+    },
+    "ovid/ovid.her11.txt":                   {
+        "fileid": 1431,
+        "author": "Ovid",
+        "title":  "Heroides XI",
+    },
+    "ovid/ovid.her12.txt":                   {
+        "fileid": 1432,
+        "author": "Ovid",
+        "title":  "Heroides XII",
+    },
+    "ovid/ovid.her13.txt":                   {
+        "fileid": 1433,
+        "author": "Ovid",
+        "title":  "Heroides XIII",
+    },
+    "ovid/ovid.her14.txt":                   {
+        "fileid": 1434,
+        "author": "Ovid",
+        "title":  "Heroides XIV",
+    },
+    "ovid/ovid.her15.txt":                   {
+        "fileid": 1435,
+        "author": "Ovid",
+        "title":  "Heroides XV",
+    },
+    "ovid/ovid.her16.txt":                   {
+        "fileid": 1436,
+        "author": "Ovid",
+        "title":  "Heroides XVI",
+    },
+    "ovid/ovid.her17.txt":                   {
+        "fileid": 1437,
+        "author": "Ovid",
+        "title":  "Heroides XVII",
+    },
+    "ovid/ovid.her18.txt":                   {
         "fileid": 1438,
         "author": "Ovid",
         "title":  "Heroides XVIII",
     },
-    "ovid/ovid.her19.txt":                     {"fileid": 1439, "author": "Ovid", "title": "Heroides XIX"},
-    "ovid/ovid.her2.txt":                      {"fileid": 1440, "author": "Ovid", "title": "Heroides II"},
-    "ovid/ovid.her20.txt":                     {"fileid": 1441, "author": "Ovid", "title": "Heroides XX"},
-    "ovid/ovid.her21.txt":                     {"fileid": 1442, "author": "Ovid", "title": "Heroides XXI"},
-    "ovid/ovid.her3.txt":                      {"fileid": 1443, "author": "Ovid", "title": "Heroides III"},
-    "ovid/ovid.her4.txt":                      {"fileid": 1444, "author": "Ovid", "title": "Heroides IV"},
-    "ovid/ovid.her5.txt":                      {"fileid": 1445, "author": "Ovid", "title": "Heroides V"},
-    "ovid/ovid.her6.txt":                      {"fileid": 1446, "author": "Ovid", "title": "Heroides VI"},
-    "ovid/ovid.her7.txt":                      {"fileid": 1447, "author": "Ovid", "title": "Heroides VII"},
-    "ovid/ovid.her8.txt":                      {"fileid": 1448, "author": "Ovid", "title": "Heroides VIII"},
-    "ovid/ovid.her9.txt":                      {"fileid": 1449, "author": "Ovid", "title": "Heroides IX"},
-    "ovid/ovid.ibis.txt":                      {"fileid": 1450, "author": "Ovid", "title": "Ibis"},
-    "ovid/ovid.met1.txt":                      {
+    "ovid/ovid.her19.txt":                   {
+        "fileid": 1439,
+        "author": "Ovid",
+        "title":  "Heroides XIX",
+    },
+    "ovid/ovid.her2.txt":                    {
+        "fileid": 1440,
+        "author": "Ovid",
+        "title":  "Heroides II",
+    },
+    "ovid/ovid.her20.txt":                   {
+        "fileid": 1441,
+        "author": "Ovid",
+        "title":  "Heroides XX",
+    },
+    "ovid/ovid.her21.txt":                   {
+        "fileid": 1442,
+        "author": "Ovid",
+        "title":  "Heroides XXI",
+    },
+    "ovid/ovid.her3.txt":                    {
+        "fileid": 1443,
+        "author": "Ovid",
+        "title":  "Heroides III",
+    },
+    "ovid/ovid.her4.txt":                    {
+        "fileid": 1444,
+        "author": "Ovid",
+        "title":  "Heroides IV",
+    },
+    "ovid/ovid.her5.txt":                    {
+        "fileid": 1445,
+        "author": "Ovid",
+        "title":  "Heroides V",
+    },
+    "ovid/ovid.her6.txt":                    {
+        "fileid": 1446,
+        "author": "Ovid",
+        "title":  "Heroides VI",
+    },
+    "ovid/ovid.her7.txt":                    {
+        "fileid": 1447,
+        "author": "Ovid",
+        "title":  "Heroides VII",
+    },
+    "ovid/ovid.her8.txt":                    {
+        "fileid": 1448,
+        "author": "Ovid",
+        "title":  "Heroides VIII",
+    },
+    "ovid/ovid.her9.txt":                    {
+        "fileid": 1449,
+        "author": "Ovid",
+        "title":  "Heroides IX",
+    },
+    "ovid/ovid.ibis.txt":                    {"fileid": 1450, "author": "Ovid", "title": "Ibis"},
+    "ovid/ovid.met1.txt":                    {
         "fileid": 1451,
         "author": "Ovid",
         "title":  "Metamorphoses I",
     },
-    "ovid/ovid.met10.txt":                     {
+    "ovid/ovid.met10.txt":                   {
         "fileid": 1452,
         "author": "Ovid",
         "title":  "Metamorphoses X",
     },
-    "ovid/ovid.met11.txt":                     {
+    "ovid/ovid.met11.txt":                   {
         "fileid": 1453,
         "author": "Ovid",
         "title":  "Metamorphoses XI",
     },
-    "ovid/ovid.met12.txt":                     {
+    "ovid/ovid.met12.txt":                   {
         "fileid": 1454,
         "author": "Ovid",
         "title":  "Metamorphoses XII",
@@ -4870,80 +6748,116 @@ FILE_TAB = {
         "author": "Ovid",
         "title":  "Metamorphoses V",
     },
-    "ovid/ovid.met6.txt":                      {
+    "ovid/ovid.met6.txt":                    {
         "fileid": 1462,
         "author": "Ovid",
         "title":  "Metamorphoses VI",
     },
-    "ovid/ovid.met7.txt":                      {
+    "ovid/ovid.met7.txt":                    {
         "fileid": 1463,
         "author": "Ovid",
         "title":  "Metamorphoses VII",
     },
-    "ovid/ovid.met8.txt":                      {
+    "ovid/ovid.met8.txt":                    {
         "fileid": 1464,
         "author": "Ovid",
         "title":  "Metamorphoses VIII",
     },
-    "ovid/ovid.met9.txt":                      {
+    "ovid/ovid.met9.txt":                    {
         "fileid": 1465,
         "author": "Ovid",
         "title":  "Metamorphoses IX",
     },
-    "ovid/ovid.ponto1.txt":                    {"fileid": 1466, "author": "Ovid", "title": "Ex Ponto I"},
-    "ovid/ovid.ponto2.txt":                    {"fileid": 1467, "author": "Ovid", "title": "Ex Ponto II"},
-    "ovid/ovid.ponto3.txt":                    {"fileid": 1468, "author": "Ovid", "title": "Ex Ponto III"},
-    "ovid/ovid.ponto4.txt":                    {"fileid": 1469, "author": "Ovid", "title": "Ex Ponto IV"},
-    "ovid/ovid.rem.txt":                       {"fileid": 1470, "author": "Ovid", "title": "Remedia Amoris"},
-    "ovid/ovid.tristia1.txt":                  {"fileid": 1471, "author": "Ovid", "title": "Tristia I"},
-    "ovid/ovid.tristia2.txt":                  {"fileid": 1472, "author": "Ovid", "title": "Tristia II"},
-    "ovid/ovid.tristia3.txt":                  {
+    "ovid/ovid.ponto1.txt":                  {
+        "fileid": 1466,
+        "author": "Ovid",
+        "title":  "Ex Ponto I",
+    },
+    "ovid/ovid.ponto2.txt":                  {
+        "fileid": 1467,
+        "author": "Ovid",
+        "title":  "Ex Ponto II",
+    },
+    "ovid/ovid.ponto3.txt":                  {
+        "fileid": 1468,
+        "author": "Ovid",
+        "title":  "Ex Ponto III",
+    },
+    "ovid/ovid.ponto4.txt":                  {
+        "fileid": 1469,
+        "author": "Ovid",
+        "title":  "Ex Ponto IV",
+    },
+    "ovid/ovid.rem.txt":                     {
+        "fileid": 1470,
+        "author": "Ovid",
+        "title":  "Remedia Amoris",
+    },
+    "ovid/ovid.tristia1.txt":                {
+        "fileid": 1471,
+        "author": "Ovid",
+        "title":  "Tristia I",
+    },
+    "ovid/ovid.tristia2.txt":                {
+        "fileid": 1472,
+        "author": "Ovid",
+        "title":  "Tristia II",
+    },
+    "ovid/ovid.tristia3.txt":                {
         "fileid": 1473,
         "author": "Ovid",
         "title":  "Ovid: Tristia III",
     },
-    "ovid/ovid.tristia4.txt":                  {
+    "ovid/ovid.tristia4.txt":                {
         "fileid": 1474,
         "author": "Ovid",
         "title":  "Ovid: Tristia IV",
     },
-    "ovid/ovid.tristia5.txt":                  {
+    "ovid/ovid.tristia5.txt":                {
         "fileid": 1475,
         "author": "Ovid",
         "title":  "Ovid: Tristia V",
     },
-    "owen.txt":                                {"fileid": 1476, "author": None, "title": "John Owen "},
-    "paris.txt":                               {
+    "owen.txt":                              {"fileid": 1476, "author": None, "title": "John Owen "},
+    "paris.txt":                             {
         "fileid": 1477,
         "author": "Julius Paris",
         "title":  "de Nominibus Epitome",
     },
-    "pascoli.catull.txt":                      {
+    "pascoli.catull.txt":                    {
         "fileid": 1478,
         "author": None,
         "title":  "Catullocalvos-Satura ",
     },
-    "pascoli.iug.txt":                         {"fileid": 1479, "author": None, "title": "Iugurtha "},
-    "pascoli.laur.txt":                        {"fileid": 1480, "author": None, "title": "Laureolo "},
-    "pascoli.sen.txt":                         {"fileid": 1481, "author": None, "title": "Senex Corycius "},
-    "pascoli.veianius.txt":                    {"fileid": 1482, "author": None, "title": "Veianius "},
-    "passerat.txt":                            {"fileid": 1483, "author": None, "title": "Jean Passerat"},
-    "patricius1.txt":                          {
+    "pascoli.iug.txt":                       {"fileid": 1479, "author": None, "title": "Iugurtha "},
+    "pascoli.laur.txt":                      {"fileid": 1480, "author": None, "title": "Laureolo "},
+    "pascoli.sen.txt":                       {
+        "fileid": 1481,
+        "author": None,
+        "title":  "Senex Corycius ",
+    },
+    "pascoli.veianius.txt":                  {
+        "fileid": 1482,
+        "author": None,
+        "title":  "Veianius ",
+    },
+    "passerat.txt":                          {"fileid": 1483, "author": None, "title": "Jean Passerat"},
+    "patricius1.txt":                        {
         "fileid": 1484,
         "author": "Franciscus Patricius",
         "title":  "Panaugiae I ",
     },
-    "patricius2.txt":                          {
+    "patricius2.txt":                        {
         "fileid": 1485,
         "author": "Franciscus Patricius",
         "title":  "Panaugiae II ",
     },
-    "pauldeacon/carmina.txt":                  {
+    "pauldeacon/carmina.txt":                {
         "fileid": 1486,
         "author": "Paulus Diaconus",
         "title":  "Carmina",
     },
-    "pauldeacon/fabulae.txt":                  {
+    "pauldeacon/fabulae.txt":                {
         "fileid": 1487,
         "author": "Paulus Diaconus",
         "title":  "Fabulae",
@@ -5038,79 +6952,103 @@ FILE_TAB = {
         "author": "Paulus Diaconus",
         "title":  "Historia Romana Liber II",
     },
-    "pauldeacon/histrom6.txt":                 {
+    "pauldeacon/histrom6.txt":               {
         "fileid": 1506,
         "author": "Paulus Diaconus",
         "title":  "Historia Romana Liber VI",
     },
-    "pauldeacon/histrom7.txt":                 {
+    "pauldeacon/histrom7.txt":               {
         "fileid": 1507,
         "author": "Paulus Diaconus",
         "title":  "Historia Romana Liber VII",
     },
-    "pauldeacon/histrom8.txt":                 {
+    "pauldeacon/histrom8.txt":               {
         "fileid": 1508,
         "author": "Paulus Diaconus",
         "title":  "Historia Romana Liber VIII",
     },
-    "pauldeacon/histrom9.txt":                 {
+    "pauldeacon/histrom9.txt":               {
         "fileid": 1509,
         "author": "Paulus Diaconus",
         "title":  "Historia Romana Liber IX",
     },
-    "paulinus.ausonium.txt":                   {"fileid": 1510, "author": None, "title": "O Comes "},
-    "paulinus.poemata.txt":                    {
+    "paulinus.ausonium.txt":                 {
+        "fileid": 1510,
+        "author": None,
+        "title":  "O Comes ",
+    },
+    "paulinus.poemata.txt":                  {
         "fileid": 1511,
         "author": "Paulinus of Nola",
         "title":  "Poems",
     },
-    "perp.txt":                                {"fileid": 1512, "author": None, "title": "Perpetua et Felicitatis"},
-    "persius.txt":                             {"fileid": 1513, "author": None, "title": "Persius"},
-    "pervig.txt":                              {"fileid": 1514, "author": None, "title": "Pervigilium Veneris"},
-    "petrarch.ep1.txt":                        {
+    "perp.txt":                              {
+        "fileid": 1512,
+        "author": None,
+        "title":  "Perpetua et Felicitatis",
+    },
+    "persius.txt":                           {"fileid": 1513, "author": None, "title": "Persius"},
+    "pervig.txt":                            {
+        "fileid": 1514,
+        "author": None,
+        "title":  "Pervigilium Veneris",
+    },
+    "petrarch.ep1.txt":                      {
         "fileid": 1515,
         "author": "Petrarch",
         "title":  "Epistula M. Tullio Ciceroni",
     },
-    "petrarch.numa.txt":                       {
+    "petrarch.numa.txt":                     {
         "fileid": 1516,
         "author": "Petrarch",
         "title":  "Numa Pompilius",
     },
-    "petrarch.rom.txt":                        {"fileid": 1517, "author": "Petrarch", "title": "Romulus"},
-    "petrarchmedicus.txt":                     {
+    "petrarch.rom.txt":                      {
+        "fileid": 1517,
+        "author": "Petrarch",
+        "title":  "Romulus",
+    },
+    "petrarchmedicus.txt":                   {
         "fileid": 1518,
         "author": "Petrarca",
         "title":  "Contra Medicum Quendam",
     },
-    "petronius1.txt":                          {"fileid": 1519, "author": "Petronius", "title": "Satiricon"},
-    "petroniusfrag.txt":                       {
+    "petronius1.txt":                        {
+        "fileid": 1519,
+        "author": "Petronius",
+        "title":  "Satiricon",
+    },
+    "petroniusfrag.txt":                     {
         "fileid": 1520,
         "author": None,
         "title":  "Fragmenta Petroniana",
     },
-    "phaedr1.txt":                             {"fileid": 1521, "author": None, "title": "Phaedrus I"},
-    "phaedr2.txt":                             {"fileid": 1522, "author": None, "title": "Phaedrus II"},
-    "phaedr3.txt":                             {"fileid": 1523, "author": None, "title": "Phaedrus III"},
-    "phaedr4.txt":                             {"fileid": 1524, "author": None, "title": "Phaedrus IV"},
-    "phaedr5.txt":                             {"fileid": 1525, "author": None, "title": "Phaedrus V"},
-    "phaedrapp.txt":                           {"fileid": 1526, "author": None, "title": "Phaedrus Appendix"},
-    "piccolomini.carmen.txt":                  {
+    "phaedr1.txt":                           {"fileid": 1521, "author": None, "title": "Phaedrus I"},
+    "phaedr2.txt":                           {"fileid": 1522, "author": None, "title": "Phaedrus II"},
+    "phaedr3.txt":                           {"fileid": 1523, "author": None, "title": "Phaedrus III"},
+    "phaedr4.txt":                           {"fileid": 1524, "author": None, "title": "Phaedrus IV"},
+    "phaedr5.txt":                           {"fileid": 1525, "author": None, "title": "Phaedrus V"},
+    "phaedrapp.txt":                         {
+        "fileid": 1526,
+        "author": None,
+        "title":  "Phaedrus Appendix",
+    },
+    "piccolomini.carmen.txt":                {
         "fileid": 1527,
         "author": "Enea Silvio Piccolomini (1405-1464",
         "title":  "Pope Pius II from 1458) ",
     },
-    "piccolomini.ep1.txt":                     {
+    "piccolomini.ep1.txt":                   {
         "fileid": 1528,
         "author": "Piccolomini",
         "title":  "Letter to Johann Lauterbach ",
     },
-    "piccolomini.ep2.txt":                     {
+    "piccolomini.ep2.txt":                   {
         "fileid": 1529,
         "author": "Piccolomini",
         "title":  "Letter to His Father ",
     },
-    "piccolomini.ep3.txt":                     {
+    "piccolomini.ep3.txt":                   {
         "fileid": 1530,
         "author": "Piccolomini",
         "title":  "Letter to Wilhelm von Stein ",
@@ -5120,293 +7058,449 @@ FILE_TAB = {
         "author": "Piccolomini",
         "title":  "Letter to Procop van Rabenstein ",
     },
-    "piccolomini.ep5.txt":                     {
+    "piccolomini.ep5.txt":                   {
         "fileid": 1532,
         "author": "Piccolomini",
         "title":  "Letter to Prince Sigismund ",
     },
-    "piccolomini.ep6.txt":                     {
+    "piccolomini.ep6.txt":                   {
         "fileid": 1533,
         "author": "Piccolomini",
         "title":  "Letter to Caspar Schlick ",
     },
-    "piccolomini.turcos.txt":                  {
+    "piccolomini.turcos.txt":                {
         "fileid": 1534,
         "author": "Piccolomini",
         "title":  "Oratio contra Turcos ",
     },
-    "planctus.txt":                            {"fileid": 1535, "author": None, "title": "Anonymous"},
-    "plautus/amphitruo.txt":                   {
+    "planctus.txt":                          {"fileid": 1535, "author": None, "title": "Anonymous"},
+    "plautus/amphitruo.txt":                 {
         "fileid": 1536,
         "author": "Plautus",
         "title":  "Amphitruo",
     },
-    "plautus/asinaria.txt":                    {"fileid": 1537, "author": "Plautus", "title": "Asinaria"},
-    "plautus/aulularia.txt":                   {
+    "plautus/asinaria.txt":                  {
+        "fileid": 1537,
+        "author": "Plautus",
+        "title":  "Asinaria",
+    },
+    "plautus/aulularia.txt":                 {
         "fileid": 1538,
         "author": "Plautus",
         "title":  "Aulularia",
     },
-    "plautus/bacchides.txt":                   {
+    "plautus/bacchides.txt":                 {
         "fileid": 1539,
         "author": "Plautus",
         "title":  "Bacchides",
     },
-    "plautus/captivi.txt":                     {"fileid": 1540, "author": "Plautus", "title": "Captivi"},
-    "plautus/cas.txt":                         {"fileid": 1541, "author": "Plautus", "title": "Casina"},
-    "plautus/cistellaria.txt":                 {
+    "plautus/captivi.txt":                   {
+        "fileid": 1540,
+        "author": "Plautus",
+        "title":  "Captivi",
+    },
+    "plautus/cas.txt":                       {
+        "fileid": 1541,
+        "author": "Plautus",
+        "title":  "Casina",
+    },
+    "plautus/cistellaria.txt":               {
         "fileid": 1542,
         "author": "Plautus",
         "title":  "Cistellaria",
     },
-    "plautus/curculio.txt":                    {"fileid": 1543, "author": "Plautus", "title": "Curculio"},
-    "plautus/epidicus.txt":                    {"fileid": 1544, "author": "Plautus", "title": "Epidicus"},
-    "plautus/menaechmi.txt":                   {
+    "plautus/curculio.txt":                  {
+        "fileid": 1543,
+        "author": "Plautus",
+        "title":  "Curculio",
+    },
+    "plautus/epidicus.txt":                  {
+        "fileid": 1544,
+        "author": "Plautus",
+        "title":  "Epidicus",
+    },
+    "plautus/menaechmi.txt":                 {
         "fileid": 1545,
         "author": "Plautus",
         "title":  "Menaechmi",
     },
-    "plautus/mercator.txt":                    {"fileid": 1546, "author": "Plautus", "title": "Mercator"},
-    "plautus/miles.txt":                       {
+    "plautus/mercator.txt":                  {
+        "fileid": 1546,
+        "author": "Plautus",
+        "title":  "Mercator",
+    },
+    "plautus/miles.txt":                     {
         "fileid": 1547,
         "author": "Plautus",
         "title":  "Miles Gloriosus",
     },
-    "plautus/mostellaria.txt":                 {
+    "plautus/mostellaria.txt":               {
         "fileid": 1548,
         "author": "Plautus",
         "title":  "Mostellaria",
     },
-    "plautus/persa.txt":                       {"fileid": 1549, "author": "Plautus", "title": "Persa"},
-    "plautus/poenulus.txt":                    {"fileid": 1550, "author": "Plautus", "title": "Poenulus"},
-    "plautus/pseudolus.txt":                   {
+    "plautus/persa.txt":                     {
+        "fileid": 1549,
+        "author": "Plautus",
+        "title":  "Persa",
+    },
+    "plautus/poenulus.txt":                  {
+        "fileid": 1550,
+        "author": "Plautus",
+        "title":  "Poenulus",
+    },
+    "plautus/pseudolus.txt":                 {
         "fileid": 1551,
         "author": "Plautus",
         "title":  "Pseudolus",
     },
-    "plautus/rudens.txt":                      {"fileid": 1552, "author": "Plautus", "title": "Rudens"},
-    "plautus/stichus.txt":                     {"fileid": 1553, "author": "Plautus", "title": "Stichus"},
-    "plautus/trinummus.txt":                   {
+    "plautus/rudens.txt":                    {
+        "fileid": 1552,
+        "author": "Plautus",
+        "title":  "Rudens",
+    },
+    "plautus/stichus.txt":                   {
+        "fileid": 1553,
+        "author": "Plautus",
+        "title":  "Stichus",
+    },
+    "plautus/trinummus.txt":                 {
         "fileid": 1554,
         "author": "Plautus",
         "title":  "Trinummus",
     },
-    "plautus/truculentus.txt":                 {
+    "plautus/truculentus.txt":               {
         "fileid": 1555,
         "author": "Plautus",
         "title":  "Truculentus",
     },
-    "plautus/vidularia.txt":                   {
+    "plautus/vidularia.txt":                 {
         "fileid": 1556,
         "author": "Plautus",
         "title":  "Vidularia",
     },
-    "pliny.ep1.txt":                           {"fileid": 1557, "author": None, "title": "Pliny the Younger"},
-    "pliny.ep10.txt":                          {"fileid": 1558, "author": None, "title": "Pliny the Younger"},
-    "pliny.ep2.txt":                           {"fileid": 1559, "author": None, "title": "Pliny the Younger"},
-    "pliny.ep3.txt":                           {"fileid": 1560, "author": None, "title": "Pliny the Younger"},
-    "pliny.ep4.txt":                           {"fileid": 1561, "author": None, "title": "Pliny the Younger"},
-    "pliny.ep5.txt":                           {"fileid": 1562, "author": None, "title": "Pliny the Younger"},
-    "pliny.ep6.txt":                           {"fileid": 1563, "author": None, "title": "Pliny the Younger"},
-    "pliny.ep7.txt":                           {"fileid": 1564, "author": None, "title": "Pliny the Younger"},
-    "pliny.ep8.txt":                           {"fileid": 1565, "author": None, "title": "Pliny the Younger"},
-    "pliny.ep9.txt":                           {"fileid": 1566, "author": None, "title": "Pliny the Younger"},
-    "pliny.nh1.txt":                           {
+    "pliny.ep1.txt":                         {
+        "fileid": 1557,
+        "author": None,
+        "title":  "Pliny the Younger",
+    },
+    "pliny.ep10.txt":                        {
+        "fileid": 1558,
+        "author": None,
+        "title":  "Pliny the Younger",
+    },
+    "pliny.ep2.txt":                         {
+        "fileid": 1559,
+        "author": None,
+        "title":  "Pliny the Younger",
+    },
+    "pliny.ep3.txt":                         {
+        "fileid": 1560,
+        "author": None,
+        "title":  "Pliny the Younger",
+    },
+    "pliny.ep4.txt":                         {
+        "fileid": 1561,
+        "author": None,
+        "title":  "Pliny the Younger",
+    },
+    "pliny.ep5.txt":                         {
+        "fileid": 1562,
+        "author": None,
+        "title":  "Pliny the Younger",
+    },
+    "pliny.ep6.txt":                         {
+        "fileid": 1563,
+        "author": None,
+        "title":  "Pliny the Younger",
+    },
+    "pliny.ep7.txt":                         {
+        "fileid": 1564,
+        "author": None,
+        "title":  "Pliny the Younger",
+    },
+    "pliny.ep8.txt":                         {
+        "fileid": 1565,
+        "author": None,
+        "title":  "Pliny the Younger",
+    },
+    "pliny.ep9.txt":                         {
+        "fileid": 1566,
+        "author": None,
+        "title":  "Pliny the Younger",
+    },
+    "pliny.nh1.txt":                         {
         "fileid": 1567,
         "author": "Pliny the Elder",
         "title":  "Natural History, Book I",
     },
-    "pliny.nh2.txt":                           {"fileid": 1568, "author": None, "title": "Pliny the Elder"},
-    "pliny.nh3.txt":                           {
+    "pliny.nh2.txt":                         {
+        "fileid": 1568,
+        "author": None,
+        "title":  "Pliny the Elder",
+    },
+    "pliny.nh3.txt":                         {
         "fileid": 1569,
         "author": "Pliny the Elder",
         "title":  "Natural History, Book III",
     },
-    "pliny.nh4.txt":                           {
+    "pliny.nh4.txt":                         {
         "fileid": 1570,
         "author": "Pliny the Elder",
         "title":  "Natural History, Book IV",
     },
-    "pliny.nh5.txt":                           {
+    "pliny.nh5.txt":                         {
         "fileid": 1571,
         "author": "Pliny the Elder",
         "title":  "Natural History, Book V",
     },
-    "pliny.nhpr.txt":                          {
+    "pliny.nhpr.txt":                        {
         "fileid": 1572,
         "author": "Pliny the Elder",
         "title":  "Natural History, Preface",
     },
-    "pliny.panegyricus.txt":                   {
+    "pliny.panegyricus.txt":                 {
         "fileid": 1573,
         "author": None,
         "title":  "Pliny the Younger",
     },
-    "poggio.txt":                              {"fileid": 1574, "author": None, "title": "Poggii Facetiae (1-120)"},
-    "pomponius1.txt":                          {
+    "poggio.txt":                            {
+        "fileid": 1574,
+        "author": None,
+        "title":  "Poggii Facetiae (1-120)",
+    },
+    "pomponius1.txt":                        {
         "fileid": 1575,
         "author": "Pomponius Mela",
         "title":  "de Chorographia I ",
     },
-    "pomponius2.txt":                          {
+    "pomponius2.txt":                        {
         "fileid": 1576,
         "author": "Pomponius Mela",
         "title":  "de Chorographia II",
     },
-    "pomponius3.txt":                          {
+    "pomponius3.txt":                        {
         "fileid": 1577,
         "author": "Pomponius Mela",
         "title":  "de Chorographia III",
     },
-    "pontano.txt":                             {
+    "pontano.txt":                           {
         "fileid": 1578,
         "author": None,
         "title":  "Giovanni Pontano (1429-1503)",
     },
-    "poree.txt":                               {"fileid": 1579, "author": "Charles Poree", "title": "Caecus Amor "},
-    "porphyrius.txt":                          {"fileid": 1580, "author": "Porphyrius", "title": "Carmina"},
-    "potatores.txt":                           {"fileid": 1581, "author": None, "title": "Potatores exquisiti"},
-    "prataiam.txt":                            {
+    "poree.txt":                             {
+        "fileid": 1579,
+        "author": "Charles Poree",
+        "title":  "Caecus Amor ",
+    },
+    "porphyrius.txt":                        {
+        "fileid": 1580,
+        "author": "Porphyrius",
+        "title":  "Carmina",
+    },
+    "potatores.txt":                         {
+        "fileid": 1581,
+        "author": None,
+        "title":  "Potatores exquisiti",
+    },
+    "prataiam.txt":                          {
         "fileid": 1582,
         "author": None,
         "title":  "Prata iam rident omnia ",
     },
-    "prec.terr.txt":                           {"fileid": 1583, "author": None, "title": "Precatio Terrae"},
-    "precatio.txt":                            {
+    "prec.terr.txt":                         {
+        "fileid": 1583,
+        "author": None,
+        "title":  "Precatio Terrae",
+    },
+    "precatio.txt":                          {
         "fileid": 1584,
         "author": None,
         "title":  "Precatio Omnium Herbarum ",
     },
-    "priapea.txt":                             {"fileid": 1585, "author": None, "title": "Priapea"},
-    "professio.txt":                           {
+    "priapea.txt":                           {"fileid": 1585, "author": None, "title": "Priapea"},
+    "professio.txt":                         {
         "fileid": 1586,
         "author": None,
         "title":  "Professio contra Sectam Priscilliani",
     },
-    "prop2.txt":                               {"fileid": 1587, "author": None, "title": "Propertius Book II"},
-    "prop3.txt":                               {"fileid": 1588, "author": None, "title": "Propertius Book III"},
-    "prop4.txt":                               {
+    "prop2.txt":                             {
+        "fileid": 1587,
+        "author": None,
+        "title":  "Propertius Book II",
+    },
+    "prop3.txt":                             {
+        "fileid": 1588,
+        "author": None,
+        "title":  "Propertius Book III",
+    },
+    "prop4.txt":                             {
         "fileid": 1589,
         "author": None,
         "title":  "SEXTI PROPERTI ELEGIARVM LIBER QVARTVS",
     },
-    "propertius1.txt":                         {
+    "propertius1.txt":                       {
         "fileid": 1590,
         "author": None,
         "title":  "SEXTI PROPERTI ELEGIARVM LIBER PRIMVS",
     },
-    "prosperus.epistola.txt":                  {
+    "prosperus.epistola.txt":                {
         "fileid": 1591,
         "author": "St. Prosperus of Aquitaine",
         "title":  "Epistola ad Augustinum",
     },
-    "prosperus.rufinum.txt":                   {
+    "prosperus.rufinum.txt":                 {
         "fileid": 1592,
         "author": "St. Prosperus of Aquitaine",
         "title":  "Epistola ad Rufinum",
     },
-    "prosperus.sententiae.txt":                {
+    "prosperus.sententiae.txt":              {
         "fileid": 1593,
         "author": "St. Prosperus of Aquitaine",
         "title":  "Liber Sententiarum",
     },
-    "protospatarius.txt":                      {
+    "protospatarius.txt":                    {
         "fileid": 1594,
         "author": "Protospatariu",
         "title":  "Breve Chronicon",
     },
-    "prudentius/prud.psycho.txt":              {
+    "prudentius/prud.psycho.txt":            {
         "fileid": 1595,
         "author": "Prudentius",
         "title":  "Psychomachia",
     },
-    "prudentius/prud1.txt":                    {"fileid": 1596, "author": None, "title": "Prudentius I"},
-    "prudentius/prud10.txt":                   {"fileid": 1597, "author": None, "title": "Prudentius X"},
-    "prudentius/prud11.txt":                   {"fileid": 1598, "author": None, "title": "Prudentius XI"},
-    "prudentius/prud12.txt":                   {
+    "prudentius/prud1.txt":                  {
+        "fileid": 1596,
+        "author": None,
+        "title":  "Prudentius I",
+    },
+    "prudentius/prud10.txt":                 {
+        "fileid": 1597,
+        "author": None,
+        "title":  "Prudentius X",
+    },
+    "prudentius/prud11.txt":                 {
+        "fileid": 1598,
+        "author": None,
+        "title":  "Prudentius XI",
+    },
+    "prudentius/prud12.txt":                 {
         "fileid": 1599,
         "author": None,
         "title":  "Prudentius XII",
     },
-    "prudentius/prud13.txt":                   {
+    "prudentius/prud13.txt":                 {
         "fileid": 1600,
         "author": None,
         "title":  "Prudentius XIII",
     },
-    "prudentius/prud14.txt":                   {
+    "prudentius/prud14.txt":                 {
         "fileid": 1601,
         "author": None,
         "title":  "Prudentius XIV",
     },
-    "prudentius/prud2.txt":                    {"fileid": 1602, "author": None, "title": "Prudentius II"},
-    "prudentius/prud3.txt":                    {"fileid": 1603, "author": None, "title": "Prudentius III"},
-    "prudentius/prud4.txt":                    {
+    "prudentius/prud2.txt":                  {
+        "fileid": 1602,
+        "author": None,
+        "title":  "Prudentius II",
+    },
+    "prudentius/prud3.txt":                  {
+        "fileid": 1603,
+        "author": None,
+        "title":  "Prudentius III",
+    },
+    "prudentius/prud4.txt":                  {
         "fileid": 1604,
         "author": None,
         "title":  "Prudentius IIII",
     },
-    "prudentius/prud5.txt":                    {"fileid": 1605, "author": None, "title": "Prudentius V"},
-    "prudentius/prud6.txt":                    {"fileid": 1606, "author": None, "title": "Prudentius VI"},
-    "prudentius/prud7.txt":                    {"fileid": 1607, "author": None, "title": "Prudentius VII"},
-    "prudentius/prud8.txt":                    {
+    "prudentius/prud5.txt":                  {
+        "fileid": 1605,
+        "author": None,
+        "title":  "Prudentius V",
+    },
+    "prudentius/prud6.txt":                  {
+        "fileid": 1606,
+        "author": None,
+        "title":  "Prudentius VI",
+    },
+    "prudentius/prud7.txt":                  {
+        "fileid": 1607,
+        "author": None,
+        "title":  "Prudentius VII",
+    },
+    "prudentius/prud8.txt":                  {
         "fileid": 1608,
         "author": None,
         "title":  "Prudentius VIII",
     },
-    "prudentius/prud9.txt":                    {"fileid": 1609, "author": None, "title": "Prudentius IX"},
-    "psplato.amatores.txt":                    {
+    "prudentius/prud9.txt":                  {
+        "fileid": 1609,
+        "author": None,
+        "title":  "Prudentius IX",
+    },
+    "psplato.amatores.txt":                  {
         "fileid": 1610,
         "author": None,
         "title":  "Pseudo-Plato - De Virtute ",
     },
-    "psplato.demodocus.txt":                   {
+    "psplato.demodocus.txt":                 {
         "fileid": 1611,
         "author": "Pseudo-Plato",
         "title":  "Demodocus ",
     },
-    "psplato.eryxias.txt":                     {
+    "psplato.eryxias.txt":                   {
         "fileid": 1612,
         "author": None,
         "title":  "Pseudo-Plato - Eryxias ",
     },
-    "psplato.halcyon.txt":                     {
+    "psplato.halcyon.txt":                   {
         "fileid": 1613,
         "author": "Pseudo-Plato/Pseudo-Lucian",
         "title":  "Halcyon ",
     },
-    "psplato.iusto.txt":                       {
+    "psplato.iusto.txt":                     {
         "fileid": 1614,
         "author": None,
         "title":  "Pseudo-Plato - De Iusto ",
     },
-    "psplato.minos.txt":                       {"fileid": 1615, "author": "Pseudo-Plato", "title": "Minos "},
-    "psplato.sisyphus.txt":                    {
+    "psplato.minos.txt":                     {
+        "fileid": 1615,
+        "author": "Pseudo-Plato",
+        "title":  "Minos ",
+    },
+    "psplato.sisyphus.txt":                  {
         "fileid": 1616,
         "author": None,
         "title":  "Pseudo-Plato - Sisyphus ",
     },
-    "psplato.virtu.txt":                       {
+    "psplato.virtu.txt":                     {
         "fileid": 1617,
         "author": None,
         "title":  "Pseudo-Plato - De Virtute ",
     },
-    "pulchracomis.txt":                        {"fileid": 1618, "author": None, "title": "Pulchra comis "},
-    "quintilian/quintilian.decl.mai1.txt":     {
+    "pulchracomis.txt":                      {
+        "fileid": 1618,
+        "author": None,
+        "title":  "Pulchra comis ",
+    },
+    "quintilian/quintilian.decl.mai1.txt":   {
         "fileid": 1619,
         "author": "Quintilian",
         "title":  "Declamatio Maior I",
     },
-    "quintilian/quintilian.decl.mai10.txt":    {
+    "quintilian/quintilian.decl.mai10.txt":  {
         "fileid": 1620,
         "author": "Quintilian",
         "title":  "Declamatio Maior X",
     },
-    "quintilian/quintilian.decl.mai11.txt":    {
+    "quintilian/quintilian.decl.mai11.txt":  {
         "fileid": 1621,
         "author": "Quintilian",
         "title":  "Declamatio Maior XI",
     },
-    "quintilian/quintilian.decl.mai12.txt":    {
+    "quintilian/quintilian.decl.mai12.txt":  {
         "fileid": 1622,
         "author": "Quintilian",
         "title":  "Declamatio Maior XII",
@@ -5521,251 +7615,383 @@ FILE_TAB = {
         "author": "Quintilian",
         "title":  "Institutio Oratoria V",
     },
-    "quintilian/quintilian.institutio6.txt":   {
+    "quintilian/quintilian.institutio6.txt": {
         "fileid": 1645,
         "author": "Quintilian",
         "title":  "Institutio Oratoria VI",
     },
-    "quintilian/quintilian.institutio7.txt":   {
+    "quintilian/quintilian.institutio7.txt": {
         "fileid": 1646,
         "author": "Quintilian",
         "title":  "Institutio Oratoria VII",
     },
-    "quintilian/quintilian.institutio8.txt":   {
+    "quintilian/quintilian.institutio8.txt": {
         "fileid": 1647,
         "author": "Quintilian",
         "title":  "Institutio Oratoria VIII",
     },
-    "quintilian/quintilian.institutio9.txt":   {
+    "quintilian/quintilian.institutio9.txt": {
         "fileid": 1648,
         "author": "Quintilian",
         "title":  "Institutio Oratoria IX",
     },
-    "quum.txt":                                {"fileid": 1649, "author": None, "title": "Quum inter nonNoneos "},
-    "raoul.txt":                               {
+    "quum.txt":                              {
+        "fileid": 1649,
+        "author": None,
+        "title":  "Quum inter nonNoneos ",
+    },
+    "raoul.txt":                             {
         "fileid": 1650,
         "author": "Raoul of Caen",
         "title":  "Gesta Tancredi in expeditione Hierosolymitana",
     },
-    "regula.txt":                              {"fileid": 1651, "author": None, "title": "Regula ad Monachos"},
-    "reposianus.txt":                          {
+    "regula.txt":                            {
+        "fileid": 1651,
+        "author": None,
+        "title":  "Regula ad Monachos",
+    },
+    "reposianus.txt":                        {
         "fileid": 1652,
         "author": "Reposianus",
         "title":  "De concubitu Martis et Veneris ",
     },
-    "resgestae.txt":                           {"fileid": 1653, "author": "AUGUSTUS", "title": "RES GESTAE I"},
-    "resgestae1.txt":                          {"fileid": 1654, "author": "AUGUSTUS", "title": "RES GESTAE"},
-    "rhetores.txt":                            {
+    "resgestae.txt":                         {
+        "fileid": 1653,
+        "author": "AUGUSTUS",
+        "title":  "RES GESTAE I",
+    },
+    "resgestae1.txt":                        {
+        "fileid": 1654,
+        "author": "AUGUSTUS",
+        "title":  "RES GESTAE",
+    },
+    "rhetores.txt":                          {
         "fileid": 1655,
         "author": None,
         "title":  "EDICTUM ADVERSUS LATINOS RHETORES",
     },
-    "richerus1.txt":                           {"fileid": 1656, "author": "Richerus", "title": "Liber I"},
-    "richerus2.txt":                           {"fileid": 1657, "author": "Richerus", "title": "Liber II"},
-    "richerus3.txt":                           {"fileid": 1658, "author": "Richerus", "title": "Liber III"},
-    "richerus4.txt":                           {"fileid": 1659, "author": "Richerus", "title": "Liber IV"},
-    "rimbaud.txt":                             {"fileid": 1660, "author": None, "title": "Arthur Rimbaud"},
-    "ruaeus.txt":                              {
+    "richerus1.txt":                         {
+        "fileid": 1656,
+        "author": "Richerus",
+        "title":  "Liber I",
+    },
+    "richerus2.txt":                         {
+        "fileid": 1657,
+        "author": "Richerus",
+        "title":  "Liber II",
+    },
+    "richerus3.txt":                         {
+        "fileid": 1658,
+        "author": "Richerus",
+        "title":  "Liber III",
+    },
+    "richerus4.txt":                         {
+        "fileid": 1659,
+        "author": "Richerus",
+        "title":  "Liber IV",
+    },
+    "rimbaud.txt":                           {"fileid": 1660, "author": None, "title": "Arthur Rimbaud"},
+    "ruaeus.txt":                            {
         "fileid": 1661,
         "author": None,
         "title":  "Ruaeus' Prose Summary of Virgil's Aeneid",
     },
-    "rumor.txt":                               {"fileid": 1662, "author": None, "title": ""},
-    "rutilius.txt":                            {
+    "rumor.txt":                             {"fileid": 1662, "author": None, "title": ""},
+    "rutilius.txt":                          {
         "fileid": 1663,
         "author": "Rutilius Namatianus",
         "title":  "De Reditu Suo",
     },
-    "rutiliuslupus.txt":                       {
+    "rutiliuslupus.txt":                     {
         "fileid": 1664,
         "author": "P. Rutilius Lupus",
         "title":  "de Figuris Sententiarum et Elocutionis",
     },
-    "sabinus1.txt":                            {"fileid": 1665, "author": None, "title": "Sabinus"},
-    "sabinus2.txt":                            {"fileid": 1666, "author": None, "title": "Sabinus"},
-    "sabinus3.txt":                            {"fileid": 1667, "author": None, "title": "Sabinus"},
-    "sall.1.txt":                              {"fileid": 1668, "author": "Sallust", "title": "Bellum Catilinae"},
-    "sall.2.txt":                              {"fileid": 1669, "author": "Sallust", "title": "Bellum Iugurthinum"},
-    "sall.cotta.txt":                          {"fileid": 1670, "author": "Sallust", "title": "Speech of Cotta"},
-    "sall.ep1.txt":                            {
+    "sabinus1.txt":                          {"fileid": 1665, "author": None, "title": "Sabinus"},
+    "sabinus2.txt":                          {"fileid": 1666, "author": None, "title": "Sabinus"},
+    "sabinus3.txt":                          {"fileid": 1667, "author": None, "title": "Sabinus"},
+    "sall.1.txt":                            {
+        "fileid": 1668,
+        "author": "Sallust",
+        "title":  "Bellum Catilinae",
+    },
+    "sall.2.txt":                            {
+        "fileid": 1669,
+        "author": "Sallust",
+        "title":  "Bellum Iugurthinum",
+    },
+    "sall.cotta.txt":                        {
+        "fileid": 1670,
+        "author": "Sallust",
+        "title":  "Speech of Cotta",
+    },
+    "sall.ep1.txt":                          {
         "fileid": 1671,
         "author": "Sallust",
         "title":  "Letter to Caesar I",
     },
-    "sall.ep2.txt":                            {
+    "sall.ep2.txt":                          {
         "fileid": 1672,
         "author": "Sallust",
         "title":  "Letter to Caesar II",
     },
-    "sall.frag.txt":                           {"fileid": 1673, "author": "Sallust", "title": "Fragmenta"},
-    "sall.invectiva.txt":                      {
+    "sall.frag.txt":                         {
+        "fileid": 1673,
+        "author": "Sallust",
+        "title":  "Fragmenta",
+    },
+    "sall.invectiva.txt":                    {
         "fileid": 1674,
         "author": "Sallust",
         "title":  "Invective Against Cicero",
     },
-    "sall.lep.txt":                            {"fileid": 1675, "author": "Sallust", "title": "Speech of Lepidus"},
-    "sall.macer.txt":                          {"fileid": 1676, "author": "Sallust", "title": "Speech of Macer"},
-    "sall.mithr.txt":                          {
+    "sall.lep.txt":                          {
+        "fileid": 1675,
+        "author": "Sallust",
+        "title":  "Speech of Lepidus",
+    },
+    "sall.macer.txt":                        {
+        "fileid": 1676,
+        "author": "Sallust",
+        "title":  "Speech of Macer",
+    },
+    "sall.mithr.txt":                        {
         "fileid": 1677,
         "author": "Sallust",
         "title":  "Speech of Mithridates",
     },
-    "sall.phil.txt":                           {
+    "sall.phil.txt":                         {
         "fileid": 1678,
         "author": "Sallust",
         "title":  "Speech of Philippus",
     },
-    "sall.pomp.txt":                           {"fileid": 1679, "author": "Sallust", "title": "Speech of Pompey"},
-    "sannazaro1.txt":                          {
+    "sall.pomp.txt":                         {
+        "fileid": 1679,
+        "author": "Sallust",
+        "title":  "Speech of Pompey",
+    },
+    "sannazaro1.txt":                        {
         "fileid": 1680,
         "author": "Sannazaro",
         "title":  "de Partu Virginis",
     },
-    "sannazaro2.txt":                          {
+    "sannazaro2.txt":                        {
         "fileid": 1681,
         "author": "Sannazaro",
         "title":  "Lamentatio de morte Christi",
     },
-    "scaliger.txt":                            {"fileid": 1682, "author": None, "title": "Scaliger"},
-    "scbaccanalibus.txt":                      {
+    "scaliger.txt":                          {"fileid": 1682, "author": None, "title": "Scaliger"},
+    "scbaccanalibus.txt":                    {
         "fileid": 1683,
         "author": None,
         "title":  "SENATUS CONSULTUM DE BACCHANALIBUS",
     },
-    "scottus.txt":                             {"fileid": 1684, "author": None, "title": "Sedulius Scottus "},
-    "sedulius.solis.txt":                      {
+    "scottus.txt":                           {
+        "fileid": 1684,
+        "author": None,
+        "title":  "Sedulius Scottus ",
+    },
+    "sedulius.solis.txt":                    {
         "fileid": 1685,
         "author": "Sedulius",
         "title":  "A solis ortus cardine",
     },
-    "sedulius1.txt":                           {
+    "sedulius1.txt":                         {
         "fileid": 1686,
         "author": "Sedulius",
         "title":  "Carmen Paschale I",
     },
-    "sedulius2.txt":                           {
+    "sedulius2.txt":                         {
         "fileid": 1687,
         "author": "Sedulius",
         "title":  "Carmen Paschale II",
     },
-    "sedulius3.txt":                           {
+    "sedulius3.txt":                         {
         "fileid": 1688,
         "author": "Sedulius",
         "title":  "Carmen Paschale III",
     },
-    "sedulius4.txt":                           {
+    "sedulius4.txt":                         {
         "fileid": 1689,
         "author": "Sedulius",
         "title":  "Carmen Paschale IV",
     },
-    "sedulius5.txt":                           {
+    "sedulius5.txt":                         {
         "fileid": 1690,
         "author": "Sedulius",
         "title":  "Carmen Paschale I",
     },
-    "sen/ben1.txt":                            {"fileid": 1691, "author": "Seneca", "title": "On Benefits I "},
-    "sen/ben2.txt":                            {"fileid": 1692, "author": "Seneca", "title": "On Benefits II "},
-    "sen/ben3.txt":                            {"fileid": 1693, "author": "Seneca", "title": "On Benefits III "},
-    "sen/octavia.txt":                         {"fileid": 1694, "author": "Seneca", "title": "Octavia"},
-    "sen/sen.agamemnon.txt":                   {"fileid": 1695, "author": "Seneca", "title": "Agamemnon"},
-    "sen/sen.apoc.txt":                        {
+    "sen/ben1.txt":                          {
+        "fileid": 1691,
+        "author": "Seneca",
+        "title":  "On Benefits I ",
+    },
+    "sen/ben2.txt":                          {
+        "fileid": 1692,
+        "author": "Seneca",
+        "title":  "On Benefits II ",
+    },
+    "sen/ben3.txt":                          {
+        "fileid": 1693,
+        "author": "Seneca",
+        "title":  "On Benefits III ",
+    },
+    "sen/octavia.txt":                       {
+        "fileid": 1694,
+        "author": "Seneca",
+        "title":  "Octavia",
+    },
+    "sen/sen.agamemnon.txt":                 {
+        "fileid": 1695,
+        "author": "Seneca",
+        "title":  "Agamemnon",
+    },
+    "sen/sen.apoc.txt":                      {
         "fileid": 1696,
         "author": "Seneca",
         "title":  "Apocolocyntosis",
     },
-    "sen/sen.brevita.txt":                     {
+    "sen/sen.brevita.txt":                   {
         "fileid": 1697,
         "author": "Seneca",
         "title":  "On the Brevity of Life",
     },
-    "sen/sen.clem.txt":                        {"fileid": 1698, "author": "Seneca", "title": "On Clemency"},
-    "sen/sen.consolatione1.txt":               {
+    "sen/sen.clem.txt":                      {
+        "fileid": 1698,
+        "author": "Seneca",
+        "title":  "On Clemency",
+    },
+    "sen/sen.consolatione1.txt":             {
         "fileid": 1699,
         "author": "Seneca",
         "title":  "On Consolation (ad Polybium)",
     },
-    "sen/sen.consolatione2.txt":               {
+    "sen/sen.consolatione2.txt":             {
         "fileid": 1700,
         "author": "Seneca",
         "title":  "On Consolation (ad Marciam)",
     },
-    "sen/sen.consolatione3.txt":               {
+    "sen/sen.consolatione3.txt":             {
         "fileid": 1701,
         "author": "Seneca",
         "title":  "On Consolatio",
     },
-    "sen/sen.constantia.txt":                  {
+    "sen/sen.constantia.txt":                {
         "fileid": 1702,
         "author": "Seneca",
         "title":  "de Constantia",
     },
-    "sen/sen.hercules.txt":                    {"fileid": 1703, "author": "Seneca", "title": "Hercules"},
-    "sen/sen.ira1.txt":                        {"fileid": 1704, "author": "Seneca", "title": "On Anger I"},
-    "sen/sen.ira2.txt":                        {"fileid": 1705, "author": "Seneca", "title": "On Anger II"},
-    "sen/sen.ira3.txt":                        {"fileid": 1706, "author": "Seneca", "title": "On Anger III"},
-    "sen/sen.medea.txt":                       {"fileid": 1707, "author": "Seneca", "title": "Medea"},
-    "sen/sen.oedipus.txt":                     {"fileid": 1708, "author": "Seneca", "title": "Oedipus"},
-    "sen/sen.otio.txt":                        {"fileid": 1709, "author": "Seneca", "title": "On Leisure"},
-    "sen/sen.phaedra.txt":                     {"fileid": 1710, "author": "Seneca", "title": "Phaedra"},
-    "sen/sen.phoen.txt":                       {"fileid": 1711, "author": "Seneca", "title": "Phoenissae"},
-    "sen/sen.prov.txt":                        {"fileid": 1712, "author": "Seneca", "title": "On Providence"},
-    "sen/sen.proverbs.txt":                    {
+    "sen/sen.hercules.txt":                  {
+        "fileid": 1703,
+        "author": "Seneca",
+        "title":  "Hercules",
+    },
+    "sen/sen.ira1.txt":                      {
+        "fileid": 1704,
+        "author": "Seneca",
+        "title":  "On Anger I",
+    },
+    "sen/sen.ira2.txt":                      {
+        "fileid": 1705,
+        "author": "Seneca",
+        "title":  "On Anger II",
+    },
+    "sen/sen.ira3.txt":                      {
+        "fileid": 1706,
+        "author": "Seneca",
+        "title":  "On Anger III",
+    },
+    "sen/sen.medea.txt":                     {
+        "fileid": 1707,
+        "author": "Seneca",
+        "title":  "Medea",
+    },
+    "sen/sen.oedipus.txt":                   {
+        "fileid": 1708,
+        "author": "Seneca",
+        "title":  "Oedipus",
+    },
+    "sen/sen.otio.txt":                      {
+        "fileid": 1709,
+        "author": "Seneca",
+        "title":  "On Leisure",
+    },
+    "sen/sen.phaedra.txt":                   {
+        "fileid": 1710,
+        "author": "Seneca",
+        "title":  "Phaedra",
+    },
+    "sen/sen.phoen.txt":                     {
+        "fileid": 1711,
+        "author": "Seneca",
+        "title":  "Phoenissae",
+    },
+    "sen/sen.prov.txt":                      {
+        "fileid": 1712,
+        "author": "Seneca",
+        "title":  "On Providence",
+    },
+    "sen/sen.proverbs.txt":                  {
         "fileid": 1713,
         "author": None,
         "title":  "Proverbia Senecae",
     },
-    "sen/sen.qn1.txt":                         {
+    "sen/sen.qn1.txt":                       {
         "fileid": 1714,
         "author": "Seneca",
         "title":  "Quaestiones Naturales I",
     },
-    "sen/sen.qn2.txt":                         {
+    "sen/sen.qn2.txt":                       {
         "fileid": 1715,
         "author": "Seneca",
         "title":  "Quaestiones Naturales II",
     },
-    "sen/sen.qn3.txt":                         {
+    "sen/sen.qn3.txt":                       {
         "fileid": 1716,
         "author": "Seneca",
         "title":  "Quaestiones Naturales III",
     },
-    "sen/sen.qn4.txt":                         {
+    "sen/sen.qn4.txt":                       {
         "fileid": 1717,
         "author": "Seneca",
         "title":  "Quaestiones Naturales IV",
     },
-    "sen/sen.qn5.txt":                         {
+    "sen/sen.qn5.txt":                       {
         "fileid": 1718,
         "author": "Seneca",
         "title":  "Quaestiones Naturales V",
     },
-    "sen/sen.qn6.txt":                         {
+    "sen/sen.qn6.txt":                       {
         "fileid": 1719,
         "author": "Seneca",
         "title":  "Quaestiones Naturales VI",
     },
-    "sen/sen.qn7.txt":                         {
+    "sen/sen.qn7.txt":                       {
         "fileid": 1720,
         "author": "Seneca",
         "title":  "Quaestiones Naturales VII",
     },
-    "sen/sen.thyestes.txt":                    {"fileid": 1721, "author": "Seneca", "title": "Thyestes"},
-    "sen/sen.tranq.txt":                       {
+    "sen/sen.thyestes.txt":                  {
+        "fileid": 1721,
+        "author": "Seneca",
+        "title":  "Thyestes",
+    },
+    "sen/sen.tranq.txt":                     {
         "fileid": 1722,
         "author": "Seneca",
         "title":  "On Tranquility of the Mind",
     },
-    "sen/sen.vita.txt":                        {
+    "sen/sen.vita.txt":                      {
         "fileid": 1723,
         "author": "Seneca",
         "title":  "On the Good Life",
     },
-    "sen/seneca.ep1.txt":                      {
+    "sen/seneca.ep1.txt":                    {
         "fileid": 1724,
         "author": "Seneca",
         "title":  "Epistulae Morales, Liber I",
     },
-    "sen/seneca.ep10.txt":                     {
+    "sen/seneca.ep10.txt":                   {
         "fileid": 1725,
         "author": "Seneca",
         "title":  "Epistulae Morales, Liber X",
@@ -5825,101 +8051,189 @@ FILE_TAB = {
         "author": "Seneca",
         "title":  "Epistulae Morales, Liber V",
     },
-    "sen/seneca.ep6.txt":                      {
+    "sen/seneca.ep6.txt":                    {
         "fileid": 1737,
         "author": "Seneca",
         "title":  "Epistulae Morales, Liber VI",
     },
-    "sen/seneca.ep7.txt":                      {
+    "sen/seneca.ep7.txt":                    {
         "fileid": 1738,
         "author": "Seneca",
         "title":  "Epistulae Morales, Liber VII",
     },
-    "sen/seneca.ep8.txt":                      {
+    "sen/seneca.ep8.txt":                    {
         "fileid": 1739,
         "author": "Seneca",
         "title":  "Epistulae Morales, Liber VIII",
     },
-    "sen/seneca.ep9.txt":                      {
+    "sen/seneca.ep9.txt":                    {
         "fileid": 1740,
         "author": "Seneca",
         "title":  "Epistulae Morales, Liber IX",
     },
-    "seneca.contr1.txt":                       {"fileid": 1741, "author": None, "title": "Seneca the Elder"},
-    "seneca.contr10.txt":                      {"fileid": 1742, "author": None, "title": "Seneca the Elder"},
-    "seneca.contr2.txt":                       {"fileid": 1743, "author": None, "title": "Seneca the Elder"},
-    "seneca.contr3.txt":                       {"fileid": 1744, "author": None, "title": "Seneca the Elder"},
-    "seneca.contr4.txt":                       {"fileid": 1745, "author": None, "title": "Seneca the Elder"},
-    "seneca.contr5.txt":                       {"fileid": 1746, "author": None, "title": "Seneca the Elder"},
-    "seneca.contr6.txt":                       {"fileid": 1747, "author": None, "title": "Seneca the Elder"},
-    "seneca.contr7.txt":                       {"fileid": 1748, "author": None, "title": "Seneca the Elder"},
-    "seneca.contr8.txt":                       {"fileid": 1749, "author": None, "title": "Seneca the Elder"},
-    "seneca.contr9.txt":                       {"fileid": 1750, "author": None, "title": "Seneca the Elder"},
-    "seneca.fragmenta.txt":                    {
+    "seneca.contr1.txt":                     {
+        "fileid": 1741,
+        "author": None,
+        "title":  "Seneca the Elder",
+    },
+    "seneca.contr10.txt":                    {
+        "fileid": 1742,
+        "author": None,
+        "title":  "Seneca the Elder",
+    },
+    "seneca.contr2.txt":                     {
+        "fileid": 1743,
+        "author": None,
+        "title":  "Seneca the Elder",
+    },
+    "seneca.contr3.txt":                     {
+        "fileid": 1744,
+        "author": None,
+        "title":  "Seneca the Elder",
+    },
+    "seneca.contr4.txt":                     {
+        "fileid": 1745,
+        "author": None,
+        "title":  "Seneca the Elder",
+    },
+    "seneca.contr5.txt":                     {
+        "fileid": 1746,
+        "author": None,
+        "title":  "Seneca the Elder",
+    },
+    "seneca.contr6.txt":                     {
+        "fileid": 1747,
+        "author": None,
+        "title":  "Seneca the Elder",
+    },
+    "seneca.contr7.txt":                     {
+        "fileid": 1748,
+        "author": None,
+        "title":  "Seneca the Elder",
+    },
+    "seneca.contr8.txt":                     {
+        "fileid": 1749,
+        "author": None,
+        "title":  "Seneca the Elder",
+    },
+    "seneca.contr9.txt":                     {
+        "fileid": 1750,
+        "author": None,
+        "title":  "Seneca the Elder",
+    },
+    "seneca.fragmenta.txt":                  {
         "fileid": 1751,
         "author": None,
         "title":  "Seneca the Elder",
     },
-    "seneca.suasoriae.txt":                    {
+    "seneca.suasoriae.txt":                  {
         "fileid": 1752,
         "author": None,
         "title":  "Seneca the Elder",
     },
-    "septsap.txt":                             {
+    "septsap.txt":                           {
         "fileid": 1753,
         "author": None,
         "title":  "The Story of the Seven Wise Men",
     },
-    "sha/30.txt":                              {"fileid": 1754, "author": None, "title": "The Thirty Tyrants"},
-    "sha/aelii.txt":                           {"fileid": 1755, "author": None, "title": "Aelius"},
-    "sha/alexsev.txt":                         {"fileid": 1756, "author": None, "title": "Alexander Severus"},
-    "sha/ant.txt":                             {"fileid": 1757, "author": None, "title": "Antoninus Pius"},
-    "sha/aurel.txt":                           {"fileid": 1758, "author": None, "title": "Aurelian"},
-    "sha/avid.txt":                            {"fileid": 1759, "author": None, "title": "Avidius Cassius"},
-    "sha/car.txt":                             {"fileid": 1760, "author": None, "title": "Caracalla"},
-    "sha/carus.txt":                           {
+    "sha/30.txt":                            {
+        "fileid": 1754,
+        "author": None,
+        "title":  "The Thirty Tyrants",
+    },
+    "sha/aelii.txt":                         {"fileid": 1755, "author": None, "title": "Aelius"},
+    "sha/alexsev.txt":                       {
+        "fileid": 1756,
+        "author": None,
+        "title":  "Alexander Severus",
+    },
+    "sha/ant.txt":                           {"fileid": 1757, "author": None, "title": "Antoninus Pius"},
+    "sha/aurel.txt":                         {"fileid": 1758, "author": None, "title": "Aurelian"},
+    "sha/avid.txt":                          {
+        "fileid": 1759,
+        "author": None,
+        "title":  "Avidius Cassius",
+    },
+    "sha/car.txt":                           {"fileid": 1760, "author": None, "title": "Caracalla"},
+    "sha/carus.txt":                         {
         "fileid": 1761,
         "author": "Carus",
         "title":  "Carinus, Numerianus",
     },
-    "sha/claud.txt":                           {"fileid": 1762, "author": None, "title": "Claudius"},
-    "sha/clod.txt":                            {"fileid": 1763, "author": None, "title": "Clodius Albinus"},
-    "sha/com.txt":                             {"fileid": 1764, "author": None, "title": "Commodus"},
-    "sha/diad.txt":                            {"fileid": 1765, "author": None, "title": "Diadumenus"},
-    "sha/didiul.txt":                          {"fileid": 1766, "author": None, "title": "Didius Iulianus"},
-    "sha/firmus.txt":                          {"fileid": 1767, "author": None, "title": "Tyrants"},
-    "sha/gall.txt":                            {"fileid": 1768, "author": None, "title": "The Two Gallieni"},
-    "sha/geta.txt":                            {"fileid": 1769, "author": None, "title": "Geta"},
-    "sha/gord.txt":                            {"fileid": 1770, "author": None, "title": "The Three Gordians"},
-    "sha/hadr.txt":                            {"fileid": 1771, "author": None, "title": "Hadrian"},
-    "sha/helio.txt":                           {"fileid": 1772, "author": None, "title": "Elagabalus"},
-    "sha/mac.txt":                             {"fileid": 1773, "author": None, "title": "Macrinus"},
-    "sha/marcant.txt":                         {"fileid": 1774, "author": None, "title": "Marcus Aurelius"},
-    "sha/max.txt":                             {"fileid": 1775, "author": None, "title": "Maximini"},
-    "sha/maxbal.txt":                          {"fileid": 1776, "author": None, "title": "Maximus et Balbinus"},
-    "sha/pert.txt":                            {"fileid": 1777, "author": None, "title": "Pertinax"},
-    "sha/pesc.txt":                            {"fileid": 1778, "author": None, "title": "Pescenius Niger"},
-    "sha/probus.txt":                          {"fileid": 1779, "author": None, "title": "Probus"},
-    "sha/sepsev.txt":                          {"fileid": 1780, "author": None, "title": "Septimus Severus"},
-    "sha/tacitus.txt":                         {"fileid": 1781, "author": None, "title": "Tacitus"},
-    "sha/val.txt":                             {"fileid": 1782, "author": None, "title": "The Two Valerians"},
-    "sha/verus.txt":                           {"fileid": 1783, "author": None, "title": "L. Verus"},
-    "sicmeafata.txt":                          {
+    "sha/claud.txt":                         {"fileid": 1762, "author": None, "title": "Claudius"},
+    "sha/clod.txt":                          {
+        "fileid": 1763,
+        "author": None,
+        "title":  "Clodius Albinus",
+    },
+    "sha/com.txt":                           {"fileid": 1764, "author": None, "title": "Commodus"},
+    "sha/diad.txt":                          {"fileid": 1765, "author": None, "title": "Diadumenus"},
+    "sha/didiul.txt":                        {
+        "fileid": 1766,
+        "author": None,
+        "title":  "Didius Iulianus",
+    },
+    "sha/firmus.txt":                        {"fileid": 1767, "author": None, "title": "Tyrants"},
+    "sha/gall.txt":                          {
+        "fileid": 1768,
+        "author": None,
+        "title":  "The Two Gallieni",
+    },
+    "sha/geta.txt":                          {"fileid": 1769, "author": None, "title": "Geta"},
+    "sha/gord.txt":                          {
+        "fileid": 1770,
+        "author": None,
+        "title":  "The Three Gordians",
+    },
+    "sha/hadr.txt":                          {"fileid": 1771, "author": None, "title": "Hadrian"},
+    "sha/helio.txt":                         {"fileid": 1772, "author": None, "title": "Elagabalus"},
+    "sha/mac.txt":                           {"fileid": 1773, "author": None, "title": "Macrinus"},
+    "sha/marcant.txt":                       {
+        "fileid": 1774,
+        "author": None,
+        "title":  "Marcus Aurelius",
+    },
+    "sha/max.txt":                           {"fileid": 1775, "author": None, "title": "Maximini"},
+    "sha/maxbal.txt":                        {
+        "fileid": 1776,
+        "author": None,
+        "title":  "Maximus et Balbinus",
+    },
+    "sha/pert.txt":                          {"fileid": 1777, "author": None, "title": "Pertinax"},
+    "sha/pesc.txt":                          {
+        "fileid": 1778,
+        "author": None,
+        "title":  "Pescenius Niger",
+    },
+    "sha/probus.txt":                        {"fileid": 1779, "author": None, "title": "Probus"},
+    "sha/sepsev.txt":                        {
+        "fileid": 1780,
+        "author": None,
+        "title":  "Septimus Severus",
+    },
+    "sha/tacitus.txt":                       {"fileid": 1781, "author": None, "title": "Tacitus"},
+    "sha/val.txt":                           {
+        "fileid": 1782,
+        "author": None,
+        "title":  "The Two Valerians",
+    },
+    "sha/verus.txt":                         {"fileid": 1783, "author": None, "title": "L. Verus"},
+    "sicmeafata.txt":                        {
         "fileid": 1784,
         "author": None,
         "title":  "Sic mea fata canendo solor ",
     },
-    "sidonius1.txt":                           {
+    "sidonius1.txt":                         {
         "fileid": 1785,
         "author": "Sidonius",
         "title":  "Epistularum Liber I",
     },
-    "sidonius2.txt":                           {
+    "sidonius2.txt":                         {
         "fileid": 1786,
         "author": "Sidonius",
         "title":  "Epistularum Liber II",
     },
-    "sidonius3.txt":                           {
+    "sidonius3.txt":                         {
         "fileid": 1787,
         "author": "Sidonius",
         "title":  "Epistularum Liber III",
@@ -5949,122 +8263,282 @@ FILE_TAB = {
         "author": "Sidonius",
         "title":  "Epistularum Liber VIII",
     },
-    "sidonius9.txt":                           {
+    "sidonius9.txt":                         {
         "fileid": 1793,
         "author": "Sidonius",
         "title":  "Epistularum Liber IX",
     },
-    "sigebert.script.txt":                     {
+    "sigebert.script.txt":                   {
         "fileid": 1794,
         "author": None,
         "title":  "Sigebert of Gembloux",
     },
-    "sigebert.virgin.txt":                     {
+    "sigebert.virgin.txt":                   {
         "fileid": 1795,
         "author": None,
         "title":  "Sigebert of Gembloux",
     },
-    "sigebert.vitabrevior.txt":                {
+    "sigebert.vitabrevior.txt":              {
         "fileid": 1796,
         "author": None,
         "title":  "Sigebert of Gembloux",
     },
-    "silius/silius1.txt":                      {"fileid": 1797, "author": "Silius", "title": "Liber I"},
-    "silius/silius10.txt":                     {"fileid": 1798, "author": "Silius", "title": "Liber X"},
-    "silius/silius11.txt":                     {"fileid": 1799, "author": "Silius", "title": "Liber XI"},
-    "silius/silius12.txt":                     {"fileid": 1800, "author": "Silius", "title": "Liber XII"},
-    "silius/silius13.txt":                     {"fileid": 1801, "author": "Silius", "title": "Liber XIII"},
-    "silius/silius14.txt":                     {"fileid": 1802, "author": "Silius", "title": "Liber XIV"},
-    "silius/silius15.txt":                     {"fileid": 1803, "author": "Silius", "title": "Liber XV"},
-    "silius/silius16.txt":                     {"fileid": 1804, "author": "Silius", "title": "Liber XVI"},
-    "silius/silius17.txt":                     {"fileid": 1805, "author": "Silius", "title": "Liber XVII"},
-    "silius/silius2.txt":                      {"fileid": 1806, "author": "Silius", "title": "Liber II"},
-    "silius/silius3.txt":                      {"fileid": 1807, "author": "Silius", "title": "Liber IIII"},
-    "silius/silius4.txt":                      {"fileid": 1808, "author": "Silius", "title": "Liber IV"},
-    "silius/silius5.txt":                      {"fileid": 1809, "author": "Silius", "title": "Liber V"},
-    "silius/silius6.txt":                      {"fileid": 1810, "author": "Silius", "title": "Liber VI"},
-    "silius/silius7.txt":                      {"fileid": 1811, "author": "Silius", "title": "Liber VII"},
-    "silius/silius8.txt":                      {"fileid": 1812, "author": "Silius", "title": "Liber VIII"},
-    "silius/silius9.txt":                      {"fileid": 1813, "author": "Silius", "title": "Liber IX"},
-    "simedignetur.txt":                        {
+    "silius/silius1.txt":                    {
+        "fileid": 1797,
+        "author": "Silius",
+        "title":  "Liber I",
+    },
+    "silius/silius10.txt":                   {
+        "fileid": 1798,
+        "author": "Silius",
+        "title":  "Liber X",
+    },
+    "silius/silius11.txt":                   {
+        "fileid": 1799,
+        "author": "Silius",
+        "title":  "Liber XI",
+    },
+    "silius/silius12.txt":                   {
+        "fileid": 1800,
+        "author": "Silius",
+        "title":  "Liber XII",
+    },
+    "silius/silius13.txt":                   {
+        "fileid": 1801,
+        "author": "Silius",
+        "title":  "Liber XIII",
+    },
+    "silius/silius14.txt":                   {
+        "fileid": 1802,
+        "author": "Silius",
+        "title":  "Liber XIV",
+    },
+    "silius/silius15.txt":                   {
+        "fileid": 1803,
+        "author": "Silius",
+        "title":  "Liber XV",
+    },
+    "silius/silius16.txt":                   {
+        "fileid": 1804,
+        "author": "Silius",
+        "title":  "Liber XVI",
+    },
+    "silius/silius17.txt":                   {
+        "fileid": 1805,
+        "author": "Silius",
+        "title":  "Liber XVII",
+    },
+    "silius/silius2.txt":                    {
+        "fileid": 1806,
+        "author": "Silius",
+        "title":  "Liber II",
+    },
+    "silius/silius3.txt":                    {
+        "fileid": 1807,
+        "author": "Silius",
+        "title":  "Liber IIII",
+    },
+    "silius/silius4.txt":                    {
+        "fileid": 1808,
+        "author": "Silius",
+        "title":  "Liber IV",
+    },
+    "silius/silius5.txt":                    {
+        "fileid": 1809,
+        "author": "Silius",
+        "title":  "Liber V",
+    },
+    "silius/silius6.txt":                    {
+        "fileid": 1810,
+        "author": "Silius",
+        "title":  "Liber VI",
+    },
+    "silius/silius7.txt":                    {
+        "fileid": 1811,
+        "author": "Silius",
+        "title":  "Liber VII",
+    },
+    "silius/silius8.txt":                    {
+        "fileid": 1812,
+        "author": "Silius",
+        "title":  "Liber VIII",
+    },
+    "silius/silius9.txt":                    {
+        "fileid": 1813,
+        "author": "Silius",
+        "title":  "Liber IX",
+    },
+    "simedignetur.txt":                      {
         "fileid": 1814,
         "author": None,
         "title":  "Si me dignetur quam desidero ",
     },
-    "smarius.txt":                             {"fileid": 1815, "author": None, "title": "Alexander Smarius"},
-    "solet.txt":                               {"fileid": 1816, "author": None, "title": "Solet annuere "},
-    "solinus1.txt":                            {"fileid": 1817, "author": None, "title": "Solinus"},
-    "solinus1a.txt":                           {"fileid": 1818, "author": None, "title": "Solinus"},
-    "solinus2.txt":                            {"fileid": 1819, "author": None, "title": "Solinus"},
-    "solinus2a.txt":                           {"fileid": 1820, "author": None, "title": "Solinus"},
-    "solinus3.txt":                            {"fileid": 1821, "author": None, "title": "Solinus"},
-    "solinus3a.txt":                           {"fileid": 1822, "author": None, "title": "Solinus"},
-    "solinus4.txt":                            {"fileid": 1823, "author": None, "title": "Solinus"},
-    "solinus4a.txt":                           {"fileid": 1824, "author": None, "title": "Solinus"},
-    "solinus5.txt":                            {"fileid": 1825, "author": None, "title": "Solinus"},
-    "spinoza.ethica1.txt":                     {"fileid": 1826, "author": "Spinoza", "title": "Ethica I"},
-    "spinoza.ethica2.txt":                     {"fileid": 1827, "author": "Spinoza", "title": "Ethica I "},
-    "spinoza.ethica3.txt":                     {
+    "smarius.txt":                           {
+        "fileid": 1815,
+        "author": None,
+        "title":  "Alexander Smarius",
+    },
+    "solet.txt":                             {"fileid": 1816, "author": None, "title": "Solet annuere "},
+    "solinus1.txt":                          {"fileid": 1817, "author": None, "title": "Solinus"},
+    "solinus1a.txt":                         {"fileid": 1818, "author": None, "title": "Solinus"},
+    "solinus2.txt":                          {"fileid": 1819, "author": None, "title": "Solinus"},
+    "solinus2a.txt":                         {"fileid": 1820, "author": None, "title": "Solinus"},
+    "solinus3.txt":                          {"fileid": 1821, "author": None, "title": "Solinus"},
+    "solinus3a.txt":                         {"fileid": 1822, "author": None, "title": "Solinus"},
+    "solinus4.txt":                          {"fileid": 1823, "author": None, "title": "Solinus"},
+    "solinus4a.txt":                         {"fileid": 1824, "author": None, "title": "Solinus"},
+    "solinus5.txt":                          {"fileid": 1825, "author": None, "title": "Solinus"},
+    "spinoza.ethica1.txt":                   {
+        "fileid": 1826,
+        "author": "Spinoza",
+        "title":  "Ethica I",
+    },
+    "spinoza.ethica2.txt":                   {
+        "fileid": 1827,
+        "author": "Spinoza",
+        "title":  "Ethica I ",
+    },
+    "spinoza.ethica3.txt":                   {
         "fileid": 1828,
         "author": "Spinoza",
         "title":  "Ethica III ",
     },
-    "spinoza.ethica4.txt":                     {"fileid": 1829, "author": "Spinoza", "title": "Ethica IV "},
-    "spinoza.ethica5.txt":                     {"fileid": 1830, "author": "Spinoza", "title": "Ethica V "},
-    "statius/achilleid1.txt":                  {
+    "spinoza.ethica4.txt":                   {
+        "fileid": 1829,
+        "author": "Spinoza",
+        "title":  "Ethica IV ",
+    },
+    "spinoza.ethica5.txt":                   {
+        "fileid": 1830,
+        "author": "Spinoza",
+        "title":  "Ethica V ",
+    },
+    "statius/achilleid1.txt":                {
         "fileid": 1831,
         "author": "Statius",
         "title":  "Achilleid I",
     },
-    "statius/achilleid2.txt":                  {
+    "statius/achilleid2.txt":                {
         "fileid": 1832,
         "author": "Statius",
         "title":  "Achilleid II",
     },
-    "statius/silvae1.txt":                     {"fileid": 1833, "author": "Statius", "title": "Silvae I"},
-    "statius/silvae2.txt":                     {"fileid": 1834, "author": "Statius", "title": "Silvae II"},
-    "statius/silvae3.txt":                     {"fileid": 1835, "author": "Statius", "title": "Silvae III"},
-    "statius/silvae4.txt":                     {"fileid": 1836, "author": "Statius", "title": "Silvae IV"},
-    "statius/silvae5.txt":                     {"fileid": 1837, "author": "Statius", "title": "Silvae V"},
-    "statius/theb1.txt":                       {"fileid": 1838, "author": "Statius", "title": "Thebaid I"},
-    "statius/theb10.txt":                      {"fileid": 1839, "author": "Statius", "title": "Thebaid X"},
-    "statius/theb11.txt":                      {"fileid": 1840, "author": "Statius", "title": "Thebaid XI"},
-    "statius/theb12.txt":                      {"fileid": 1841, "author": "Statius", "title": "Thebaid XII"},
-    "statius/theb2.txt":                       {"fileid": 1842, "author": "Statius", "title": "Thebaid II"},
-    "statius/theb3.txt":                       {"fileid": 1843, "author": "Statius", "title": "Thebaid III"},
-    "statius/theb4.txt":                       {"fileid": 1844, "author": "Statius", "title": "Thebaid IV"},
-    "statius/theb5.txt":                       {"fileid": 1845, "author": "Statius", "title": "Thebaid V"},
-    "statius/theb6.txt":                       {"fileid": 1846, "author": "Statius", "title": "Thebaid VI"},
-    "statius/theb7.txt":                       {"fileid": 1847, "author": "Statius", "title": "Thebaid VII"},
-    "statius/theb8.txt":                       {"fileid": 1848, "author": "Statius", "title": "Thebaid VIII"},
-    "statius/theb9.txt":                       {"fileid": 1849, "author": "Statius", "title": "Thebaid IX"},
-    "suetonius/suet.aug.txt":                  {
+    "statius/silvae1.txt":                   {
+        "fileid": 1833,
+        "author": "Statius",
+        "title":  "Silvae I",
+    },
+    "statius/silvae2.txt":                   {
+        "fileid": 1834,
+        "author": "Statius",
+        "title":  "Silvae II",
+    },
+    "statius/silvae3.txt":                   {
+        "fileid": 1835,
+        "author": "Statius",
+        "title":  "Silvae III",
+    },
+    "statius/silvae4.txt":                   {
+        "fileid": 1836,
+        "author": "Statius",
+        "title":  "Silvae IV",
+    },
+    "statius/silvae5.txt":                   {
+        "fileid": 1837,
+        "author": "Statius",
+        "title":  "Silvae V",
+    },
+    "statius/theb1.txt":                     {
+        "fileid": 1838,
+        "author": "Statius",
+        "title":  "Thebaid I",
+    },
+    "statius/theb10.txt":                    {
+        "fileid": 1839,
+        "author": "Statius",
+        "title":  "Thebaid X",
+    },
+    "statius/theb11.txt":                    {
+        "fileid": 1840,
+        "author": "Statius",
+        "title":  "Thebaid XI",
+    },
+    "statius/theb12.txt":                    {
+        "fileid": 1841,
+        "author": "Statius",
+        "title":  "Thebaid XII",
+    },
+    "statius/theb2.txt":                     {
+        "fileid": 1842,
+        "author": "Statius",
+        "title":  "Thebaid II",
+    },
+    "statius/theb3.txt":                     {
+        "fileid": 1843,
+        "author": "Statius",
+        "title":  "Thebaid III",
+    },
+    "statius/theb4.txt":                     {
+        "fileid": 1844,
+        "author": "Statius",
+        "title":  "Thebaid IV",
+    },
+    "statius/theb5.txt":                     {
+        "fileid": 1845,
+        "author": "Statius",
+        "title":  "Thebaid V",
+    },
+    "statius/theb6.txt":                     {
+        "fileid": 1846,
+        "author": "Statius",
+        "title":  "Thebaid VI",
+    },
+    "statius/theb7.txt":                     {
+        "fileid": 1847,
+        "author": "Statius",
+        "title":  "Thebaid VII",
+    },
+    "statius/theb8.txt":                     {
+        "fileid": 1848,
+        "author": "Statius",
+        "title":  "Thebaid VIII",
+    },
+    "statius/theb9.txt":                     {
+        "fileid": 1849,
+        "author": "Statius",
+        "title":  "Thebaid IX",
+    },
+    "suetonius/suet.aug.txt":                {
         "fileid": 1850,
         "author": "Suetonius",
         "title":  "Divus Augustus",
     },
-    "suetonius/suet.caesar.txt":               {
+    "suetonius/suet.caesar.txt":             {
         "fileid": 1851,
         "author": "Suetonius",
         "title":  "Divus Iulius",
     },
-    "suetonius/suet.cal.txt":                  {"fileid": 1852, "author": None, "title": "\u0007 "},
-    "suetonius/suet.claudius.txt":             {
+    "suetonius/suet.cal.txt":                {
+        "fileid": 1852,
+        "author": None,
+        "title":  "\u0007 ",
+    },
+    "suetonius/suet.claudius.txt":           {
         "fileid": 1853,
         "author": "Suetonius",
         "title":  "Divus Claudius",
     },
-    "suetonius/suet.crispus.txt":              {
+    "suetonius/suet.crispus.txt":            {
         "fileid": 1854,
         "author": "Suetonius",
         "title":  "Life of Crispus",
     },
-    "suetonius/suet.dom.txt":                  {
+    "suetonius/suet.dom.txt":                {
         "fileid": 1855,
         "author": "Suetonius",
         "title":  "Domitian",
     },
-    "suetonius/suet.galba.txt":                {
+    "suetonius/suet.galba.txt":              {
         "fileid": 1856,
         "author": "Suetonius",
         "title":  "Life of Galba",
@@ -6139,47 +8613,59 @@ FILE_TAB = {
         "author": "Suetonius",
         "title":  "Life of Vergil",
     },
-    "suetonius/suet.vit.txt":                  {
+    "suetonius/suet.vit.txt":                {
         "fileid": 1871,
         "author": "Suetonius",
         "title":  "Life of Vitellius",
     },
-    "sulpicia.txt":                            {"fileid": 1872, "author": None, "title": "Sulpicia"},
-    "sulpiciusseveruschron1.txt":              {
+    "sulpicia.txt":                          {"fileid": 1872, "author": None, "title": "Sulpicia"},
+    "sulpiciusseveruschron1.txt":            {
         "fileid": 1873,
         "author": "Sulpicius Severus",
         "title":  "Chronicles I",
     },
-    "sulpiciusseveruschron2.txt":              {
+    "sulpiciusseveruschron2.txt":            {
         "fileid": 1874,
         "author": "Sulpicius Severus",
         "title":  "Chronicles II",
     },
-    "sulpiciusseverusmartin.txt":              {
+    "sulpiciusseverusmartin.txt":            {
         "fileid": 1875,
         "author": "Sulpicius Severus",
         "title":  "Life of St. Martin",
     },
-    "suscipeflos.txt":                         {"fileid": 1876, "author": None, "title": "Suscipe Flos "},
-    "syrus.txt":                               {"fileid": 1877, "author": None, "title": "Publilius Syrus"},
-    "tacitus/tac.agri.txt":                    {"fileid": 1878, "author": "Tacitus", "title": "Agricola"},
-    "tacitus/tac.ann1.txt":                    {"fileid": 1879, "author": "Tacitus", "title": "Annales I"},
-    "tacitus/tac.ann11.txt":                   {
+    "suscipeflos.txt":                       {
+        "fileid": 1876,
+        "author": None,
+        "title":  "Suscipe Flos ",
+    },
+    "syrus.txt":                             {"fileid": 1877, "author": None, "title": "Publilius Syrus"},
+    "tacitus/tac.agri.txt":                  {
+        "fileid": 1878,
+        "author": "Tacitus",
+        "title":  "Agricola",
+    },
+    "tacitus/tac.ann1.txt":                  {
+        "fileid": 1879,
+        "author": "Tacitus",
+        "title":  "Annales I",
+    },
+    "tacitus/tac.ann11.txt":                 {
         "fileid": 1880,
         "author": "Tacitus",
         "title":  "Annales XI",
     },
-    "tacitus/tac.ann12.txt":                   {
+    "tacitus/tac.ann12.txt":                 {
         "fileid": 1881,
         "author": "Tacitus",
         "title":  "Annales XII",
     },
-    "tacitus/tac.ann13.txt":                   {
+    "tacitus/tac.ann13.txt":                 {
         "fileid": 1882,
         "author": "Tacitus",
         "title":  "Annales XIII",
     },
-    "tacitus/tac.ann14.txt":                   {
+    "tacitus/tac.ann14.txt":                 {
         "fileid": 1883,
         "author": "Tacitus",
         "title":  "Annales XIV",
@@ -6189,90 +8675,110 @@ FILE_TAB = {
         "author": "Tacitus",
         "title":  "Annales XV",
     },
-    "tacitus/tac.ann16.txt":                   {
+    "tacitus/tac.ann16.txt":                 {
         "fileid": 1885,
         "author": "Tacitus",
         "title":  "Annales XVI",
     },
-    "tacitus/tac.ann2.txt":                    {
+    "tacitus/tac.ann2.txt":                  {
         "fileid": 1886,
         "author": "Tacitus",
         "title":  "Annales II",
     },
-    "tacitus/tac.ann3.txt":                    {
+    "tacitus/tac.ann3.txt":                  {
         "fileid": 1887,
         "author": "Tacitus",
         "title":  "Annales III",
     },
-    "tacitus/tac.ann4.txt":                    {
+    "tacitus/tac.ann4.txt":                  {
         "fileid": 1888,
         "author": "Tacitus",
         "title":  "Annales IV",
     },
-    "tacitus/tac.ann5.txt":                    {"fileid": 1889, "author": "Tacitus", "title": "Annales V"},
-    "tacitus/tac.ann6.txt":                    {
+    "tacitus/tac.ann5.txt":                  {
+        "fileid": 1889,
+        "author": "Tacitus",
+        "title":  "Annales V",
+    },
+    "tacitus/tac.ann6.txt":                  {
         "fileid": 1890,
         "author": "Tacitus",
         "title":  "Annales VI",
     },
-    "tacitus/tac.dialogus.txt":                {
+    "tacitus/tac.dialogus.txt":              {
         "fileid": 1891,
         "author": "Tacitus",
         "title":  "Dialogus de Oratoribus",
     },
-    "tacitus/tac.ger.txt":                     {"fileid": 1892, "author": "Tacitus", "title": "Germania"},
-    "tacitus/tac.hist1.txt":                   {
+    "tacitus/tac.ger.txt":                   {
+        "fileid": 1892,
+        "author": "Tacitus",
+        "title":  "Germania",
+    },
+    "tacitus/tac.hist1.txt":                 {
         "fileid": 1893,
         "author": "Tacitus",
         "title":  "Histories I",
     },
-    "tacitus/tac.hist2.txt":                   {
+    "tacitus/tac.hist2.txt":                 {
         "fileid": 1894,
         "author": "Tacitus",
         "title":  "Histories II",
     },
-    "tacitus/tac.hist3.txt":                   {
+    "tacitus/tac.hist3.txt":                 {
         "fileid": 1895,
         "author": "Tacitus",
         "title":  "Histories III",
     },
-    "tacitus/tac.hist4.txt":                   {
+    "tacitus/tac.hist4.txt":                 {
         "fileid": 1896,
         "author": "Tacitus",
         "title":  "Histories IV",
     },
-    "tacitus/tac.hist5.txt":                   {
+    "tacitus/tac.hist5.txt":                 {
         "fileid": 1897,
         "author": "Tacitus",
         "title":  "Histories V",
     },
-    "tempusest.txt":                           {"fileid": 1898, "author": None, "title": "Tempus est iocundum "},
-    "ter.adel.txt":                            {"fileid": 1899, "author": "Terence", "title": "Adelphoe"},
-    "ter.andria.txt":                          {"fileid": 1900, "author": "Terence", "title": "Andria"},
-    "ter.eunuchus.txt":                        {"fileid": 1901, "author": "Terence", "title": "Eunuchus"},
-    "ter.heauton.txt":                         {
+    "tempusest.txt":                         {
+        "fileid": 1898,
+        "author": None,
+        "title":  "Tempus est iocundum ",
+    },
+    "ter.adel.txt":                          {"fileid": 1899, "author": "Terence", "title": "Adelphoe"},
+    "ter.andria.txt":                        {"fileid": 1900, "author": "Terence", "title": "Andria"},
+    "ter.eunuchus.txt":                      {
+        "fileid": 1901,
+        "author": "Terence",
+        "title":  "Eunuchus",
+    },
+    "ter.heauton.txt":                       {
         "fileid": 1902,
         "author": "Terence",
         "title":  "Heauton Timorumenos",
     },
-    "ter.hecyra.txt":                          {"fileid": 1903, "author": "Terence", "title": "Hecyra"},
-    "ter.phormio.txt":                         {"fileid": 1904, "author": "Terence", "title": "Phormio"},
-    "terraiam.txt":                            {
+    "ter.hecyra.txt":                        {"fileid": 1903, "author": "Terence", "title": "Hecyra"},
+    "ter.phormio.txt":                       {
+        "fileid": 1904,
+        "author": "Terence",
+        "title":  "Phormio",
+    },
+    "terraiam.txt":                          {
         "fileid": 1905,
         "author": None,
         "title":  "Terra iam pandit gremium ",
     },
-    "tertullian/tertullian.adsenatorem.txt":   {
+    "tertullian/tertullian.adsenatorem.txt": {
         "fileid": 1906,
         "author": None,
         "title":  "[Tertulliani] ad Senatorem ",
     },
-    "tertullian/tertullian.anima.txt":         {
+    "tertullian/tertullian.anima.txt":       {
         "fileid": 1907,
         "author": "Tertullian",
         "title":  "De Anima ",
     },
-    "tertullian/tertullian.apol.txt":          {
+    "tertullian/tertullian.apol.txt":        {
         "fileid": 1908,
         "author": "Tertullian",
         "title":  "Apology",
@@ -6569,133 +9075,229 @@ FILE_TAB = {
         "author": "Theodosiani Codex",
         "title":  "Liber XV",
     },
-    "theodosius/theod16.txt":                  {
+    "theodosius/theod16.txt":                {
         "fileid": 1969,
         "author": "Theodosiani Codex",
         "title":  "Liber XVI",
     },
-    "theophanes.txt":                          {
+    "theophanes.txt":                        {
         "fileid": 1970,
         "author": "Theophanes Prokopovic",
         "title":  "Epigrammata",
     },
-    "thesauro.txt":                            {
+    "thesauro.txt":                          {
         "fileid": 1971,
         "author": "Johannes de Alta Silva",
         "title":  "de Thesauro et Fure Astuto",
     },
-    "thomasedessa.txt":                        {
+    "thomasedessa.txt":                      {
         "fileid": 1972,
         "author": None,
         "title":  "Thomas of Edessa (Carr)",
     },
-    "tibullus1.txt":                           {"fileid": 1973, "author": None, "title": "Tibullus Book I"},
-    "tibullus2.txt":                           {"fileid": 1974, "author": None, "title": "Tibullus Book II"},
-    "tibullus3.txt":                           {"fileid": 1975, "author": None, "title": "Tibullus Book III"},
-    "tunger.txt":                              {"fileid": 1976, "author": None, "title": "Augustin T\u00fcnger"},
-    "valeriusflaccus1.txt":                    {
+    "tibullus1.txt":                         {
+        "fileid": 1973,
+        "author": None,
+        "title":  "Tibullus Book I",
+    },
+    "tibullus2.txt":                         {
+        "fileid": 1974,
+        "author": None,
+        "title":  "Tibullus Book II",
+    },
+    "tibullus3.txt":                         {
+        "fileid": 1975,
+        "author": None,
+        "title":  "Tibullus Book III",
+    },
+    "tunger.txt":                            {
+        "fileid": 1976,
+        "author": None,
+        "title":  "Augustin T\u00fcnger",
+    },
+    "valeriusflaccus1.txt":                  {
         "fileid": 1977,
         "author": "Valerius Flaccus",
         "title":  "Liber I",
     },
-    "valeriusflaccus2.txt":                    {
+    "valeriusflaccus2.txt":                  {
         "fileid": 1978,
         "author": "Valerius Flaccus",
         "title":  "Liber II",
     },
-    "valeriusflaccus3.txt":                    {
+    "valeriusflaccus3.txt":                  {
         "fileid": 1979,
         "author": "Valerius Flaccus",
         "title":  "Liber III",
     },
-    "valeriusflaccus4.txt":                    {
+    "valeriusflaccus4.txt":                  {
         "fileid": 1980,
         "author": "Valerius Flaccus",
         "title":  "Liber IV",
     },
-    "valeriusflaccus5.txt":                    {
+    "valeriusflaccus5.txt":                  {
         "fileid": 1981,
         "author": "Valerius Flaccus",
         "title":  "Liber V",
     },
-    "valeriusflaccus6.txt":                    {
+    "valeriusflaccus6.txt":                  {
         "fileid": 1982,
         "author": "Valerius Flaccus",
         "title":  "Liber VI",
     },
-    "valeriusflaccus7.txt":                    {
+    "valeriusflaccus7.txt":                  {
         "fileid": 1983,
         "author": "Valerius Flaccus",
         "title":  "Liber VII",
     },
-    "valeriusflaccus8.txt":                    {
+    "valeriusflaccus8.txt":                  {
         "fileid": 1984,
         "author": "Valerius Flaccus",
         "title":  "Liber VIII",
     },
-    "valesianus.txt":                          {"fileid": 1985, "author": None, "title": "Anonymus Valesianus"},
-    "valesianus1.txt":                         {
+    "valesianus.txt":                        {
+        "fileid": 1985,
+        "author": None,
+        "title":  "Anonymus Valesianus",
+    },
+    "valesianus1.txt":                       {
         "fileid": 1986,
         "author": "Anonymus Valesianus",
         "title":  "Origo Constantini Imperatoris",
     },
-    "valesianus2.txt":                         {
+    "valesianus2.txt":                       {
         "fileid": 1987,
         "author": "Anonymus Valesianus",
         "title":  "Chronica Theodericiana",
     },
-    "valmax1.txt":                             {"fileid": 1988, "author": None, "title": "Valerius Maximus I"},
-    "valmax2.txt":                             {"fileid": 1989, "author": None, "title": "Valerius Maximus II"},
-    "valmax3.txt":                             {"fileid": 1990, "author": None, "title": "Valerius Maximus III"},
-    "valmax4.txt":                             {"fileid": 1991, "author": None, "title": "Valerius Maximus IV"},
-    "valmax5.txt":                             {"fileid": 1992, "author": None, "title": "Valerius Maximus V"},
-    "valmax6.txt":                             {"fileid": 1993, "author": None, "title": "Valerius Maximus VI"},
-    "valmax7.txt":                             {"fileid": 1994, "author": None, "title": "Valerius Maximus VII"},
-    "valmax8.txt":                             {"fileid": 1995, "author": None, "title": "Valerius Maximus VIII"},
-    "valmax9.txt":                             {"fileid": 1996, "author": None, "title": "Valerius Maximus I"},
-    "varro.frag.txt":                          {"fileid": 1997, "author": None, "title": ""},
-    "varro.ll10.txt":                          {"fileid": 1998, "author": None, "title": ""},
-    "varro.ll5.txt":                           {"fileid": 1999, "author": None, "title": ""},
-    "varro.ll6.txt":                           {"fileid": 2000, "author": None, "title": ""},
-    "varro.ll7.txt":                           {"fileid": 2001, "author": None, "title": ""},
-    "varro.ll8.txt":                           {"fileid": 2002, "author": None, "title": ""},
-    "varro.ll9.txt":                           {"fileid": 2003, "author": None, "title": ""},
-    "varro.rr1.txt":                           {"fileid": 2004, "author": "Varro", "title": "De Agri Cultura I"},
-    "varro.rr2.txt":                           {"fileid": 2005, "author": "Varro", "title": "De Agri Cultura II"},
-    "varro.rr3.txt":                           {
+    "valmax1.txt":                           {
+        "fileid": 1988,
+        "author": None,
+        "title":  "Valerius Maximus I",
+    },
+    "valmax2.txt":                           {
+        "fileid": 1989,
+        "author": None,
+        "title":  "Valerius Maximus II",
+    },
+    "valmax3.txt":                           {
+        "fileid": 1990,
+        "author": None,
+        "title":  "Valerius Maximus III",
+    },
+    "valmax4.txt":                           {
+        "fileid": 1991,
+        "author": None,
+        "title":  "Valerius Maximus IV",
+    },
+    "valmax5.txt":                           {
+        "fileid": 1992,
+        "author": None,
+        "title":  "Valerius Maximus V",
+    },
+    "valmax6.txt":                           {
+        "fileid": 1993,
+        "author": None,
+        "title":  "Valerius Maximus VI",
+    },
+    "valmax7.txt":                           {
+        "fileid": 1994,
+        "author": None,
+        "title":  "Valerius Maximus VII",
+    },
+    "valmax8.txt":                           {
+        "fileid": 1995,
+        "author": None,
+        "title":  "Valerius Maximus VIII",
+    },
+    "valmax9.txt":                           {
+        "fileid": 1996,
+        "author": None,
+        "title":  "Valerius Maximus I",
+    },
+    "varro.frag.txt":                        {"fileid": 1997, "author": None, "title": ""},
+    "varro.ll10.txt":                        {"fileid": 1998, "author": None, "title": ""},
+    "varro.ll5.txt":                         {"fileid": 1999, "author": None, "title": ""},
+    "varro.ll6.txt":                         {"fileid": 2000, "author": None, "title": ""},
+    "varro.ll7.txt":                         {"fileid": 2001, "author": None, "title": ""},
+    "varro.ll8.txt":                         {"fileid": 2002, "author": None, "title": ""},
+    "varro.ll9.txt":                         {"fileid": 2003, "author": None, "title": ""},
+    "varro.rr1.txt":                         {
+        "fileid": 2004,
+        "author": "Varro",
+        "title":  "De Agri Cultura I",
+    },
+    "varro.rr2.txt":                         {
+        "fileid": 2005,
+        "author": "Varro",
+        "title":  "De Agri Cultura II",
+    },
+    "varro.rr3.txt":                         {
         "fileid": 2006,
         "author": "Varro",
         "title":  "De Agri Cultura III",
     },
-    "vegetius1.txt":                           {"fileid": 2007, "author": None, "title": "Vegetius Liber I"},
-    "vegetius2.txt":                           {"fileid": 2008, "author": None, "title": "Vegetius Liber II"},
-    "vegetius3.txt":                           {"fileid": 2009, "author": None, "title": "Vegetius Liber III"},
-    "vegetius4.txt":                           {"fileid": 2010, "author": None, "title": "Vegetius Liber IV"},
-    "vegius.txt":                              {
+    "vegetius1.txt":                         {
+        "fileid": 2007,
+        "author": None,
+        "title":  "Vegetius Liber I",
+    },
+    "vegetius2.txt":                         {
+        "fileid": 2008,
+        "author": None,
+        "title":  "Vegetius Liber II",
+    },
+    "vegetius3.txt":                         {
+        "fileid": 2009,
+        "author": None,
+        "title":  "Vegetius Liber III",
+    },
+    "vegetius4.txt":                         {
+        "fileid": 2010,
+        "author": None,
+        "title":  "Vegetius Liber IV",
+    },
+    "vegius.txt":                            {
         "fileid": 2011,
         "author": "Vegius",
         "title":  "Aeneidos Supplementum",
     },
-    "vell1.txt":                               {"fileid": 2012, "author": None, "title": "Velleius Paterculus"},
-    "vell2.txt":                               {"fileid": 2013, "author": None, "title": "Velleius Paterculus"},
-    "venantius.txt":                           {"fileid": 2014, "author": None, "title": "Venantius Fortunatus"},
-    "vergil/aen1.txt":                         {"fileid": 2015, "author": "Vergil", "title": "Aeneid I"},
-    "vergil/aen10.txt":                        {
+    "vell1.txt":                             {
+        "fileid": 2012,
+        "author": None,
+        "title":  "Velleius Paterculus",
+    },
+    "vell2.txt":                             {
+        "fileid": 2013,
+        "author": None,
+        "title":  "Velleius Paterculus",
+    },
+    "venantius.txt":                         {
+        "fileid": 2014,
+        "author": None,
+        "title":  "Venantius Fortunatus",
+    },
+    "vergil/aen1.txt":                       {
+        "fileid": 2015,
+        "author": "Vergil",
+        "title":  "Aeneid I",
+    },
+    "vergil/aen10.txt":                      {
         "fileid": 2016,
         "author": "P. VERGILI MARONIS",
         "title":  "AENEIDOS LIBER DECIMVS",
     },
-    "vergil/aen11.txt":                        {
+    "vergil/aen11.txt":                      {
         "fileid": 2017,
         "author": "P. VERGILI MARONIS",
         "title":  "AENEIDOS LIBER VNDECIMVS",
     },
-    "vergil/aen12.txt":                        {
+    "vergil/aen12.txt":                      {
         "fileid": 2018,
         "author": "P. VERGILI MARONIS",
         "title":  "AENEIDOS LIBER PRIMVS",
     },
-    "vergil/aen2.txt":                         {
+    "vergil/aen2.txt":                       {
         "fileid": 2019,
         "author": "P. VERGILI MARONIS",
         "title":  "AENEIDOS LIBER SECVNDVS",
@@ -6790,58 +9392,70 @@ FILE_TAB = {
         "author": "P. VERGILI MARONIS",
         "title":  "GEORGICON LIBER PRIMVS",
     },
-    "vergil/geo2.txt":                         {
+    "vergil/geo2.txt":                       {
         "fileid": 2038,
         "author": "P. VERGILI MARONIS",
         "title":  "GEORGICON LIBER SECVNDVS",
     },
-    "vergil/geo3.txt":                         {
+    "vergil/geo3.txt":                       {
         "fileid": 2039,
         "author": "P. VERGILI MARONIS",
         "title":  "GEORGICON LIBER TERTIVS",
     },
-    "vergil/geo4.txt":                         {
+    "vergil/geo4.txt":                       {
         "fileid": 2040,
         "author": "P. VERGILI MARONIS",
         "title":  "GEORGICON LIBER QVARTVS",
     },
-    "vestiunt.txt":                            {"fileid": 2041, "author": None, "title": ""},
-    "vicentius.txt":                           {
+    "vestiunt.txt":                          {"fileid": 2041, "author": None, "title": ""},
+    "vicentius.txt":                         {
         "fileid": 2042,
         "author": "Vicentius Lerinensis",
         "title":  "Commonitorium",
     },
-    "vico.orat6.txt":                          {"fileid": 2043, "author": "Vico", "title": "Oratio VI"},
-    "victor.caes.txt":                         {"fileid": 2044, "author": None, "title": "LIBER DE CAESARIBUS"},
-    "victor.caes2.txt":                        {
+    "vico.orat6.txt":                        {"fileid": 2043, "author": "Vico", "title": "Oratio VI"},
+    "victor.caes.txt":                       {
+        "fileid": 2044,
+        "author": None,
+        "title":  "LIBER DE CAESARIBUS",
+    },
+    "victor.caes2.txt":                      {
         "fileid": 2045,
         "author": None,
         "title":  "EPITOME DE CAESARIBUS",
     },
-    "victor.ill.txt":                          {"fileid": 2046, "author": None, "title": "DE VIRIS ILLVSTRIBVS"},
-    "victor.origio.txt":                       {
+    "victor.ill.txt":                        {
+        "fileid": 2046,
+        "author": None,
+        "title":  "DE VIRIS ILLVSTRIBVS",
+    },
+    "victor.origio.txt":                     {
         "fileid": 2047,
         "author": None,
         "title":  "EPITOME DE CAESARIBUS",
     },
-    "vida.txt":                                {"fileid": 2048, "author": "Vida", "title": "Scacchia, Ludus"},
-    "vitacaroli.txt":                          {"fileid": 2049, "author": None, "title": "Vita Caroli IV"},
-    "vitruvius1.txt":                          {
+    "vida.txt":                              {"fileid": 2048, "author": "Vida", "title": "Scacchia, Ludus"},
+    "vitacaroli.txt":                        {
+        "fileid": 2049,
+        "author": None,
+        "title":  "Vita Caroli IV",
+    },
+    "vitruvius1.txt":                        {
         "fileid": 2050,
         "author": None,
         "title":  "De Architectura Liber I",
     },
-    "vitruvius10.txt":                         {
+    "vitruvius10.txt":                       {
         "fileid": 2051,
         "author": None,
         "title":  "De Architectura Liber X",
     },
-    "vitruvius2.txt":                          {
+    "vitruvius2.txt":                        {
         "fileid": 2052,
         "author": None,
         "title":  "De Architectura Liber II",
     },
-    "vitruvius3.txt":                          {
+    "vitruvius3.txt":                        {
         "fileid": 2053,
         "author": None,
         "title":  "De Architectura Liber III",
@@ -6986,45 +9600,57 @@ FILE_TAB = {
         "author": "Iacobus de Voragine",
         "title":  "Historia de Sancto Silvestro",
     },
-    "voragine/thom.txt":                       {
+    "voragine/thom.txt":                     {
         "fileid": 2082,
         "author": "Iacobus de Voragine",
         "title":  "Historia de Sancto Thoma apostolo",
     },
-    "voragine/vin.txt":                        {
+    "voragine/vin.txt":                      {
         "fileid": 2083,
         "author": "Iacobus de Voragine",
         "title":  "Historia de Sancto Vincentio",
     },
-    "voragine/vir.txt":                        {
+    "voragine/vir.txt":                      {
         "fileid": 2084,
         "author": "Iacobus de Voragine",
         "title":  "Historia de Virgine Quadam Antiochena",
     },
-    "waardenburg.txt":                         {
+    "waardenburg.txt":                       {
         "fileid": 2085,
         "author": None,
         "title":  "Carmina Henrici Waardenburg",
     },
-    "waltarius1.txt":                          {"fileid": 2086, "author": None, "title": "Waltharius I"},
-    "waltarius2.txt":                          {"fileid": 2087, "author": None, "title": "Waltharius II"},
-    "waltarius3.txt":                          {"fileid": 2088, "author": None, "title": "Waltharius III"},
-    "walter/pastourelles.txt":                 {
+    "waltarius1.txt":                        {
+        "fileid": 2086,
+        "author": None,
+        "title":  "Waltharius I",
+    },
+    "waltarius2.txt":                        {
+        "fileid": 2087,
+        "author": None,
+        "title":  "Waltharius II",
+    },
+    "waltarius3.txt":                        {
+        "fileid": 2088,
+        "author": None,
+        "title":  "Waltharius III",
+    },
+    "walter/pastourelles.txt":               {
         "fileid": 2089,
         "author": None,
         "title":  "Walter of Ch\u00e2tillon",
     },
-    "walter/walter1.txt":                      {
+    "walter/walter1.txt":                    {
         "fileid": 2090,
         "author": None,
         "title":  "Walter of Ch\u00e2tillon",
     },
-    "walter/walter2.txt":                      {
+    "walter/walter2.txt":                    {
         "fileid": 2091,
         "author": None,
         "title":  "Walter of Ch\u00e2tillon",
     },
-    "walter/walter3.txt":                      {
+    "walter/walter3.txt":                    {
         "fileid": 2092,
         "author": None,
         "title":  "Walter of Ch\u00e2tillon",
@@ -7180,43 +9806,47 @@ FILE_TAB = {
         "author": "William of Tyre",
         "title":  "Liber VI",
     },
-    "williamtyre/7.txt":                       {
+    "williamtyre/7.txt":                     {
         "fileid": 2124,
         "author": "William of Tyre",
         "title":  "Liber VII",
     },
-    "williamtyre/8.txt":                       {
+    "williamtyre/8.txt":                     {
         "fileid": 2125,
         "author": "William of Tyre",
         "title":  "Liber VIII",
     },
-    "williamtyre/9.txt":                       {
+    "williamtyre/9.txt":                     {
         "fileid": 2126,
         "author": "William of Tyre",
         "title":  "Liber IX",
     },
-    "williamtyre/prologus.txt":                {
+    "williamtyre/prologus.txt":              {
         "fileid": 2127,
         "author": "William of Tyre",
         "title":  None,
     },
-    "withof.txt":                              {"fileid": 2128, "author": None, "title": "Johann Hildebrand Withof"},
-    "withof1.txt":                             {
+    "withof.txt":                            {
+        "fileid": 2128,
+        "author": None,
+        "title":  "Johann Hildebrand Withof",
+    },
+    "withof1.txt":                           {
         "fileid": 2129,
         "author": None,
         "title":  "Johann Hildebrand Withof",
     },
-    "withof2.txt":                             {
+    "withof2.txt":                           {
         "fileid": 2130,
         "author": None,
         "title":  "Johann Hildebrand Withof ",
     },
-    "withof3.txt":                             {
+    "withof3.txt":                           {
         "fileid": 2131,
         "author": None,
         "title":  "Johann Hildebrand Withof ",
     },
-    "withof4.txt":                             {
+    "withof4.txt":                           {
         "fileid": 2132,
         "author": None,
         "title":  "Johann Hildebrand Withof ",
@@ -7260,9 +9890,17 @@ FILE_TAB = {
 }
 
 AUTHOR_TAB = {
-    "0":    {"author": None, "title": "DUODECIM TABULARUM LEGES", "path": "12tables.txt"},
+    "0":    {
+        "author": None,
+        "title":  "DUODECIM TABULARUM LEGES",
+        "path":   "12tables.txt",
+    },
     "1":    {"author": None, "title": "Cafraria", "path": "1644.txt"},
-    "2":    {"author": None, "title": "Abbo Floriacensis", "path": "abbofloracensis.txt"},
+    "2":    {
+        "author": None,
+        "title":  "Abbo Floriacensis",
+        "path":   "abbofloracensis.txt",
+    },
     "3":    {
         "author": "PETRUS ABAELARDUS",
         "title":  "DIALOGUS INTER PHILOSOPHUM, IUDAEUM ET CHRISTIANUM",
@@ -7288,20 +9926,36 @@ AUTHOR_TAB = {
         "title":  "AD INSIGNISSIMUM VIRUM",
         "path":   "addison/burnett.txt",
     },
-    "8":    {"author": "Joseph Addison", "title": "", "path": "addison/hannes.txt"},
-    "9":    {"author": None, "title": "Joseph Addison ", "path": "addison/machinae.txt"},
+    "8":    {
+        "author": "Joseph Addison",
+        "title":  "",
+        "path":   "addison/hannes.txt",
+    },
+    "9":    {
+        "author": None,
+        "title":  "Joseph Addison ",
+        "path":   "addison/machinae.txt",
+    },
     "10":   {
         "author": "Joseph Addison",
         "title":  "Pax Gulielmi ",
         "path":   "addison/pax.txt",
     },
-    "11":   {"author": None, "title": "Joseph Addison ", "path": "addison/praelium.txt"},
+    "11":   {
+        "author": None,
+        "title":  "Joseph Addison ",
+        "path":   "addison/praelium.txt",
+    },
     "12":   {
         "author": "Addison",
         "title":  "Preface and Dedication ",
         "path":   "addison/preface.txt",
     },
-    "13":   {"author": None, "title": "Joseph Addison ", "path": "addison/resurr.txt"},
+    "13":   {
+        "author": None,
+        "title":  "Joseph Addison ",
+        "path":   "addison/resurr.txt",
+    },
     "14":   {
         "author": "Joseph Addison",
         "title":  "Sphaeristerium ",
@@ -7313,7 +9967,11 @@ AUTHOR_TAB = {
         "title":  "de Amicitia",
         "path":   "aelredus.txt",
     },
-    "17":   {"author": None, "title": "Blessed Agnes of Bohemia", "path": "agnes.txt"},
+    "17":   {
+        "author": None,
+        "title":  "Blessed Agnes of Bohemia",
+        "path":   "agnes.txt",
+    },
     "18":   {
         "author": "Alanus de Insulis",
         "title":  "Liber de plantcu naturae",
@@ -7449,9 +10107,21 @@ AUTHOR_TAB = {
         "title":  "Conflictus Veris et Hiemis",
         "path":   "alcuin/conflictus.txt",
     },
-    "45":   {"author": "Alcuin", "title": "Epitaphium", "path": "alcuin/epitaphium.txt"},
-    "46":   {"author": "Alcuin", "title": "de Luscinia", "path": "alcuin/luscinia.txt"},
-    "47":   {"author": "Alcuin", "title": "Propositiones ", "path": "alcuin/propos.txt"},
+    "45":   {
+        "author": "Alcuin",
+        "title":  "Epitaphium",
+        "path":   "alcuin/epitaphium.txt",
+    },
+    "46":   {
+        "author": "Alcuin",
+        "title":  "de Luscinia",
+        "path":   "alcuin/luscinia.txt",
+    },
+    "47":   {
+        "author": "Alcuin",
+        "title":  "Propositiones ",
+        "path":   "alcuin/propos.txt",
+    },
     "48":   {
         "author": "Alcuin",
         "title":  "Letter of Recommendation",
@@ -7487,34 +10157,126 @@ AUTHOR_TAB = {
         "title":  "Epistulae Variae",
         "path":   "ambrose/epistvaria.txt",
     },
-    "55":   {"author": "Ambrosius", "title": "Hymni", "path": "ambrose/hymns.txt"},
+    "55":   {
+        "author": "Ambrosius",
+        "title":  "Hymni",
+        "path":   "ambrose/hymns.txt",
+    },
     "56":   {
         "author": "Ambrosius",
         "title":  "de Mysteriis",
         "path":   "ambrose/mysteriis.txt",
     },
-    "57":   {"author": "Ammianus", "title": "Liber XIV", "path": "ammianus/14.txt"},
-    "58":   {"author": "Ammianus", "title": "Liber XV", "path": "ammianus/15.txt"},
-    "59":   {"author": "Ammianus", "title": "Liber XVI", "path": "ammianus/16.txt"},
-    "60":   {"author": "Ammianus", "title": "Liber XVII", "path": "ammianus/17.txt"},
-    "61":   {"author": "Ammianus", "title": "Liber XVIII", "path": "ammianus/18.txt"},
-    "62":   {"author": "Ammianus", "title": "Liber XIX", "path": "ammianus/19.txt"},
-    "63":   {"author": "Ammianus", "title": "Liber XX", "path": "ammianus/20.txt"},
-    "64":   {"author": "Ammianus", "title": "Liber XXI", "path": "ammianus/21.txt"},
-    "65":   {"author": "Ammianus", "title": "Liber XXII", "path": "ammianus/22.txt"},
-    "66":   {"author": "Ammianus", "title": "Liber XXIII", "path": "ammianus/23.txt"},
-    "67":   {"author": "Ammianus", "title": "Liber XVIV", "path": "ammianus/24.txt"},
-    "68":   {"author": "Ammianus", "title": "Liber XXV", "path": "ammianus/25.txt"},
-    "69":   {"author": "Ammianus", "title": "Liber XXVI", "path": "ammianus/26.txt"},
-    "70":   {"author": "Ammianus", "title": "Liber XXVII", "path": "ammianus/27.txt"},
-    "71":   {"author": "Ammianus", "title": "Liber XXVIII", "path": "ammianus/28.txt"},
-    "72":   {"author": "Ammianus", "title": "Liber XXIX", "path": "ammianus/29.txt"},
-    "73":   {"author": "Ammianus", "title": "Liber XXX", "path": "ammianus/30.txt"},
-    "74":   {"author": "Ammianus", "title": "Liber XXXI", "path": "ammianus/31.txt"},
-    "75":   {"author": "Ampelius", "title": "Liber Memorialis", "path": "ampelius.txt"},
-    "76":   {"author": None, "title": "Andecavis Abbas ", "path": "andecavis.txt"},
-    "77":   {"author": None, "title": "Andreas of Bergoma", "path": "andreasbergoma.txt"},
-    "78":   {"author": "Livius Andronicus", "title": "Odussia", "path": "andronicus.txt"},
+    "57":   {
+        "author": "Ammianus",
+        "title":  "Liber XIV",
+        "path":   "ammianus/14.txt",
+    },
+    "58":   {
+        "author": "Ammianus",
+        "title":  "Liber XV",
+        "path":   "ammianus/15.txt",
+    },
+    "59":   {
+        "author": "Ammianus",
+        "title":  "Liber XVI",
+        "path":   "ammianus/16.txt",
+    },
+    "60":   {
+        "author": "Ammianus",
+        "title":  "Liber XVII",
+        "path":   "ammianus/17.txt",
+    },
+    "61":   {
+        "author": "Ammianus",
+        "title":  "Liber XVIII",
+        "path":   "ammianus/18.txt",
+    },
+    "62":   {
+        "author": "Ammianus",
+        "title":  "Liber XIX",
+        "path":   "ammianus/19.txt",
+    },
+    "63":   {
+        "author": "Ammianus",
+        "title":  "Liber XX",
+        "path":   "ammianus/20.txt",
+    },
+    "64":   {
+        "author": "Ammianus",
+        "title":  "Liber XXI",
+        "path":   "ammianus/21.txt",
+    },
+    "65":   {
+        "author": "Ammianus",
+        "title":  "Liber XXII",
+        "path":   "ammianus/22.txt",
+    },
+    "66":   {
+        "author": "Ammianus",
+        "title":  "Liber XXIII",
+        "path":   "ammianus/23.txt",
+    },
+    "67":   {
+        "author": "Ammianus",
+        "title":  "Liber XVIV",
+        "path":   "ammianus/24.txt",
+    },
+    "68":   {
+        "author": "Ammianus",
+        "title":  "Liber XXV",
+        "path":   "ammianus/25.txt",
+    },
+    "69":   {
+        "author": "Ammianus",
+        "title":  "Liber XXVI",
+        "path":   "ammianus/26.txt",
+    },
+    "70":   {
+        "author": "Ammianus",
+        "title":  "Liber XXVII",
+        "path":   "ammianus/27.txt",
+    },
+    "71":   {
+        "author": "Ammianus",
+        "title":  "Liber XXVIII",
+        "path":   "ammianus/28.txt",
+    },
+    "72":   {
+        "author": "Ammianus",
+        "title":  "Liber XXIX",
+        "path":   "ammianus/29.txt",
+    },
+    "73":   {
+        "author": "Ammianus",
+        "title":  "Liber XXX",
+        "path":   "ammianus/30.txt",
+    },
+    "74":   {
+        "author": "Ammianus",
+        "title":  "Liber XXXI",
+        "path":   "ammianus/31.txt",
+    },
+    "75":   {
+        "author": "Ampelius",
+        "title":  "Liber Memorialis",
+        "path":   "ampelius.txt",
+    },
+    "76":   {
+        "author": None,
+        "title":  "Andecavis Abbas ",
+        "path":   "andecavis.txt",
+    },
+    "77":   {
+        "author": None,
+        "title":  "Andreas of Bergoma",
+        "path":   "andreasbergoma.txt",
+    },
+    "78":   {
+        "author": "Livius Andronicus",
+        "title":  "Odussia",
+        "path":   "andronicus.txt",
+    },
     "79":   {"author": None, "title": "Angilbert", "path": "angilbert.txt"},
     "80":   {
         "author": None,
@@ -7536,7 +10298,11 @@ AUTHOR_TAB = {
         "title":  "Carmen de Martyrio Maccabaeorum",
         "path":   "anon.martyrio.txt",
     },
-    "84":   {"author": None, "title": "Anonymus Neveleti", "path": "anon.nev.txt"},
+    "84":   {
+        "author": None,
+        "title":  "Anonymus Neveleti",
+        "path":   "anon.nev.txt",
+    },
     "85":   {"author": None, "title": "Anselm", "path": "anselmepistula.txt"},
     "86":   {"author": None, "title": "Anselm", "path": "anselmproslogion.txt"},
     "87":   {
@@ -7579,7 +10345,11 @@ AUTHOR_TAB = {
         "title":  "Ciris  ",
         "path":   "appverg.ciris.txt",
     },
-    "95":   {"author": None, "title": "Appendix Vergiliana", "path": "appvergcomp.txt"},
+    "95":   {
+        "author": None,
+        "title":  "Appendix Vergiliana",
+        "path":   "appvergcomp.txt",
+    },
     "96":   {
         "author": "Appendix Vergiliana",
         "title":  "Culex",
@@ -8120,7 +10890,11 @@ AUTHOR_TAB = {
         "title":  "Summa Theologica, Prima Pars Quaestio IX ",
         "path":   "aquinas/q1.9.txt",
     },
-    "202":  {"author": None, "title": "Declaration of Arbroath", "path": "arbroath.txt"},
+    "202":  {
+        "author": None,
+        "title":  "Declaration of Arbroath",
+        "path":   "arbroath.txt",
+    },
     "203":  {"author": None, "title": "Archpoeta", "path": "archpoet.txt"},
     "204":  {
         "author": "Arnobius",
@@ -8163,7 +10937,11 @@ AUTHOR_TAB = {
         "path":   "arnulf.txt",
     },
     "212":  {"author": None, "title": "Asconius", "path": "asconius.txt"},
-    "213":  {"author": "Asserius", "title": "Life of Alfred", "path": "asserius.txt"},
+    "213":  {
+        "author": "Asserius",
+        "title":  "Life of Alfred",
+        "path":   "asserius.txt",
+    },
     "214":  {
         "author": "Augustinus",
         "title":  "de Catechizandis Rudibus",
@@ -8349,7 +11127,11 @@ AUTHOR_TAB = {
         "title":  "de Dialectica",
         "path":   "augustine/dia.txt",
     },
-    "251":  {"author": None, "title": "Augustine", "path": "augustine/epistula.txt"},
+    "251":  {
+        "author": None,
+        "title":  "Augustine",
+        "path":   "augustine/epistula.txt",
+    },
     "252":  {
         "author": "Augustine",
         "title":  "de Fide et Symbolo",
@@ -8370,7 +11152,11 @@ AUTHOR_TAB = {
         "title":  "Rule of St. Augustine",
         "path":   "augustine/reg.txt",
     },
-    "256":  {"author": "Augustine", "title": "Sermon 1", "path": "augustine/serm1.txt"},
+    "256":  {
+        "author": "Augustine",
+        "title":  "Sermon 1",
+        "path":   "augustine/serm1.txt",
+    },
     "257":  {
         "author": "Augustine",
         "title":  "Sermon 10",
@@ -8421,16 +11207,36 @@ AUTHOR_TAB = {
         "title":  "Sermon 19",
         "path":   "augustine/serm19.txt",
     },
-    "267":  {"author": "Augustine", "title": "Sermon 2", "path": "augustine/serm2.txt"},
+    "267":  {
+        "author": "Augustine",
+        "title":  "Sermon 2",
+        "path":   "augustine/serm2.txt",
+    },
     "268":  {
         "author": "Augustine",
         "title":  "Sermon 20",
         "path":   "augustine/serm20.txt",
     },
-    "269":  {"author": "Augustine", "title": "Sermon 4", "path": "augustine/serm4.txt"},
-    "270":  {"author": "Augustine", "title": "Sermon 5", "path": "augustine/serm5.txt"},
-    "271":  {"author": "Augustine", "title": "Sermon 6", "path": "augustine/serm6.txt"},
-    "272":  {"author": "Augustine", "title": "Sermon 7", "path": "augustine/serm7.txt"},
+    "269":  {
+        "author": "Augustine",
+        "title":  "Sermon 4",
+        "path":   "augustine/serm4.txt",
+    },
+    "270":  {
+        "author": "Augustine",
+        "title":  "Sermon 5",
+        "path":   "augustine/serm5.txt",
+    },
+    "271":  {
+        "author": "Augustine",
+        "title":  "Sermon 6",
+        "path":   "augustine/serm6.txt",
+    },
+    "272":  {
+        "author": "Augustine",
+        "title":  "Sermon 7",
+        "path":   "augustine/serm7.txt",
+    },
     "273":  {
         "author": "Augustine",
         "title":  "Sermon 71",
@@ -8476,7 +11282,11 @@ AUTHOR_TAB = {
         "title":  "Sermon 79",
         "path":   "augustine/serm79.txt",
     },
-    "282":  {"author": "Augustine", "title": "Sermon 8", "path": "augustine/serm8.txt"},
+    "282":  {
+        "author": "Augustine",
+        "title":  "Sermon 8",
+        "path":   "augustine/serm8.txt",
+    },
     "283":  {
         "author": "Augustine",
         "title":  "Sermon 80",
@@ -8507,7 +11317,11 @@ AUTHOR_TAB = {
         "title":  "Sermon 88",
         "path":   "augustine/serm88.txt",
     },
-    "289":  {"author": "Augustine", "title": "Sermon 9", "path": "augustine/serm9.txt"},
+    "289":  {
+        "author": "Augustine",
+        "title":  "Sermon 9",
+        "path":   "augustine/serm9.txt",
+    },
     "290":  {
         "author": "Augustine",
         "title":  "Sermon 90",
@@ -8611,7 +11425,11 @@ AUTHOR_TAB = {
     },
     "311":  {"author": None, "title": "Phoenix", "path": "ave.phoen.txt"},
     "312":  {"author": "Avianus", "title": "Fabulae", "path": "avianus.txt"},
-    "313":  {"author": "Avienus", "title": "Ora Maritima", "path": "avienus.ora.txt"},
+    "313":  {
+        "author": "Avienus",
+        "title":  "Ora Maritima",
+        "path":   "avienus.ora.txt",
+    },
     "314":  {
         "author": "Avienus",
         "title":  "Periegesis",
@@ -8623,7 +11441,11 @@ AUTHOR_TAB = {
         "title":  "Distributio",
         "path":   "bacon/bacon.distributio.txt",
     },
-    "317":  {"author": "Bacon", "title": "Epistola", "path": "bacon/bacon.epistola.txt"},
+    "317":  {
+        "author": "Bacon",
+        "title":  "Epistola",
+        "path":   "bacon/bacon.epistola.txt",
+    },
     "318":  {
         "author": "Bacon",
         "title":  "History of the Reign of Henry VII",
@@ -8722,7 +11544,11 @@ AUTHOR_TAB = {
         "path":   "balde2.txt",
     },
     "339":  {"author": "Baldo", "title": "Novus Aesopus", "path": "baldo.txt"},
-    "340":  {"author": "Bebel", "title": "Liber Facetiarum", "path": "bebel.txt"},
+    "340":  {
+        "author": "Bebel",
+        "title":  "Liber Facetiarum",
+        "path":   "bebel.txt",
+    },
     "341":  {"author": "Bede", "title": "Book I", "path": "bede/bede1.txt"},
     "342":  {"author": "Bede", "title": "Book II", "path": "bede/bede2.txt"},
     "343":  {"author": "Bede", "title": "Book III", "path": "bede/bede3.txt"},
@@ -8733,14 +11559,26 @@ AUTHOR_TAB = {
         "title":  "Continuatio]",
         "path":   "bede/bedecontinuatio.txt",
     },
-    "347":  {"author": "Bede", "title": "Praefatio", "path": "bede/bedepraef.txt"},
+    "347":  {
+        "author": "Bede",
+        "title":  "Praefatio",
+        "path":   "bede/bedepraef.txt",
+    },
     "348":  {
         "author": "Psuedo-Bede",
         "title":  "Proverbs",
         "path":   "bede/bedeproverbs.txt",
     },
-    "349":  {"author": None, "title": "Rule of St. Benedict", "path": "benedict.txt"},
-    "350":  {"author": "Berengar", "title": "Apologeticus", "path": "berengar.txt"},
+    "349":  {
+        "author": None,
+        "title":  "Rule of St. Benedict",
+        "path":   "benedict.txt",
+    },
+    "350":  {
+        "author": "Berengar",
+        "title":  "Apologeticus",
+        "path":   "berengar.txt",
+    },
     "351":  {
         "author": "Bernard of Cluny",
         "title":  "De contemptu mundi I",
@@ -8753,7 +11591,11 @@ AUTHOR_TAB = {
     },
     "353":  {"author": "Vulgate", "title": "Acts", "path": "bible/acts.txt"},
     "354":  {"author": "Vulgate", "title": "Amos ", "path": "bible/amos.txt"},
-    "355":  {"author": "Vulgate", "title": "Baruch ", "path": "bible/baruch.txt"},
+    "355":  {
+        "author": "Vulgate",
+        "title":  "Baruch ",
+        "path":   "bible/baruch.txt",
+    },
     "356":  {
         "author": "Vulgate",
         "title":  "First Chronicles ",
@@ -8779,7 +11621,11 @@ AUTHOR_TAB = {
         "title":  "Paul to the Corinthians II ",
         "path":   "bible/corinthians2.txt",
     },
-    "361":  {"author": "Vulgate", "title": "Daniel ", "path": "bible/daniel.txt"},
+    "361":  {
+        "author": "Vulgate",
+        "title":  "Daniel ",
+        "path":   "bible/daniel.txt",
+    },
     "362":  {
         "author": "Vulgate",
         "title":  "Deuteronomy ",
@@ -8805,31 +11651,63 @@ AUTHOR_TAB = {
         "title":  "Second Book of Esdras ",
         "path":   "bible/esdras2.txt",
     },
-    "367":  {"author": "Vulgate", "title": "Esther ", "path": "bible/esther.txt"},
-    "368":  {"author": "Vulgate", "title": "Exodus", "path": "bible/exodus.txt"},
-    "369":  {"author": "Vulgate", "title": "Ezekiel ", "path": "bible/ezekiel.txt"},
+    "367":  {
+        "author": "Vulgate",
+        "title":  "Esther ",
+        "path":   "bible/esther.txt",
+    },
+    "368":  {
+        "author": "Vulgate",
+        "title":  "Exodus",
+        "path":   "bible/exodus.txt",
+    },
+    "369":  {
+        "author": "Vulgate",
+        "title":  "Ezekiel ",
+        "path":   "bible/ezekiel.txt",
+    },
     "370":  {"author": "Vulgate", "title": "Ezra ", "path": "bible/ezra.txt"},
     "371":  {
         "author": "Vulgate",
         "title":  "Paul to the Galatians ",
         "path":   "bible/galatians.txt",
     },
-    "372":  {"author": "Vulgate", "title": "Genesis", "path": "bible/genesis.txt"},
-    "373":  {"author": "Vulgate", "title": "Habakkuk ", "path": "bible/habakkuk.txt"},
-    "374":  {"author": "Vulgate", "title": "Haggai ", "path": "bible/haggai.txt"},
+    "372":  {
+        "author": "Vulgate",
+        "title":  "Genesis",
+        "path":   "bible/genesis.txt",
+    },
+    "373":  {
+        "author": "Vulgate",
+        "title":  "Habakkuk ",
+        "path":   "bible/habakkuk.txt",
+    },
+    "374":  {
+        "author": "Vulgate",
+        "title":  "Haggai ",
+        "path":   "bible/haggai.txt",
+    },
     "375":  {
         "author": "Vulgate",
         "title":  "Letter to Hebrews ",
         "path":   "bible/hebrews.txt",
     },
     "376":  {"author": "Vulgate", "title": "Hosea ", "path": "bible/hosea.txt"},
-    "377":  {"author": "Vulgate", "title": "Isaiah ", "path": "bible/isaiah.txt"},
+    "377":  {
+        "author": "Vulgate",
+        "title":  "Isaiah ",
+        "path":   "bible/isaiah.txt",
+    },
     "378":  {
         "author": "Vulgate",
         "title":  "A Letter to James ",
         "path":   "bible/james.txt",
     },
-    "379":  {"author": "Vulgate", "title": "Jeremiah ", "path": "bible/jeremiah.txt"},
+    "379":  {
+        "author": "Vulgate",
+        "title":  "Jeremiah ",
+        "path":   "bible/jeremiah.txt",
+    },
     "380":  {"author": "Vulgate", "title": "Job ", "path": "bible/job.txt"},
     "381":  {"author": "Vulgate", "title": "Joel ", "path": "bible/joel.txt"},
     "382":  {"author": "Vulgate", "title": "John ", "path": "bible/john.txt"},
@@ -8837,18 +11715,46 @@ AUTHOR_TAB = {
     "384":  {"author": None, "title": "John 2 ", "path": "bible/john2.txt"},
     "385":  {"author": None, "title": "John 3 ", "path": "bible/john3.txt"},
     "386":  {"author": "Vulgate", "title": "Jonah ", "path": "bible/jonah.txt"},
-    "387":  {"author": "Vulgate", "title": "Joshua ", "path": "bible/joshua.txt"},
-    "388":  {"author": "Vulgate", "title": "Letter of Jude ", "path": "bible/jude.txt"},
-    "389":  {"author": "Vulgate", "title": "Judges ", "path": "bible/judges.txt"},
-    "390":  {"author": "Vulgate", "title": "Judith ", "path": "bible/judith.txt"},
-    "391":  {"author": "Vulgate", "title": "Kings I ", "path": "bible/kings1.txt"},
-    "392":  {"author": "Vulgate", "title": "Kings II ", "path": "bible/kings2.txt"},
+    "387":  {
+        "author": "Vulgate",
+        "title":  "Joshua ",
+        "path":   "bible/joshua.txt",
+    },
+    "388":  {
+        "author": "Vulgate",
+        "title":  "Letter of Jude ",
+        "path":   "bible/jude.txt",
+    },
+    "389":  {
+        "author": "Vulgate",
+        "title":  "Judges ",
+        "path":   "bible/judges.txt",
+    },
+    "390":  {
+        "author": "Vulgate",
+        "title":  "Judith ",
+        "path":   "bible/judith.txt",
+    },
+    "391":  {
+        "author": "Vulgate",
+        "title":  "Kings I ",
+        "path":   "bible/kings1.txt",
+    },
+    "392":  {
+        "author": "Vulgate",
+        "title":  "Kings II ",
+        "path":   "bible/kings2.txt",
+    },
     "393":  {
         "author": "Vulgate",
         "title":  "Lamentations ",
         "path":   "bible/lamentations.txt",
     },
-    "394":  {"author": "Vulgate", "title": "Leviticus ", "path": "bible/leviticus.txt"},
+    "394":  {
+        "author": "Vulgate",
+        "title":  "Leviticus ",
+        "path":   "bible/leviticus.txt",
+    },
     "395":  {"author": "Vulgate", "title": "Luke ", "path": "bible/luke.txt"},
     "396":  {
         "author": "Vulgate",
@@ -8860,19 +11766,43 @@ AUTHOR_TAB = {
         "title":  "Second Book of Macabees ",
         "path":   "bible/macabees2.txt",
     },
-    "398":  {"author": "Vulgate", "title": "Malachias ", "path": "bible/malachias.txt"},
+    "398":  {
+        "author": "Vulgate",
+        "title":  "Malachias ",
+        "path":   "bible/malachias.txt",
+    },
     "399":  {
         "author": "Vulgate",
         "title":  "Prayer of Manasses ",
         "path":   "bible/manasses.txt",
     },
-    "400":  {"author": None, "title": "Gospel of Mark ", "path": "bible/mark.txt"},
-    "401":  {"author": ">Vulgate", "title": "Matthew", "path": "bible/matthew.txt"},
+    "400":  {
+        "author": None,
+        "title":  "Gospel of Mark ",
+        "path":   "bible/mark.txt",
+    },
+    "401":  {
+        "author": ">Vulgate",
+        "title":  "Matthew",
+        "path":   "bible/matthew.txt",
+    },
     "402":  {"author": "Vulgate", "title": "Micah ", "path": "bible/micah.txt"},
     "403":  {"author": "Vulgate", "title": "Nahum ", "path": "bible/nahum.txt"},
-    "404":  {"author": "Vulgate", "title": "Nehemiah ", "path": "bible/nehemiah.txt"},
-    "405":  {"author": "Vulgate", "title": "Numbers ", "path": "bible/numbers.txt"},
-    "406":  {"author": "Vulgate", "title": "Obadiah ", "path": "bible/obadiah.txt"},
+    "404":  {
+        "author": "Vulgate",
+        "title":  "Nehemiah ",
+        "path":   "bible/nehemiah.txt",
+    },
+    "405":  {
+        "author": "Vulgate",
+        "title":  "Numbers ",
+        "path":   "bible/numbers.txt",
+    },
+    "406":  {
+        "author": "Vulgate",
+        "title":  "Obadiah ",
+        "path":   "bible/obadiah.txt",
+    },
     "407":  {
         "author": "Vulgate",
         "title":  "First Letter of Peter ",
@@ -8894,8 +11824,16 @@ AUTHOR_TAB = {
         "path":   "bible/philip.txt",
     },
     "411":  {"author": None, "title": "The Bible", "path": "bible/prologi.txt"},
-    "412":  {"author": "Vulgate", "title": "Proverbs ", "path": "bible/proverbs.txt"},
-    "413":  {"author": "Vulgate", "title": "Psalms", "path": "bible/psalms.txt"},
+    "412":  {
+        "author": "Vulgate",
+        "title":  "Proverbs ",
+        "path":   "bible/proverbs.txt",
+    },
+    "413":  {
+        "author": "Vulgate",
+        "title":  "Psalms",
+        "path":   "bible/psalms.txt",
+    },
     "414":  {
         "author": "Vulgate",
         "title":  "Revelation of John ",
@@ -8907,13 +11845,21 @@ AUTHOR_TAB = {
         "path":   "bible/romans.txt",
     },
     "416":  {"author": "Vulgate", "title": "Ruth ", "path": "bible/ruth.txt"},
-    "417":  {"author": "Vulgate", "title": "Samuel ", "path": "bible/samuel1.txt"},
+    "417":  {
+        "author": "Vulgate",
+        "title":  "Samuel ",
+        "path":   "bible/samuel1.txt",
+    },
     "418":  {
         "author": "Vulgate",
         "title":  "Second Samuel ",
         "path":   "bible/samuel2.txt",
     },
-    "419":  {"author": "Vulgate", "title": "Sirach ", "path": "bible/sirach.txt"},
+    "419":  {
+        "author": "Vulgate",
+        "title":  "Sirach ",
+        "path":   "bible/sirach.txt",
+    },
     "420":  {
         "author": "Vulgate",
         "title":  "Song of Songs ",
@@ -8939,18 +11885,46 @@ AUTHOR_TAB = {
         "title":  "Paul to Timothy II ",
         "path":   "bible/timothy2.txt",
     },
-    "425":  {"author": None, "title": "Epistula ad Titum ", "path": "bible/titum.txt"},
-    "426":  {"author": "Vulgate", "title": "Tobias ", "path": "bible/tobia.txt"},
-    "427":  {"author": "Vulgate", "title": "Wisdom ", "path": "bible/wisdom.txt"},
-    "428":  {"author": "Vulgate", "title": "Zacharias ", "path": "bible/zacharias.txt"},
-    "429":  {"author": "Vulgate", "title": "Zephaniah ", "path": "bible/zephaniah.txt"},
+    "425":  {
+        "author": None,
+        "title":  "Epistula ad Titum ",
+        "path":   "bible/titum.txt",
+    },
+    "426":  {
+        "author": "Vulgate",
+        "title":  "Tobias ",
+        "path":   "bible/tobia.txt",
+    },
+    "427":  {
+        "author": "Vulgate",
+        "title":  "Wisdom ",
+        "path":   "bible/wisdom.txt",
+    },
+    "428":  {
+        "author": "Vulgate",
+        "title":  "Zacharias ",
+        "path":   "bible/zacharias.txt",
+    },
+    "429":  {
+        "author": "Vulgate",
+        "title":  "Zephaniah ",
+        "path":   "bible/zephaniah.txt",
+    },
     "430":  {
         "author": "Bigges",
         "title":  "Expeditio Francisci Draki Equitis Angli",
         "path":   "biggs.txt",
     },
-    "431":  {"author": None, "title": "Bill of Rights", "path": "bill.rights.txt"},
-    "432":  {"author": None, "title": "Petrus Blesensis", "path": "blesensis.txt"},
+    "431":  {
+        "author": None,
+        "title":  "Bill of Rights",
+        "path":   "bill.rights.txt",
+    },
+    "432":  {
+        "author": None,
+        "title":  "Petrus Blesensis",
+        "path":   "blesensis.txt",
+    },
     "433":  {
         "author": None,
         "title":  "Boethius de Dacia",
@@ -8966,7 +11940,11 @@ AUTHOR_TAB = {
         "title":  "St. Bonaventure",
         "path":   "bonaventura.itinerarium.txt",
     },
-    "436":  {"author": None, "title": "Bartolomej Boskovic", "path": "boskovic.txt"},
+    "436":  {
+        "author": None,
+        "title":  "Bartolomej Boskovic",
+        "path":   "boskovic.txt",
+    },
     "437":  {
         "author": None,
         "title":  "Breve Chronicon Northmannicum",
@@ -9103,7 +12081,11 @@ AUTHOR_TAB = {
         "title":  "Ad Thamesin",
         "path":   "campion/campion.thamesin.txt",
     },
-    "465":  {"author": "Campion", "title": "Umbra", "path": "campion/campion.umbra.txt"},
+    "465":  {
+        "author": "Campion",
+        "title":  "Umbra",
+        "path":   "campion/campion.umbra.txt",
+    },
     "466":  {
         "author": "Andreas Capellanus",
         "title":  "de Amore I",
@@ -9119,14 +12101,26 @@ AUTHOR_TAB = {
         "title":  "de Amore III",
         "path":   "capellanus/capellanus3.txt",
     },
-    "469":  {"author": None, "title": "Carmina Burana ", "path": "carm.bur.txt"},
-    "470":  {"author": None, "title": "Carmen Arvale", "path": "carmenarvale.txt"},
+    "469":  {
+        "author": None,
+        "title":  "Carmina Burana ",
+        "path":   "carm.bur.txt",
+    },
+    "470":  {
+        "author": None,
+        "title":  "Carmen Arvale",
+        "path":   "carmenarvale.txt",
+    },
     "471":  {
         "author": None,
         "title":  "CARMEN IN VICTORIAM PISANORUM",
         "path":   "carmeninvictoriam.txt",
     },
-    "472":  {"author": None, "title": "Carmen Saliare", "path": "carmensaliare.txt"},
+    "472":  {
+        "author": None,
+        "title":  "Carmen Saliare",
+        "path":   "carmensaliare.txt",
+    },
     "473":  {
         "author": "Cassiodorus",
         "title":  "de Anima",
@@ -9217,8 +12211,16 @@ AUTHOR_TAB = {
         "title":  "Catalogue Lib\u00e9rien",
         "path":   "catalogueliberien.txt",
     },
-    "491":  {"author": "[Cato]", "title": "Disticha Catonis", "path": "cato.dis.txt"},
-    "492":  {"author": "Cato", "title": "DE AGRI CVLTVRA", "path": "cato/cato.agri.txt"},
+    "491":  {
+        "author": "[Cato]",
+        "title":  "Disticha Catonis",
+        "path":   "cato.dis.txt",
+    },
+    "492":  {
+        "author": "Cato",
+        "title":  "DE AGRI CVLTVRA",
+        "path":   "cato/cato.agri.txt",
+    },
     "493":  {
         "author": "Cato",
         "title":  "ORATIONVM M. PORCI CATONIS FRAGMENTA",
@@ -9236,31 +12238,111 @@ AUTHOR_TAB = {
         "title":  "de Die Natali Liber",
         "path":   "censorinus.txt",
     },
-    "498":  {"author": "Cicero", "title": "Academica", "path": "cicero/acad.txt"},
-    "499":  {"author": "Cicero", "title": "ad Brutum I", "path": "cicero/adbrutum1.txt"},
+    "498":  {
+        "author": "Cicero",
+        "title":  "Academica",
+        "path":   "cicero/acad.txt",
+    },
+    "499":  {
+        "author": "Cicero",
+        "title":  "ad Brutum I",
+        "path":   "cicero/adbrutum1.txt",
+    },
     "500":  {
         "author": "Cicero",
         "title":  "ad Brutum II",
         "path":   "cicero/adbrutum2.txt",
     },
-    "501":  {"author": "Cicero", "title": "de Amicitia", "path": "cicero/amic.txt"},
-    "502":  {"author": "Cicero", "title": "Pro Archia", "path": "cicero/arch.txt"},
-    "503":  {"author": "Cicero", "title": "ad Atticum I", "path": "cicero/att1.txt"},
-    "504":  {"author": "Cicero", "title": "ad Atticum X", "path": "cicero/att10.txt"},
-    "505":  {"author": "Cicero", "title": "ad Atticum XI", "path": "cicero/att11.txt"},
-    "506":  {"author": "Cicero", "title": "ad Atticum XII", "path": "cicero/att12.txt"},
-    "507":  {"author": "Cicero", "title": "ad Atticum XIII", "path": "cicero/att13.txt"},
-    "508":  {"author": "Cicero", "title": "ad Atticum XIV", "path": "cicero/att14.txt"},
-    "509":  {"author": "Cicero", "title": "ad Atticum XV", "path": "cicero/att15.txt"},
-    "510":  {"author": "Cicero", "title": "ad Atticum XVI", "path": "cicero/att16.txt"},
-    "511":  {"author": "Cicero", "title": "ad Atticum II", "path": "cicero/att2.txt"},
-    "512":  {"author": "Cicero", "title": "ad Atticum III", "path": "cicero/att3.txt"},
-    "513":  {"author": "Cicero", "title": "ad Atticum IV", "path": "cicero/att4.txt"},
-    "514":  {"author": "Cicero", "title": "ad Atticum V", "path": "cicero/att5.txt"},
-    "515":  {"author": "Cicero", "title": "ad Atticum VI", "path": "cicero/att6.txt"},
-    "516":  {"author": "Cicero", "title": "ad Atticum VII", "path": "cicero/att7.txt"},
-    "517":  {"author": "Cicero", "title": "ad Atticum VIII", "path": "cicero/att8.txt"},
-    "518":  {"author": "Cicero", "title": "ad Atticum IX", "path": "cicero/att9.txt"},
+    "501":  {
+        "author": "Cicero",
+        "title":  "de Amicitia",
+        "path":   "cicero/amic.txt",
+    },
+    "502":  {
+        "author": "Cicero",
+        "title":  "Pro Archia",
+        "path":   "cicero/arch.txt",
+    },
+    "503":  {
+        "author": "Cicero",
+        "title":  "ad Atticum I",
+        "path":   "cicero/att1.txt",
+    },
+    "504":  {
+        "author": "Cicero",
+        "title":  "ad Atticum X",
+        "path":   "cicero/att10.txt",
+    },
+    "505":  {
+        "author": "Cicero",
+        "title":  "ad Atticum XI",
+        "path":   "cicero/att11.txt",
+    },
+    "506":  {
+        "author": "Cicero",
+        "title":  "ad Atticum XII",
+        "path":   "cicero/att12.txt",
+    },
+    "507":  {
+        "author": "Cicero",
+        "title":  "ad Atticum XIII",
+        "path":   "cicero/att13.txt",
+    },
+    "508":  {
+        "author": "Cicero",
+        "title":  "ad Atticum XIV",
+        "path":   "cicero/att14.txt",
+    },
+    "509":  {
+        "author": "Cicero",
+        "title":  "ad Atticum XV",
+        "path":   "cicero/att15.txt",
+    },
+    "510":  {
+        "author": "Cicero",
+        "title":  "ad Atticum XVI",
+        "path":   "cicero/att16.txt",
+    },
+    "511":  {
+        "author": "Cicero",
+        "title":  "ad Atticum II",
+        "path":   "cicero/att2.txt",
+    },
+    "512":  {
+        "author": "Cicero",
+        "title":  "ad Atticum III",
+        "path":   "cicero/att3.txt",
+    },
+    "513":  {
+        "author": "Cicero",
+        "title":  "ad Atticum IV",
+        "path":   "cicero/att4.txt",
+    },
+    "514":  {
+        "author": "Cicero",
+        "title":  "ad Atticum V",
+        "path":   "cicero/att5.txt",
+    },
+    "515":  {
+        "author": "Cicero",
+        "title":  "ad Atticum VI",
+        "path":   "cicero/att6.txt",
+    },
+    "516":  {
+        "author": "Cicero",
+        "title":  "ad Atticum VII",
+        "path":   "cicero/att7.txt",
+    },
+    "517":  {
+        "author": "Cicero",
+        "title":  "ad Atticum VIII",
+        "path":   "cicero/att8.txt",
+    },
+    "518":  {
+        "author": "Cicero",
+        "title":  "ad Atticum IX",
+        "path":   "cicero/att9.txt",
+    },
     "519":  {
         "author": "Cicero",
         "title":  "PRO L. CORNELIO BALBO ORATIO",
@@ -9282,10 +12364,26 @@ AUTHOR_TAB = {
         "title":  "PRO M. CAELIO ORATIO",
         "path":   "cicero/cael.txt",
     },
-    "524":  {"author": "Cicero", "title": "In Catilinam I", "path": "cicero/cat1.txt"},
-    "525":  {"author": "Cicero", "title": "In Catilinam II", "path": "cicero/cat2.txt"},
-    "526":  {"author": "Cicero", "title": "In Catilinam III", "path": "cicero/cat3.txt"},
-    "527":  {"author": "Cicero", "title": "In Catilinam IV", "path": "cicero/cat4.txt"},
+    "524":  {
+        "author": "Cicero",
+        "title":  "In Catilinam I",
+        "path":   "cicero/cat1.txt",
+    },
+    "525":  {
+        "author": "Cicero",
+        "title":  "In Catilinam II",
+        "path":   "cicero/cat2.txt",
+    },
+    "526":  {
+        "author": "Cicero",
+        "title":  "In Catilinam III",
+        "path":   "cicero/cat3.txt",
+    },
+    "527":  {
+        "author": "Cicero",
+        "title":  "In Catilinam IV",
+        "path":   "cicero/cat4.txt",
+    },
     "528":  {
         "author": "Cicero",
         "title":  "PRO A. CLVENTIO ORATIO",
@@ -9316,9 +12414,21 @@ AUTHOR_TAB = {
         "title":  "DE DIVINATIONE LIBER ALTER",
         "path":   "cicero/divinatione2.txt",
     },
-    "534":  {"author": "Cicero", "title": "DE DOMO SVA", "path": "cicero/domo.txt"},
-    "535":  {"author": "Cicero", "title": "ad Familiares I", "path": "cicero/fam1.txt"},
-    "536":  {"author": "Cicero", "title": "ad Familiares X", "path": "cicero/fam10.txt"},
+    "534":  {
+        "author": "Cicero",
+        "title":  "DE DOMO SVA",
+        "path":   "cicero/domo.txt",
+    },
+    "535":  {
+        "author": "Cicero",
+        "title":  "ad Familiares I",
+        "path":   "cicero/fam1.txt",
+    },
+    "536":  {
+        "author": "Cicero",
+        "title":  "ad Familiares X",
+        "path":   "cicero/fam10.txt",
+    },
     "537":  {
         "author": "Cicero",
         "title":  "ad Familiares XI",
@@ -9349,15 +12459,31 @@ AUTHOR_TAB = {
         "title":  "ad Familiares XVI",
         "path":   "cicero/fam16.txt",
     },
-    "543":  {"author": "Cicero", "title": "ad Familiares II", "path": "cicero/fam2.txt"},
+    "543":  {
+        "author": "Cicero",
+        "title":  "ad Familiares II",
+        "path":   "cicero/fam2.txt",
+    },
     "544":  {
         "author": "Cicero",
         "title":  "ad Familiares III",
         "path":   "cicero/fam3.txt",
     },
-    "545":  {"author": "Cicero", "title": "ad Familiares IV", "path": "cicero/fam4.txt"},
-    "546":  {"author": "Cicero", "title": "ad Familiares V", "path": "cicero/fam5.txt"},
-    "547":  {"author": "Cicero", "title": "ad Familiares VI", "path": "cicero/fam6.txt"},
+    "545":  {
+        "author": "Cicero",
+        "title":  "ad Familiares IV",
+        "path":   "cicero/fam4.txt",
+    },
+    "546":  {
+        "author": "Cicero",
+        "title":  "ad Familiares V",
+        "path":   "cicero/fam5.txt",
+    },
+    "547":  {
+        "author": "Cicero",
+        "title":  "ad Familiares VI",
+        "path":   "cicero/fam6.txt",
+    },
     "548":  {
         "author": "Cicero",
         "title":  "ad Familiares VII",
@@ -9368,14 +12494,42 @@ AUTHOR_TAB = {
         "title":  "ad Familiares VIII",
         "path":   "cicero/fam8.txt",
     },
-    "550":  {"author": "Cicero", "title": "ad Familiares IX", "path": "cicero/fam9.txt"},
+    "550":  {
+        "author": "Cicero",
+        "title":  "ad Familiares IX",
+        "path":   "cicero/fam9.txt",
+    },
     "551":  {"author": "Cicero", "title": "de Fato", "path": "cicero/fato.txt"},
-    "552":  {"author": "Cicero", "title": "de Finibus I", "path": "cicero/fin1.txt"},
-    "553":  {"author": "Cicero", "title": "de Finibus II", "path": "cicero/fin2.txt"},
-    "554":  {"author": "Cicero", "title": "de Finibus III", "path": "cicero/fin3.txt"},
-    "555":  {"author": "Cicero", "title": "de Finibus IV", "path": "cicero/fin4.txt"},
-    "556":  {"author": "Cicero", "title": "de Finibus V", "path": "cicero/fin5.txt"},
-    "557":  {"author": "Cicero", "title": "PRO L. FLACCO", "path": "cicero/flacco.txt"},
+    "552":  {
+        "author": "Cicero",
+        "title":  "de Finibus I",
+        "path":   "cicero/fin1.txt",
+    },
+    "553":  {
+        "author": "Cicero",
+        "title":  "de Finibus II",
+        "path":   "cicero/fin2.txt",
+    },
+    "554":  {
+        "author": "Cicero",
+        "title":  "de Finibus III",
+        "path":   "cicero/fin3.txt",
+    },
+    "555":  {
+        "author": "Cicero",
+        "title":  "de Finibus IV",
+        "path":   "cicero/fin4.txt",
+    },
+    "556":  {
+        "author": "Cicero",
+        "title":  "de Finibus V",
+        "path":   "cicero/fin5.txt",
+    },
+    "557":  {
+        "author": "Cicero",
+        "title":  "PRO L. FLACCO",
+        "path":   "cicero/flacco.txt",
+    },
     "558":  {
         "author": "Cicero",
         "title":  "PRO PRO M. FONTEIO",
@@ -9416,9 +12570,21 @@ AUTHOR_TAB = {
         "title":  "de Inventione II",
         "path":   "cicero/inventione2.txt",
     },
-    "566":  {"author": "Cicero", "title": "de Legibus I", "path": "cicero/leg1.txt"},
-    "567":  {"author": "Cicero", "title": "de Legibus II", "path": "cicero/leg2.txt"},
-    "568":  {"author": "Cicero", "title": "de Legibus III", "path": "cicero/leg3.txt"},
+    "566":  {
+        "author": "Cicero",
+        "title":  "de Legibus I",
+        "path":   "cicero/leg1.txt",
+    },
+    "567":  {
+        "author": "Cicero",
+        "title":  "de Legibus II",
+        "path":   "cicero/leg2.txt",
+    },
+    "568":  {
+        "author": "Cicero",
+        "title":  "de Legibus III",
+        "path":   "cicero/leg3.txt",
+    },
     "569":  {
         "author": "Cicero",
         "title":  "de Lege Agraria I",
@@ -9434,10 +12600,26 @@ AUTHOR_TAB = {
         "title":  "de Lege Agraria III",
         "path":   "cicero/legagr3.txt",
     },
-    "572":  {"author": "Cicero", "title": "pro Ligario", "path": "cicero/lig.txt"},
-    "573":  {"author": "Cicero", "title": "pro Marcello", "path": "cicero/marc.txt"},
-    "574":  {"author": "Cicero", "title": "pro Milone", "path": "cicero/milo.txt"},
-    "575":  {"author": "Cicero", "title": "pro Murena", "path": "cicero/murena.txt"},
+    "572":  {
+        "author": "Cicero",
+        "title":  "pro Ligario",
+        "path":   "cicero/lig.txt",
+    },
+    "573":  {
+        "author": "Cicero",
+        "title":  "pro Marcello",
+        "path":   "cicero/marc.txt",
+    },
+    "574":  {
+        "author": "Cicero",
+        "title":  "pro Milone",
+        "path":   "cicero/milo.txt",
+    },
+    "575":  {
+        "author": "Cicero",
+        "title":  "pro Murena",
+        "path":   "cicero/murena.txt",
+    },
     "576":  {
         "author": "Cicero",
         "title":  "De Natura Deorum I",
@@ -9453,9 +12635,21 @@ AUTHOR_TAB = {
         "title":  "De Natura Deorum III",
         "path":   "cicero/nd3.txt",
     },
-    "579":  {"author": "Cicero", "title": "de Officiis I", "path": "cicero/off1.txt"},
-    "580":  {"author": "Cicero", "title": "de Officiis II", "path": "cicero/off2.txt"},
-    "581":  {"author": "Cicero", "title": "de Officiis III", "path": "cicero/off3.txt"},
+    "579":  {
+        "author": "Cicero",
+        "title":  "de Officiis I",
+        "path":   "cicero/off1.txt",
+    },
+    "580":  {
+        "author": "Cicero",
+        "title":  "de Officiis II",
+        "path":   "cicero/off2.txt",
+    },
+    "581":  {
+        "author": "Cicero",
+        "title":  "de Officiis III",
+        "path":   "cicero/off3.txt",
+    },
     "582":  {
         "author": "Cicero",
         "title":  "de Optimo Genere Oratorum",
@@ -9466,7 +12660,11 @@ AUTHOR_TAB = {
         "title":  "Orator ad M. Brutum",
         "path":   "cicero/orator.txt",
     },
-    "584":  {"author": "Cicero", "title": "de Oratore I", "path": "cicero/oratore1.txt"},
+    "584":  {
+        "author": "Cicero",
+        "title":  "de Oratore I",
+        "path":   "cicero/oratore1.txt",
+    },
     "585":  {
         "author": "Cicero",
         "title":  "de Oratore II",
@@ -9477,28 +12675,96 @@ AUTHOR_TAB = {
         "title":  "de Oratore III",
         "path":   "cicero/oratore3.txt",
     },
-    "587":  {"author": "Cicero", "title": "Paradoxa", "path": "cicero/paradoxa.txt"},
+    "587":  {
+        "author": "Cicero",
+        "title":  "Paradoxa",
+        "path":   "cicero/paradoxa.txt",
+    },
     "588":  {
         "author": "Cicero",
         "title":  "de Partitione",
         "path":   "cicero/partitione.txt",
     },
-    "589":  {"author": "Cicero", "title": "Philippic I", "path": "cicero/phil1.txt"},
-    "590":  {"author": "Cicero", "title": "Philippic X", "path": "cicero/phil10.txt"},
-    "591":  {"author": "Cicero", "title": "Philippic XI", "path": "cicero/phil11.txt"},
-    "592":  {"author": "Cicero", "title": "Philippic XII", "path": "cicero/phil12.txt"},
-    "593":  {"author": "Cicero", "title": "Philippic XIII", "path": "cicero/phil13.txt"},
-    "594":  {"author": "Cicero", "title": "Philippic XIV", "path": "cicero/phil14.txt"},
-    "595":  {"author": "Cicero", "title": "Philippic II", "path": "cicero/phil2.txt"},
-    "596":  {"author": "Cicero", "title": "Philippic III", "path": "cicero/phil3.txt"},
-    "597":  {"author": "Cicero", "title": "Philippic IV", "path": "cicero/phil4.txt"},
-    "598":  {"author": "Cicero", "title": "Philippic V", "path": "cicero/phil5.txt"},
-    "599":  {"author": "Cicero", "title": "Philippic VI", "path": "cicero/phil6.txt"},
-    "600":  {"author": "Cicero", "title": "Philippic VII", "path": "cicero/phil7.txt"},
-    "601":  {"author": "Cicero", "title": "Philippic VIII", "path": "cicero/phil8.txt"},
-    "602":  {"author": "Cicero", "title": "Philippic IX", "path": "cicero/phil9.txt"},
-    "603":  {"author": "Cicero", "title": "In Pisonem", "path": "cicero/piso.txt"},
-    "604":  {"author": "Cicero", "title": "Pro Plancio", "path": "cicero/plancio.txt"},
+    "589":  {
+        "author": "Cicero",
+        "title":  "Philippic I",
+        "path":   "cicero/phil1.txt",
+    },
+    "590":  {
+        "author": "Cicero",
+        "title":  "Philippic X",
+        "path":   "cicero/phil10.txt",
+    },
+    "591":  {
+        "author": "Cicero",
+        "title":  "Philippic XI",
+        "path":   "cicero/phil11.txt",
+    },
+    "592":  {
+        "author": "Cicero",
+        "title":  "Philippic XII",
+        "path":   "cicero/phil12.txt",
+    },
+    "593":  {
+        "author": "Cicero",
+        "title":  "Philippic XIII",
+        "path":   "cicero/phil13.txt",
+    },
+    "594":  {
+        "author": "Cicero",
+        "title":  "Philippic XIV",
+        "path":   "cicero/phil14.txt",
+    },
+    "595":  {
+        "author": "Cicero",
+        "title":  "Philippic II",
+        "path":   "cicero/phil2.txt",
+    },
+    "596":  {
+        "author": "Cicero",
+        "title":  "Philippic III",
+        "path":   "cicero/phil3.txt",
+    },
+    "597":  {
+        "author": "Cicero",
+        "title":  "Philippic IV",
+        "path":   "cicero/phil4.txt",
+    },
+    "598":  {
+        "author": "Cicero",
+        "title":  "Philippic V",
+        "path":   "cicero/phil5.txt",
+    },
+    "599":  {
+        "author": "Cicero",
+        "title":  "Philippic VI",
+        "path":   "cicero/phil6.txt",
+    },
+    "600":  {
+        "author": "Cicero",
+        "title":  "Philippic VII",
+        "path":   "cicero/phil7.txt",
+    },
+    "601":  {
+        "author": "Cicero",
+        "title":  "Philippic VIII",
+        "path":   "cicero/phil8.txt",
+    },
+    "602":  {
+        "author": "Cicero",
+        "title":  "Philippic IX",
+        "path":   "cicero/phil9.txt",
+    },
+    "603":  {
+        "author": "Cicero",
+        "title":  "In Pisonem",
+        "path":   "cicero/piso.txt",
+    },
+    "604":  {
+        "author": "Cicero",
+        "title":  "Pro Plancio",
+        "path":   "cicero/plancio.txt",
+    },
     "605":  {
         "author": "Cicero",
         "title":  "Post Reditum in Senatu",
@@ -9514,7 +12780,11 @@ AUTHOR_TAB = {
         "title":  "De Provinciis Consularibus",
         "path":   "cicero/prov.txt",
     },
-    "608":  {"author": "Cicero", "title": "Pro Quinctio", "path": "cicero/quinc.txt"},
+    "608":  {
+        "author": "Cicero",
+        "title":  "Pro Quinctio",
+        "path":   "cicero/quinc.txt",
+    },
     "609":  {
         "author": "Cicero",
         "title":  "Pro Rabiro Perduellionis",
@@ -9560,20 +12830,36 @@ AUTHOR_TAB = {
         "title":  "Pro Roscio Comodeo",
         "path":   "cicero/rosccom.txt",
     },
-    "618":  {"author": "Cicero", "title": "Pro Scauro", "path": "cicero/scauro.txt"},
+    "618":  {
+        "author": "Cicero",
+        "title":  "Pro Scauro",
+        "path":   "cicero/scauro.txt",
+    },
     "619":  {
         "author": "Cicero",
         "title":  "de Senectute",
         "path":   "cicero/senectute.txt",
     },
-    "620":  {"author": "Cicero", "title": "Pro Sestio", "path": "cicero/sestio.txt"},
+    "620":  {
+        "author": "Cicero",
+        "title":  "Pro Sestio",
+        "path":   "cicero/sestio.txt",
+    },
     "621":  {
         "author": "Cicero",
         "title":  "Pro Sex. Roscio Amerino",
         "path":   "cicero/sex.rosc.txt",
     },
-    "622":  {"author": "Cicero", "title": "Pro Sulla", "path": "cicero/sulla.txt"},
-    "623":  {"author": "Cicero", "title": "Topica", "path": "cicero/topica.txt"},
+    "622":  {
+        "author": "Cicero",
+        "title":  "Pro Sulla",
+        "path":   "cicero/sulla.txt",
+    },
+    "623":  {
+        "author": "Cicero",
+        "title":  "Topica",
+        "path":   "cicero/topica.txt",
+    },
     "624":  {
         "author": "Cicero",
         "title":  "Tusculan Disputations I",
@@ -9599,8 +12885,16 @@ AUTHOR_TAB = {
         "title":  "Tusculan Disputations IV",
         "path":   "cicero/tusc5.txt",
     },
-    "629":  {"author": "Cicero", "title": "In Vatinium", "path": "cicero/vatin.txt"},
-    "630":  {"author": "Cicero", "title": "In Verrem I", "path": "cicero/ver1.txt"},
+    "629":  {
+        "author": "Cicero",
+        "title":  "In Vatinium",
+        "path":   "cicero/vatin.txt",
+    },
+    "630":  {
+        "author": "Cicero",
+        "title":  "In Verrem I",
+        "path":   "cicero/ver1.txt",
+    },
     "631":  {
         "author": "Cicero",
         "title":  "In Verrem II.1",
@@ -9627,8 +12921,16 @@ AUTHOR_TAB = {
         "path":   "cicero/verres.2.5.txt",
     },
     "636":  {"author": None, "title": "Helvius Cinna", "path": "cinna.txt"},
-    "637":  {"author": None, "title": "Speech of Claudius", "path": "claud.inscr.txt"},
-    "638":  {"author": None, "title": "Claudian", "path": "claudian/claudian.cons6.txt"},
+    "637":  {
+        "author": None,
+        "title":  "Speech of Claudius",
+        "path":   "claud.inscr.txt",
+    },
+    "638":  {
+        "author": None,
+        "title":  "Claudian",
+        "path":   "claudian/claudian.cons6.txt",
+    },
     "639":  {
         "author": "Claudian",
         "title":  "Panegyricus Dictus Olybrio et Probino Consulibus",
@@ -9654,15 +12956,31 @@ AUTHOR_TAB = {
         "title":  "In Rufinum I ",
         "path":   "claudian/claudian.ruf1.txt",
     },
-    "644":  {"author": "Pseudo-Plato", "title": "Clitophon", "path": "clitophon.txt"},
-    "645":  {"author": None, "title": "Coleman the Irishman ", "path": "colman.txt"},
-    "646":  {"author": "Life of St. Columba", "title": "Book I", "path": "columba1.txt"},
+    "644":  {
+        "author": "Pseudo-Plato",
+        "title":  "Clitophon",
+        "path":   "clitophon.txt",
+    },
+    "645":  {
+        "author": None,
+        "title":  "Coleman the Irishman ",
+        "path":   "colman.txt",
+    },
+    "646":  {
+        "author": "Life of St. Columba",
+        "title":  "Book I",
+        "path":   "columba1.txt",
+    },
     "647":  {
         "author": "Life of St. Columba",
         "title":  "Book II",
         "path":   "columba2.txt",
     },
-    "648":  {"author": None, "title": "Christopher Columbus", "path": "columbus.txt"},
+    "648":  {
+        "author": None,
+        "title":  "Christopher Columbus",
+        "path":   "columbus.txt",
+    },
     "649":  {
         "author": "Columella",
         "title":  "de Arboribus ",
@@ -9759,7 +13077,11 @@ AUTHOR_TAB = {
         "title":  "Poems of Giovanni Cotta (1480-1510)",
         "path":   "cotta.txt",
     },
-    "669":  {"author": None, "title": "Early Christian Creeds", "path": "creeds.txt"},
+    "669":  {
+        "author": None,
+        "title":  "Early Christian Creeds",
+        "path":   "creeds.txt",
+    },
     "670":  {
         "author": "Curtius Rufus",
         "title":  "Historiae Alexandri Magni X",
@@ -9802,9 +13124,21 @@ AUTHOR_TAB = {
     },
     "678":  {"author": "Dante", "title": "Ecloga I", "path": "dante/ec1.txt"},
     "679":  {"author": "Dante", "title": "Epistolae", "path": "dante/ep.txt"},
-    "680":  {"author": "Dante", "title": "Monarchia I", "path": "dante/mon1.txt"},
-    "681":  {"author": "Dante", "title": "Monarchia II", "path": "dante/mon2.txt"},
-    "682":  {"author": "Dante", "title": "Monarchia III", "path": "dante/mon3.txt"},
+    "680":  {
+        "author": "Dante",
+        "title":  "Monarchia I",
+        "path":   "dante/mon1.txt",
+    },
+    "681":  {
+        "author": "Dante",
+        "title":  "Monarchia II",
+        "path":   "dante/mon2.txt",
+    },
+    "682":  {
+        "author": "Dante",
+        "title":  "Monarchia III",
+        "path":   "dante/mon3.txt",
+    },
     "683":  {
         "author": "Dante",
         "title":  "De Vulgari Eloquentia I",
@@ -9831,8 +13165,16 @@ AUTHOR_TAB = {
         "title":  "Universal Declaration of Human Rights",
         "path":   "declaratio.txt",
     },
-    "689":  {"author": None, "title": "Decretum Gelasianum", "path": "decretum.txt"},
-    "690":  {"author": "Descartes", "title": "Epistula", "path": "descartes/des.ep.txt"},
+    "689":  {
+        "author": None,
+        "title":  "Decretum Gelasianum",
+        "path":   "decretum.txt",
+    },
+    "690":  {
+        "author": "Descartes",
+        "title":  "Epistula",
+        "path":   "descartes/des.ep.txt",
+    },
     "691":  {
         "author": "Descartes",
         "title":  "Meditatio I",
@@ -9882,14 +13224,22 @@ AUTHOR_TAB = {
         "path":   "diravi.txt",
     },
     "703":  {"author": "Donatus", "title": "Ars Minor", "path": "don.txt"},
-    "704":  {"author": None, "title": "Donation of Constantine", "path": "donation.txt"},
+    "704":  {
+        "author": None,
+        "title":  "Donation of Constantine",
+        "path":   "donation.txt",
+    },
     "705":  {"author": None, "title": "", "path": "dulcesolum.txt"},
     "706":  {
         "author": "Anonymous",
         "title":  "Dum Diane vitrea ",
         "path":   "dumdiane.txt",
     },
-    "707":  {"author": None, "title": "Dum domus lapidea ", "path": "dumdomus.txt"},
+    "707":  {
+        "author": None,
+        "title":  "Dum domus lapidea ",
+        "path":   "dumdomus.txt",
+    },
     "708":  {"author": None, "title": "", "path": "dumestas.txt"},
     "709":  {
         "author": "Petrus de Ebulo",
@@ -9906,7 +13256,11 @@ AUTHOR_TAB = {
         "title":  "Itinerarium Pars Secunda",
         "path":   "egeria2.txt",
     },
-    "712":  {"author": "Einhard", "title": "Life of Charlemagne", "path": "ein.txt"},
+    "712":  {
+        "author": "Einhard",
+        "title":  "Life of Charlemagne",
+        "path":   "ein.txt",
+    },
     "713":  {"author": None, "title": "", "path": "ency.fides.txt"},
     "714":  {"author": "Ennius", "title": "Fragments", "path": "enn.txt"},
     "715":  {
@@ -9940,9 +13294,21 @@ AUTHOR_TAB = {
         "title":  "Libri Antibarbarorum",
         "path":   "erasmus/antibarb.txt",
     },
-    "722":  {"author": "Eramus", "title": "Colloquia", "path": "erasmus/coll.txt"},
-    "723":  {"author": "Eramus", "title": "Selected Writings", "path": "erasmus/ep.txt"},
-    "724":  {"author": "Erasmus", "title": "Institutio", "path": "erasmus/inst.txt"},
+    "722":  {
+        "author": "Eramus",
+        "title":  "Colloquia",
+        "path":   "erasmus/coll.txt",
+    },
+    "723":  {
+        "author": "Eramus",
+        "title":  "Selected Writings",
+        "path":   "erasmus/ep.txt",
+    },
+    "724":  {
+        "author": "Erasmus",
+        "title":  "Institutio",
+        "path":   "erasmus/inst.txt",
+    },
     "725":  {
         "author": "Erasmus",
         "title":  "de Laude Matrimonii",
@@ -9963,8 +13329,16 @@ AUTHOR_TAB = {
         "title":  "Historia Langabardorum Beneventarnorum",
         "path":   "erchempert.txt",
     },
-    "729":  {"author": None, "title": "Estas non apparuit ", "path": "estas.txt"},
-    "730":  {"author": "Eucherius", "title": "De laude eremi", "path": "eucherius.txt"},
+    "729":  {
+        "author": None,
+        "title":  "Estas non apparuit ",
+        "path":   "estas.txt",
+    },
+    "730":  {
+        "author": "Eucherius",
+        "title":  "De laude eremi",
+        "path":   "eucherius.txt",
+    },
     "731":  {"author": None, "title": "", "path": "eugenius.txt"},
     "732":  {
         "author": "Eugippius",
@@ -10021,12 +13395,32 @@ AUTHOR_TAB = {
         "title":  "Book IX",
         "path":   "eutropius/eutropius9.txt",
     },
-    "743":  {"author": None, "title": "Exivi de paradiso ", "path": "exivi.txt"},
+    "743":  {
+        "author": None,
+        "title":  "Exivi de paradiso ",
+        "path":   "exivi.txt",
+    },
     "744":  {"author": None, "title": "Guido Fabe ", "path": "fabe.txt"},
-    "745":  {"author": None, "title": "Hugo Falcandus", "path": "falcandus.txt"},
-    "746":  {"author": None, "title": "Chronicon Beneventanum", "path": "falcone.txt"},
-    "747":  {"author": None, "title": "Nicolai Borbonii ", "path": "ferraria.txt"},
-    "748":  {"author": "Marsilio Ficino", "title": "Theages ", "path": "ficino.txt"},
+    "745":  {
+        "author": None,
+        "title":  "Hugo Falcandus",
+        "path":   "falcandus.txt",
+    },
+    "746":  {
+        "author": None,
+        "title":  "Chronicon Beneventanum",
+        "path":   "falcone.txt",
+    },
+    "747":  {
+        "author": None,
+        "title":  "Nicolai Borbonii ",
+        "path":   "ferraria.txt",
+    },
+    "748":  {
+        "author": "Marsilio Ficino",
+        "title":  "Theages ",
+        "path":   "ficino.txt",
+    },
     "749":  {"author": None, "title": "Locustae ", "path": "fletcher.txt"},
     "750":  {
         "author": "Florus",
@@ -10044,14 +13438,26 @@ AUTHOR_TAB = {
         "path":   "foedusaeternum.txt",
     },
     "753":  {"author": "Pedantius", "title": "Act I  ", "path": "forsett1.txt"},
-    "754":  {"author": "Pedantius", "title": "Act II  ", "path": "forsett2.txt"},
-    "755":  {"author": None, "title": "Venance Fortunat ", "path": "fortunat.txt"},
+    "754":  {
+        "author": "Pedantius",
+        "title":  "Act II  ",
+        "path":   "forsett2.txt",
+    },
+    "755":  {
+        "author": None,
+        "title":  "Venance Fortunat ",
+        "path":   "fortunat.txt",
+    },
     "756":  {
         "author": None,
         "title":  "Fragmentum Laurentianum",
         "path":   "fragmentumlaurentianum.txt",
     },
-    "757":  {"author": "Fredegarius", "title": "Chronicon", "path": "fredegarius.txt"},
+    "757":  {
+        "author": "Fredegarius",
+        "title":  "Chronicon",
+        "path":   "fredegarius.txt",
+    },
     "758":  {
         "author": None,
         "title":  "Frodebertus & Importunus",
@@ -10112,7 +13518,11 @@ AUTHOR_TAB = {
         "title":  "Epistulae ",
         "path":   "fronto.txt",
     },
-    "770":  {"author": None, "title": "St. Fulbert of Chartres", "path": "fulbert.txt"},
+    "770":  {
+        "author": None,
+        "title":  "St. Fulbert of Chartres",
+        "path":   "fulbert.txt",
+    },
     "771":  {
         "author": "Fulgentius",
         "title":  "Mitologiarum Liber I",
@@ -10140,17 +13550,29 @@ AUTHOR_TAB = {
     },
     "776":  {"author": "Gaius", "title": "Commentary I", "path": "gaius1.txt"},
     "777":  {"author": "Gaius", "title": "Commentary II", "path": "gaius2.txt"},
-    "778":  {"author": "Gaius", "title": "Commentary III", "path": "gaius3.txt"},
+    "778":  {
+        "author": "Gaius",
+        "title":  "Commentary III",
+        "path":   "gaius3.txt",
+    },
     "779":  {"author": "Gaius", "title": "Commentary IV", "path": "gaius4.txt"},
     "780":  {
         "author": "Galileo Galilei",
         "title":  "Sidereus Nuncius",
         "path":   "galileo/galileo.sid.txt",
     },
-    "781":  {"author": None, "title": "Garcilaso de la Vega ", "path": "garcilaso.txt"},
+    "781":  {
+        "author": None,
+        "title":  "Garcilaso de la Vega ",
+        "path":   "garcilaso.txt",
+    },
     "782":  {"author": None, "title": "John of Garland", "path": "garland.txt"},
     "783":  {"author": None, "title": "Gaudeamus Igitur", "path": "gaud.txt"},
-    "784":  {"author": "Gauss", "title": "Demonstratio Nova", "path": "gauss.txt"},
+    "784":  {
+        "author": "Gauss",
+        "title":  "Demonstratio Nova",
+        "path":   "gauss.txt",
+    },
     "785":  {
         "author": "Auli Gellii Noctes Atticae",
         "title":  "Liber I",
@@ -10226,7 +13648,11 @@ AUTHOR_TAB = {
         "title":  "Praefatio",
         "path":   "gellius/gelliuspraef.txt",
     },
-    "800":  {"author": "Germanicus", "title": "Aratea", "path": "germanicus.txt"},
+    "800":  {
+        "author": "Germanicus",
+        "title":  "Aratea",
+        "path":   "germanicus.txt",
+    },
     "801":  {
         "author": None,
         "title":  "Gesta Francorum I",
@@ -10277,7 +13703,11 @@ AUTHOR_TAB = {
         "title":  "Gesta Francorum IX",
         "path":   "gestafrancorum/gestafrancorum9.txt",
     },
-    "811":  {"author": None, "title": "Gesta Romanorum", "path": "gestarom.txt"},
+    "811":  {
+        "author": None,
+        "title":  "Gesta Romanorum",
+        "path":   "gestarom.txt",
+    },
     "812":  {
         "author": "Gioacchino da Fiore",
         "title":  "Adversus Iudeos",
@@ -10293,9 +13723,21 @@ AUTHOR_TAB = {
         "title":  "Epigrammata Historica",
         "path":   "godfrey.epigrammatahist.txt",
     },
-    "815":  {"author": "Grattius", "title": "Cynegetica", "path": "grattius.txt"},
-    "816":  {"author": None, "title": "Inter Gravissimas ", "path": "gravissimas.txt"},
-    "817":  {"author": None, "title": "Letter of Gregory the Great", "path": "greg.txt"},
+    "815":  {
+        "author": "Grattius",
+        "title":  "Cynegetica",
+        "path":   "grattius.txt",
+    },
+    "816":  {
+        "author": None,
+        "title":  "Inter Gravissimas ",
+        "path":   "gravissimas.txt",
+    },
+    "817":  {
+        "author": None,
+        "title":  "Letter of Gregory the Great",
+        "path":   "greg.txt",
+    },
     "818":  {
         "author": "Gregory IX",
         "title":  "Decretals I",
@@ -10389,7 +13831,11 @@ AUTHOR_TAB = {
         "title":  "Edmond Halley (1656\u20131742)",
         "path":   "halley.txt",
     },
-    "843":  {"author": None, "title": "Hebet Sidus Leti Visus", "path": "hebet.txt"},
+    "843":  {
+        "author": None,
+        "title":  "Hebet Sidus Leti Visus",
+        "path":   "hebet.txt",
+    },
     "844":  {
         "author": None,
         "title":  "Correspondence of Henry VII",
@@ -10416,21 +13862,53 @@ AUTHOR_TAB = {
         "title":  "Historia Apollonii regis Tyri",
         "path":   "histapoll.txt",
     },
-    "850":  {"author": None, "title": "Historia Brittonum", "path": "histbrit.txt"},
-    "851":  {"author": None, "title": "Augustin T\u00fcnger", "path": "holberg.txt"},
-    "852":  {"author": "Horace", "title": "Ars Poetica", "path": "horace/arspoet.txt"},
+    "850":  {
+        "author": None,
+        "title":  "Historia Brittonum",
+        "path":   "histbrit.txt",
+    },
+    "851":  {
+        "author": None,
+        "title":  "Augustin T\u00fcnger",
+        "path":   "holberg.txt",
+    },
+    "852":  {
+        "author": "Horace",
+        "title":  "Ars Poetica",
+        "path":   "horace/arspoet.txt",
+    },
     "853":  {"author": "Horace", "title": "Odes I", "path": "horace/carm1.txt"},
-    "854":  {"author": "Horace", "title": "Odes II", "path": "horace/carm2.txt"},
-    "855":  {"author": "Horace", "title": "Odes III", "path": "horace/carm3.txt"},
-    "856":  {"author": "Horace", "title": "Odes IV", "path": "horace/carm4.txt"},
+    "854":  {
+        "author": "Horace",
+        "title":  "Odes II",
+        "path":   "horace/carm2.txt",
+    },
+    "855":  {
+        "author": "Horace",
+        "title":  "Odes III",
+        "path":   "horace/carm3.txt",
+    },
+    "856":  {
+        "author": "Horace",
+        "title":  "Odes IV",
+        "path":   "horace/carm4.txt",
+    },
     "857":  {
         "author": "Horace",
         "title":  "Carmen Saeculare",
         "path":   "horace/carmsaec.txt",
     },
     "858":  {"author": "Horace", "title": "Epodes", "path": "horace/ep.txt"},
-    "859":  {"author": "Horace", "title": "Epistulae I", "path": "horace/epist1.txt"},
-    "860":  {"author": "Horace", "title": "Epistulae II", "path": "horace/epist2.txt"},
+    "859":  {
+        "author": "Horace",
+        "title":  "Epistulae I",
+        "path":   "horace/epist1.txt",
+    },
+    "860":  {
+        "author": "Horace",
+        "title":  "Epistulae II",
+        "path":   "horace/epist2.txt",
+    },
     "861":  {
         "author": "Horace",
         "title":  "Sermonum Liber I",
@@ -10441,7 +13919,11 @@ AUTHOR_TAB = {
         "title":  "Sermonum Liber II",
         "path":   "horace/serm2.txt",
     },
-    "863":  {"author": None, "title": "Hrabanus Maurus ", "path": "hrabanus.txt"},
+    "863":  {
+        "author": None,
+        "title":  "Hrabanus Maurus ",
+        "path":   "hrabanus.txt",
+    },
     "864":  {
         "author": None,
         "title":  "Hugo of Saint Victor",
@@ -10482,7 +13964,11 @@ AUTHOR_TAB = {
         "title":  "Chronicon",
         "path":   "hydatiuschronicon.txt",
     },
-    "872":  {"author": "Hydatius", "title": "Fasti", "path": "hydatiusfasti.txt"},
+    "872":  {
+        "author": "Hydatius",
+        "title":  "Fasti",
+        "path":   "hydatiusfasti.txt",
+    },
     "873":  {
         "author": "Hyginus",
         "title":  "de Astronomia I",
@@ -10503,7 +13989,11 @@ AUTHOR_TAB = {
         "title":  "de Astronomia IV",
         "path":   "hyginus/hyginus4.txt",
     },
-    "877":  {"author": "Hyginus", "title": "Fabulae", "path": "hyginus/hyginus5.txt"},
+    "877":  {
+        "author": "Hyginus",
+        "title":  "Fabulae",
+        "path":   "hyginus/hyginus5.txt",
+    },
     "878":  {
         "author": "Pseudo-Hyginus",
         "title":  "de Munitionibus Castrorum",
@@ -10534,7 +14024,11 @@ AUTHOR_TAB = {
         "path":   "innocent2.txt",
     },
     "887":  {"author": None, "title": "Inquisitio", "path": "inquisitio.txt"},
-    "888":  {"author": None, "title": "Inscriptiones", "path": "inscriptions.txt"},
+    "888":  {
+        "author": None,
+        "title":  "Inscriptiones",
+        "path":   "inscriptions.txt",
+    },
     "889":  {
         "author": None,
         "title":  "Iordanis de Origine Actibusque Getarum",
@@ -10550,14 +14044,46 @@ AUTHOR_TAB = {
         "title":  "Ipsa vivere mihi reddidit! ",
         "path":   "ipsavivere.txt",
     },
-    "892":  {"author": "Isidore", "title": "Etymologiae I", "path": "isidore/1.txt"},
-    "893":  {"author": "Isidore", "title": "Etymologiae X", "path": "isidore/10.txt"},
-    "894":  {"author": "Isidore", "title": "Etymologiae XI", "path": "isidore/11.txt"},
-    "895":  {"author": "Isidore", "title": "Etymologiae XII", "path": "isidore/12.txt"},
-    "896":  {"author": "Isidore", "title": "Etymologiae XIII", "path": "isidore/13.txt"},
-    "897":  {"author": "Isidore", "title": "Etymologiae XIV", "path": "isidore/14.txt"},
-    "898":  {"author": "Isidore", "title": "Etymologiae XV", "path": "isidore/15.txt"},
-    "899":  {"author": "Isidore", "title": "Etymologiae XVI", "path": "isidore/16.txt"},
+    "892":  {
+        "author": "Isidore",
+        "title":  "Etymologiae I",
+        "path":   "isidore/1.txt",
+    },
+    "893":  {
+        "author": "Isidore",
+        "title":  "Etymologiae X",
+        "path":   "isidore/10.txt",
+    },
+    "894":  {
+        "author": "Isidore",
+        "title":  "Etymologiae XI",
+        "path":   "isidore/11.txt",
+    },
+    "895":  {
+        "author": "Isidore",
+        "title":  "Etymologiae XII",
+        "path":   "isidore/12.txt",
+    },
+    "896":  {
+        "author": "Isidore",
+        "title":  "Etymologiae XIII",
+        "path":   "isidore/13.txt",
+    },
+    "897":  {
+        "author": "Isidore",
+        "title":  "Etymologiae XIV",
+        "path":   "isidore/14.txt",
+    },
+    "898":  {
+        "author": "Isidore",
+        "title":  "Etymologiae XV",
+        "path":   "isidore/15.txt",
+    },
+    "899":  {
+        "author": "Isidore",
+        "title":  "Etymologiae XVI",
+        "path":   "isidore/16.txt",
+    },
     "900":  {
         "author": "Isidore",
         "title":  "Etymologiae XVII ",
@@ -10568,16 +14094,56 @@ AUTHOR_TAB = {
         "title":  "Etymologiae XVIII ",
         "path":   "isidore/18.txt",
     },
-    "902":  {"author": "Isidore", "title": "Etymologiae XIX ", "path": "isidore/19.txt"},
-    "903":  {"author": "Isidore", "title": "Etymologiae II", "path": "isidore/2.txt"},
-    "904":  {"author": "Isidore", "title": "Etymologiae XX ", "path": "isidore/20.txt"},
-    "905":  {"author": "Isidore", "title": "Etymologiae III", "path": "isidore/3.txt"},
-    "906":  {"author": "Isidore", "title": "Etymologiae IV", "path": "isidore/4.txt"},
-    "907":  {"author": "Isidore", "title": "Etymologiae V", "path": "isidore/5.txt"},
-    "908":  {"author": "Isidore", "title": "Etymologiae VI", "path": "isidore/6.txt"},
-    "909":  {"author": "Isidore", "title": "Etymologiae VII", "path": "isidore/7.txt"},
-    "910":  {"author": "Isidore", "title": "Etymologiae VIII", "path": "isidore/8.txt"},
-    "911":  {"author": "Isidore", "title": "Etymologiae IX", "path": "isidore/9.txt"},
+    "902":  {
+        "author": "Isidore",
+        "title":  "Etymologiae XIX ",
+        "path":   "isidore/19.txt",
+    },
+    "903":  {
+        "author": "Isidore",
+        "title":  "Etymologiae II",
+        "path":   "isidore/2.txt",
+    },
+    "904":  {
+        "author": "Isidore",
+        "title":  "Etymologiae XX ",
+        "path":   "isidore/20.txt",
+    },
+    "905":  {
+        "author": "Isidore",
+        "title":  "Etymologiae III",
+        "path":   "isidore/3.txt",
+    },
+    "906":  {
+        "author": "Isidore",
+        "title":  "Etymologiae IV",
+        "path":   "isidore/4.txt",
+    },
+    "907":  {
+        "author": "Isidore",
+        "title":  "Etymologiae V",
+        "path":   "isidore/5.txt",
+    },
+    "908":  {
+        "author": "Isidore",
+        "title":  "Etymologiae VI",
+        "path":   "isidore/6.txt",
+    },
+    "909":  {
+        "author": "Isidore",
+        "title":  "Etymologiae VII",
+        "path":   "isidore/7.txt",
+    },
+    "910":  {
+        "author": "Isidore",
+        "title":  "Etymologiae VIII",
+        "path":   "isidore/8.txt",
+    },
+    "911":  {
+        "author": "Isidore",
+        "title":  "Etymologiae IX",
+        "path":   "isidore/9.txt",
+    },
     "912":  {
         "author": "Isidorus Hispalensis",
         "title":  "Historia de regibus Gothorum, Vandalorum et Suevorum",
@@ -10662,7 +14228,11 @@ AUTHOR_TAB = {
     "953":  {"author": None, "title": "Justin XXXV", "path": "justin/35.txt"},
     "954":  {"author": None, "title": "Justin XXXVI", "path": "justin/36.txt"},
     "955":  {"author": None, "title": "Justin XXXVII", "path": "justin/37.txt"},
-    "956":  {"author": None, "title": "Justin XXXVIII", "path": "justin/38.txt"},
+    "956":  {
+        "author": None,
+        "title":  "Justin XXXVIII",
+        "path":   "justin/38.txt",
+    },
     "957":  {"author": None, "title": "Justin XXXIX", "path": "justin/39.txt"},
     "958":  {"author": None, "title": "Justin IV", "path": "justin/4.txt"},
     "959":  {"author": None, "title": "Justin XL", "path": "justin/40.txt"},
@@ -10675,8 +14245,16 @@ AUTHOR_TAB = {
     "966":  {"author": None, "title": "Justin VII", "path": "justin/7.txt"},
     "967":  {"author": None, "title": "Justin VIII", "path": "justin/8.txt"},
     "968":  {"author": None, "title": "Justin IX", "path": "justin/9.txt"},
-    "969":  {"author": "Justin", "title": "Praefatio", "path": "justin/praefatio.txt"},
-    "970":  {"author": "Justin", "title": "Prologues", "path": "justin/prologi.txt"},
+    "969":  {
+        "author": "Justin",
+        "title":  "Praefatio",
+        "path":   "justin/praefatio.txt",
+    },
+    "970":  {
+        "author": "Justin",
+        "title":  "Prologues",
+        "path":   "justin/prologi.txt",
+    },
     "971":  {
         "author": "Codex of Justinian",
         "title":  "Liber I",
@@ -11012,23 +14590,91 @@ AUTHOR_TAB = {
         "title":  "Book 4",
         "path":   "justinian/institutes4.txt",
     },
-    "1038": {"author": "Juvenal", "title": "Satires I", "path": "juvenal/1.txt"},
-    "1039": {"author": "Juvenal", "title": "Satires X", "path": "juvenal/10.txt"},
-    "1040": {"author": "Juvenal", "title": "Satires XI", "path": "juvenal/11.txt"},
-    "1041": {"author": "Juvenal", "title": "Satires XII", "path": "juvenal/12.txt"},
-    "1042": {"author": "Juvenal", "title": "Satires XIII", "path": "juvenal/13.txt"},
-    "1043": {"author": "Juvenal", "title": "Satires XIV", "path": "juvenal/14.txt"},
-    "1044": {"author": "Juvenal", "title": "Satires XV", "path": "juvenal/15.txt"},
-    "1045": {"author": "Juvenal", "title": "Satires XVI", "path": "juvenal/16.txt"},
-    "1046": {"author": "Juvenal", "title": "Satires II", "path": "juvenal/2.txt"},
-    "1047": {"author": "Juvenal", "title": "Satires III", "path": "juvenal/3.txt"},
-    "1048": {"author": "Juvenal", "title": "Satires IV", "path": "juvenal/4.txt"},
-    "1049": {"author": "Juvenal", "title": "Satires V", "path": "juvenal/5.txt"},
-    "1050": {"author": "Juvenal", "title": "Satires VI", "path": "juvenal/6.txt"},
-    "1051": {"author": "Juvenal", "title": "Satires VII", "path": "juvenal/7.txt"},
-    "1052": {"author": "Juvenal", "title": "Satires VIII", "path": "juvenal/8.txt"},
-    "1053": {"author": "Juvenal", "title": "Satires IX", "path": "juvenal/9.txt"},
-    "1054": {"author": None, "title": "Liber Kalilae et Dimnae", "path": "kalila.txt"},
+    "1038": {
+        "author": "Juvenal",
+        "title":  "Satires I",
+        "path":   "juvenal/1.txt",
+    },
+    "1039": {
+        "author": "Juvenal",
+        "title":  "Satires X",
+        "path":   "juvenal/10.txt",
+    },
+    "1040": {
+        "author": "Juvenal",
+        "title":  "Satires XI",
+        "path":   "juvenal/11.txt",
+    },
+    "1041": {
+        "author": "Juvenal",
+        "title":  "Satires XII",
+        "path":   "juvenal/12.txt",
+    },
+    "1042": {
+        "author": "Juvenal",
+        "title":  "Satires XIII",
+        "path":   "juvenal/13.txt",
+    },
+    "1043": {
+        "author": "Juvenal",
+        "title":  "Satires XIV",
+        "path":   "juvenal/14.txt",
+    },
+    "1044": {
+        "author": "Juvenal",
+        "title":  "Satires XV",
+        "path":   "juvenal/15.txt",
+    },
+    "1045": {
+        "author": "Juvenal",
+        "title":  "Satires XVI",
+        "path":   "juvenal/16.txt",
+    },
+    "1046": {
+        "author": "Juvenal",
+        "title":  "Satires II",
+        "path":   "juvenal/2.txt",
+    },
+    "1047": {
+        "author": "Juvenal",
+        "title":  "Satires III",
+        "path":   "juvenal/3.txt",
+    },
+    "1048": {
+        "author": "Juvenal",
+        "title":  "Satires IV",
+        "path":   "juvenal/4.txt",
+    },
+    "1049": {
+        "author": "Juvenal",
+        "title":  "Satires V",
+        "path":   "juvenal/5.txt",
+    },
+    "1050": {
+        "author": "Juvenal",
+        "title":  "Satires VI",
+        "path":   "juvenal/6.txt",
+    },
+    "1051": {
+        "author": "Juvenal",
+        "title":  "Satires VII",
+        "path":   "juvenal/7.txt",
+    },
+    "1052": {
+        "author": "Juvenal",
+        "title":  "Satires VIII",
+        "path":   "juvenal/8.txt",
+    },
+    "1053": {
+        "author": "Juvenal",
+        "title":  "Satires IX",
+        "path":   "juvenal/9.txt",
+    },
+    "1054": {
+        "author": None,
+        "title":  "Liber Kalilae et Dimnae",
+        "path":   "kalila.txt",
+    },
     "1055": {
         "author": "THOMAS \u00c0 KEMPIS",
         "title":  "DE IMITATIONE CHRISTI LIBER PRIMUS",
@@ -11070,8 +14716,16 @@ AUTHOR_TAB = {
         "path":   "landor.1858.txt",
     },
     "1063": {"author": None, "title": "", "path": "landor1795.txt"},
-    "1064": {"author": "Simonidea", "title": "1806 ", "path": "landor1806.txt"},
-    "1065": {"author": "Landor", "title": "Simonidea, 1806 ", "path": "landor1810.txt"},
+    "1064": {
+        "author": "Simonidea",
+        "title":  "1806 ",
+        "path":   "landor1806.txt",
+    },
+    "1065": {
+        "author": "Landor",
+        "title":  "Simonidea, 1806 ",
+        "path":   "landor1810.txt",
+    },
     "1066": {
         "author": None,
         "title":  "Legenda Maior Sancti Regis Stephani",
@@ -11127,66 +14781,218 @@ AUTHOR_TAB = {
     "1078": {"author": "Livy", "title": "Book X", "path": "livy/liv.10.txt"},
     "1079": {"author": "Livy", "title": "Book II", "path": "livy/liv.2.txt"},
     "1080": {"author": "Livy", "title": "Book XXI", "path": "livy/liv.21.txt"},
-    "1081": {"author": "Livy", "title": "Book XXII", "path": "livy/liv.22.txt"},
-    "1082": {"author": "Livy", "title": "Book XXIII", "path": "livy/liv.23.txt"},
-    "1083": {"author": "Livy", "title": "Book XXIV", "path": "livy/liv.24.txt"},
+    "1081": {
+        "author": "Livy",
+        "title":  "Book XXII",
+        "path":   "livy/liv.22.txt",
+    },
+    "1082": {
+        "author": "Livy",
+        "title":  "Book XXIII",
+        "path":   "livy/liv.23.txt",
+    },
+    "1083": {
+        "author": "Livy",
+        "title":  "Book XXIV",
+        "path":   "livy/liv.24.txt",
+    },
     "1084": {"author": "Livy", "title": "Book XXV", "path": "livy/liv.25.txt"},
-    "1085": {"author": "Livy", "title": "Book XXVI", "path": "livy/liv.26.txt"},
-    "1086": {"author": "Livy", "title": "Book XXVII", "path": "livy/liv.27.txt"},
-    "1087": {"author": "Livy", "title": "Book XXVIII", "path": "livy/liv.28.txt"},
-    "1088": {"author": "Livy", "title": "Book XXIX", "path": "livy/liv.29.txt"},
+    "1085": {
+        "author": "Livy",
+        "title":  "Book XXVI",
+        "path":   "livy/liv.26.txt",
+    },
+    "1086": {
+        "author": "Livy",
+        "title":  "Book XXVII",
+        "path":   "livy/liv.27.txt",
+    },
+    "1087": {
+        "author": "Livy",
+        "title":  "Book XXVIII",
+        "path":   "livy/liv.28.txt",
+    },
+    "1088": {
+        "author": "Livy",
+        "title":  "Book XXIX",
+        "path":   "livy/liv.29.txt",
+    },
     "1089": {"author": "Livy", "title": "Book III", "path": "livy/liv.3.txt"},
     "1090": {"author": "Livy", "title": "Book XXX", "path": "livy/liv.30.txt"},
-    "1091": {"author": "Livy", "title": "Book XXXI", "path": "livy/liv.31.txt"},
-    "1092": {"author": "Livy", "title": "Book XXXII", "path": "livy/liv.32.txt"},
-    "1093": {"author": "Livy", "title": "Book XXXIII", "path": "livy/liv.33.txt"},
-    "1094": {"author": "Livy", "title": "Book XXXIV", "path": "livy/liv.34.txt"},
-    "1095": {"author": "Livy", "title": "Book XXXV", "path": "livy/liv.35.txt"},
-    "1096": {"author": "Livy", "title": "Book XXXVI", "path": "livy/liv.36.txt"},
-    "1097": {"author": "Livy", "title": "Book XXXVII", "path": "livy/liv.37.txt"},
-    "1098": {"author": "Livy", "title": "Book XXXVIII", "path": "livy/liv.38.txt"},
-    "1099": {"author": "Livy", "title": "Book XXXIX", "path": "livy/liv.39.txt"},
+    "1091": {
+        "author": "Livy",
+        "title":  "Book XXXI",
+        "path":   "livy/liv.31.txt",
+    },
+    "1092": {
+        "author": "Livy",
+        "title":  "Book XXXII",
+        "path":   "livy/liv.32.txt",
+    },
+    "1093": {
+        "author": "Livy",
+        "title":  "Book XXXIII",
+        "path":   "livy/liv.33.txt",
+    },
+    "1094": {
+        "author": "Livy",
+        "title":  "Book XXXIV",
+        "path":   "livy/liv.34.txt",
+    },
+    "1095": {
+        "author": "Livy",
+        "title":  "Book XXXV",
+        "path":   "livy/liv.35.txt",
+    },
+    "1096": {
+        "author": "Livy",
+        "title":  "Book XXXVI",
+        "path":   "livy/liv.36.txt",
+    },
+    "1097": {
+        "author": "Livy",
+        "title":  "Book XXXVII",
+        "path":   "livy/liv.37.txt",
+    },
+    "1098": {
+        "author": "Livy",
+        "title":  "Book XXXVIII",
+        "path":   "livy/liv.38.txt",
+    },
+    "1099": {
+        "author": "Livy",
+        "title":  "Book XXXIX",
+        "path":   "livy/liv.39.txt",
+    },
     "1100": {"author": "Livy", "title": "Book IV", "path": "livy/liv.4.txt"},
     "1101": {"author": "Livy", "title": "Book XL", "path": "livy/liv.40.txt"},
     "1102": {"author": "Livy", "title": "Book XLI", "path": "livy/liv.41.txt"},
-    "1103": {"author": "Livy", "title": "Book XLII", "path": "livy/liv.42.txt"},
-    "1104": {"author": "Livy", "title": "Book XLIII", "path": "livy/liv.43.txt"},
-    "1105": {"author": "Livy", "title": "Book XLIV", "path": "livy/liv.44.txt"},
+    "1103": {
+        "author": "Livy",
+        "title":  "Book XLII",
+        "path":   "livy/liv.42.txt",
+    },
+    "1104": {
+        "author": "Livy",
+        "title":  "Book XLIII",
+        "path":   "livy/liv.43.txt",
+    },
+    "1105": {
+        "author": "Livy",
+        "title":  "Book XLIV",
+        "path":   "livy/liv.44.txt",
+    },
     "1106": {"author": "Livy", "title": "Book XLV", "path": "livy/liv.45.txt"},
     "1107": {"author": "Livy", "title": "Book V", "path": "livy/liv.5.txt"},
     "1108": {"author": "Livy", "title": "Book VI", "path": "livy/liv.6.txt"},
     "1109": {"author": "Livy", "title": "Book VII", "path": "livy/liv.7.txt"},
     "1110": {"author": "Livy", "title": "Book VIII", "path": "livy/liv.8.txt"},
     "1111": {"author": "Livy", "title": "Book IX", "path": "livy/liv.9.txt"},
-    "1112": {"author": "Livy", "title": "Periochae", "path": "livy/liv.per.txt"},
-    "1113": {"author": "Livy", "title": "Periocha I", "path": "livy/liv.per1.txt"},
-    "1114": {"author": "Livy", "title": "Periocha X", "path": "livy/liv.per10.txt"},
-    "1115": {"author": "Livy", "title": "Periocha C", "path": "livy/liv.per100.txt"},
-    "1116": {"author": "Livy", "title": "Periocha CI", "path": "livy/liv.per101.txt"},
-    "1117": {"author": "Livy", "title": "Periocha CII", "path": "livy/liv.per102.txt"},
-    "1118": {"author": "Livy", "title": "Periocha CIII", "path": "livy/liv.per103.txt"},
-    "1119": {"author": "Livy", "title": "Periocha CIV", "path": "livy/liv.per104.txt"},
-    "1120": {"author": "Livy", "title": "Periocha CV", "path": "livy/liv.per105.txt"},
-    "1121": {"author": "Livy", "title": "Periocha CVI", "path": "livy/liv.per106.txt"},
-    "1122": {"author": "Livy", "title": "Periocha CVII", "path": "livy/liv.per107.txt"},
+    "1112": {
+        "author": "Livy",
+        "title":  "Periochae",
+        "path":   "livy/liv.per.txt",
+    },
+    "1113": {
+        "author": "Livy",
+        "title":  "Periocha I",
+        "path":   "livy/liv.per1.txt",
+    },
+    "1114": {
+        "author": "Livy",
+        "title":  "Periocha X",
+        "path":   "livy/liv.per10.txt",
+    },
+    "1115": {
+        "author": "Livy",
+        "title":  "Periocha C",
+        "path":   "livy/liv.per100.txt",
+    },
+    "1116": {
+        "author": "Livy",
+        "title":  "Periocha CI",
+        "path":   "livy/liv.per101.txt",
+    },
+    "1117": {
+        "author": "Livy",
+        "title":  "Periocha CII",
+        "path":   "livy/liv.per102.txt",
+    },
+    "1118": {
+        "author": "Livy",
+        "title":  "Periocha CIII",
+        "path":   "livy/liv.per103.txt",
+    },
+    "1119": {
+        "author": "Livy",
+        "title":  "Periocha CIV",
+        "path":   "livy/liv.per104.txt",
+    },
+    "1120": {
+        "author": "Livy",
+        "title":  "Periocha CV",
+        "path":   "livy/liv.per105.txt",
+    },
+    "1121": {
+        "author": "Livy",
+        "title":  "Periocha CVI",
+        "path":   "livy/liv.per106.txt",
+    },
+    "1122": {
+        "author": "Livy",
+        "title":  "Periocha CVII",
+        "path":   "livy/liv.per107.txt",
+    },
     "1123": {
         "author": "Livy",
         "title":  "Periocha CVIII",
         "path":   "livy/liv.per108.txt",
     },
-    "1124": {"author": "Livy", "title": "Periocha CIX", "path": "livy/liv.per109.txt"},
-    "1125": {"author": "Livy", "title": "Periocha XI", "path": "livy/liv.per11.txt"},
-    "1126": {"author": "Livy", "title": "Periocha CX", "path": "livy/liv.per110.txt"},
-    "1127": {"author": "Livy", "title": "Periocha CXI", "path": "livy/liv.per111.txt"},
-    "1128": {"author": "Livy", "title": "Periocha CXII", "path": "livy/liv.per112.txt"},
+    "1124": {
+        "author": "Livy",
+        "title":  "Periocha CIX",
+        "path":   "livy/liv.per109.txt",
+    },
+    "1125": {
+        "author": "Livy",
+        "title":  "Periocha XI",
+        "path":   "livy/liv.per11.txt",
+    },
+    "1126": {
+        "author": "Livy",
+        "title":  "Periocha CX",
+        "path":   "livy/liv.per110.txt",
+    },
+    "1127": {
+        "author": "Livy",
+        "title":  "Periocha CXI",
+        "path":   "livy/liv.per111.txt",
+    },
+    "1128": {
+        "author": "Livy",
+        "title":  "Periocha CXII",
+        "path":   "livy/liv.per112.txt",
+    },
     "1129": {
         "author": "Livy",
         "title":  "Periocha CXIII",
         "path":   "livy/liv.per113.txt",
     },
-    "1130": {"author": "Livy", "title": "Periocha CXIV", "path": "livy/liv.per114.txt"},
-    "1131": {"author": "Livy", "title": "Periocha CXV", "path": "livy/liv.per115.txt"},
-    "1132": {"author": "Livy", "title": "Periocha CXVI", "path": "livy/liv.per116.txt"},
+    "1130": {
+        "author": "Livy",
+        "title":  "Periocha CXIV",
+        "path":   "livy/liv.per114.txt",
+    },
+    "1131": {
+        "author": "Livy",
+        "title":  "Periocha CXV",
+        "path":   "livy/liv.per115.txt",
+    },
+    "1132": {
+        "author": "Livy",
+        "title":  "Periocha CXVI",
+        "path":   "livy/liv.per116.txt",
+    },
     "1133": {
         "author": "Livy",
         "title":  "Periocha CXVII",
@@ -11197,10 +15003,26 @@ AUTHOR_TAB = {
         "title":  "Periocha CXVIII",
         "path":   "livy/liv.per118.txt",
     },
-    "1135": {"author": "Livy", "title": "Periocha CXIX", "path": "livy/liv.per119.txt"},
-    "1136": {"author": "Livy", "title": "Periocha XII", "path": "livy/liv.per12.txt"},
-    "1137": {"author": "Livy", "title": "Periocha CXX", "path": "livy/liv.per120.txt"},
-    "1138": {"author": "Livy", "title": "Periocha CXXI", "path": "livy/liv.per121.txt"},
+    "1135": {
+        "author": "Livy",
+        "title":  "Periocha CXIX",
+        "path":   "livy/liv.per119.txt",
+    },
+    "1136": {
+        "author": "Livy",
+        "title":  "Periocha XII",
+        "path":   "livy/liv.per12.txt",
+    },
+    "1137": {
+        "author": "Livy",
+        "title":  "Periocha CXX",
+        "path":   "livy/liv.per120.txt",
+    },
+    "1138": {
+        "author": "Livy",
+        "title":  "Periocha CXXI",
+        "path":   "livy/liv.per121.txt",
+    },
     "1139": {
         "author": "Livy",
         "title":  "Periocha CXXII",
@@ -11216,7 +15038,11 @@ AUTHOR_TAB = {
         "title":  "Periocha CXXIV",
         "path":   "livy/liv.per124.txt",
     },
-    "1142": {"author": "Livy", "title": "Periocha CXXV", "path": "livy/liv.per125.txt"},
+    "1142": {
+        "author": "Livy",
+        "title":  "Periocha CXXV",
+        "path":   "livy/liv.per125.txt",
+    },
     "1143": {
         "author": "Livy",
         "title":  "Periocha CXXVI",
@@ -11237,8 +15063,16 @@ AUTHOR_TAB = {
         "title":  "Periocha CXXIX",
         "path":   "livy/liv.per129.txt",
     },
-    "1147": {"author": "Livy", "title": "Periocha XIII", "path": "livy/liv.per13.txt"},
-    "1148": {"author": "Livy", "title": "Periocha CXXX", "path": "livy/liv.per130.txt"},
+    "1147": {
+        "author": "Livy",
+        "title":  "Periocha XIII",
+        "path":   "livy/liv.per13.txt",
+    },
+    "1148": {
+        "author": "Livy",
+        "title":  "Periocha CXXX",
+        "path":   "livy/liv.per130.txt",
+    },
     "1149": {
         "author": "Livy",
         "title":  "Periocha CXXXI",
@@ -11279,46 +15113,146 @@ AUTHOR_TAB = {
         "title":  "Periocha CXXXIX",
         "path":   "livy/liv.per139.txt",
     },
-    "1157": {"author": "Livy", "title": "Periocha XIV", "path": "livy/liv.per14.txt"},
-    "1158": {"author": "Livy", "title": "Periocha CXL", "path": "livy/liv.per140.txt"},
-    "1159": {"author": "Livy", "title": "Periocha CXLI", "path": "livy/liv.per141.txt"},
+    "1157": {
+        "author": "Livy",
+        "title":  "Periocha XIV",
+        "path":   "livy/liv.per14.txt",
+    },
+    "1158": {
+        "author": "Livy",
+        "title":  "Periocha CXL",
+        "path":   "livy/liv.per140.txt",
+    },
+    "1159": {
+        "author": "Livy",
+        "title":  "Periocha CXLI",
+        "path":   "livy/liv.per141.txt",
+    },
     "1160": {
         "author": "Livy",
         "title":  "Periocha CXLII",
         "path":   "livy/liv.per142.txt",
     },
-    "1161": {"author": "Livy", "title": "Periocha XV", "path": "livy/liv.per15.txt"},
-    "1162": {"author": "Livy", "title": "Periocha XVI", "path": "livy/liv.per16.txt"},
-    "1163": {"author": "Livy", "title": "Periocha XVI", "path": "livy/liv.per17.txt"},
-    "1164": {"author": "Livy", "title": "Periocha XVIII", "path": "livy/liv.per18.txt"},
-    "1165": {"author": "Livy", "title": "Periocha XIX", "path": "livy/liv.per19.txt"},
-    "1166": {"author": "Livy", "title": "Periocha II", "path": "livy/liv.per2.txt"},
-    "1167": {"author": "Livy", "title": "Periocha XX", "path": "livy/liv.per20.txt"},
-    "1168": {"author": "Livy", "title": "Periocha XXI", "path": "livy/liv.per21.txt"},
-    "1169": {"author": "Livy", "title": "Periocha XXII", "path": "livy/liv.per22.txt"},
-    "1170": {"author": "Livy", "title": "Periocha XXIII", "path": "livy/liv.per23.txt"},
-    "1171": {"author": "Livy", "title": "Periocha XXIV", "path": "livy/liv.per24.txt"},
-    "1172": {"author": "Livy", "title": "Periocha XXV", "path": "livy/liv.per25.txt"},
-    "1173": {"author": "Livy", "title": "Periocha XXVI", "path": "livy/liv.per26.txt"},
-    "1174": {"author": "Livy", "title": "Periocha XXVII", "path": "livy/liv.per27.txt"},
+    "1161": {
+        "author": "Livy",
+        "title":  "Periocha XV",
+        "path":   "livy/liv.per15.txt",
+    },
+    "1162": {
+        "author": "Livy",
+        "title":  "Periocha XVI",
+        "path":   "livy/liv.per16.txt",
+    },
+    "1163": {
+        "author": "Livy",
+        "title":  "Periocha XVI",
+        "path":   "livy/liv.per17.txt",
+    },
+    "1164": {
+        "author": "Livy",
+        "title":  "Periocha XVIII",
+        "path":   "livy/liv.per18.txt",
+    },
+    "1165": {
+        "author": "Livy",
+        "title":  "Periocha XIX",
+        "path":   "livy/liv.per19.txt",
+    },
+    "1166": {
+        "author": "Livy",
+        "title":  "Periocha II",
+        "path":   "livy/liv.per2.txt",
+    },
+    "1167": {
+        "author": "Livy",
+        "title":  "Periocha XX",
+        "path":   "livy/liv.per20.txt",
+    },
+    "1168": {
+        "author": "Livy",
+        "title":  "Periocha XXI",
+        "path":   "livy/liv.per21.txt",
+    },
+    "1169": {
+        "author": "Livy",
+        "title":  "Periocha XXII",
+        "path":   "livy/liv.per22.txt",
+    },
+    "1170": {
+        "author": "Livy",
+        "title":  "Periocha XXIII",
+        "path":   "livy/liv.per23.txt",
+    },
+    "1171": {
+        "author": "Livy",
+        "title":  "Periocha XXIV",
+        "path":   "livy/liv.per24.txt",
+    },
+    "1172": {
+        "author": "Livy",
+        "title":  "Periocha XXV",
+        "path":   "livy/liv.per25.txt",
+    },
+    "1173": {
+        "author": "Livy",
+        "title":  "Periocha XXVI",
+        "path":   "livy/liv.per26.txt",
+    },
+    "1174": {
+        "author": "Livy",
+        "title":  "Periocha XXVII",
+        "path":   "livy/liv.per27.txt",
+    },
     "1175": {
         "author": "Livy",
         "title":  "Periocha XXVIII",
         "path":   "livy/liv.per28.txt",
     },
-    "1176": {"author": "Livy", "title": "Periocha XXIX", "path": "livy/liv.per29.txt"},
-    "1177": {"author": "Livy", "title": "Periocha III", "path": "livy/liv.per3.txt"},
-    "1178": {"author": "Livy", "title": "Periocha XXX", "path": "livy/liv.per30.txt"},
-    "1179": {"author": "Livy", "title": "Periocha XXXI", "path": "livy/liv.per31.txt"},
-    "1180": {"author": "Livy", "title": "Periocha XXXII", "path": "livy/liv.per32.txt"},
+    "1176": {
+        "author": "Livy",
+        "title":  "Periocha XXIX",
+        "path":   "livy/liv.per29.txt",
+    },
+    "1177": {
+        "author": "Livy",
+        "title":  "Periocha III",
+        "path":   "livy/liv.per3.txt",
+    },
+    "1178": {
+        "author": "Livy",
+        "title":  "Periocha XXX",
+        "path":   "livy/liv.per30.txt",
+    },
+    "1179": {
+        "author": "Livy",
+        "title":  "Periocha XXXI",
+        "path":   "livy/liv.per31.txt",
+    },
+    "1180": {
+        "author": "Livy",
+        "title":  "Periocha XXXII",
+        "path":   "livy/liv.per32.txt",
+    },
     "1181": {
         "author": "Livy",
         "title":  "Periocha XXXIII",
         "path":   "livy/liv.per33.txt",
     },
-    "1182": {"author": "Livy", "title": "Periocha XXXIV", "path": "livy/liv.per34.txt"},
-    "1183": {"author": "Livy", "title": "Periocha XXXV", "path": "livy/liv.per35.txt"},
-    "1184": {"author": "Livy", "title": "Periocha XXXVI", "path": "livy/liv.per36.txt"},
+    "1182": {
+        "author": "Livy",
+        "title":  "Periocha XXXIV",
+        "path":   "livy/liv.per34.txt",
+    },
+    "1183": {
+        "author": "Livy",
+        "title":  "Periocha XXXV",
+        "path":   "livy/liv.per35.txt",
+    },
+    "1184": {
+        "author": "Livy",
+        "title":  "Periocha XXXVI",
+        "path":   "livy/liv.per36.txt",
+    },
     "1185": {
         "author": "Livy",
         "title":  "Periocha XXXVII",
@@ -11329,60 +15263,216 @@ AUTHOR_TAB = {
         "title":  "Periocha XXXVIII",
         "path":   "livy/liv.per38.txt",
     },
-    "1187": {"author": "Livy", "title": "Periocha XXXIX", "path": "livy/liv.per39.txt"},
-    "1188": {"author": "Livy", "title": "Periocha IV", "path": "livy/liv.per4.txt"},
-    "1189": {"author": "Livy", "title": "Periocha XL", "path": "livy/liv.per40.txt"},
-    "1190": {"author": "Livy", "title": "Periocha XLI", "path": "livy/liv.per41.txt"},
-    "1191": {"author": "Livy", "title": "Periocha XLII", "path": "livy/liv.per42.txt"},
-    "1192": {"author": "Livy", "title": "Periocha XLIII", "path": "livy/liv.per43.txt"},
-    "1193": {"author": "Livy", "title": "Periocha XLIV", "path": "livy/liv.per44.txt"},
-    "1194": {"author": "Livy", "title": "Periocha XLV", "path": "livy/liv.per45.txt"},
-    "1195": {"author": "Livy", "title": "Periocha XLVI", "path": "livy/liv.per46.txt"},
-    "1196": {"author": "Livy", "title": "Periocha XLVII", "path": "livy/liv.per47.txt"},
+    "1187": {
+        "author": "Livy",
+        "title":  "Periocha XXXIX",
+        "path":   "livy/liv.per39.txt",
+    },
+    "1188": {
+        "author": "Livy",
+        "title":  "Periocha IV",
+        "path":   "livy/liv.per4.txt",
+    },
+    "1189": {
+        "author": "Livy",
+        "title":  "Periocha XL",
+        "path":   "livy/liv.per40.txt",
+    },
+    "1190": {
+        "author": "Livy",
+        "title":  "Periocha XLI",
+        "path":   "livy/liv.per41.txt",
+    },
+    "1191": {
+        "author": "Livy",
+        "title":  "Periocha XLII",
+        "path":   "livy/liv.per42.txt",
+    },
+    "1192": {
+        "author": "Livy",
+        "title":  "Periocha XLIII",
+        "path":   "livy/liv.per43.txt",
+    },
+    "1193": {
+        "author": "Livy",
+        "title":  "Periocha XLIV",
+        "path":   "livy/liv.per44.txt",
+    },
+    "1194": {
+        "author": "Livy",
+        "title":  "Periocha XLV",
+        "path":   "livy/liv.per45.txt",
+    },
+    "1195": {
+        "author": "Livy",
+        "title":  "Periocha XLVI",
+        "path":   "livy/liv.per46.txt",
+    },
+    "1196": {
+        "author": "Livy",
+        "title":  "Periocha XLVII",
+        "path":   "livy/liv.per47.txt",
+    },
     "1197": {
         "author": "Livy",
         "title":  "Periocha XLVIII",
         "path":   "livy/liv.per48.txt",
     },
-    "1198": {"author": "Livy", "title": "Periocha XLIX", "path": "livy/liv.per49.txt"},
-    "1199": {"author": "Livy", "title": "Periocha V", "path": "livy/liv.per5.txt"},
-    "1200": {"author": "Livy", "title": "Periocha L", "path": "livy/liv.per50.txt"},
-    "1201": {"author": "Livy", "title": "Periocha LI", "path": "livy/liv.per51.txt"},
-    "1202": {"author": "Livy", "title": "Periocha LII", "path": "livy/liv.per52.txt"},
-    "1203": {"author": "Livy", "title": "Periocha LIII", "path": "livy/liv.per53.txt"},
-    "1204": {"author": "Livy", "title": "Periocha LIV", "path": "livy/liv.per54.txt"},
-    "1205": {"author": "Livy", "title": "Periocha LV", "path": "livy/liv.per55.txt"},
-    "1206": {"author": "Livy", "title": "Periocha LVI", "path": "livy/liv.per56.txt"},
-    "1207": {"author": "Livy", "title": "Periocha LVII", "path": "livy/liv.per57.txt"},
-    "1208": {"author": "Livy", "title": "Periocha LVIII", "path": "livy/liv.per58.txt"},
-    "1209": {"author": "Livy", "title": "Periocha LIX", "path": "livy/liv.per59.txt"},
-    "1210": {"author": "Livy", "title": "Periocha VI", "path": "livy/liv.per6.txt"},
-    "1211": {"author": "Livy", "title": "Periocha LX", "path": "livy/liv.per60.txt"},
-    "1212": {"author": "Livy", "title": "Periocha LXI", "path": "livy/liv.per61.txt"},
-    "1213": {"author": "Livy", "title": "Periocha LXII", "path": "livy/liv.per62.txt"},
-    "1214": {"author": "Livy", "title": "Periocha LXIII", "path": "livy/liv.per63.txt"},
-    "1215": {"author": "Livy", "title": "Periocha LXIV", "path": "livy/liv.per64.txt"},
-    "1216": {"author": "Livy", "title": "Periocha LXV", "path": "livy/liv.per65.txt"},
-    "1217": {"author": "Livy", "title": "Periocha LXVI", "path": "livy/liv.per66.txt"},
-    "1218": {"author": "Livy", "title": "Periocha LXVII", "path": "livy/liv.per67.txt"},
+    "1198": {
+        "author": "Livy",
+        "title":  "Periocha XLIX",
+        "path":   "livy/liv.per49.txt",
+    },
+    "1199": {
+        "author": "Livy",
+        "title":  "Periocha V",
+        "path":   "livy/liv.per5.txt",
+    },
+    "1200": {
+        "author": "Livy",
+        "title":  "Periocha L",
+        "path":   "livy/liv.per50.txt",
+    },
+    "1201": {
+        "author": "Livy",
+        "title":  "Periocha LI",
+        "path":   "livy/liv.per51.txt",
+    },
+    "1202": {
+        "author": "Livy",
+        "title":  "Periocha LII",
+        "path":   "livy/liv.per52.txt",
+    },
+    "1203": {
+        "author": "Livy",
+        "title":  "Periocha LIII",
+        "path":   "livy/liv.per53.txt",
+    },
+    "1204": {
+        "author": "Livy",
+        "title":  "Periocha LIV",
+        "path":   "livy/liv.per54.txt",
+    },
+    "1205": {
+        "author": "Livy",
+        "title":  "Periocha LV",
+        "path":   "livy/liv.per55.txt",
+    },
+    "1206": {
+        "author": "Livy",
+        "title":  "Periocha LVI",
+        "path":   "livy/liv.per56.txt",
+    },
+    "1207": {
+        "author": "Livy",
+        "title":  "Periocha LVII",
+        "path":   "livy/liv.per57.txt",
+    },
+    "1208": {
+        "author": "Livy",
+        "title":  "Periocha LVIII",
+        "path":   "livy/liv.per58.txt",
+    },
+    "1209": {
+        "author": "Livy",
+        "title":  "Periocha LIX",
+        "path":   "livy/liv.per59.txt",
+    },
+    "1210": {
+        "author": "Livy",
+        "title":  "Periocha VI",
+        "path":   "livy/liv.per6.txt",
+    },
+    "1211": {
+        "author": "Livy",
+        "title":  "Periocha LX",
+        "path":   "livy/liv.per60.txt",
+    },
+    "1212": {
+        "author": "Livy",
+        "title":  "Periocha LXI",
+        "path":   "livy/liv.per61.txt",
+    },
+    "1213": {
+        "author": "Livy",
+        "title":  "Periocha LXII",
+        "path":   "livy/liv.per62.txt",
+    },
+    "1214": {
+        "author": "Livy",
+        "title":  "Periocha LXIII",
+        "path":   "livy/liv.per63.txt",
+    },
+    "1215": {
+        "author": "Livy",
+        "title":  "Periocha LXIV",
+        "path":   "livy/liv.per64.txt",
+    },
+    "1216": {
+        "author": "Livy",
+        "title":  "Periocha LXV",
+        "path":   "livy/liv.per65.txt",
+    },
+    "1217": {
+        "author": "Livy",
+        "title":  "Periocha LXVI",
+        "path":   "livy/liv.per66.txt",
+    },
+    "1218": {
+        "author": "Livy",
+        "title":  "Periocha LXVII",
+        "path":   "livy/liv.per67.txt",
+    },
     "1219": {
         "author": "Livy",
         "title":  "Periocha LXVIII",
         "path":   "livy/liv.per68.txt",
     },
-    "1220": {"author": "Livy", "title": "Periocha LXIX", "path": "livy/liv.per69.txt"},
-    "1221": {"author": "Livy", "title": "Periocha VII", "path": "livy/liv.per7.txt"},
-    "1222": {"author": "Livy", "title": "Periocha LXX", "path": "livy/liv.per70.txt"},
-    "1223": {"author": "Livy", "title": "Periocha LXXI", "path": "livy/liv.per71.txt"},
-    "1224": {"author": "Livy", "title": "Periocha LXXII", "path": "livy/liv.per72.txt"},
+    "1220": {
+        "author": "Livy",
+        "title":  "Periocha LXIX",
+        "path":   "livy/liv.per69.txt",
+    },
+    "1221": {
+        "author": "Livy",
+        "title":  "Periocha VII",
+        "path":   "livy/liv.per7.txt",
+    },
+    "1222": {
+        "author": "Livy",
+        "title":  "Periocha LXX",
+        "path":   "livy/liv.per70.txt",
+    },
+    "1223": {
+        "author": "Livy",
+        "title":  "Periocha LXXI",
+        "path":   "livy/liv.per71.txt",
+    },
+    "1224": {
+        "author": "Livy",
+        "title":  "Periocha LXXII",
+        "path":   "livy/liv.per72.txt",
+    },
     "1225": {
         "author": "Livy",
         "title":  "Periocha LXXIII",
         "path":   "livy/liv.per73.txt",
     },
-    "1226": {"author": "Livy", "title": "Periocha LXXIV", "path": "livy/liv.per74.txt"},
-    "1227": {"author": "Livy", "title": "Periocha LXXV", "path": "livy/liv.per75.txt"},
-    "1228": {"author": "Livy", "title": "Periocha LXXVI", "path": "livy/liv.per76.txt"},
+    "1226": {
+        "author": "Livy",
+        "title":  "Periocha LXXIV",
+        "path":   "livy/liv.per74.txt",
+    },
+    "1227": {
+        "author": "Livy",
+        "title":  "Periocha LXXV",
+        "path":   "livy/liv.per75.txt",
+    },
+    "1228": {
+        "author": "Livy",
+        "title":  "Periocha LXXVI",
+        "path":   "livy/liv.per76.txt",
+    },
     "1229": {
         "author": "Livy",
         "title":  "Periocha LXXVII",
@@ -11393,10 +15483,26 @@ AUTHOR_TAB = {
         "title":  "Periocha LXXVIII",
         "path":   "livy/liv.per78.txt",
     },
-    "1231": {"author": "Livy", "title": "Periocha LXXIX", "path": "livy/liv.per79.txt"},
-    "1232": {"author": "Livy", "title": "Periocha VIII", "path": "livy/liv.per8.txt"},
-    "1233": {"author": "Livy", "title": "Periocha LXXX", "path": "livy/liv.per80.txt"},
-    "1234": {"author": "Livy", "title": "Periocha LXXXI", "path": "livy/liv.per81.txt"},
+    "1231": {
+        "author": "Livy",
+        "title":  "Periocha LXXIX",
+        "path":   "livy/liv.per79.txt",
+    },
+    "1232": {
+        "author": "Livy",
+        "title":  "Periocha VIII",
+        "path":   "livy/liv.per8.txt",
+    },
+    "1233": {
+        "author": "Livy",
+        "title":  "Periocha LXXX",
+        "path":   "livy/liv.per80.txt",
+    },
+    "1234": {
+        "author": "Livy",
+        "title":  "Periocha LXXXI",
+        "path":   "livy/liv.per81.txt",
+    },
     "1235": {
         "author": "Livy",
         "title":  "Periocha LXXXII",
@@ -11412,7 +15518,11 @@ AUTHOR_TAB = {
         "title":  "Periocha LXXXIV",
         "path":   "livy/liv.per84.txt",
     },
-    "1238": {"author": "Livy", "title": "Periocha LXXXV", "path": "livy/liv.per85.txt"},
+    "1238": {
+        "author": "Livy",
+        "title":  "Periocha LXXXV",
+        "path":   "livy/liv.per85.txt",
+    },
     "1239": {
         "author": "Livy",
         "title":  "Periocha LXXXVI",
@@ -11433,38 +15543,122 @@ AUTHOR_TAB = {
         "title":  "Periocha LXXXIX",
         "path":   "livy/liv.per89.txt",
     },
-    "1243": {"author": "Livy", "title": "Periocha IX", "path": "livy/liv.per9.txt"},
-    "1244": {"author": "Livy", "title": "Periocha XC", "path": "livy/liv.per90.txt"},
-    "1245": {"author": "Livy", "title": "Periocha XCI", "path": "livy/liv.per91.txt"},
-    "1246": {"author": "Livy", "title": "Periocha XCII", "path": "livy/liv.per92.txt"},
-    "1247": {"author": "Livy", "title": "Periocha XCIII", "path": "livy/liv.per93.txt"},
-    "1248": {"author": "Livy", "title": "Periocha XCIV", "path": "livy/liv.per94.txt"},
-    "1249": {"author": "Livy", "title": "Periocha XCV", "path": "livy/liv.per95.txt"},
-    "1250": {"author": "Livy", "title": "Periocha XCVI", "path": "livy/liv.per96.txt"},
-    "1251": {"author": "Livy", "title": "Periocha XCVII", "path": "livy/liv.per97.txt"},
+    "1243": {
+        "author": "Livy",
+        "title":  "Periocha IX",
+        "path":   "livy/liv.per9.txt",
+    },
+    "1244": {
+        "author": "Livy",
+        "title":  "Periocha XC",
+        "path":   "livy/liv.per90.txt",
+    },
+    "1245": {
+        "author": "Livy",
+        "title":  "Periocha XCI",
+        "path":   "livy/liv.per91.txt",
+    },
+    "1246": {
+        "author": "Livy",
+        "title":  "Periocha XCII",
+        "path":   "livy/liv.per92.txt",
+    },
+    "1247": {
+        "author": "Livy",
+        "title":  "Periocha XCIII",
+        "path":   "livy/liv.per93.txt",
+    },
+    "1248": {
+        "author": "Livy",
+        "title":  "Periocha XCIV",
+        "path":   "livy/liv.per94.txt",
+    },
+    "1249": {
+        "author": "Livy",
+        "title":  "Periocha XCV",
+        "path":   "livy/liv.per95.txt",
+    },
+    "1250": {
+        "author": "Livy",
+        "title":  "Periocha XCVI",
+        "path":   "livy/liv.per96.txt",
+    },
+    "1251": {
+        "author": "Livy",
+        "title":  "Periocha XCVII",
+        "path":   "livy/liv.per97.txt",
+    },
     "1252": {
         "author": "Livy",
         "title":  "Periocha XCVIII",
         "path":   "livy/liv.per98.txt",
     },
-    "1253": {"author": "Livy", "title": "Periocha XCIX", "path": "livy/liv.per99.txt"},
+    "1253": {
+        "author": "Livy",
+        "title":  "Periocha XCIX",
+        "path":   "livy/liv.per99.txt",
+    },
     "1254": {"author": "Livy", "title": "Preface", "path": "livy/liv.pr.txt"},
     "1255": {
         "author": "Lotichius",
         "title":  "De puella infelici",
         "path":   "lotichius.txt",
     },
-    "1256": {"author": "Lucan", "title": "Liber I", "path": "lucan/lucan1.txt"},
-    "1257": {"author": "Lucan", "title": "Liber X", "path": "lucan/lucan10.txt"},
-    "1258": {"author": "Lucan", "title": "Liber II", "path": "lucan/lucan2.txt"},
-    "1259": {"author": "Lucan", "title": "Liber III", "path": "lucan/lucan3.txt"},
-    "1260": {"author": "Lucan", "title": "Liber IV", "path": "lucan/lucan4.txt"},
-    "1261": {"author": "Lucan", "title": "Liber V", "path": "lucan/lucan5.txt"},
-    "1262": {"author": "Lucan", "title": "Liber VI", "path": "lucan/lucan6.txt"},
-    "1263": {"author": "Lucan", "title": "Liber VII", "path": "lucan/lucan7.txt"},
-    "1264": {"author": "Lucan", "title": "Liber VIII", "path": "lucan/lucan8.txt"},
-    "1265": {"author": "Lucan", "title": "Liber IX", "path": "lucan/lucan9.txt"},
-    "1266": {"author": None, "title": "Ad Lucernarium ", "path": "lucernarium.txt"},
+    "1256": {
+        "author": "Lucan",
+        "title":  "Liber I",
+        "path":   "lucan/lucan1.txt",
+    },
+    "1257": {
+        "author": "Lucan",
+        "title":  "Liber X",
+        "path":   "lucan/lucan10.txt",
+    },
+    "1258": {
+        "author": "Lucan",
+        "title":  "Liber II",
+        "path":   "lucan/lucan2.txt",
+    },
+    "1259": {
+        "author": "Lucan",
+        "title":  "Liber III",
+        "path":   "lucan/lucan3.txt",
+    },
+    "1260": {
+        "author": "Lucan",
+        "title":  "Liber IV",
+        "path":   "lucan/lucan4.txt",
+    },
+    "1261": {
+        "author": "Lucan",
+        "title":  "Liber V",
+        "path":   "lucan/lucan5.txt",
+    },
+    "1262": {
+        "author": "Lucan",
+        "title":  "Liber VI",
+        "path":   "lucan/lucan6.txt",
+    },
+    "1263": {
+        "author": "Lucan",
+        "title":  "Liber VII",
+        "path":   "lucan/lucan7.txt",
+    },
+    "1264": {
+        "author": "Lucan",
+        "title":  "Liber VIII",
+        "path":   "lucan/lucan8.txt",
+    },
+    "1265": {
+        "author": "Lucan",
+        "title":  "Liber IX",
+        "path":   "lucan/lucan9.txt",
+    },
+    "1266": {
+        "author": None,
+        "title":  "Ad Lucernarium ",
+        "path":   "lucernarium.txt",
+    },
     "1267": {
         "author": "Lucretius",
         "title":  "De Rerum Natura I",
@@ -11495,14 +15689,22 @@ AUTHOR_TAB = {
         "title":  "De Rerum Natura VI",
         "path":   "lucretius/lucretius6.txt",
     },
-    "1273": {"author": "Luther", "title": "95 Theses ", "path": "luther.95.txt"},
+    "1273": {
+        "author": "Luther",
+        "title":  "95 Theses ",
+        "path":   "luther.95.txt",
+    },
     "1274": {
         "author": "Luther",
         "title":  "Letter to Erasmus ",
         "path":   "luther.lteramus.txt",
     },
     "1275": {"author": None, "title": "", "path": "luther.praef.txt"},
-    "1276": {"author": None, "title": "Macarius of Alexandria", "path": "macarius.txt"},
+    "1276": {
+        "author": None,
+        "title":  "Macarius of Alexandria",
+        "path":   "macarius.txt",
+    },
     "1277": {
         "author": "Marcarius the Great",
         "title":  "Apophthegmata",
@@ -11534,11 +15736,31 @@ AUTHOR_TAB = {
         "title":  "De rebus gestis Rogerii Calabriae et Siciliae Comitis et Roberti Guiscardi Ducis fratris eius",
         "path":   "malaterra4.txt",
     },
-    "1284": {"author": "Manilius", "title": "Liber I", "path": "manilius1.txt"},
-    "1285": {"author": "Manilius", "title": "Liber II", "path": "manilius2.txt"},
-    "1286": {"author": "Manilius", "title": "Liber IIi", "path": "manilius3.txt"},
-    "1287": {"author": "Manilius", "title": "Liber IV", "path": "manilius4.txt"},
-    "1288": {"author": "Manilius", "title": "Liber V", "path": "manilius5.txt"},
+    "1284": {
+        "author": "Manilius",
+        "title":  "Liber I",
+        "path":   "manilius1.txt",
+    },
+    "1285": {
+        "author": "Manilius",
+        "title":  "Liber II",
+        "path":   "manilius2.txt",
+    },
+    "1286": {
+        "author": "Manilius",
+        "title":  "Liber IIi",
+        "path":   "manilius3.txt",
+    },
+    "1287": {
+        "author": "Manilius",
+        "title":  "Liber IV",
+        "path":   "manilius4.txt",
+    },
+    "1288": {
+        "author": "Manilius",
+        "title":  "Liber V",
+        "path":   "manilius5.txt",
+    },
     "1289": {
         "author": "Walter Mapps",
         "title":  "de Mauro et Zoilo",
@@ -11554,27 +15776,91 @@ AUTHOR_TAB = {
         "title":  "Libellus de ornamentis verborum",
         "path":   "marbodus.txt",
     },
-    "1292": {"author": None, "title": "Marcellinus Comes", "path": "marcellinus1.txt"},
-    "1293": {"author": None, "title": "Marcellinus Comes", "path": "marcellinus2.txt"},
+    "1292": {
+        "author": None,
+        "title":  "Marcellinus Comes",
+        "path":   "marcellinus1.txt",
+    },
+    "1293": {
+        "author": None,
+        "title":  "Marcellinus Comes",
+        "path":   "marcellinus2.txt",
+    },
     "1294": {
         "author": "Martial",
         "title":  "Liber de Spectaculis",
         "path":   "martial/mart.spec.txt",
     },
-    "1295": {"author": None, "title": "Martial I", "path": "martial/mart1.txt"},
-    "1296": {"author": None, "title": "Martial X", "path": "martial/mart10.txt"},
-    "1297": {"author": None, "title": "Martial XI", "path": "martial/mart11.txt"},
-    "1298": {"author": None, "title": "Martial XII", "path": "martial/mart12.txt"},
-    "1299": {"author": None, "title": "Martial XIII", "path": "martial/mart13.txt"},
-    "1300": {"author": "Martial", "title": "Apophoreta", "path": "martial/mart14.txt"},
-    "1301": {"author": None, "title": "Martial II", "path": "martial/mart2.txt"},
-    "1302": {"author": None, "title": "Martial III", "path": "martial/mart3.txt"},
-    "1303": {"author": None, "title": "Martial IV", "path": "martial/mart4.txt"},
-    "1304": {"author": None, "title": "Martial V", "path": "martial/mart5.txt"},
-    "1305": {"author": None, "title": "Martial VI", "path": "martial/mart6.txt"},
-    "1306": {"author": None, "title": "Martial VII", "path": "martial/mart7.txt"},
-    "1307": {"author": None, "title": "Martial VIII", "path": "martial/mart8.txt"},
-    "1308": {"author": None, "title": "Martial IX", "path": "martial/mart9.txt"},
+    "1295": {
+        "author": None,
+        "title":  "Martial I",
+        "path":   "martial/mart1.txt",
+    },
+    "1296": {
+        "author": None,
+        "title":  "Martial X",
+        "path":   "martial/mart10.txt",
+    },
+    "1297": {
+        "author": None,
+        "title":  "Martial XI",
+        "path":   "martial/mart11.txt",
+    },
+    "1298": {
+        "author": None,
+        "title":  "Martial XII",
+        "path":   "martial/mart12.txt",
+    },
+    "1299": {
+        "author": None,
+        "title":  "Martial XIII",
+        "path":   "martial/mart13.txt",
+    },
+    "1300": {
+        "author": "Martial",
+        "title":  "Apophoreta",
+        "path":   "martial/mart14.txt",
+    },
+    "1301": {
+        "author": None,
+        "title":  "Martial II",
+        "path":   "martial/mart2.txt",
+    },
+    "1302": {
+        "author": None,
+        "title":  "Martial III",
+        "path":   "martial/mart3.txt",
+    },
+    "1303": {
+        "author": None,
+        "title":  "Martial IV",
+        "path":   "martial/mart4.txt",
+    },
+    "1304": {
+        "author": None,
+        "title":  "Martial V",
+        "path":   "martial/mart5.txt",
+    },
+    "1305": {
+        "author": None,
+        "title":  "Martial VI",
+        "path":   "martial/mart6.txt",
+    },
+    "1306": {
+        "author": None,
+        "title":  "Martial VII",
+        "path":   "martial/mart7.txt",
+    },
+    "1307": {
+        "author": None,
+        "title":  "Martial VIII",
+        "path":   "martial/mart8.txt",
+    },
+    "1308": {
+        "author": None,
+        "title":  "Martial IX",
+        "path":   "martial/mart9.txt",
+    },
     "1309": {
         "author": "Martin of Braga",
         "title":  "Capitula ex orientalium patrum synodis",
@@ -11640,9 +15926,17 @@ AUTHOR_TAB = {
         "title":  "de Trina Mersione",
         "path":   "martinbraga/trina.txt",
     },
-    "1322": {"author": None, "title": "Michele Marullo", "path": "marullo.txt"},
+    "1322": {
+        "author": None,
+        "title":  "Michele Marullo",
+        "path":   "marullo.txt",
+    },
     "1323": {"author": None, "title": "Karl Marx", "path": "marx.txt"},
-    "1324": {"author": "Maximianus", "title": "Elegies", "path": "maximianus.txt"},
+    "1324": {
+        "author": "Maximianus",
+        "title":  "Elegies",
+        "path":   "maximianus.txt",
+    },
     "1325": {"author": "May", "title": "Liber I", "path": "may/may1.txt"},
     "1326": {"author": "May", "title": "Liber II", "path": "may/may2.txt"},
     "1327": {"author": "May", "title": "Liber III", "path": "may/may3.txt"},
@@ -11650,7 +15944,11 @@ AUTHOR_TAB = {
     "1329": {"author": "May", "title": "Liber V", "path": "may/may5.txt"},
     "1330": {"author": "May", "title": "Liber VI", "path": "may/may6.txt"},
     "1331": {"author": "May", "title": "Liber VII", "path": "may/may7.txt"},
-    "1332": {"author": "May", "title": "Title Page", "path": "may/maytitle.txt"},
+    "1332": {
+        "author": "May",
+        "title":  "Title Page",
+        "path":   "may/maytitle.txt",
+    },
     "1333": {
         "author": "Melanchthon",
         "title":  "The Augsburg Confession",
@@ -11681,7 +15979,11 @@ AUTHOR_TAB = {
         "title":  "Octavius",
         "path":   "minucius.txt",
     },
-    "1339": {"author": None, "title": "Mirabilia Urbis Romae", "path": "mirabilia.txt"},
+    "1339": {
+        "author": None,
+        "title":  "Mirabilia Urbis Romae",
+        "path":   "mirabilia.txt",
+    },
     "1340": {
         "author": "Gregorius",
         "title":  "Narratio de Mirabilibus Urbis Romae",
@@ -11743,13 +16045,33 @@ AUTHOR_TAB = {
         "path":   "montanus.txt",
     },
     "1352": {"author": None, "title": "Thomas More", "path": "more.txt"},
-    "1353": {"author": None, "title": "Musa venit carmine ", "path": "musavenit.txt"},
+    "1353": {
+        "author": None,
+        "title":  "Musa venit carmine ",
+        "path":   "musavenit.txt",
+    },
     "1354": {"author": None, "title": "Naevius", "path": "naevius.txt"},
     "1355": {"author": None, "title": "Naugerius", "path": "navagero.txt"},
-    "1356": {"author": "Nemesianus", "title": "Ecloga I", "path": "nemesianus1.txt"},
-    "1357": {"author": "Nemesianus", "title": "Ecloga II", "path": "nemesianus2.txt"},
-    "1358": {"author": "Nemesianus", "title": "Ecloga III", "path": "nemesianus3.txt"},
-    "1359": {"author": "Nemesianus", "title": "Ecloga IV", "path": "nemesianus4.txt"},
+    "1356": {
+        "author": "Nemesianus",
+        "title":  "Ecloga I",
+        "path":   "nemesianus1.txt",
+    },
+    "1357": {
+        "author": "Nemesianus",
+        "title":  "Ecloga II",
+        "path":   "nemesianus2.txt",
+    },
+    "1358": {
+        "author": "Nemesianus",
+        "title":  "Ecloga III",
+        "path":   "nemesianus3.txt",
+    },
+    "1359": {
+        "author": "Nemesianus",
+        "title":  "Ecloga IV",
+        "path":   "nemesianus4.txt",
+    },
     "1360": {
         "author": "Nepos",
         "title":  "Life of Agesilaus",
@@ -11770,7 +16092,11 @@ AUTHOR_TAB = {
         "title":  "Life of Atticus",
         "path":   "nepos/nepos.att.txt",
     },
-    "1364": {"author": "Nepos", "title": "Life of Cato", "path": "nepos/nepos.cat.txt"},
+    "1364": {
+        "author": "Nepos",
+        "title":  "Life of Cato",
+        "path":   "nepos/nepos.cat.txt",
+    },
     "1365": {
         "author": "Nepos",
         "title":  "Life of Chabrias",
@@ -11826,7 +16152,11 @@ AUTHOR_TAB = {
         "title":  "Life of Iphicrates",
         "path":   "nepos/nepos.iph.txt",
     },
-    "1376": {"author": "Nepos", "title": "On Kings", "path": "nepos/nepos.kings.txt"},
+    "1376": {
+        "author": "Nepos",
+        "title":  "On Kings",
+        "path":   "nepos/nepos.kings.txt",
+    },
     "1377": {
         "author": "Nepos",
         "title":  "Life of Lysander",
@@ -11852,7 +16182,11 @@ AUTHOR_TAB = {
         "title":  "Life of Phocion",
         "path":   "nepos/nepos.phoc.txt",
     },
-    "1382": {"author": "Nepos", "title": "Praefatio", "path": "nepos/nepos.pr.txt"},
+    "1382": {
+        "author": "Nepos",
+        "title":  "Praefatio",
+        "path":   "nepos/nepos.pr.txt",
+    },
     "1383": {
         "author": "Nepos",
         "title":  "Life of Themistocles",
@@ -11893,20 +16227,44 @@ AUTHOR_TAB = {
         "title":  "Scholium Generale from the Principia ",
         "path":   "newton.scholium.txt",
     },
-    "1391": {"author": "Nithardus", "title": "Historiae I ", "path": "nithardus1.txt"},
-    "1392": {"author": "Nithardus", "title": "Historiae II ", "path": "nithardus2.txt"},
+    "1391": {
+        "author": "Nithardus",
+        "title":  "Historiae I ",
+        "path":   "nithardus1.txt",
+    },
+    "1392": {
+        "author": "Nithardus",
+        "title":  "Historiae II ",
+        "path":   "nithardus2.txt",
+    },
     "1393": {
         "author": "Nithardus",
         "title":  "Historiae III ",
         "path":   "nithardus3.txt",
     },
-    "1394": {"author": "Nithardus", "title": "Historiae IV ", "path": "nithardus4.txt"},
+    "1394": {
+        "author": "Nithardus",
+        "title":  "Historiae IV ",
+        "path":   "nithardus4.txt",
+    },
     "1395": {"author": None, "title": "", "path": "nivis.txt"},
     "1396": {"author": "Nobilis", "title": "me ", "path": "nobilis.txt"},
-    "1397": {"author": None, "title": "Notitia Dignitatum", "path": "notitia1.txt"},
-    "1398": {"author": None, "title": "Notitia Dignitatum", "path": "notitia2.txt"},
+    "1397": {
+        "author": None,
+        "title":  "Notitia Dignitatum",
+        "path":   "notitia1.txt",
+    },
+    "1398": {
+        "author": None,
+        "title":  "Notitia Dignitatum",
+        "path":   "notitia2.txt",
+    },
     "1399": {"author": None, "title": "Novatian", "path": "novatian.txt"},
-    "1400": {"author": None, "title": "Julius Obsequens", "path": "obsequens.txt"},
+    "1400": {
+        "author": None,
+        "title":  "Julius Obsequens",
+        "path":   "obsequens.txt",
+    },
     "1401": {
         "author": None,
         "title":  "Omne genus demoniorum ",
@@ -11923,13 +16281,41 @@ AUTHOR_TAB = {
         "title":  "Origo gentis Langobardorum",
         "path":   "origo.txt",
     },
-    "1405": {"author": None, "title": "Orosius I", "path": "orosius/orosius1.txt"},
-    "1406": {"author": None, "title": "Orosius II", "path": "orosius/orosius2.txt"},
-    "1407": {"author": None, "title": "Orosius III", "path": "orosius/orosius3.txt"},
-    "1408": {"author": None, "title": "Orosius IV", "path": "orosius/orosius4.txt"},
-    "1409": {"author": None, "title": "Orosius V", "path": "orosius/orosius5.txt"},
-    "1410": {"author": None, "title": "Orosius VI", "path": "orosius/orosius6.txt"},
-    "1411": {"author": None, "title": "Orosius VII", "path": "orosius/orosius7.txt"},
+    "1405": {
+        "author": None,
+        "title":  "Orosius I",
+        "path":   "orosius/orosius1.txt",
+    },
+    "1406": {
+        "author": None,
+        "title":  "Orosius II",
+        "path":   "orosius/orosius2.txt",
+    },
+    "1407": {
+        "author": None,
+        "title":  "Orosius III",
+        "path":   "orosius/orosius3.txt",
+    },
+    "1408": {
+        "author": None,
+        "title":  "Orosius IV",
+        "path":   "orosius/orosius4.txt",
+    },
+    "1409": {
+        "author": None,
+        "title":  "Orosius V",
+        "path":   "orosius/orosius5.txt",
+    },
+    "1410": {
+        "author": None,
+        "title":  "Orosius VI",
+        "path":   "orosius/orosius6.txt",
+    },
+    "1411": {
+        "author": None,
+        "title":  "Orosius VII",
+        "path":   "orosius/orosius7.txt",
+    },
     "1412": {
         "author": "Otto of Freising",
         "title":  "Liber I",
@@ -11955,9 +16341,21 @@ AUTHOR_TAB = {
         "title":  "Epistola",
         "path":   "ottofreising/epistola.txt",
     },
-    "1417": {"author": "Ovid", "title": "Amores I", "path": "ovid/ovid.amor1.txt"},
-    "1418": {"author": "Ovid", "title": "Amores II", "path": "ovid/ovid.amor2.txt"},
-    "1419": {"author": "Ovid", "title": "Amores III", "path": "ovid/ovid.amor3.txt"},
+    "1417": {
+        "author": "Ovid",
+        "title":  "Amores I",
+        "path":   "ovid/ovid.amor1.txt",
+    },
+    "1418": {
+        "author": "Ovid",
+        "title":  "Amores II",
+        "path":   "ovid/ovid.amor2.txt",
+    },
+    "1419": {
+        "author": "Ovid",
+        "title":  "Amores III",
+        "path":   "ovid/ovid.amor3.txt",
+    },
     "1420": {
         "author": "Ovid",
         "title":  "Ars Amatoria I",
@@ -11973,37 +16371,141 @@ AUTHOR_TAB = {
         "title":  "Ars Amatoria III",
         "path":   "ovid/ovid.artis3.txt",
     },
-    "1423": {"author": "Ovid", "title": "Fasti I", "path": "ovid/ovid.fasti1.txt"},
-    "1424": {"author": "Ovid", "title": "Fasti II", "path": "ovid/ovid.fasti2.txt"},
-    "1425": {"author": "Ovid", "title": "Fasti III", "path": "ovid/ovid.fasti3.txt"},
-    "1426": {"author": "Ovid", "title": "Fasti IV", "path": "ovid/ovid.fasti4.txt"},
-    "1427": {"author": "Ovid", "title": "Fasti V", "path": "ovid/ovid.fasti5.txt"},
-    "1428": {"author": "Ovid", "title": "Fasti VI", "path": "ovid/ovid.fasti6.txt"},
-    "1429": {"author": "Ovid", "title": "Heroides I", "path": "ovid/ovid.her1.txt"},
-    "1430": {"author": "Ovid", "title": "Heroides X", "path": "ovid/ovid.her10.txt"},
-    "1431": {"author": "Ovid", "title": "Heroides XI", "path": "ovid/ovid.her11.txt"},
-    "1432": {"author": "Ovid", "title": "Heroides XII", "path": "ovid/ovid.her12.txt"},
-    "1433": {"author": "Ovid", "title": "Heroides XIII", "path": "ovid/ovid.her13.txt"},
-    "1434": {"author": "Ovid", "title": "Heroides XIV", "path": "ovid/ovid.her14.txt"},
-    "1435": {"author": "Ovid", "title": "Heroides XV", "path": "ovid/ovid.her15.txt"},
-    "1436": {"author": "Ovid", "title": "Heroides XVI", "path": "ovid/ovid.her16.txt"},
-    "1437": {"author": "Ovid", "title": "Heroides XVII", "path": "ovid/ovid.her17.txt"},
+    "1423": {
+        "author": "Ovid",
+        "title":  "Fasti I",
+        "path":   "ovid/ovid.fasti1.txt",
+    },
+    "1424": {
+        "author": "Ovid",
+        "title":  "Fasti II",
+        "path":   "ovid/ovid.fasti2.txt",
+    },
+    "1425": {
+        "author": "Ovid",
+        "title":  "Fasti III",
+        "path":   "ovid/ovid.fasti3.txt",
+    },
+    "1426": {
+        "author": "Ovid",
+        "title":  "Fasti IV",
+        "path":   "ovid/ovid.fasti4.txt",
+    },
+    "1427": {
+        "author": "Ovid",
+        "title":  "Fasti V",
+        "path":   "ovid/ovid.fasti5.txt",
+    },
+    "1428": {
+        "author": "Ovid",
+        "title":  "Fasti VI",
+        "path":   "ovid/ovid.fasti6.txt",
+    },
+    "1429": {
+        "author": "Ovid",
+        "title":  "Heroides I",
+        "path":   "ovid/ovid.her1.txt",
+    },
+    "1430": {
+        "author": "Ovid",
+        "title":  "Heroides X",
+        "path":   "ovid/ovid.her10.txt",
+    },
+    "1431": {
+        "author": "Ovid",
+        "title":  "Heroides XI",
+        "path":   "ovid/ovid.her11.txt",
+    },
+    "1432": {
+        "author": "Ovid",
+        "title":  "Heroides XII",
+        "path":   "ovid/ovid.her12.txt",
+    },
+    "1433": {
+        "author": "Ovid",
+        "title":  "Heroides XIII",
+        "path":   "ovid/ovid.her13.txt",
+    },
+    "1434": {
+        "author": "Ovid",
+        "title":  "Heroides XIV",
+        "path":   "ovid/ovid.her14.txt",
+    },
+    "1435": {
+        "author": "Ovid",
+        "title":  "Heroides XV",
+        "path":   "ovid/ovid.her15.txt",
+    },
+    "1436": {
+        "author": "Ovid",
+        "title":  "Heroides XVI",
+        "path":   "ovid/ovid.her16.txt",
+    },
+    "1437": {
+        "author": "Ovid",
+        "title":  "Heroides XVII",
+        "path":   "ovid/ovid.her17.txt",
+    },
     "1438": {
         "author": "Ovid",
         "title":  "Heroides XVIII",
         "path":   "ovid/ovid.her18.txt",
     },
-    "1439": {"author": "Ovid", "title": "Heroides XIX", "path": "ovid/ovid.her19.txt"},
-    "1440": {"author": "Ovid", "title": "Heroides II", "path": "ovid/ovid.her2.txt"},
-    "1441": {"author": "Ovid", "title": "Heroides XX", "path": "ovid/ovid.her20.txt"},
-    "1442": {"author": "Ovid", "title": "Heroides XXI", "path": "ovid/ovid.her21.txt"},
-    "1443": {"author": "Ovid", "title": "Heroides III", "path": "ovid/ovid.her3.txt"},
-    "1444": {"author": "Ovid", "title": "Heroides IV", "path": "ovid/ovid.her4.txt"},
-    "1445": {"author": "Ovid", "title": "Heroides V", "path": "ovid/ovid.her5.txt"},
-    "1446": {"author": "Ovid", "title": "Heroides VI", "path": "ovid/ovid.her6.txt"},
-    "1447": {"author": "Ovid", "title": "Heroides VII", "path": "ovid/ovid.her7.txt"},
-    "1448": {"author": "Ovid", "title": "Heroides VIII", "path": "ovid/ovid.her8.txt"},
-    "1449": {"author": "Ovid", "title": "Heroides IX", "path": "ovid/ovid.her9.txt"},
+    "1439": {
+        "author": "Ovid",
+        "title":  "Heroides XIX",
+        "path":   "ovid/ovid.her19.txt",
+    },
+    "1440": {
+        "author": "Ovid",
+        "title":  "Heroides II",
+        "path":   "ovid/ovid.her2.txt",
+    },
+    "1441": {
+        "author": "Ovid",
+        "title":  "Heroides XX",
+        "path":   "ovid/ovid.her20.txt",
+    },
+    "1442": {
+        "author": "Ovid",
+        "title":  "Heroides XXI",
+        "path":   "ovid/ovid.her21.txt",
+    },
+    "1443": {
+        "author": "Ovid",
+        "title":  "Heroides III",
+        "path":   "ovid/ovid.her3.txt",
+    },
+    "1444": {
+        "author": "Ovid",
+        "title":  "Heroides IV",
+        "path":   "ovid/ovid.her4.txt",
+    },
+    "1445": {
+        "author": "Ovid",
+        "title":  "Heroides V",
+        "path":   "ovid/ovid.her5.txt",
+    },
+    "1446": {
+        "author": "Ovid",
+        "title":  "Heroides VI",
+        "path":   "ovid/ovid.her6.txt",
+    },
+    "1447": {
+        "author": "Ovid",
+        "title":  "Heroides VII",
+        "path":   "ovid/ovid.her7.txt",
+    },
+    "1448": {
+        "author": "Ovid",
+        "title":  "Heroides VIII",
+        "path":   "ovid/ovid.her8.txt",
+    },
+    "1449": {
+        "author": "Ovid",
+        "title":  "Heroides IX",
+        "path":   "ovid/ovid.her9.txt",
+    },
     "1450": {"author": "Ovid", "title": "Ibis", "path": "ovid/ovid.ibis.txt"},
     "1451": {
         "author": "Ovid",
@@ -12080,13 +16582,41 @@ AUTHOR_TAB = {
         "title":  "Metamorphoses IX",
         "path":   "ovid/ovid.met9.txt",
     },
-    "1466": {"author": "Ovid", "title": "Ex Ponto I", "path": "ovid/ovid.ponto1.txt"},
-    "1467": {"author": "Ovid", "title": "Ex Ponto II", "path": "ovid/ovid.ponto2.txt"},
-    "1468": {"author": "Ovid", "title": "Ex Ponto III", "path": "ovid/ovid.ponto3.txt"},
-    "1469": {"author": "Ovid", "title": "Ex Ponto IV", "path": "ovid/ovid.ponto4.txt"},
-    "1470": {"author": "Ovid", "title": "Remedia Amoris", "path": "ovid/ovid.rem.txt"},
-    "1471": {"author": "Ovid", "title": "Tristia I", "path": "ovid/ovid.tristia1.txt"},
-    "1472": {"author": "Ovid", "title": "Tristia II", "path": "ovid/ovid.tristia2.txt"},
+    "1466": {
+        "author": "Ovid",
+        "title":  "Ex Ponto I",
+        "path":   "ovid/ovid.ponto1.txt",
+    },
+    "1467": {
+        "author": "Ovid",
+        "title":  "Ex Ponto II",
+        "path":   "ovid/ovid.ponto2.txt",
+    },
+    "1468": {
+        "author": "Ovid",
+        "title":  "Ex Ponto III",
+        "path":   "ovid/ovid.ponto3.txt",
+    },
+    "1469": {
+        "author": "Ovid",
+        "title":  "Ex Ponto IV",
+        "path":   "ovid/ovid.ponto4.txt",
+    },
+    "1470": {
+        "author": "Ovid",
+        "title":  "Remedia Amoris",
+        "path":   "ovid/ovid.rem.txt",
+    },
+    "1471": {
+        "author": "Ovid",
+        "title":  "Tristia I",
+        "path":   "ovid/ovid.tristia1.txt",
+    },
+    "1472": {
+        "author": "Ovid",
+        "title":  "Tristia II",
+        "path":   "ovid/ovid.tristia2.txt",
+    },
     "1473": {
         "author": "Ovid",
         "title":  "Ovid: Tristia III",
@@ -12115,8 +16645,16 @@ AUTHOR_TAB = {
     },
     "1479": {"author": None, "title": "Iugurtha ", "path": "pascoli.iug.txt"},
     "1480": {"author": None, "title": "Laureolo ", "path": "pascoli.laur.txt"},
-    "1481": {"author": None, "title": "Senex Corycius ", "path": "pascoli.sen.txt"},
-    "1482": {"author": None, "title": "Veianius ", "path": "pascoli.veianius.txt"},
+    "1481": {
+        "author": None,
+        "title":  "Senex Corycius ",
+        "path":   "pascoli.sen.txt",
+    },
+    "1482": {
+        "author": None,
+        "title":  "Veianius ",
+        "path":   "pascoli.veianius.txt",
+    },
     "1483": {"author": None, "title": "Jean Passerat", "path": "passerat.txt"},
     "1484": {
         "author": "Franciscus Patricius",
@@ -12248,15 +16786,27 @@ AUTHOR_TAB = {
         "title":  "Historia Romana Liber IX",
         "path":   "pauldeacon/histrom9.txt",
     },
-    "1510": {"author": None, "title": "O Comes ", "path": "paulinus.ausonium.txt"},
+    "1510": {
+        "author": None,
+        "title":  "O Comes ",
+        "path":   "paulinus.ausonium.txt",
+    },
     "1511": {
         "author": "Paulinus of Nola",
         "title":  "Poems",
         "path":   "paulinus.poemata.txt",
     },
-    "1512": {"author": None, "title": "Perpetua et Felicitatis", "path": "perp.txt"},
+    "1512": {
+        "author": None,
+        "title":  "Perpetua et Felicitatis",
+        "path":   "perp.txt",
+    },
     "1513": {"author": None, "title": "Persius", "path": "persius.txt"},
-    "1514": {"author": None, "title": "Pervigilium Veneris", "path": "pervig.txt"},
+    "1514": {
+        "author": None,
+        "title":  "Pervigilium Veneris",
+        "path":   "pervig.txt",
+    },
     "1515": {
         "author": "Petrarch",
         "title":  "Epistula M. Tullio Ciceroni",
@@ -12267,13 +16817,21 @@ AUTHOR_TAB = {
         "title":  "Numa Pompilius",
         "path":   "petrarch.numa.txt",
     },
-    "1517": {"author": "Petrarch", "title": "Romulus", "path": "petrarch.rom.txt"},
+    "1517": {
+        "author": "Petrarch",
+        "title":  "Romulus",
+        "path":   "petrarch.rom.txt",
+    },
     "1518": {
         "author": "Petrarca",
         "title":  "Contra Medicum Quendam",
         "path":   "petrarchmedicus.txt",
     },
-    "1519": {"author": "Petronius", "title": "Satiricon", "path": "petronius1.txt"},
+    "1519": {
+        "author": "Petronius",
+        "title":  "Satiricon",
+        "path":   "petronius1.txt",
+    },
     "1520": {
         "author": None,
         "title":  "Fragmenta Petroniana",
@@ -12284,7 +16842,11 @@ AUTHOR_TAB = {
     "1523": {"author": None, "title": "Phaedrus III", "path": "phaedr3.txt"},
     "1524": {"author": None, "title": "Phaedrus IV", "path": "phaedr4.txt"},
     "1525": {"author": None, "title": "Phaedrus V", "path": "phaedr5.txt"},
-    "1526": {"author": None, "title": "Phaedrus Appendix", "path": "phaedrapp.txt"},
+    "1526": {
+        "author": None,
+        "title":  "Phaedrus Appendix",
+        "path":   "phaedrapp.txt",
+    },
     "1527": {
         "author": "Enea Silvio Piccolomini (1405-1464",
         "title":  "Pope Pius II from 1458) ",
@@ -12331,7 +16893,11 @@ AUTHOR_TAB = {
         "title":  "Amphitruo",
         "path":   "plautus/amphitruo.txt",
     },
-    "1537": {"author": "Plautus", "title": "Asinaria", "path": "plautus/asinaria.txt"},
+    "1537": {
+        "author": "Plautus",
+        "title":  "Asinaria",
+        "path":   "plautus/asinaria.txt",
+    },
     "1538": {
         "author": "Plautus",
         "title":  "Aulularia",
@@ -12342,21 +16908,41 @@ AUTHOR_TAB = {
         "title":  "Bacchides",
         "path":   "plautus/bacchides.txt",
     },
-    "1540": {"author": "Plautus", "title": "Captivi", "path": "plautus/captivi.txt"},
-    "1541": {"author": "Plautus", "title": "Casina", "path": "plautus/cas.txt"},
+    "1540": {
+        "author": "Plautus",
+        "title":  "Captivi",
+        "path":   "plautus/captivi.txt",
+    },
+    "1541": {
+        "author": "Plautus",
+        "title":  "Casina",
+        "path":   "plautus/cas.txt",
+    },
     "1542": {
         "author": "Plautus",
         "title":  "Cistellaria",
         "path":   "plautus/cistellaria.txt",
     },
-    "1543": {"author": "Plautus", "title": "Curculio", "path": "plautus/curculio.txt"},
-    "1544": {"author": "Plautus", "title": "Epidicus", "path": "plautus/epidicus.txt"},
+    "1543": {
+        "author": "Plautus",
+        "title":  "Curculio",
+        "path":   "plautus/curculio.txt",
+    },
+    "1544": {
+        "author": "Plautus",
+        "title":  "Epidicus",
+        "path":   "plautus/epidicus.txt",
+    },
     "1545": {
         "author": "Plautus",
         "title":  "Menaechmi",
         "path":   "plautus/menaechmi.txt",
     },
-    "1546": {"author": "Plautus", "title": "Mercator", "path": "plautus/mercator.txt"},
+    "1546": {
+        "author": "Plautus",
+        "title":  "Mercator",
+        "path":   "plautus/mercator.txt",
+    },
     "1547": {
         "author": "Plautus",
         "title":  "Miles Gloriosus",
@@ -12367,15 +16953,31 @@ AUTHOR_TAB = {
         "title":  "Mostellaria",
         "path":   "plautus/mostellaria.txt",
     },
-    "1549": {"author": "Plautus", "title": "Persa", "path": "plautus/persa.txt"},
-    "1550": {"author": "Plautus", "title": "Poenulus", "path": "plautus/poenulus.txt"},
+    "1549": {
+        "author": "Plautus",
+        "title":  "Persa",
+        "path":   "plautus/persa.txt",
+    },
+    "1550": {
+        "author": "Plautus",
+        "title":  "Poenulus",
+        "path":   "plautus/poenulus.txt",
+    },
     "1551": {
         "author": "Plautus",
         "title":  "Pseudolus",
         "path":   "plautus/pseudolus.txt",
     },
-    "1552": {"author": "Plautus", "title": "Rudens", "path": "plautus/rudens.txt"},
-    "1553": {"author": "Plautus", "title": "Stichus", "path": "plautus/stichus.txt"},
+    "1552": {
+        "author": "Plautus",
+        "title":  "Rudens",
+        "path":   "plautus/rudens.txt",
+    },
+    "1553": {
+        "author": "Plautus",
+        "title":  "Stichus",
+        "path":   "plautus/stichus.txt",
+    },
     "1554": {
         "author": "Plautus",
         "title":  "Trinummus",
@@ -12391,22 +16993,66 @@ AUTHOR_TAB = {
         "title":  "Vidularia",
         "path":   "plautus/vidularia.txt",
     },
-    "1557": {"author": None, "title": "Pliny the Younger", "path": "pliny.ep1.txt"},
-    "1558": {"author": None, "title": "Pliny the Younger", "path": "pliny.ep10.txt"},
-    "1559": {"author": None, "title": "Pliny the Younger", "path": "pliny.ep2.txt"},
-    "1560": {"author": None, "title": "Pliny the Younger", "path": "pliny.ep3.txt"},
-    "1561": {"author": None, "title": "Pliny the Younger", "path": "pliny.ep4.txt"},
-    "1562": {"author": None, "title": "Pliny the Younger", "path": "pliny.ep5.txt"},
-    "1563": {"author": None, "title": "Pliny the Younger", "path": "pliny.ep6.txt"},
-    "1564": {"author": None, "title": "Pliny the Younger", "path": "pliny.ep7.txt"},
-    "1565": {"author": None, "title": "Pliny the Younger", "path": "pliny.ep8.txt"},
-    "1566": {"author": None, "title": "Pliny the Younger", "path": "pliny.ep9.txt"},
+    "1557": {
+        "author": None,
+        "title":  "Pliny the Younger",
+        "path":   "pliny.ep1.txt",
+    },
+    "1558": {
+        "author": None,
+        "title":  "Pliny the Younger",
+        "path":   "pliny.ep10.txt",
+    },
+    "1559": {
+        "author": None,
+        "title":  "Pliny the Younger",
+        "path":   "pliny.ep2.txt",
+    },
+    "1560": {
+        "author": None,
+        "title":  "Pliny the Younger",
+        "path":   "pliny.ep3.txt",
+    },
+    "1561": {
+        "author": None,
+        "title":  "Pliny the Younger",
+        "path":   "pliny.ep4.txt",
+    },
+    "1562": {
+        "author": None,
+        "title":  "Pliny the Younger",
+        "path":   "pliny.ep5.txt",
+    },
+    "1563": {
+        "author": None,
+        "title":  "Pliny the Younger",
+        "path":   "pliny.ep6.txt",
+    },
+    "1564": {
+        "author": None,
+        "title":  "Pliny the Younger",
+        "path":   "pliny.ep7.txt",
+    },
+    "1565": {
+        "author": None,
+        "title":  "Pliny the Younger",
+        "path":   "pliny.ep8.txt",
+    },
+    "1566": {
+        "author": None,
+        "title":  "Pliny the Younger",
+        "path":   "pliny.ep9.txt",
+    },
     "1567": {
         "author": "Pliny the Elder",
         "title":  "Natural History, Book I",
         "path":   "pliny.nh1.txt",
     },
-    "1568": {"author": None, "title": "Pliny the Elder", "path": "pliny.nh2.txt"},
+    "1568": {
+        "author": None,
+        "title":  "Pliny the Elder",
+        "path":   "pliny.nh2.txt",
+    },
     "1569": {
         "author": "Pliny the Elder",
         "title":  "Natural History, Book III",
@@ -12432,7 +17078,11 @@ AUTHOR_TAB = {
         "title":  "Pliny the Younger",
         "path":   "pliny.panegyricus.txt",
     },
-    "1574": {"author": None, "title": "Poggii Facetiae (1-120)", "path": "poggio.txt"},
+    "1574": {
+        "author": None,
+        "title":  "Poggii Facetiae (1-120)",
+        "path":   "poggio.txt",
+    },
     "1575": {
         "author": "Pomponius Mela",
         "title":  "de Chorographia I ",
@@ -12453,15 +17103,31 @@ AUTHOR_TAB = {
         "title":  "Giovanni Pontano (1429-1503)",
         "path":   "pontano.txt",
     },
-    "1579": {"author": "Charles Poree", "title": "Caecus Amor ", "path": "poree.txt"},
-    "1580": {"author": "Porphyrius", "title": "Carmina", "path": "porphyrius.txt"},
-    "1581": {"author": None, "title": "Potatores exquisiti", "path": "potatores.txt"},
+    "1579": {
+        "author": "Charles Poree",
+        "title":  "Caecus Amor ",
+        "path":   "poree.txt",
+    },
+    "1580": {
+        "author": "Porphyrius",
+        "title":  "Carmina",
+        "path":   "porphyrius.txt",
+    },
+    "1581": {
+        "author": None,
+        "title":  "Potatores exquisiti",
+        "path":   "potatores.txt",
+    },
     "1582": {
         "author": None,
         "title":  "Prata iam rident omnia ",
         "path":   "prataiam.txt",
     },
-    "1583": {"author": None, "title": "Precatio Terrae", "path": "prec.terr.txt"},
+    "1583": {
+        "author": None,
+        "title":  "Precatio Terrae",
+        "path":   "prec.terr.txt",
+    },
     "1584": {
         "author": None,
         "title":  "Precatio Omnium Herbarum ",
@@ -12473,8 +17139,16 @@ AUTHOR_TAB = {
         "title":  "Professio contra Sectam Priscilliani",
         "path":   "professio.txt",
     },
-    "1587": {"author": None, "title": "Propertius Book II", "path": "prop2.txt"},
-    "1588": {"author": None, "title": "Propertius Book III", "path": "prop3.txt"},
+    "1587": {
+        "author": None,
+        "title":  "Propertius Book II",
+        "path":   "prop2.txt",
+    },
+    "1588": {
+        "author": None,
+        "title":  "Propertius Book III",
+        "path":   "prop3.txt",
+    },
     "1589": {
         "author": None,
         "title":  "SEXTI PROPERTI ELEGIARVM LIBER QVARTVS",
@@ -12510,9 +17184,21 @@ AUTHOR_TAB = {
         "title":  "Psychomachia",
         "path":   "prudentius/prud.psycho.txt",
     },
-    "1596": {"author": None, "title": "Prudentius I", "path": "prudentius/prud1.txt"},
-    "1597": {"author": None, "title": "Prudentius X", "path": "prudentius/prud10.txt"},
-    "1598": {"author": None, "title": "Prudentius XI", "path": "prudentius/prud11.txt"},
+    "1596": {
+        "author": None,
+        "title":  "Prudentius I",
+        "path":   "prudentius/prud1.txt",
+    },
+    "1597": {
+        "author": None,
+        "title":  "Prudentius X",
+        "path":   "prudentius/prud10.txt",
+    },
+    "1598": {
+        "author": None,
+        "title":  "Prudentius XI",
+        "path":   "prudentius/prud11.txt",
+    },
     "1599": {
         "author": None,
         "title":  "Prudentius XII",
@@ -12528,22 +17214,46 @@ AUTHOR_TAB = {
         "title":  "Prudentius XIV",
         "path":   "prudentius/prud14.txt",
     },
-    "1602": {"author": None, "title": "Prudentius II", "path": "prudentius/prud2.txt"},
-    "1603": {"author": None, "title": "Prudentius III", "path": "prudentius/prud3.txt"},
+    "1602": {
+        "author": None,
+        "title":  "Prudentius II",
+        "path":   "prudentius/prud2.txt",
+    },
+    "1603": {
+        "author": None,
+        "title":  "Prudentius III",
+        "path":   "prudentius/prud3.txt",
+    },
     "1604": {
         "author": None,
         "title":  "Prudentius IIII",
         "path":   "prudentius/prud4.txt",
     },
-    "1605": {"author": None, "title": "Prudentius V", "path": "prudentius/prud5.txt"},
-    "1606": {"author": None, "title": "Prudentius VI", "path": "prudentius/prud6.txt"},
-    "1607": {"author": None, "title": "Prudentius VII", "path": "prudentius/prud7.txt"},
+    "1605": {
+        "author": None,
+        "title":  "Prudentius V",
+        "path":   "prudentius/prud5.txt",
+    },
+    "1606": {
+        "author": None,
+        "title":  "Prudentius VI",
+        "path":   "prudentius/prud6.txt",
+    },
+    "1607": {
+        "author": None,
+        "title":  "Prudentius VII",
+        "path":   "prudentius/prud7.txt",
+    },
     "1608": {
         "author": None,
         "title":  "Prudentius VIII",
         "path":   "prudentius/prud8.txt",
     },
-    "1609": {"author": None, "title": "Prudentius IX", "path": "prudentius/prud9.txt"},
+    "1609": {
+        "author": None,
+        "title":  "Prudentius IX",
+        "path":   "prudentius/prud9.txt",
+    },
     "1610": {
         "author": None,
         "title":  "Pseudo-Plato - De Virtute ",
@@ -12569,7 +17279,11 @@ AUTHOR_TAB = {
         "title":  "Pseudo-Plato - De Iusto ",
         "path":   "psplato.iusto.txt",
     },
-    "1615": {"author": "Pseudo-Plato", "title": "Minos ", "path": "psplato.minos.txt"},
+    "1615": {
+        "author": "Pseudo-Plato",
+        "title":  "Minos ",
+        "path":   "psplato.minos.txt",
+    },
     "1616": {
         "author": None,
         "title":  "Pseudo-Plato - Sisyphus ",
@@ -12580,7 +17294,11 @@ AUTHOR_TAB = {
         "title":  "Pseudo-Plato - De Virtute ",
         "path":   "psplato.virtu.txt",
     },
-    "1618": {"author": None, "title": "Pulchra comis ", "path": "pulchracomis.txt"},
+    "1618": {
+        "author": None,
+        "title":  "Pulchra comis ",
+        "path":   "pulchracomis.txt",
+    },
     "1619": {
         "author": "Quintilian",
         "title":  "Declamatio Maior I",
@@ -12731,29 +17449,61 @@ AUTHOR_TAB = {
         "title":  "Institutio Oratoria IX",
         "path":   "quintilian/quintilian.institutio9.txt",
     },
-    "1649": {"author": None, "title": "Quum inter nonNoneos ", "path": "quum.txt"},
+    "1649": {
+        "author": None,
+        "title":  "Quum inter nonNoneos ",
+        "path":   "quum.txt",
+    },
     "1650": {
         "author": "Raoul of Caen",
         "title":  "Gesta Tancredi in expeditione Hierosolymitana",
         "path":   "raoul.txt",
     },
-    "1651": {"author": None, "title": "Regula ad Monachos", "path": "regula.txt"},
+    "1651": {
+        "author": None,
+        "title":  "Regula ad Monachos",
+        "path":   "regula.txt",
+    },
     "1652": {
         "author": "Reposianus",
         "title":  "De concubitu Martis et Veneris ",
         "path":   "reposianus.txt",
     },
-    "1653": {"author": "AUGUSTUS", "title": "RES GESTAE I", "path": "resgestae.txt"},
-    "1654": {"author": "AUGUSTUS", "title": "RES GESTAE", "path": "resgestae1.txt"},
+    "1653": {
+        "author": "AUGUSTUS",
+        "title":  "RES GESTAE I",
+        "path":   "resgestae.txt",
+    },
+    "1654": {
+        "author": "AUGUSTUS",
+        "title":  "RES GESTAE",
+        "path":   "resgestae1.txt",
+    },
     "1655": {
         "author": None,
         "title":  "EDICTUM ADVERSUS LATINOS RHETORES",
         "path":   "rhetores.txt",
     },
-    "1656": {"author": "Richerus", "title": "Liber I", "path": "richerus1.txt"},
-    "1657": {"author": "Richerus", "title": "Liber II", "path": "richerus2.txt"},
-    "1658": {"author": "Richerus", "title": "Liber III", "path": "richerus3.txt"},
-    "1659": {"author": "Richerus", "title": "Liber IV", "path": "richerus4.txt"},
+    "1656": {
+        "author": "Richerus",
+        "title":  "Liber I",
+        "path":   "richerus1.txt",
+    },
+    "1657": {
+        "author": "Richerus",
+        "title":  "Liber II",
+        "path":   "richerus2.txt",
+    },
+    "1658": {
+        "author": "Richerus",
+        "title":  "Liber III",
+        "path":   "richerus3.txt",
+    },
+    "1659": {
+        "author": "Richerus",
+        "title":  "Liber IV",
+        "path":   "richerus4.txt",
+    },
     "1660": {"author": None, "title": "Arthur Rimbaud", "path": "rimbaud.txt"},
     "1661": {
         "author": None,
@@ -12774,9 +17524,21 @@ AUTHOR_TAB = {
     "1665": {"author": None, "title": "Sabinus", "path": "sabinus1.txt"},
     "1666": {"author": None, "title": "Sabinus", "path": "sabinus2.txt"},
     "1667": {"author": None, "title": "Sabinus", "path": "sabinus3.txt"},
-    "1668": {"author": "Sallust", "title": "Bellum Catilinae", "path": "sall.1.txt"},
-    "1669": {"author": "Sallust", "title": "Bellum Iugurthinum", "path": "sall.2.txt"},
-    "1670": {"author": "Sallust", "title": "Speech of Cotta", "path": "sall.cotta.txt"},
+    "1668": {
+        "author": "Sallust",
+        "title":  "Bellum Catilinae",
+        "path":   "sall.1.txt",
+    },
+    "1669": {
+        "author": "Sallust",
+        "title":  "Bellum Iugurthinum",
+        "path":   "sall.2.txt",
+    },
+    "1670": {
+        "author": "Sallust",
+        "title":  "Speech of Cotta",
+        "path":   "sall.cotta.txt",
+    },
     "1671": {
         "author": "Sallust",
         "title":  "Letter to Caesar I",
@@ -12787,14 +17549,26 @@ AUTHOR_TAB = {
         "title":  "Letter to Caesar II",
         "path":   "sall.ep2.txt",
     },
-    "1673": {"author": "Sallust", "title": "Fragmenta", "path": "sall.frag.txt"},
+    "1673": {
+        "author": "Sallust",
+        "title":  "Fragmenta",
+        "path":   "sall.frag.txt",
+    },
     "1674": {
         "author": "Sallust",
         "title":  "Invective Against Cicero",
         "path":   "sall.invectiva.txt",
     },
-    "1675": {"author": "Sallust", "title": "Speech of Lepidus", "path": "sall.lep.txt"},
-    "1676": {"author": "Sallust", "title": "Speech of Macer", "path": "sall.macer.txt"},
+    "1675": {
+        "author": "Sallust",
+        "title":  "Speech of Lepidus",
+        "path":   "sall.lep.txt",
+    },
+    "1676": {
+        "author": "Sallust",
+        "title":  "Speech of Macer",
+        "path":   "sall.macer.txt",
+    },
     "1677": {
         "author": "Sallust",
         "title":  "Speech of Mithridates",
@@ -12805,7 +17579,11 @@ AUTHOR_TAB = {
         "title":  "Speech of Philippus",
         "path":   "sall.phil.txt",
     },
-    "1679": {"author": "Sallust", "title": "Speech of Pompey", "path": "sall.pomp.txt"},
+    "1679": {
+        "author": "Sallust",
+        "title":  "Speech of Pompey",
+        "path":   "sall.pomp.txt",
+    },
     "1680": {
         "author": "Sannazaro",
         "title":  "de Partu Virginis",
@@ -12822,7 +17600,11 @@ AUTHOR_TAB = {
         "title":  "SENATUS CONSULTUM DE BACCHANALIBUS",
         "path":   "scbaccanalibus.txt",
     },
-    "1684": {"author": None, "title": "Sedulius Scottus ", "path": "scottus.txt"},
+    "1684": {
+        "author": None,
+        "title":  "Sedulius Scottus ",
+        "path":   "scottus.txt",
+    },
     "1685": {
         "author": "Sedulius",
         "title":  "A solis ortus cardine",
@@ -12853,11 +17635,31 @@ AUTHOR_TAB = {
         "title":  "Carmen Paschale I",
         "path":   "sedulius5.txt",
     },
-    "1691": {"author": "Seneca", "title": "On Benefits I ", "path": "sen/ben1.txt"},
-    "1692": {"author": "Seneca", "title": "On Benefits II ", "path": "sen/ben2.txt"},
-    "1693": {"author": "Seneca", "title": "On Benefits III ", "path": "sen/ben3.txt"},
-    "1694": {"author": "Seneca", "title": "Octavia", "path": "sen/octavia.txt"},
-    "1695": {"author": "Seneca", "title": "Agamemnon", "path": "sen/sen.agamemnon.txt"},
+    "1691": {
+        "author": "Seneca",
+        "title":  "On Benefits I ",
+        "path":   "sen/ben1.txt",
+    },
+    "1692": {
+        "author": "Seneca",
+        "title":  "On Benefits II ",
+        "path":   "sen/ben2.txt",
+    },
+    "1693": {
+        "author": "Seneca",
+        "title":  "On Benefits III ",
+        "path":   "sen/ben3.txt",
+    },
+    "1694": {
+        "author": "Seneca",
+        "title":  "Octavia",
+        "path":   "sen/octavia.txt",
+    },
+    "1695": {
+        "author": "Seneca",
+        "title":  "Agamemnon",
+        "path":   "sen/sen.agamemnon.txt",
+    },
     "1696": {
         "author": "Seneca",
         "title":  "Apocolocyntosis",
@@ -12868,7 +17670,11 @@ AUTHOR_TAB = {
         "title":  "On the Brevity of Life",
         "path":   "sen/sen.brevita.txt",
     },
-    "1698": {"author": "Seneca", "title": "On Clemency", "path": "sen/sen.clem.txt"},
+    "1698": {
+        "author": "Seneca",
+        "title":  "On Clemency",
+        "path":   "sen/sen.clem.txt",
+    },
     "1699": {
         "author": "Seneca",
         "title":  "On Consolation (ad Polybium)",
@@ -12889,16 +17695,56 @@ AUTHOR_TAB = {
         "title":  "de Constantia",
         "path":   "sen/sen.constantia.txt",
     },
-    "1703": {"author": "Seneca", "title": "Hercules", "path": "sen/sen.hercules.txt"},
-    "1704": {"author": "Seneca", "title": "On Anger I", "path": "sen/sen.ira1.txt"},
-    "1705": {"author": "Seneca", "title": "On Anger II", "path": "sen/sen.ira2.txt"},
-    "1706": {"author": "Seneca", "title": "On Anger III", "path": "sen/sen.ira3.txt"},
-    "1707": {"author": "Seneca", "title": "Medea", "path": "sen/sen.medea.txt"},
-    "1708": {"author": "Seneca", "title": "Oedipus", "path": "sen/sen.oedipus.txt"},
-    "1709": {"author": "Seneca", "title": "On Leisure", "path": "sen/sen.otio.txt"},
-    "1710": {"author": "Seneca", "title": "Phaedra", "path": "sen/sen.phaedra.txt"},
-    "1711": {"author": "Seneca", "title": "Phoenissae", "path": "sen/sen.phoen.txt"},
-    "1712": {"author": "Seneca", "title": "On Providence", "path": "sen/sen.prov.txt"},
+    "1703": {
+        "author": "Seneca",
+        "title":  "Hercules",
+        "path":   "sen/sen.hercules.txt",
+    },
+    "1704": {
+        "author": "Seneca",
+        "title":  "On Anger I",
+        "path":   "sen/sen.ira1.txt",
+    },
+    "1705": {
+        "author": "Seneca",
+        "title":  "On Anger II",
+        "path":   "sen/sen.ira2.txt",
+    },
+    "1706": {
+        "author": "Seneca",
+        "title":  "On Anger III",
+        "path":   "sen/sen.ira3.txt",
+    },
+    "1707": {
+        "author": "Seneca",
+        "title":  "Medea",
+        "path":   "sen/sen.medea.txt",
+    },
+    "1708": {
+        "author": "Seneca",
+        "title":  "Oedipus",
+        "path":   "sen/sen.oedipus.txt",
+    },
+    "1709": {
+        "author": "Seneca",
+        "title":  "On Leisure",
+        "path":   "sen/sen.otio.txt",
+    },
+    "1710": {
+        "author": "Seneca",
+        "title":  "Phaedra",
+        "path":   "sen/sen.phaedra.txt",
+    },
+    "1711": {
+        "author": "Seneca",
+        "title":  "Phoenissae",
+        "path":   "sen/sen.phoen.txt",
+    },
+    "1712": {
+        "author": "Seneca",
+        "title":  "On Providence",
+        "path":   "sen/sen.prov.txt",
+    },
     "1713": {
         "author": None,
         "title":  "Proverbia Senecae",
@@ -12939,7 +17785,11 @@ AUTHOR_TAB = {
         "title":  "Quaestiones Naturales VII",
         "path":   "sen/sen.qn7.txt",
     },
-    "1721": {"author": "Seneca", "title": "Thyestes", "path": "sen/sen.thyestes.txt"},
+    "1721": {
+        "author": "Seneca",
+        "title":  "Thyestes",
+        "path":   "sen/sen.thyestes.txt",
+    },
     "1722": {
         "author": "Seneca",
         "title":  "On Tranquility of the Mind",
@@ -13035,16 +17885,56 @@ AUTHOR_TAB = {
         "title":  "Epistulae Morales, Liber IX",
         "path":   "sen/seneca.ep9.txt",
     },
-    "1741": {"author": None, "title": "Seneca the Elder", "path": "seneca.contr1.txt"},
-    "1742": {"author": None, "title": "Seneca the Elder", "path": "seneca.contr10.txt"},
-    "1743": {"author": None, "title": "Seneca the Elder", "path": "seneca.contr2.txt"},
-    "1744": {"author": None, "title": "Seneca the Elder", "path": "seneca.contr3.txt"},
-    "1745": {"author": None, "title": "Seneca the Elder", "path": "seneca.contr4.txt"},
-    "1746": {"author": None, "title": "Seneca the Elder", "path": "seneca.contr5.txt"},
-    "1747": {"author": None, "title": "Seneca the Elder", "path": "seneca.contr6.txt"},
-    "1748": {"author": None, "title": "Seneca the Elder", "path": "seneca.contr7.txt"},
-    "1749": {"author": None, "title": "Seneca the Elder", "path": "seneca.contr8.txt"},
-    "1750": {"author": None, "title": "Seneca the Elder", "path": "seneca.contr9.txt"},
+    "1741": {
+        "author": None,
+        "title":  "Seneca the Elder",
+        "path":   "seneca.contr1.txt",
+    },
+    "1742": {
+        "author": None,
+        "title":  "Seneca the Elder",
+        "path":   "seneca.contr10.txt",
+    },
+    "1743": {
+        "author": None,
+        "title":  "Seneca the Elder",
+        "path":   "seneca.contr2.txt",
+    },
+    "1744": {
+        "author": None,
+        "title":  "Seneca the Elder",
+        "path":   "seneca.contr3.txt",
+    },
+    "1745": {
+        "author": None,
+        "title":  "Seneca the Elder",
+        "path":   "seneca.contr4.txt",
+    },
+    "1746": {
+        "author": None,
+        "title":  "Seneca the Elder",
+        "path":   "seneca.contr5.txt",
+    },
+    "1747": {
+        "author": None,
+        "title":  "Seneca the Elder",
+        "path":   "seneca.contr6.txt",
+    },
+    "1748": {
+        "author": None,
+        "title":  "Seneca the Elder",
+        "path":   "seneca.contr7.txt",
+    },
+    "1749": {
+        "author": None,
+        "title":  "Seneca the Elder",
+        "path":   "seneca.contr8.txt",
+    },
+    "1750": {
+        "author": None,
+        "title":  "Seneca the Elder",
+        "path":   "seneca.contr9.txt",
+    },
     "1751": {
         "author": None,
         "title":  "Seneca the Elder",
@@ -13060,12 +17950,24 @@ AUTHOR_TAB = {
         "title":  "The Story of the Seven Wise Men",
         "path":   "septsap.txt",
     },
-    "1754": {"author": None, "title": "The Thirty Tyrants", "path": "sha/30.txt"},
+    "1754": {
+        "author": None,
+        "title":  "The Thirty Tyrants",
+        "path":   "sha/30.txt",
+    },
     "1755": {"author": None, "title": "Aelius", "path": "sha/aelii.txt"},
-    "1756": {"author": None, "title": "Alexander Severus", "path": "sha/alexsev.txt"},
+    "1756": {
+        "author": None,
+        "title":  "Alexander Severus",
+        "path":   "sha/alexsev.txt",
+    },
     "1757": {"author": None, "title": "Antoninus Pius", "path": "sha/ant.txt"},
     "1758": {"author": None, "title": "Aurelian", "path": "sha/aurel.txt"},
-    "1759": {"author": None, "title": "Avidius Cassius", "path": "sha/avid.txt"},
+    "1759": {
+        "author": None,
+        "title":  "Avidius Cassius",
+        "path":   "sha/avid.txt",
+    },
     "1760": {"author": None, "title": "Caracalla", "path": "sha/car.txt"},
     "1761": {
         "author": "Carus",
@@ -13073,26 +17975,62 @@ AUTHOR_TAB = {
         "path":   "sha/carus.txt",
     },
     "1762": {"author": None, "title": "Claudius", "path": "sha/claud.txt"},
-    "1763": {"author": None, "title": "Clodius Albinus", "path": "sha/clod.txt"},
+    "1763": {
+        "author": None,
+        "title":  "Clodius Albinus",
+        "path":   "sha/clod.txt",
+    },
     "1764": {"author": None, "title": "Commodus", "path": "sha/com.txt"},
     "1765": {"author": None, "title": "Diadumenus", "path": "sha/diad.txt"},
-    "1766": {"author": None, "title": "Didius Iulianus", "path": "sha/didiul.txt"},
+    "1766": {
+        "author": None,
+        "title":  "Didius Iulianus",
+        "path":   "sha/didiul.txt",
+    },
     "1767": {"author": None, "title": "Tyrants", "path": "sha/firmus.txt"},
-    "1768": {"author": None, "title": "The Two Gallieni", "path": "sha/gall.txt"},
+    "1768": {
+        "author": None,
+        "title":  "The Two Gallieni",
+        "path":   "sha/gall.txt",
+    },
     "1769": {"author": None, "title": "Geta", "path": "sha/geta.txt"},
-    "1770": {"author": None, "title": "The Three Gordians", "path": "sha/gord.txt"},
+    "1770": {
+        "author": None,
+        "title":  "The Three Gordians",
+        "path":   "sha/gord.txt",
+    },
     "1771": {"author": None, "title": "Hadrian", "path": "sha/hadr.txt"},
     "1772": {"author": None, "title": "Elagabalus", "path": "sha/helio.txt"},
     "1773": {"author": None, "title": "Macrinus", "path": "sha/mac.txt"},
-    "1774": {"author": None, "title": "Marcus Aurelius", "path": "sha/marcant.txt"},
+    "1774": {
+        "author": None,
+        "title":  "Marcus Aurelius",
+        "path":   "sha/marcant.txt",
+    },
     "1775": {"author": None, "title": "Maximini", "path": "sha/max.txt"},
-    "1776": {"author": None, "title": "Maximus et Balbinus", "path": "sha/maxbal.txt"},
+    "1776": {
+        "author": None,
+        "title":  "Maximus et Balbinus",
+        "path":   "sha/maxbal.txt",
+    },
     "1777": {"author": None, "title": "Pertinax", "path": "sha/pert.txt"},
-    "1778": {"author": None, "title": "Pescenius Niger", "path": "sha/pesc.txt"},
+    "1778": {
+        "author": None,
+        "title":  "Pescenius Niger",
+        "path":   "sha/pesc.txt",
+    },
     "1779": {"author": None, "title": "Probus", "path": "sha/probus.txt"},
-    "1780": {"author": None, "title": "Septimus Severus", "path": "sha/sepsev.txt"},
+    "1780": {
+        "author": None,
+        "title":  "Septimus Severus",
+        "path":   "sha/sepsev.txt",
+    },
     "1781": {"author": None, "title": "Tacitus", "path": "sha/tacitus.txt"},
-    "1782": {"author": None, "title": "The Two Valerians", "path": "sha/val.txt"},
+    "1782": {
+        "author": None,
+        "title":  "The Two Valerians",
+        "path":   "sha/val.txt",
+    },
     "1783": {"author": None, "title": "L. Verus", "path": "sha/verus.txt"},
     "1784": {
         "author": None,
@@ -13159,29 +18097,101 @@ AUTHOR_TAB = {
         "title":  "Sigebert of Gembloux",
         "path":   "sigebert.vitabrevior.txt",
     },
-    "1797": {"author": "Silius", "title": "Liber I", "path": "silius/silius1.txt"},
-    "1798": {"author": "Silius", "title": "Liber X", "path": "silius/silius10.txt"},
-    "1799": {"author": "Silius", "title": "Liber XI", "path": "silius/silius11.txt"},
-    "1800": {"author": "Silius", "title": "Liber XII", "path": "silius/silius12.txt"},
-    "1801": {"author": "Silius", "title": "Liber XIII", "path": "silius/silius13.txt"},
-    "1802": {"author": "Silius", "title": "Liber XIV", "path": "silius/silius14.txt"},
-    "1803": {"author": "Silius", "title": "Liber XV", "path": "silius/silius15.txt"},
-    "1804": {"author": "Silius", "title": "Liber XVI", "path": "silius/silius16.txt"},
-    "1805": {"author": "Silius", "title": "Liber XVII", "path": "silius/silius17.txt"},
-    "1806": {"author": "Silius", "title": "Liber II", "path": "silius/silius2.txt"},
-    "1807": {"author": "Silius", "title": "Liber IIII", "path": "silius/silius3.txt"},
-    "1808": {"author": "Silius", "title": "Liber IV", "path": "silius/silius4.txt"},
-    "1809": {"author": "Silius", "title": "Liber V", "path": "silius/silius5.txt"},
-    "1810": {"author": "Silius", "title": "Liber VI", "path": "silius/silius6.txt"},
-    "1811": {"author": "Silius", "title": "Liber VII", "path": "silius/silius7.txt"},
-    "1812": {"author": "Silius", "title": "Liber VIII", "path": "silius/silius8.txt"},
-    "1813": {"author": "Silius", "title": "Liber IX", "path": "silius/silius9.txt"},
+    "1797": {
+        "author": "Silius",
+        "title":  "Liber I",
+        "path":   "silius/silius1.txt",
+    },
+    "1798": {
+        "author": "Silius",
+        "title":  "Liber X",
+        "path":   "silius/silius10.txt",
+    },
+    "1799": {
+        "author": "Silius",
+        "title":  "Liber XI",
+        "path":   "silius/silius11.txt",
+    },
+    "1800": {
+        "author": "Silius",
+        "title":  "Liber XII",
+        "path":   "silius/silius12.txt",
+    },
+    "1801": {
+        "author": "Silius",
+        "title":  "Liber XIII",
+        "path":   "silius/silius13.txt",
+    },
+    "1802": {
+        "author": "Silius",
+        "title":  "Liber XIV",
+        "path":   "silius/silius14.txt",
+    },
+    "1803": {
+        "author": "Silius",
+        "title":  "Liber XV",
+        "path":   "silius/silius15.txt",
+    },
+    "1804": {
+        "author": "Silius",
+        "title":  "Liber XVI",
+        "path":   "silius/silius16.txt",
+    },
+    "1805": {
+        "author": "Silius",
+        "title":  "Liber XVII",
+        "path":   "silius/silius17.txt",
+    },
+    "1806": {
+        "author": "Silius",
+        "title":  "Liber II",
+        "path":   "silius/silius2.txt",
+    },
+    "1807": {
+        "author": "Silius",
+        "title":  "Liber IIII",
+        "path":   "silius/silius3.txt",
+    },
+    "1808": {
+        "author": "Silius",
+        "title":  "Liber IV",
+        "path":   "silius/silius4.txt",
+    },
+    "1809": {
+        "author": "Silius",
+        "title":  "Liber V",
+        "path":   "silius/silius5.txt",
+    },
+    "1810": {
+        "author": "Silius",
+        "title":  "Liber VI",
+        "path":   "silius/silius6.txt",
+    },
+    "1811": {
+        "author": "Silius",
+        "title":  "Liber VII",
+        "path":   "silius/silius7.txt",
+    },
+    "1812": {
+        "author": "Silius",
+        "title":  "Liber VIII",
+        "path":   "silius/silius8.txt",
+    },
+    "1813": {
+        "author": "Silius",
+        "title":  "Liber IX",
+        "path":   "silius/silius9.txt",
+    },
     "1814": {
         "author": None,
         "title":  "Si me dignetur quam desidero ",
         "path":   "simedignetur.txt",
     },
-    "1815": {"author": None, "title": "Alexander Smarius", "path": "smarius.txt"},
+    "1815": {
+        "author": None,
+        "title":  "Alexander Smarius",
+        "path":   "smarius.txt",
+    },
     "1816": {"author": None, "title": "Solet annuere ", "path": "solet.txt"},
     "1817": {"author": None, "title": "Solinus", "path": "solinus1.txt"},
     "1818": {"author": None, "title": "Solinus", "path": "solinus1a.txt"},
@@ -13192,15 +18202,31 @@ AUTHOR_TAB = {
     "1823": {"author": None, "title": "Solinus", "path": "solinus4.txt"},
     "1824": {"author": None, "title": "Solinus", "path": "solinus4a.txt"},
     "1825": {"author": None, "title": "Solinus", "path": "solinus5.txt"},
-    "1826": {"author": "Spinoza", "title": "Ethica I", "path": "spinoza.ethica1.txt"},
-    "1827": {"author": "Spinoza", "title": "Ethica I ", "path": "spinoza.ethica2.txt"},
+    "1826": {
+        "author": "Spinoza",
+        "title":  "Ethica I",
+        "path":   "spinoza.ethica1.txt",
+    },
+    "1827": {
+        "author": "Spinoza",
+        "title":  "Ethica I ",
+        "path":   "spinoza.ethica2.txt",
+    },
     "1828": {
         "author": "Spinoza",
         "title":  "Ethica III ",
         "path":   "spinoza.ethica3.txt",
     },
-    "1829": {"author": "Spinoza", "title": "Ethica IV ", "path": "spinoza.ethica4.txt"},
-    "1830": {"author": "Spinoza", "title": "Ethica V ", "path": "spinoza.ethica5.txt"},
+    "1829": {
+        "author": "Spinoza",
+        "title":  "Ethica IV ",
+        "path":   "spinoza.ethica4.txt",
+    },
+    "1830": {
+        "author": "Spinoza",
+        "title":  "Ethica V ",
+        "path":   "spinoza.ethica5.txt",
+    },
     "1831": {
         "author": "Statius",
         "title":  "Achilleid I",
@@ -13211,23 +18237,91 @@ AUTHOR_TAB = {
         "title":  "Achilleid II",
         "path":   "statius/achilleid2.txt",
     },
-    "1833": {"author": "Statius", "title": "Silvae I", "path": "statius/silvae1.txt"},
-    "1834": {"author": "Statius", "title": "Silvae II", "path": "statius/silvae2.txt"},
-    "1835": {"author": "Statius", "title": "Silvae III", "path": "statius/silvae3.txt"},
-    "1836": {"author": "Statius", "title": "Silvae IV", "path": "statius/silvae4.txt"},
-    "1837": {"author": "Statius", "title": "Silvae V", "path": "statius/silvae5.txt"},
-    "1838": {"author": "Statius", "title": "Thebaid I", "path": "statius/theb1.txt"},
-    "1839": {"author": "Statius", "title": "Thebaid X", "path": "statius/theb10.txt"},
-    "1840": {"author": "Statius", "title": "Thebaid XI", "path": "statius/theb11.txt"},
-    "1841": {"author": "Statius", "title": "Thebaid XII", "path": "statius/theb12.txt"},
-    "1842": {"author": "Statius", "title": "Thebaid II", "path": "statius/theb2.txt"},
-    "1843": {"author": "Statius", "title": "Thebaid III", "path": "statius/theb3.txt"},
-    "1844": {"author": "Statius", "title": "Thebaid IV", "path": "statius/theb4.txt"},
-    "1845": {"author": "Statius", "title": "Thebaid V", "path": "statius/theb5.txt"},
-    "1846": {"author": "Statius", "title": "Thebaid VI", "path": "statius/theb6.txt"},
-    "1847": {"author": "Statius", "title": "Thebaid VII", "path": "statius/theb7.txt"},
-    "1848": {"author": "Statius", "title": "Thebaid VIII", "path": "statius/theb8.txt"},
-    "1849": {"author": "Statius", "title": "Thebaid IX", "path": "statius/theb9.txt"},
+    "1833": {
+        "author": "Statius",
+        "title":  "Silvae I",
+        "path":   "statius/silvae1.txt",
+    },
+    "1834": {
+        "author": "Statius",
+        "title":  "Silvae II",
+        "path":   "statius/silvae2.txt",
+    },
+    "1835": {
+        "author": "Statius",
+        "title":  "Silvae III",
+        "path":   "statius/silvae3.txt",
+    },
+    "1836": {
+        "author": "Statius",
+        "title":  "Silvae IV",
+        "path":   "statius/silvae4.txt",
+    },
+    "1837": {
+        "author": "Statius",
+        "title":  "Silvae V",
+        "path":   "statius/silvae5.txt",
+    },
+    "1838": {
+        "author": "Statius",
+        "title":  "Thebaid I",
+        "path":   "statius/theb1.txt",
+    },
+    "1839": {
+        "author": "Statius",
+        "title":  "Thebaid X",
+        "path":   "statius/theb10.txt",
+    },
+    "1840": {
+        "author": "Statius",
+        "title":  "Thebaid XI",
+        "path":   "statius/theb11.txt",
+    },
+    "1841": {
+        "author": "Statius",
+        "title":  "Thebaid XII",
+        "path":   "statius/theb12.txt",
+    },
+    "1842": {
+        "author": "Statius",
+        "title":  "Thebaid II",
+        "path":   "statius/theb2.txt",
+    },
+    "1843": {
+        "author": "Statius",
+        "title":  "Thebaid III",
+        "path":   "statius/theb3.txt",
+    },
+    "1844": {
+        "author": "Statius",
+        "title":  "Thebaid IV",
+        "path":   "statius/theb4.txt",
+    },
+    "1845": {
+        "author": "Statius",
+        "title":  "Thebaid V",
+        "path":   "statius/theb5.txt",
+    },
+    "1846": {
+        "author": "Statius",
+        "title":  "Thebaid VI",
+        "path":   "statius/theb6.txt",
+    },
+    "1847": {
+        "author": "Statius",
+        "title":  "Thebaid VII",
+        "path":   "statius/theb7.txt",
+    },
+    "1848": {
+        "author": "Statius",
+        "title":  "Thebaid VIII",
+        "path":   "statius/theb8.txt",
+    },
+    "1849": {
+        "author": "Statius",
+        "title":  "Thebaid IX",
+        "path":   "statius/theb9.txt",
+    },
     "1850": {
         "author": "Suetonius",
         "title":  "Divus Augustus",
@@ -13238,7 +18332,11 @@ AUTHOR_TAB = {
         "title":  "Divus Iulius",
         "path":   "suetonius/suet.caesar.txt",
     },
-    "1852": {"author": None, "title": "\u0007 ", "path": "suetonius/suet.cal.txt"},
+    "1852": {
+        "author": None,
+        "title":  "\u0007 ",
+        "path":   "suetonius/suet.cal.txt",
+    },
     "1853": {
         "author": "Suetonius",
         "title":  "Divus Claudius",
@@ -13350,10 +18448,22 @@ AUTHOR_TAB = {
         "title":  "Life of St. Martin",
         "path":   "sulpiciusseverusmartin.txt",
     },
-    "1876": {"author": None, "title": "Suscipe Flos ", "path": "suscipeflos.txt"},
+    "1876": {
+        "author": None,
+        "title":  "Suscipe Flos ",
+        "path":   "suscipeflos.txt",
+    },
     "1877": {"author": None, "title": "Publilius Syrus", "path": "syrus.txt"},
-    "1878": {"author": "Tacitus", "title": "Agricola", "path": "tacitus/tac.agri.txt"},
-    "1879": {"author": "Tacitus", "title": "Annales I", "path": "tacitus/tac.ann1.txt"},
+    "1878": {
+        "author": "Tacitus",
+        "title":  "Agricola",
+        "path":   "tacitus/tac.agri.txt",
+    },
+    "1879": {
+        "author": "Tacitus",
+        "title":  "Annales I",
+        "path":   "tacitus/tac.ann1.txt",
+    },
     "1880": {
         "author": "Tacitus",
         "title":  "Annales XI",
@@ -13399,7 +18509,11 @@ AUTHOR_TAB = {
         "title":  "Annales IV",
         "path":   "tacitus/tac.ann4.txt",
     },
-    "1889": {"author": "Tacitus", "title": "Annales V", "path": "tacitus/tac.ann5.txt"},
+    "1889": {
+        "author": "Tacitus",
+        "title":  "Annales V",
+        "path":   "tacitus/tac.ann5.txt",
+    },
     "1890": {
         "author": "Tacitus",
         "title":  "Annales VI",
@@ -13410,7 +18524,11 @@ AUTHOR_TAB = {
         "title":  "Dialogus de Oratoribus",
         "path":   "tacitus/tac.dialogus.txt",
     },
-    "1892": {"author": "Tacitus", "title": "Germania", "path": "tacitus/tac.ger.txt"},
+    "1892": {
+        "author": "Tacitus",
+        "title":  "Germania",
+        "path":   "tacitus/tac.ger.txt",
+    },
     "1893": {
         "author": "Tacitus",
         "title":  "Histories I",
@@ -13436,17 +18554,29 @@ AUTHOR_TAB = {
         "title":  "Histories V",
         "path":   "tacitus/tac.hist5.txt",
     },
-    "1898": {"author": None, "title": "Tempus est iocundum ", "path": "tempusest.txt"},
+    "1898": {
+        "author": None,
+        "title":  "Tempus est iocundum ",
+        "path":   "tempusest.txt",
+    },
     "1899": {"author": "Terence", "title": "Adelphoe", "path": "ter.adel.txt"},
     "1900": {"author": "Terence", "title": "Andria", "path": "ter.andria.txt"},
-    "1901": {"author": "Terence", "title": "Eunuchus", "path": "ter.eunuchus.txt"},
+    "1901": {
+        "author": "Terence",
+        "title":  "Eunuchus",
+        "path":   "ter.eunuchus.txt",
+    },
     "1902": {
         "author": "Terence",
         "title":  "Heauton Timorumenos",
         "path":   "ter.heauton.txt",
     },
     "1903": {"author": "Terence", "title": "Hecyra", "path": "ter.hecyra.txt"},
-    "1904": {"author": "Terence", "title": "Phormio", "path": "ter.phormio.txt"},
+    "1904": {
+        "author": "Terence",
+        "title":  "Phormio",
+        "path":   "ter.phormio.txt",
+    },
     "1905": {
         "author": None,
         "title":  "Terra iam pandit gremium ",
@@ -13779,10 +18909,26 @@ AUTHOR_TAB = {
         "title":  "Thomas of Edessa (Carr)",
         "path":   "thomasedessa.txt",
     },
-    "1973": {"author": None, "title": "Tibullus Book I", "path": "tibullus1.txt"},
-    "1974": {"author": None, "title": "Tibullus Book II", "path": "tibullus2.txt"},
-    "1975": {"author": None, "title": "Tibullus Book III", "path": "tibullus3.txt"},
-    "1976": {"author": None, "title": "Augustin T\u00fcnger", "path": "tunger.txt"},
+    "1973": {
+        "author": None,
+        "title":  "Tibullus Book I",
+        "path":   "tibullus1.txt",
+    },
+    "1974": {
+        "author": None,
+        "title":  "Tibullus Book II",
+        "path":   "tibullus2.txt",
+    },
+    "1975": {
+        "author": None,
+        "title":  "Tibullus Book III",
+        "path":   "tibullus3.txt",
+    },
+    "1976": {
+        "author": None,
+        "title":  "Augustin T\u00fcnger",
+        "path":   "tunger.txt",
+    },
     "1977": {
         "author": "Valerius Flaccus",
         "title":  "Liber I",
@@ -13823,7 +18969,11 @@ AUTHOR_TAB = {
         "title":  "Liber VIII",
         "path":   "valeriusflaccus8.txt",
     },
-    "1985": {"author": None, "title": "Anonymus Valesianus", "path": "valesianus.txt"},
+    "1985": {
+        "author": None,
+        "title":  "Anonymus Valesianus",
+        "path":   "valesianus.txt",
+    },
     "1986": {
         "author": "Anonymus Valesianus",
         "title":  "Origo Constantini Imperatoris",
@@ -13834,15 +18984,51 @@ AUTHOR_TAB = {
         "title":  "Chronica Theodericiana",
         "path":   "valesianus2.txt",
     },
-    "1988": {"author": None, "title": "Valerius Maximus I", "path": "valmax1.txt"},
-    "1989": {"author": None, "title": "Valerius Maximus II", "path": "valmax2.txt"},
-    "1990": {"author": None, "title": "Valerius Maximus III", "path": "valmax3.txt"},
-    "1991": {"author": None, "title": "Valerius Maximus IV", "path": "valmax4.txt"},
-    "1992": {"author": None, "title": "Valerius Maximus V", "path": "valmax5.txt"},
-    "1993": {"author": None, "title": "Valerius Maximus VI", "path": "valmax6.txt"},
-    "1994": {"author": None, "title": "Valerius Maximus VII", "path": "valmax7.txt"},
-    "1995": {"author": None, "title": "Valerius Maximus VIII", "path": "valmax8.txt"},
-    "1996": {"author": None, "title": "Valerius Maximus I", "path": "valmax9.txt"},
+    "1988": {
+        "author": None,
+        "title":  "Valerius Maximus I",
+        "path":   "valmax1.txt",
+    },
+    "1989": {
+        "author": None,
+        "title":  "Valerius Maximus II",
+        "path":   "valmax2.txt",
+    },
+    "1990": {
+        "author": None,
+        "title":  "Valerius Maximus III",
+        "path":   "valmax3.txt",
+    },
+    "1991": {
+        "author": None,
+        "title":  "Valerius Maximus IV",
+        "path":   "valmax4.txt",
+    },
+    "1992": {
+        "author": None,
+        "title":  "Valerius Maximus V",
+        "path":   "valmax5.txt",
+    },
+    "1993": {
+        "author": None,
+        "title":  "Valerius Maximus VI",
+        "path":   "valmax6.txt",
+    },
+    "1994": {
+        "author": None,
+        "title":  "Valerius Maximus VII",
+        "path":   "valmax7.txt",
+    },
+    "1995": {
+        "author": None,
+        "title":  "Valerius Maximus VIII",
+        "path":   "valmax8.txt",
+    },
+    "1996": {
+        "author": None,
+        "title":  "Valerius Maximus I",
+        "path":   "valmax9.txt",
+    },
     "1997": {"author": None, "title": "", "path": "varro.frag.txt"},
     "1998": {"author": None, "title": "", "path": "varro.ll10.txt"},
     "1999": {"author": None, "title": "", "path": "varro.ll5.txt"},
@@ -13850,26 +19036,66 @@ AUTHOR_TAB = {
     "2001": {"author": None, "title": "", "path": "varro.ll7.txt"},
     "2002": {"author": None, "title": "", "path": "varro.ll8.txt"},
     "2003": {"author": None, "title": "", "path": "varro.ll9.txt"},
-    "2004": {"author": "Varro", "title": "De Agri Cultura I", "path": "varro.rr1.txt"},
-    "2005": {"author": "Varro", "title": "De Agri Cultura II", "path": "varro.rr2.txt"},
+    "2004": {
+        "author": "Varro",
+        "title":  "De Agri Cultura I",
+        "path":   "varro.rr1.txt",
+    },
+    "2005": {
+        "author": "Varro",
+        "title":  "De Agri Cultura II",
+        "path":   "varro.rr2.txt",
+    },
     "2006": {
         "author": "Varro",
         "title":  "De Agri Cultura III",
         "path":   "varro.rr3.txt",
     },
-    "2007": {"author": "Vegetius", "title": "Liber I", "path": "vegetius1.txt"},
-    "2008": {"author": "Vegetius", "title": "Liber II", "path": "vegetius2.txt"},
-    "2009": {"author": "Vegetius", "title": "Liber III", "path": "vegetius3.txt"},
-    "2010": {"author": "Vegetius", "title": "Liber IV", "path": "vegetius4.txt"},
+    "2007": {
+        "author": "Vegetius",
+        "title":  "Liber I",
+        "path":   "vegetius1.txt",
+    },
+    "2008": {
+        "author": "Vegetius",
+        "title":  "Liber II",
+        "path":   "vegetius2.txt",
+    },
+    "2009": {
+        "author": "Vegetius",
+        "title":  "Liber III",
+        "path":   "vegetius3.txt",
+    },
+    "2010": {
+        "author": "Vegetius",
+        "title":  "Liber IV",
+        "path":   "vegetius4.txt",
+    },
     "2011": {
         "author": "Vegius",
         "title":  "Aeneidos Supplementum",
         "path":   "vegius.txt",
     },
-    "2012": {"author": None, "title": "Velleius Paterculus", "path": "vell1.txt"},
-    "2013": {"author": None, "title": "Velleius Paterculus", "path": "vell2.txt"},
-    "2014": {"author": None, "title": "Venantius Fortunatus", "path": "venantius.txt"},
-    "2015": {"author": "Vergil", "title": "Aeneid I", "path": "vergil/aen1.txt"},
+    "2012": {
+        "author": None,
+        "title":  "Velleius Paterculus",
+        "path":   "vell1.txt",
+    },
+    "2013": {
+        "author": None,
+        "title":  "Velleius Paterculus",
+        "path":   "vell2.txt",
+    },
+    "2014": {
+        "author": None,
+        "title":  "Venantius Fortunatus",
+        "path":   "venantius.txt",
+    },
+    "2015": {
+        "author": "Vergil",
+        "title":  "Aeneid I",
+        "path":   "vergil/aen1.txt",
+    },
     "2016": {
         "author": "P. VERGILI MARONIS",
         "title":  "AENEIDOS LIBER DECIMVS",
@@ -14002,20 +19228,32 @@ AUTHOR_TAB = {
         "path":   "vicentius.txt",
     },
     "2043": {"author": "Vico", "title": "Oratio VI", "path": "vico.orat6.txt"},
-    "2044": {"author": None, "title": "LIBER DE CAESARIBUS", "path": "victor.caes.txt"},
+    "2044": {
+        "author": None,
+        "title":  "LIBER DE CAESARIBUS",
+        "path":   "victor.caes.txt",
+    },
     "2045": {
         "author": None,
         "title":  "EPITOME DE CAESARIBUS",
         "path":   "victor.caes2.txt",
     },
-    "2046": {"author": None, "title": "DE VIRIS ILLVSTRIBVS", "path": "victor.ill.txt"},
+    "2046": {
+        "author": None,
+        "title":  "DE VIRIS ILLVSTRIBVS",
+        "path":   "victor.ill.txt",
+    },
     "2047": {
         "author": None,
         "title":  "EPITOME DE CAESARIBUS",
         "path":   "victor.origio.txt",
     },
     "2048": {"author": "Vida", "title": "Scacchia, Ludus", "path": "vida.txt"},
-    "2049": {"author": None, "title": "Vita Caroli IV", "path": "vitacaroli.txt"},
+    "2049": {
+        "author": None,
+        "title":  "Vita Caroli IV",
+        "path":   "vitacaroli.txt",
+    },
     "2050": {
         "author": None,
         "title":  "De Architectura Liber I",
@@ -14196,9 +19434,21 @@ AUTHOR_TAB = {
         "title":  "Carmina Henrici Waardenburg",
         "path":   "waardenburg.txt",
     },
-    "2086": {"author": None, "title": "Waltharius I", "path": "waltarius1.txt"},
-    "2087": {"author": None, "title": "Waltharius II", "path": "waltarius2.txt"},
-    "2088": {"author": None, "title": "Waltharius III", "path": "waltarius3.txt"},
+    "2086": {
+        "author": None,
+        "title":  "Waltharius I",
+        "path":   "waltarius1.txt",
+    },
+    "2087": {
+        "author": None,
+        "title":  "Waltharius II",
+        "path":   "waltarius2.txt",
+    },
+    "2088": {
+        "author": None,
+        "title":  "Waltharius III",
+        "path":   "waltarius3.txt",
+    },
     "2089": {
         "author": None,
         "title":  "Walter of Ch\u00e2tillon",
@@ -14390,7 +19640,11 @@ AUTHOR_TAB = {
         "title":  "Prologus",
         "path":   "williamtyre/prologus.txt",
     },
-    "2128": {"author": "Johann Hildebrand Withof", "title": None, "path": "withof.txt"},
+    "2128": {
+        "author": "Johann Hildebrand Withof",
+        "title":  None,
+        "path":   "withof.txt",
+    },
     "2129": {
         "author": "Johann Hildebrand Withof",
         "title":  None,

@@ -39,13 +39,16 @@ import cylleneus.engine.matching.mcore
 
 # Exceptions
 
+
 class QueryError(Exception):
     """Error encountered while running a query.
     """
+
     pass
 
 
 # Functions
+
 
 def error_query(msg, q=None):
     """Returns the query in the second argument (or a :class:`NullQuery` if the
@@ -66,6 +69,7 @@ def token_lists(q, phrases=True):
 
     if q.is_leaf():
         from whoosh.query.positional import Phrase
+
         if phrases or not isinstance(q, Phrase):
             return list(q.tokens())
     else:
@@ -80,6 +84,7 @@ def token_lists(q, phrases=True):
 
 
 # Utility classes
+
 
 class Lowest(object):
     """A value that is always compares lower than any other object except
@@ -145,6 +150,7 @@ Highest = Highest()
 
 # Base classes
 
+
 class Query(object):
     """Abstract base class for all queries.
     Note that this base class implements __or__, __and__, and __sub__ to allow
@@ -176,6 +182,7 @@ class Query(object):
         """
 
         from whoosh.query import Or
+
         return Or([self, query]).normalize()
 
     def __and__(self, query):
@@ -184,6 +191,7 @@ class Query(object):
         """
 
         from whoosh.query import And
+
         return And([self, query]).normalize()
 
     def __sub__(self, query):
@@ -192,6 +200,7 @@ class Query(object):
         """
 
         from whoosh.query import And, Not
+
         return And([self, Not(query)]).normalize()
 
     def __hash__(self):
@@ -290,8 +299,9 @@ class Query(object):
         if self.is_leaf():
             return copy.copy(self)
         else:
-            return self.apply(methodcaller("replace", fieldname, oldtext,
-                                           newtext))
+            return self.apply(
+                methodcaller("replace", fieldname, oldtext, newtext)
+            )
 
     def copy(self):
         """Deprecated, just use ``copy.deepcopy``.
@@ -312,17 +322,26 @@ class Query(object):
     def nterms(self):
         n = 0
 
-        if isinstance(self, cylleneus.engine.query.compound.CylleneusCompoundQuery):
+        if isinstance(
+            self, cylleneus.engine.query.compound.CylleneusCompoundQuery
+        ):
             if isinstance(self, cylleneus.engine.query.compound.Or):
                 n += 1
-            elif isinstance(self, cylleneus.engine.query.positional.Collocation):
+            elif isinstance(
+                self, cylleneus.engine.query.positional.Collocation
+            ):
                 n += 1
             else:
                 for sq in self:
-                    if isinstance(sq, cylleneus.engine.query.compound.CylleneusCompoundQuery):
+                    if isinstance(
+                        sq,
+                        cylleneus.engine.query.compound.CylleneusCompoundQuery,
+                    ):
                         if isinstance(sq, cylleneus.engine.query.compound.Or):
                             n += 1
-                        elif isinstance(sq, cylleneus.engine.query.positional.Collocation):
+                        elif isinstance(
+                            sq, cylleneus.engine.query.positional.Collocation
+                        ):
                             n += 1
                         else:
                             for qq in sq:
@@ -331,10 +350,14 @@ class Query(object):
                         n += 1
         else:
             for sq in self:
-                if isinstance(sq, cylleneus.engine.query.compound.CylleneusCompoundQuery):
+                if isinstance(
+                    sq, cylleneus.engine.query.compound.CylleneusCompoundQuery
+                ):
                     if isinstance(sq, cylleneus.engine.query.compound.Or):
                         n += 1
-                    elif isinstance(sq, cylleneus.engine.query.positional.Collocation):
+                    elif isinstance(
+                        sq, cylleneus.engine.query.positional.Collocation
+                    ):
                         n += 1
                     else:
                         for qq in sq:
@@ -355,7 +378,9 @@ class Query(object):
     def expanded_terms(self, ixreader, phrases=True):
         return self.terms(phrases=phrases)
 
-    def existing_terms(self, ixreader, phrases=True, expand=False, fieldname=None):
+    def existing_terms(
+        self, ixreader, phrases=True, expand=False, fieldname=None
+    ):
         """Returns a set of all byteterms in this query tree that exist in
         the given ixreader.
         :param ixreader: A :class:`whoosh.reading.IndexReader` object.
@@ -430,7 +455,6 @@ class Query(object):
                     yield t
             else:
                 yield from q.iter_all_terms(ixreader)
-
 
     def all_tokens(self, boost=1.0):
         """Returns an iterator of :class:`analysis.Token` objects corresponding
@@ -578,6 +602,7 @@ class Query(object):
 
 # Null query
 
+
 class _NullQuery(Query):
     "Represents a query that won't match anything."
 
@@ -634,6 +659,7 @@ NullQuery = _NullQuery()
 
 # Every
 
+
 class Every(Query):
     """A query that matches every document containing any term in a given
     field. If you don't specify a field, the query matches every document.
@@ -675,13 +701,19 @@ class Every(Query):
         self.boost = boost
 
     def __repr__(self):
-        return "%s(%r, boost=%s)" % (self.__class__.__name__, self.fieldname,
-                                     self.boost)
+        return "%s(%r, boost=%s)" % (
+            self.__class__.__name__,
+            self.fieldname,
+            self.boost,
+        )
 
     def __eq__(self, other):
-        return (other and self.__class__ is other.__class__
-                and self.fieldname == other.fieldname
-                and self.boost == other.boost)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.fieldname == other.fieldname
+            and self.boost == other.boost
+        )
 
     def __unicode__(self):
         return u("%s:*") % self.fieldname
@@ -711,4 +743,6 @@ class Every(Query):
                 doclist.update(pr.all_ids())
             doclist = sorted(doclist)
 
-        return cylleneus.engine.matching.mcore.ListMatcher(doclist, all_weights=self.boost)
+        return cylleneus.engine.matching.mcore.ListMatcher(
+            doclist, all_weights=self.boost
+        )

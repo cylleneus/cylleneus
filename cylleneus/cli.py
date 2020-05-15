@@ -16,7 +16,9 @@ import cylleneus.engine
 from cylleneus import __version__
 
 REMOTE_CORPORA = {
-    name: meta for name, meta in manifest.items() if meta.repo["location"] == "remote"
+    name: meta
+    for name, meta in manifest.items()
+    if meta.repo["location"] == "remote"
 }
 
 
@@ -85,9 +87,10 @@ def verify(corpus, verbose, dry_run):
             label=f"Verifying '{c.name}'",
         ) as bar:
             for item in bar:
-                status, (docix, author, title, filename, info) = c.verify_by_docix(
-                    item, dry_run=dry_run
-                )
+                (
+                    status,
+                    (docix, author, title, filename, info),
+                ) = c.verify_by_docix(item, dry_run=dry_run)
                 msg = f"[{docix}] {author}, {title} ({filename})"
                 if status == 0:
                     msg += ", passed!"
@@ -102,8 +105,10 @@ def verify(corpus, verbose, dry_run):
                     msg += ", deleted orphaned index files"
                     orphans += 1
                 elif status == 4:
-                    msg = f"[{docix}] {manifest[item]['author']}, {manifest[item]['title']} (" \
-                          f"{manifest[item]['filename']})"
+                    msg = (
+                        f"[{docix}] {manifest[item]['author']}, {manifest[item]['title']} ("
+                        f"{manifest[item]['filename']})"
+                    )
                     msg += ", missing index files!"
                     missing[item] = manifest[item]
                 if info is not None and cylleneus.settings.DEBUG:
@@ -131,7 +136,8 @@ def verify(corpus, verbose, dry_run):
         )
         if len(missing) != 0:
             if click.confirm(
-                f"Try to re-index {len(missing)} missing documents?", default=True,
+                f"Try to re-index {len(missing)} missing documents?",
+                default=True,
             ):
                 for docix, meta in missing.items():
                     if meta["filename"]:
@@ -313,7 +319,9 @@ def create(corpus, destructive, optimize):
             c.destroy()
         for file in c.text_dir.glob(c.glob):
             w = Work(corpus=c)
-            _ = w.indexer.from_file(file, destructive=destructive, optimize=optimize)
+            _ = w.indexer.from_file(
+                file, destructive=destructive, optimize=optimize
+            )
 
     ndocs = c.doc_count_all
     if ndocs > 0:
@@ -337,8 +345,12 @@ def lexicon(corpus, fieldname):
         with CylleneusSearcher(reader) as searcher:
             lexicon.update(list(searcher.lexicon(fieldname)))
     if lexicon:
-        click.echo(f"[+] lexicon '{fieldname}' of '{corpus}': {len(lexicon)} items")
-        click.echo_via_pager("\n".join([i.decode("utf8") for i in sorted(lexicon)]))
+        click.echo(
+            f"[+] lexicon '{fieldname}' of '{corpus}': {len(lexicon)} items"
+        )
+        click.echo_via_pager(
+            "\n".join([i.decode("utf8") for i in sorted(lexicon)])
+        )
     else:
         click.echo(f"[-] failed")
 

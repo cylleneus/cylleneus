@@ -1,1 +1,1 @@
-__all__ = ['default', 'plugins', 'syntax']
+__all__ = ["default", "plugins", "syntax"]

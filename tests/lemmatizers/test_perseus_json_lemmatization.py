@@ -36,4 +36,3 @@ class TestPerseusJSONTokenizer(unittest.TestCase):
         # lemmas = CachedLemmaFilter()
         # for t in lemmas(tokens(value=data, mode='index', docix=0)):
         #     assert t
-

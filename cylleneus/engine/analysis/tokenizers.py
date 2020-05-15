@@ -32,9 +32,20 @@ from collections import deque
 
 import cylleneus.engine.analysis
 from cylleneus.engine.analysis.acore import Composable, CylleneusToken
-from cylleneus.lang.lat import compound, jvmap, proper_names, punctuation, roman_to_arabic, sent_tokenizer, \
-    word_tokenizer, \
-    replacements, editorial, exceptions, enclitics, PunktLatinCharsVars
+from cylleneus.lang.lat import (
+    compound,
+    jvmap,
+    proper_names,
+    punctuation,
+    roman_to_arabic,
+    sent_tokenizer,
+    word_tokenizer,
+    replacements,
+    editorial,
+    exceptions,
+    enclitics,
+    PunktLatinCharsVars,
+)
 from lxml.etree import ElementTree
 from cylleneus.utils import flatten, stringify, nested_dict_iter
 from cylleneus.engine.compat import text_type, u
@@ -61,12 +72,22 @@ class IDTokenizer(Tokenizer):
     ["/a/b 123 alpha"]
     """
 
-    def __call__(self, value, positions=False, chars=False,
-                 keeporiginal=False, removestops=True,
-                 start_pos=0, start_char=0, mode='', **kwargs):
+    def __call__(
+        self,
+        value,
+        positions=False,
+        chars=False,
+        keeporiginal=False,
+        removestops=True,
+        start_pos=0,
+        start_char=0,
+        mode="",
+        **kwargs
+    ):
         assert isinstance(value, text_type), "%r is not unicode" % value
-        t = CylleneusToken(positions, chars, removestops=removestops, mode=mode,
-                  **kwargs)
+        t = CylleneusToken(
+            positions, chars, removestops=removestops, mode=mode, **kwargs
+        )
         t.text = value
         t.boost = 1.0
 
@@ -108,9 +129,19 @@ class RegexTokenizer(Tokenizer):
                 return True
         return False
 
-    def __call__(self, value, positions=False, chars=False, keeporiginal=False,
-                 removestops=True, start_pos=0, start_char=0, tokenize=True,
-                 mode='', **kwargs):
+    def __call__(
+        self,
+        value,
+        positions=False,
+        chars=False,
+        keeporiginal=False,
+        removestops=True,
+        start_pos=0,
+        start_char=0,
+        tokenize=True,
+        mode="",
+        **kwargs
+    ):
         """
         :param value: The unicode string to tokenize.
         :param positions: Whether to record token positions in the token.
@@ -126,8 +157,9 @@ class RegexTokenizer(Tokenizer):
 
         assert isinstance(value, text_type), "%s is not unicode" % repr(value)
 
-        t = CylleneusToken(positions, chars, removestops=removestops, mode=mode,
-                  **kwargs)
+        t = CylleneusToken(
+            positions, chars, removestops=removestops, mode=mode, **kwargs
+        )
         if not tokenize:
             t.original = t.text = value
             t.boost = 1.0
@@ -226,13 +258,25 @@ class CharsetTokenizer(Tokenizer):
         self.charmap = charmap
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.charmap == other.charmap)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.charmap == other.charmap
+        )
 
-    def __call__(self, value, positions=False, chars=False, keeporiginal=False,
-                 removestops=True, start_pos=0, start_char=0, tokenize=True,
-                  mode='', **kwargs):
+    def __call__(
+        self,
+        value,
+        positions=False,
+        chars=False,
+        keeporiginal=False,
+        removestops=True,
+        start_pos=0,
+        start_char=0,
+        tokenize=True,
+        mode="",
+        **kwargs
+    ):
         """
         :param value: The unicode string to tokenize.
         :param positions: Whether to record token positions in the token.
@@ -248,8 +292,9 @@ class CharsetTokenizer(Tokenizer):
 
         assert isinstance(value, text_type), "%r is not unicode" % value
 
-        t = CylleneusToken(positions, chars, removestops=removestops, mode=mode,
-                  **kwargs)
+        t = CylleneusToken(
+            positions, chars, removestops=removestops, mode=mode, **kwargs
+        )
         if not tokenize:
             t.original = t.text = value
             t.boost = 1.0
@@ -335,12 +380,12 @@ class PathTokenizer(Tokenizer):
         self.expr = rcompile(expression)
 
     def __call__(self, value, positions=False, start_pos=0, **kwargs):
-         assert isinstance(value, text_type), "%r is not unicode" % value
-         token = CylleneusToken(positions, **kwargs)
-         pos = start_pos
-         for match in self.expr.finditer(value):
-             token.text = value[:match.end()]
-             if positions:
-                 token.pos = pos
-                 pos += 1
-             yield token
+        assert isinstance(value, text_type), "%r is not unicode" % value
+        token = CylleneusToken(positions, **kwargs)
+        pos = start_pos
+        for match in self.expr.finditer(value):
+            token.text = value[: match.end()]
+            if positions:
+                token.pos = pos
+                pos += 1
+            yield token

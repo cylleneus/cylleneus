@@ -34,12 +34,14 @@ iast_mapping = {
     "x": "l̥",
     "X": "l̥̄",
     "w": "ṭ",
-    "z": "ṣ"
+    "z": "ṣ",
 }
 
 
 def slp2deva(s):
-    return unicodedata.normalize("NFC", sanscript.transliterate(s, SLP1, DEVANAGARI))
+    return unicodedata.normalize(
+        "NFC", sanscript.transliterate(s, SLP1, DEVANAGARI)
+    )
 
 
 def iast2slp(s):

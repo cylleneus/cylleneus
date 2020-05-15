@@ -60,8 +60,15 @@ class QueryParser(object):
     And([Term("content", u"hello"), Term("content", u"there")])
     """
 
-    def __init__(self, fieldname, schema, plugins=None, termclass=whoosh.query.Term,
-                 phraseclass=whoosh.query.Phrase, group=syntax.AndGroup):
+    def __init__(
+        self,
+        fieldname,
+        schema,
+        plugins=None,
+        termclass=whoosh.query.Term,
+        phraseclass=whoosh.query.Phrase,
+        group=syntax.AndGroup,
+    ):
         """
         :param fieldname: the default field -- the parser uses this as the
             field for any terms without an explicit field.
@@ -100,17 +107,18 @@ class QueryParser(object):
 
         from whoosh.qparser import plugins
 
-        return [plugins.WhitespacePlugin(),
-                plugins.SingleQuotePlugin(),
-                plugins.FieldsPlugin(),
-                plugins.WildcardPlugin(),
-                plugins.PhrasePlugin(),
-                plugins.RangePlugin(),
-                plugins.GroupPlugin(),
-                plugins.OperatorsPlugin(),
-                plugins.BoostPlugin(),
-                plugins.EveryPlugin(),
-                ]
+        return [
+            plugins.WhitespacePlugin(),
+            plugins.SingleQuotePlugin(),
+            plugins.FieldsPlugin(),
+            plugins.WildcardPlugin(),
+            plugins.PhrasePlugin(),
+            plugins.RangePlugin(),
+            plugins.GroupPlugin(),
+            plugins.OperatorsPlugin(),
+            plugins.BoostPlugin(),
+            plugins.EveryPlugin(),
+        ]
 
     def add_plugins(self, pins):
         """Adds the given list of plugins to the list of plugins in this
@@ -130,6 +138,7 @@ class QueryParser(object):
 
     def _add_ws_plugin(self):
         from whoosh.qparser.plugins import WhitespacePlugin
+
         self.add_plugin(WhitespacePlugin())
 
     def remove_plugin(self, pi):
@@ -203,13 +212,22 @@ class QueryParser(object):
             elif spec == "or":
                 qclass = whoosh.query.Or
             else:
-                raise QueryParserError("Unknown multitoken_query value %r"
-                                       % spec)
-            return qclass([termclass(fieldname, t, boost=boost)
-                           for t in texts])
+                raise QueryParserError(
+                    "Unknown multitoken_query value %r" % spec
+                )
+            return qclass(
+                [termclass(fieldname, t, boost=boost) for t in texts]
+            )
 
-    def term_query(self, fieldname, text, termclass, boost=1.0, tokenize=True,
-                   removestops=True):
+    def term_query(
+        self,
+        fieldname,
+        text,
+        termclass,
+        boost=1.0,
+        tokenize=True,
+        removestops=True,
+    ):
         """Returns the appropriate query object for a single term in the query
         string.
         """
@@ -229,16 +247,22 @@ class QueryParser(object):
 
             # Otherwise, ask the field to process the text into a list of
             # tokenized strings
-            texts = list(field.process_text(text, mode="query",
-                                            tokenize=tokenize,
-                                            removestops=removestops))
+            texts = list(
+                field.process_text(
+                    text,
+                    mode="query",
+                    tokenize=tokenize,
+                    removestops=removestops,
+                )
+            )
 
             # If the analyzer returned more than one token, use the field's
             # multitoken_query attribute to decide what query class, if any, to
             # use to put the tokens together
             if len(texts) > 1:
-                return self.multitoken_query(field.multitoken_query, texts,
-                                             fieldname, termclass, boost)
+                return self.multitoken_query(
+                    field.multitoken_query, texts, fieldname, termclass, boost
+                )
 
             # It's possible field.process_text() will return an empty list (for
             # example, on a stop word)
@@ -293,15 +317,18 @@ class QueryParser(object):
                 node = tagger.match(self, text, pos)
                 if node is not None:
                     if node.endchar <= pos:
-                        raise Exception("Token %r did not move cursor forward."
-                                        " (%r, %s)" % (tagger, text, pos))
+                        raise Exception(
+                            "Token %r did not move cursor forward."
+                            " (%r, %s)" % (tagger, text, pos)
+                        )
                     if prev < pos:
                         tween = inter(prev, pos)
                         print_debug(debug, "Tween: %r" % tween)
                         stack.append(tween)
 
-                    print_debug(debug, "Tagger: %r at %s: %r"
-                                    % (tagger, pos, node))
+                    print_debug(
+                        debug, "Tagger: %r at %s: %r" % (tagger, pos, node)
+                    )
                     stack.append(node)
                     prev = pos = node.endchar
                     break
@@ -379,6 +406,7 @@ class QueryParser(object):
 
 # Premade parser configurations
 
+
 def MultifieldParser(fieldnames, schema, fieldboosts=None, **kwargs):
     """Returns a QueryParser configured to search in multiple fields.
 
@@ -408,12 +436,15 @@ def SimpleParser(fieldname, schema, **kwargs):
 
     from whoosh.qparser import plugins, syntax
 
-    pins = [plugins.WhitespacePlugin,
-            plugins.PlusMinusPlugin,
-            plugins.PhrasePlugin]
+    pins = [
+        plugins.WhitespacePlugin,
+        plugins.PlusMinusPlugin,
+        plugins.PhrasePlugin,
+    ]
     orgroup = syntax.OrGroup
-    return QueryParser(fieldname, schema, plugins=pins, group=orgroup,
-                       **kwargs)
+    return QueryParser(
+        fieldname, schema, plugins=pins, group=orgroup, **kwargs
+    )
 
 
 def DisMaxParser(fieldboosts, schema, tiebreak=0.0, **kwargs):
@@ -426,21 +457,31 @@ def DisMaxParser(fieldboosts, schema, tiebreak=0.0, **kwargs):
 
     from whoosh.qparser import plugins, syntax
 
-    mfp = plugins.MultifieldPlugin(list(fieldboosts.keys()),
-                                   fieldboosts=fieldboosts,
-                                   group=syntax.DisMaxGroup)
-    pins = [plugins.WhitespacePlugin,
-            plugins.PlusMinusPlugin,
-            plugins.PhrasePlugin,
-            mfp]
+    mfp = plugins.MultifieldPlugin(
+        list(fieldboosts.keys()),
+        fieldboosts=fieldboosts,
+        group=syntax.DisMaxGroup,
+    )
+    pins = [
+        plugins.WhitespacePlugin,
+        plugins.PlusMinusPlugin,
+        plugins.PhrasePlugin,
+        mfp,
+    ]
     orgroup = syntax.OrGroup
     return QueryParser(None, schema, plugins=pins, group=orgroup, **kwargs)
 
 
 class CylleneusQueryParser(QueryParser):
-    def __init__(self, fieldname, schema, plugins=None, termclass=cylleneus.engine.query.terms.Form,
-                 phraseclass=cylleneus.engine.query.positional.Sequence,
-                 group=cylleneus.engine.qparser.syntax.AndGroup):
+    def __init__(
+        self,
+        fieldname,
+        schema,
+        plugins=None,
+        termclass=cylleneus.engine.query.terms.Form,
+        phraseclass=cylleneus.engine.query.positional.Sequence,
+        group=cylleneus.engine.qparser.syntax.AndGroup,
+    ):
         self.fieldname = fieldname
         self.schema = schema
         self.termclass = termclass
@@ -452,10 +493,14 @@ class CylleneusQueryParser(QueryParser):
             plugins = self.default_set()
         self.add_plugins(plugins)
         self._add_ws_plugin()
-        self.replace_plugin(cylleneus.engine.qparser.plugins.OperatorsPlugin([
-            (cylleneus.engine.qparser.plugins.SequenceTagger, 0),
-            (cylleneus.engine.qparser.plugins.CollocationTagger, 0)
-        ]))
+        self.replace_plugin(
+            cylleneus.engine.qparser.plugins.OperatorsPlugin(
+                [
+                    (cylleneus.engine.qparser.plugins.SequenceTagger, 0),
+                    (cylleneus.engine.qparser.plugins.CollocationTagger, 0),
+                ]
+            )
+        )
 
     def default_set(self):
         """Returns the default list of plugins to use."""
@@ -483,11 +528,13 @@ class CylleneusQueryParser(QueryParser):
     def _add_ws_plugin(self):
         self.add_plugin(cylleneus.engine.qparser.plugins.WhitespacePlugin())
 
-    def multitoken_query(self, spec, texts, fieldname, termclass, boost, annotation, meta):
+    def multitoken_query(
+        self, spec, texts, fieldname, termclass, boost, annotation, meta
+    ):
         kwargs = {}
         if termclass != cylleneus.engine.query.terms.Form:
             kwargs["annotation"] = annotation
-        if 'meta' in self.schema:
+        if "meta" in self.schema:
             kwargs["meta"] = True
         else:
             kwargs["meta"] = False
@@ -506,15 +553,27 @@ class CylleneusQueryParser(QueryParser):
                 qclass = cylleneus.engine.query.compound.And
             elif spec == "or":
                 qclass = cylleneus.engine.query.compound.Or
-            elif spec == 'collocation':
+            elif spec == "collocation":
                 qclass = cylleneus.engine.query.positional.Collocation
             else:
-                raise whoosh.qparser.QueryParserError("Unknown multitoken_query value %r"
-                                       % spec)
+                raise whoosh.qparser.QueryParserError(
+                    "Unknown multitoken_query value %r" % spec
+                )
 
-            return qclass([termclass(fieldname, t, boost=boost) for t in texts], **kwargs)
+            return qclass(
+                [termclass(fieldname, t, boost=boost) for t in texts], **kwargs
+            )
 
-    def term_query(self, fieldname, text, termclass, boost=1.0, tokenize=True, removestops=True, annotation=None):
+    def term_query(
+        self,
+        fieldname,
+        text,
+        termclass,
+        boost=1.0,
+        tokenize=True,
+        removestops=True,
+        annotation=None,
+    ):
         """Returns the appropriate query object for a single term in the query string."""
 
         meta = False
@@ -533,19 +592,32 @@ class CylleneusQueryParser(QueryParser):
 
             # Otherwise, ask the field to process the text into a list of
             # tokenized strings
-            texts = list(field.process_text(text, mode="query",
-                                            tokenize=tokenize,
-                                            removestops=removestops, docix=None))
+            texts = list(
+                field.process_text(
+                    text,
+                    mode="query",
+                    tokenize=tokenize,
+                    removestops=removestops,
+                    docix=None,
+                )
+            )
             # If the analyzer returned more than one token, use the field's
             # multitoken_query attribute to decide what query class, if any, to
             # use to put the tokens together
 
             if len(texts) > 1:
-                if 'meta' in self.schema:
+                if "meta" in self.schema:
                     meta = True
 
-                return self.multitoken_query(field.multitoken_query, texts,
-                                             fieldname, termclass, boost, annotation, meta=meta)
+                return self.multitoken_query(
+                    field.multitoken_query,
+                    texts,
+                    fieldname,
+                    termclass,
+                    boost,
+                    annotation,
+                    meta=meta,
+                )
 
             # It's possible field.process_text() will return an empty list (for
             # example, on a stop word)
@@ -553,10 +625,12 @@ class CylleneusQueryParser(QueryParser):
                 return None
             text = texts[0]
 
-            if 'meta' in self.schema:
+            if "meta" in self.schema:
                 meta = True
 
-        return termclass(fieldname, text, boost=boost, annotation=annotation, meta=meta)
+        return termclass(
+            fieldname, text, boost=boost, annotation=annotation, meta=meta
+        )
 
     def parse(self, text, normalize=True, debug=settings.DEBUG):
         """Parses the input string and returns a :class:`whoosh.query.Query`

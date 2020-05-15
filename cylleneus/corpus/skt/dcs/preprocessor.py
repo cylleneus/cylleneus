@@ -9,29 +9,26 @@ class Preprocessor(BasePreprocessor):
     def parse(self, file: Path):
         filename = file.name
         author = "-"
-        title = filename.split('.conllu')[0].split('-')[0]
+        title = filename.split(".conllu")[0].split("-")[0]
 
-        urn = filename.split('.conllu')[0]
+        urn = filename.split(".conllu")[0]
         meta = "chapter-line"
 
-        with codecs.open(file, 'r', 'utf8') as fp:
+        with codecs.open(file, "r", "utf8") as fp:
             doc = fp.readlines()
-        data = {
-            'text': doc,
-            'meta': meta
-        }
+        data = {"text": doc, "meta": meta}
         return {
-            'author':       author,
-            'title':        title,
-            'language':     'skt',
-            'urn':          urn,
-            'meta':         meta,
-            'form':         data,
-            'lemma':        data,
-            'synset':       data,
-            'annotation':   data,
-            'semfield':     data,
-            'morphosyntax': data,
-            'filename':     file.name,
-            'datetime':     datetime.now()
+            "author":       author,
+            "title":        title,
+            "language":     "skt",
+            "urn":          urn,
+            "meta":         meta,
+            "form":         data,
+            "lemma":        data,
+            "synset":       data,
+            "annotation":   data,
+            "semfield":     data,
+            "morphosyntax": data,
+            "filename":     file.name,
+            "datetime":     datetime.now(),
         }

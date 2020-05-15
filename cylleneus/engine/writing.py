@@ -52,6 +52,7 @@ class IndexingError(Exception):
 
 # Document grouping context manager
 
+
 @contextmanager
 def groupmanager(writer):
     writer.start_group()
@@ -65,6 +66,7 @@ def groupmanager(writer):
 # object, and the current segment list (not including the segment being
 # written), and returns an updated segment list (not including the segment
 # being written).
+
 
 def NO_MERGE(writer, segments):
     """This policy does not merge any existing segments.
@@ -94,7 +96,9 @@ def MERGE_SMALL(writer, segments):
         if merge_point_found:  # append the remaining to unchanged
             unchanged_segments.append(seg)
         else:  # look for a merge point
-            segments_to_merge.append((seg, i)) # merge every segment up to the merge point
+            segments_to_merge.append(
+                (seg, i)
+            )  # merge every segment up to the merge point
             if i > 3 and total_docs < fib(i + 5):
                 merge_point_found = True
 
@@ -131,6 +135,7 @@ def CLEAR(writer, segments):
 
 # Customized sorting pool for postings
 
+
 class PostingPool(SortingPool):
     # Subclass whoosh.externalsort.SortingPool to use knowledge of
     # postings to set run size in bytes instead of items
@@ -162,12 +167,18 @@ class PostingPool(SortingPool):
         if item[4] is not None:
             assert isinstance(item[4], bytes_type), "vbytes=%r" % item[4]
         self.fieldnames.add(item[0])
-        size = (28 + 4 * 5  # tuple = 28 + 4 * length
-                + 21 + len(item[0])  # fieldname = str = 21 + length
-                + 26 + len(item[1]) * 2  # text = unicode = 26 + 2 * length
-                + 18  # docnum = long = 18
-                + 16  # weight = float = 16
-                + 21 + len(item[4] or ''))  # valuestring
+        size = (
+            28
+            + 4 * 5  # tuple = 28 + 4 * length
+            + 21
+            + len(item[0])  # fieldname = str = 21 + length
+            + 26
+            + len(item[1]) * 2  # text = unicode = 26 + 2 * length
+            + 18  # docnum = long = 18
+            + 16  # weight = float = 16
+            + 21
+            + len(item[4] or "")
+        )  # valuestring
         self.currentsize += size
         if self.currentsize > self.limit:
             self.save()
@@ -184,6 +195,7 @@ class PostingPool(SortingPool):
 
 
 # Writer base class
+
 
 class IndexWriter(object):
     """High-level object for writing to an index.
@@ -396,8 +408,11 @@ class IndexWriter(object):
 
     def _unique_fields(self, fields):
         # Check which of the supplied fields are unique
-        unique_fields = [name for name, field in self.schema.items()
-                         if name in fields and field.unique]
+        unique_fields = [
+            name
+            for name, field in self.schema.items()
+            if name in fields and field.unique
+        ]
         return unique_fields
 
     def update_document(self, **fields):
@@ -465,19 +480,33 @@ class IndexWriter(object):
 
 # Codec-based writer
 
+
 class SegmentWriter(IndexWriter):
-    def __init__(self, ix, poolclass=None, timeout=0.0, delay=0.1, _lk=True,
-                 limitmb=128, docbase=0, codec=None, compound=True, **kwargs):
+    def __init__(
+        self,
+        ix,
+        poolclass=None,
+        timeout=0.0,
+        delay=0.1,
+        _lk=True,
+        limitmb=128,
+        docbase=0,
+        codec=None,
+        compound=True,
+        **kwargs
+    ):
         # Lock the index
         self.writelock = None
         if _lk:
             self.writelock = ix.lock("WRITELOCK")
-            if not try_for(self.writelock.acquire, timeout=timeout,
-                           delay=delay):
+            if not try_for(
+                self.writelock.acquire, timeout=timeout, delay=delay
+            ):
                 raise LockError
 
         if codec is None:
             from cylleneus.engine.codec import default_codec
+
             codec = default_codec()
         self.codec = codec
 
@@ -492,14 +521,17 @@ class SegmentWriter(IndexWriter):
         self._setup_doc_offsets()
 
         # Internals
-        self._tempstorage = self.storage.temp_storage("%s.tmp" % self.indexname)
+        self._tempstorage = self.storage.temp_storage(
+            "%s.tmp" % self.indexname
+        )
         newsegment = codec.new_segment(self.storage, self.indexname)
         self.newsegment = newsegment
         self.compound = compound and newsegment.should_assemble()
         self.is_closed = False
         self._added = False
-        self.pool = PostingPool(self._tempstorage, self.newsegment,
-                                limitmb=limitmb)
+        self.pool = PostingPool(
+            self._tempstorage, self.newsegment, limitmb=limitmb
+        )
 
         # Set up writers
         self.perdocwriter = codec.per_document_writer(self.storage, newsegment)
@@ -524,16 +556,16 @@ class SegmentWriter(IndexWriter):
             base += s.doc_count_all()
 
     def _document_segment(self, docnum):
-        #Returns the index.Segment object containing the given document
-        #number.
+        # Returns the index.Segment object containing the given document
+        # number.
         offsets = self._doc_offsets
         if len(offsets) == 1:
             return 0
         return bisect_right(offsets, docnum) - 1
 
     def _segment_and_docnum(self, docnum):
-        #Returns an (index.Segment, segment_docnum) pair for the segment
-        #containing the given document number.
+        # Returns an (index.Segment, segment_docnum) pair for the segment
+        # containing the given document number.
 
         segmentnum = self._document_segment(docnum)
         offset = self._doc_offsets[segmentnum]
@@ -597,8 +629,13 @@ class SegmentWriter(IndexWriter):
         from cylleneus.engine.index import FileIndex
 
         self._check_state()
-        return FileIndex._reader(self.storage, self.schema, self.segments,
-                                 self.generation, reuse=reuse)
+        return FileIndex._reader(
+            self.storage,
+            self.schema,
+            self.segments,
+            self.generation,
+            reuse=reuse,
+        )
 
     def iter_postings(self):
         return self.pool.iter_postings()
@@ -646,8 +683,9 @@ class SegmentWriter(IndexWriter):
                 fieldobj = schema[fieldname]
 
                 length = reader.doc_field_length(docnum, fieldname)
-                pdw.add_field(fieldname, fieldobj,
-                              stored.get(fieldname), length)
+                pdw.add_field(
+                    fieldname, fieldobj, stored.get(fieldname), length
+                )
 
                 if fieldobj.vector and reader.has_vector(docnum, fieldname):
                     v = reader.vector(docnum, fieldname, fieldobj.vector)
@@ -665,8 +703,11 @@ class SegmentWriter(IndexWriter):
     def add_reader(self, reader):
         self._check_state()
         basedoc = self.docnum
-        ndxnames = set(fname for fname in reader.indexed_field_names()
-                       if fname in self.schema)
+        ndxnames = set(
+            fname
+            for fname in reader.indexed_field_names()
+            if fname in self.schema
+        )
         fieldnames = set(self.schema.names()) | ndxnames
 
         docmap = self.write_per_doc(fieldnames, reader)
@@ -677,8 +718,9 @@ class SegmentWriter(IndexWriter):
         # Check if the caller gave us a bogus field
         for name in fieldnames:
             if name not in schema:
-                raise UnknownFieldError("No field named %r in %s"
-                                        % (name, schema))
+                raise UnknownFieldError(
+                    "No field named %r in %s" % (name, schema)
+                )
 
     def add_document(self, **fields):
         self._check_state()
@@ -688,8 +730,9 @@ class SegmentWriter(IndexWriter):
         add_post = self.pool.add
 
         docboost = self._doc_boost(fields)
-        fieldnames = sorted([name for name in fields.keys()
-                             if not name.startswith("_")])
+        fieldnames = sorted(
+            [name for name in fields.keys() if not name.startswith("_")]
+        )
         self._check_fields(schema, fieldnames)
 
         perdocwriter.start_doc(docnum)
@@ -706,7 +749,7 @@ class SegmentWriter(IndexWriter):
                 fieldboost = self._field_boost(fields, fieldname, docboost)
                 # Ask the field to return a list of (text, weight, vbytes)
                 # tuples
-                items = field.index(value, docix=fields['docix'])
+                items = field.index(value, docix=fields["docix"])
 
                 # Only store the length if the field is marked scorable
                 scorable = field.scorable
@@ -728,10 +771,14 @@ class SegmentWriter(IndexWriter):
             if vformat:
                 analyzer = field.analyzer
                 # Call the format's word_values method to get posting values
-                vitems = vformat.word_values(value, analyzer, mode="index", docix=fields['docix'])
+                vitems = vformat.word_values(
+                    value, analyzer, mode="index", docix=fields["docix"]
+                )
                 # Remove unused frequency field from the tuple
-                vitems = sorted((text, weight, vbytes)
-                                for text, _, weight, vbytes in vitems)
+                vitems = sorted(
+                    (text, weight, vbytes)
+                    for text, _, weight, vbytes in vitems
+                )
                 perdocwriter.add_vector_items(fieldname, field, vitems)
 
             # Allow a custom value for stored field/column
@@ -849,7 +896,7 @@ class SegmentWriter(IndexWriter):
         if self.writelock:
             self.writelock.release()
         self.is_closed = True
-        #self.storage.close()
+        # self.storage.close()
 
     # Finalization methods
 
@@ -900,6 +947,7 @@ class SegmentWriter(IndexWriter):
 
 # Writer wrappers
 
+
 class AsyncWriter(threading.Thread, IndexWriter):
     """Convenience wrapper for a writer object that might fail due to locking
     (i.e. the ``filedb`` writer). This object will attempt once to obtain the
@@ -946,6 +994,7 @@ class AsyncWriter(threading.Thread, IndexWriter):
 
     def searcher(self, **kwargs):
         from cylleneus.engine.searching import CylleneusSearcher
+
         return CylleneusSearcher(self.reader(), fromindex=self.index, **kwargs)
 
     def _record(self, method, args, kwargs):
@@ -998,6 +1047,7 @@ class AsyncWriter(threading.Thread, IndexWriter):
 
 # Ex post factor functions
 
+
 def add_spelling(ix, fieldnames, commit=True):
     """Adds spelling files to an existing index that was created without
     them, and modifies the schema so the given fields have the ``spelling``
@@ -1039,6 +1089,7 @@ def add_spelling(ix, fieldnames, commit=True):
 
 
 # Buffered writer class
+
 
 class BufferedWriter(IndexWriter):
     """Convenience class that acts like a writer but buffers added documents
@@ -1088,8 +1139,9 @@ class BufferedWriter(IndexWriter):
     ``commit()`` multiple times.
     """
 
-    def __init__(self, index, period=60, limit=10, writerargs=None,
-                 commitargs=None):
+    def __init__(
+        self, index, period=60, limit=10, writerargs=None, commitargs=None
+    ):
         """
         :param index: the :class:`whoosh.index.Index` to write to.
         :param period: the maximum amount of time (in seconds) between commits.

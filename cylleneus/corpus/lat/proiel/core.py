@@ -5,7 +5,9 @@ import lxml.etree as et
 from cylleneus import settings
 
 # Description
-description = "Pragmatic Resources in Old Indo-European Languages (PROIEL) Treebank"
+description = (
+    "Pragmatic Resources in Old Indo-European Languages (PROIEL) Treebank"
+)
 
 # Language
 language = "lat"
@@ -35,12 +37,22 @@ def fetch(work, meta, fragment):
 
     # Reference and hlite values
     ref_start = ", ".join(
-        [f"{item}: {meta['start'][item]}" for item in meta["start"] if item in divs]
+        [
+            f"{item}: {meta['start'][item]}"
+            for item in meta["start"]
+            if item in divs
+        ]
     )
     ref_end = ", ".join(
-        [f"{item}: {meta['end'][item]}" for item in meta["end"] if item in divs]
+        [
+            f"{item}: {meta['end'][item]}"
+            for item in meta["end"]
+            if item in divs
+        ]
     )
-    reference = "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    reference = (
+        "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    )
 
     # Collect text and context
     start = int(meta["start"]["sent_id"])
@@ -49,7 +61,9 @@ def fetch(work, meta, fragment):
     start_sentence = doc.find(f".//sentence[@id='{start}']")
     end_sentence = doc.find(f".//sentence[@id='{end}']")
 
-    hlites = set([hlite["sent_pos"] for hlite in meta["hlites"]])  # only need token ids
+    hlites = set(
+        [hlite["sent_pos"] for hlite in meta["hlites"]]
+    )  # only need token ids
 
     match = []
     current_sentence = start_sentence
@@ -211,7 +225,13 @@ MORPHO = {
         "h": "-",  # subjunctive or imperative
         "t": "-",  # finite
     },
-    4: {"a": "a", "m": "m", "p": "p", "e": "-", "x": "-", },  # middle or passive
+    4: {
+        "a": "a",
+        "m": "m",
+        "p": "p",
+        "e": "-",
+        "x": "-",
+    },  # middle or passive
     5: {
         "m": "m",
         "f": "f",
@@ -237,13 +257,22 @@ MORPHO = {
         "x": "-",  # uncertain
         "z": "-",  # unspecified
     },
-    7: {"p": "p", "c": "c", "s": "s", "x": "-", "z": "-", },  # uncertain  # none
+    7: {
+        "p": "p",
+        "c": "c",
+        "s": "s",
+        "x": "-",
+        "z": "-",
+    },  # uncertain  # none
     8: {  # NOT USED (strength)
         "w": "w",  # weak
         "s": "s",  # strong
         "t": "t",  # weak or strong
     },
-    9: {"n": "n", "i": "i", },  # NOT USED (inflection)  # non-inflecting  # inflecting
+    9: {
+        "n": "n",
+        "i": "i",
+    },  # NOT USED (inflection)  # non-inflecting  # inflecting
 }
 
 relations = {

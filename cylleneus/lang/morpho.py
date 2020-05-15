@@ -41,22 +41,40 @@ class Morph:
             else other.number
         )
         tense = (
-            self.tense if (self.tense != "-" and other.tense == "-") else other.tense
+            self.tense
+            if (self.tense != "-" and other.tense == "-")
+            else other.tense
         )
-        mood = self.mood if (self.mood != "-" and other.mood == "-") else other.mood
+        mood = (
+            self.mood
+            if (self.mood != "-" and other.mood == "-")
+            else other.mood
+        )
         voice = (
-            self.voice if (self.voice != "-" and other.voice == "-") else other.voice
+            self.voice
+            if (self.voice != "-" and other.voice == "-")
+            else other.voice
         )
         gender = (
             self.gender
             if (self.gender != "-" and other.gender == "-")
             else other.gender
         )
-        case = self.case if (self.case != "-" and other.case == "-") else other.case
-        group = (
-            self.group if (self.group != "-" and other.group == "-") else other.group
+        case = (
+            self.case
+            if (self.case != "-" and other.case == "-")
+            else other.case
         )
-        stem = self.stem if (self.stem != "-" and other.stem == "-") else other.stem
+        group = (
+            self.group
+            if (self.group != "-" and other.group == "-")
+            else other.group
+        )
+        stem = (
+            self.stem
+            if (self.stem != "-" and other.stem == "-")
+            else other.stem
+        )
 
         desc = f"{pos}{person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
         return Morph(desc)
@@ -95,11 +113,32 @@ def leipzig2wn(gloss: str):
                 pos = _from_leipzig[tag]
             elif tag in ["SG", "PL", "DU", "XX"]:
                 number = _from_leipzig[tag]
-            elif tag in ["PRS", "IMPRF", "FUT", "PRF", "PLPRF", "FUTPRF", "AOR"]:
+            elif tag in [
+                "PRS",
+                "IMPRF",
+                "FUT",
+                "PRF",
+                "PLPRF",
+                "FUTPRF",
+                "AOR",
+            ]:
                 tense = _from_leipzig[tag]
                 pos = "v"
-            elif tag in ["IND", "SBJV", "IMP", "PTCP", "INF", "GER", "GERV", "SUP", "OPT", "INJ", "PREC", "COND",
-                         "PART"]:
+            elif tag in [
+                "IND",
+                "SBJV",
+                "IMP",
+                "PTCP",
+                "INF",
+                "GER",
+                "GERV",
+                "SUP",
+                "OPT",
+                "INJ",
+                "PREC",
+                "COND",
+                "PART",
+            ]:
                 mood = _from_leipzig[tag]
                 pos = "v"
             elif tag in ["ACT", "PASS", "DEP", "MID"]:
@@ -110,12 +149,25 @@ def leipzig2wn(gloss: str):
             elif tag in ["POS", "COMP", "SUPL"]:
                 person = _from_leipzig[tag]
                 if pos == "-" and (
-                    gender != "-" or case != "-" or number != "-" or group != "-"
+                    gender != "-"
+                    or case != "-"
+                    or number != "-"
+                    or group != "-"
                 ):
                     pos = "a"
                 else:
                     pos = "r"
-            elif tag in ["NOM", "GEN", "DAT", "ACC", "ABL", "LOC", "VOC", "INS", "CPD"]:
+            elif tag in [
+                "NOM",
+                "GEN",
+                "DAT",
+                "ACC",
+                "ABL",
+                "LOC",
+                "VOC",
+                "INS",
+                "CPD",
+            ]:
                 case = _from_leipzig[tag]
                 # if mood in 'pgds':
                 #     pos = 'v'

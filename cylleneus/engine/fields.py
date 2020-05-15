@@ -66,6 +66,7 @@ class UnknownFieldError(Exception):
 
 # Field Types
 
+
 class FieldType(object):
     """
     Represents a field configuration.
@@ -105,9 +106,17 @@ class FieldType(object):
     sortable_typecode = None
     column_type = None
 
-    def __init__(self, format, analyzer, scorable=False,
-                 stored=False, unique=False, multitoken_query="default",
-                 sortable=False, vector=None):
+    def __init__(
+        self,
+        format,
+        analyzer,
+        scorable=False,
+        stored=False,
+        unique=False,
+        multitoken_query="default",
+        sortable=False,
+        vector=None,
+    ):
         self.format = format
         self.analyzer = analyzer
         self.scorable = scorable
@@ -124,20 +133,28 @@ class FieldType(object):
             self.vector = None
 
     def __repr__(self):
-        return ("%s(format=%r, scorable=%s, stored=%s, unique=%s)"
-                % (self.__class__.__name__, self.format, self.scorable,
-                   self.stored, self.unique))
+        return "%s(format=%r, scorable=%s, stored=%s, unique=%s)" % (
+            self.__class__.__name__,
+            self.format,
+            self.scorable,
+            self.stored,
+            self.unique,
+        )
 
     def __eq__(self, other):
-        return all((isinstance(other, FieldType),
-                    (self.format == other.format),
-                    (self.scorable == other.scorable),
-                    (self.stored == other.stored),
-                    (self.unique == other.unique),
-                    (self.column_type == other.column_type)))
+        return all(
+            (
+                isinstance(other, FieldType),
+                (self.format == other.format),
+                (self.scorable == other.scorable),
+                (self.stored == other.stored),
+                (self.unique == other.unique),
+                (self.column_type == other.column_type),
+            )
+        )
 
     def __ne__(self, other):
-        return not(self.__eq__(other))
+        return not (self.__eq__(other))
 
     # Text
 
@@ -149,8 +166,10 @@ class FieldType(object):
         """
 
         if not self.format:
-            raise Exception("%s field %r cannot index without a format"
-                            % (self.__class__.__name__, self))
+            raise Exception(
+                "%s field %r cannot index without a format"
+                % (self.__class__.__name__, self)
+            )
         if not isinstance(value, (text_type, list, tuple, dict, bytes)):
             raise ValueError("%r is not unicode or sequence" % value)
         assert isinstance(self.format, cylleneus.engine.formats.Format)
@@ -174,7 +193,7 @@ class FieldType(object):
             raise Exception("%s field has no analyzer" % self.__class__)
         return self.analyzer(value, **kwargs)
 
-    def process_text(self, qstring, mode='', **kwargs):
+    def process_text(self, qstring, mode="", **kwargs):
         """
         Analyzes the given string and returns an iterator of token texts.
         >>> field = fields.TEXT()
@@ -262,8 +281,9 @@ class FieldType(object):
 
         raise NotImplementedError(self.__class__.__name__)
 
-    def parse_range(self, fieldname, start, end, startexcl, endexcl,
-                    boost=1.0):
+    def parse_range(
+        self, fieldname, start, end, startexcl, endexcl, boost=1.0
+    ):
         """
         When ``self_parsing()`` returns True, the query parser will call
         this method to parse range query text. If this method returns None
@@ -305,8 +325,9 @@ class FieldType(object):
         if isinstance(value, (list, tuple)):
             words = value
         else:
-            words = [token.text for token
-                     in self.analyzer(value, no_morph=True)]
+            words = [
+                token.text for token in self.analyzer(value, no_morph=True)
+            ]
 
         return iter(sorted(set(words)))
 
@@ -352,6 +373,7 @@ class FieldType(object):
 
 
 # Wrapper base class
+
 
 class FieldWrapper(FieldType):
     def __init__(self, subfield, prefix):
@@ -421,9 +443,12 @@ class FieldWrapper(FieldType):
     def parse_query(self, fieldname, qstring, boost=1.0):
         return self.subfield.parse_query(fieldname, qstring, boost)
 
-    def parse_range(self, fieldname, start, end, startexcl, endexcl, boost=1.0):
-        self.subfield.parse_range(fieldname, start, end, startexcl, endexcl,
-                                  boost)
+    def parse_range(
+        self, fieldname, start, end, startexcl, endexcl, boost=1.0
+    ):
+        self.subfield.parse_range(
+            fieldname, start, end, startexcl, endexcl, boost
+        )
 
     # Utility
 
@@ -449,6 +474,7 @@ class FieldWrapper(FieldType):
 
 # Pre-configured field types
 
+
 class ID(FieldType):
     """
     Configured field type that indexes the entire value of the field as one
@@ -456,16 +482,26 @@ class ID(FieldType):
     of a file.
     """
 
-    def __init__(self, stored=False, unique=False, field_boost=1.0,
-                 sortable=False, analyzer=None):
+    def __init__(
+        self,
+        stored=False,
+        unique=False,
+        field_boost=1.0,
+        sortable=False,
+        analyzer=None,
+    ):
         """
         :param stored: Whether the value of this field is stored with the
             document.
         """
 
-        self.analyzer = analyzer or cylleneus.engine.analysis.analyzers.IDAnalyzer()
+        self.analyzer = (
+            analyzer or cylleneus.engine.analysis.analyzers.IDAnalyzer()
+        )
         # Don't store any information other than the doc ID
-        self.format = cylleneus.engine.formats.Existence(field_boost=field_boost)
+        self.format = cylleneus.engine.formats.Existence(
+            field_boost=field_boost
+        )
         self.stored = stored
         self.unique = unique
         self.set_sortable(sortable)
@@ -477,8 +513,9 @@ class IDLIST(FieldType):
     and/or punctuation (or anything else, using the expression param).
     """
 
-    def __init__(self, stored=False, unique=False, expression=None,
-                 field_boost=1.0):
+    def __init__(
+        self, stored=False, unique=False, expression=None, field_boost=1.0
+    ):
         """
         :param stored: Whether the value of this field is stored with the
             document.
@@ -490,7 +527,9 @@ class IDLIST(FieldType):
 
         expression = expression or re.compile(r"[^\r\n\t ,;]+")
         # Don't store any information other than the doc ID
-        self.format = cylleneus.engine.formats.Existence(field_boost=field_boost)
+        self.format = cylleneus.engine.formats.Existence(
+            field_boost=field_boost
+        )
         self.stored = stored
         self.unique = unique
 
@@ -523,9 +562,19 @@ class NUMERIC(FieldType):
     ...
     """
 
-    def __init__(self, numtype=int, bits=32, stored=False, unique=False,
-                 field_boost=1.0, decimal_places=0, shift_step=4, signed=True,
-                 sortable=False, default=None):
+    def __init__(
+        self,
+        numtype=int,
+        bits=32,
+        stored=False,
+        unique=False,
+        field_boost=1.0,
+        decimal_places=0,
+        shift_step=4,
+        signed=True,
+        sortable=False,
+        default=None,
+    ):
         """
         :param numtype: the type of numbers that can be stored in this field,
             either ``int``, ``float``. If you use ``Decimal``,
@@ -558,15 +607,20 @@ class NUMERIC(FieldType):
         if numtype is Decimal:
             numtype = int
             if not decimal_places:
-                raise TypeError("To store Decimal instances, you must set the "
-                                "decimal_places argument")
+                raise TypeError(
+                    "To store Decimal instances, you must set the "
+                    "decimal_places argument"
+                )
         elif numtype not in (int, float):
-            raise TypeError("Can't use %r as a type, use int or float"
-                            % numtype)
+            raise TypeError(
+                "Can't use %r as a type, use int or float" % numtype
+            )
         # Sanity check
         if numtype is float and decimal_places:
-            raise Exception("A float type and decimal_places argument %r are "
-                            "incompatible" % decimal_places)
+            raise Exception(
+                "A float type and decimal_places argument %r are "
+                "incompatible" % decimal_places
+            )
 
         intsizes = [8, 16, 32, 64]
         intcodes = ["B", "H", "I", "Q"]
@@ -575,8 +629,7 @@ class NUMERIC(FieldType):
             bits = 64  # Floats are converted to 64 bit ints
         else:
             if bits not in intsizes:
-                raise Exception("Invalid bits %r, use 8, 16, 32, or 64"
-                                % bits)
+                raise Exception("Invalid bits %r, use 8, 16, 32, or 64" % bits)
         # Type code for the *sortable* representation
         self.sortable_typecode = intcodes[intsizes.index(bits)]
         self._struct = struct.Struct(">" + str(self.sortable_typecode))
@@ -590,7 +643,9 @@ class NUMERIC(FieldType):
         self.signed = signed
         self.analyzer = cylleneus.engine.analysis.analyzers.IDAnalyzer()
         # Don't store any information other than the doc ID
-        self.format = cylleneus.engine.formats.Existence(field_boost=field_boost)
+        self.format = cylleneus.engine.formats.Existence(
+            field_boost=field_boost
+        )
         self.min_value, self.max_value = self._min_max()
 
         # Column configuration
@@ -600,8 +655,10 @@ class NUMERIC(FieldType):
             else:
                 default = NaN
         elif not self.is_valid(default):
-            raise Exception("The default %r is not a valid number for this "
-                            "field" % default)
+            raise Exception(
+                "The default %r is not a valid number for this "
+                "field" % default
+            )
 
         self.default = default
         self.set_sortable(sortable)
@@ -630,8 +687,9 @@ class NUMERIC(FieldType):
         return min_value, max_value
 
     def default_column(self):
-        return whoosh.columns.NumericColumn(self.sortable_typecode,
-                                     default=self.default)
+        return whoosh.columns.NumericColumn(
+            self.sortable_typecode, default=self.default
+        )
 
     def is_valid(self, x):
         try:
@@ -666,18 +724,23 @@ class NUMERIC(FieldType):
         if dc and isinstance(x, (string_type, Decimal)):
             x = Decimal(x) * (10 ** dc)
         elif isinstance(x, Decimal):
-            raise TypeError("Can't index a Decimal object unless you specified "
-                            "decimal_places on the field")
+            raise TypeError(
+                "Can't index a Decimal object unless you specified "
+                "decimal_places on the field"
+            )
 
         try:
             x = self.numtype(x)
         except OverflowError:
-            raise ValueError("Value %r overflowed number type %r"
-                             % (x, self.numtype))
+            raise ValueError(
+                "Value %r overflowed number type %r" % (x, self.numtype)
+            )
 
         if x < self.min_value or x > self.max_value:
-            raise ValueError("Numeric field value %s out of range [%s, %s]"
-                             % (x, self.min_value, self.max_value))
+            raise ValueError(
+                "Numeric field value %s out of range [%s, %s]"
+                % (x, self.min_value, self.max_value)
+            )
         return x
 
     def unprepare_number(self, x):
@@ -741,23 +804,27 @@ class NUMERIC(FieldType):
         token = self.to_bytes(qstring)
         return query.Term(fieldname, token, boost=boost)
 
-    def parse_range(self, fieldname, start, end, startexcl, endexcl,
-                    boost=1.0):
+    def parse_range(
+        self, fieldname, start, end, startexcl, endexcl, boost=1.0
+    ):
         from whoosh import query
         from whoosh.qparser.common import QueryParserError
 
         if start is not None:
             if not self.is_valid(start):
-                raise QueryParserError("Range start %r is not a valid number"
-                                       % start)
+                raise QueryParserError(
+                    "Range start %r is not a valid number" % start
+                )
             start = self.prepare_number(start)
         if end is not None:
             if not self.is_valid(end):
-                raise QueryParserError("Range end %r is not a valid number"
-                                       % end)
+                raise QueryParserError(
+                    "Range end %r is not a valid number" % end
+                )
             end = self.prepare_number(end)
-        return query.NumericRange(fieldname, start, end, startexcl, endexcl,
-                                  boost=boost)
+        return query.NumericRange(
+            fieldname, start, end, startexcl, endexcl, boost=boost
+        )
 
     def sortable_terms(self, ixreader, fieldname):
         zero = b"\x00"
@@ -792,9 +859,14 @@ class DATETIME(NUMERIC):
         :param unique: Whether the value of this field is unique per-document.
         """
 
-        super(DATETIME, self).__init__(int, 64, stored=stored,
-                                       unique=unique, shift_step=8,
-                                       sortable=sortable)
+        super(DATETIME, self).__init__(
+            int,
+            64,
+            stored=stored,
+            unique=unique,
+            shift_step=8,
+            sortable=sortable,
+        )
 
     def prepare_datetime(self, x):
         from whoosh.util.times import floor
@@ -852,8 +924,9 @@ class DATETIME(NUMERIC):
         if len(qstring) == 20:
             microsecond = int(qstring[14:])
 
-        at = fix(adatetime(year, month, day, hour, minute, second,
-                           microsecond))
+        at = fix(
+            adatetime(year, month, day, hour, minute, second, microsecond)
+        )
         if is_void(at):
             raise Exception("%r is not a parseable date" % qstring)
         return at
@@ -875,8 +948,9 @@ class DATETIME(NUMERIC):
         else:
             return query.Term(fieldname, at, boost=boost)
 
-    def parse_range(self, fieldname, start, end, startexcl, endexcl,
-                    boost=1.0):
+    def parse_range(
+        self, fieldname, start, end, startexcl, endexcl, boost=1.0
+    ):
         from . import query
 
         if start is None and end is None:
@@ -916,7 +990,9 @@ class BOOLEAN(FieldType):
 
         self.stored = stored
         # Don't store any information other than the doc ID
-        self.format = cylleneus.engine.formats.Existence(field_boost=field_boost)
+        self.format = cylleneus.engine.formats.Existence(
+            field_boost=field_boost
+        )
 
     def _obj_to_bool(self, x):
         # We special case strings such as "true", "false", "yes", "no", but
@@ -958,7 +1034,9 @@ class BOOLEAN(FieldType):
         if qstring == "*":
             return query.qcore.Every(fieldname, boost=boost)
 
-        return whoosh.query.terms.Term(fieldname, self._obj_to_bool(qstring), boost=boost)
+        return whoosh.query.terms.Term(
+            fieldname, self._obj_to_bool(qstring), boost=boost
+        )
 
 
 class STORED(FieldType):
@@ -1004,9 +1082,17 @@ class KEYWORD(FieldType):
     field) and to not make the field scorable.
     """
 
-    def __init__(self, stored=False, lowercase=False, commas=False,
-                 scorable=False, unique=False, field_boost=1.0, sortable=False,
-                 vector=None):
+    def __init__(
+        self,
+        stored=False,
+        lowercase=False,
+        commas=False,
+        scorable=False,
+        unique=False,
+        field_boost=1.0,
+        sortable=False,
+        vector=None,
+    ):
         """
         :param stored: Whether to store the value of the field with the
             document.
@@ -1015,10 +1101,13 @@ class KEYWORD(FieldType):
         :param scorable: Whether this field is scorable.
         """
 
-        self.analyzer = cylleneus.engine.analysis.analyzers.KeywordAnalyzer(lowercase=lowercase,
-                                                                            commas=commas)
+        self.analyzer = cylleneus.engine.analysis.analyzers.KeywordAnalyzer(
+            lowercase=lowercase, commas=commas
+        )
         # Store field lengths and weights along with doc ID
-        self.format = cylleneus.engine.formats.Frequency(field_boost=field_boost)
+        self.format = cylleneus.engine.formats.Frequency(
+            field_boost=field_boost
+        )
         self.scorable = scorable
         self.stored = stored
         self.unique = unique
@@ -1041,10 +1130,20 @@ class TEXT(FieldType):
     searching. This field type is always scorable.
     """
 
-    def __init__(self, analyzer=None, phrase=True, chars=False, stored=False,
-                 field_boost=1.0, multitoken_query="default", spelling=False,
-                 sortable=False, lang=None, vector=None,
-                 spelling_prefix="spell_"):
+    def __init__(
+        self,
+        analyzer=None,
+        phrase=True,
+        chars=False,
+        stored=False,
+        field_boost=1.0,
+        multitoken_query="default",
+        spelling=False,
+        sortable=False,
+        lang=None,
+        vector=None,
+        spelling_prefix="spell_",
+    ):
         """
         :param analyzer: The cylleneus.engine.analysis.Analyzer to use to index the field
             contents. See the cylleneus.engine.analysis.module for more information. If you omit
@@ -1078,9 +1177,13 @@ class TEXT(FieldType):
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(
+                lang
+            )
         else:
-            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = (
+                cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            )
 
         if chars:
             formatclass = cylleneus.engine.formats.CylleneusCharacters
@@ -1157,7 +1260,7 @@ class SpellField(FieldType):
         kwargs["nomorph"] = True
         return FieldType.tokenize(self, value, **kwargs)
 
-    def process_text(self, qstring, mode='', **kwargs):
+    def process_text(self, qstring, mode="", **kwargs):
         kwargs["nomorph"] = True
         return FieldType.process_text(self, qstring, mode=mode, **kwargs)
 
@@ -1174,8 +1277,16 @@ class NGRAM(FieldType):
 
     scorable = True
 
-    def __init__(self, minsize=2, maxsize=4, stored=False, field_boost=1.0,
-                 queryor=False, phrase=False, sortable=False):
+    def __init__(
+        self,
+        minsize=2,
+        maxsize=4,
+        stored=False,
+        field_boost=1.0,
+        queryor=False,
+        phrase=False,
+        sortable=False,
+    ):
         """
         :param minsize: The minimum length of the N-grams.
         :param maxsize: The maximum length of the N-grams.
@@ -1193,9 +1304,13 @@ class NGRAM(FieldType):
         if phrase:
             formatclass = cylleneus.engine.formats.Positions
 
-        self.analyzer = cylleneus.engine.analysis.analyzers.NgramAnalyzer(minsize, maxsize)
+        self.analyzer = cylleneus.engine.analysis.analyzers.NgramAnalyzer(
+            minsize, maxsize
+        )
         self.format = formatclass(field_boost=field_boost)
-        self.analyzer = cylleneus.engine.analysis.analyzers.NgramAnalyzer(minsize, maxsize)
+        self.analyzer = cylleneus.engine.analysis.analyzers.NgramAnalyzer(
+            minsize, maxsize
+        )
         self.stored = stored
         self.queryor = queryor
         self.set_sortable(sortable)
@@ -1206,8 +1321,10 @@ class NGRAM(FieldType):
     def parse_query(self, fieldname, qstring, boost=1.0):
         from whoosh import query
 
-        terms = [query.Term(fieldname, g)
-                 for g in self.process_text(qstring, mode='query')]
+        terms = [
+            query.Term(fieldname, g)
+            for g in self.process_text(qstring, mode="query")
+        ]
         cls = query.Or if self.queryor else query.And
 
         return cls(terms, boost=boost)
@@ -1221,8 +1338,17 @@ class NGRAMWORDS(NGRAM):
 
     scorable = True
 
-    def __init__(self, minsize=2, maxsize=4, stored=False, field_boost=1.0,
-                 tokenizer=None, at=None, queryor=False, sortable=False):
+    def __init__(
+        self,
+        minsize=2,
+        maxsize=4,
+        stored=False,
+        field_boost=1.0,
+        tokenizer=None,
+        at=None,
+        queryor=False,
+        sortable=False,
+    ):
         """
         :param minsize: The minimum length of the N-grams.
         :param maxsize: The maximum length of the N-grams.
@@ -1239,9 +1365,12 @@ class NGRAMWORDS(NGRAM):
             default is to combine N-grams with an And query.
         """
 
-        self.analyzer = cylleneus.engine.analysis.analyzers.NgramWordAnalyzer(minsize, maxsize, tokenizer,
-                                                                              at=at)
-        self.format = cylleneus.engine.formats.Frequency(field_boost=field_boost)
+        self.analyzer = cylleneus.engine.analysis.analyzers.NgramWordAnalyzer(
+            minsize, maxsize, tokenizer, at=at
+        )
+        self.format = cylleneus.engine.formats.Frequency(
+            field_boost=field_boost
+        )
         self.stored = stored
         self.queryor = queryor
         self.set_sortable(sortable)
@@ -1249,11 +1378,16 @@ class NGRAMWORDS(NGRAM):
 
 # Other fields
 
+
 class ReverseField(FieldWrapper):
     def __init__(self, subfield, prefix="rev_"):
         FieldWrapper.__init__(self, subfield, prefix)
-        self.analyzer = subfield.analyzer | cylleneus.engine.analysis.ReverseTextFilter()
-        self.format = cylleneus.engine.formats.BasicFormat(lengths=False, weights=False)
+        self.analyzer = (
+            subfield.analyzer | cylleneus.engine.analysis.ReverseTextFilter()
+        )
+        self.format = cylleneus.engine.formats.BasicFormat(
+            lengths=False, weights=False
+        )
 
         self.scorable = False
         self.set_sortable(False)
@@ -1267,6 +1401,7 @@ class ReverseField(FieldWrapper):
 
 
 # Schema class
+
 
 class MetaSchema(type):
     def __new__(cls, name, bases, attrs):
@@ -1331,11 +1466,12 @@ class Schema(object):
         return self.__class__(**self._fields)
 
     def __eq__(self, other):
-        return (other.__class__ is self.__class__
-                and list(self.items()) == list(other.items()))
+        return other.__class__ is self.__class__ and list(
+            self.items()
+        ) == list(other.items())
 
     def __ne__(self, other):
-        return not(self.__eq__(other))
+        return not (self.__eq__(other))
 
     def __repr__(self):
         return "<%s: %r>" % (self.__class__.__name__, self.names())
@@ -1408,8 +1544,9 @@ class Schema(object):
         fieldnames = set(self._fields.keys())
         if check_names is not None:
             check_names = set(check_names) - fieldnames
-            fieldnames.update(fieldname for fieldname in check_names
-                              if fieldname in self)
+            fieldnames.update(
+                fieldname for fieldname in check_names if fieldname in self
+            )
         return sorted(fieldnames)
 
     def clean(self):
@@ -1434,12 +1571,15 @@ class Schema(object):
                 fieldtype = fieldtype()
             except:
                 e = sys.exc_info()[1]
-                raise FieldConfigurationError("Error: %s instantiating field "
-                                              "%r: %r" % (e, name, fieldtype))
+                raise FieldConfigurationError(
+                    "Error: %s instantiating field "
+                    "%r: %r" % (e, name, fieldtype)
+                )
 
         if not isinstance(fieldtype, FieldType):
-                raise FieldConfigurationError("%r is not a FieldType object"
-                                              % fieldtype)
+            raise FieldConfigurationError(
+                "%r is not a FieldType object" % fieldtype
+            )
 
         self._subfields[name] = sublist = []
         for prefix, subfield in fieldtype.subfields():
@@ -1557,8 +1697,9 @@ def merge_fielddict(d1, d2):
         field1 = d1.get(name)
         field2 = d2.get(name)
         if field1 and field2 and field1 != field2:
-            raise Exception("Inconsistent field %r: %r != %r"
-                            % (name, field1, field2))
+            raise Exception(
+                "Inconsistent field %r: %r != %r" % (name, field1, field2)
+            )
         out[name] = field1 or field2
     return out
 
@@ -1578,39 +1719,55 @@ def merge_schemas(schemas):
 
 
 def index(self, value, docix=0, **kwargs):
-        """Returns an iterator of (btext, frequency, weight, encoded_value)
+    """Returns an iterator of (btext, frequency, weight, encoded_value)
         tuples for each unique word in the input value.
         The default implementation uses the ``analyzer`` attribute to tokenize
         the value into strings, then encodes them into bytes using UTF-8.
         """
-        if not self.format:
-            raise Exception("%s field %r cannot index without a format"
-                            % (self.__class__.__name__, self))
-        if not isinstance(value, (text_type, list, tuple, dict, bytes)):
-            raise ValueError("%r is not unicode or sequence" % value)
-        assert isinstance(self.format, cylleneus.engine.formats.Format)
+    if not self.format:
+        raise Exception(
+            "%s field %r cannot index without a format"
+            % (self.__class__.__name__, self)
+        )
+    if not isinstance(value, (text_type, list, tuple, dict, bytes)):
+        raise ValueError("%r is not unicode or sequence" % value)
+    assert isinstance(self.format, cylleneus.engine.formats.Format)
 
-        if "mode" not in kwargs:
-            kwargs["mode"] = "index"
-        kwargs['docix'] = docix
-        word_values = self.format.word_values
-        ana = self.analyzer
-        for tstring, freq, wt, vbytes in word_values(value, ana, **kwargs):
-            yield (utf8encode(tstring)[0], freq, wt, vbytes)
+    if "mode" not in kwargs:
+        kwargs["mode"] = "index"
+    kwargs["docix"] = docix
+    word_values = self.format.word_values
+    ana = self.analyzer
+    for tstring, freq, wt, vbytes in word_values(value, ana, **kwargs):
+        yield (utf8encode(tstring)[0], freq, wt, vbytes)
 
 
 class FORM(FieldType):
-    def __init__(self, analyzer=None, phrase=True, chars=True, stored=False,
-                 field_boost=1.0, multitoken_query="or", spelling=False,
-                 sortable=False, lang=None, vector=True,
-                 spelling_prefix="spell_"):
+    def __init__(
+        self,
+        analyzer=None,
+        phrase=True,
+        chars=True,
+        stored=False,
+        field_boost=1.0,
+        multitoken_query="or",
+        spelling=False,
+        sortable=False,
+        lang=None,
+        vector=True,
+        spelling_prefix="spell_",
+    ):
 
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(
+                lang
+            )
         else:
-            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = (
+                cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            )
 
         if chars:
             formatclass = cylleneus.engine.formats.CylleneusCharacters
@@ -1643,17 +1800,31 @@ class FORM(FieldType):
 
 
 class LEMMA(FieldType):
-    def __init__(self, analyzer=None, phrase=True, chars=True, stored=False,
-                 field_boost=1.0, multitoken_query="or", spelling=False,
-                 sortable=False, lang=None, vector=True,
-                 spelling_prefix="spell_"):
+    def __init__(
+        self,
+        analyzer=None,
+        phrase=True,
+        chars=True,
+        stored=False,
+        field_boost=1.0,
+        multitoken_query="or",
+        spelling=False,
+        sortable=False,
+        lang=None,
+        vector=True,
+        spelling_prefix="spell_",
+    ):
 
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(
+                lang
+            )
         else:
-            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = (
+                cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            )
 
         if chars:
             formatclass = cylleneus.engine.formats.CylleneusCharacters
@@ -1686,10 +1857,20 @@ class LEMMA(FieldType):
 
 
 class SYNSET(FieldType):
-    def __init__(self, analyzer=None, phrase=True, chars=True, stored=False,
-                 field_boost=1.0, multitoken_query="or", spelling=False,
-                 sortable=False, lang=None, vector=True,
-                 spelling_prefix="spell_"):
+    def __init__(
+        self,
+        analyzer=None,
+        phrase=True,
+        chars=True,
+        stored=False,
+        field_boost=1.0,
+        multitoken_query="or",
+        spelling=False,
+        sortable=False,
+        lang=None,
+        vector=True,
+        spelling_prefix="spell_",
+    ):
         """
         :param analyzer: The cylleneus.engine.analysis.Analyzer to use to index the field
             contents. See the cylleneus.engine.analysis.module for more information. If you omit
@@ -1723,9 +1904,13 @@ class SYNSET(FieldType):
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(
+                lang
+            )
         else:
-            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = (
+                cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            )
 
         if chars:
             formatclass = cylleneus.engine.formats.CylleneusCharacters
@@ -1758,17 +1943,31 @@ class SYNSET(FieldType):
 
 
 class ANNOTATION(FieldType):
-    def __init__(self, analyzer=None, phrase=True, chars=True, stored=False,
-                 field_boost=1.0, multitoken_query="collocation", spelling=False,
-                 sortable=False, lang=None, vector=True,
-                 spelling_prefix="spell_"):
+    def __init__(
+        self,
+        analyzer=None,
+        phrase=True,
+        chars=True,
+        stored=False,
+        field_boost=1.0,
+        multitoken_query="collocation",
+        spelling=False,
+        sortable=False,
+        lang=None,
+        vector=True,
+        spelling_prefix="spell_",
+    ):
 
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(
+                lang
+            )
         else:
-            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = (
+                cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            )
 
         if chars:
             formatclass = cylleneus.engine.formats.CylleneusCharacters
@@ -1800,25 +1999,41 @@ class ANNOTATION(FieldType):
             self.vector = None
 
     def parse_query(self, fieldname, qstring, boost=1.0):
-        terms = [cylleneus.engine.query.terms.Annotation(fieldname, g)
-                 for g in self.process_text(qstring, mode='query')]
+        terms = [
+            cylleneus.engine.query.terms.Annotation(fieldname, g)
+            for g in self.process_text(qstring, mode="query")
+        ]
         cls = cylleneus.engine.query.positional.Collocation
 
         return cls(terms, boost=boost)
 
 
 class SEMFIELD(FieldType):
-    def __init__(self, analyzer=None, phrase=True, chars=True, stored=False,
-                 field_boost=1.0, multitoken_query="or", spelling=False,
-                 sortable=False, lang=None, vector=True,
-                 spelling_prefix="spell_"):
+    def __init__(
+        self,
+        analyzer=None,
+        phrase=True,
+        chars=True,
+        stored=False,
+        field_boost=1.0,
+        multitoken_query="or",
+        spelling=False,
+        sortable=False,
+        lang=None,
+        vector=True,
+        spelling_prefix="spell_",
+    ):
 
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(
+                lang
+            )
         else:
-            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = (
+                cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            )
 
         if chars:
             formatclass = cylleneus.engine.formats.CylleneusCharacters
@@ -1851,17 +2066,31 @@ class SEMFIELD(FieldType):
 
 
 class MORPHOSYNTAX(FieldType):
-    def __init__(self, analyzer=None, phrase=True, chars=True, stored=False,
-                 field_boost=1.0, multitoken_query="or", spelling=False,
-                 sortable=False, lang=None, vector=True,
-                 spelling_prefix="spell_"):
+    def __init__(
+        self,
+        analyzer=None,
+        phrase=True,
+        chars=True,
+        stored=False,
+        field_boost=1.0,
+        multitoken_query="or",
+        spelling=False,
+        sortable=False,
+        lang=None,
+        vector=True,
+        spelling_prefix="spell_",
+    ):
 
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(
+                lang
+            )
         else:
-            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = (
+                cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            )
 
         if chars:
             formatclass = cylleneus.engine.formats.CylleneusCharacters
@@ -1894,17 +2123,31 @@ class MORPHOSYNTAX(FieldType):
 
 
 class MAPPING(FieldType):
-    def __init__(self, analyzer=None, phrase=True, chars=True, stored=False,
-                 field_boost=1.0, multitoken_query="or", spelling=False,
-                 sortable=False, lang=None, vector=True,
-                 spelling_prefix="spell_"):
+    def __init__(
+        self,
+        analyzer=None,
+        phrase=True,
+        chars=True,
+        stored=False,
+        field_boost=1.0,
+        multitoken_query="or",
+        spelling=False,
+        sortable=False,
+        lang=None,
+        vector=True,
+        spelling_prefix="spell_",
+    ):
 
         if analyzer:
             self.analyzer = analyzer
         elif lang:
-            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(lang)
+            self.analyzer = cylleneus.engine.analysis.analyzers.LanguageAnalyzer(
+                lang
+            )
         else:
-            self.analyzer = cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            self.analyzer = (
+                cylleneus.engine.analysis.analyzers.StandardAnalyzer()
+            )
 
         if chars:
             formatclass = cylleneus.engine.formats.CylleneusCharacters

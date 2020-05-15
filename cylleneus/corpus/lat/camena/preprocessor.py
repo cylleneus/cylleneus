@@ -14,12 +14,14 @@ class Preprocessor(BasePreprocessor):
         parser = et.XMLParser(encoding="utf-8")
         doc = et.XML(value, parser=parser)
 
-        urn = doc.xpath("teiHeader/fileDesc/publicationStmt/address/addrLine/anchor")[
-            0
-        ].get("n")
+        urn = doc.xpath(
+            "teiHeader/fileDesc/publicationStmt/address/addrLine/anchor"
+        )[0].get("n")
 
         author = doc.xpath("teiHeader/fileDesc/titleStmt/author")[0].text
-        title = doc.xpath("teiHeader/fileDesc/titleStmt/title")[0].text.split(":")[0]
+        title = doc.xpath("teiHeader/fileDesc/titleStmt/title")[0].text.split(
+            ":"
+        )[0]
         divs = ["div1", "div2", "div3", "div4", "div5"]
         body = doc.find("text").find("body")
         meta = "-".join(

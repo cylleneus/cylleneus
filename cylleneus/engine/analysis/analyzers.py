@@ -41,6 +41,7 @@ from whoosh.lang.porter import stem
 
 # Analyzers
 
+
 class Analyzer(Composable):
     """ Abstract base class for analyzers.
     """
@@ -49,9 +50,11 @@ class Analyzer(Composable):
         return "%s()" % self.__class__.__name__
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.__dict__ == other.__dict__)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.__dict__ == other.__dict__
+        )
 
     def __call__(self, value, **kwargs):
         raise NotImplementedError
@@ -75,12 +78,16 @@ class CompositeAnalyzer(Analyzer):
         # and filters take and return generators of tokens)
         for item in self.items[1:]:
             if isinstance(item, Tokenizer):
-                raise CompositionError("Only one tokenizer allowed at the start"
-                                       " of the analyzer: %r" % self.items)
+                raise CompositionError(
+                    "Only one tokenizer allowed at the start"
+                    " of the analyzer: %r" % self.items
+                )
 
     def __repr__(self):
-        return "%s(%s)" % (self.__class__.__name__,
-                           ", ".join(repr(item) for item in self.items))
+        return "%s(%s)" % (
+            self.__class__.__name__,
+            ", ".join(repr(item) for item in self.items),
+        )
 
     def __call__(self, value, no_morph=False, **kwargs):
         items = self.items
@@ -101,9 +108,11 @@ class CompositeAnalyzer(Analyzer):
         return len(self.items)
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.items == other.items)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.items == other.items
+        )
 
     def clean(self):
         for item in self.items:
@@ -115,6 +124,7 @@ class CompositeAnalyzer(Analyzer):
 
 
 # Functions that return composed analyzers
+
 
 def IDAnalyzer(lowercase=False):
     """Deprecated, just use an IDTokenizer directly, with a LowercaseFilter if
@@ -170,8 +180,13 @@ def SimpleAnalyzer(expression=default_pattern, gaps=False):
     return RegexTokenizer(expression=expression, gaps=gaps) | LowercaseFilter()
 
 
-def StandardAnalyzer(expression=default_pattern, stoplist=STOP_WORDS,
-                     minsize=2, maxsize=None, gaps=False):
+def StandardAnalyzer(
+    expression=default_pattern,
+    stoplist=STOP_WORDS,
+    minsize=2,
+    maxsize=None,
+    gaps=False,
+):
     """Composes a RegexTokenizer with a LowercaseFilter and optional
     StopFilter.
 
@@ -191,14 +206,22 @@ def StandardAnalyzer(expression=default_pattern, stoplist=STOP_WORDS,
     ret = RegexTokenizer(expression=expression, gaps=gaps)
     chain = ret | LowercaseFilter()
     if stoplist is not None:
-        chain = chain | StopFilter(stoplist=stoplist, minsize=minsize,
-                                   maxsize=maxsize)
+        chain = chain | StopFilter(
+            stoplist=stoplist, minsize=minsize, maxsize=maxsize
+        )
     return chain
 
 
-def StemmingAnalyzer(expression=default_pattern, stoplist=STOP_WORDS,
-                     minsize=2, maxsize=None, gaps=False, stemfn=stem,
-                     ignore=None, cachesize=50000):
+def StemmingAnalyzer(
+    expression=default_pattern,
+    stoplist=STOP_WORDS,
+    minsize=2,
+    maxsize=None,
+    gaps=False,
+    stemfn=stem,
+    ignore=None,
+    cachesize=50000,
+):
     """Composes a RegexTokenizer with a lower case filter, an optional stop
     filter, and a stemming filter.
 
@@ -222,15 +245,25 @@ def StemmingAnalyzer(expression=default_pattern, stoplist=STOP_WORDS,
     ret = RegexTokenizer(expression=expression, gaps=gaps)
     chain = ret | LowercaseFilter()
     if stoplist is not None:
-        chain = chain | StopFilter(stoplist=stoplist, minsize=minsize,
-                                   maxsize=maxsize)
-    return chain | StemFilter(stemfn=stemfn, ignore=ignore,
-                              cachesize=cachesize)
+        chain = chain | StopFilter(
+            stoplist=stoplist, minsize=minsize, maxsize=maxsize
+        )
+    return chain | StemFilter(
+        stemfn=stemfn, ignore=ignore, cachesize=cachesize
+    )
 
 
-def FancyAnalyzer(expression=r"\s+", stoplist=STOP_WORDS, minsize=2,
-                  maxsize=None, gaps=True, splitwords=True, splitnums=True,
-                  mergewords=False, mergenums=False):
+def FancyAnalyzer(
+    expression=r"\s+",
+    stoplist=STOP_WORDS,
+    minsize=2,
+    maxsize=None,
+    gaps=True,
+    splitwords=True,
+    splitnums=True,
+    mergewords=False,
+    mergenums=False,
+):
     """Composes a RegexTokenizer with an IntraWordFilter, LowercaseFilter, and
     StopFilter.
 
@@ -247,16 +280,22 @@ def FancyAnalyzer(expression=r"\s+", stoplist=STOP_WORDS, minsize=2,
         than matching on the expression.
     """
 
-    return (RegexTokenizer(expression=expression, gaps=gaps)
-            | IntraWordFilter(splitwords=splitwords, splitnums=splitnums,
-                              mergewords=mergewords, mergenums=mergenums)
-            | LowercaseFilter()
-            | StopFilter(stoplist=stoplist, minsize=minsize)
-            )
+    return (
+        RegexTokenizer(expression=expression, gaps=gaps)
+        | IntraWordFilter(
+        splitwords=splitwords,
+        splitnums=splitnums,
+        mergewords=mergewords,
+        mergenums=mergenums,
+    )
+        | LowercaseFilter()
+        | StopFilter(stoplist=stoplist, minsize=minsize)
+    )
 
 
-def LanguageAnalyzer(lang, expression=default_pattern, gaps=False,
-                     cachesize=50000):
+def LanguageAnalyzer(
+    lang, expression=default_pattern, gaps=False, cachesize=50000
+):
     """Configures a simple analyzer for the given language, with a
     LowercaseFilter, StopFilter, and StemFilter.
 
@@ -280,8 +319,9 @@ def LanguageAnalyzer(lang, expression=default_pattern, gaps=False,
     from whoosh.lang import NoStemmer, NoStopWords
 
     # Make the start of the chain
-    chain = (RegexTokenizer(expression=expression, gaps=gaps)
-             | LowercaseFilter())
+    chain = (
+        RegexTokenizer(expression=expression, gaps=gaps) | LowercaseFilter()
+    )
 
     # Add a stop word filter
     try:
@@ -296,4 +336,3 @@ def LanguageAnalyzer(lang, expression=default_pattern, gaps=False,
         pass
 
     return chain
-

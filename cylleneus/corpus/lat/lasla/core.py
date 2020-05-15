@@ -36,12 +36,22 @@ def fetch(work, meta, fragment):
 
     # Reference and hlite values
     ref_start = ", ".join(
-        [f"{item}: {meta['start'][item]}" for item in meta["start"] if item in divs]
+        [
+            f"{item}: {meta['start'][item]}"
+            for item in meta["start"]
+            if item in divs
+        ]
     )
     ref_end = ", ".join(
-        [f"{item}: {meta['end'][item]}" for item in meta["end"] if item in divs]
+        [
+            f"{item}: {meta['end'][item]}"
+            for item in meta["end"]
+            if item in divs
+        ]
     )
-    reference = "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    reference = (
+        "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    )
 
     # Collect text and context
     with codecs.open(path, "r", "utf8") as fp:
@@ -529,7 +539,10 @@ GROUP = {
         "3": {"group": "3", "stem": "-"},
         "4": {"group": "4", "stem": "-"},
         "5": {"group": "3", "stem": "i"},
-        "6": {"group": "3", "stem": "-"},  # irregulars are classed with group 3
+        "6": {
+            "group": "3",
+            "stem": "-",
+        },  # irregulars are classed with group 3
     },
     "C": {
         "1": {"group": "1", "stem": "-"},
@@ -4599,7 +4612,13 @@ lexicon = {
     "CVRSO": {"-": ["51"]},
     "CVRSOR": {"-": ["13"], "N": ["13"]},
     "CVRSVS": {"-": ["14"]},
-    "CVRTIVS": {"N": ["12"], "1N": ["12"], "2N": ["12"], "1": ["12"], "2": ["12"]},
+    "CVRTIVS": {
+        "N": ["12"],
+        "1N": ["12"],
+        "2N": ["12"],
+        "1": ["12"],
+        "2": ["12"],
+    },
     "CVRTO": {"-": ["51"]},
     "CVRTVS": {"-": ["21"]},
     "CVRVAMEN": {"-": ["13"]},
@@ -13779,7 +13798,13 @@ lexicon = {
     "QVISQVIS": {"1": ["46"], "2": ["48"]},
     "QVIVIS": {"-": ["48"]},
     "QVIVISCVMQVE": {"-": ["48"]},
-    "QVO": {"1": ["66"], "2": ["66"], "3": ["67"], "4": ["60"], "5": ["82", "6-"]},
+    "QVO": {
+        "1": ["66"],
+        "2": ["66"],
+        "3": ["67"],
+        "4": ["60"],
+        "5": ["82", "6-"],
+    },
     "QVOAD": {"1": ["66"], "2": ["67"]},
     "QVOCIRCA": {"-": ["66"]},
     "QVOCVMQVE": {"1": ["66"], "2": ["60"]},
@@ -25974,7 +25999,10 @@ mapping = {
     "ABHORRIDVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["a0051"]}},
     "ABICIO": {"-": {"morpho": ["v1spia--3i"], "uri": ["a0053"]}},
     "ABIECTE": {
-        "-": {"morpho": ["rp--------", "rp--------"], "uri": ["44049", "44049"]}
+        "-": {
+            "morpho": ["rp--------", "rp--------"],
+            "uri": ["44049", "44049"],
+        }
     },
     "ABIECTVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["43027"]}},
     "ABIEGNEVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["51153"]}},
@@ -28036,7 +28064,10 @@ mapping = {
         "2": {"morpho": ["v1spid--1-"], "uri": ["a3463"]},
     },
     "AVERSVM": {
-        "-": {"morpho": ["n-s---nn2-", "n-s---nn2-"], "uri": ["47031", "47031"]}
+        "-": {
+            "morpho": ["n-s---nn2-", "n-s---nn2-"],
+            "uri": ["47031", "47031"],
+        }
     },
     "AVERSVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["52297"]}},
     "AVERTO": {"-": {"morpho": ["v1spia--3-"], "uri": ["a3468"]}},
@@ -28757,7 +28788,10 @@ mapping = {
     "CANDELA": {"-": {"morpho": ["n-s---fn1-"], "uri": ["c0383"]}},
     "CANDELABRVM": {"-": {"morpho": ["n-s---nn2-"], "uri": ["c0385"]}},
     "CANDENS": {
-        "-": {"morpho": ["aps---an3i", "aps---an3i"], "uri": ["97819", "97819"]}
+        "-": {
+            "morpho": ["aps---an3i", "aps---an3i"],
+            "uri": ["97819", "97819"],
+        }
     },
     "CANDENTIA": {"-": {"morpho": ["n-s---fn1-"], "uri": ["c9917"]}},
     "CANDEO": {"-": {"morpho": ["v1spia--2-"], "uri": ["c0386"]}},
@@ -29480,7 +29514,10 @@ mapping = {
         "2": {"morpho": ["p---------"], "uri": []},
     },
     "CIRCITO": {
-        "1": {"morpho": ["v1spia--1-", "v1spia--1-"], "uri": ["c1682", "c1682"]}
+        "1": {
+            "morpho": ["v1spia--1-", "v1spia--1-"],
+            "uri": ["c1682", "c1682"],
+        }
     },
     "CIRCVITIO": {"-": {"morpho": ["n-s---fn3-"], "uri": ["20905"]}},
     "CIRCVITVS": {"-": {"morpho": ["n-s---mn4-"], "uri": ["20906"]}},
@@ -32484,7 +32521,10 @@ mapping = {
         "A": {"morpho": ["aps---mn1-"], "uri": ["d0126"]},
     },
     "DO": {
-        "-": {"morpho": ["v1spia--1-", "v1spia--1-"], "uri": ["d2066", "d2066"]},
+        "-": {
+            "morpho": ["v1spia--1-", "v1spia--1-"],
+            "uri": ["d2066", "d2066"],
+        },
         "1": {"morpho": ["v1spia--1-"], "uri": ["d2066"]},
         "2": {"morpho": ["v1spia--1-"], "uri": ["d2066"]},
     },
@@ -32641,7 +32681,9 @@ mapping = {
     "DVODEVIGINTI": {"-": {"morpho": ["----------"], "uri": []}},
     "DVOETVICESIMVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["33715"]}},
     "DVPLA": {"-": {"morpho": ["n-s---fn1-"], "uri": ["d2379"]}},
-    "DVPLEX": {"-": {"morpho": ["aps---an3-", "aps---an3i"], "uri": ["d2371"]}},
+    "DVPLEX": {
+        "-": {"morpho": ["aps---an3-", "aps---an3i"], "uri": ["d2371"]}
+    },
     "DVPLICATIO": {"-": {"morpho": ["n-s---fn3-"], "uri": ["d2373"]}},
     "DVPLICITER": {"-": {"morpho": ["rp--------"], "uri": ["22747"]}},
     "DVPLICO": {"-": {"morpho": ["v1spia--1-"], "uri": ["d2376"]}},
@@ -34191,7 +34233,12 @@ mapping = {
     "FISTVLOSVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["f0583"]}},
     "FITEOR": {"-": {"morpho": ["v1spid--2-"], "uri": []}},
     "FITILLA": {"-": {"morpho": ["n-s---fn1-"], "uri": ["f0586"]}},
-    "FIXVS": {"-": {"morpho": ["aps---mn1-", "n-s---mn4-"], "uri": ["28675", "f9204"]}},
+    "FIXVS": {
+        "-": {
+            "morpho": ["aps---mn1-", "n-s---mn4-"],
+            "uri": ["28675", "f9204"],
+        }
+    },
     "FLABELLVM": {"-": {"morpho": ["n-s---nn2-"], "uri": ["f0592"]}},
     "FLABRVM": {"-": {"morpho": ["n-s---nn2-"], "uri": ["f0595"]}},
     "FLACCEO": {"-": {"morpho": ["v1spia--2-"], "uri": ["f0596"]}},
@@ -34300,7 +34347,10 @@ mapping = {
     "FLVVIVS": {"-": {"morpho": ["n-s---mn2-"], "uri": ["f1195"]}},
     "FLVXVS": {
         "1": {"morpho": ["n-s---mn4-"], "uri": ["f9211"]},
-        "2": {"morpho": ["aps---mn1-", "n-s---mn4-"], "uri": ["42805", "f9211"]},
+        "2": {
+            "morpho": ["aps---mn1-", "n-s---mn4-"],
+            "uri": ["42805", "f9211"],
+        },
     },
     "FOCALE": {"-": {"morpho": ["n-s---nn3i"], "uri": ["f0750"]}},
     "FOCILLO": {"-": {"morpho": ["v1spia--1-"], "uri": ["44254"]}},
@@ -35005,7 +35055,10 @@ mapping = {
     "GRANIVS": {"N": {"morpho": ["n-s---mn2-"], "uri": []}},
     "GRANVM": {"-": {"morpho": ["n-s---nn2-"], "uri": ["g2278"]}},
     "GRAPHICVS": {
-        "-": {"morpho": ["aps---mn1-", "aps---mn1-"], "uri": ["g0551", "g0551"]}
+        "-": {
+            "morpho": ["aps---mn1-", "aps---mn1-"],
+            "uri": ["g0551", "g0551"],
+        }
     },
     "GRAPHIS": {"-": {"morpho": ["n-s---fn3-"], "uri": ["g0554"]}},
     "GRAPHIVM": {"-": {"morpho": ["n-s---nn2-"], "uri": ["g0555"]}},
@@ -36048,7 +36101,10 @@ mapping = {
     },
     "INCHOO": {"-": {"morpho": ["v1spia--1-"], "uri": ["i0960"]}},
     "INCIDENTIA": {
-        "-": {"morpho": ["n-s---fn1-", "n-s---fn1-"], "uri": ["31317", "31317"]}
+        "-": {
+            "morpho": ["n-s---fn1-", "n-s---fn1-"],
+            "uri": ["31317", "31317"],
+        }
     },
     "INCIDO": {
         "1": {"morpho": ["v1spia--3-"], "uri": ["i0897", "i0898", "i0897"]},
@@ -36947,7 +37003,10 @@ mapping = {
     "INTRODVCTIO": {"-": {"morpho": ["n-s---fn3-"], "uri": ["i2601"]}},
     "INTROEO": {"1": {"morpho": ["v1spia--4-"], "uri": ["i9924"]}},
     "INTROFERO": {
-        "-": {"morpho": ["v1spia--3-", "v1spia--3-"], "uri": ["i9923", "i9923"]}
+        "-": {
+            "morpho": ["v1spia--3-", "v1spia--3-"],
+            "uri": ["i9923", "i9923"],
+        }
     },
     "INTROGREDIOR": {"-": {"morpho": ["v1spid--3i"], "uri": ["i2606"]}},
     "INTROITVS": {"-": {"morpho": ["n-s---mn4-"], "uri": ["i2599"]}},
@@ -38018,7 +38077,10 @@ mapping = {
         "N12": {"morpho": ["n-s---fn1-"], "uri": []},
     },
     "LONGVM": {
-        "2": {"morpho": ["rp--------", "rp--------"], "uri": ["58308", "58308"]},
+        "2": {
+            "morpho": ["rp--------", "rp--------"],
+            "uri": ["58308", "58308"],
+        },
         "1": {"morpho": ["n-s----n2-"], "uri": []},
     },
     "LONGVRIVS": {"-": {"morpho": ["n-s---mn2-"], "uri": ["l1032"]}},
@@ -38951,7 +39013,10 @@ mapping = {
     "MINIACEVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["m1028"]}},
     "MINIMVM": {
         "1": {"morpho": ["n-s---nn2-"], "uri": ["99429"]},
-        "2": {"morpho": ["rp--------", "n-s---nn2-"], "uri": ["29175", "99429"]},
+        "2": {
+            "morpho": ["rp--------", "n-s---nn2-"],
+            "uri": ["29175", "99429"],
+        },
     },
     "MINISCOR": {"-": {"morpho": ["v1spid--3-"], "uri": []}},
     "MINISTER": {
@@ -39564,7 +39629,12 @@ mapping = {
         "N": {"morpho": ["n-s---fn3-"], "uri": ["n0146"]},
     },
     "NECESSITVDO": {"-": {"morpho": ["n-s---fn3-"], "uri": ["n0147"]}},
-    "NECNE": {"-": {"morpho": ["rp--------", "rp--------"], "uri": ["57828", "57828"]}},
+    "NECNE": {
+        "-": {
+            "morpho": ["rp--------", "rp--------"],
+            "uri": ["57828", "57828"],
+        }
+    },
     "NECNON": {"-": {"morpho": ["----------"], "uri": []}},
     "NECO": {"-": {"morpho": ["v1spia--1-"], "uri": ["n0151"]}},
     "NECOPINANS": {"-": {"morpho": ["aps---an3i"], "uri": ["n9821"]}},
@@ -39777,7 +39847,12 @@ mapping = {
     "NONARIVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["n0518"]}},
     "NONDVM": {"-": {"morpho": ["rp--------"], "uri": ["n0766"]}},
     "NONGENTI": {"-": {"morpho": ["----------"], "uri": []}},
-    "NONNE": {"-": {"morpho": ["rp--------", "rp--------"], "uri": ["n0767", "n0767"]}},
+    "NONNE": {
+        "-": {
+            "morpho": ["rp--------", "rp--------"],
+            "uri": ["n0767", "n0767"],
+        }
+    },
     "NONNVLLVS": {"-": {"morpho": ["----------"], "uri": []}},
     "NONNVMQVAM": {"-": {"morpho": ["rp--------"], "uri": ["n9815"]}},
     "NONVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["n0145"]}},
@@ -40073,7 +40148,10 @@ mapping = {
     "OBSEQVOR": {"-": {"morpho": ["v1spid--3-"], "uri": ["o0218"]}},
     "OBSERO": {
         "1": {"morpho": ["v1spia--1-"], "uri": ["o0221"]},
-        "3": {"morpho": ["v1spia--3-", "v1spia--1-"], "uri": ["o0222", "o0221"]},
+        "3": {
+            "morpho": ["v1spia--3-", "v1spia--1-"],
+            "uri": ["o0222", "o0221"],
+        },
     },
     "OBSERVABILIS": {"-": {"morpho": ["aps---cn3i"], "uri": ["o0223"]}},
     "OBSERVATIO": {"-": {"morpho": ["n-s---fn3-"], "uri": ["o0225"]}},
@@ -40831,7 +40909,10 @@ mapping = {
     "PARDVS": {"-": {"morpho": ["n-s---mn2-"], "uri": ["p0373"]}},
     "PARENS": {
         "1": {"morpho": ["n-s---cn3-"], "uri": []},
-        "2": {"morpho": ["aps---an3i", "aps---an3i"], "uri": ["99808", "99808"]},
+        "2": {
+            "morpho": ["aps---an3i", "aps---an3i"],
+            "uri": ["99808", "99808"],
+        },
     },
     "PARENTES": {"-": {"morpho": ["n-s----n3-"], "uri": []}},
     "PARENTO": {"-": {"morpho": ["v1spia--1-"], "uri": ["p0390"]}},
@@ -40999,10 +41080,18 @@ mapping = {
     "PAVIO": {"-": {"morpho": ["v1spia--4-"], "uri": ["p0616"]}},
     "PAVITO": {"-": {"morpho": ["v1spia--1-"], "uri": ["p0619"]}},
     "PAVLATIM": {
-        "-": {"morpho": ["rp--------", "rp--------"], "uri": ["25783", "25783"]}
+        "-": {
+            "morpho": ["rp--------", "rp--------"],
+            "uri": ["25783", "25783"],
+        }
     },
     "PAVLISPER": {"-": {"morpho": ["rp--------"], "uri": ["57821"]}},
-    "PAVLO": {"-": {"morpho": ["rp--------", "rp--------"], "uri": ["25784", "25784"]}},
+    "PAVLO": {
+        "-": {
+            "morpho": ["rp--------", "rp--------"],
+            "uri": ["25784", "25784"],
+        }
+    },
     "PAVLVLVM": {
         "1": {"morpho": ["n-s---nn2-"], "uri": ["99841"]},
         "2": {"morpho": ["rp--------"], "uri": ["55567"]},
@@ -42648,10 +42737,16 @@ mapping = {
     "PRIMORES": {"-": {"morpho": ["n-s---mn3-"], "uri": ["100157"]}},
     "PRIMORIS": {"-": {"morpho": ["aps---cn3i"], "uri": ["p3558"]}},
     "PRIMVM": {
-        "-": {"morpho": ["rp--------", "rp--------"], "uri": ["26299", "26299"]}
+        "-": {
+            "morpho": ["rp--------", "rp--------"],
+            "uri": ["26299", "26299"],
+        }
     },
     "PRIMVS": {
-        "-": {"morpho": ["aps---mn1-", "n-s---nn3-"], "uri": ["p3562", "46637"]},
+        "-": {
+            "morpho": ["aps---mn1-", "n-s---nn3-"],
+            "uri": ["p3562", "46637"],
+        },
         "N": {"morpho": ["n-s---mn2-"], "uri": []},
     },
     "PRINCEPS": {
@@ -42663,7 +42758,12 @@ mapping = {
     "PRINCIPATVS": {"-": {"morpho": ["n-s---mn4-"], "uri": ["p3566"]}},
     "PRINCIPIALIS": {"-": {"morpho": ["aps---cn3i"], "uri": ["p3567"]}},
     "PRINCIPIVM": {"-": {"morpho": ["n-s---nn2-"], "uri": ["p4684"]}},
-    "PRIOR": {"-": {"morpho": ["acs---cn3-", "acs---cn3-"], "uri": ["p3572", "p3572"]}},
+    "PRIOR": {
+        "-": {
+            "morpho": ["acs---cn3-", "acs---cn3-"],
+            "uri": ["p3572", "p3572"],
+        }
+    },
     "PRIORES": {"-": {"morpho": ["n-s---mn3-"], "uri": ["100161"]}},
     "PRISCI": {
         "-": {"morpho": ["n-p---mn2-"], "uri": ["100162"]},
@@ -43371,7 +43471,9 @@ mapping = {
     "QVADRIIVGIS": {"-": {"morpho": ["aps---cn3i"], "uri": ["q0049"]}},
     "QVADRIIVGVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["q0049"]}},
     "QVADRIMVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["q0058"]}},
-    "QVADRINGENI": {"-": {"morpho": ["aps---an3-", "app---mn1-"], "uri": ["q0060"]}},
+    "QVADRINGENI": {
+        "-": {"morpho": ["aps---an3-", "app---mn1-"], "uri": ["q0060"]}
+    },
     "QVADRINGENTESIMVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["q0063"]}},
     "QVADRINGENTI": {"-": {"morpho": ["----------"], "uri": []}},
     "QVADRINGENTIES": {"-": {"morpho": ["rp--------"], "uri": ["44979"]}},
@@ -43390,7 +43492,10 @@ mapping = {
     },
     "QVADRVPLATOR": {"-": {"morpho": ["n-s---mn3-"], "uri": ["q0085"]}},
     "QVADRVPLEX": {
-        "-": {"morpho": ["aps---an3-", "n-s---nn3-"], "uri": ["q0086", "124285"]}
+        "-": {
+            "morpho": ["aps---an3-", "n-s---nn3-"],
+            "uri": ["q0086", "124285"],
+        }
     },
     "QVADRVPLO": {
         "1": {"morpho": ["v1spia--1-"], "uri": ["q0090"]},
@@ -43536,7 +43641,10 @@ mapping = {
     "QVANTVSLIBET": {"-": {"morpho": ["----------"], "uri": []}},
     "QVANTVSVIS": {"-": {"morpho": ["----------"], "uri": []}},
     "QVAPROPTER": {
-        "1": {"morpho": ["rp--------", "rp--------"], "uri": ["q0137", "q0137"]},
+        "1": {
+            "morpho": ["rp--------", "rp--------"],
+            "uri": ["q0137", "q0137"],
+        },
         "2": {"morpho": ["rp--------"], "uri": ["q0137"]},
     },
     "QVAQVAVERSVM": {"-": {"morpho": ["rp--------"], "uri": ["q0138"]}},
@@ -43615,7 +43723,10 @@ mapping = {
     "QVIDAM": {"-": {"morpho": ["----------"], "uri": []}},
     "QVIDEM": {"-": {"morpho": ["rp--------"], "uri": ["q0201"]}},
     "QVIDNI": {
-        "-": {"morpho": ["rp--------", "rp--------"], "uri": ["q9408", "q9408"]}
+        "-": {
+            "morpho": ["rp--------", "rp--------"],
+            "uri": ["q9408", "q9408"],
+        }
     },
     "QVIES": {"-": {"morpho": ["n-s---fn3-"], "uri": ["q0205"]}},
     "QVIESCO": {"-": {"morpho": ["v1spia--3-"], "uri": ["q0206"]}},
@@ -43630,7 +43741,10 @@ mapping = {
     "QVIN": {
         "1": {"morpho": ["rp--------"], "uri": ["q0212"]},
         "2": {"morpho": ["----------"], "uri": []},
-        "3": {"morpho": ["rp--------", "rp--------"], "uri": ["q0212", "q0212"]},
+        "3": {
+            "morpho": ["rp--------", "rp--------"],
+            "uri": ["q0212", "q0212"],
+        },
     },
     "QVINARIVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["q0213"]}},
     "QVINCVNX": {"-": {"morpho": ["n-s---mn3i"], "uri": ["q0216"]}},
@@ -44412,7 +44526,12 @@ mapping = {
     "RIGIDITAS": {"-": {"morpho": ["n-s---fn3-"], "uri": ["r0720"]}},
     "RIGIDO": {"-": {"morpho": ["v1spia--1-"], "uri": ["r1458"]}},
     "RIGIDVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["r0721"]}},
-    "RIGO": {"-": {"morpho": ["v1spia--1-", "v1spia--1-"], "uri": ["r1459", "r1459"]}},
+    "RIGO": {
+        "-": {
+            "morpho": ["v1spia--1-", "v1spia--1-"],
+            "uri": ["r1459", "r1459"],
+        }
+    },
     "RIGOR": {"-": {"morpho": ["n-s---mn3-"], "uri": ["r0722"]}},
     "RIGVVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["r0723"]}},
     "RIMA": {"-": {"morpho": ["n-s---fn1-"], "uri": ["r0724"]}},
@@ -45383,7 +45502,10 @@ mapping = {
     },
     "SEPTEMGEMINVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["s1277"]}},
     "SEPTEMPLEX": {
-        "-": {"morpho": ["aps---an3-", "aps---an3-"], "uri": ["s1281", "s1281"]}
+        "-": {
+            "morpho": ["aps---an3-", "aps---an3-"],
+            "uri": ["s1281", "s1281"],
+        }
     },
     "SEPTEMREMIS": {
         "-": {"morpho": ["aps---an3-"], "uri": []},
@@ -45438,7 +45560,9 @@ mapping = {
         "N": {"morpho": ["n-s---mn2-"], "uri": []},
         "A": {"morpho": ["aps---mn1-"], "uri": []},
     },
-    "SERIA": {"-": {"morpho": ["n-s---fn1-"], "uri": ["s1375", "s1360", "s1366"]}},
+    "SERIA": {
+        "-": {"morpho": ["n-s---fn1-"], "uri": ["s1375", "s1360", "s1366"]}
+    },
     "SERICA": {"-": {"morpho": ["n-p---nn2-"], "uri": ["100568"]}},
     "SERICVS": {
         "-": {"morpho": ["aps---mn1-"], "uri": ["s3809"]},
@@ -45694,7 +45818,10 @@ mapping = {
         "N": {"morpho": ["n-s----n1-"], "uri": []},
     },
     "SIMPLEX": {
-        "-": {"morpho": ["aps---an3-", "aps---an3-"], "uri": ["s1698", "s1698"]},
+        "-": {
+            "morpho": ["aps---an3-", "aps---an3-"],
+            "uri": ["s1698", "s1698"],
+        },
         "N": {"morpho": ["n-s----n3-"], "uri": []},
     },
     "SIMPLICITAS": {"-": {"morpho": ["n-s---fn3-"], "uri": ["s1700"]}},
@@ -47820,7 +47947,10 @@ mapping = {
     "TRIONES": {"-": {"morpho": ["n-s----n3-"], "uri": []}},
     "TRIPARTIO": {"-": {"morpho": ["v1spia--4-", "n-s----n3-"], "uri": []}},
     "TRIPARTITO": {
-        "-": {"morpho": ["rp--------", "rp--------"], "uri": ["130633", "130633"]}
+        "-": {
+            "morpho": ["rp--------", "rp--------"],
+            "uri": ["130633", "130633"],
+        }
     },
     "TRIPECTORVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["t1333"]}},
     "TRIPEDANEVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["t1335"]}},
@@ -47829,7 +47959,9 @@ mapping = {
         "1": {"morpho": ["n-s---mn3-"], "uri": ["130641"]},
         "2": {"morpho": ["aps---an3-"], "uri": ["t1338"]},
     },
-    "TRIPLEX": {"-": {"morpho": ["aps---an3-", "n-s---nn3-"], "uri": ["130647"]}},
+    "TRIPLEX": {
+        "-": {"morpho": ["aps---an3-", "n-s---nn3-"], "uri": ["130647"]}
+    },
     "TRIPLINTHIVS": {"-": {"morpho": ["aps---mn1-"], "uri": ["t1350"]}},
     "TRIPODO": {"-": {"morpho": ["v1spia--1-"], "uri": ["t1354"]}},
     "TRIPTOLEMVS": {"N": {"morpho": ["n-s---mn2-"], "uri": []}},
@@ -48894,10 +49026,16 @@ mapping = {
     "VLTERIORA": {"-": {"morpho": ["n-s---nn3-"], "uri": ["101005"]}},
     "VLTIMVM": {
         "1": {"morpho": ["n-s---nn2-"], "uri": ["u0018"]},
-        "2": {"morpho": ["rp--------", "n-s---nn2-"], "uri": ["39171", "u0018"]},
+        "2": {
+            "morpho": ["rp--------", "n-s---nn2-"],
+            "uri": ["39171", "u0018"],
+        },
     },
     "VLTIMVS": {
-        "-": {"morpho": ["aps---mn1-", "aps---mn1-"], "uri": ["u0943", "u0943"]}
+        "-": {
+            "morpho": ["aps---mn1-", "aps---mn1-"],
+            "uri": ["u0943", "u0943"],
+        }
     },
     "VLTIO": {
         "-": {"morpho": ["n-s---fn3-"], "uri": ["u0944"]},
@@ -58187,8 +58325,16 @@ AUTHOR_TAB = {
                 "meta": "chapter-section",
                 "code": "phi001",
             },
-            "03": {"title": "orationes", "meta": "fragment-line", "code": "phi010"},
-            "02": {"title": "Origines", "meta": "fragment-line", "code": "phi011"},
+            "03": {
+                "title": "orationes",
+                "meta": "fragment-line",
+                "code": "phi010",
+            },
+            "02": {
+                "title": "Origines",
+                "meta": "fragment-line",
+                "code": "phi011",
+            },
             "04": {
                 "title": "incertorum librorum fragmenta",
                 "meta": "page-fragment-line",  # work-
@@ -58199,7 +58345,9 @@ AUTHOR_TAB = {
     "C": {
         "author": "C. Valerius Catullus",
         "code": ["phi0472"],
-        "phi0472": {"00": {"title": "carmina", "meta": "poem-verse", "code": "phi001"}},
+        "phi0472": {
+            "00": {"title": "carmina", "meta": "poem-verse", "code": "phi001"}
+        },
     },
     "D": {
         "author": "M. Tullius Cicero",
@@ -58211,15 +58359,31 @@ AUTHOR_TAB = {
                 "code": "phi025",
                 "meta": "section",
             },
-            "13": {"title": "Pro Caecina", "code": "phi008", "meta": "section"},
-            "15": {"title": "Pro Cluentio", "code": "phi010", "meta": "section"},
+            "13": {
+                "title": "Pro Caecina",
+                "code": "phi008",
+                "meta": "section",
+            },
+            "15": {
+                "title": "Pro Cluentio",
+                "code": "phi010",
+                "meta": "section",
+            },
             "26": {"title": "Pro Archia", "code": "phi016", "meta": "section"},
             "36": {"title": "Pro Balbo", "code": "phi026", "meta": "section"},
             "37": {"title": "In Pisonem", "code": "phi027", "meta": "section"},
             "04": {"title": "Pro Tullio", "code": "phi006", "meta": "section"},
             "24": {"title": "Pro Murena", "code": "phi014", "meta": "section"},
-            "38": {"title": "Pro Plancio", "code": "phi028", "meta": "section"},
-            "01": {"title": "Pro Quinctio", "code": "phi001", "meta": "section"},
+            "38": {
+                "title": "Pro Plancio",
+                "code": "phi028",
+                "meta": "section",
+            },
+            "01": {
+                "title": "Pro Quinctio",
+                "code": "phi001",
+                "meta": "section",
+            },
             "19": {
                 "title": "Pro C. Rabirio perduellionis reo",
                 "code": "phi012",
@@ -58231,9 +58395,17 @@ AUTHOR_TAB = {
                 "meta": "section",
             },
             "27": {"title": "Pro Flacco", "code": "phi017", "meta": "section"},
-            "12": {"title": "Pro Fonteio", "code": "phi007", "meta": "section"},
+            "12": {
+                "title": "Pro Fonteio",
+                "code": "phi007",
+                "meta": "section",
+            },
             "40": {"title": "Pro Milone", "code": "phi031", "meta": "section"},
-            "41": {"title": "Pro Marcello", "code": "phi032", "meta": "section"},
+            "41": {
+                "title": "Pro Marcello",
+                "code": "phi032",
+                "meta": "section",
+            },
             "29": {
                 "title": "Post Reditum ad Populum",
                 "code": "phi018",
@@ -58244,8 +58416,16 @@ AUTHOR_TAB = {
                 "code": "phi019",
                 "meta": "section",
             },
-            "42": {"title": "Pro Ligario", "code": "phi033", "meta": "section"},
-            "43": {"title": "Pro Rege Deiotaro", "code": "phi034", "meta": "section",},
+            "42": {
+                "title": "Pro Ligario",
+                "code": "phi033",
+                "meta": "section",
+            },
+            "43": {
+                "title": "Pro Rege Deiotaro",
+                "code": "phi034",
+                "meta": "section",
+            },
             "06": {
                 "title": "In Verrem",
                 "code": "phi005",
@@ -58376,7 +58556,11 @@ AUTHOR_TAB = {
                 "code": "phi68x17",
                 "meta": "fragment-line",
             },
-            "61": {"title": "Pro Oppio", "code": "phi68x03", "meta": "fragment-line"},
+            "61": {
+                "title": "Pro Oppio",
+                "code": "phi68x03",
+                "meta": "fragment-line",
+            },
             "73": {
                 "title": "Pro P. Vatinio",
                 "code": "phi68x16",
@@ -58407,13 +58591,21 @@ AUTHOR_TAB = {
                 "code": "phi052",
                 "meta": "section",
             },
-            "30": {"title": "De Domo Sua", "code": "phi020", "meta": "section"},
+            "30": {
+                "title": "De Domo Sua",
+                "code": "phi020",
+                "meta": "section",
+            },
             "31": {
                 "title": "De Haruspicum Responso",
                 "code": "phi021",
                 "meta": "section",
             },
-            "14": {"title": "Pro Lege Manilia", "code": "phi009", "meta": "section",},
+            "14": {
+                "title": "Pro Lege Manilia",
+                "code": "phi009",
+                "meta": "section",
+            },
             "16": {
                 "title": "De Lege Agraria",
                 "code": "phi011",
@@ -58455,13 +58647,21 @@ AUTHOR_TAB = {
                 "meta": "oration-section",
             },
             "58": {"title": "Pro Scauro", "code": "phi029", "meta": "section"},
-            "67": {"title": "In Toga Candida", "code": "phi005", "meta": "page-line"},
+            "67": {
+                "title": "In Toga Candida",
+                "code": "phi005",
+                "meta": "page-line",
+            },
             "60": {
                 "title": "Pro L. Vareno",
                 "code": "phi68x02",
                 "meta": "fragment-line",
             },
-            "33": {"title": "In Vatinium", "code": "phi023", "meta": "section"},
+            "33": {
+                "title": "In Vatinium",
+                "code": "phi023",
+                "meta": "section",
+            },
             "71": {
                 "title": "Interrogatio de aere alieno Milonis",
                 "code": "phi68x14",
@@ -58472,9 +58672,17 @@ AUTHOR_TAB = {
                 "code": "phi069",
                 "meta": "fragment-line",
             },
-            "03": {"title": "Roscio Comoedo", "code": "phi003", "meta": "section"},
+            "03": {
+                "title": "Roscio Comoedo",
+                "code": "phi003",
+                "meta": "section",
+            },
             "32": {"title": "Pro Sestio", "code": "phi022", "meta": "section"},
-            "02": {"title": "Roscio Amerino", "code": "phi002", "meta": "section"},
+            "02": {
+                "title": "Roscio Amerino",
+                "code": "phi002",
+                "meta": "section",
+            },
             "25": {"title": "Pro Sulla", "code": "phi015", "meta": "section"},
         },
     },
@@ -58493,31 +58701,57 @@ AUTHOR_TAB = {
         "author": "Q. Horatius Flaccus",
         "code": ["phi0893"],
         "phi0893": {
-            "01": {"title": "Carmina", "code": "phi001", "meta": "book-poem-verse"},
-            "02": {"title": "Carmen Saeculare", "code": "phi002", "meta": "verse"},
+            "01": {
+                "title": "Carmina",
+                "code": "phi001",
+                "meta": "book-poem-verse",
+            },
+            "02": {
+                "title": "Carmen Saeculare",
+                "code": "phi002",
+                "meta": "verse",
+            },
             "03": {"title": "Epodi", "code": "phi003", "meta": "poem-verse"},
-            "04": {"title": "Sermones", "code": "phi004", "meta": "book-poem-verse"},
-            "05": {"title": "Epistulae", "code": "phi005", "meta": "book-poem-verse"},
+            "04": {
+                "title": "Sermones",
+                "code": "phi004",
+                "meta": "book-poem-verse",
+            },
+            "05": {
+                "title": "Epistulae",
+                "code": "phi005",
+                "meta": "book-poem-verse",
+            },
             "06": {"title": "Ars Poetica", "code": "phi006", "meta": "verse"},
         },
     },
     "G": {
         "author": "D. Iunius Iuvenalis",
         "code": ["phi1276"],
-        "phi1276": {"00": {"title": "Saturae", "code": "phi001", "meta": "poem-verse"}},
+        "phi1276": {
+            "00": {"title": "Saturae", "code": "phi001", "meta": "poem-verse"}
+        },
     },
     "H": {
         "author": "T. Lucretius Carus",
         "code": ["phi0550"],
         "phi0550": {
-            "00": {"title": "De Rerum Natura", "code": "phi001", "meta": "book-verse"}
+            "00": {
+                "title": "De Rerum Natura",
+                "code": "phi001",
+                "meta": "book-verse",
+            }
         },
     },
     "I": {
         "author": "P. Ovidius Naso",
         "code": ["phi0959"],
         "phi0959": {
-            "04": {"title": "Amores", "code": "phi001", "meta": "book-poem-verse"},
+            "04": {
+                "title": "Amores",
+                "code": "phi001",
+                "meta": "book-poem-verse",
+            },
             "05": {
                 "title": "Epistulae (vel Heroides)",
                 "code": "phi002",
@@ -58528,8 +58762,16 @@ AUTHOR_TAB = {
                 "code": "phi003",
                 "meta": "verse",
             },
-            "01": {"title": "Ars Amatoria", "code": "phi004", "meta": "book-verse"},
-            "02": {"title": "Remedia Amoris", "code": "phi005", "meta": "verse"},
+            "01": {
+                "title": "Ars Amatoria",
+                "code": "phi004",
+                "meta": "book-verse",
+            },
+            "02": {
+                "title": "Remedia Amoris",
+                "code": "phi005",
+                "meta": "verse",
+            },
             "06": {"title": "Fasti", "code": "phi007", "meta": "book-verse"},
             "11": {"title": "Ibis", "code": "phi010", "meta": "verse"},
             "10": {"title": "Halieutica", "code": "phi014", "meta": "verse"},
@@ -58538,12 +58780,16 @@ AUTHOR_TAB = {
     "J": {
         "author": "A. Persius Flaccus",
         "code": ["phi0969"],
-        "phi0969": {"00": {"title": "Saturae", "code": "phi001", "meta": "poem-verse"}},
+        "phi0969": {
+            "00": {"title": "Saturae", "code": "phi001", "meta": "poem-verse"}
+        },
     },
     "K": {
         "author": "Petronius",
         "code": ["phi0972"],
-        "phi0972": {"00": {"title": "Satyrica", "code": "phi001", "meta": "section"}},
+        "phi0972": {
+            "00": {"title": "Satyrica", "code": "phi001", "meta": "section"}
+        },
     },
     "L": {
         "author": "T. Maccius Plautus",
@@ -58568,14 +58814,22 @@ AUTHOR_TAB = {
                 "code": "phi001",
                 "meta": "book-letter-section",
             },
-            "00": {"title": "Panegyricus", "code": "phi002", "meta": "section"},
+            "00": {
+                "title": "Panegyricus",
+                "code": "phi002",
+                "meta": "section",
+            },
         },
     },
     "N": {
         "author": "Sex. Propertius",
         "code": ["phi0620"],
         "phi0620": {
-            "00": {"title": "Elegiae", "code": "phi001", "meta": "book-poem-verse"}
+            "00": {
+                "title": "Elegiae",
+                "code": "phi001",
+                "meta": "book-poem-verse",
+            }
         },
     },
     "O": {
@@ -58587,7 +58841,11 @@ AUTHOR_TAB = {
                 "meta": "section",
                 "code": "phi001",
             },
-            "02": {"title": "Bellum Iugurthinum", "meta": "section", "code": "phi002",},
+            "02": {
+                "title": "Bellum Iugurthinum",
+                "meta": "section",
+                "code": "phi002",
+            },
             "03": {
                 "title": "Historiae",
                 "meta": "book-fragment-line",
@@ -58599,7 +58857,11 @@ AUTHOR_TAB = {
         "author": "L. Annaeus Seneca iunior",
         "code": ["phi1017", "stoa0255"],
         "phi1017": {
-            "15": {"title": "Hercules Furens", "code": "phi001", "meta": "verse"},
+            "15": {
+                "title": "Hercules Furens",
+                "code": "phi001",
+                "meta": "verse",
+            },
             "16": {"title": "Troades", "code": "phi002", "meta": "verse"},
             "17": {"title": "Phoenissae", "code": "phi003", "meta": "verse"},
             "18": {"title": "Medea", "code": "phi004", "meta": "verse"},
@@ -58607,9 +58869,21 @@ AUTHOR_TAB = {
             "20": {"title": "Oedipus", "code": "phi006", "meta": "verse"},
             "21": {"title": "Agamemnon", "code": "phi007", "meta": "verse"},
             "22": {"title": "Thyestes", "code": "phi008", "meta": "verse"},
-            "23": {"title": "Hercules Oetaeus", "code": "phi009", "meta": "verse"},
-            "01": {"title": "Apocolocyntosis", "code": "phi011", "meta": "section",},
-            "": {"title": "Dialogi", "code": "phi012", "meta": "book-chapter-section"},
+            "23": {
+                "title": "Hercules Oetaeus",
+                "code": "phi009",
+                "meta": "verse",
+            },
+            "01": {
+                "title": "Apocolocyntosis",
+                "code": "phi011",
+                "meta": "section",
+            },
+            "": {
+                "title": "Dialogi",
+                "code": "phi012",
+                "meta": "book-chapter-section",
+            },
             "06": {
                 "title": "De Beneficiis",
                 "code": "phi013",
@@ -58647,20 +58921,36 @@ AUTHOR_TAB = {
                 "code": "stoa004",
                 "meta": "section",
             },
-            "09": {"title": "De Constantia", "code": "stoa009", "meta": "section"},
+            "09": {
+                "title": "De Constantia",
+                "code": "stoa009",
+                "meta": "section",
+            },
             "10": {
                 "title": "De Ira",
                 "code": "stoa010",
                 "meta": "book-chapter-section",
             },
-            "11": {"title": "De Otio Sapientis", "code": "stoa011", "meta": "section",},
-            "12": {"title": "De Providentia", "code": "stoa012", "meta": "section",},
+            "11": {
+                "title": "De Otio Sapientis",
+                "code": "stoa011",
+                "meta": "section",
+            },
+            "12": {
+                "title": "De Providentia",
+                "code": "stoa012",
+                "meta": "section",
+            },
             "13": {
                 "title": "De Tranquillitate Animi",
                 "code": "stoa013",
                 "meta": "section",
             },
-            "14": {"title": "De Vita Beata", "code": "stoa014", "meta": "section"},
+            "14": {
+                "title": "De Vita Beata",
+                "code": "stoa014",
+                "meta": "section",
+            },
         },
     },
     "Q": {
@@ -58682,7 +58972,11 @@ AUTHOR_TAB = {
                 "meta": "section",
                 "code": "phi003",
             },
-            "05": {"title": "Historiae", "meta": "book-line", "code": "phi004"},
+            "05": {
+                "title": "Historiae",
+                "meta": "book-line",
+                "code": "phi004",
+            },
             "04": {
                 "title": "Annales",
                 "meta": "book-chapter-section",
@@ -58694,7 +58988,11 @@ AUTHOR_TAB = {
         "author": "Albius Tibullus",
         "code": ["phi0660"],
         "phi0660": {
-            "00": {"title": "Elegiae", "meta": "book-poem-verse", "code": "phi001"}
+            "00": {
+                "title": "Elegiae",
+                "meta": "book-poem-verse",
+                "code": "phi001",
+            }
         },
     },
     "S": {
@@ -58702,7 +59000,11 @@ AUTHOR_TAB = {
         "code": ["phi0690"],
         "phi0690": {
             "01": {"title": "Eclogae", "meta": "poem-verse", "code": "phi001"},
-            "02": {"title": "Georgica", "meta": "book-verse", "code": "phi002"},
+            "02": {
+                "title": "Georgica",
+                "meta": "book-verse",
+                "code": "phi002",
+            },
             "03": {"title": "Aeneis", "meta": "book-verse", "code": "phi003"},
         },
     },

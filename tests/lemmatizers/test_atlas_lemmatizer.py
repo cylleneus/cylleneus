@@ -26,22 +26,24 @@ class TestATLASLemmatizer(unittest.TestCase):
         from corpus.atlas.filters import CachedLemmaFilter
         from corpus.tlg import AUTHOR_TAB
 
-        atlas = pathlib.Path('../../corpus/atlas/text/')
-        files = list(atlas.glob('*.xml'))
+        atlas = pathlib.Path("../../corpus/atlas/text/")
+        files = list(atlas.glob("*.xml"))
 
-        with codecs.open(choice(files), 'rb') as f:
+        with codecs.open(choice(files), "rb") as f:
             value = f.read()
 
-            parser = et.XMLParser(encoding='UTF-8')
+            parser = et.XMLParser(encoding="UTF-8")
             doc = et.XML(value, parser=parser)
 
-            urn = doc.get('cts')
-            auth_code, work_code = urn.rsplit(':', maxsplit=1)[1].split('.')[:2]
-            meta = AUTHOR_TAB[auth_code]['works'][work_code]['meta']
+            urn = doc.get("cts")
+            auth_code, work_code = urn.rsplit(":", maxsplit=1)[1].split(".")[
+                                   :2
+                                   ]
+            meta = AUTHOR_TAB[auth_code]["works"][work_code]["meta"]
 
-            data = {'text': doc, 'meta': meta}
+            data = {"text": doc, "meta": meta}
 
         T = CachedTokenizer()
         L = CachedLemmaFilter()
-        for t in L(T(data, docix=0, mode='index')):
+        for t in L(T(data, docix=0, mode="index")):
             print(t)

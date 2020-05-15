@@ -22,7 +22,14 @@ class TestQueryTypes(unittest.TestCase):
 
         from multiwordnet.db import compile
 
-        for language in ["common", "latin", "italian", "spanish", "french", "hebrew"]:
+        for language in [
+            "common",
+            "latin",
+            "italian",
+            "spanish",
+            "french",
+            "hebrew",
+        ]:
             compile(language, overwrite=False)
 
     def tearDown(self):
@@ -64,7 +71,6 @@ class TestQueryTypes(unittest.TestCase):
             "/adverbial/",
             "/adnominal argument/",
         ]
-
 
         for q in queries:
             parser = CylleneusQueryParser("form", DocumentSchema())

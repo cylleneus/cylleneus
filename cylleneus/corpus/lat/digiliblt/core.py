@@ -49,12 +49,22 @@ def fetch(work, meta, fragment):
 
     # Reference and hlite values
     ref_start = ", ".join(
-        [f"{item}: {meta['start'][item]}" for item in meta["start"] if item in divs]
+        [
+            f"{item}: {meta['start'][item]}"
+            for item in meta["start"]
+            if item in divs
+        ]
     )
     ref_end = ", ".join(
-        [f"{item}: {meta['end'][item]}" for item in meta["end"] if item in divs]
+        [
+            f"{item}: {meta['end'][item]}"
+            for item in meta["end"]
+            if item in divs
+        ]
     )
-    reference = "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    reference = (
+        "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    )
 
     if divs:
         hlites = [
@@ -78,8 +88,7 @@ def fetch(work, meta, fragment):
     sent_id = 0
 
     for el in (
-        doc
-            .find("{http://www.tei-c.org/ns/1.0}text")
+        doc.find("{http://www.tei-c.org/ns/1.0}text")
             .find("{http://www.tei-c.org/ns/1.0}body")
             .findall(".//{http://www.tei-c.org/ns/1.0}*")
     ):
@@ -109,10 +118,7 @@ def fetch(work, meta, fragment):
                 sect_sent += 1
 
                 sentence = sentence.strip()
-                replacements = [
-                    (r"\n", ""),
-                    (r"\s+", " ")
-                ]
+                replacements = [(r"\n", ""), (r"\s+", " ")]
                 for old, new in replacements:
                     sentence = re.sub(old, new, sentence)
                 sentences_by_refs[(sent_id, sect_sent)] = sentence

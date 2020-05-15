@@ -24,18 +24,26 @@ class TestPerseusXMLTokenizer(unittest.TestCase):
         # pass
         from corpus.perseus_xml.tokenizer import CachedTokenizer
 
-        perseus = pathlib.Path('../../corpus/perseus_xml/text/')
-        files = list(perseus.glob('*lat*.xml'))
+        perseus = pathlib.Path("../../corpus/perseus_xml/text/")
+        files = list(perseus.glob("*lat*.xml"))
 
-        with codecs.open(choice(files), 'rb') as f:
+        with codecs.open(choice(files), "rb") as f:
             value = f.read()
 
-            parser = et.XMLParser(encoding='UTF-8')
+            parser = et.XMLParser(encoding="UTF-8")
             doc = et.XML(value, parser=parser)
-            divs = { i: div.get('n').lower()
-                     for i, div in enumerate(doc.find(".//{http://www.tei-c.org/ns/1.0}refsDecl[@n='CTS']").findall('.//{http://www.tei-c.org/ns/1.0}cRefPattern')) if div.get('n') if div is not None }
-            meta = '-'.join(reversed(list(divs.values())))
+            divs = {
+                i: div.get("n").lower()
+                for i, div in enumerate(
+                    doc.find(
+                        ".//{http://www.tei-c.org/ns/1.0}refsDecl[@n='CTS']"
+                    ).findall(".//{http://www.tei-c.org/ns/1.0}cRefPattern")
+                )
+                if div.get("n")
+                if div is not None
+            }
+            meta = "-".join(reversed(list(divs.values())))
         T = CachedTokenizer()
 
-        for t in T({'text': doc, 'meta': meta}, docix=0, mode='index'):
+        for t in T({"text": doc, "meta": meta}, docix=0, mode="index"):
             print(t)

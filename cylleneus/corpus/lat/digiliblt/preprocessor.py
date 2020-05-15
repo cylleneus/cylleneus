@@ -48,9 +48,9 @@ class Preprocessor(BasePreprocessor):
             "{http://www.tei-c.org/ns/1.0}body"
         )
         tags = []
-        for el in body.findall(".//{http://www.tei-c.org/ns/1.0}div") + body.findall(
-            ".//{http://www.tei-c.org/ns/1.0}milestone"
-        ):
+        for el in body.findall(
+            ".//{http://www.tei-c.org/ns/1.0}div"
+        ) + body.findall(".//{http://www.tei-c.org/ns/1.0}milestone"):
             if el.get("n"):
                 tag = el.get("type") or el.get("unit")
                 if tag not in tags and tag not in EXCLUDED_TAGS:

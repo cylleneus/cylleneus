@@ -36,12 +36,22 @@ def fetch(work, meta, fragment):
 
     # Reference and hlite values
     ref_start = ", ".join(
-        [f"{item}: {meta['start'][item]}" for item in meta["start"] if item in divs]
+        [
+            f"{item}: {meta['start'][item]}"
+            for item in meta["start"]
+            if item in divs
+        ]
     )
     ref_end = ", ".join(
-        [f"{item}: {meta['end'][item]}" for item in meta["end"] if item in divs]
+        [
+            f"{item}: {meta['end'][item]}"
+            for item in meta["end"]
+            if item in divs
+        ]
     )
-    reference = "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    reference = (
+        "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    )
 
     # Collect text and context
     start = int(meta["start"]["sent_id"])
@@ -53,11 +63,14 @@ def fetch(work, meta, fragment):
     current_sentence = start_sentence.getprevious()
     i = 0
     while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
-        tokens = [token.get("form") for token in current_sentence.findall("word")]
+        tokens = [
+            token.get("form") for token in current_sentence.findall("word")
+        ]
         text = "".join(
             [
                 token + " "
-                if i + 1 < len(tokens) and tokens[i + 1] not in string.punctuation
+                if i + 1 < len(tokens)
+                   and tokens[i + 1] not in string.punctuation
                 else token
                 for i, token in enumerate(tokens)
             ]
@@ -79,7 +92,8 @@ def fetch(work, meta, fragment):
         text = "".join(
             [
                 (f"<em>{token}</em>" if id in hlites else f"{token}") + " "
-                if i + 1 < len(tokens) and tokens[i + 1][1] not in string.punctuation
+                if i + 1 < len(tokens)
+                   and tokens[i + 1][1] not in string.punctuation
                 else (f"<em>{token}</em>" if id in hlites else f"{token}")
                 for i, (id, token) in enumerate(tokens)
             ]
@@ -91,11 +105,14 @@ def fetch(work, meta, fragment):
     current_sentence = end_sentence.getnext()
     i = 0
     while i < settings.LINES_OF_CONTEXT and current_sentence is not None:
-        tokens = [token.get("form") for token in current_sentence.findall("word")]
+        tokens = [
+            token.get("form") for token in current_sentence.findall("word")
+        ]
         text = "".join(
             [
                 token + " "
-                if i + 1 < len(tokens) and tokens[i + 1] not in string.punctuation
+                if i + 1 < len(tokens)
+                   and tokens[i + 1] not in string.punctuation
                 else token
                 for i, token in enumerate(tokens)
             ]
@@ -134,7 +151,9 @@ def merge_compound(part: str, aux: str, morpho: str = None):
     case = "-"
     group = morpho[8] if morpho else "-"
     stem = morpho[9] if morpho else "-"
-    return f"{pos}{person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
+    return (
+        f"{pos}{person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
+    )
 
 
 pos_convert = {
@@ -156,7 +175,9 @@ pos_convert = {
 }
 
 
-def agldt2wn(agldt, morpho=None):  # optionally pass in a lemma's info for enrichment
+def agldt2wn(
+    agldt, morpho=None
+):  # optionally pass in a lemma's info for enrichment
     pos = pos_convert[agldt[0]]
     if pos == "v":
         person = agldt[1]
@@ -176,7 +197,9 @@ def agldt2wn(agldt, morpho=None):  # optionally pass in a lemma's info for enric
     case = agldt[7]
     group = morpho[8] if morpho and pos in "nva" else "-"
     stem = morpho[9] if morpho and pos in "nva" else "-"
-    return f"{pos}{person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
+    return (
+        f"{pos}{person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
+    )
 
 
 relations = {

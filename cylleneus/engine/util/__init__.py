@@ -39,7 +39,7 @@ IDCHARS = "0123456789abcdefghijklmnopqrstuvwxyz"
 
 if hasattr(time, "perf_counter"):
     now = time.perf_counter
-elif sys.platform == 'win32':
+elif sys.platform == "win32":
     now = time.clock
 else:
     now = time.time
@@ -79,8 +79,11 @@ def make_binary_tree(fn, args, **kwargs):
             return args[0]
 
         half = count // 2
-        return fn(make_binary_tree(fn, args[:half], **kwargs),
-                  make_binary_tree(fn, args[half:], **kwargs), **kwargs)
+        return fn(
+            make_binary_tree(fn, args[:half], **kwargs),
+            make_binary_tree(fn, args[half:], **kwargs),
+            **kwargs
+        )
 
 
 def make_weighted_tree(fn, ls, **kwargs):
@@ -120,6 +123,7 @@ def fib(n):
 
 # Decorators
 
+
 def synchronized(func):
     """Decorator for storage-access methods, which synchronizes on a threading
     lock. The parent object must have 'is_closed' and '_sync_lock' attributes.
@@ -143,4 +147,5 @@ def unclosed(method):
         if self.closed:
             raise ValueError("Operation on a closed object")
         return method(self, *args, **kwargs)
+
     return unclosed_wrapper

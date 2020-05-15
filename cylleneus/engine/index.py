@@ -98,7 +98,7 @@ def create_in(dirname, schema, indexname=None):
     storage = FileStorage(dirname)
     if indexname is None:
         tocname = list(Path(dirname).glob("*.toc"))[0].name.replace(".toc", "")
-        indexname = ('_'.join(tocname.rsplit('_', maxsplit=4)[:4])).strip('_')
+        indexname = ("_".join(tocname.rsplit("_", maxsplit=4)[:4])).strip("_")
     return FileIndex.create(storage, schema, indexname)
 
 
@@ -117,7 +117,7 @@ def open_dir(dirname, indexname=None, readonly=False, schema=None):
     storage = FileStorage(dirname, readonly=readonly)
     if indexname is None:
         tocname = list(Path(dirname).glob("*.toc"))[0].name.replace(".toc", "")
-        indexname = ('_'.join(tocname.rsplit('_', maxsplit=4)[:4])).strip('_')
+        indexname = ("_".join(tocname.rsplit("_", maxsplit=4)[:4])).strip("_")
 
     return FileIndex(storage, schema=schema, indexname=indexname)
 
@@ -196,7 +196,9 @@ def version(storage, indexname=None):
             tocname = list(Path(storage.folder).glob("*.toc"))[0].name.replace(
                 ".toc", ""
             )
-            indexname = ('_'.join(tocname.rsplit('_', maxsplit=4)[:4])).strip('_')
+            indexname = ("_".join(tocname.rsplit("_", maxsplit=4)[:4])).strip(
+                "_"
+            )
 
         ix = storage.open_index(indexname)
         return (ix.release, ix.version)
@@ -415,7 +417,11 @@ class FileIndex(Index):
         return cls(storage, schema, indexname)
 
     def __repr__(self):
-        return "%s(%r, %r)" % (self.__class__.__name__, self.storage, self.indexname)
+        return "%s(%r, %r)" % (
+            self.__class__.__name__,
+            self.storage,
+            self.indexname,
+        )
 
     def close(self):
         pass
@@ -440,7 +446,10 @@ class FileIndex(Index):
     def optimize(self, **kwargs):
         w = self.writer(**kwargs)
         w.commit(optimize=True)
-        return TOC._filename(self.indexname, self.latest_generation()), w.newsegment.make_filename(".seg")
+        return (
+            TOC._filename(self.indexname, self.latest_generation()),
+            w.newsegment.make_filename(".seg"),
+        )
 
     # searcher
 
@@ -486,7 +495,11 @@ class FileIndex(Index):
     def _reader(cls, storage, schema, segments, generation, reuse=None):
         # Returns a reader for the given segments, possibly reusing already
         # opened readers
-        from cylleneus.engine.reading import SegmentReader, MultiReader, EmptyReader
+        from cylleneus.engine.reading import (
+            SegmentReader,
+            MultiReader,
+            EmptyReader,
+        )
 
         reusable = {}
         try:
@@ -641,14 +654,20 @@ class TOC(object):
             raise IndexError("Number misread: byte order problem")
 
         version = stream.read_int()
-        release = (stream.read_varint(), stream.read_varint(), stream.read_varint())
+        release = (
+            stream.read_varint(),
+            stream.read_varint(),
+            stream.read_varint(),
+        )
 
         if version != _CURRENT_TOC_VERSION:
             if version in toc_loaders:
                 loader = toc_loaders[version]
                 schema, segments = loader(stream, gen, schema, version)
             else:
-                raise IndexVersionError("Can't read format %s" % version, version)
+                raise IndexVersionError(
+                    "Can't read format %s" % version, version
+                )
         else:
             # If the user supplied a schema object with the constructor, don't
             # load the pickled schema from the saved index.
@@ -695,7 +714,9 @@ class TOC(object):
                     pickle.dumps(field)
                 except pickle.PicklingError:
                     e = sys.exc_info()[1]
-                    raise pickle.PicklingError("%s %s=%r" % (e, fieldname, field))
+                    raise pickle.PicklingError(
+                        "%s %s=%r" % (e, fieldname, field)
+                    )
             # Otherwise, re-raise the original exception
             raise
 

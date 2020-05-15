@@ -589,8 +589,10 @@ class CachedLemmaFilter(Filter):
                         results = LWN.lemmatize(text)
                         if results:
                             for i, lemma in enumerate(results):
-                                t.morpho = f"{lemma['lemma']['morpho']}::{lemma['lemma']['uri']}:{i}>" \
-                                           f"{' '.join(lemma['morpho'])}"
+                                t.morpho = (
+                                    f"{lemma['lemma']['morpho']}::{lemma['lemma']['uri']}:{i}>"
+                                    f"{' '.join(lemma['morpho'])}"
+                                )
                                 t.text = f"{lemma['lemma']['lemma']}:{lemma['lemma']['uri']}={lemma['lemma']['morpho']}"
                                 if self.cached:
                                     self._cache.append(copy.copy(t))

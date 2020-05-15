@@ -31,9 +31,9 @@ class Preprocessor(BasePreprocessor):
             translator = translator[0].text
         else:
             translator = ""
-        urn = doc.find(".//{http://www.tei-c.org/ns/1.0}div[@type='translation']").get(
-            "n"
-        )
+        urn = doc.find(
+            ".//{http://www.tei-c.org/ns/1.0}div[@type='translation']"
+        ).get("n")
 
         divs = [
             cref.get("n")

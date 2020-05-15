@@ -14,5 +14,5 @@ meta = CorpusMeta(
     Preprocessor,
     glob,
     fetch,
-    repo
+    repo,
 )

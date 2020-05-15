@@ -35,7 +35,11 @@ from collections import defaultdict
 
 import cylleneus.engine.formats
 from cylleneus.engine.codec import base
-from cylleneus.engine.matching.mcore import LeafMatcher, ListMatcher, ReadTooFar
+from cylleneus.engine.matching.mcore import (
+    LeafMatcher,
+    ListMatcher,
+    ReadTooFar,
+)
 from cylleneus.engine.reading import TermInfo, TermNotFound
 from whoosh import columns
 from cylleneus.engine.compat import (
@@ -92,7 +96,10 @@ class W3Codec(base.Codec):
     COLUMN_EXT = ".col"  # Per-document value columns
 
     def __init__(
-        self, blocklimit=128, compression=zlib.Z_DEFAULT_COMPRESSION, inlinelimit=1
+        self,
+        blocklimit=128,
+        compression=zlib.Z_DEFAULT_COMPRESSION,
+        inlinelimit=1,
     ):
         self._blocklimit = blocklimit
         self._compression = compression
@@ -119,7 +126,9 @@ class W3Codec(base.Codec):
             inlinelimit=self._inlinelimit,
         )
 
-    def postings_reader(self, dbfile, terminfo, format_, term=None, scorer=None):
+    def postings_reader(
+        self, dbfile, terminfo, format_, term=None, scorer=None
+    ):
         if terminfo.is_inlined():
             # If the postings were inlined into the terminfo object, pull them
             # out and use a ListMatcher to wrap them in a Matcher interface
@@ -135,7 +144,9 @@ class W3Codec(base.Codec):
             )
         else:
             offset, length = terminfo.extent()
-            m = W3LeafMatcher(dbfile, offset, length, format_, term=term, scorer=scorer)
+            m = W3LeafMatcher(
+                dbfile, offset, length, format_, term=term, scorer=scorer
+            )
         return m
 
     # Readers
@@ -261,7 +272,9 @@ class W3PerDocWriter(base.PerDocWriterWithColumns):
             self._prep_vectors()
 
         # Write vector postings
-        vpostwriter = self._codec.postings_writer(self._vpostfile, byteids=True)
+        vpostwriter = self._codec.postings_writer(
+            self._vpostfile, byteids=True
+        )
         vpostwriter.start_postings(fieldobj.vector, W3TermInfo())
         for text, weight, vbytes in items:
             vpostwriter.add_posting(text, weight, vbytes)
@@ -514,8 +527,12 @@ class W3PerDocReader(base.PerDocumentReader):
             self._prep_vectors()
         offset, length = self._vector_extent(docnum, fieldname)
         if not offset:
-            raise Exception("Field %r has no vector in docnum %s" % (fieldname, docnum))
-        m = W3LeafMatcher(self._vpostfile, offset, length, format_, byteids=True)
+            raise Exception(
+                "Field %r has no vector in docnum %s" % (fieldname, docnum)
+            )
+        m = W3LeafMatcher(
+            self._vpostfile, offset, length, format_, byteids=True
+        )
         return m
 
     # Stored fields
@@ -630,7 +647,8 @@ class W3TermsReader(base.TermsReader):
         prefixbytes = self._keycoder(fieldname, prefix)
         keydecoder = self._keydecoder
         return (
-            keydecoder(keybytes) for keybytes in self._tindex.keys_from(prefixbytes)
+            keydecoder(keybytes)
+            for keybytes in self._tindex.keys_from(prefixbytes)
         )
 
     def items(self):
@@ -668,7 +686,11 @@ class W3TermsReader(base.TermsReader):
     def matcher(self, fieldname, tbytes, format_, scorer=None):
         terminfo = self.term_info(fieldname, tbytes)
         m = self._codec.postings_reader(
-            self._postfile, terminfo, format_, term=(fieldname, tbytes), scorer=scorer
+            self._postfile,
+            terminfo,
+            format_,
+            term=(fieldname, tbytes),
+            scorer=scorer,
         )
         return m
 
@@ -1241,7 +1263,9 @@ class W3TermInfo(TermInfo):
         isinlined = self.is_inlined()
 
         # Encode the lengths as 0-255 values
-        minlength = 0 if self._minlength is None else length_to_byte(self._minlength)
+        minlength = (
+            0 if self._minlength is None else length_to_byte(self._minlength)
+        )
         maxlength = length_to_byte(self._maxlength)
         # Convert None values to the out-of-band NO_ID constant so they can be
         # stored as unsigned ints

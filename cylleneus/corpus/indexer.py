@@ -19,7 +19,11 @@ def doc_for_docix(corpus, docix: int):
         return None
     else:
         indexname = (
-            "_".join(toc_filename.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
+            "_".join(
+                toc_filename.name.replace(".toc", "").rsplit("_", maxsplit=4)[
+                :4
+                ]
+            )
         ).strip("_")
         path = Path(toc_filename).parent
 
@@ -41,7 +45,9 @@ def docs_for(corpus, author: str = "*", title: str = "*"):
         indexes = Path(path).glob("*.toc")
         for index in indexes:
             indexname = (
-                "_".join(index.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
+                "_".join(
+                    index.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4]
+                )
             ).strip("_")
 
             if cylleneus.engine.index.exists_in(path, indexname=indexname):
@@ -60,7 +66,9 @@ class Indexer:
 
         if work.author and work.title:
             self._path = Path(
-                self.corpus.index_dir / slugify(work.author) / slugify(work.title)
+                self.corpus.index_dir
+                / slugify(work.author)
+                / slugify(work.title)
             )
         else:
             self._path = None
@@ -87,7 +95,11 @@ class Indexer:
         toc_filename = next(self.path.glob(f"*_{docix}_*.toc"))
 
         indexname = (
-            "_".join(toc_filename.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
+            "_".join(
+                toc_filename.name.replace(".toc", "").rsplit("_", maxsplit=4)[
+                :4
+                ]
+            )
         ).strip("_")
         path = Path(toc_filename).parent
 
@@ -101,10 +113,14 @@ class Indexer:
     def indexes(self):
         for index in self._index_files:
             indexname = (
-                "_".join(index.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4])
+                "_".join(
+                    index.name.replace(".toc", "").rsplit("_", maxsplit=4)[:4]
+                )
             ).strip("_")
 
-            if cylleneus.engine.index.exists_in(self.path, indexname=indexname):
+            if cylleneus.engine.index.exists_in(
+                self.path, indexname=indexname
+            ):
                 ix = cylleneus.engine.index.open_dir(
                     self.path, schema=self.corpus.schema, indexname=indexname
                 )
@@ -143,7 +159,9 @@ class Indexer:
     def optimize(self):
         for ix in self.indexes:
             tocfilename, indexname = ix.optimize()
-            print_debug(DEBUG_MEDIUM, f"- Optimized: {tocfilename}, {indexname}")
+            print_debug(
+                DEBUG_MEDIUM, f"- Optimized: {tocfilename}, {indexname}"
+            )
             for docix in ix.reader().all_doc_ixs():
                 print_debug(DEBUG_HIGH, f"- Updating manifest for: {docix}")
                 manifest = self.corpus.manifest[str(docix)]
@@ -158,7 +176,9 @@ class Indexer:
         )
 
     def open(self, indexname: str):
-        if not cylleneus.engine.index.exists_in(self.path, indexname=indexname):
+        if not cylleneus.engine.index.exists_in(
+            self.path, indexname=indexname
+        ):
             self.create(indexname=indexname)
         ix = cylleneus.engine.index.open_dir(
             self.path, schema=self.corpus.schema, indexname=indexname
@@ -169,7 +189,9 @@ class Indexer:
         updated_docix = self.from_file(path, destructive=True)
         return updated_docix
 
-    def from_file(self, path: Path, destructive: bool = False, optimize: bool = False):
+    def from_file(
+        self, path: Path, destructive: bool = False, optimize: bool = False
+    ):
         if path.exists():
             kwargs = self.corpus.preprocessor.parse(path)
             if "author" not in kwargs and self.work.author:
@@ -190,10 +212,16 @@ class Indexer:
 
             if existing is not None:
                 if not destructive:
-                    print_debug(DEBUG_HIGH, f"- Docix {existing} already exists, skipping")
+                    print_debug(
+                        DEBUG_HIGH,
+                        f"- Docix {existing} already exists, skipping",
+                    )
                     return existing
                 else:
-                    print_debug(DEBUG_HIGH, f"- Docix {existing} already exists, deleting")
+                    print_debug(
+                        DEBUG_HIGH,
+                        f"- Docix {existing} already exists, deleting",
+                    )
                     self.destroy(existing)
                     docix = existing
             else:
@@ -231,12 +259,16 @@ class Indexer:
             self.corpus.update_manifest(docix, work_manifest)
             print_debug(
                 DEBUG_MEDIUM,
-                f"- Indexed '{self.corpus.name}' docix {docix}: {kwargs['author']}, {kwargs['title']} ({path})"
+                f"- Indexed '{self.corpus.name}' docix {docix}: {kwargs['author']}, {kwargs['title']} ({path})",
             )
             return docix
 
     def from_string(
-        self, content, destructive: bool = False, optimize: bool = False, **kwargs
+        self,
+        content,
+        destructive: bool = False,
+        optimize: bool = False,
+        **kwargs,
     ):
         if content:
             parsed = self.corpus.preprocessor.parse(content)
@@ -254,10 +286,16 @@ class Indexer:
 
             if existing is not None:
                 if not destructive:
-                    print_debug(DEBUG_HIGH, f"- Docix {existing} already exists, skipping")
+                    print_debug(
+                        DEBUG_HIGH,
+                        f"- Docix {existing} already exists, skipping",
+                    )
                     return existing
                 else:
-                    print_debug(DEBUG_HIGH, f"- Docix {existing} already exists, deleting")
+                    print_debug(
+                        DEBUG_HIGH,
+                        f"- Docix {existing} already exists, deleting",
+                    )
                     self.destroy(existing)
                     docix = existing
             else:
@@ -278,7 +316,10 @@ class Indexer:
                 print_debug(
                     DEBUG_MEDIUM,
                     "Add document: {}, {} to '{}' [{}]".format(
-                        kwargs["author"], kwargs["title"], self.corpus.name, docix
+                        kwargs["author"],
+                        kwargs["title"],
+                        self.corpus.name,
+                        docix,
                     ),
                 )
                 writer.add_document(**kwargs)
@@ -300,7 +341,7 @@ class Indexer:
             print_debug(
                 DEBUG_MEDIUM,
                 f"- Indexed '{self.corpus.name}' docix {docix}: {kwargs['author']}, {kwargs['title']} (\"{content[:24]}"
-                f"...\")"
+                f'...")',
             )
             self.corpus.update_manifest(docix, work_manifest)
             return docix

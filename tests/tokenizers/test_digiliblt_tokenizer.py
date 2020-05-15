@@ -35,11 +35,13 @@ class TestDigilibLTTokenizer(unittest.TestCase):
         parser = et.XMLParser(encoding="utf-8")
         doc = et.XML(value, parser=parser)
 
-        body = doc.find('{http://www.tei-c.org/ns/1.0}text').find('{http://www.tei-c.org/ns/1.0}body')
+        body = doc.find("{http://www.tei-c.org/ns/1.0}text").find(
+            "{http://www.tei-c.org/ns/1.0}body"
+        )
         tags = []
-        for el in body.findall(".//{http://www.tei-c.org/ns/1.0}div") + body.findall(
-            ".//{http://www.tei-c.org/ns/1.0}milestone"
-        ):
+        for el in body.findall(
+            ".//{http://www.tei-c.org/ns/1.0}div"
+        ) + body.findall(".//{http://www.tei-c.org/ns/1.0}milestone"):
             if el.get("n"):
                 tag = el.get("type") or el.get("unit")
                 if tag not in tags and tag not in EXCLUDED_TAGS:

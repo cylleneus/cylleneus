@@ -23,20 +23,29 @@ class TestPerseusXMLTokenizer(unittest.TestCase):
         """Test the Perseus translation XML okenizer."""
         from corpus.translation_alignments.tokenizer import CachedTokenizer
 
-        translations = pathlib.Path('../../corpus/translation_alignments/text/')
-        files = list(translations.glob('*.txt'))
+        translations = pathlib.Path(
+            "../../corpus/translation_alignments/text/"
+        )
+        files = list(translations.glob("*.txt"))
 
-        with codecs.open(choice(files), 'rb') as f:
+        with codecs.open(choice(files), "rb") as f:
             value = f.read()
 
-            parser = et.XMLParser(encoding='UTF-8')
+            parser = et.XMLParser(encoding="UTF-8")
             doc = et.XML(value, parser=parser)
-            divs = {i: div.get('n').lower()
-                    for i, div in enumerate(doc.find(".//{http://www.tei-c.org/ns/1.0}refsDecl[@n='CTS']").findall(
-                    './/{http://www.tei-c.org/ns/1.0}cRefPattern')) if div.get('n') if div is not None}
-            meta = '-'.join((list(divs.values())))
+            divs = {
+                i: div.get("n").lower()
+                for i, div in enumerate(
+                    doc.find(
+                        ".//{http://www.tei-c.org/ns/1.0}refsDecl[@n='CTS']"
+                    ).findall(".//{http://www.tei-c.org/ns/1.0}cRefPattern")
+                )
+                if div.get("n")
+                if div is not None
+            }
+            meta = "-".join((list(divs.values())))
 
         T = CachedTokenizer()
 
-        for t in T({'text': doc, 'meta': meta}, docix=0, mode='index'):
+        for t in T({"text": doc, "meta": meta}, docix=0, mode="index"):
             print(t)

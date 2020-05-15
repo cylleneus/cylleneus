@@ -62,7 +62,9 @@ class BiMatcher(mcore.Matcher):
         return ra or rb
 
     def supports_block_quality(self):
-        return self.a.supports_block_quality() and self.b.supports_block_quality()
+        return (
+            self.a.supports_block_quality() and self.b.supports_block_quality()
+        )
 
     def supports(self, astype):
         return self.a.supports(astype) and self.b.supports(astype)
@@ -318,7 +320,9 @@ class DisjunctionMaxMatcher(UnionMatcher):
         self.tiebreak = tiebreak
 
     def copy(self):
-        return self.__class__(self.a.copy(), self.b.copy(), tiebreak=self.tiebreak)
+        return self.__class__(
+            self.a.copy(), self.b.copy(), tiebreak=self.tiebreak
+        )
 
     def replace(self, minquality=0):
         a = self.a
@@ -423,7 +427,11 @@ class IntersectionMatcher(AdditiveBiMatcher):
         self._find_first()
 
     def _find_first(self):
-        if self.a.is_active() and self.b.is_active() and self.a.id() != self.b.id():
+        if (
+            self.a.is_active()
+            and self.b.is_active()
+            and self.a.id() != self.b.id()
+        ):
             self._find_next()
 
     def replace(self, minquality=0):
@@ -584,7 +592,11 @@ class AndNotMatcher(BiMatcher):
         self._find_first()
 
     def _find_first(self):
-        if self.a.is_active() and self.b.is_active() and self.a.id() == self.b.id():
+        if (
+            self.a.is_active()
+            and self.b.is_active()
+            and self.a.id() == self.b.id()
+        ):
             self._find_next()
 
     def is_active(self):

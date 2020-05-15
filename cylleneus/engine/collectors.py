@@ -72,7 +72,12 @@ from collections import defaultdict
 from heapq import heapify, heappush, heapreplace
 
 from whoosh import sorting
-from cylleneus.engine.compat import abstractmethod, iteritems, itervalues, xrange
+from cylleneus.engine.compat import (
+    abstractmethod,
+    iteritems,
+    itervalues,
+    xrange,
+)
 from whoosh.util import now
 
 import cylleneus.engine.searching
@@ -82,6 +87,7 @@ from cylleneus import settings
 
 # Functions
 
+
 def ilen(iterator):
     total = 0
     for _ in iterator:
@@ -90,6 +96,7 @@ def ilen(iterator):
 
 
 # Base class
+
 
 class Collector(object):
     """Base class for collectors.
@@ -276,7 +283,9 @@ class Collector(object):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = cylleneus.engine.searching.Results(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.Results(
+            self.top_searcher, self.q, items, **kwargs
+        )
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -291,6 +300,7 @@ class Collector(object):
 
 
 # Scored collectors
+
 
 class ScoredCollector(Collector):
     """Base class for collectors that sort the results based on document score.
@@ -414,9 +424,11 @@ class TopCollector(ScoredCollector):
         self.total = 0
 
     def _use_block_quality(self):
-        return (self.usequality
-                and not self.top_searcher.weighting.use_final
-                and self.matcher.supports_block_quality())
+        return (
+            self.usequality
+            and not self.top_searcher.weighting.use_final
+            and self.matcher.supports_block_quality()
+        )
 
     def computes_count(self):
         return not self._use_block_quality()
@@ -509,6 +521,7 @@ class UnlimitedCollector(ScoredCollector):
 
 # Sorting collector
 
+
 class SortingCollector(Collector):
     """A collector that returns results sorted by a given
     :class:`whoosh.sorting.Facet` object. See :doc:`/facets` for more
@@ -555,7 +568,7 @@ class SortingCollector(Collector):
         items = self.items
         items.sort(reverse=self.reverse)
         if self.limit:
-            items = items[:self.limit]
+            items = items[: self.limit]
         return self._results(items, docset=self.docset)
 
 
@@ -575,6 +588,7 @@ class UnsortedCollector(Collector):
 
 
 # Wrapping collectors
+
 
 class WrappingCollector(Collector):
     """Base class for collectors that wrap other collectors.
@@ -631,6 +645,7 @@ class WrappingCollector(Collector):
 
 # Allow and disallow collector
 
+
 class FilterCollector(WrappingCollector):
     """A collector that lets you allow and/or restrict certain document numbers
     in the results::
@@ -683,9 +698,10 @@ class FilterCollector(WrappingCollector):
         _restrict = self._restrict
 
         for global_docnum in child.all_ids():
-            if ((_allow and global_docnum not in _allow)
-                or (_restrict and global_docnum in _restrict)):
-                    continue
+            if (_allow and global_docnum not in _allow) or (
+                _restrict and global_docnum in _restrict
+            ):
+                continue
             yield global_docnum
 
     def count(self):
@@ -704,8 +720,9 @@ class FilterCollector(WrappingCollector):
             filtered_count = self.filtered_count
             for sub_docnum in child.matches():
                 global_docnum = self.offset + sub_docnum
-                if ((_allow is not None and global_docnum not in _allow)
-                    or (_restrict is not None and global_docnum in _restrict)):
+                if (_allow is not None and global_docnum not in _allow) or (
+                    _restrict is not None and global_docnum in _restrict
+                ):
                     filtered_count += 1
                     continue
                 child.collect(sub_docnum)
@@ -724,6 +741,7 @@ class FilterCollector(WrappingCollector):
 
 
 # Facet grouping collector
+
 
 class FacetCollector(WrappingCollector):
     """A collector that creates groups of documents based on
@@ -811,6 +829,7 @@ class FacetCollector(WrappingCollector):
 
 # Collapsing collector
 
+
 class CollapseCollector(WrappingCollector):
     """A collector that collapses results based on a facet. That is, it
     eliminates all but the top N results that share the same facet key.
@@ -869,11 +888,14 @@ class CollapseCollector(WrappingCollector):
 
         # If the keyer or orderer require a valid matcher, tell the child
         # collector we need it
-        needs_current = (context.needs_current
-                     or self.keyer.needs_current
-                     or (self.orderer and self.orderer.needs_current))
-        self.child.prepare(top_searcher, q,
-                           context.set(needs_current=needs_current))
+        needs_current = (
+            context.needs_current
+            or self.keyer.needs_current
+            or (self.orderer and self.orderer.needs_current)
+        )
+        self.child.prepare(
+            top_searcher, q, context.set(needs_current=needs_current)
+        )
 
     def set_subsearcher(self, subsearcher, offset):
         WrappingCollector.set_subsearcher(self, subsearcher, offset)
@@ -963,6 +985,7 @@ class CollapseCollector(WrappingCollector):
 
 # Time limit collector
 
+
 class TimeLimitCollector(WrappingCollector):
     """A collector that raises a :class:`TimeLimit` exception if the search
     does not complete within a certain number of seconds::
@@ -998,6 +1021,7 @@ class TimeLimitCollector(WrappingCollector):
 
         if use_alarm:
             import signal
+
             self.use_alarm = use_alarm and hasattr(signal, "SIGALRM")
         else:
             self.use_alarm = False
@@ -1011,6 +1035,7 @@ class TimeLimitCollector(WrappingCollector):
         self.timedout = False
         if self.use_alarm:
             import signal
+
             signal.signal(signal.SIGALRM, self._was_signaled)
 
         # Start a timer thread. If the timer fires, it will call this object's
@@ -1026,6 +1051,7 @@ class TimeLimitCollector(WrappingCollector):
 
         if self.use_alarm:
             import signal
+
             os.kill(os.getpid(), signal.SIGALRM)
 
     def _was_signaled(self, signum, frame):
@@ -1056,6 +1082,7 @@ class TimeLimitCollector(WrappingCollector):
 
 
 # Matched terms collector
+
 
 class TermsCollector(WrappingCollector):
     """A collector that remembers which terms appeared in each matched document.
@@ -1123,7 +1150,9 @@ class CylleneusUnsortedCollector(UnsortedCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(
+            self.top_searcher, self.q, items, **kwargs
+        )
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1133,7 +1162,9 @@ class CylleneusSortingCollector(SortingCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(
+            self.top_searcher, self.q, items, **kwargs
+        )
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1143,7 +1174,9 @@ class CylleneusUnlimitedCollector(UnlimitedCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(
+            self.top_searcher, self.q, items, **kwargs
+        )
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1153,7 +1186,9 @@ class CylleneusTopCollector(TopCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(
+            self.top_searcher, self.q, items, **kwargs
+        )
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1163,7 +1198,9 @@ class CylleneusFacetCollector(FacetCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(
+            self.top_searcher, self.q, items, **kwargs
+        )
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1173,7 +1210,9 @@ class CylleneusTermsCollector(TermsCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(
+            self.top_searcher, self.q, items, **kwargs
+        )
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1183,7 +1222,9 @@ class CylleneusCollapseCollector(CollapseCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(
+            self.top_searcher, self.q, items, **kwargs
+        )
         r.runtime = self.runtime
         r.collector = self
         return r
@@ -1193,10 +1234,13 @@ class CylleneusFilterCollector(FilterCollector):
     def _results(self, items, **kwargs):
         # Fills in a Results object with the invariant information and the
         # given "items" (a list of (score, docnum) tuples)
-        r = cylleneus.engine.searching.CylleneusResults(self.top_searcher, self.q, items, **kwargs)
+        r = cylleneus.engine.searching.CylleneusResults(
+            self.top_searcher, self.q, items, **kwargs
+        )
         r.runtime = self.runtime
         r.collector = self
         return r
+
 
 class CylleneusCollector(WrappingCollector):
     def prepare(self, top_searcher, q, context):

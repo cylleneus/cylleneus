@@ -237,7 +237,7 @@ class CachedTokenizer(Tokenizer):
                                                             new_token = f"^1{temp_tokens[ix + 1]} "
                                                             del temp_tokens[
                                                                 ix + 1
-                                                                ]
+                                                            ]
                                                             temp_tokens.insert(
                                                                 ix + 1,
                                                                 new_token,

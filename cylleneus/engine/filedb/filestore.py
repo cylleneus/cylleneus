@@ -43,6 +43,7 @@ from whoosh.util.filelock import FileLock
 
 # Exceptions
 
+
 class StorageError(Exception):
     pass
 
@@ -52,6 +53,7 @@ class ReadOnlyError(StorageError):
 
 
 # Base class
+
 
 class Storage(object):
     """Abstract base class for storage objects.
@@ -138,10 +140,13 @@ class Storage(object):
             raise ReadOnlyError
         if indexclass is None:
             import cylleneus.engine.index
+
             indexclass = cylleneus.engine.index.FileIndex
         return indexclass.create(self, schema, indexname)
 
-    def open_index(self, indexname=_DEF_INDEX_NAME, schema=None, indexclass=None):
+    def open_index(
+        self, indexname=_DEF_INDEX_NAME, schema=None, indexclass=None
+    ):
         """Opens an existing index (created using :meth:`create_index`) in this
         storage.
         >>> from whoosh.filedb.filestore import FileStorage
@@ -162,6 +167,7 @@ class Storage(object):
 
         if indexclass is None:
             import cylleneus.engine.index
+
             indexclass = cylleneus.engine.index.FileIndex
         return indexclass(self, schema=schema, indexname=indexname)
 
@@ -362,7 +368,9 @@ class FileStorage(Storage):
 
     supports_mmap = True
 
-    def __init__(self, path, supports_mmap=True, readonly=False, debug=settings.DEBUG):
+    def __init__(
+        self, path, supports_mmap=True, readonly=False, debug=settings.DEBUG
+    ):
         """
         :param path: a path to a directory.
         :param supports_mmap: if True (the default), use the ``mmap`` module to
@@ -535,7 +543,7 @@ class RamStorage(Storage):
     def __init__(self):
         self.files = {}
         self.locks = {}
-        self.folder = ''
+        self.folder = ""
 
     def destroy(self):
         del self.files
@@ -579,6 +587,7 @@ class RamStorage(Storage):
     def create_file(self, name, **kwargs):
         def onclose_fn(sfile):
             self.files[name] = sfile.file.getvalue()
+
         f = StructFile(BytesIO(), name=name, onclose=onclose_fn)
         return f
 

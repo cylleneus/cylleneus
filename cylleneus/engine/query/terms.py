@@ -47,7 +47,9 @@ class CylleneusTerm(qcore.Query):
 
     __inittypes__ = dict(fieldname=str, text=text_type, boost=float, meta=bool)
 
-    def __init__(self, fieldname, text, boost=1.0, minquality=None, meta=False):
+    def __init__(
+        self, fieldname, text, boost=1.0, minquality=None, meta=False
+    ):
         self.fieldname = fieldname
         self.text = text
         self.boost = boost
@@ -55,11 +57,13 @@ class CylleneusTerm(qcore.Query):
         self.meta = meta
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.fieldname == other.fieldname
-                and self.text == other.text
-                and self.boost == other.boost)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.fieldname == other.fieldname
+            and self.text == other.text
+            and self.boost == other.boost
+        )
 
     def __repr__(self):
         r = "%s(%r, %r" % (self.__class__.__name__, self.fieldname, self.text)
@@ -90,9 +94,14 @@ class CylleneusTerm(qcore.Query):
         return True
 
     def tokens(self, boost=1.0):
-        yield CylleneusToken(fieldname=self.fieldname, text=self.text,
-                    boost=boost * self.boost, startchar=self.startchar,
-                    endchar=self.endchar, chars=True)
+        yield CylleneusToken(
+            fieldname=self.fieldname,
+            text=self.text,
+            boost=boost * self.boost,
+            startchar=self.startchar,
+            endchar=self.endchar,
+            chars=True,
+        )
 
     def terms(self, phrases=False):
         if self.field():
@@ -139,19 +148,34 @@ class CylleneusTerm(qcore.Query):
             if self.minquality:
                 m.set_min_quality(self.minquality)
             if self.boost != 1.0:
-                m = cylleneus.engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
+                m = cylleneus.engine.matching.wrappers.WrappingMatcher(
+                    m, boost=self.boost
+                )
             return m
         else:
             return cylleneus.engine.matching.mcore.NullMatcher()
 
 
 class Form(CylleneusTerm):
-    fieldname = 'form'
+    fieldname = "form"
 
-    __inittypes__ = dict(fieldname=str, text=cylleneus.engine.compat.text_type, boost=float, annotation=CylleneusTerm,
-                         meta=bool)
+    __inittypes__ = dict(
+        fieldname=str,
+        text=cylleneus.engine.compat.text_type,
+        boost=float,
+        annotation=CylleneusTerm,
+        meta=bool,
+    )
 
-    def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
+    def __init__(
+        self,
+        fieldname,
+        text,
+        boost=1.0,
+        minquality=None,
+        annotation=None,
+        meta=False,
+    ):
         super(Form, self).__init__(fieldname, text, boost=1.0, minquality=None)
         self.fieldname = fieldname
         self.text = text
@@ -161,12 +185,14 @@ class Form(CylleneusTerm):
         self.meta = meta
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.fieldname == other.fieldname
-                and self.text == other.text
-                and self.annotation == other.annotation
-                and self.boost == other.boost)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.fieldname == other.fieldname
+            and self.text == other.text
+            and self.annotation == other.annotation
+            and self.boost == other.boost
+        )
 
     def __repr__(self):
         r = "%s(%r, %r" % (self.__class__.__name__, self.fieldname, self.text)
@@ -199,9 +225,15 @@ class Form(CylleneusTerm):
         return True
 
     def tokens(self, boost=1.0):
-        yield CylleneusToken(fieldname=self.fieldname, text=self.text,
-                    boost=boost * self.boost, startchar=self.startchar,
-                    endchar=self.endchar, chars=True, annotation=self.annotation)
+        yield CylleneusToken(
+            fieldname=self.fieldname,
+            text=self.text,
+            boost=boost * self.boost,
+            startchar=self.startchar,
+            endchar=self.endchar,
+            chars=True,
+            annotation=self.annotation,
+        )
 
     def terms(self, phrases=False):
         if self.field():
@@ -248,7 +280,9 @@ class Form(CylleneusTerm):
             if self.minquality:
                 m.set_min_quality(self.minquality)
             if self.boost != 1.0:
-                m = cylleneus.engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
+                m = cylleneus.engine.matching.wrappers.WrappingMatcher(
+                    m, boost=self.boost
+                )
             return m
         else:
             return cylleneus.engine.matching.mcore.NullMatcher()
@@ -258,13 +292,28 @@ class Form(CylleneusTerm):
 
 
 class Lemma(CylleneusTerm):
-    fieldname = 'lemma'
+    fieldname = "lemma"
 
-    __inittypes__ = dict(fieldname=str, text=cylleneus.engine.compat.text_type, boost=float, annotation=CylleneusTerm,
-                         meta=bool)
+    __inittypes__ = dict(
+        fieldname=str,
+        text=cylleneus.engine.compat.text_type,
+        boost=float,
+        annotation=CylleneusTerm,
+        meta=bool,
+    )
 
-    def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
-        super(Lemma, self).__init__(fieldname, text, boost=1.0, minquality=None)
+    def __init__(
+        self,
+        fieldname,
+        text,
+        boost=1.0,
+        minquality=None,
+        annotation=None,
+        meta=False,
+    ):
+        super(Lemma, self).__init__(
+            fieldname, text, boost=1.0, minquality=None
+        )
         self.fieldname = fieldname
         self.boost = boost
         self.text = text
@@ -273,12 +322,14 @@ class Lemma(CylleneusTerm):
         self.meta = meta
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.fieldname == other.fieldname
-                and self.text == other.text
-                and self.annotation == self.annotation
-                and self.boost == other.boost)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.fieldname == other.fieldname
+            and self.text == other.text
+            and self.annotation == self.annotation
+            and self.boost == other.boost
+        )
 
     def __repr__(self):
         r = "%s(%r, %r" % (self.__class__.__name__, self.fieldname, self.text)
@@ -299,7 +350,9 @@ class Lemma(CylleneusTerm):
 
         t = cylleneus.engine.compat.u("<%s>") % text
         if self.annotation:
-            t += cylleneus.engine.compat.u(":") + cylleneus.engine.compat.text_type(self.annotation)
+            t += cylleneus.engine.compat.u(
+                ":"
+            ) + cylleneus.engine.compat.text_type(self.annotation)
         return t
 
     __str__ = __unicode__
@@ -312,11 +365,17 @@ class Lemma(CylleneusTerm):
 
     def tokens(self, boost=1.0):
         kwargs = {}
-        if hasattr(self, 'pos'):
+        if hasattr(self, "pos"):
             kwargs["pos"] = self.pos
-        yield CylleneusToken(fieldname=self.fieldname, text=self.text,
-                    boost=boost * self.boost, startchar=self.startchar,
-                    endchar=self.endchar, chars=True, **kwargs)
+        yield CylleneusToken(
+            fieldname=self.fieldname,
+            text=self.text,
+            boost=boost * self.boost,
+            startchar=self.startchar,
+            endchar=self.endchar,
+            chars=True,
+            **kwargs
+        )
 
     def terms(self, phrases=False):
         if self.field():
@@ -363,7 +422,9 @@ class Lemma(CylleneusTerm):
             if self.minquality:
                 m.set_min_quality(self.minquality)
             if self.boost != 1.0:
-                m = cylleneus.engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
+                m = cylleneus.engine.matching.wrappers.WrappingMatcher(
+                    m, boost=self.boost
+                )
             return m
         else:
             return cylleneus.engine.matching.mcore.NullMatcher()
@@ -375,14 +436,29 @@ class Lemma(CylleneusTerm):
 class Semfield(CylleneusTerm):
     """Matches documents containing the given term (fieldname+semfield)."""
 
-    fieldname = 'semfield'
+    fieldname = "semfield"
 
-    __inittypes__ = dict(fieldname=str, text=cylleneus.engine.compat.text_type, boost=float, annotation=CylleneusTerm,
-                         meta=bool)
+    __inittypes__ = dict(
+        fieldname=str,
+        text=cylleneus.engine.compat.text_type,
+        boost=float,
+        annotation=CylleneusTerm,
+        meta=bool,
+    )
 
-    def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
-        super(Semfield, self).__init__(fieldname, text, boost=1.0, minquality=None)
-        self.fieldname = 'semfield'
+    def __init__(
+        self,
+        fieldname,
+        text,
+        boost=1.0,
+        minquality=None,
+        annotation=None,
+        meta=False,
+    ):
+        super(Semfield, self).__init__(
+            fieldname, text, boost=1.0, minquality=None
+        )
+        self.fieldname = "semfield"
         self.text = text
         self.boost = boost
         self.minquality = minquality
@@ -390,11 +466,13 @@ class Semfield(CylleneusTerm):
         self.meta = meta
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.fieldname == other.fieldname
-                and self.text == other.text
-                and self.boost == other.boost)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.fieldname == other.fieldname
+            and self.text == other.text
+            and self.boost == other.boost
+        )
 
     def __repr__(self):
         r = "%s(%r, %r" % (self.__class__.__name__, self.fieldname, self.text)
@@ -415,7 +493,9 @@ class Semfield(CylleneusTerm):
 
         t = cylleneus.engine.compat.u("{%s}") % text
         if self.annotation:
-            t += cylleneus.engine.compat.u(":") + cylleneus.engine.compat.text_type(self.annotation)
+            t += cylleneus.engine.compat.u(
+                ":"
+            ) + cylleneus.engine.compat.text_type(self.annotation)
         # if self.boost != 1:
         #     t += cylleneus.engine.compat.u("^") + cylleneus.engine.compat.text_type(self.boost)
         return t
@@ -429,9 +509,14 @@ class Semfield(CylleneusTerm):
         return True
 
     def tokens(self, boost=1.0):
-        yield CylleneusToken(fieldname=self.fieldname, text=self.text,
-                    boost=boost * self.boost, startchar=self.startchar,
-                    endchar=self.endchar, chars=True)
+        yield CylleneusToken(
+            fieldname=self.fieldname,
+            text=self.text,
+            boost=boost * self.boost,
+            startchar=self.startchar,
+            endchar=self.endchar,
+            chars=True,
+        )
 
     def terms(self, phrases=False):
         if self.field():
@@ -478,7 +563,9 @@ class Semfield(CylleneusTerm):
             if self.minquality:
                 m.set_min_quality(self.minquality)
             if self.boost != 1.0:
-                m = cylleneus.engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
+                m = cylleneus.engine.matching.wrappers.WrappingMatcher(
+                    m, boost=self.boost
+                )
             return m
         else:
             return cylleneus.engine.matching.mcore.NullMatcher()
@@ -486,17 +573,33 @@ class Semfield(CylleneusTerm):
     def __iter__(self):
         return iter([self,])
 
+
 class Gloss(CylleneusTerm):
     """Matches documents containing the given term (fieldname+gloss)."""
 
-    fieldname = 'synset'
+    fieldname = "synset"
 
-    __inittypes__ = dict(fieldname=str, text=cylleneus.engine.compat.text_type, boost=float, annotation=CylleneusTerm,
-                         meta=bool)
+    __inittypes__ = dict(
+        fieldname=str,
+        text=cylleneus.engine.compat.text_type,
+        boost=float,
+        annotation=CylleneusTerm,
+        meta=bool,
+    )
 
-    def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
-        super(Gloss, self).__init__(fieldname, text, boost=1.0, minquality=None)
-        self.fieldname = 'synset'
+    def __init__(
+        self,
+        fieldname,
+        text,
+        boost=1.0,
+        minquality=None,
+        annotation=None,
+        meta=False,
+    ):
+        super(Gloss, self).__init__(
+            fieldname, text, boost=1.0, minquality=None
+        )
+        self.fieldname = "synset"
         self.text = text
         self.boost = boost
         self.minquality = minquality
@@ -504,11 +607,13 @@ class Gloss(CylleneusTerm):
         self.meta = meta
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.fieldname == other.fieldname
-                and self.text == other.text
-                and self.boost == other.boost)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.fieldname == other.fieldname
+            and self.text == other.text
+            and self.boost == other.boost
+        )
 
     def __repr__(self):
         r = "%s(%r, %r" % (self.__class__.__name__, self.fieldname, self.text)
@@ -529,7 +634,9 @@ class Gloss(CylleneusTerm):
 
         t = cylleneus.engine.compat.u("[%s]") % text
         if self.annotation:
-            t += cylleneus.engine.compat.u(":") + cylleneus.engine.compat.text_type(self.annotation)
+            t += cylleneus.engine.compat.u(
+                ":"
+            ) + cylleneus.engine.compat.text_type(self.annotation)
         # if self.boost != 1:
         #     t += cylleneus.engine.compat.u("^") + cylleneus.engine.compat.text_type(self.boost)
         return t
@@ -543,9 +650,14 @@ class Gloss(CylleneusTerm):
         return True
 
     def tokens(self, boost=1.0):
-        yield CylleneusToken(fieldname=self.fieldname, text=self.text,
-                    boost=boost * self.boost, startchar=self.startchar,
-                    endchar=self.endchar, chars=True)
+        yield CylleneusToken(
+            fieldname=self.fieldname,
+            text=self.text,
+            boost=boost * self.boost,
+            startchar=self.startchar,
+            endchar=self.endchar,
+            chars=True,
+        )
 
     def terms(self, phrases=False):
         if self.field():
@@ -592,7 +704,9 @@ class Gloss(CylleneusTerm):
             if self.minquality:
                 m.set_min_quality(self.minquality)
             if self.boost != 1.0:
-                m = cylleneus.engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
+                m = cylleneus.engine.matching.wrappers.WrappingMatcher(
+                    m, boost=self.boost
+                )
             return m
         else:
             return cylleneus.engine.matching.mcore.NullMatcher()
@@ -604,13 +718,28 @@ class Gloss(CylleneusTerm):
 class Morphosyntax(CylleneusTerm):
     """Matches documents containing the given term (fieldname+annotation)."""
 
-    fieldname = 'morphosyntax'
+    fieldname = "morphosyntax"
 
-    __inittypes__ = dict(fieldname=str, text=cylleneus.engine.compat.text_type, boost=float, annotation=qcore.Query,
-                         meta=bool)
+    __inittypes__ = dict(
+        fieldname=str,
+        text=cylleneus.engine.compat.text_type,
+        boost=float,
+        annotation=qcore.Query,
+        meta=bool,
+    )
 
-    def __init__(self, fieldname, text, boost=1.0, minquality=None, annotation=None, meta=False):
-        super(Morphosyntax, self).__init__(fieldname, text, boost=1.0, minquality=None)
+    def __init__(
+        self,
+        fieldname,
+        text,
+        boost=1.0,
+        minquality=None,
+        annotation=None,
+        meta=False,
+    ):
+        super(Morphosyntax, self).__init__(
+            fieldname, text, boost=1.0, minquality=None
+        )
         self.fieldname = fieldname
         self.text = text
         self.boost = boost
@@ -619,11 +748,13 @@ class Morphosyntax(CylleneusTerm):
         self.meta = meta
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.fieldname == other.fieldname
-                and self.text == other.text
-                and self.boost == other.boost)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.fieldname == other.fieldname
+            and self.text == other.text
+            and self.boost == other.boost
+        )
 
     def __repr__(self):
         r = "%s(%r, %r" % (self.__class__.__name__, self.fieldname, self.text)
@@ -642,7 +773,9 @@ class Morphosyntax(CylleneusTerm):
 
         t = cylleneus.engine.compat.u("%s:%s") % (self.fieldname, text)
         if self.boost != 1:
-            t += cylleneus.engine.compat.u("^") + cylleneus.engine.compat.text_type(self.boost)
+            t += cylleneus.engine.compat.u(
+                "^"
+            ) + cylleneus.engine.compat.text_type(self.boost)
         return t
 
     __str__ = __unicode__
@@ -654,9 +787,14 @@ class Morphosyntax(CylleneusTerm):
         return True
 
     def tokens(self, boost=1.0):
-        yield CylleneusToken(fieldname=self.fieldname, text=self.text,
-                    boost=boost * self.boost, startchar=self.startchar,
-                    endchar=self.endchar, chars=True)
+        yield CylleneusToken(
+            fieldname=self.fieldname,
+            text=self.text,
+            boost=boost * self.boost,
+            startchar=self.startchar,
+            endchar=self.endchar,
+            chars=True,
+        )
 
     def terms(self, phrases=False):
         if self.field():
@@ -703,7 +841,9 @@ class Morphosyntax(CylleneusTerm):
             if self.minquality:
                 m.set_min_quality(self.minquality)
             if self.boost != 1.0:
-                m = cylleneus.engine.matching.wrappers.WrappingMatcher(m, boost=self.boost)
+                m = cylleneus.engine.matching.wrappers.WrappingMatcher(
+                    m, boost=self.boost
+                )
             return m
         else:
             return cylleneus.engine.matching.mcore.NullMatcher()
@@ -736,9 +876,14 @@ class MultiTerm(qcore.Query):
             btexts = self._btexts(exreader)
 
         for btext in btexts:
-            yield CylleneusToken(fieldname=fieldname, text=btext,
-                        boost=boost * self.boost, startchar=self.startchar,
-                        endchar=self.endchar, chars=True)
+            yield CylleneusToken(
+                fieldname=fieldname,
+                text=btext,
+                boost=boost * self.boost,
+                startchar=self.startchar,
+                endchar=self.endchar,
+                chars=True,
+            )
 
     def simplify(self, ixreader):
         fieldname = self.field()
@@ -756,19 +901,24 @@ class MultiTerm(qcore.Query):
             return existing[0]
         elif existing:
             from cylleneus.engine.query.compound import Or
+
             return Or(existing)
         else:
             return qcore.NullQuery
 
     def estimate_size(self, ixreader):
         fieldname = self.field()
-        return sum(ixreader.doc_frequency(fieldname, btext)
-                   for btext in self._btexts(ixreader))
+        return sum(
+            ixreader.doc_frequency(fieldname, btext)
+            for btext in self._btexts(ixreader)
+        )
 
     def estimate_min_size(self, ixreader):
         fieldname = self.field()
-        return min(ixreader.doc_frequency(fieldname, text)
-                   for text in self._btexts(ixreader))
+        return min(
+            ixreader.doc_frequency(fieldname, text)
+            for text in self._btexts(ixreader)
+        )
 
     def matcher(self, searcher, context=None):
         from cylleneus.engine.query.compound import Or
@@ -792,6 +942,7 @@ class MultiTerm(qcore.Query):
                     context = context.set(weighting=None)
                 else:
                     from whoosh.searching import SearchContext
+
                     context = SearchContext(weighting=None)
             # Or the terms together
             m = Or(qs, boost=self.boost).matcher(searcher, context)
@@ -802,9 +953,23 @@ class PatternQuery(MultiTerm):
     """An intermediate base class for common methods of Prefix and Wildcard.
     """
 
-    __inittypes__ = dict(fieldname=str, text=text_type, boost=float, annotation='Annotation', meta=bool)
+    __inittypes__ = dict(
+        fieldname=str,
+        text=text_type,
+        boost=float,
+        annotation="Annotation",
+        meta=bool,
+    )
 
-    def __init__(self, fieldname, text, boost=1.0, constantscore=True, annotation=None, meta=False):
+    def __init__(
+        self,
+        fieldname,
+        text,
+        boost=1.0,
+        constantscore=True,
+        annotation=None,
+        meta=False,
+    ):
         self.fieldname = fieldname
         self.text = text
         self.boost = boost
@@ -813,10 +978,14 @@ class PatternQuery(MultiTerm):
         self.meta = meta
 
     def __eq__(self, other):
-        return (other and self.__class__ is other.__class__
-                and self.fieldname == other.fieldname
-                and self.text == other.text and self.boost == other.boost
-                and self.constantscore == other.constantscore)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.fieldname == other.fieldname
+            and self.text == other.text
+            and self.boost == other.boost
+            and self.constantscore == other.constantscore
+        )
 
     def __repr__(self):
         r = "%s(%r, %r" % (self.__class__.__name__, self.fieldname, self.text)
@@ -826,8 +995,12 @@ class PatternQuery(MultiTerm):
         return r
 
     def __hash__(self):
-        return (hash(self.fieldname) ^ hash(self.text) ^ hash(self.boost)
-                ^ hash(self.constantscore))
+        return (
+            hash(self.fieldname)
+            ^ hash(self.text)
+            ^ hash(self.boost)
+            ^ hash(self.constantscore)
+        )
 
     def _get_pattern(self):
         raise NotImplementedError
@@ -911,6 +1084,7 @@ class Prefix(PatternQuery):
     def matcher(self, searcher, context=None):
         if self.text == "":
             from cylleneus.engine.query.qcore import Every
+
             eq = Every(self.fieldname, boost=self.boost)
             return eq.matcher(searcher, context)
         else:
@@ -939,12 +1113,16 @@ class Wildcard(PatternQuery):
         text = self.text
         if text == "*":
             from cylleneus.engine.query.qcore import Every
+
             return Every(self.fieldname, boost=self.boost)
         if "*" not in text and "?" not in text:
             # If no wildcard chars, convert to a normal term.
             return Form(self.fieldname, self.text, boost=self.boost)
-        elif ("?" not in text and text.endswith("*")
-              and text.find("*") == len(text) - 1):
+        elif (
+            "?" not in text
+            and text.endswith("*")
+            and text.find("*") == len(text) - 1
+        ):
             # If the only wildcard char is an asterisk at the end, convert to a
             # Prefix query.
             return Prefix(self.fieldname, self.text[:-1], boost=self.boost)
@@ -954,6 +1132,7 @@ class Wildcard(PatternQuery):
     def matcher(self, searcher, context=None):
         if self.text == "*":
             from cylleneus.engine.query.qcore import Every
+
             eq = Every(self.fieldname, boost=self.boost)
             return eq.matcher(searcher, context)
         else:
@@ -1000,6 +1179,7 @@ class Regex(PatternQuery):
     def matcher(self, searcher, context=None):
         if self.text == ".*":
             from cylleneus.engine.query.qcore import Every
+
             eq = Every(self.fieldname, boost=self.boost)
             return eq.matcher(searcher, context)
         else:
@@ -1025,11 +1205,23 @@ class FuzzyTerm(ExpandingTerm):
     """Matches documents containing words similar to the given term.
     """
 
-    __inittypes__ = dict(fieldname=str, text=text_type, boost=float,
-                         maxdist=float, prefixlength=int)
+    __inittypes__ = dict(
+        fieldname=str,
+        text=text_type,
+        boost=float,
+        maxdist=float,
+        prefixlength=int,
+    )
 
-    def __init__(self, fieldname, text, boost=1.0, maxdist=1,
-                 prefixlength=1, constantscore=True):
+    def __init__(
+        self,
+        fieldname,
+        text,
+        boost=1.0,
+        maxdist=1,
+        prefixlength=1,
+        constantscore=True,
+    ):
         """
         :param fieldname: The name of the field to search.
         :param text: The text to search for.
@@ -1050,18 +1242,27 @@ class FuzzyTerm(ExpandingTerm):
         self.constantscore = constantscore
 
     def __eq__(self, other):
-        return (other and self.__class__ is other.__class__
-                and self.fieldname == other.fieldname
-                and self.text == other.text
-                and self.maxdist == other.maxdist
-                and self.prefixlength == other.prefixlength
-                and self.boost == other.boost
-                and self.constantscore == other.constantscore)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.fieldname == other.fieldname
+            and self.text == other.text
+            and self.maxdist == other.maxdist
+            and self.prefixlength == other.prefixlength
+            and self.boost == other.boost
+            and self.constantscore == other.constantscore
+        )
 
     def __repr__(self):
         r = "%s(%r, %r, boost=%f, maxdist=%d, prefixlength=%d)"
-        return r % (self.__class__.__name__, self.fieldname, self.text,
-                    self.boost, self.maxdist, self.prefixlength)
+        return r % (
+            self.__class__.__name__,
+            self.fieldname,
+            self.text,
+            self.boost,
+            self.maxdist,
+            self.prefixlength,
+        )
 
     def __unicode__(self):
         r = u("%s:%s") % (self.fieldname, self.text) + u("~")
@@ -1074,13 +1275,19 @@ class FuzzyTerm(ExpandingTerm):
     __str__ = __unicode__
 
     def __hash__(self):
-        return (hash(self.fieldname) ^ hash(self.text) ^ hash(self.boost)
-                ^ hash(self.maxdist) ^ hash(self.prefixlength)
-                ^ hash(self.constantscore))
+        return (
+            hash(self.fieldname)
+            ^ hash(self.text)
+            ^ hash(self.boost)
+            ^ hash(self.maxdist)
+            ^ hash(self.prefixlength)
+            ^ hash(self.constantscore)
+        )
 
     def _btexts(self, ixreader):
-        return ixreader.terms_within(self.fieldname, self.text, self.maxdist,
-                                     prefix=self.prefixlength)
+        return ixreader.terms_within(
+            self.fieldname, self.text, self.maxdist, prefix=self.prefixlength
+        )
 
     def replace(self, fieldname, oldtext, newtext):
         q = copy.copy(self)
@@ -1107,9 +1314,13 @@ class Variations(ExpandingTerm):
         return r
 
     def __eq__(self, other):
-        return (other and self.__class__ is other.__class__
-                and self.fieldname == other.fieldname
-                and self.text == other.text and self.boost == other.boost)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.fieldname == other.fieldname
+            and self.text == other.text
+            and self.boost == other.boost
+        )
 
     def __hash__(self):
         return hash(self.fieldname) ^ hash(self.text) ^ hash(self.boost)
@@ -1141,15 +1352,34 @@ class Variations(ExpandingTerm):
 class Annotation(Regex):
     """Matches documents containing the given term (fieldname+annotation)."""
 
-    fieldname = 'annotation'
+    fieldname = "annotation"
     constantscore = True
 
-    __inittypes__ = dict(fieldname=str, text=cylleneus.engine.compat.text_type, boost=float, annotation=qcore.Query,
-                         meta=bool)
+    __inittypes__ = dict(
+        fieldname=str,
+        text=cylleneus.engine.compat.text_type,
+        boost=float,
+        annotation=qcore.Query,
+        meta=bool,
+    )
 
-    def __init__(self, fieldname, text, boost=1.0, constantscore=True, annotation=None, meta=False):
-        super(Annotation, self).__init__(fieldname, text, constantscore=constantscore, annotation=annotation,
-                                         meta=meta, boost=1.0)
+    def __init__(
+        self,
+        fieldname,
+        text,
+        boost=1.0,
+        constantscore=True,
+        annotation=None,
+        meta=False,
+    ):
+        super(Annotation, self).__init__(
+            fieldname,
+            text,
+            constantscore=constantscore,
+            annotation=annotation,
+            meta=meta,
+            boost=1.0,
+        )
         self.fieldname = fieldname
         self.text = text
         self.boost = boost
@@ -1158,14 +1388,16 @@ class Annotation(Regex):
         self.constantscore = constantscore
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.fieldname == other.fieldname
-                and self.text == other.text
-                and self.boost == other.boost)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.fieldname == other.fieldname
+            and self.text == other.text
+            and self.boost == other.boost
+        )
 
     def __repr__(self):
-        text = self.text.split('::')[0]
+        text = self.text.split("::")[0]
         r = "%s(%r, %r" % (self.__class__.__name__, self.fieldname, text)
         if self.boost != 1.0:
             r += ", boost=%s" % self.boost
@@ -1173,7 +1405,7 @@ class Annotation(Regex):
         return r
 
     def __unicode__(self):
-        text = self.text.split('::')[0]
+        text = self.text.split("::")[0]
         if isinstance(text, cylleneus.engine.compat.bytes_type):
             try:
                 text = text.decode("ascii")
@@ -1195,7 +1427,7 @@ class Annotation(Regex):
 
     def terms(self, phrases=False):
         if self.field():
-            text = self.text.split('::')[0]
+            text = self.text.split("::")[0]
             yield (self.field(), text)
 
 
@@ -1219,6 +1451,7 @@ class Mapping(Wildcard):
     def matcher(self, searcher, context=None):
         if self.text == "*":
             from cylleneus.engine.query.qcore import Every
+
             eq = Every(self.fieldname, boost=self.boost)
             return eq.matcher(searcher, context)
         else:

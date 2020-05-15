@@ -57,6 +57,7 @@ from cylleneus.engine.compat import izip
 
 # Exceptions
 
+
 class ReadTooFar(Exception):
     """Raised when :meth:`~whoosh.matching.Matcher.next()` or
     :meth:`~whoosh.matching.Matcher.skip_to()` are called on an inactive
@@ -71,6 +72,7 @@ class NoQualityAvailable(Exception):
 
 
 # Classes
+
 
 class Matcher(object):
     """Base class for all matchers.
@@ -262,16 +264,18 @@ class Matcher(object):
         for example 'frequency' or 'characters'.
         """
 
-        raise NotImplementedError("supports not implemented in %s"
-                                  % self.__class__)
+        raise NotImplementedError(
+            "supports not implemented in %s" % self.__class__
+        )
 
     @abstractmethod
     def value_as(self, astype):
         """Returns the value(s) of the current posting as the given type.
         """
 
-        raise NotImplementedError("value_as not implemented in %s"
-                                  % self.__class__)
+        raise NotImplementedError(
+            "value_as not implemented in %s" % self.__class__
+        )
 
     def spans(self):
         """Returns a list of :class:`~whoosh.query.spans.Span` objects for the
@@ -282,8 +286,12 @@ class Matcher(object):
         from cylleneus.engine.query.spans import Span
 
         if self.supports("characters"):
-            return [Span(pos, startchar=startchar, endchar=endchar)
-                    for pos, startchar, endchar, *divs in self.value_as("characters")]
+            return [
+                Span(pos, startchar=startchar, endchar=endchar)
+                for pos, startchar, endchar, *divs in self.value_as(
+                    "characters"
+                )
+            ]
         elif self.supports("positions"):
             return [Span(pos) for pos in self.value_as("positions")]
         else:
@@ -345,6 +353,7 @@ class Matcher(object):
 
 # Simple intermediate classes
 
+
 class ConstantScoreMatcher(Matcher):
     def __init__(self, score=1.0):
         self._score = score
@@ -367,6 +376,7 @@ class ConstantScoreMatcher(Matcher):
 
 
 # Null matcher
+
 
 class NullMatcherClass(Matcher):
     """Matcher with no postings which is never active.
@@ -411,9 +421,18 @@ class ListMatcher(Matcher):
     """Synthetic matcher backed by a list of IDs.
     """
 
-    def __init__(self, ids, weights=None, values=None, format=None,
-                 scorer=None, position=0, all_weights=None, term=None,
-                 terminfo=None):
+    def __init__(
+        self,
+        ids,
+        weights=None,
+        values=None,
+        format=None,
+        scorer=None,
+        position=0,
+        all_weights=None,
+        term=None,
+        terminfo=None,
+    ):
         """
         :param ids: a list of doc IDs.
         :param weights: a list of weights corresponding to the list of IDs.
@@ -460,9 +479,15 @@ class ListMatcher(Matcher):
         return self._term
 
     def copy(self):
-        return self.__class__(self._ids, self._weights, self._values,
-                              self._format, self._scorer, self._i,
-                              self._all_weights)
+        return self.__class__(
+            self._ids,
+            self._weights,
+            self._values,
+            self._format,
+            self._scorer,
+            self._i,
+            self._all_weights,
+        )
 
     def replace(self, minquality=0):
         if not self.is_active():
@@ -473,8 +498,9 @@ class ListMatcher(Matcher):
             return self
 
     def supports_block_quality(self):
-        return (self._scorer is not None
-                and self._scorer.supports_block_quality())
+        return (
+            self._scorer is not None and self._scorer.supports_block_quality()
+        )
 
     def max_quality(self):
         # This matcher treats all postings in the list as one "block", so the
@@ -501,7 +527,7 @@ class ListMatcher(Matcher):
     def all_items(self):
         values = self._values
         if values is None:
-            values = repeat('')
+            values = repeat("")
 
         return izip(self._ids, values)
 
@@ -527,7 +553,7 @@ class ListMatcher(Matcher):
 
             return v
         else:
-            return ''
+            return ""
 
     def value_as(self, astype):
         decoder = self._format.decoder(astype)
@@ -572,14 +598,18 @@ class ListMatcher(Matcher):
 
 # Term/vector leaf posting matcher middleware
 
+
 class LeafMatcher(Matcher):
     # Subclasses need to set
     #   self.scorer -- a Scorer object or None
     #   self.format -- Format object for the posting values
 
     def __repr__(self):
-        return "%s(%r, %s)" % (self.__class__.__name__, self.term(),
-                               self.is_active())
+        return "%s(%r, %s)" % (
+            self.__class__.__name__,
+            self.term(),
+            self.is_active(),
+        )
 
     def term(self):
         return self._term
@@ -600,13 +630,18 @@ class LeafMatcher(Matcher):
         from cylleneus.engine.query.spans import Span
 
         if self.supports("characters"):
-            return [Span(pos, startchar=startchar, endchar=endchar, divs=divs)
-                    for pos, startchar, endchar, *divs in self.value_as("characters")]
+            return [
+                Span(pos, startchar=startchar, endchar=endchar, divs=divs)
+                for pos, startchar, endchar, *divs in self.value_as(
+                    "characters"
+                )
+            ]
         elif self.supports("positions"):
             return [Span(pos) for pos in self.value_as("positions")]
         else:
-            raise Exception("Field does not support positions (%r)"
-                            % self.term())
+            raise Exception(
+                "Field does not support positions (%r)" % self.term()
+            )
 
     def supports_block_quality(self):
         return self.scorer and self.scorer.supports_block_quality()

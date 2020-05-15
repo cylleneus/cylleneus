@@ -18,4 +18,6 @@ class DocumentSchema(BaseSchema):
     form = FORM(analyzer=Tokens, vector=True)
     lemma = LEMMA(analyzer=Tokens | Lemmas, vector=True)
     synset = SYNSET(analyzer=Tokens | Lemmas | Synsets, vector=True)
-    semfield = SEMFIELD(analyzer=Tokens | Lemmas | Synsets | Semfields, vector=True)
+    semfield = SEMFIELD(
+        analyzer=Tokens | Lemmas | Synsets | Semfields, vector=True
+    )

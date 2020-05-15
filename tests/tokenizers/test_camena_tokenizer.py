@@ -26,7 +26,7 @@ class TestCAMENATokenizer(unittest.TestCase):
 
         # pass
         camena = CORPUS_DIR / Path("lat/camena/text")
-        files = list(camena.glob('*.xml'))
+        files = list(camena.glob("*.xml"))
 
         with codecs.open(choice(files), "rb") as fp:
             value = fp.read()
@@ -45,5 +45,5 @@ class TestCAMENATokenizer(unittest.TestCase):
         )
 
         T = CachedTokenizer()
-        for t in T({"text": doc, "meta": meta}, mode='index', docix=0):
+        for t in T({"text": doc, "meta": meta}, mode="index", docix=0):
             assert t

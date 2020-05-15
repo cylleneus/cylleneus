@@ -37,16 +37,25 @@ def fetch(work, meta, fragment):
 
     # Reference and hlite values
     ref_start = ", ".join(
-        [f"{item}: {meta['start'][item]}" for item in meta["start"] if item in divs]
+        [
+            f"{item}: {meta['start'][item]}"
+            for item in meta["start"]
+            if item in divs
+        ]
     )
     ref_end = ", ".join(
-        [f"{item}: {meta['end'][item]}" for item in meta["end"] if item in divs]
+        [
+            f"{item}: {meta['end'][item]}"
+            for item in meta["end"]
+            if item in divs
+        ]
     )
-    reference = "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    reference = (
+        "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
+    )
 
     hlites = set(
-        hlite["sent_pos"]
-        for hlite in meta["hlites"]
+        hlite["sent_pos"] for hlite in meta["hlites"]
     )  # only need token ids?
 
     # Collect text and context
@@ -84,9 +93,7 @@ def fetch(work, meta, fragment):
         if _text:
             text = " ".join(
                 [
-                    f"<em>{token}</em>"
-                    if str(i) in hlites
-                    else f"{token}"
+                    f"<em>{token}</em>" if str(i) in hlites else f"{token}"
                     for i, token in enumerate(_text.split())
                 ]
             )

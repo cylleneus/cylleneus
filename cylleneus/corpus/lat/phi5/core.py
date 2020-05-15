@@ -7,7 +7,7 @@ language = "lat"
 AUTHOR_TAB = {
     "phi2000": {
         "author": "Ablabius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "epigramma",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
@@ -18,7 +18,7 @@ AUTHOR_TAB = {
     },
     "phi0400": {
         "author": "L. Accius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
@@ -40,11 +40,11 @@ AUTHOR_TAB = {
     },
     "phi0402": {
         "author": "Valerius Aedituus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "epigrammata",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -52,7 +52,7 @@ AUTHOR_TAB = {
     },
     "phi2300": {
         "author": "Aemilius Sura",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Annis Populi Romani",
                 "source": "Historicorum Romanorum Reliquiae, Vol. 2, ed. H. Peter, 1906",
@@ -62,7 +62,7 @@ AUTHOR_TAB = {
     },
     "phi0404": {
         "author": "L. Afranius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "togatae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -72,7 +72,7 @@ AUTHOR_TAB = {
     },
     "phi0902": {
         "author": "Iulius Africanus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "M. Fabi Quintiliani Institutionis Oratoriae Libri Duodecim, Tomus II: Libri VII-XII, "
@@ -83,7 +83,7 @@ AUTHOR_TAB = {
     },
     "phi0301": {
         "author": "Cn. Domitius Ahenobarbus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae, I: Textus, ed. E. Malcovati, 1953",
@@ -93,7 +93,7 @@ AUTHOR_TAB = {
     },
     "phi2002": {
         "author": "Albinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Rerum Romanarum Liber I",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
@@ -104,7 +104,7 @@ AUTHOR_TAB = {
             "phi002": {
                 "title":  "De Metris",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
@@ -112,11 +112,11 @@ AUTHOR_TAB = {
     },
     "phi0406": {
         "author": "P. Alfenus Varus",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "iurisprudentia, fragmenta",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             }
@@ -124,7 +124,7 @@ AUTHOR_TAB = {
     },
     "phi1500": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Altercatio Hadriani Augusti et Epicteti Philosophi",
                 "source": "Altercatio Hadriani Augusti et Epicteti Philosophi, ed. L. W. Daly; W. Suchier, 1939",
@@ -134,7 +134,7 @@ AUTHOR_TAB = {
     },
     "phi1206": {
         "author": "L. Ampelius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Liber Memorialis",
                 "source": "Lucii Ampelii Liber Memorialis, ed. E. Assmann, 1935",
@@ -144,11 +144,11 @@ AUTHOR_TAB = {
     },
     "phi0094": {
         "author": "L. Livius Andronicus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Odyssia",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -166,11 +166,11 @@ AUTHOR_TAB = {
     },
     "phi1209": {
         "author": "Annianus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -178,7 +178,7 @@ AUTHOR_TAB = {
     },
     "phi0002": {
         "author": "T. Annius Luscus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae, I: Textus, ed. E. Malcovati, 1953",
@@ -188,7 +188,7 @@ AUTHOR_TAB = {
     },
     "phi9505": {
         "author": "Anonymi Comici et Tragici",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "togatae poetarum incertorum",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -213,53 +213,53 @@ AUTHOR_TAB = {
     },
     "phi9500": {
         "author": "Anonymi Epici et Lyrici",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen Saliare",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
             "phi002": {
                 "title":  "versus sacrorum",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
             "phi003": {
                 "title":  "sententia",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi004": {
                 "title":  "A. Atilii Calatini elogium",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi005": {
                 "title":  "carmen Priami",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi006": {
                 "title":  "saturnius(?)",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi007": {
                 "title":  "Acilii Glabrionis tabula",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
@@ -278,49 +278,49 @@ AUTHOR_TAB = {
             "phi010": {
                 "title":  "praecepta rustica et medica",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
             "phi011": {
                 "title":  "epigramma a Varrone Plauto attributum",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi012": {
                 "title":  "epigramma Pacuvi",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi013": {
                 "title":  "Ardeatis templi inscriptio",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi014": {
                 "title":  "templi Tarracinensis inscriptio",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi015": {
                 "title":  "in Carbonem versus popularis",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi016": {
                 "title":  "carmina Marciana et similia",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -334,140 +334,140 @@ AUTHOR_TAB = {
             "phi018": {
                 "title":  "epigrammata et populares versus in Augustum",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
             "phi019": {
                 "title":  "obtrectatoris Vergilii versiculus",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi020": {
                 "title":  "de Crassitio epigramma",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi021": {
                 "title":  "populares versus in Sarmentum",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi022": {
                 "title":  "versus populares in Tiberium et Germanicum",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
             "phi023": {
                 "title":  "populares versus in Caligulam",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi024": {
                 "title":  "artificia metrica",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
             "phi025": {
                 "title":  "versus populares in Neronem et eiusque successores",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
             "phi026": {
                 "title":  "I 10 praemissi",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi027": {
                 "title":  "versus de VII sapientibus",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi028": {
                 "title":  "odarium",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi029": {
                 "title":  "versus fortasse Clementis(?)",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi030": {
                 "title":  "versus in Caesares Romanos ex Historia Augusta",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
             "phi031": {
                 "title":  "versus Orphici ab Arnobio conversi",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi032": {
                 "title":  "Tarentinus senarius",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi033": {
                 "title":  "De Venere et Amoribus",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi034": {
                 "title":  "De Metris",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
             "phi035": {
                 "title":  "versus fortasse Enniani",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
             "phi036": {
                 "title":  "versus fortasse Luciliani",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
             "phi037": {
                 "title":  "versus aevi Catulliani",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -480,21 +480,21 @@ AUTHOR_TAB = {
             "phi039": {
                 "title":  "versus aevi Augustei",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
             "phi040": {
                 "title":  "serioris aetatis versus",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
             "phi041": {
                 "title":  "versus reciproci",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -502,7 +502,7 @@ AUTHOR_TAB = {
     },
     "phi9510": {
         "author": "Anonymi Grammatici",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -512,7 +512,7 @@ AUTHOR_TAB = {
     },
     "phi0426": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Bellum Africum",
                 "source": "C. Iuli Caesaris Commentarii. Vol. 3, ed. A. Klotz, 1927",
@@ -522,7 +522,7 @@ AUTHOR_TAB = {
     },
     "phi0428": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Bellum Alexandrinum",
                 "source": "C. Iuli Caesaris Commentarii. Vol. 3, ed. A. Klotz, 1927",
@@ -532,7 +532,7 @@ AUTHOR_TAB = {
     },
     "phi0430": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Bellum Hispaniense",
                 "source": "C. Iuli Caesaris Commentarii. Vol. 3, ed. A. Klotz, 1927",
@@ -542,7 +542,7 @@ AUTHOR_TAB = {
     },
     "phi1908": {
         "author": "Gallus Antipater",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "historiae",
                 "source": "Historicorum Romanorum Reliquiae, Vol. 2, ed. H. Peter, 1906",
@@ -552,7 +552,7 @@ AUTHOR_TAB = {
     },
     "phi0302": {
         "author": "M. Antonius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae, Vol. 1, ed. E. Malcovati, 1953",
@@ -562,7 +562,7 @@ AUTHOR_TAB = {
     },
     "phi0721": {
         "author": "Antonius Panurgus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica, fragmentum",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -572,7 +572,7 @@ AUTHOR_TAB = {
     },
     "phi0408": {
         "author": "M. Antonius triumvir",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae, Vol. 1, ed. E. Malcovati, 1953",
@@ -582,7 +582,7 @@ AUTHOR_TAB = {
     },
     "phi2003": {
         "author": "Caelius Apicius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Re Coquinaria",
                 "source": "Apicii Decem Libri Qui Dicuntur De Re Coquinaria et Excerpta a Vinidario Conscripta, "
@@ -605,11 +605,11 @@ AUTHOR_TAB = {
     },
     "phi0004": {
         "author": "App. Claudius Caecus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Sententiae",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -617,7 +617,7 @@ AUTHOR_TAB = {
     },
     "phi0410": {
         "author": "Aprissius (?)",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "fragmentum",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -627,7 +627,7 @@ AUTHOR_TAB = {
     },
     "phi1212": {
         "author": "Apuleius Madaurensis",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Apologia",
                 "source": "Apulei Platonici Madaurensis Opera Quae Supersunt. Vol. 2, Fasc. 1, ed. R. Helm, 1959",
@@ -656,7 +656,7 @@ AUTHOR_TAB = {
             "phi006": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -684,11 +684,11 @@ AUTHOR_TAB = {
     },
     "phi0412": {
         "author": "C. Aquilius Gallus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "iurisprudentia, fragmenta",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             }
@@ -696,7 +696,7 @@ AUTHOR_TAB = {
     },
     "phi0005": {
         "author": "Aquilius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "palliata, fragmenta",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -706,11 +706,11 @@ AUTHOR_TAB = {
     },
     "phi0703": {
         "author": "Arbonius Silo",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -718,7 +718,7 @@ AUTHOR_TAB = {
     },
     "phi3211": {
         "author": "Argumenta Aeneidis et Tetrasticha in cunctis libris Vergilii",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Argumenta Aeneidis, Decasticha",
                 "source": "Anthologia Latina. Vol. 1, Fasc. 1, ed. D. R. Shackleton Bailey, 1982",
@@ -743,7 +743,7 @@ AUTHOR_TAB = {
     },
     "phi0414": {
         "author": "L. Arruntius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Historiae Belli Punici",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 2, ed. H. Peter, 1906",
@@ -753,7 +753,7 @@ AUTHOR_TAB = {
     },
     "phi0803": {
         "author": "Q. Asconius Pedianus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Pisonem",
                 "source": "Q. Asconii Pediani Orationum Ciceronis Quinque Enarratio, ed. A. C. Clark, [1907]",
@@ -783,7 +783,7 @@ AUTHOR_TAB = {
     },
     "phi0300": {
         "author": "Sempronius Asellio",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Rerum Gestarum Libri",
                 "source": "Historicorum Romanorum Reliquiae, Vol. 1, ed. H. Peter, 1914",
@@ -793,7 +793,7 @@ AUTHOR_TAB = {
     },
     "phi1363": {
         "author": "Aemilius Asper",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "commentum in Terentium Sallustium Vergilium",
                 "source": "Aemilius Asper: Ein Beitrag zur römischen Literaturgeschichte, ed. P. Wessner, 1905",
@@ -802,7 +802,7 @@ AUTHOR_TAB = {
             "phi002": {
                 "title":  "Vergilius",
                 "source": "Servii Grammatici Qui Feruntur in Vergilii Carmina Commentarii. Vol. 3, Fasc. 2, "
-                "ed. H. Hagen, "
+                          "ed. H. Hagen, "
                           "1902",
                 "meta":   "page-line",
             },
@@ -810,7 +810,7 @@ AUTHOR_TAB = {
     },
     "phi0416": {
         "author": "L. Ateius Praetextatus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -820,7 +820,7 @@ AUTHOR_TAB = {
     },
     "phi1604": {
         "author": "Iulius Atherianus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "historiae",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 2, ed. H. Peter, 1906",
@@ -830,7 +830,7 @@ AUTHOR_TAB = {
     },
     "phi0007": {
         "author": "Atilius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "palliatae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -840,11 +840,11 @@ AUTHOR_TAB = {
     },
     "phi0418": {
         "author": "T. Quinctius Atta",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "epigramma",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
@@ -857,7 +857,7 @@ AUTHOR_TAB = {
     },
     "phi0809": {
         "author": "Aufidius Bassus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "historiae",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 2, ed. H. Peter, 1906",
@@ -867,7 +867,7 @@ AUTHOR_TAB = {
     },
     "phi0401": {
         "author": "Aufustius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica, fragmenta",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -877,11 +877,11 @@ AUTHOR_TAB = {
     },
     "phi1218": {
         "author": "Sentius Augurinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -889,11 +889,11 @@ AUTHOR_TAB = {
     },
     "phi2468": {
         "author": "Aurelius Augustinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Laus Cerei",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -901,7 +901,7 @@ AUTHOR_TAB = {
     },
     "phi1221": {
         "author": "C. Iulius Caesar Augustus Octavianus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Imperatoris Caesaris Augusti Operum Fragmenta, ed. E. Malcovati, 1962",
@@ -946,11 +946,11 @@ AUTHOR_TAB = {
     },
     "phi2305": {
         "author": "Caelius Aurelianus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "E Parmenide de natura",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -958,11 +958,11 @@ AUTHOR_TAB = {
     },
     "phi1224": {
         "author": "M. Aurelius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -970,7 +970,7 @@ AUTHOR_TAB = {
     },
     "phi0303": {
         "author": "Aurelius Opillus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -980,11 +980,11 @@ AUTHOR_TAB = {
     },
     "phi1203": {
         "author": "Alfius Avitus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -992,7 +992,7 @@ AUTHOR_TAB = {
     },
     "phi0423": {
         "author": "L. Herennius Balbus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae, Vol. 1, ed. E. Malcovati, 1953",
@@ -1002,22 +1002,22 @@ AUTHOR_TAB = {
     },
     "phi1227": {
         "author": "Balbus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Expositio et Ratio Omnium Formarum",
                 "source": "Die Schriften der Römischen Feldmesser, Vol. 1, ed. F. Blume; K. Lachmann; A. Rudorff, "
-                "1848",
+                          "1848",
                 "meta":   "page-line",
             }
         },
     },
     "phi0812": {
         "author": "C. Caesius Bassus. Poeticae Species Lat",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -1055,11 +1055,11 @@ AUTHOR_TAB = {
     },
     "phi0432": {
         "author": "M. Furius Bibaculus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -1067,7 +1067,7 @@ AUTHOR_TAB = {
     },
     "phi0815": {
         "author": "Bruttedius Niger",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "historiae",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 2, ed. H. Peter, 1906",
@@ -1077,11 +1077,11 @@ AUTHOR_TAB = {
     },
     "phi0010": {
         "author": "M. Iunius Brutus [iur.]",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "iurisprudentia",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             }
@@ -1089,7 +1089,7 @@ AUTHOR_TAB = {
     },
     "phi0436": {
         "author": "M. Iunius Brutus [tyr.]",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -1099,7 +1099,7 @@ AUTHOR_TAB = {
     },
     "phi0821": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Bucolica Einsidlensia",
                 "source": "Calpurnii et Nemesiani Bucolica, Accedunt Einsidlensia Quae Dicuntur Carmina, "
@@ -1110,7 +1110,7 @@ AUTHOR_TAB = {
     },
     "phi0013": {
         "author": "Caecilius Statius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "palliatae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -1120,11 +1120,11 @@ AUTHOR_TAB = {
     },
     "phi0442": {
         "author": "A. Caecina. fragmentum",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "Scholiorum Veronensium in Vergilii Bucolica Georgica Aeneidem Fragmenta",
                 "source": "Servii Grammatici Qui Feruntur in Vergilii Carmina Commentarii, Vol. 3, Fasc. 2, "
-                "ed. H. Hagen, "
+                          "ed. H. Hagen, "
                           "1902",
                 "meta":   "line",
             }
@@ -1132,7 +1132,7 @@ AUTHOR_TAB = {
     },
     "phi0444": {
         "author": "M. Caelius Rufus",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -1142,11 +1142,11 @@ AUTHOR_TAB = {
     },
     "phi0824": {
         "author": "Cn. Arulenus Caelius Sabinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "iurisprudentia, fragmenta",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             }
@@ -1154,7 +1154,7 @@ AUTHOR_TAB = {
     },
     "phi0445": {
         "author": "C. et L. Caepasii fratres",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -1164,7 +1164,7 @@ AUTHOR_TAB = {
     },
     "phi0446": {
         "author": "Q. Servilius Caepio",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -1174,7 +1174,7 @@ AUTHOR_TAB = {
     },
     "phi0448": {
         "author": "C. Iulius Caesar",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Bello Gallico",
                 "source": "C. Iulii Caesaris: Commentarii Rerum Gestarum. Vol. 1, ed. O. Seel, 1961",
@@ -1219,11 +1219,11 @@ AUTHOR_TAB = {
     },
     "phi0450": {
         "author": "L. Iulius Caesar",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Auspiciorum Liber, fragmenta",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             }
@@ -1231,7 +1231,7 @@ AUTHOR_TAB = {
     },
     "phi0827": {
         "author": "Caesellius Vindex",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica, fragmenta 1-7",
                 "source": "A. Gelli Noctes Atticae. Vols. 1-2, ed. P. K. Marshall, 1968",
@@ -1241,7 +1241,7 @@ AUTHOR_TAB = {
     },
     "phi0454": {
         "author": "M. Calidius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -1251,7 +1251,7 @@ AUTHOR_TAB = {
     },
     "phi1100": {
         "author": "Calpurnius Flaccus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Declamationes, excerpta",
                 "source": "Calpurnii Flacci Declamationum Excerpta, ed. L. Håkanson, 1978",
@@ -1261,7 +1261,7 @@ AUTHOR_TAB = {
     },
     "phi0016": {
         "author": "L. Calpurnius Piso Censorinus Frugi",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Annales",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -1271,7 +1271,7 @@ AUTHOR_TAB = {
     },
     "phi0455": {
         "author": "C. Calpurnius Piso",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -1281,7 +1281,7 @@ AUTHOR_TAB = {
     },
     "phi0830": {
         "author": "T. Calpurnius Siculus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Eclogae",
                 "source": "Calpurnii et Nemesiani Bucolica, Accedunt Einsidlensia Quae Dicuntur Carmina, "
@@ -1292,11 +1292,11 @@ AUTHOR_TAB = {
     },
     "phi0456": {
         "author": "C. Licinius Macer Calvus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -1309,7 +1309,7 @@ AUTHOR_TAB = {
     },
     "phi0458": {
         "author": "P. Cannutius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -1319,7 +1319,7 @@ AUTHOR_TAB = {
     },
     "phi1229": {
         "author": "Flavius Caper",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Orthographia",
                 "source": "Grammatici Latini ex Recensione Henrici Keilii. Vol. 7, ed. H. Keil, 1880",
@@ -1334,7 +1334,7 @@ AUTHOR_TAB = {
     },
     "phi0806": {
         "author": "C. Ateius Capito",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "iurisprudentia",
                 "source": "C. Atei Capitonis Fragmenta, ed. W. Strzelecki, 1967",
@@ -1344,7 +1344,7 @@ AUTHOR_TAB = {
     },
     "phi0019": {
         "author": "C. Papirius Carbo",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -1354,7 +1354,7 @@ AUTHOR_TAB = {
     },
     "phi0460": {
         "author": "C. Papirius Carbo Arvina",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -1364,7 +1364,7 @@ AUTHOR_TAB = {
     },
     "phi0149": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Carmen Arvale",
                 "source": "Anthologia Latina sive Poesis Latinae Supplementum. Part 2, Fasc. 1, ed. F. Bücheler, 1895",
@@ -1374,7 +1374,7 @@ AUTHOR_TAB = {
     },
     "phi0706": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Carmen de Bello Aegyptiaco",
                 "source": "C. Rabirius, Bellum Actiacum e Papiro Herculanense 817, ed. G. Garuti, 1958",
@@ -1384,7 +1384,7 @@ AUTHOR_TAB = {
     },
     "phi0306": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Carmen Devotionis",
                 "source": "Ambrosii Theodosii Macrobii Saturnalia, ed. J. Willis, 1970",
@@ -1394,7 +1394,7 @@ AUTHOR_TAB = {
     },
     "phi0309": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Carmen Evocationis",
                 "source": "Ambrosii Theodosii Macrobii Saturnalia, ed. J. Willis, 1970",
@@ -1404,11 +1404,11 @@ AUTHOR_TAB = {
     },
     "phi0466": {
         "author": "A. Cascellius. Liber Bene Dictorum, frr",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "duo",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             }
@@ -1416,7 +1416,7 @@ AUTHOR_TAB = {
     },
     "phi0469": {
         "author": "L. Cassius Longinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -1426,11 +1426,11 @@ AUTHOR_TAB = {
     },
     "phi0022": {
         "author": "M. Porcius Cato",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Agri Cultura",
                 "source": "M. Porci Catonis De Agri Cultura ad Fidem Florentini Codicis Deperditi, ed. A. Mazzarino, "
-                "1982",
+                          "1982",
                 "meta":   "chapter-section-line",
             },
             "phi002": {
@@ -1493,7 +1493,7 @@ AUTHOR_TAB = {
     },
     "phi0025": {
         "author": "M. Porcius M. f. M. n. Cato",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -1503,7 +1503,7 @@ AUTHOR_TAB = {
     },
     "phi0470": {
         "author": "M. Porcius Cato Uticensis",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -1513,7 +1513,7 @@ AUTHOR_TAB = {
     },
     "phi0472": {
         "author": "C. Valerius Catullus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Catullus, ed. G. P. Goold, 1983",
@@ -1528,7 +1528,7 @@ AUTHOR_TAB = {
     },
     "phi0473": {
         "author": "Q. Lutatius Catulus iunior",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -1538,7 +1538,7 @@ AUTHOR_TAB = {
     },
     "phi0836": {
         "author": "A. Cornelius Celsus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Agricultura",
                 "source": "Corpus Medicorum Latinorum. Vol. 1, ed. F. Marx, 1915",
@@ -1547,7 +1547,7 @@ AUTHOR_TAB = {
             "phi002": {
                 "title":  "De Medicina",
                 "source": "Corpus Medicorum Latinorum. Vol. 1, ed. F. Marx, 1915; 4.27.1d [fr.1]: ed. Umberto "
-                "Capitani ["
+                          "Capitani ["
                           "Maia 26(1974)]; 4.27.1d [fr.2]: ed. Dionisio Ollero Granados [Emerita 41(1973)]",
                 "meta":   "book-chapter",
             },
@@ -1560,11 +1560,11 @@ AUTHOR_TAB = {
     },
     "phi2028": {
         "author": "Chalcidius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Ex Graecis Conversiones",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -1572,7 +1572,7 @@ AUTHOR_TAB = {
     },
     "phi0474": {
         "author": "M. Tullius Cicero",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Pro Quinctio",
                 "source": "M. Tulli Ciceronis Orationes. Vol. 4, ed. A. C. Clark, 1909",
@@ -1907,7 +1907,7 @@ AUTHOR_TAB = {
             "phi067": {
                 "title":  "in Artem Redig.",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             },
@@ -1955,11 +1955,11 @@ AUTHOR_TAB = {
     },
     "phi0478": {
         "author": "Q. Tullius Cicero.",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
@@ -1972,7 +1972,7 @@ AUTHOR_TAB = {
     },
     "phi0027": {
         "author": "L. Cincius Alimentus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -1982,7 +1982,7 @@ AUTHOR_TAB = {
     },
     "phi0484": {
         "author": "L. Cincius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -1991,7 +1991,7 @@ AUTHOR_TAB = {
             "phi002": {
                 "title":  "iurisprudentia",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             },
@@ -1999,11 +1999,11 @@ AUTHOR_TAB = {
     },
     "phi0486": {
         "author": "C. Helvius Cinna",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -2011,7 +2011,7 @@ AUTHOR_TAB = {
     },
     "phi0724": {
         "author": "Cloatius Verus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica fragmenta",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -2021,7 +2021,7 @@ AUTHOR_TAB = {
     },
     "phi0842": {
         "author": "C. Clodius Licinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Libri Rerum Romanarum",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 2, ed. H. Peter, 1906",
@@ -2031,7 +2031,7 @@ AUTHOR_TAB = {
     },
     "phi0487": {
         "author": "P. Clodius Pulcher",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -2041,7 +2041,7 @@ AUTHOR_TAB = {
     },
     "phi0488": {
         "author": "Ser. Clodius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -2051,7 +2051,7 @@ AUTHOR_TAB = {
     },
     "phi0405": {
         "author": "Clodius Tuscus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica, fragmenta",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -2061,7 +2061,7 @@ AUTHOR_TAB = {
     },
     "phi0028": {
         "author": "L. Coelius Antipater",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Annales",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -2071,7 +2071,7 @@ AUTHOR_TAB = {
     },
     "phi0845": {
         "author": "L. Iunius Moderatus Columella",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Arboribus",
                 "source": "L. Iuni Moderati Columellae Opera Quae Extant, Fasciculus Primus Librum de Arboribus Qui "
@@ -2092,7 +2092,7 @@ AUTHOR_TAB = {
     },
     "phi0490": {
         "author": "P. Cominius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -2102,7 +2102,7 @@ AUTHOR_TAB = {
     },
     "phi0492": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Commentarii Augurum",
                 "source": "M. Terenti Varronis De Linguae Latinae Quae Supersunt, ed. G. Goetz; F. Schoell, 1910",
@@ -2112,7 +2112,7 @@ AUTHOR_TAB = {
     },
     "phi0494": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Commentarii Consulares",
                 "source": "M. Terenti Varronis De Linguae Latinae Quae Supersunt, ed. G. Goetz; F. Schoell, 1910",
@@ -2122,7 +2122,7 @@ AUTHOR_TAB = {
     },
     "phi0496": {
         "author": "Commentarius Anquisitionis",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "M'. Sergii M'. f. Quaestoris",
                 "source": "M. Terenti Varronis De Linguae Latinae Quae Supersunt, ed. G. Goetz; F. Schoell, 1910",
@@ -2132,7 +2132,7 @@ AUTHOR_TAB = {
     },
     "phi0031": {
         "author": "Cornelia, mater Gracchorum",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "epistula, fragmenta",
                 "source": "Cornelii Nepotis Vitae cum Fragmentis, ed. P. K. Marshall, 1977",
@@ -2142,11 +2142,11 @@ AUTHOR_TAB = {
     },
     "phi0851": {
         "author": "Cornelius Severus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -2160,11 +2160,11 @@ AUTHOR_TAB = {
     },
     "phi0854": {
         "author": "Cornificius Gallus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "versus in Vergilium",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -2172,7 +2172,7 @@ AUTHOR_TAB = {
     },
     "phi0727": {
         "author": "Cornificius Longus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica, fragmenta",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -2182,11 +2182,11 @@ AUTHOR_TAB = {
     },
     "phi0409": {
         "author": "Q. Cornificius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina, fragmenta",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -2194,7 +2194,7 @@ AUTHOR_TAB = {
     },
     "phi0857": {
         "author": "L. Annaeus Cornutus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta Aetatis Caesareae. Vol. 1, ed. A. Mazzarino, 1955",
@@ -2204,7 +2204,7 @@ AUTHOR_TAB = {
     },
     "phi0498": {
         "author": "C. Aurelius Cotta",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -2214,7 +2214,7 @@ AUTHOR_TAB = {
     },
     "phi0500": {
         "author": "L. Licinius Crassus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -2224,7 +2224,7 @@ AUTHOR_TAB = {
     },
     "phi0502": {
         "author": "A. Cremutius Cordus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Annales",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 2, ed. H. Peter, 1906",
@@ -2234,7 +2234,7 @@ AUTHOR_TAB = {
     },
     "phi0034": {
         "author": "C. Scribonius Curio avus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -2244,7 +2244,7 @@ AUTHOR_TAB = {
     },
     "phi0037": {
         "author": "C. Scribonius Curio pater",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -2254,7 +2254,7 @@ AUTHOR_TAB = {
     },
     "phi0860": {
         "author": "Q. Curtius Rufus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Historiae Alexandri Magni",
                 "source": "Q. Curtius Rufus, Geschichte Alexanders des Grossen, ed. K. Müller, 1954",
@@ -2264,7 +2264,7 @@ AUTHOR_TAB = {
     },
     "phi1234": {
         "author": "Didascaliae et Argumenta in Plautum",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Amphitruo",
                 "source": "Plauti Comoediae. Vol. 1, ed. F. Leo, 1895",
@@ -2364,7 +2364,7 @@ AUTHOR_TAB = {
     },
     "phi1235": {
         "author": "Didascaliae et Periochae in Terentium",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Andria",
                 "source": "P. Terenti Afri Comoediae, ed. R. Kauer; W. M. Lindsay; O. Skutsch, 1958",
@@ -2399,7 +2399,7 @@ AUTHOR_TAB = {
     },
     "phi0510": {
         "author": "P. Cornelius Dolabella",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -2409,11 +2409,11 @@ AUTHOR_TAB = {
     },
     "phi0709": {
         "author": "Domitius Marsus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -2426,11 +2426,11 @@ AUTHOR_TAB = {
     },
     "phi0863": {
         "author": "Dorcatius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -2438,7 +2438,7 @@ AUTHOR_TAB = {
     },
     "phi0312": {
         "author": "Fabius Dossennus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina, fragmentum",
                 "source": "C. Plini Secundi Naturalis Historiae Libri XXXVII, Vol. 2, ed. C. Mayhoff",
@@ -2448,7 +2448,7 @@ AUTHOR_TAB = {
     },
     "phi0512": {
         "author": "M. Duronius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -2458,11 +2458,11 @@ AUTHOR_TAB = {
     },
     "phi0514": {
         "author": "Egnatius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Rerum Natura",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -2470,7 +2470,7 @@ AUTHOR_TAB = {
     },
     "phi0043": {
         "author": "Q. Ennius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Annales",
                 "source": "The Annals of Q. Ennius, ed. O. Skutsch, 1985",
@@ -2510,7 +2510,7 @@ AUTHOR_TAB = {
     },
     "phi0515": {
         "author": "Sex. (vel Sp.) Ennius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -2520,7 +2520,7 @@ AUTHOR_TAB = {
     },
     "phi0046": {
         "author": "Cornelius Epicadus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -2530,7 +2530,7 @@ AUTHOR_TAB = {
     },
     "phi0516": {
         "author": "C. Erucius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -2540,7 +2540,7 @@ AUTHOR_TAB = {
     },
     "phi0058": {
         "author": "Q. Fabius Maximus Servilianus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Annales",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -2550,7 +2550,7 @@ AUTHOR_TAB = {
     },
     "phi0061": {
         "author": "Fabius Pictor",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Annales",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -2559,7 +2559,7 @@ AUTHOR_TAB = {
             "phi002": {
                 "title":  "Iuris Pontificis Libri",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             },
@@ -2567,7 +2567,7 @@ AUTHOR_TAB = {
     },
     "phi0064": {
         "author": "C. Fannius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "historiae",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -2582,7 +2582,7 @@ AUTHOR_TAB = {
     },
     "phi0067": {
         "author": "Favorinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -2592,7 +2592,7 @@ AUTHOR_TAB = {
     },
     "phi0866": {
         "author": "Fenestella",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Annales",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 2, ed. H. Peter, 1906",
@@ -2602,7 +2602,7 @@ AUTHOR_TAB = {
     },
     "phi1236": {
         "author": "Sex. Pompeius Festus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Verborum Significatione",
                 "source": "Sexti Pompei Festi De Verborum Significatu Quae Supersunt cum Pauli Epitome, ed. W. M. "
@@ -2613,7 +2613,7 @@ AUTHOR_TAB = {
     },
     "phi1242": {
         "author": "Annius Florus. epist. ad imperat",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "DCC",
                 "source": "L. Annaei Flori Quae Exstant, ed. E. Malcovati, 1972",
@@ -2632,7 +2632,7 @@ AUTHOR_TAB = {
             "phi004": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
@@ -2645,7 +2645,7 @@ AUTHOR_TAB = {
     },
     "phi1377": {
         "author": "Fragmenta Bobiensia",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Littera",
                 "source": "Grammatici Latini ex Recensione Henrici Keilii. Vol. 7, ed. H. Keil, 1880",
@@ -2690,7 +2690,7 @@ AUTHOR_TAB = {
     },
     "phi1506": {
         "author": "Anonymi Fragmenta de Iure Fisci",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "fragmenta de iure fisci",
                 "source": "Fontes Iuris Romani Antejustiniani. Part 2, ed. J. Baviera, 1940",
@@ -2700,7 +2700,7 @@ AUTHOR_TAB = {
     },
     "phi1245": {
         "author": "Sex. Iulius Frontinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Strategemata",
                 "source": "Frontin Kriegslisten, ed. G. Bendz, 1963",
@@ -2735,7 +2735,7 @@ AUTHOR_TAB = {
     },
     "phi2335": {
         "author": "Anonymi de Differentiis",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "[Fronto] De Differentiis",
                 "source": "Grammatici Latini ex Recensione Henrici Keilii. Vol. 7, ed. H. Keil, 1880",
@@ -2745,7 +2745,7 @@ AUTHOR_TAB = {
     },
     "phi1248": {
         "author": "M. Cornelius Fronto",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Epist.",
                 "source": "M. Cornelii Frontonis Epistulae. Vol. 1, ed. M. P. J. van den Hout, 1954",
@@ -2829,7 +2829,7 @@ AUTHOR_TAB = {
             "phi017": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -2837,11 +2837,11 @@ AUTHOR_TAB = {
     },
     "phi0518": {
         "author": "A. Furius Antias",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -2849,11 +2849,11 @@ AUTHOR_TAB = {
     },
     "phi0875": {
         "author": "Cn. Cornelius Lentulus Gaetulicus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -2861,7 +2861,7 @@ AUTHOR_TAB = {
     },
     "phi1251": {
         "author": "Gaius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Institutiones",
                 "source": "Gai Institutiones, ed. E. Seckel; B. Kübler, 1935",
@@ -2881,11 +2881,11 @@ AUTHOR_TAB = {
     },
     "phi0522": {
         "author": "C. Aelius Gallus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Verbis ad Ius Civile",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             },
@@ -2898,11 +2898,11 @@ AUTHOR_TAB = {
     },
     "phi0878": {
         "author": "C. Asinius Gallus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
@@ -2915,11 +2915,11 @@ AUTHOR_TAB = {
     },
     "phi0524": {
         "author": "C. Cornelius Gallus. elegia in pap",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "elegia",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
@@ -2932,11 +2932,11 @@ AUTHOR_TAB = {
     },
     "phi0527": {
         "author": "Gannius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "sine nomine",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -2944,7 +2944,7 @@ AUTHOR_TAB = {
     },
     "phi0413": {
         "author": "Gavius Bassus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Origine Vocabulorum, frr.",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -2959,7 +2959,7 @@ AUTHOR_TAB = {
     },
     "phi1254": {
         "author": "A. Gellius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Noctes Atticae 1-20",
                 "source": "A. Gelli Noctes Atticae. Vols. 1-2, ed. K. Marshall, 1968",
@@ -2969,7 +2969,7 @@ AUTHOR_TAB = {
     },
     "phi0070": {
         "author": "Cn. Gellius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Annales",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -2979,7 +2979,7 @@ AUTHOR_TAB = {
     },
     "phi0881": {
         "author": "Claudius Caesar Germanicus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Aratea",
                 "source": "The Aratus ascribed to Germanicus Caesar, ed. D. B. Gain, 1976",
@@ -2999,7 +2999,7 @@ AUTHOR_TAB = {
     },
     "phi0526": {
         "author": "C. Servilius Glaucia",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -3009,11 +3009,11 @@ AUTHOR_TAB = {
     },
     "phi0315": {
         "author": "M. Iunius Gracchanus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "commentarii",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             }
@@ -3021,7 +3021,7 @@ AUTHOR_TAB = {
     },
     "phi0073": {
         "author": "C. Sempronius Gracchus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -3031,7 +3031,7 @@ AUTHOR_TAB = {
     },
     "phi0884": {
         "author": "Gracchus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "tragoediae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 1, ed. O. Ribbeck, 1897",
@@ -3041,11 +3041,11 @@ AUTHOR_TAB = {
     },
     "phi0528": {
         "author": "Granius Flaccus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "iurisprudentia",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             }
@@ -3053,7 +3053,7 @@ AUTHOR_TAB = {
     },
     "phi1257": {
         "author": "Granius Licinianus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Annales",
                 "source": "Grani Liciniani Reliquiae, ed. N. Criniti, 1981",
@@ -3063,7 +3063,7 @@ AUTHOR_TAB = {
     },
     "phi0887": {
         "author": "Grattius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Cynegetica",
                 "source": "Gratti Cynegeticon Quae Supersunt. Part 1, ed. P. J. Enk, 1918",
@@ -3073,11 +3073,11 @@ AUTHOR_TAB = {
     },
     "phi1260": {
         "author": "Hadrianus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -3090,7 +3090,7 @@ AUTHOR_TAB = {
     },
     "phi0076": {
         "author": "C. Cassius Hemina",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Annales",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -3100,11 +3100,11 @@ AUTHOR_TAB = {
     },
     "phi2434": {
         "author": "Hilarius Arelatensis",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -3112,7 +3112,7 @@ AUTHOR_TAB = {
     },
     "phi0530": {
         "author": "A. Hirtius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Bello Gallico Liber VIII",
                 "source": "C. Iulii Caesaris: Commentarii Rerum Gestarum. Vol. 1, ed. O. Seel, 1961",
@@ -3127,7 +3127,7 @@ AUTHOR_TAB = {
     },
     "phi0890": {
         "author": "Homerus Latinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Ilias Latina",
                 "source": "Poetae Latini Minores. Vol. 2, Fasc. 3, ed. F. Vollmer, 1913",
@@ -3137,7 +3137,7 @@ AUTHOR_TAB = {
     },
     "phi0893": {
         "author": "Q. Horatius Flaccus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Carmina",
                 "source": "Q. Horati Flacci Opera, ed. F. Klingner, 1959",
@@ -3172,11 +3172,11 @@ AUTHOR_TAB = {
     },
     "phi0532": {
         "author": "Q. Hortensius Hortalus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
@@ -3189,11 +3189,11 @@ AUTHOR_TAB = {
     },
     "phi0079": {
         "author": "Hostius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Bellum Histricum",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -3201,7 +3201,7 @@ AUTHOR_TAB = {
     },
     "phi0899": {
         "author": "Hyginus Astronomus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Astronomica",
                 "source": "Hygin: L'Astronomie, ed. A. Le Boeuffle, 1983",
@@ -3211,7 +3211,7 @@ AUTHOR_TAB = {
     },
     "phi0533": {
         "author": "C. Iulius Hyginus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -3226,7 +3226,7 @@ AUTHOR_TAB = {
     },
     "phi1266": {
         "author": "Hyginus Gromaticus. De Munition",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Limitibus",
                 "source": "Corpus Agrimensorum Romanorum, Opuscula Agrimensorum Veterum, ed. C. Thulin, 1971",
@@ -3256,7 +3256,7 @@ AUTHOR_TAB = {
     },
     "phi1263": {
         "author": "Hyginus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Fabulae",
                 "source": "Hygini Fabulae, ed. H. J. Rose, 1933",
@@ -3266,7 +3266,7 @@ AUTHOR_TAB = {
     },
     "phi0091": {
         "author": "Licinius Imbrex",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "palliatae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -3276,7 +3276,7 @@ AUTHOR_TAB = {
     },
     "phi2806": {
         "author": "Iustinianus",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "Digesta Iustiniani 1-50",
                 "source": "The Digest of Justinian. Vols. 1-4, ed. T. Mommsen, P. Krüger, A. Watson, 1985",
@@ -3286,7 +3286,7 @@ AUTHOR_TAB = {
     },
     "phi1276": {
         "author": "D. Iunius Iuvenalis",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Saturae",
                 "source": "A. Persi Flacci et D. Iuni Iuvenalis Saturae, ed. W. V. Clausen, 1959",
@@ -3296,7 +3296,7 @@ AUTHOR_TAB = {
     },
     "phi0535": {
         "author": "M. Iuventius Laterensis",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -3306,7 +3306,7 @@ AUTHOR_TAB = {
     },
     "phi0534": {
         "author": "Iuventius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "palliatae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -3316,11 +3316,11 @@ AUTHOR_TAB = {
     },
     "phi0908": {
         "author": "Attius Labeo",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "versio Latina Iliados",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -3328,11 +3328,11 @@ AUTHOR_TAB = {
     },
     "phi0905": {
         "author": "M. Antistius Labeo",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "iurisprudentia, fragmenta",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             }
@@ -3340,7 +3340,7 @@ AUTHOR_TAB = {
     },
     "phi0536": {
         "author": "D. Laberius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "mimi",
                 "source": "I Mimi Romani, ed. M. Bonaria, 1965",
@@ -3350,7 +3350,7 @@ AUTHOR_TAB = {
     },
     "phi0537": {
         "author": "T. Labienus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -3360,11 +3360,11 @@ AUTHOR_TAB = {
     },
     "phi1279": {
         "author": "Laelius Felix",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "iurisprudentia, fragmenta",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             }
@@ -3372,7 +3372,7 @@ AUTHOR_TAB = {
     },
     "phi0085": {
         "author": "C. Laelius Sapiens",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -3382,11 +3382,11 @@ AUTHOR_TAB = {
     },
     "phi0538": {
         "author": "Laevius. fr",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -3400,7 +3400,7 @@ AUTHOR_TAB = {
     },
     "phi0100": {
         "author": "Luscius Lanuvinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "palliatae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -3410,7 +3410,7 @@ AUTHOR_TAB = {
     },
     "phi1011": {
         "author": "Scribonius Largus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Compositiones",
                 "source": "Scribonii Largi Compositiones, ed. S. Sconocchia, 1983",
@@ -3420,11 +3420,11 @@ AUTHOR_TAB = {
     },
     "phi0540": {
         "author": "Tullius Laurea",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "epigramma in Ciceronis obitum",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -3432,7 +3432,7 @@ AUTHOR_TAB = {
     },
     "phi0911": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Laus Pisonis",
                 "source": "Laus Pisonis: Text, Übersetzung, Kommentar: Inaugural-Dissertation der Philosophischen "
@@ -3443,7 +3443,7 @@ AUTHOR_TAB = {
     },
     "phi0541": {
         "author": "Cn. Cornelius Lentulus Marcellinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -3453,7 +3453,7 @@ AUTHOR_TAB = {
     },
     "phi1282": {
         "author": "Lentulus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "mimus",
                 "source": "I Mimi Romani, ed. M. Bonaria, 1965",
@@ -3463,7 +3463,7 @@ AUTHOR_TAB = {
     },
     "phi0088": {
         "author": "M. Aemilius Lepidus Porcina",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -3473,11 +3473,11 @@ AUTHOR_TAB = {
     },
     "phi0914": {
         "author": "T. Livius. A.U.C. Perioch",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Ab Urbe Condita",
                 "source": "Bks. 1-5: Titi Livi Ab Urbe Condita. Vol. 1, ed. R. S. Conway; C. F. Walters, 1955; Bks. "
-                "6-10, "
+                          "6-10, "
                           "21-25: Ibid. Vols. 2-3, ed. C. F. Walters; R. S. Conway, 1919-1950; Bks. 26-30: Ibid. Vol. "
                           "4, "
                           "ed. R. S. Conway, S. K. Johnson, 1953; Bks. 31-35: Ibid. Vol. 5, ed. A. H. McDonald, "
@@ -3506,7 +3506,7 @@ AUTHOR_TAB = {
     },
     "phi0917": {
         "author": "M. Annaeus Lucanus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Bellum Civile",
                 "source": "M. Annaei Lucani Belli Civilis Libri Decem, ed. A. E. Housman, 1927",
@@ -3515,7 +3515,7 @@ AUTHOR_TAB = {
             "phi002": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -3523,7 +3523,7 @@ AUTHOR_TAB = {
     },
     "phi0097": {
         "author": "C. Lucilius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Saturae, fragmenta",
                 "source": "C. Lucilii Carminum Reliquiae. Vol. 1, ed. F. Marx, 1904",
@@ -3533,11 +3533,11 @@ AUTHOR_TAB = {
     },
     "phi0920": {
         "author": "Lucilius iunior",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -3545,7 +3545,7 @@ AUTHOR_TAB = {
     },
     "phi0550": {
         "author": "T. Lucretius Carus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Rerum Natura",
                 "source": "De Rerum Natura Libri Sex, ed. J. Martin, 1969",
@@ -3565,11 +3565,11 @@ AUTHOR_TAB = {
     },
     "phi0552": {
         "author": "Q. Lutatius Catulus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "epigrammata",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -3582,11 +3582,11 @@ AUTHOR_TAB = {
     },
     "phi0923": {
         "author": "Aemilius Macer",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -3600,7 +3600,7 @@ AUTHOR_TAB = {
     },
     "phi0556": {
         "author": "C. Licinius Macer",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Annales",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -3615,11 +3615,11 @@ AUTHOR_TAB = {
     },
     "phi0558": {
         "author": "C. Maecenas",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -3633,11 +3633,11 @@ AUTHOR_TAB = {
     },
     "phi1285": {
         "author": "L. Volusius Maecianus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Assis Distributio ...",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "chapter-line",
             }
@@ -3645,7 +3645,7 @@ AUTHOR_TAB = {
     },
     "phi0560": {
         "author": "Helvius Mancia",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -3655,11 +3655,11 @@ AUTHOR_TAB = {
     },
     "phi0564": {
         "author": "M'. Manilius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "iurisprudentia",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             }
@@ -3667,7 +3667,7 @@ AUTHOR_TAB = {
     },
     "phi0926": {
         "author": "M. Manilius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Astronomica",
                 "source": "M. Manilii Astronomica, ed. G. P. Goold, 1985",
@@ -3677,11 +3677,11 @@ AUTHOR_TAB = {
     },
     "phi0562": {
         "author": "Manilius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -3689,11 +3689,11 @@ AUTHOR_TAB = {
     },
     "phi0103": {
         "author": "Cn. Marcius vates",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Praecepta",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -3701,11 +3701,11 @@ AUTHOR_TAB = {
     },
     "phi1291": {
         "author": "Marianus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Lupercalia",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -3713,7 +3713,7 @@ AUTHOR_TAB = {
     },
     "phi1294": {
         "author": "M. Valerius Martialis",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Spectacula",
                 "source": "M. Valerii Martialis Epigrammaton Libri, ed. W. Heraeus; J. Borovskij",
@@ -3728,7 +3728,7 @@ AUTHOR_TAB = {
     },
     "phi1297": {
         "author": "Marullus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "mimi",
                 "source": "I Mimi Romani, ed. M. Bonaria, 1965",
@@ -3738,11 +3738,11 @@ AUTHOR_TAB = {
     },
     "phi0568": {
         "author": "Cn. Matius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -3750,7 +3750,7 @@ AUTHOR_TAB = {
     },
     "phi1518": {
         "author": "Terentianus Maurus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Litt., De Syll., De Metr.",
                 "source": "Grammatici Latini ex Recensione Henrici Keilii. Vol. 6, ed. H. Keil, 1874",
@@ -3760,7 +3760,7 @@ AUTHOR_TAB = {
     },
     "phi0929": {
         "author": "Pomponius Mela",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Chorographia",
                 "source": "Pomponii Melae De Chorographia Libri Tres una cum Indice Verborum, ed. G. Ranstrand, 1971",
@@ -3770,7 +3770,7 @@ AUTHOR_TAB = {
     },
     "phi0104": {
         "author": "C. Memmius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -3780,11 +3780,11 @@ AUTHOR_TAB = {
     },
     "phi0574": {
         "author": "C. Memmius L. f.",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -3797,7 +3797,7 @@ AUTHOR_TAB = {
     },
     "phi0932": {
         "author": "M. Valerius Messalla Corvinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -3812,7 +3812,7 @@ AUTHOR_TAB = {
     },
     "phi0576": {
         "author": "M. Valerius Messalla Rufus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Familiis Romanis",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 2, ed. H. Peter, 1906",
@@ -3821,7 +3821,7 @@ AUTHOR_TAB = {
             "phi002": {
                 "title":  "De Auspiciis",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             },
@@ -3829,11 +3829,11 @@ AUTHOR_TAB = {
     },
     "phi0106": {
         "author": "Caecilius Metellus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "versus in Naevium",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -3841,7 +3841,7 @@ AUTHOR_TAB = {
     },
     "phi0109": {
         "author": "Q. Caecilius Metellus Macedonicus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -3851,7 +3851,7 @@ AUTHOR_TAB = {
     },
     "phi0582": {
         "author": "Q. Caecilius Metellus Numidicus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -3861,7 +3861,7 @@ AUTHOR_TAB = {
     },
     "phi0584": {
         "author": "Mimi Poetarum Incertorum",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "mimi",
                 "source": "I Mimi Romani, ed. M. Bonaria, 1965",
@@ -3876,7 +3876,7 @@ AUTHOR_TAB = {
     },
     "phi0935": {
         "author": "Iulius Modestus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta Aetatis Caesareae. Vol. 1, ed. A. Mazzarino, 1955",
@@ -3886,11 +3886,11 @@ AUTHOR_TAB = {
     },
     "phi0938": {
         "author": "Iulius Montanus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -3898,7 +3898,7 @@ AUTHOR_TAB = {
     },
     "phi0546": {
         "author": "C. Licinius Mucianus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "historiae",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 2, ed. H. Peter, 1906",
@@ -3908,7 +3908,7 @@ AUTHOR_TAB = {
     },
     "phi0586": {
         "author": "Mummius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Atellanae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -3918,18 +3918,18 @@ AUTHOR_TAB = {
     },
     "phi0112": {
         "author": "Cn. Naevius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Bellum Punicum",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
             "phi002": {
                 "title":  "alia carmina epica",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -3963,11 +3963,11 @@ AUTHOR_TAB = {
     },
     "phi0587": {
         "author": "Naevius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Ilias",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -3975,11 +3975,11 @@ AUTHOR_TAB = {
     },
     "phi0420": {
         "author": "P. Aufidius Namusa",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "iurisprudentia",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             }
@@ -3987,7 +3987,7 @@ AUTHOR_TAB = {
     },
     "phi0588": {
         "author": "Cornelius Nepos",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Vitae",
                 "source": "Cornelii Nepotis Vitae cum Fragmentis, ed. P. K. Marshall, 1977",
@@ -4002,7 +4002,7 @@ AUTHOR_TAB = {
     },
     "phi1306": {
         "author": "L. Neratius Priscus. fr",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "in fragmentis Vaticanis",
                 "source": "Fontes Iuris Romani Antejustiniani. Part 2, ed. J. Baviera, 1940",
@@ -4012,11 +4012,11 @@ AUTHOR_TAB = {
     },
     "phi0944": {
         "author": "Imperator Nero",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -4024,7 +4024,7 @@ AUTHOR_TAB = {
     },
     "phi0590": {
         "author": "P. Nigidius Figulus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -4034,11 +4034,11 @@ AUTHOR_TAB = {
     },
     "phi0591": {
         "author": "Ninnius Crassus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Ilias",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -4046,7 +4046,7 @@ AUTHOR_TAB = {
     },
     "phi0594": {
         "author": "L. Novius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -4056,7 +4056,7 @@ AUTHOR_TAB = {
     },
     "phi0592": {
         "author": "Novius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Atellanae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -4066,11 +4066,11 @@ AUTHOR_TAB = {
     },
     "phi0596": {
         "author": "Numitorius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Antibucolica",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -4078,7 +4078,7 @@ AUTHOR_TAB = {
     },
     "phi0600": {
         "author": "C. Oppius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "de re rustica scripta",
                 "source": "Scriptorum Romanorum De Re Rustica Reliquiae. Vol. 1, ed. F. Speranza, 1974",
@@ -4093,7 +4093,7 @@ AUTHOR_TAB = {
     },
     "phi0419": {
         "author": "L. Orbilius Pupillus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -4103,7 +4103,7 @@ AUTHOR_TAB = {
     },
     "phi0959": {
         "author": "P. Ovidius Naso",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Amores",
                 "source": "Ovid in Six Volumes. Vol. 1, ed. G. Showerman; G. P. Goold, 1977",
@@ -4162,7 +4162,7 @@ AUTHOR_TAB = {
             "phi012": {
                 "title":  "carmina, fragmenta",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -4185,11 +4185,11 @@ AUTHOR_TAB = {
     },
     "phi2097": {
         "author": "Sex. Paconianus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -4197,7 +4197,7 @@ AUTHOR_TAB = {
     },
     "phi0116": {
         "author": "M. Pacuvius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "praetextae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 1, ed. O. Ribbeck, 1897",
@@ -4212,7 +4212,7 @@ AUTHOR_TAB = {
     },
     "phi0963": {
         "author": "Q. Remmius Palaemon",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta Aetatis Caesareae. Vol. 1, ed. A. Mazzarino, 1955",
@@ -4227,11 +4227,11 @@ AUTHOR_TAB = {
     },
     "phi0117": {
         "author": "Papinius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Epigrammation",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -4239,11 +4239,11 @@ AUTHOR_TAB = {
     },
     "phi2456": {
         "author": "Parthenius Presbyter",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -4251,18 +4251,18 @@ AUTHOR_TAB = {
     },
     "phi0966": {
         "author": "Passienus Crispus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "M. Fabi Quintiliani Institutionis Oratoriae Libri Duodecim. Vol. 1, ed. M. Winterbottom, "
-                "1970",
+                          "1970",
                 "meta":   "line",
             }
         },
     },
     "phi0118": {
         "author": "L. Aemilius L. f. M. n. Paulus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -4272,11 +4272,11 @@ AUTHOR_TAB = {
     },
     "phi9221": {
         "author": "Paulus Quaestor",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -4284,11 +4284,11 @@ AUTHOR_TAB = {
     },
     "phi0800": {
         "author": "Albinovanus Pedo",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -4296,7 +4296,7 @@ AUTHOR_TAB = {
     },
     "phi0969": {
         "author": "A. Persius Flaccus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Saturae",
                 "source": "A. Persi Flacci et D. Iuni Iuvenalis Saturae, ed. W. V. Clausen, 1959",
@@ -4306,7 +4306,7 @@ AUTHOR_TAB = {
     },
     "phi0972": {
         "author": "Petronius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Satyrica",
                 "source": "Petronius: Satyrica, ed. K. Müller; W. Ehlers, 1983",
@@ -4321,7 +4321,7 @@ AUTHOR_TAB = {
     },
     "phi0975": {
         "author": "Phaedrus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Fabulae Aesopiae",
                 "source": "Phaedri Augusti Liberti Liber Fabularum, ed. A. Guaglianone, 1969",
@@ -4336,7 +4336,7 @@ AUTHOR_TAB = {
     },
     "phi0606": {
         "author": "L. Marcius Philippus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -4346,7 +4346,7 @@ AUTHOR_TAB = {
     },
     "phi1380": {
         "author": "Philumenus medicus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De medicina, versio Latina",
                 "source": "Die lateinischen Fragmente des Philumenus und Philagrius. ed. P. Mihaileanu, 1911",
@@ -4356,7 +4356,7 @@ AUTHOR_TAB = {
     },
     "phi0119": {
         "author": "T. Maccius Plautus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Amphitruo",
                 "source": "Plauti Comoediae. Vol. 1, ed. F. Leo, 1895",
@@ -4471,7 +4471,7 @@ AUTHOR_TAB = {
     },
     "phi1318": {
         "author": "C. Plinius Caecilius Secundus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Epistulae",
                 "source": "C. Plini Caecili Secundi Epistularum Libri Decem, ed. R. A. B. Mynors, 1966",
@@ -4485,7 +4485,7 @@ AUTHOR_TAB = {
             "phi003": {
                 "title":  "versus",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             },
@@ -4493,7 +4493,7 @@ AUTHOR_TAB = {
     },
     "phi0978": {
         "author": "C. Plinius Secundus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Naturalis Historia",
                 "source": "C. Plini Secundi Naturalis Historiae Libri XXXVII. Vols. 1-5, ed. C. Mayhoff, 1892-1909",
@@ -4508,11 +4508,11 @@ AUTHOR_TAB = {
     },
     "phi0981": {
         "author": "C. Asinius Pollio",
-        "works":  {
+        "works": {
             "phi006": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
@@ -4535,7 +4535,7 @@ AUTHOR_TAB = {
     },
     "phi0614": {
         "author": "Q. Pompeius Q. f. A. n. Rufus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -4545,7 +4545,7 @@ AUTHOR_TAB = {
     },
     "phi0615": {
         "author": "Q. Pompeius Q. f. Q. n. Rufus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -4555,11 +4555,11 @@ AUTHOR_TAB = {
     },
     "phi0616": {
         "author": "Pompilius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "epigramma",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             },
@@ -4572,7 +4572,7 @@ AUTHOR_TAB = {
     },
     "phi0618": {
         "author": "L. Pomponius Bononiensis",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Atellanae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -4582,7 +4582,7 @@ AUTHOR_TAB = {
     },
     "phi0987": {
         "author": "P. Pomponius Secundus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "tragoediae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 1, ed. O. Ribbeck, 1897",
@@ -4597,7 +4597,7 @@ AUTHOR_TAB = {
     },
     "phi1321": {
         "author": "Sex. Pomponius",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "Liber Regularum, fragmentum",
                 "source": "Fontes Iuris Romani Antejustiniani. Part 2, ed. J. Baviera, 1940",
@@ -4607,11 +4607,11 @@ AUTHOR_TAB = {
     },
     "phi0321": {
         "author": "Porcius Licinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -4619,7 +4619,7 @@ AUTHOR_TAB = {
     },
     "phi1512": {
         "author": "Pomponius Porphyrio",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Commentum in Horati Carmina",
                 "source": "Pomponi Porfyrionis Commentum in Horatium Flaccum, ed. A. Holder, 1894",
@@ -4659,7 +4659,7 @@ AUTHOR_TAB = {
     },
     "phi0122": {
         "author": "A. Postumius Albinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Annales",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -4669,7 +4669,7 @@ AUTHOR_TAB = {
     },
     "phi0990": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Precatio Omnium Herbarum",
                 "source": "Anthologia Latina. Part 1, Vol. 1, ed. A. Riese, 1904",
@@ -4679,7 +4679,7 @@ AUTHOR_TAB = {
     },
     "phi0993": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Precatio Terrae",
                 "source": "Anthologia Latina. Part 1, Fasc. 1, ed. A. Riese, 1894",
@@ -4689,7 +4689,7 @@ AUTHOR_TAB = {
     },
     "phi1103": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Priapea",
                 "source": "Poetae Latini Minores. Vol. 2, Fasc. 2, ed. F. Vollmer, 1923",
@@ -4699,7 +4699,7 @@ AUTHOR_TAB = {
     },
     "phi0996": {
         "author": "M. Valerius Probus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Vita Persii",
                 "source": "A. Persi Flacci et D. Iuni Iuvenalis Saturae, ed. W. V. Clausen, 1959",
@@ -4713,7 +4713,7 @@ AUTHOR_TAB = {
             "phi003": {
                 "title":  "fragmenta",
                 "source": "De M. Valerio Probo Berytio Capita Quattuor, Accedit Reliquiarum Conlectio, "
-                "ed. J. Aistermann, "
+                          "ed. J. Aistermann, "
                           "1910",
                 "meta":   "fragment-line",
             },
@@ -4721,7 +4721,7 @@ AUTHOR_TAB = {
     },
     "phi0620": {
         "author": "Sex. Propertius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Elegiae",
                 "source": "ed. G. P. Goold, forthcoming",
@@ -4731,11 +4731,11 @@ AUTHOR_TAB = {
     },
     "phi2123": {
         "author": "Publilius Optatianus Porfyrius",
-        "works":  {
+        "works": {
             "phi003": {
                 "title":  "Epigrammata",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -4743,7 +4743,7 @@ AUTHOR_TAB = {
     },
     "phi0622": {
         "author": "Publilius Syrus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Sententiae",
                 "source": "Publilii Syri Mimi Sententiae, ed. W. Meyer, 1880",
@@ -4758,11 +4758,11 @@ AUTHOR_TAB = {
     },
     "phi1000": {
         "author": "Pupius (?)",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Versus Pupio Attributi",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "line",
             }
@@ -4770,7 +4770,7 @@ AUTHOR_TAB = {
     },
     "phi0624": {
         "author": "Q. Claudius Quadrigarius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Annales",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -4780,7 +4780,7 @@ AUTHOR_TAB = {
     },
     "phi0625": {
         "author": "L. Quinctius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -4790,7 +4790,7 @@ AUTHOR_TAB = {
     },
     "phi1002": {
         "author": "M. Fabius Quintilianus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Institutio Oratoria",
                 "source": "M. Fabi Quintiliani Institutionis Oratoriae Libri Duodecim. Vols. 1-2, ed. M. Winterbottom, "
@@ -4811,11 +4811,11 @@ AUTHOR_TAB = {
     },
     "phi1005": {
         "author": "Rabirius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, "
+                          "ed. W. Morel, "
                           "1927",
                 "meta":   "fragment-line",
             }
@@ -4823,7 +4823,7 @@ AUTHOR_TAB = {
     },
     "phi0425": {
         "author": "P. Rutilius Lupus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Schemata Lexeos",
                 "source": "Rhetores Latini Minores, ed. K. Halm, 1863",
@@ -4833,7 +4833,7 @@ AUTHOR_TAB = {
     },
     "phi0628": {
         "author": "P. Rutilius Rufus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Vita Sua",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -4843,7 +4843,7 @@ AUTHOR_TAB = {
     },
     "phi1327": {
         "author": "Sabidius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -4853,7 +4853,7 @@ AUTHOR_TAB = {
     },
     "phi0630": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Sacra Argeorum",
                 "source": "M. Terenti Varronis De Linguae Latinae Quae Supersunt, ed. G. Goetz; F. Schoell, 1910",
@@ -4863,7 +4863,7 @@ AUTHOR_TAB = {
     },
     "phi0631": {
         "author": "C. Sallustius Crispus. In M",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Catilinae Coniuratio",
                 "source": "C. Sallusti Crispi Catilina, Iugurtha, Fragmenta Ampliora, ed. A. Kurfess, 1957",
@@ -4908,7 +4908,7 @@ AUTHOR_TAB = {
     },
     "phi0634": {
         "author": "Santra",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "tragoediae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 1, ed. O. Ribbeck, 1897",
@@ -4923,7 +4923,7 @@ AUTHOR_TAB = {
     },
     "phi0324": {
         "author": "Saserna",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "de re rustica scripta",
                 "source": "Scriptorum Romanorum De Re Rustica Reliquiae. Vol. 1, ed. F. Speranza, 1974",
@@ -4933,7 +4933,7 @@ AUTHOR_TAB = {
     },
     "phi0635": {
         "author": "P. Saturius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -4943,11 +4943,11 @@ AUTHOR_TAB = {
     },
     "phi0638": {
         "author": "Q. Mucius Scaevola [pontifex]",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "iurisprudentia, fragmenta",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             }
@@ -4955,11 +4955,11 @@ AUTHOR_TAB = {
     },
     "phi0125": {
         "author": "P. Mucius Scaevola",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "fragmentum",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, "
+                          "Kübler, "
                           "1908",
                 "meta":   "fragment-line",
             }
@@ -4967,18 +4967,18 @@ AUTHOR_TAB = {
     },
     "phi0636": {
         "author": "Q. Mucius Scaevola",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi1336": {
         "author": "Scaevus Memor",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "tragoediae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 1, ed. O. Ribbeck, 1897",
@@ -4988,7 +4988,7 @@ AUTHOR_TAB = {
     },
     "phi0640": {
         "author": "M. Aemilius Scaurus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Vita Sua",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -5003,7 +5003,7 @@ AUTHOR_TAB = {
     },
     "phi1370": {
         "author": "Q. Terentius Scaurus. De ordinat. part. orat",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Orthographia",
                 "source": "Grammatici Latini ex Recensione Henrici Keilii. Vol. 7, ed. H. Keil, 1880",
@@ -5028,7 +5028,7 @@ AUTHOR_TAB = {
     },
     "phi0128": {
         "author": "P. Cornelius Scipio Aemilianus Africanus minor",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -5038,7 +5038,7 @@ AUTHOR_TAB = {
     },
     "phi0127": {
         "author": "P. Cornelius Scipio Africanus maior",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -5048,7 +5048,7 @@ AUTHOR_TAB = {
     },
     "phi0130": {
         "author": "P. Cornelius Scipio Nasica Serapio",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -5058,7 +5058,7 @@ AUTHOR_TAB = {
     },
     "phi2331": {
         "author": "Scriptores Historiae Augustae",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "<Aelii> Spartiani De Vita Hadriani",
                 "source": "Scriptores Historiae Augustae. Vol. 1, ed. E. Hohl, 1965",
@@ -5213,65 +5213,65 @@ AUTHOR_TAB = {
     },
     "phi1017": {
         "author": "L. Annaeus Seneca iunior",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Hercules Furens",
                 "source": "L. Annaei Senecae Tragoediae, Incertorum Auctorum Hercules [Oetaeus], Octavia, "
-                "ed. O. Zwierlein, 1987",
+                          "ed. O. Zwierlein, 1987",
                 "meta":   "line",
             },
             "phi002": {
                 "title":  "Troades",
                 "source": "L. Annaei Senecae Tragoediae, Incertorum Auctorum Hercules [Oetaeus], Octavia, "
-                "ed. O. Zwierlein, 1987",
+                          "ed. O. Zwierlein, 1987",
                 "meta":   "line",
             },
             "phi003": {
                 "title":  "Phoenissae",
                 "source": "L. Annaei Senecae Tragoediae, Incertorum Auctorum Hercules [Oetaeus], Octavia, "
-                "ed. O. Zwierlein, 1987",
+                          "ed. O. Zwierlein, 1987",
                 "meta":   "line",
             },
             "phi004": {
                 "title":  "Medea",
                 "source": "L. Annaei Senecae Tragoediae, Incertorum Auctorum Hercules [Oetaeus], Octavia, "
-                "ed. O. Zwierlein, 1987",
+                          "ed. O. Zwierlein, 1987",
                 "meta":   "line",
             },
             "phi005": {
                 "title":  "Phaedra",
                 "source": "L. Annaei Senecae Tragoediae, Incertorum Auctorum Hercules [Oetaeus], Octavia, "
-                "ed. O. Zwierlein, 1987",
+                          "ed. O. Zwierlein, 1987",
                 "meta":   "line",
             },
             "phi006": {
                 "title":  "Oedipus",
                 "source": "L. Annaei Senecae Tragoediae, Incertorum Auctorum Hercules [Oetaeus], Octavia, "
-                "ed. O. Zwierlein, 1987",
+                          "ed. O. Zwierlein, 1987",
                 "meta":   "line",
             },
             "phi007": {
                 "title":  "Agamemnon",
                 "source": "L. Annaei Senecae Tragoediae, Incertorum Auctorum Hercules [Oetaeus], Octavia, "
-                "ed. O. Zwierlein, 1987",
+                          "ed. O. Zwierlein, 1987",
                 "meta":   "line",
             },
             "phi008": {
                 "title":  "Thyestes",
                 "source": "L. Annaei Senecae Tragoediae, Incertorum Auctorum Hercules [Oetaeus], Octavia, "
-                "ed. O. Zwierlein, 1987",
+                          "ed. O. Zwierlein, 1987",
                 "meta":   "line",
             },
             "phi009": {
                 "title":  "Hercules Oetaeus",
                 "source": "L. Annaei Senecae Tragoediae, Incertorum Auctorum Hercules [Oetaeus], Octavia, "
-                "ed. O. Zwierlein, 1987",
+                          "ed. O. Zwierlein, 1987",
                 "meta":   "line",
             },
             "phi010": {
                 "title":  "Octavia [sp.]",
                 "source": "L. Annaei Senecae Tragoediae, Incertorum Auctorum Hercules [Oetaeus], Octavia, "
-                "ed. O. Zwierlein, 1987",
+                          "ed. O. Zwierlein, 1987",
                 "meta":   "line",
             },
             "phi011": {
@@ -5307,7 +5307,7 @@ AUTHOR_TAB = {
             "phi017": {
                 "title":  "E Cleanthe Versus",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "line",
             },
             "phi018": {
@@ -5319,7 +5319,7 @@ AUTHOR_TAB = {
     },
     "phi1014": {
         "author": "L. Annaeus Seneca senior",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Controversiae",
                 "source": "The Elder Seneca: Declamations in Two Volumes, ed. M. Winterbottom, 1974",
@@ -5328,7 +5328,7 @@ AUTHOR_TAB = {
             "phi002": {
                 "title":  "Controversiae, excerpta",
                 "source": "L. Annaei Senecae Oratorum et Rhetorum Sententiae Divisiones Colores, ed. H. J. Müller, "
-                "1887",
+                          "1887",
                 "meta":   "book-chapter",
             },
             "phi003": {
@@ -5345,18 +5345,18 @@ AUTHOR_TAB = {
     },
     "phi1339": {
         "author": "Septimius Serenus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi1515": {
         "author": "Q. Serenus (Sammonicus)",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Liber Medicinalis",
                 "source": "Quinti Sereni Liber Medicinalis, ed. F. Vollmer, 1916",
@@ -5371,7 +5371,7 @@ AUTHOR_TAB = {
     },
     "phi2349": {
         "author": "Maurus Servius Honoratus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Centum Metris",
                 "source": "Grammatici Latini ex Recensione Henrici Keilii. Vol. 4, ed. H. Keil, 1864",
@@ -5395,48 +5395,48 @@ AUTHOR_TAB = {
             "phi005": {
                 "title":  "In Vergilii Aeneidos Libros",
                 "source": "Servii Grammatici Qui Feruntur in Vergilii Carmina Commentarii. Vols. 1-2, ed. G. Thilo, "
-                "1878-1884",
+                          "1878-1884",
                 "meta":   "book-line-line",
             },
             "phi006": {
                 "title":  "In Vergilii Bucolicon Librum",
                 "source": "Servii Grammatici Qui Feruntur in Vergilii Bucolica et Georgica Commentarii. Vol. 3:1, "
-                "ed. G. Thilo, 1887",
+                          "ed. G. Thilo, 1887",
                 "meta":   "poem-line-line",
             },
             "phi007": {
                 "title":  "In Vergilii Georgicon Libros",
                 "source": "Servii Grammatici Qui Feruntur in Vergilii Bucolica et Georgica Commentarii. Vol. 3:1, "
-                "ed. G. Thilo, 1887",
+                          "ed. G. Thilo, 1887",
                 "meta":   "book-line-line",
             },
         },
     },
     "phi0642": {
         "author": "Sevius Nicanor",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "line",
             }
         },
     },
     "phi0644": {
         "author": "Sextilius Ena",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "line",
             }
         },
     },
     "phi1342": {
         "author": "Siculus Flaccus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Condicionibus Agrorum",
                 "source": "Corpus Agrimensorum Romanorum, Opuscula Agrimensorum Veterum, ed. C. Thulin, 1971",
@@ -5446,7 +5446,7 @@ AUTHOR_TAB = {
     },
     "phi0082": {
         "author": "D. Iunius Silanus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "versio Latina Magonis",
                 "source": "Scriptorum Romanorum De Re Rustica Reliquiae. Vol. 1, ed. F. Speranza, 1974",
@@ -5456,7 +5456,7 @@ AUTHOR_TAB = {
     },
     "phi1345": {
         "author": "Silius Italicus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Punica",
                 "source": "Corpus Poetarum Latinorum. Vol. 3, ed. W. C. Summers, 1905",
@@ -5466,7 +5466,7 @@ AUTHOR_TAB = {
     },
     "phi0451": {
         "author": "Sinnius Capito",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica, fragmenta",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -5476,7 +5476,7 @@ AUTHOR_TAB = {
     },
     "phi0646": {
         "author": "L. Cornelius Sisenna",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Historiae",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -5491,7 +5491,7 @@ AUTHOR_TAB = {
     },
     "phi0648": {
         "author": "Staberius Eros",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -5501,7 +5501,7 @@ AUTHOR_TAB = {
     },
     "phi1020": {
         "author": "P. Papinius Statius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Thebais",
                 "source": "P. Papini Stati Thebaidos Libri XII, ed. D. E. Hill, 1983",
@@ -5526,7 +5526,7 @@ AUTHOR_TAB = {
     },
     "phi0327": {
         "author": "L. Aelius Praeconinus Stilo",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -5536,7 +5536,7 @@ AUTHOR_TAB = {
     },
     "phi0452": {
         "author": "C. Iulius Caesar Strabo",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -5551,18 +5551,18 @@ AUTHOR_TAB = {
     },
     "phi0650": {
         "author": "Sueius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi1348": {
         "author": "C. Suetonius Tranquillus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Vita Caesarum",
                 "source": "C. Suetoni Tranquilli Opera. Vol. 1, ed. M. Ihm, 1908",
@@ -5597,7 +5597,7 @@ AUTHOR_TAB = {
     },
     "phi0652": {
         "author": "L. Cornelius Sulla",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Commentarii Rerum Gestarum",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -5607,11 +5607,11 @@ AUTHOR_TAB = {
     },
     "phi1023": {
         "author": "Sulpicia, Caleni uxor",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "line",
             },
             "phi002": {
@@ -5623,11 +5623,11 @@ AUTHOR_TAB = {
     },
     "phi0656": {
         "author": "Ser. Sulpicius Rufus",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "iurisprudentia",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, 1908",
+                          "Kübler, 1908",
                 "meta":   "fragment-line",
             },
             "phi003": {
@@ -5639,29 +5639,29 @@ AUTHOR_TAB = {
     },
     "phi2302": {
         "author": "L. Aurelius Avianius Symmachus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi2301": {
         "author": "Q. Aurelius Memmius Symmachus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi0658": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Tabulae Censoriae",
                 "source": "M. Terenti Varronis De Linguae Latinae Quae Supersunt, ed. G. Goetz; F. Schoell, 1910",
@@ -5671,7 +5671,7 @@ AUTHOR_TAB = {
     },
     "phi1351": {
         "author": "Cornelius Tacitus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Vita Iulii Agricolae",
                 "source": "Cornelii Taciti Opera Minora, ed. J. G. C. Anderson, 1939",
@@ -5701,7 +5701,7 @@ AUTHOR_TAB = {
     },
     "phi0730": {
         "author": "Tarquitius Priscus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Disciplina Etrusca, fragmentum",
                 "source": "Ambrosii Theodosii Macrobii Saturnalia, ed. J. Willis, 1970",
@@ -5711,7 +5711,7 @@ AUTHOR_TAB = {
     },
     "phi0134": {
         "author": "P. Terentius Afer",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Andria",
                 "source": "P. Terenti Afri Comoediae, ed. R. Kauer; W. M. Lindsay; O. Skutsch, 1958",
@@ -5746,7 +5746,7 @@ AUTHOR_TAB = {
     },
     "phi0660": {
         "author": "Albius Tibullus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Elegiae",
                 "source": "Albii Tibulli Aliorumque Carminum Libri Tres, ed. F. W. Lenz; G. K. Galinsky, 1971",
@@ -5761,18 +5761,18 @@ AUTHOR_TAB = {
     },
     "phi0661": {
         "author": "Ticidas",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi0662": {
         "author": "M. Tullius Tiro",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -5782,7 +5782,7 @@ AUTHOR_TAB = {
     },
     "phi0137": {
         "author": "Titinius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "togatae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -5792,7 +5792,7 @@ AUTHOR_TAB = {
     },
     "phi0140": {
         "author": "C. Titius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "oratio",
                 "source": "Oratorum Romanorum Fragmenta Liberae Rei Publicae. Vol. 1, ed. E. Malcovati, 1953",
@@ -5802,7 +5802,7 @@ AUTHOR_TAB = {
     },
     "phi9254": {
         "author": "Titius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "grammatica",
                 "source": "Grammaticae Romanae Fragmenta, ed. G. Funaioli, 1907",
@@ -5812,7 +5812,7 @@ AUTHOR_TAB = {
     },
     "phi0143": {
         "author": "Trabea",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "palliatae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -5822,7 +5822,7 @@ AUTHOR_TAB = {
     },
     "phi1357": {
         "author": "Imperator M. Ulpius Traianus",
-        "works":  {
+        "works": {
             "phi002": {
                 "title":  "Dacica",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 2, ed. H. Peter, 1906",
@@ -5832,18 +5832,18 @@ AUTHOR_TAB = {
     },
     "phi0664": {
         "author": "C. Trebatius Testa",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "iurisprudentia et al.",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, 1908",
+                          "Kübler, 1908",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi0668": {
         "author": "Cn. Tremelius Scrofa",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "de re rustica scripta",
                 "source": "Scriptorum Romanorum De Re Rustica Reliquiae. Vol. 1, ed. F. Speranza, 1974",
@@ -5853,7 +5853,7 @@ AUTHOR_TAB = {
     },
     "phi0984": {
         "author": "Pompeius Trogus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Animalibus, fragmentum",
                 "source": "Pompei Trogi Fragmenta, ed. O. Seel, 1956",
@@ -5868,7 +5868,7 @@ AUTHOR_TAB = {
     },
     "phi0670": {
         "author": "Q. Aelius Tubero. liber ad C",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Historiae",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -5877,25 +5877,25 @@ AUTHOR_TAB = {
             "phi002": {
                 "title":  "Oppium, fr.",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, 1908",
+                          "Kübler, 1908",
                 "meta":   "fragment-line",
             },
         },
     },
     "phi1029": {
         "author": "Turnus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "satura",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "line",
             }
         },
     },
     "phi0146": {
         "author": "Sex. Turpilius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "palliatae",
                 "source": "Scaenicae Romanorum Poesis Fragmenta. Vol. 2, ed. O. Ribbeck, 1898",
@@ -5905,7 +5905,7 @@ AUTHOR_TAB = {
     },
     "phi0672": {
         "author": "Turranius Niger",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "de re rustica scripta",
                 "source": "Scriptorum Romanorum De Re Rustica Reliquiae. Vol. 1, ed. F. Speranza, 1974",
@@ -5915,18 +5915,18 @@ AUTHOR_TAB = {
     },
     "phi1032": {
         "author": "Vagellius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi0676": {
         "author": "Valerius Antias",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Annales",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 1, ed. H. Peter, 1914",
@@ -5936,7 +5936,7 @@ AUTHOR_TAB = {
     },
     "phi1035": {
         "author": "C. Valerius Flaccus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Argonautica",
                 "source": "Gai Valeri Flacci Setini Balbi Argonauticon Libros Octo, ed. W.-W. Ehlers, 1980",
@@ -5946,40 +5946,40 @@ AUTHOR_TAB = {
     },
     "phi1672": {
         "author": "Iulius Valerius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi1038": {
         "author": "Valerius Maximus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Facta et Dicta Memorabilia",
                 "source": "Valerii Maximi Factorum et Dictorum Memorabilium Libri Novem cum Iulii Paridis et Ianuarii "
-                "Nepotiani Epitomis, ed. C. Kempf, 1888",
+                          "Nepotiani Epitomis, ed. C. Kempf, 1888",
                 "meta":   "book-chapter-section",
             }
         },
     },
     "phi0678": {
         "author": "Q. Valerius Soranus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi0674": {
         "author": "Valerius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "comoedia",
                 "source": "I Mimi Romani, ed. M. Bonaria, 1965",
@@ -5989,22 +5989,22 @@ AUTHOR_TAB = {
     },
     "phi0680": {
         "author": "C. Valgius Rufus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi0682": {
         "author": "L. Varius Rufus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "fragment-line",
             },
             "phi002": {
@@ -6016,18 +6016,18 @@ AUTHOR_TAB = {
     },
     "phi0686": {
         "author": "P. Terentius Varro Atacinus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
                 "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
-                "ed. W. Morel, 1927",
+                          "ed. W. Morel, 1927",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi0684": {
         "author": "M. Terentius Varro",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Lingua Latina",
                 "source": "M. Terenti Varronis De Linguae Latinae Quae Supersunt, ed. G. Goetz; F. Schoell, 1910",
@@ -6061,7 +6061,7 @@ AUTHOR_TAB = {
             "phi007": {
                 "title":  "De Vita Populi Romani",
                 "source": "M. Terenti Varronis De Vita Populi Romani: Fonti, Esegesi, Edizione Critica dei Frammenti, "
-                "ed. B. Riposati, 1972",
+                          "ed. B. Riposati, 1972",
                 "meta":   "fragment-line",
             },
             "phi008": {
@@ -6082,7 +6082,7 @@ AUTHOR_TAB = {
             "phi011": {
                 "title":  "Menippeae",
                 "source": "Petronii Saturae, Adiectae Sunt Varronis et Senecae Saturae Similesque Reliquiae, "
-                "ed. F. Bücheler, 1963",
+                          "ed. F. Bücheler, 1963",
                 "meta":   "fragment-line",
             },
             "phi012": {
@@ -6119,7 +6119,7 @@ AUTHOR_TAB = {
     },
     "phi1041": {
         "author": "Pseudo-Varro",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Sententiae",
                 "source": "Die sogenannten Sententiae Varronis, ed. P. Germann, 1910",
@@ -6129,7 +6129,7 @@ AUTHOR_TAB = {
     },
     "phi1374": {
         "author": "Velius Longus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Orthographia",
                 "source": "Grammatici Latini ex Recensione Henrici Keilii. Vol. 7, ed. H. Keil, 1880",
@@ -6139,7 +6139,7 @@ AUTHOR_TAB = {
     },
     "phi1044": {
         "author": "Velleius Paterculus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Historia Romana",
                 "source": "Velleius Paterculus: Histoire Romaine. Vols. 1-2, ed. J. Hellegouarc'h, 1982",
@@ -6149,18 +6149,18 @@ AUTHOR_TAB = {
     },
     "phi1047": {
         "author": "Veranius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "libri de rebus sacris",
                 "source": "Iurisprudentiae Anteiustinianae Reliquiae. Vol. 1, ed. P. E. Huschke; E. Seckel; B. "
-                "Kübler, 1908",
+                          "Kübler, 1908",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi0692": {
         "author": "Appendix Vergiliana",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Dirae",
                 "source": "Appendix Vergiliana, ed. E. J. Kenney, 1966",
@@ -6235,7 +6235,7 @@ AUTHOR_TAB = {
     },
     "phi0690": {
         "author": "P. Vergilius Maro",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Eclogae",
                 "source": "P. Vergili Maronis Opera, ed. R. A. B. Mynors, 1972",
@@ -6255,17 +6255,18 @@ AUTHOR_TAB = {
     },
     "phi1050": {
         "author": "L. Verginius Rufus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "epigramma",
-                "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, ed. W. Morel, 1927",
+                "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
+                          "ed. W. Morel, 1927",
                 "meta":   "line",
             }
         },
     },
     "phi0869": {
         "author": "M. Verrius Flaccus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Etruscarum Rerum Libri",
                 "source": "Historicorum Romanorum Reliquiae. Vol. 2, ed. H. Peter, 1906",
@@ -6280,17 +6281,18 @@ AUTHOR_TAB = {
     },
     "phi1053": {
         "author": "Q. Vibius Crispus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "orationes",
-                "source": "M. Fabi Quintiliani Institutionis Oratoriae Libri Duodecim. Vols. 1-2, ed. M. Winterbottom, 1970",
+                "source": "M. Fabi Quintiliani Institutionis Oratoriae Libri Duodecim. Vols. 1-2, "
+                          "ed. M. Winterbottom, 1970",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi9969": {
         "author": "Anonymous",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Vita Iuvenalis",
                 "source": "A. Persi Flacci et D. Iuni Iuvenalis Saturae, ed. W. V. Clausen, 1959",
@@ -6300,7 +6302,7 @@ AUTHOR_TAB = {
     },
     "phi1056": {
         "author": "Vitruvius Pollio",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "De Architectura",
                 "source": "Vitruvii de Architectura, ed. F. Krohn, 1912",
@@ -6310,27 +6312,29 @@ AUTHOR_TAB = {
     },
     "phi0330": {
         "author": "Volcacius Sedigitus",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmina",
-                "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, ed. W. Morel, 1927",
+                "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
+                          "ed. W. Morel, 1927",
                 "meta":   "fragment-line",
             }
         },
     },
     "phi0694": {
         "author": "Volumnius",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "carmen",
-                "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, ed. W. Morel, 1927",
+                "source": "Fragmenta Poetarum Latinorum Epicorum et Lyricorum praeter Ennium et Lucilium, "
+                          "ed. W. Morel, 1927",
                 "meta":   "line",
             }
         },
     },
     "phi2150": {
         "author": "Zeno of Verona",
-        "works":  {
+        "works": {
             "phi001": {
                 "title":  "Tractatus",
                 "source": "Zeno Veronensis Tractatus, ed. B. Löfstedt, 1971",

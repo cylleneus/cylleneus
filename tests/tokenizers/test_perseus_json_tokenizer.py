@@ -36,4 +36,3 @@ class TestPerseusJSONTokenizer(unittest.TestCase):
         #
         # for t in T(value=data, mode='index', docix=0):
         #     assert t
-

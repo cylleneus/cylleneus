@@ -25,14 +25,15 @@ class TestDCSLemmatizer(unittest.TestCase):
 
         from cylleneus.corpus.skt.dcs.tokenizer import CachedTokenizer
         from cylleneus.corpus.skt.dcs.filters import CachedLemmaFilter
-        dcs = CORPUS_DIR / Path("skt/dcs/text")
-        files = list(dcs.glob('*.conllu'))
 
-        with codecs.open(choice(files), 'r', 'utf8') as file:
+        dcs = CORPUS_DIR / Path("skt/dcs/text")
+        files = list(dcs.glob("*.conllu"))
+
+        with codecs.open(choice(files), "r", "utf8") as file:
             doc = file.readlines()
         meta = "chapter-line"
 
         T = CachedTokenizer()
         L = CachedLemmaFilter()
-        for t in L(T({"data": doc, "meta": meta}, mode='index', docix=0)):
+        for t in L(T({"data": doc, "meta": meta}, mode="index", docix=0)):
             assert t

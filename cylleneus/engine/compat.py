@@ -3,10 +3,12 @@ import array, sys
 
 # Run time aliasing of Python2/3 differences
 
+
 def htmlescape(s, quote=True):
     # this is html.escape reimplemented with cgi.escape,
     # so it works for python 2.x, 3.0 and 3.1
     import cgi
+
     s = cgi.escape(s, quote)
     if quote:
         # python 3.2 also replaces the single quotes:
@@ -17,10 +19,8 @@ def htmlescape(s, quote=True):
 if sys.version_info[0] < 3:
     PY3 = False
 
-
     def b(s):
         return s
-
 
     import cStringIO as StringIO
 
@@ -44,14 +44,11 @@ if sys.version_info[0] < 3:
     from urllib import urlretrieve
     import Queue as queue
 
-
     def byte(num):
         return chr(num)
 
-
     def u(s):
         return unicode(s, "unicode_escape")
-
 
     def with_metaclass(meta, base=object):
         class _WhooshBase(base):
@@ -59,10 +56,8 @@ if sys.version_info[0] < 3:
 
         return _WhooshBase
 
-
     xrange = xrange
     zip_ = zip
-
 
     def memoryview_(source, offset=None, length=None):
         if offset or length:
@@ -70,14 +65,13 @@ if sys.version_info[0] < 3:
         else:
             return buffer(source)
 
+
 else:
     PY3 = True
     import collections
 
-
     def b(s):
         return s.encode("latin-1")
-
 
     import io
 
@@ -102,35 +96,32 @@ else:
     from urllib.request import urlretrieve
     import queue
 
-
     def byte(num):
         return bytes((num,))
-
 
     def u(s):
         if isinstance(s, bytes):
             return s.decode("utf8")
         return s
 
-
     def with_metaclass(meta, base=object):
         ns = dict(base=base, meta=meta)
-        exec_("""class _WhooshBase(base, metaclass=meta):
-    pass""", ns)
+        exec_(
+            """class _WhooshBase(base, metaclass=meta):
+    pass""",
+            ns,
+        )
         return ns["_WhooshBase"]
-
 
     xrange = range
     zip_ = lambda *args: list(zip(*args))
 
-
     def memoryview_(source, offset=None, length=None):
         mv = memoryview(source)
         if offset or length:
-            return mv[offset:offset + length]
+            return mv[offset: offset + length]
         else:
             return mv
-
 
     try:
         # for python >= 3.2, avoid DeprecationWarning for cgi.escape
@@ -139,16 +130,18 @@ else:
         pass
 
 if hasattr(array.array, "tobytes"):
+
     def array_tobytes(arry):
         return arry.tobytes()
 
-
     def array_frombytes(arry, bs):
         return arry.frombytes(bs)
+
+
 else:
+
     def array_tobytes(arry):
         return arry.tostring()
-
 
     def array_frombytes(arry, bs):
         return arry.fromstring(bs)
@@ -172,7 +165,7 @@ except ImportError:
             for i in reversed(range(r)):
                 cycles[i] -= 1
                 if cycles[i] == 0:
-                    indices[i:] = indices[i + 1:] + indices[i:i + 1]
+                    indices[i:] = indices[i + 1:] + indices[i: i + 1]
                     cycles[i] = n - i
                 else:
                     j = cycles[i]
@@ -193,9 +186,8 @@ except ImportError:
         # Python 2.5
         from itertools import chain, izip, repeat
 
-
         def izip_longest(*args, **kwds):
-            fillvalue = kwds.get('fillvalue')
+            fillvalue = kwds.get("fillvalue")
 
             def sentinel(counter=([fillvalue] * (len(args) - 1)).pop):
                 yield counter()

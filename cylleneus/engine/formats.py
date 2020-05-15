@@ -44,6 +44,7 @@ from cylleneus import settings
 
 # Format base class
 
+
 class Format(object):
     """Abstract base class representing a storage format for a field or vector.
     Format objects are responsible for writing and reading the low-level
@@ -65,9 +66,11 @@ class Format(object):
         self.options = options
 
     def __eq__(self, other):
-        return (other
-                and self.__class__ is other.__class__
-                and self.__dict__ == other.__dict__)
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.__dict__ == other.__dict__
+        )
 
     def __repr__(self):
         return "%s(boost=%s)" % (self.__class__.__name__, self.field_boost)
@@ -119,6 +122,7 @@ class Format(object):
 # weight in the value string, so if you use field or term boosts
 # postreader.value_as("weight") will not match postreader.weight()
 
+
 def tokens(value, analyzer, kwargs):
     if isinstance(value, (tuple,)):
         gen = entoken(value, **kwargs)
@@ -167,8 +171,7 @@ class Frequency(Format):
     posting_size = _INT_SIZE
     __inittypes__ = dict(field_boost=float, boost_as_freq=bool)
 
-    def __init__(self, field_boost=1.0, boost_as_freq=False,
-                 **options):
+    def __init__(self, field_boost=1.0, boost_as_freq=False, **options):
         """
         :param field_boost: A constant boost factor to scale to the score of
             all queries matching terms in this field.
@@ -190,8 +193,10 @@ class Frequency(Format):
             freqs[t.text] += 1
             weights[t.text] += t.boost
 
-        wvs = ((w, freq, weights[w] * fb, pack_uint(freq)) for w, freq
-               in iteritems(freqs))
+        wvs = (
+            (w, freq, weights[w] * fb, pack_uint(freq))
+            for w, freq in iteritems(freqs)
+        )
         return wvs
 
     def decode_frequency(self, valuestring):
@@ -289,8 +294,9 @@ class Characters(Positions):
         posbase = 0
         charbase = 0
         for pos, startchar, endchar in poslist:
-            deltas.append((pos - posbase, startchar - charbase,
-                           endchar - startchar))
+            deltas.append(
+                (pos - posbase, startchar - charbase, endchar - startchar)
+            )
             posbase = pos
             charbase = endchar
         return pack_uint(len(deltas)) + dumps(deltas, -1)
@@ -362,8 +368,9 @@ class PositionBoosts(Positions):
             summedboost += boost
             codes.append((pos - base, boost))
             base = pos
-        return (pack_uint(len(poses)) + pack_float(summedboost)
-                + dumps(codes, -1))
+        return (
+            pack_uint(len(poses)) + pack_float(summedboost) + dumps(codes, -1)
+        )
 
     def decode_position_boosts(self, valuestring):
         if not valuestring.endswith(b(".")):
@@ -388,7 +395,7 @@ class PositionBoosts(Positions):
         return posns
 
     def decode_weight(self, v):
-        summedboost = unpack_float(v[_INT_SIZE:_INT_SIZE + _FLOAT_SIZE])[0]
+        summedboost = unpack_float(v[_INT_SIZE: _INT_SIZE + _FLOAT_SIZE])[0]
         return summedboost * self.field_boost
 
     def combine(self, vs):
@@ -427,14 +434,26 @@ class CharacterBoosts(Characters):
         charbase = 0
         summedboost = 0
         for pos, startchar, endchar, boost in poses:
-            codes.append((pos - posbase, startchar - charbase,
-                          endchar - startchar, boost))
+            codes.append(
+                (
+                    pos - posbase,
+                    startchar - charbase,
+                    endchar - startchar,
+                    boost,
+                )
+            )
             posbase = pos
             charbase = endchar
             summedboost += boost
 
-        return ((pack_uint(len(poses)) + pack_float(summedboost * fb)
-                 + dumps(codes, -1)), summedboost)
+        return (
+            (
+                pack_uint(len(poses))
+                + pack_float(summedboost * fb)
+                + dumps(codes, -1)
+            ),
+            summedboost,
+        )
 
     def decode_character_boosts(self, valuestring):
         if not valuestring.endswith(b(".")):
@@ -454,12 +473,18 @@ class CharacterBoosts(Characters):
         return [item[0] for item in self.decode_character_boosts(valuestring)]
 
     def decode_characters(self, valuestring):
-        return [(pos, startchar, endchar) for pos, startchar, endchar, _
-                in self.decode_character_boosts(valuestring)]
+        return [
+            (pos, startchar, endchar)
+            for pos, startchar, endchar, _ in self.decode_character_boosts(
+                valuestring
+            )
+        ]
 
     def decode_position_boosts(self, valuestring):
-        return [(pos, boost) for pos, _, _, boost
-                in self.decode_character_boosts(valuestring)]
+        return [
+            (pos, boost)
+            for pos, _, _, boost in self.decode_character_boosts(valuestring)
+        ]
 
     def combine(self, vs):
         s = {}
@@ -467,12 +492,16 @@ class CharacterBoosts(Characters):
             for pos, sc, ec, boost in self.decode_character_boosts(v):
                 if pos in s:
                     old_sc, old_ec, old_boost = pos[s]
-                    s[pos] = (min(sc, old_sc), max(ec, old_ec),
-                              old_boost + boost)
+                    s[pos] = (
+                        min(sc, old_sc),
+                        max(ec, old_ec),
+                        old_boost + boost,
+                    )
                 else:
                     s[pos] = (sc, ec, boost)
-        poses = [(pos, sc, ec, boost) for pos, (sc, ec, boost)
-                 in sorted(s.items())]
+        poses = [
+            (pos, sc, ec, boost) for pos, (sc, ec, boost) in sorted(s.items())
+        ]
         return self.encode(poses)[0]  # encode() returns value, summedboost
 
 
@@ -492,9 +521,9 @@ class CylleneusCharacters(Positions):
         kwargs["chars"] = True
         kwargs["boosts"] = True
         for t in tokens(value, analyzer, kwargs):
-            if hasattr(t, 'meta'):
+            if hasattr(t, "meta"):
                 kwargs["meta"] = True
-                meta = tuple(f"{k}={v}" for k, v in getattr(t, 'meta').items())
+                meta = tuple(f"{k}={v}" for k, v in getattr(t, "meta").items())
                 seen[t.text].append((t.pos, t.startchar, t.endchar, meta))
             else:
                 seen[t.text].append((t.pos, t.startchar, t.endchar, ()))
@@ -509,8 +538,14 @@ class CylleneusCharacters(Positions):
         posbase = 0
         charbase = 0
         for pos, startchar, endchar, meta in poslist:
-            deltas.append((pos - posbase, startchar - charbase,
-                           endchar - startchar, meta))
+            deltas.append(
+                (
+                    pos - posbase,
+                    startchar - charbase,
+                    endchar - startchar,
+                    meta,
+                )
+            )
             posbase = pos
             charbase = endchar
         return pack_uint(len(deltas)) + dumps(deltas, -1)

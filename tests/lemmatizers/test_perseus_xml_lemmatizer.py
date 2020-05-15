@@ -26,8 +26,8 @@ class TestPerseusXMLLemmatizer(unittest.TestCase):
         from cylleneus.engine.analysis.filters import CachedLemmaFilter
         from corpus.phi5 import AUTHOR_TAB
 
-        perseus_xml = pathlib.Path('../../corpus/perseus_xml/text/')
-        files = list(perseus_xml.glob('*.xml'))
+        perseus_xml = pathlib.Path("../../corpus/perseus_xml/text/")
+        files = list(perseus_xml.glob("*.xml"))
         file = choice(files)
 
         auth_code, work_code, _, _ = file.name.split(".")
@@ -53,5 +53,5 @@ class TestPerseusXMLLemmatizer(unittest.TestCase):
 
         T = CachedTokenizer()
         L = CachedLemmaFilter()
-        for t in L(T(data, docix=0, mode='index')):
+        for t in L(T(data, docix=0, mode="index")):
             print(t)
