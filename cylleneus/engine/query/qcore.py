@@ -30,11 +30,11 @@ from __future__ import division
 import copy
 from array import array
 
-from cylleneus.engine.compat import methodcaller
-from cylleneus.engine.compat import u
 from whoosh.reading import TermNotFound
 
 import cylleneus.engine.matching.mcore
+from cylleneus.engine.compat import methodcaller, u
+from cylleneus.lang import lat
 
 
 # Exceptions
@@ -347,7 +347,10 @@ class Query(object):
                             for qq in sq:
                                 n += 1
                     else:
-                        n += 1
+                        if not (
+                            sq.fieldname == "form" and sq.text in lat.enclitics
+                        ):
+                            n += 1
         else:
             for sq in self:
                 if isinstance(

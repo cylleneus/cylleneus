@@ -2,9 +2,9 @@ import codecs
 import json
 import re
 from datetime import datetime
+from math import ceil
 from pathlib import Path
 from typing import Iterable
-from math import ceil
 
 import docx
 import safer
@@ -21,7 +21,6 @@ from cylleneus.engine.qparser.default import CylleneusQueryParser
 from cylleneus.engine.searching import CylleneusSearcher, HitRef
 from cylleneus.utils import (
     DEBUG_HIGH,
-    DEBUG_MEDIUM,
     DEBUG_LOW,
     print_debug,
     slugify,
