@@ -1687,7 +1687,7 @@ class ResultsPage(object):
             return self.results.__getitem__(n + offset)
 
     def __iter__(self):
-        return iter(self.results[self.offset: self.offset + self.pagelen])
+        return iter(self.results[self.offset : self.offset + self.pagelen])
 
     def __len__(self):
         return self.total
@@ -1840,11 +1840,11 @@ def query_to_dict(q):
 
 
 field_order = {
-    "form":         0,
-    "lemma":        1,
-    "annotation":   5,
-    "synset":       2,
-    "semfield":     3,
+    "form": 0,
+    "lemma": 1,
+    "annotation": 5,
+    "synset": 2,
+    "semfield": 3,
     "morphosyntax": 4,
 }
 
@@ -2046,8 +2046,8 @@ class CylleneusHit(Hit):
                                             [
                                                 hdict(lemma)
                                                 for lemma in synset["lemmas"][
-                                                signification
-                                            ]
+                                                    signification
+                                                ]
                                             ]
                                         )
                                 uris.update([lemma["uri"] for lemma in lemmas])
@@ -2099,13 +2099,13 @@ class CylleneusHit(Hit):
                                 f.fieldname
                                 for f in finalists
                                 if hdict(
-                                {
-                                    k: v
-                                    for k, v in f.meta.items()
-                                    if k not in ["sent_pos", "sect_pos"]
-                                }
-                            )
-                                   == meta
+                                    {
+                                        k: v
+                                        for k, v in f.meta.items()
+                                        if k not in ["sent_pos", "sect_pos"]
+                                    }
+                                )
+                                == meta
                             ]
                         )
                 if len(finalists) >= len(termlists[0]) and any(
@@ -2131,24 +2131,24 @@ class CylleneusHit(Hit):
                         finalist
                         for finalist in finalists
                         if meta_counts[
-                               hdict(
-                                   {
-                                       k: v
-                                       for k, v in finalist.meta.items()
-                                       if k not in ["sent_pos", "sect_pos"]
-                                   }
-                               )
-                           ]
-                           >= len(termlists[0])
-                           and (finalist.fieldname, finalist.text.split("::")[0])
-                           in set(
+                            hdict(
+                                {
+                                    k: v
+                                    for k, v in finalist.meta.items()
+                                    if k not in ["sent_pos", "sect_pos"]
+                                }
+                            )
+                        ]
+                        >= len(termlists[0])
+                        and (finalist.fieldname, finalist.text.split("::")[0])
+                        in set(
                             [
                                 term
                                 for termlist in termlists
                                 for term in termlist
                             ]
                         )
-                           and all(
+                        and all(
                             [
                                 field_counts_by_meta[
                                     hdict(
@@ -2156,7 +2156,7 @@ class CylleneusHit(Hit):
                                             k: v
                                             for k, v in finalist.meta.items()
                                             if k
-                                               not in ["sent_pos", "sect_pos"]
+                                            not in ["sent_pos", "sect_pos"]
                                         }
                                     )
                                 ][field]
@@ -2208,6 +2208,9 @@ class CylleneusHit(Hit):
             yield fragment
 
     def filter_by_sequence(self, query, fragments):
+        def _ordering_diff(a, b):
+            return tuple(x - y for x, y in zip(a, b))
+
         def _filter_matches_by_order(matches, ordering):
             matches = sorted(
                 matches, key=lambda x: (x.startchar, field_order[x.fieldname]),
@@ -2227,7 +2230,7 @@ class CylleneusHit(Hit):
                     if (
                         (match.fieldname, match.text.split("::")[0])
                         in ordering
-                        and (other.fieldname, other.text.split("::")[0],)
+                        and (other.fieldname, other.text.split("::")[0])
                         in ordering
                     ):
                         if (
@@ -2236,24 +2239,40 @@ class CylleneusHit(Hit):
                                 and match.startchar == other.startchar
                             )
                             or (
-                            match.pos - other.pos == 0
-                            and match.text in lat.enclitics
-                        )
+                                match.pos - other.pos == 0
+                                and match.text in lat.enclitics
+                                and (0, 0)
+                                <= _ordering_diff(
+                                    ordering[
+                                        (
+                                            match.fieldname,
+                                            match.text.split("::")[0],
+                                        )
+                                    ],
+                                    ordering[
+                                        (
+                                            other.fieldname,
+                                            other.text.split("::")[0],
+                                        )
+                                    ],
+                                )
+                                <= (1, 0)
+                            )
                             or (
-                            ordering[
-                                (
-                                    match.fieldname,
-                                    match.text.split("::")[0],
-                                )
-                            ]
-                            == ordering[
-                                (
-                                    other.fieldname,
-                                    other.text.split("::")[0],
-                                )
-                            ]
-                            and match.has_same_divs(other)
-                        )
+                                ordering[
+                                    (
+                                        match.fieldname,
+                                        match.text.split("::")[0],
+                                    )
+                                ]
+                                == ordering[
+                                    (
+                                        other.fieldname,
+                                        other.text.split("::")[0],
+                                    )
+                                ]
+                                and match.has_same_divs(other)
+                            )
                         ):
                             ordered.add(other)
                             ordered.add(match)
@@ -2266,11 +2285,11 @@ class CylleneusHit(Hit):
                                     )
                                 ]
                                 > ordering[
-                                (
-                                    other.fieldname,
-                                    other.text.split("::")[0],
-                                )
-                            ]
+                                    (
+                                        other.fieldname,
+                                        other.text.split("::")[0],
+                                    )
+                                ]
                             ):
                                 # For strict sequences, matches must be adjacent;
                                 # ordered queries have a slop tolerance
@@ -2278,10 +2297,10 @@ class CylleneusHit(Hit):
                                     0
                                     < match.pos - other.pos
                                     < (
-                                    query.slop
-                                    if hasattr(query, "slop")
-                                    else 1
-                                )
+                                        query.slop
+                                        if hasattr(query, "slop")
+                                        else 1
+                                    )
                                     + 1
                                 ):
                                     ordered.add(other)
@@ -2340,15 +2359,15 @@ class CylleneusHit(Hit):
                                     match
                                     for match in fragment.matches
                                     if any(
-                                    [
-                                        (
-                                            match.fieldname,
-                                            match.text.split("::")[0],
-                                        )
-                                        in termlist
-                                        for termlist in termlists
-                                    ]
-                                )
+                                        [
+                                            (
+                                                match.fieldname,
+                                                match.text.split("::")[0],
+                                            )
+                                            in termlist
+                                            for termlist in termlists
+                                        ]
+                                    )
                                 ]
                             )
                         )
