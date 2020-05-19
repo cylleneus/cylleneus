@@ -23,6 +23,7 @@ CHARS_OF_CONTEXT = LINES_OF_CONTEXT * 70
 # Miscellaneous settings
 LONG_DATE_FORMAT = "%A, %B %d, %Y %I:%M%p"
 SHORT_DATE_FORMAT = "%m/%d/%Y %H:%M"
+DURATION_FORMAT = "%H:%M:%S"
 
 # Platform
 PLATFORM = sys.platform

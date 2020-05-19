@@ -147,8 +147,8 @@ class Search:
         self._top = top
 
         self._query = None
-        self._start_time = None
-        self._end_time = None
+        self._start_dt = None
+        self._end_dt = None
         self._results = None
         self._count = None
         self._highlights = None
@@ -164,7 +164,7 @@ class Search:
         s = Search(
             spec=obj["spec"],
             collection=Collection(
-                [
+                works=[
                     Corpus(corpus).work_by_docix(docix)
                     for corpus, docix in obj["collection"]
                 ]
@@ -172,8 +172,8 @@ class Search:
             minscore=obj["minscore"],
             top=obj["top"],
         )
-        s.start_time = datetime.fromisoformat(obj["start_time"])
-        s.end_time = datetime.fromisoformat(obj["end_time"])
+        s.start_dt = datetime.fromisoformat(obj["start_dt"])
+        s.end_dt = datetime.fromisoformat(obj["end_dt"])
         s.maxchars = obj["maxchars"]
         s.surround = obj["surround"]
         s.count = obj["count"]
@@ -233,10 +233,10 @@ class Search:
     def results_to_json(self):
         if self.results:
             s = {
-                "query": self.spec,
-                "start": str(self.start_time),
-                "end":   str(self.end_time),
-                "count": self.count[0],
+                "query":    self.spec,
+                "start_dt": str(self.start_dt),
+                "end_dt":   str(self.end_dt),
+                "count":    self.count[0],
             }
             results = []
             for hit, meta, _ in self.results:
@@ -289,8 +289,8 @@ class Search:
                 ],
                 "minscore":   self.minscore,
                 "top":        self.top,
-                "start_time": str(self.start_time),
-                "end_time":   str(self.end_time),
+                "start_dt":   str(self.start_dt),
+                "end_dt":     str(self.end_dt),
                 "maxchars":   self.maxchars,
                 "surround":   self.surround,
                 "count":      self.count,
@@ -325,7 +325,7 @@ class Search:
             doc = docx.Document()
             doc.add_heading(filename, 0)
             doc.add_heading(
-                f"{self.start_time.strftime(settings.LONG_DATE_FORMAT)} (Cylleneus v{__version__})",
+                f"{self.start_dt.strftime(settings.LONG_DATE_FORMAT)} (Cylleneus v{__version__})",
                 2,
             )
 
@@ -370,27 +370,36 @@ class Search:
         self._results = r
 
     @property
-    def start_time(self):
-        return self._start_time
+    def start_dt(self):
+        return self._start_dt
 
-    @start_time.setter
-    def start_time(self, t):
-        self._start_time = t
-
-    @property
-    def end_time(self):
-        return self._end_time
-
-    @end_time.setter
-    def end_time(self, t):
-        self._end_time = t
+    @start_dt.setter
+    def start_dt(self, t):
+        self._start_dt = t
 
     @property
-    def time(self):
-        if self.end_time and self.start_time:
-            return self.end_time - self.start_time
-        else:
-            return None
+    def start(self):
+        return self.start_dt.strftime(settings.LONG_DATE_FORMAT)
+
+    @property
+    def end_dt(self):
+        return self._end_dt
+
+    @end_dt.setter
+    def end_dt(self, t):
+        self._end_dt = t
+
+    @property
+    def end(self):
+        return self.end_dt.strftime(settings.LONG_DATE_FORMAT)
+
+    @property
+    def duration(self):
+        if self.end_dt and self.start_dt:
+            d = self.end_dt - self.start_dt
+            return datetime.utcfromtimestamp(d.total_seconds()).strftime(
+                settings.DURATION_FORMAT
+            )
 
     @property
     def count(self):
@@ -435,7 +444,7 @@ class Search:
         return self._top
 
     def run(self, debug=DEBUG_HIGH):
-        self.start_time = datetime.now()
+        self.start_dt = datetime.now()
         self.results = []
 
         for work in self.collection:
@@ -482,7 +491,7 @@ class Search:
                                             minscore=self.minscore,
                                         )
                                     )
-        self.end_time = datetime.now()
+        self.end_dt = datetime.now()
         return self.count
 
     @property
@@ -494,7 +503,7 @@ class Search:
         self._query = q
 
     def __repr__(self):
-        return f"Search(query={self.spec}, collection={self.collection}, results={self.count})"
+        return f"Search(query={self.spec}, collection={self.collection})"
 
     def __str__(self):
         return self.spec
