@@ -12,11 +12,12 @@ class Morph:
             self.group,
             self.stem,
         ) = desc
-        if self.pos in ["a", "r"]:
+        if self.pos in "ar":
             self.degree, self.person = self.person, "-"
 
     def __str__(self):
-        return f"{self.pos}{self.person}{self.number}{self.tense}{self.mood}{self.voice}{self.gender}{self.case}{self.group}{self.stem}"
+        return f"{self.pos}{self.degree if self.pos in 'ar' else self.person}{self.number}{self.tense}{self.mood}" \
+               f"{self.voice}{self.gender}{self.case}{self.group}{self.stem}"
 
     def __eq__(self, other):
         results = []
@@ -35,6 +36,12 @@ class Morph:
             if (self.person != "-" and other.person == "-")
             else other.person
         )
+        if pos in 'ar':
+            degree = (
+                self.degree
+                if (self.degree != "-" and other.degree == "-")
+                else other.degree
+            )
         number = (
             self.number
             if (self.number != "-" and other.number == "-")
@@ -76,12 +83,14 @@ class Morph:
             else other.stem
         )
 
-        desc = f"{pos}{person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
+        desc = f"{pos}{degree if pos in 'ar' else person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
         return Morph(desc)
 
     def __sub__(self, other):
         pos = other.pos if (other.pos != self.pos) else "-"
         person = other.person if (other.person != self.person) else "-"
+        if pos in 'ar':
+            degree = other.degree if (other.degree != self.degree) else "-"
         number = other.number if (other.number != self.number) else self.number
         tense = other.tense if (other.tense != self.tense) else "-"
         mood = other.mood if (other.mood != self.mood) else "-"
