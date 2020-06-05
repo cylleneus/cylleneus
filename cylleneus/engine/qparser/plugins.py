@@ -188,12 +188,15 @@ class WildcardPlugin(whoosh.qparser.plugins.TaggingPlugin):
             node = group[i]
             if isinstance(node, self.WildcardNode):
                 text = node.text
-                if len(text) > 1 and not any(qm in text for qm in self.qmarks):
-                    if text.find("*") == len(text) - 1:
-                        newnode = PrefixPlugin.PrefixNode(text[:-1])
-                        newnode.startchar = node.startchar
-                        newnode.endchar = node.endchar
-                        group[i] = newnode
+                if (
+                    len(text) > 1
+                    and all(qm not in text for qm in self.qmarks)
+                    and text.find("*") == len(text) - 1
+                ):
+                    newnode = PrefixPlugin.PrefixNode(text[:-1])
+                    newnode.startchar = node.startchar
+                    newnode.endchar = node.endchar
+                    group[i] = newnode
         return group
 
     class WildcardNode(whoosh.qparser.syntax.TextNode):
@@ -430,9 +433,8 @@ class BoostPlugin(whoosh.qparser.plugins.TaggingPlugin):
 
         bnode = self.BoostNode
         for i, node in enumerate(group):
-            if isinstance(node, bnode):
-                if not i or not group[i - 1].has_boost:
-                    group[i] = whoosh.qparser.syntax.to_word(node)
+            if isinstance(node, bnode) and not (i and group[i - 1].has_boost):
+                group[i] = whoosh.qparser.syntax.to_word(node)
         return group
 
     def do_boost(self, parser, group):
@@ -515,11 +517,7 @@ class OperatorsPlugin(whoosh.qparser.plugins.Plugin):
         Not=r"(^|(?<=(\s|[()])))NOT(?=\s)",
         Require=r"(^|(?<=\s))REQUIRE(?=\s)",
     ):
-        if ops:
-            ops = list(ops)
-        else:
-            ops = []
-
+        ops = list(ops) if ops else []
         if not clean:
             ot = self.OpTagger
             if Not:

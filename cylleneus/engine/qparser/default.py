@@ -239,8 +239,7 @@ class QueryParser(object):
             # and return early
             if field.self_parsing():
                 try:
-                    q = field.parse_query(fieldname, text, boost=boost)
-                    return q
+                    return field.parse_query(fieldname, text, boost=boost)
                 except:
                     e = sys.exc_info()[1]
                     return whoosh.query.error_query(e)
@@ -534,11 +533,7 @@ class CylleneusQueryParser(QueryParser):
         kwargs = {}
         if termclass != cylleneus.engine.query.terms.Form:
             kwargs["annotation"] = annotation
-        if "meta" in self.schema:
-            kwargs["meta"] = True
-        else:
-            kwargs["meta"] = False
-
+        kwargs["meta"] = True if "meta" in self.schema else False
         spec = spec.lower()
         if spec == "first":
             # Throw away all but the first token
