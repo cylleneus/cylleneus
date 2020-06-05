@@ -139,9 +139,8 @@ class CachedTokenizer(Tokenizer):
                                 t.startchar = start_char
                                 t.endchar = start_char + original_length
                             t.meta = {"sent_id": i, "sent_pos": sent_pos}
-                            if mode == "index":
-                                if self.cached:
-                                    self._cache.append(copy.copy(t))
+                            if mode == "index" and self.cached:
+                                self._cache.append(copy.copy(t))
                             yield t
 
                             work_pos += 1

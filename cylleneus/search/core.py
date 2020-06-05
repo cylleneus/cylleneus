@@ -155,7 +155,7 @@ class Search:
 
         self._maxchars = 70  # width of one line
         self._surround = (
-            70 if 70 > settings.CHARS_OF_CONTEXT else settings.CHARS_OF_CONTEXT
+            70 if settings.CHARS_OF_CONTEXT < 70 else settings.CHARS_OF_CONTEXT
         )
 
     @classmethod
@@ -407,25 +407,19 @@ class Search:
             if self.results and len(self.results) > 0:
                 results = [(hit, meta) for hit, meta, _ in self.results]
 
-                corpora = len(set([hit["corpus"] for hit, _ in results]))
-                docs = len(set([hit["docix"] for hit, _ in results]))
+                corpora = len({hit["corpus"] for hit, _ in results})
+                docs = len({hit["docix"] for hit, _ in results})
                 matches = ceil(
                     sum(
-                        [
-                            len(
-                                set(
-                                    [
-                                        tuple(hlite.values())
-                                        for hlite in meta["hlites"]
-                                    ]
-                                )
-                            )
-                            for _, meta in results
-                            if "hlites" in meta
-                        ]
+                        len(
+                            {tuple(hlite.values()) for hlite in meta["hlites"]}
+                        )
+                        for _, meta in results
+                        if "hlites" in meta
                     )
                     / self.query.nterms()
                 )
+
                 self._count = matches, docs, corpora
             else:
                 self._count = 0, 0, 0

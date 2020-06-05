@@ -46,13 +46,13 @@ class CachedLemmaFilter(Filter):
             for t in tokens:
                 if t.mode == "index":
                     morpho = t.morpho
-                    lemma = t.lemma
                     if morpho[0] in "nvar":
-                        if re.match(r"\d", lemma):
-                            kwargs = mapping[re.sub(r"\d+", "", lemma)]
-                        else:
-                            kwargs = None
-
+                        lemma = t.lemma
+                        kwargs = (
+                            mapping[re.sub("\\d+", "", lemma)]
+                            if re.match("\\d", lemma)
+                            else None
+                        )
                         if kwargs:
                             results = LWN.lemmas_by_uri(kwargs["uri"]).get()
                         else:
@@ -94,8 +94,8 @@ class CachedLemmaFilter(Filter):
                         yield t
                     else:
                         if hasattr(t, "reltype"):
+                            keys = ["lemma", "uri", "morpho"]
                             if t.reltype in ["\\", "/", "+c", "-c"]:
-                                keys = ["lemma", "uri", "morpho"]
                                 kwargs = {
                                     k: v
                                     for k, v in zip(
@@ -114,7 +114,6 @@ class CachedLemmaFilter(Filter):
                                     kwargs.pop("uri")
                                     results = LWN.lemmas(**kwargs).relations
                             else:
-                                keys = ["lemma", "uri", "morpho"]
                                 kwargs = {
                                     k: v
                                     for k, v in zip(

@@ -363,13 +363,9 @@ class DisjunctionMaxMatcher(UnionMatcher):
         # It's kind of tedious to check for inactive sub-matchers all over
         # again here after we replace them, but it's probably better than
         # returning a replacement with an inactive sub-matcher
-        if not (a_active and b_active):
+        if not ((a_active and b_active)):
             return mcore.NullMatcher()
-        elif not a_active:
-            return b
-        elif not b_active:
-            return a
-        elif a is not self.a or b is not self.b:
+        elif not (a is self.a and b is self.b):
             # If one of the sub-matchers changed, return a new DisMax
             return self.__class__(a, b)
         else:
@@ -395,8 +391,7 @@ class DisjunctionMaxMatcher(UnionMatcher):
 
         # Short circuit if one matcher is inactive
         if not a.is_active():
-            sk = b.skip_to_quality(minquality)
-            return sk
+            return b.skip_to_quality(minquality)
         elif not b.is_active():
             return a.skip_to_quality(minquality)
 
@@ -544,7 +539,7 @@ class IntersectionMatcher(AdditiveBiMatcher):
                 if not sk and b.is_active():
                     b.next()
 
-            if not a.is_active() or not b.is_active():
+            if not (a.is_active() and b.is_active()):
                 # One of the matchers is exhausted
                 break
             if a.id() != b.id():

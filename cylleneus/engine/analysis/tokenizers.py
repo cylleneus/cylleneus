@@ -124,10 +124,10 @@ class RegexTokenizer(Tokenizer):
         self.gaps = gaps
 
     def __eq__(self, other):
-        if self.__class__ is other.__class__:
-            if self.expression.pattern == other.expression.pattern:
-                return True
-        return False
+        return (
+            self.__class__ is other.__class__
+            and self.expression.pattern == other.expression.pattern
+        )
 
     def __call__(
         self,

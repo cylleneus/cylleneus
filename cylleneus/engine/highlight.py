@@ -64,30 +64,24 @@ class CylleneusFragment(object):
         return self.endchar - self.startchar
 
     def has_same_divs(self, other):
-        self_values = set(
-            [
-                tuple(
-                    [
-                        v
-                        for k, v in match.meta.items()
-                        if k not in ["sent_pos", "sect_pos", "pos"]
-                    ]
-                )
-                for match in self.matches
-            ]
-        )
-        other_values = set(
-            [
-                tuple(
-                    [
-                        v
-                        for k, v in match.meta.items()
-                        if k not in ["sent_pos", "sect_pos", "pos"]
-                    ]
-                )
-                for match in other.matches
-            ]
-        )
+        self_values = {
+            tuple(
+                v
+                for k, v in match.meta.items()
+                if k not in ["sent_pos", "sect_pos", "pos"]
+            )
+            for match in self.matches
+        }
+
+        other_values = {
+            tuple(
+                v
+                for k, v in match.meta.items()
+                if k not in ["sent_pos", "sect_pos", "pos"]
+            )
+            for match in other.matches
+        }
+
         return bool(len(self_values.intersection(other_values)))
 
     def is_adjacent(self, other):
@@ -120,16 +114,15 @@ class CylleneusFragment(object):
         if hasattr(self.matches[0], "meta"):
             divs = self.matches[0].meta["meta"].split("-")
             return tuple(
-                [v for k, v in self.matches[0].meta.items() if k in divs]
-            ) < tuple(
-                [v for k, v in other.matches[0].meta.items() if k in divs]
-            )
+                v for k, v in self.matches[0].meta.items() if k in divs
+            ) < tuple(v for k, v in other.matches[0].meta.items() if k in divs)
+
         else:
             return self.startchar < other.startchar
 
     def __eq__(self, other):
         if self.startchar == 0 and self.endchar == 0:
-            return all([v == other.meta[k] for k, v in self.meta.items()])
+            return all(v == other.meta[k] for k, v in self.meta.items())
         else:
             return (
                 self.startchar == other.startchar
@@ -458,8 +451,7 @@ class CylleneusHighlighter(object):
             self.order,
             minscore=minscore,
         )
-        output = self.formatter.format(fragments)
-        return output
+        return self.formatter.format(fragments)
 
 
 whoosh.highlight.Fragment = CylleneusFragment
@@ -620,14 +612,8 @@ class CylleneusPinpointFragmenter(whoosh.highlight.Fragmenter):
     def fragment_matches(self, text, tokens):
         # For corpora without pinpoint support, return each token as a fragment
         if any(
-            [
-                (
-                    token.pos == 0
-                    and token.startchar == 0
-                    and token.endchar == 0
-                )
-                for token in tokens
-            ]
+            (token.pos == 0 and token.startchar == 0 and token.endchar == 0)
+            for token in tokens
         ):
             for token in tokens:
                 fragment = CylleneusFragment(
@@ -763,10 +749,7 @@ class CylleneusFormatter(object):
         """Returns a formatted version of the given text, using a list of
         :class:`Fragment` objects.
         """
-        formatted = [
-            self.format_fragment(f, replace=replace) for s, f in fragments
-        ]
-        return formatted
+        return [self.format_fragment(f, replace=replace) for s, f in fragments]
 
     def __call__(self, text, fragments):
         # For backwards compatibility
@@ -778,8 +761,7 @@ class CylleneusDefaultFormatter(CylleneusFormatter):
     """
 
     def format_token(self, text, token, replace=False):
-        ttxt = get_text(text, token, replace)
-        return ttxt
+        return get_text(text, token, replace)
 
 
 class CylleneusUppercaseFormatter(CylleneusFormatter):

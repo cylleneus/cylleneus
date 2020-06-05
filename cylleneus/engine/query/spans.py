@@ -119,8 +119,8 @@ class Span(object):
     def __eq__(self, span):
         if self.divs and span.divs:
             samediv = tuple(
-                [int(v) for k, v in self.meta.items() if k != "meta"]
-            ) == tuple([int(v) for k, v in span.meta.items() if k != "meta"])
+                int(v) for k, v in self.meta.items() if k != "meta"
+            ) == tuple(int(v) for k, v in span.meta.items() if k != "meta")
         else:
             samediv = True
         return (
@@ -133,14 +133,14 @@ class Span(object):
 
     def __ne__(self, span):
         return tuple(
-            [int(v) for k, v in self.meta.items() if k != "meta"]
-        ) != tuple([int(v) for k, v in span.meta.items() if k != "meta"])
+            int(v) for k, v in self.meta.items() if k != "meta"
+        ) != tuple(int(v) for k, v in span.meta.items() if k != "meta")
 
     def __lt__(self, span):
         if self.divs and span.divs:
             prevdiv = tuple(
-                [int(v) for k, v in self.meta.items() if k != "meta"]
-            ) < tuple([int(v) for k, v in span.meta.items() if k != "meta"])
+                int(v) for k, v in self.meta.items() if k != "meta"
+            ) < tuple(int(v) for k, v in span.meta.items() if k != "meta")
         else:
             prevdiv = True
         return prevdiv and self.start < span.start
@@ -148,16 +148,14 @@ class Span(object):
     def __gt__(self, span):
         if self.divs and span.divs:
             folldiv = tuple(
-                [int(v) for k, v in self.meta.items() if k != "meta"]
-            ) == tuple([int(v) for k, v in span.meta.items() if k != "meta"])
+                int(v) for k, v in self.meta.items() if k != "meta"
+            ) == tuple(int(v) for k, v in span.meta.items() if k != "meta")
         else:
             folldiv = True
         return folldiv and self.start > span.start
 
     def __hash__(self):
-        return hash(
-            tuple([int(v) for k, v in self.meta.items() if k != "meta"])
-        )
+        return hash(tuple(int(v) for k, v in self.meta.items() if k != "meta"))
 
     @classmethod
     def merge(cls, spans):
@@ -171,8 +169,7 @@ class Span(object):
         [<1-3>]
         """
 
-        i = 0
-        while i < len(spans) - 1:
+        for i in range(len(spans) - 1):
             here = spans[i]
             j = i + 1
             while j < len(spans):
@@ -185,7 +182,6 @@ class Span(object):
                     del spans[j]
                 else:
                     j += 1
-            i += 1
         return spans
 
     def to(self, span):
@@ -225,17 +221,11 @@ class Span(object):
         )
 
     def surrounds(self, span):
-        if self.divs and span.divs:
-            surrdiv = self.divs <= span.divs
-        else:
-            surrdiv = True
+        surrdiv = self.divs <= span.divs if self.divs and span.divs else True
         return surrdiv and self.start < span.start and self.end > span.end
 
     def is_within(self, span):
-        if self.divs and span.divs:
-            indiv = self.divs >= span.divs
-        else:
-            indiv = True
+        indiv = self.divs >= span.divs if self.divs and span.divs else True
         return indiv and self.start >= span.start and self.end <= span.end
 
     def is_before(self, span):
@@ -256,17 +246,11 @@ class Span(object):
         return beforediv and self.end < span.start
 
     def is_after(self, span):
-        if self.divs and span.divs:
-            afterdiv = self.divs >= span.divs
-        else:
-            afterdiv = True
+        afterdiv = self.divs >= span.divs if self.divs and span.divs else True
         return afterdiv and self.start > span.end
 
     def touches(self, span):
-        if self.divs and span.divs:
-            samediv = self.divs == span.divs
-        else:
-            samediv = True
+        samediv = self.divs == span.divs if self.divs and span.divs else True
         return (
             samediv
             and self.start == span.end + 1
@@ -300,10 +284,10 @@ def bisect_spans_by_meta(spans, startmeta):
     while lo < hi:
         mid = (lo + hi) // 2
         span_values = tuple(
-            [int(v) for k, v in spans[mid].meta.items() if k != "meta"]
+            int(v) for k, v in spans[mid].meta.items() if k != "meta"
         )
         start_values = tuple(
-            [int(v) for k, v in startmeta.items() if k != "meta"]
+            int(v) for k, v in startmeta.items() if k != "meta"
         )
         if span_values < start_values:
             lo = mid + 1
@@ -651,88 +635,79 @@ class SpanNear(SpanQuery):
                         continue
 
                     if (
-                        len(aspan.divs[0][0]) == 2
-                        and len(bspan.divs[0][0]) == 2
+                        len(aspan.divs[0][0]) != 2
+                        or len(bspan.divs[0][0]) != 2
+                    ) and (
+                        aspan.divs
+                        and bspan.divs
+                        and (aspan.divs[0][0] and bspan.divs[0][0])
                     ):
-                        # Only startchar, endchar and pos
-                        # Check the distance between the spans
-                        dist = aspan.distance_to(bspan)
+                        ameta = aspan.divs[0][0][0].split("-")
+                        adivs = []
+                        for div in aspan.divs[0][0]:
+                            k, v = div.split("=")
+                            if k in ameta:
+                                if v.isnumeric():
+                                    adivs.append(int(v))
+                                elif v.isalpha():
+                                    adivs.append(v)
+                                else:
+                                    adivs.extend(
+                                        [
+                                            int(m) if m.isnumeric() else m
+                                            for m in re.match(
+                                            r"(\d+)([A-Za-z]+)?(\d+)?", v,
+                                        ).groups()
+                                            if m
+                                        ]
+                                    )
+                        bmeta = bspan.divs[0][0][0].split("-")
+                        bdivs = []
+                        for div in bspan.divs[0][0]:
+                            k, v = div.split("=")
+                            if k in bmeta:
+                                if v.isnumeric():
+                                    bdivs.append(int(v))
+                                elif v.isalpha():
+                                    bdivs.append(v)
+                                else:
+                                    bdivs.extend(
+                                        [
+                                            int(m) if m.isnumeric() else m
+                                            for m in re.match(
+                                            r"(\d+)([A-Za-z]+)?(" r"\d+)?",
+                                            v,
+                                        ).groups()
+                                            if m
+                                        ]
+                                    )
 
-                        if mindist <= dist <= slop:
-                            spans.add(aspan.to(bspan))
-                    else:
-                        if (
-                            aspan.divs
-                            and bspan.divs
-                            and (aspan.divs[0][0] and bspan.divs[0][0])
+                        diffs = []
+                        for a, b in zip(adivs, bdivs):
+                            if isinstance(a, int) and isinstance(b, int):
+                                diffs.append(int(b) - int(a))
+                            elif a.isalpha() and b.isalpha():
+                                if len(a) > 1 and len(b) > 1:
+                                    diffs.append(
+                                        SequenceMatcher(None, a, b).ratio()
+                                    )
+                                else:
+                                    diffs.append(ord(b) - ord(a))
+
+                        if (diffs and diffs[-1] > slop) or (
+                            all(map(lambda x: x == 0, diffs))
+                            and bspan.start > aspan.end + slop
                         ):
-                            ameta = aspan.divs[0][0][0].split("-")
-                            adivs = []
-                            for div in aspan.divs[0][0]:
-                                k, v = div.split("=")
-                                if k in ameta:
-                                    if v.isnumeric():
-                                        adivs.append(int(v))
-                                    elif v.isalpha():
-                                        adivs.append(v)
-                                    else:
-                                        adivs.extend(
-                                            [
-                                                int(m) if m.isnumeric() else m
-                                                for m in re.match(
-                                                r"(\d+)([A-Za-z]+)?(\d+)?",
-                                                v,
-                                            ).groups()
-                                                if m
-                                            ]
-                                        )
-                            bmeta = bspan.divs[0][0][0].split("-")
-                            bdivs = []
-                            for div in bspan.divs[0][0]:
-                                k, v = div.split("=")
-                                if k in bmeta:
-                                    if v.isnumeric():
-                                        bdivs.append(int(v))
-                                    elif v.isalpha():
-                                        bdivs.append(v)
-                                    else:
-                                        bdivs.extend(
-                                            [
-                                                int(m) if m.isnumeric() else m
-                                                for m in re.match(
-                                                r"(\d+)([A-Za-z]+)?("
-                                                r"\d+)?",
-                                                v,
-                                            ).groups()
-                                                if m
-                                            ]
-                                        )
+                            # B is too far from A. Since spans are listed in
+                            # start position order, we know that all spans after
+                            # this one will also be too far.
+                            break
+                    # Only startchar, endchar and pos
+                    # Check the distance between the spans
+                    dist = aspan.distance_to(bspan)
 
-                            diffs = []
-                            for a, b in zip(adivs, bdivs):
-                                if isinstance(a, int) and isinstance(b, int):
-                                    diffs.append(int(b) - int(a))
-                                elif a.isalpha() and b.isalpha():
-                                    if len(a) > 1 and len(b) > 1:
-                                        diffs.append(
-                                            SequenceMatcher(None, a, b).ratio()
-                                        )
-                                    else:
-                                        diffs.append(ord(b) - ord(a))
-
-                            if (diffs and diffs[-1] > slop) or (
-                                all(map(lambda x: x == 0, diffs))
-                                and bspan.start > aspan.end + slop
-                            ):
-                                # B is too far from A. Since spans are listed in
-                                # start position order, we know that all spans after
-                                # this one will also be too far.
-                                break
-                        # Check the distance between the spans
-                        dist = aspan.distance_to(bspan)
-
-                        if mindist <= dist <= slop:
-                            spans.add(aspan.to(bspan))
+                    if mindist <= dist <= slop:
+                        spans.add(aspan.to(bspan))
             return sorted(spans)
 
 
@@ -875,10 +850,9 @@ class SpanNear2(SpanQuery):
                 for aspan in aspans:
                     # Use a binary search to find the first position we should
                     # start looking for possible matches
-                    if ordered:
-                        start = aspan.start
-                    else:
-                        start = max(0, aspan.start - slop)
+                    start = (
+                        aspan.start if ordered else max(0, aspan.start - slop)
+                    )
                     j = bisect_spans(bspans, start)
 
                     while j < len(bspans):
@@ -1015,20 +989,15 @@ class SpanNot(SpanBiQuery):
             super(SpanNot._Matcher, self).__init__(amm)
 
         def _get_spans(self):
-            if self.a.id() == self.b.id():
-                spans = []
-                bspans = self.b.spans()
-                for aspan in self.a.spans():
-                    overlapped = False
-                    for bspan in bspans:
-                        if aspan.overlaps(bspan):
-                            overlapped = True
-                            break
-                    if not overlapped:
-                        spans.append(aspan)
-                return spans
-            else:
+            if self.a.id() != self.b.id():
                 return self.a.spans()
+            spans = []
+            bspans = self.b.spans()
+            for aspan in self.a.spans():
+                overlapped = any(aspan.overlaps(bspan) for bspan in bspans)
+                if not overlapped:
+                    spans.append(aspan)
+            return spans
 
 
 class SpanContains(SpanBiQuery):
@@ -1270,33 +1239,25 @@ class SpanWith2(SpanQuery):
                             bspan.startchar == aspan.startchar
                             and bspan.endchar == aspan.endchar
                             and tuple(
-                            [
                                 int(v)
                                 for k, v in bspan.meta.items()
                                 if k != "meta"
-                            ]
                         )
                             == tuple(
-                            [
                                 int(v)
                                 for k, v in aspan.meta.items()
                                 if k != "meta"
-                            ]
                         )
                         ):
                             spans.add(aspan.to(bspan))
                         elif bspan.startchar > aspan.endchar and tuple(
-                            [
-                                int(v)
-                                for k, v in bspan.meta.items()
-                                if k != "meta"
-                            ]
+                            int(v)
+                            for k, v in bspan.meta.items()
+                            if k != "meta"
                         ) > tuple(
-                            [
-                                int(v)
-                                for k, v in aspan.meta.items()
-                                if k != "meta"
-                            ]
+                            int(v)
+                            for k, v in aspan.meta.items()
+                            if k != "meta"
                         ):
                             break
                 aspans = spans

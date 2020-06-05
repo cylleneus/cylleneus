@@ -47,37 +47,7 @@ class CachedTokenizer(Tokenizer):
                 self._cache = []
                 self._docix = kwargs.get("docix", None)
 
-                if not tokenize:
-                    t.original = ""
-                    for el in data["text"].find("text").find("body").iter():
-                        if el.tag in ["head", "p", "l"]:
-                            if not el.text:
-                                text = "".join(
-                                    [
-                                        subel.text + subel.tail
-                                        for subel in el.iter()
-                                        if subel.tag != el.tag
-                                    ]
-                                )
-                            else:
-                                text = el.text
-                            subs = [
-                                r"<note>(.*?)</note>",
-                                r'<sic corr="(\w+?)">\w+?</sic>',
-                                r'<reg orig="\w+?">(\w+?)</reg>',
-                            ]
-                            for sub in subs:
-                                text = re.sub(sub, "\1", text)
-                            t.original += text
-                    t.text = t.original
-                    t.boost = 1.0
-                    if positions:
-                        t.pos = start_pos
-                    if chars:
-                        t.startchar = start_char
-                        t.endchar = start_char + len(t.original)
-                    yield t
-                else:
+                if tokenize:
                     punc = str.maketrans("", "", string.punctuation)
 
                     tags = data["meta"].split("-")
@@ -100,7 +70,9 @@ class CachedTokenizer(Tokenizer):
                         elif el.tag in ["head", "p", "l"]:
                             sent_id += 1
                             sect_sent += 1
-                            if not el.text:
+                            if el.text:
+                                text = el.text
+                            else:
                                 text = "".join(
                                     [
                                         subel.text + subel.tail
@@ -108,8 +80,6 @@ class CachedTokenizer(Tokenizer):
                                         if subel.tag != el.tag
                                     ]
                                 )
-                            else:
-                                text = el.text
                             subs = [
                                 r"<note>(.*?)</note>",
                                 r'<sic corr="(\w+?)">\w+?</sic>',
@@ -150,11 +120,15 @@ class CachedTokenizer(Tokenizer):
                                 is_enclitic = False
                                 for enclitic in enclitics:
                                     if token.endswith(enclitic):
-                                        if enclitic == "ne":
-                                            t.text = token[: -len(enclitic)]
+                                        if enclitic == "n":
+                                            t.text = (
+                                                token[: -len(enclitic)] + "s"
+                                            )
                                             t.startchar = start_char
-                                            t.endchar = start_char + (
-                                                len(token) - len(enclitic)
+                                            t.endchar = (
+                                                start_char
+                                                + len(token)
+                                                - len(enclitic)
                                             )
                                             if mode == "index":
                                                 self._cache.append(
@@ -175,15 +149,11 @@ class CachedTokenizer(Tokenizer):
                                                     copy.deepcopy(t)
                                                 )
                                             yield t
-                                        elif enclitic == "n":
-                                            t.text = (
-                                                token[: -len(enclitic)] + "s"
-                                            )
+                                        elif enclitic == "ne":
+                                            t.text = token[: -len(enclitic)]
                                             t.startchar = start_char
-                                            t.endchar = (
-                                                start_char
-                                                + len(token)
-                                                - len(enclitic)
+                                            t.endchar = start_char + (
+                                                len(token) - len(enclitic)
                                             )
                                             if mode == "index":
                                                 self._cache.append(
@@ -323,12 +293,42 @@ class CachedTokenizer(Tokenizer):
                                         break
 
                                 if not is_enclitic:
-                                    original_len = len(token)
                                     if chars:
                                         t.startchar = start_char
+                                        original_len = len(token)
                                         t.endchar = start_char + original_len
                                     if self.cached:
                                         self._cache.append(copy.copy(t))
                                     yield t
 
                                 start_char += len(token)
+                else:
+                    t.original = ""
+                    for el in data["text"].find("text").find("body").iter():
+                        if el.tag in ["head", "p", "l"]:
+                            if el.text:
+                                text = el.text
+                            else:
+                                text = "".join(
+                                    [
+                                        subel.text + subel.tail
+                                        for subel in el.iter()
+                                        if subel.tag != el.tag
+                                    ]
+                                )
+                            subs = [
+                                r"<note>(.*?)</note>",
+                                r'<sic corr="(\w+?)">\w+?</sic>',
+                                r'<reg orig="\w+?">(\w+?)</reg>',
+                            ]
+                            for sub in subs:
+                                text = re.sub(sub, "\1", text)
+                            t.original += text
+                    t.text = t.original
+                    t.boost = 1.0
+                    if positions:
+                        t.pos = start_pos
+                    if chars:
+                        t.startchar = start_char
+                        t.endchar = start_char + len(t.original)
+                    yield t

@@ -134,33 +134,31 @@ def verify(corpus, verbose, dry_run):
                 else ""
             )
         )
-        if len(missing) != 0:
-            if click.confirm(
-                f"Try to re-index {len(missing)} missing documents?",
-                default=True,
-            ):
-                for docix, meta in missing.items():
-                    if meta["filename"]:
-                        path = c.text_dir / Path(meta["filename"])
-                        with click_spinner.spinner():
-                            updated_docix = (
-                                c.update(docix, path) if not dry_run else None
-                            )
-                        if updated_docix is not None:
+        if len(missing) != 0 and click.confirm(
+            f"Try to re-index {len(missing)} missing documents?", default=True,
+        ):
+            for docix, meta in missing.items():
+                if meta["filename"]:
+                    path = c.text_dir / Path(meta["filename"])
+                    with click_spinner.spinner():
+                        updated_docix = (
+                            c.update(docix, path) if not dry_run else None
+                        )
+                    if updated_docix is not None:
+                        click.echo(
+                            f"[{updated_docix}] {meta['author']}, {meta['title']} ({meta['filename']}), "
+                            f"index created!"
+                        )
+                    else:
+                        if dry_run:
                             click.echo(
-                                f"[{updated_docix}] {meta['author']}, {meta['title']} ({meta['filename']}), "
-                                f"index created!"
+                                f"*[-] {meta['author']}, {meta['title']} "
+                                f"({meta['filename']}) -- document NOT re-indexed!"
                             )
                         else:
-                            if dry_run:
-                                click.echo(
-                                    f"*[-] {meta['author']}, {meta['title']} "
-                                    f"({meta['filename']}) -- document NOT re-indexed!"
-                                )
-                            else:
-                                click.echo(
-                                    f"[-] {meta['author']}, {meta['title']} ({meta['filename']}), failed"
-                                )
+                            click.echo(
+                                f"[-] {meta['author']}, {meta['title']} ({meta['filename']}), failed"
+                            )
 
 
 @main.command()
@@ -415,7 +413,7 @@ def download_by(corpus, author, title):
     else:
         try:
             c = Corpus(corpus)
-            if not author and not title:
+            if not (author or title):
                 manifest = c.remote_manifest()
                 for docix, meta in manifest.items():
                     click.echo(

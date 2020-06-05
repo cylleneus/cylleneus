@@ -617,8 +617,8 @@ class CachedLemmaFilter(Filter):
                         yield t
                     else:
                         if hasattr(t, "reltype"):
+                            keys = ["lemma", "uri", "morpho"]
                             if t.reltype in ["\\", "/", "+c", "-c"]:
-                                keys = ["lemma", "uri", "morpho"]
                                 kwargs = {
                                     k: v
                                     for k, v in zip(
@@ -637,7 +637,6 @@ class CachedLemmaFilter(Filter):
                                     kwargs.pop("uri")
                                     results = LWN.lemmas(**kwargs).relations
                             else:
-                                keys = ["lemma", "uri", "morpho"]
                                 kwargs = {
                                     k: v
                                     for k, v in zip(
@@ -718,17 +717,7 @@ class AnnotationFilter(Filter):
 
     def __call__(self, tokens, **kwargs):
         for t in tokens:
-            if t.mode == "query":
-                annotation = leipzig2wn(t.original)
-                if annotation == "----------":
-                    continue
-                else:
-                    for i, v in enumerate(annotation):
-                        if v != "-":
-                            text = f"{'-' * i}{v}{'-' * (9 - i)}"
-                            t.text = f"{text}::([\w\d$]+):(\d+):(\d+)$"
-                            yield t
-            elif t.mode == "index":
+            if t.mode == "index":
                 text = t.morpho
                 if text:
                     morpho, annotations = text.split(">")
@@ -743,6 +732,16 @@ class AnnotationFilter(Filter):
                                 text = f"{'-' * j}{v}{'-' * (9 - j)}::{uri}:{n}:{i}"
                                 t.text = text
                                 yield t
+            elif t.mode == "query":
+                annotation = leipzig2wn(t.original)
+                if annotation == "----------":
+                    continue
+                else:
+                    for i, v in enumerate(annotation):
+                        if v != "-":
+                            text = f"{'-' * i}{v}{'-' * (9 - i)}"
+                            t.text = f"{text}::([\w\d$]+):(\d+):(\d+)$"
+                            yield t
 
 
 class SemfieldFilter(Filter):
@@ -919,11 +918,10 @@ class CaseFilter(Filter):
             if t.text.istitle():
                 lower = t.text.lower()
                 t.text = lower
-                yield t
             else:
                 upper = t.text.title()
                 t.text = upper
-                yield t
+            yield t
 
 
 class MappingFilter(Filter):
@@ -969,11 +967,10 @@ class MappingFilter(Filter):
                         yield t
             elif t.mode == "query":
                 text = t.text
-                if text:
-                    if all(
-                        re.match(
-                            r"([\w\s]+|\*) (IS|(?:STANDS )?FOR) ([\w\s]+|\*)",
-                            text,
-                        ).groups()
-                    ):
-                        yield t
+                if text and all(
+                    re.match(
+                        r"([\w\s]+|\*) (IS|(?:STANDS )?FOR) ([\w\s]+|\*)",
+                        text,
+                    ).groups()
+                ):
+                    yield t

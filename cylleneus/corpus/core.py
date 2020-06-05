@@ -294,7 +294,7 @@ class Corpus:
 
     @property
     def searchable(self):
-        return self.schema and any([work.searchable for work in self.works])
+        return self.schema and any(work.searchable for work in self.works)
 
     @property
     def works(self):
@@ -350,13 +350,11 @@ class Corpus:
 
     def update(self, docix: int, path: Path):
         ixr = self.indexer_for_docix(docix)
-        updated_docix = ixr.update(path)
-        return updated_docix
+        return ixr.update(path)
 
     def update_by(self, author: str, title: str, path: Path):
         ixr = list(self.indexers_for(author, title))[0]
-        updated_docix = ixr.update(path)
-        return updated_docix
+        return ixr.update(path)
 
     @property
     def index_dir(self):
@@ -413,135 +411,132 @@ class Corpus:
         return self.name, work.author, work.title, urn, reference, text
 
     def download_by(self, author: str = None, title: str = None):
-        if self.meta.repo["location"] == "remote":
-            remote_manifest = self.remote_manifest
-            if author:
-                manifest_by_author = defaultdict(lambda: defaultdict(list))
-                for docix, meta in remote_manifest.items():
-                    manifest_by_author[meta["author"]][meta["title"]].append(
-                        (docix, meta)
-                    )
-                if title:
-                    docs = manifest_by_author[author][title]
-                else:
-                    docs = [
-                        author[work] for work in manifest_by_author[author]
-                    ]
+        if self.meta.repo["location"] != "remote":
+            return
+        remote_manifest = self.remote_manifest
+        if author:
+            manifest_by_author = defaultdict(lambda: defaultdict(list))
+            for docix, meta in remote_manifest.items():
+                manifest_by_author[meta["author"]][meta["title"]].append(
+                    (docix, meta)
+                )
+            if title:
+                docs = manifest_by_author[author][title]
             else:
-                if title:
-                    manifest_by_title = defaultdict(list)
-                    for docix, meta in remote_manifest.items():
-                        manifest_by_title[meta["title"]].append((docix, meta))
-                    docs = manifest_by_title[title]
-                else:
-                    docs = []
-            for docix, meta in docs:
-                self.download_by_docix(docix, meta)
+                docs = [author[work] for work in manifest_by_author[author]]
+        else:
+            if title:
+                manifest_by_title = defaultdict(list)
+                for docix, meta in remote_manifest.items():
+                    manifest_by_title[meta["title"]].append((docix, meta))
+                docs = manifest_by_title[title]
+            else:
+                docs = []
+        for docix, meta in docs:
+            self.download_by_docix(docix, meta)
 
     def download_by_docix(self, docix, meta=None):
-        if self.meta.repo["location"] == "remote":
-            if not meta:
-                remote_manifest = self.remote_manifest
-            else:
-                remote_manifest = {docix: meta}
+        if self.meta.repo["location"] != "remote":
+            return
+        remote_manifest = self.remote_manifest if not meta else {docix: meta}
+        if remote_manifest and str(docix) in remote_manifest:
+            manifest = remote_manifest[str(docix)]
 
-            if remote_manifest and str(docix) in remote_manifest:
-                manifest = remote_manifest[str(docix)]
-
-                files = manifest["index"]
-                for i, file in enumerate(files):
-                    remote_path = (
-                        Path(manifest["path"])
-                            .as_posix()
-                            .split("/", maxsplit=2)[-1]
-                    )
-                    local_path = (
-                        Path(settings.CORPUS_DIR)
-                        / Path(manifest["path"]).as_posix()
-                    )
-
-                    if not local_path.exists():
-                        local_path.mkdir(parents=True, exist_ok=True)
-
-                    url = (
-                        self.meta.repo["raw"]
-                        + (remote_path / Path(file)).as_posix()
-                    )
-                    with requests.get(url, stream=True) as r:
-                        r.raise_for_status()
-                        with safer.open(local_path / Path(file), "wb") as fp:
-                            max_count = int(r.headers["Content-Length"])
-                            progress = DefaultProgressPrinter(
-                                max_count=max_count,
-                                default_message=f"({i + 1} / 3) index/{file}",
-                            )
-                            cur_count = 0
-                            for chunk in r.iter_content(chunk_size=10 * 1024):
-                                if chunk:  # filter out keep-alive new chunks
-                                    fp.write(chunk)
-                                    cur_count += len(chunk)
-                                    progress.update(cur_count)
-
-                filename = manifest["filename"]
-                text_url = (
-                    self.meta.repo["raw"]
-                    + (Path("/text") / Path(filename)).as_posix()
+            files = manifest["index"]
+            for i, file in enumerate(files):
+                remote_path = (
+                    Path(manifest["path"])
+                        .as_posix()
+                        .split("/", maxsplit=2)[-1]
                 )
-                file_path = self.text_dir / Path(filename)
-                if not file_path.parent.exists():
-                    file_path.parent.mkdir(parents=True, exist_ok=True)
-                with requests.get(text_url, stream=True) as r:
-                    try:
-                        r.raise_for_status()
-                    except requests.exceptions.HTTPError as e:
-                        pass
-                    else:
-                        with safer.open(file_path, "wb") as fp:
-                            max_count = int(r.headers["Content-Length"])
-                            progress = DefaultProgressPrinter(
-                                max_count=max_count,
-                                default_message=f"(3 / 3) text/{filename}",
-                            )
-                            cur_count = 0
-                            for chunk in r.iter_content(chunk_size=None):
-                                if chunk:  # filter out keep-alive new chunks
-                                    fp.write(chunk)
-                                    cur_count += len(chunk)
-                                    progress.update(cur_count)
-                self.update_manifest(docix, manifest)
+                local_path = (
+                    Path(settings.CORPUS_DIR)
+                    / Path(manifest["path"]).as_posix()
+                )
+
+                if not local_path.exists():
+                    local_path.mkdir(parents=True, exist_ok=True)
+
+                url = (
+                    self.meta.repo["raw"]
+                    + (remote_path / Path(file)).as_posix()
+                )
+                with requests.get(url, stream=True) as r:
+                    r.raise_for_status()
+                    with safer.open(local_path / Path(file), "wb") as fp:
+                        max_count = int(r.headers["Content-Length"])
+                        progress = DefaultProgressPrinter(
+                            max_count=max_count,
+                            default_message=f"({i + 1} / 3) index/{file}",
+                        )
+                        cur_count = 0
+                        for chunk in r.iter_content(chunk_size=10 * 1024):
+                            if chunk:  # filter out keep-alive new chunks
+                                fp.write(chunk)
+                                cur_count += len(chunk)
+                                progress.update(cur_count)
+
+            filename = manifest["filename"]
+            text_url = (
+                self.meta.repo["raw"]
+                + (Path("/text") / Path(filename)).as_posix()
+            )
+            file_path = self.text_dir / Path(filename)
+            if not file_path.parent.exists():
+                file_path.parent.mkdir(parents=True, exist_ok=True)
+            with requests.get(text_url, stream=True) as r:
+                try:
+                    r.raise_for_status()
+                except requests.exceptions.HTTPError as e:
+                    pass
+                else:
+                    with safer.open(file_path, "wb") as fp:
+                        max_count = int(r.headers["Content-Length"])
+                        progress = DefaultProgressPrinter(
+                            max_count=max_count,
+                            default_message=f"(3 / 3) text/{filename}",
+                        )
+                        cur_count = 0
+                        for chunk in r.iter_content(chunk_size=None):
+                            if chunk:  # filter out keep-alive new chunks
+                                fp.write(chunk)
+                                cur_count += len(chunk)
+                                progress.update(cur_count)
+            self.update_manifest(docix, manifest)
 
     def download(self, branch: str = "master"):
-        if self.meta.repo["location"] == "remote":
-            git_uri = self.meta.repo["origin"]
+        if self.meta.repo["location"] != "remote":
+            return
+        git_uri = self.meta.repo["origin"]
 
-            repo = None
-            if not self.path.exists():
-                self.path.mkdir(exist_ok=True, parents=True)
-                try:
-                    repo = Repo.clone_from(
-                        git_uri,
-                        self.path,
-                        branch=branch,
-                        depth=1,
-                        progress=ProgressPrinter(
-                            default_message=f"'{self.name}', origin/{branch}: {self.meta.repo['origin']}"
-                        ),
-                    )
-                except Exception as e:
-                    raise e
-            else:
-                try:
-                    repo = Repo(self.path)
-                    if not repo.bare:
-                        git_origin = repo.remotes.origin
-                        git_origin.pull()
-                except Exception as e:
-                    raise e
-            manifest_file = self.path / Path("manifest.json")
-            if manifest_file.exists():
-                with codecs.open(manifest_file, "r", "utf8") as fp:
-                    self._manifest = json.load(fp)
-            return repo
+        repo = None
+        if not self.path.exists():
+            self.path.mkdir(exist_ok=True, parents=True)
+            try:
+                repo = Repo.clone_from(
+                    git_uri,
+                    self.path,
+                    branch=branch,
+                    depth=1,
+                    progress=ProgressPrinter(
+                        default_message=f"'{self.name}', origin/{branch}: {self.meta.repo['origin']}"
+                    ),
+                )
+            except Exception as e:
+                raise e
+        else:
+            try:
+                repo = Repo(self.path)
+                if not repo.bare:
+                    git_origin = repo.remotes.origin
+                    git_origin.pull()
+            except Exception as e:
+                raise e
+        manifest_file = self.path / Path("manifest.json")
+        if manifest_file.exists():
+            with codecs.open(manifest_file, "r", "utf8") as fp:
+                self._manifest = json.load(fp)
+        return repo
 
     def __str__(self):
         return self.name
@@ -576,20 +571,9 @@ class Work:
                 self._docix = [
                     doc["docix"],
                 ]
-            if "urn" in doc:
-                self._urn = doc["urn"]
-            else:
-                self._urn = None
-            if "filename" in doc:
-                self._filename = [
-                    doc["filename"],
-                ]
-            else:
-                self._filename = None
-            if "datetime" in doc:
-                self._timestamp = doc["datetime"]
-            else:
-                self._timestamp = None
+            self._urn = doc["urn"] if "urn" in doc else None
+            self._filename = [doc["filename"]] if "filename" in doc else None
+            self._timestamp = doc["datetime"] if "datetime" in doc else None
             if "language" in doc:
                 self._language = doc["language"]
         else:

@@ -104,10 +104,9 @@ class Indexer:
         path = Path(toc_filename).parent
 
         if cylleneus.engine.index.exists_in(path, indexname=indexname):
-            ix = cylleneus.engine.index.open_dir(
+            return cylleneus.engine.index.open_dir(
                 path, schema=self.corpus.schema, indexname=indexname
             )
-            return ix
 
     @property
     def indexes(self):
@@ -180,88 +179,85 @@ class Indexer:
             self.path, indexname=indexname
         ):
             self.create(indexname=indexname)
-        ix = cylleneus.engine.index.open_dir(
+        return cylleneus.engine.index.open_dir(
             self.path, schema=self.corpus.schema, indexname=indexname
         )
-        return ix
 
     def update(self, path: Path):
-        updated_docix = self.from_file(path, destructive=True)
-        return updated_docix
+        return self.from_file(path, destructive=True)
 
     def from_file(
         self, path: Path, destructive: bool = False, optimize: bool = False
     ):
-        if path.exists():
-            kwargs = self.corpus.preprocessor.parse(path)
-            if "author" not in kwargs and self.work.author:
-                kwargs["author"] = self.work.author
-            if "title" not in kwargs and self.work.title:
-                kwargs["title"] = self.work.title
-            kwargs["corpus"] = self.corpus.name
+        if not path.exists():
+            return
+        kwargs = self.corpus.preprocessor.parse(path)
+        if "author" not in kwargs and self.work.author:
+            kwargs["author"] = self.work.author
+        if "title" not in kwargs and self.work.title:
+            kwargs["title"] = self.work.title
+        kwargs["corpus"] = self.corpus.name
 
-            # Check if docix exists
-            existing = None
-            for docix_, doc in self.corpus.manifest.items():
-                if (
-                    doc["author"] == kwargs["author"]
-                    and doc["title"] == kwargs["title"]
-                    and doc["filename"] == kwargs["filename"]
-                ):
-                    existing = int(docix_)
+        # Check if docix exists
+        existing = None
+        for docix_, doc in self.corpus.manifest.items():
+            if (
+                doc["author"] == kwargs["author"]
+                and doc["title"] == kwargs["title"]
+                and doc["filename"] == kwargs["filename"]
+            ):
+                existing = int(docix_)
 
-            if existing is not None:
-                if not destructive:
-                    print_debug(
-                        DEBUG_HIGH,
-                        f"- Docix {existing} already exists, skipping",
-                    )
-                    return existing
-                else:
-                    print_debug(
-                        DEBUG_HIGH,
-                        f"- Docix {existing} already exists, deleting",
-                    )
-                    self.destroy(existing)
-                    docix = existing
+        if existing is not None:
+            if not destructive:
+                print_debug(
+                    DEBUG_HIGH, f"- Docix {existing} already exists, skipping",
+                )
+                return existing
             else:
-                docix = self.corpus.doc_count_all
+                print_debug(
+                    DEBUG_HIGH, f"- Docix {existing} already exists, deleting",
+                )
+                self.destroy(existing)
+                docix = existing
+        else:
+            docix = self.corpus.doc_count_all
 
-            kwargs["docix"] = docix
+        kwargs["docix"] = docix
 
-            self.path = Path(
-                self.corpus.index_dir
-                / slugify(kwargs["author"])
-                / slugify(kwargs["title"])
-            )
-            indexname = f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}"
-            ix = self.open(indexname=indexname)
+        self.path = Path(
+            self.corpus.index_dir
+            / slugify(kwargs["author"])
+            / slugify(kwargs["title"])
+        )
+        indexname = f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}"
+        ix = self.open(indexname=indexname)
 
-            writer = ix.writer(limitmb=4096, procs=1)
-            try:
-                writer.add_document(**kwargs)
-                writer.commit(mergetype=CLEAR, optimize=optimize)
-            except queue.Empty as e:
-                pass
+        writer = ix.writer(limitmb=4096, procs=1)
+        try:
+            writer.add_document(**kwargs)
+            writer.commit(mergetype=CLEAR, optimize=optimize)
+        except queue.Empty as e:
+            pass
 
-            work_manifest = {
-                "author":   kwargs["author"],
-                "title":    kwargs["title"],
-                "filename": kwargs["filename"],
-                "path":     str(self.path.relative_to(CORPUS_DIR)),
-                "index":    [
-                    cylleneus.engine.index.TOC._filename(
-                        indexname, ix.latest_generation()
-                    ),
-                    writer.newsegment.make_filename(".seg"),
-                ],
-            }
-            self.corpus.update_manifest(docix, work_manifest)
-            print_debug(
-                DEBUG_MEDIUM,
-                f"- Indexed '{self.corpus.name}' docix {docix}: {kwargs['author']}, {kwargs['title']} ({path})",
-            )
-            return docix
+        work_manifest = {
+            "author":   kwargs["author"],
+            "title":    kwargs["title"],
+            "filename": kwargs["filename"],
+            "path":     str(self.path.relative_to(CORPUS_DIR)),
+            "index":    [
+                cylleneus.engine.index.TOC._filename(
+                    indexname, ix.latest_generation()
+                ),
+                writer.newsegment.make_filename(".seg"),
+            ],
+        }
+        self.corpus.update_manifest(docix, work_manifest)
+        print_debug(
+            DEBUG_MEDIUM,
+            f"- Indexed '{self.corpus.name}' docix {docix}: {kwargs['author']}, {kwargs['title']} ({path})",
+        )
+        return docix
 
     def from_string(
         self,
@@ -270,78 +266,74 @@ class Indexer:
         optimize: bool = False,
         **kwargs,
     ):
-        if content:
-            parsed = self.corpus.preprocessor.parse(content)
-            kwargs.update(parsed)
+        if not content:
+            return
+        parsed = self.corpus.preprocessor.parse(content)
+        kwargs.update(parsed)
 
-            # Check if docix exists
-            existing = None
-            for docix_, doc in self.corpus.manifest.items():
-                if (
-                    doc["author"] == kwargs["author"]
-                    and doc["title"] == kwargs["title"]
-                    and doc["filename"] == kwargs["filename"]
-                ):
-                    existing = docix_
+        # Check if docix exists
+        existing = None
+        for docix_, doc in self.corpus.manifest.items():
+            if (
+                doc["author"] == kwargs["author"]
+                and doc["title"] == kwargs["title"]
+                and doc["filename"] == kwargs["filename"]
+            ):
+                existing = docix_
 
-            if existing is not None:
-                if not destructive:
-                    print_debug(
-                        DEBUG_HIGH,
-                        f"- Docix {existing} already exists, skipping",
-                    )
-                    return existing
-                else:
-                    print_debug(
-                        DEBUG_HIGH,
-                        f"- Docix {existing} already exists, deleting",
-                    )
-                    self.destroy(existing)
-                    docix = existing
-            else:
-                docix = self.corpus.doc_count_all
-
-            kwargs["docix"] = docix
-
-            self.path = Path(
-                self.corpus.index_dir
-                / slugify(kwargs["author"])
-                / slugify(kwargs["title"])
-            )
-            indexname = f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}"
-            ix = self.open(indexname=indexname)
-
-            writer = ix.writer(limitmb=4096, procs=1, multisegment=True)
-            try:
+        if existing is not None:
+            if not destructive:
                 print_debug(
-                    DEBUG_MEDIUM,
-                    "Add document: {}, {} to '{}' [{}]".format(
-                        kwargs["author"],
-                        kwargs["title"],
-                        self.corpus.name,
-                        docix,
-                    ),
+                    DEBUG_HIGH, f"- Docix {existing} already exists, skipping",
                 )
-                writer.add_document(**kwargs)
-                writer.commit(optimize=optimize)
-            except queue.Empty as e:
-                pass
-            work_manifest = {
-                "author":   kwargs["author"],
-                "title":    kwargs["title"],
-                "filename": None,
-                "path":     str(self.path.relative_to(CORPUS_DIR)),
-                "index":    [
-                    cylleneus.engine.index.TOC._filename(
-                        indexname, ix.latest_generation()
-                    ),
-                    writer.newsegment.make_filename(".seg"),
-                ],
-            }
+                return existing
+            else:
+                print_debug(
+                    DEBUG_HIGH, f"- Docix {existing} already exists, deleting",
+                )
+                self.destroy(existing)
+                docix = existing
+        else:
+            docix = self.corpus.doc_count_all
+
+        kwargs["docix"] = docix
+
+        self.path = Path(
+            self.corpus.index_dir
+            / slugify(kwargs["author"])
+            / slugify(kwargs["title"])
+        )
+        indexname = f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}"
+        ix = self.open(indexname=indexname)
+
+        writer = ix.writer(limitmb=4096, procs=1, multisegment=True)
+        try:
             print_debug(
                 DEBUG_MEDIUM,
-                f"- Indexed '{self.corpus.name}' docix {docix}: {kwargs['author']}, {kwargs['title']} (\"{content[:24]}"
-                f'...")',
+                "Add document: {}, {} to '{}' [{}]".format(
+                    kwargs["author"], kwargs["title"], self.corpus.name, docix,
+                ),
             )
-            self.corpus.update_manifest(docix, work_manifest)
-            return docix
+            writer.add_document(**kwargs)
+            writer.commit(optimize=optimize)
+        except queue.Empty as e:
+            pass
+        work_manifest = {
+            "author":   kwargs["author"],
+            "title":    kwargs["title"],
+            "filename": None,
+            "path":     str(self.path.relative_to(CORPUS_DIR)),
+            "index":    [
+                cylleneus.engine.index.TOC._filename(
+                    indexname, ix.latest_generation()
+                ),
+                writer.newsegment.make_filename(".seg"),
+            ],
+        }
+        print_debug(
+            DEBUG_MEDIUM,
+            f"- Indexed '{self.corpus.name}' docix {docix}: {kwargs['author']}, {kwargs['title']} (\"{content[:24]}"
+            f'...")',
+        )
+        self.corpus.update_manifest(docix, work_manifest)
+        return docix

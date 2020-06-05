@@ -163,11 +163,7 @@ class Searcher(object):
             self._idf_cache = {}
             self._filter_cache = {}
 
-        if type(weighting) is type:
-            self.weighting = weighting()
-        else:
-            self.weighting = weighting
-
+        self.weighting = weighting() if type(weighting) is type else weighting
         self.leafreaders = None
         self.subsearchers = None
         if not self.ixreader.is_atomic():
@@ -419,11 +415,11 @@ class Searcher(object):
             kw[k] = field.to_bytes(v)
 
     def _query_for_kw(self, kw):
-        subqueries = []
-        for key, value in iteritems(kw):
-            subqueries.append(
-                cylleneus.engine.query.terms.CylleneusTerm(key, value)
-            )
+        subqueries = [
+            cylleneus.engine.query.terms.CylleneusTerm(key, value)
+            for key, value in iteritems(kw)
+        ]
+
         if subqueries:
             q = cylleneus.engine.query.compound.And(subqueries).normalize()
         else:
@@ -708,18 +704,13 @@ class Searcher(object):
         # If we're getting the document numbers so we can delete them, use the
         # deletion_docs method instead of docs; this lets special queries
         # (e.g. nested queries) override what gets deleted
-        if for_deletion:
-            method = q.deletion_docs
-        else:
-            method = q.docs
-
+        method = q.deletion_docs if for_deletion else q.docs
         if self.subsearchers:
             for s, offset in self.subsearchers:
                 for docnum in method(s):
                     yield docnum + offset
         else:
-            for docnum in method(self):
-                yield docnum
+            yield from method(self)
 
     def collector(
         self,
@@ -762,7 +753,7 @@ class Searcher(object):
         if limit is not None and limit < 1:
             raise ValueError("limit must be >= 1")
 
-        if not scored and not sortedby:
+        if not (scored or sortedby):
             c = cylleneus.engine.collectors.CylleneusUnsortedCollector()
         elif sortedby:
             c = cylleneus.engine.collectors.CylleneusSortingCollector(
@@ -1385,11 +1376,7 @@ class Results(object):
         arein = [item for item in self.top_n if item[1] in otherdocs]
         notin = [item for item in self.top_n if item[1] not in otherdocs]
 
-        if reverse:
-            items = notin + arein
-        else:
-            items = arein + notin
-
+        items = notin + arein if reverse else arein + notin
         self.top_n = items
 
     def upgrade_and_extend(self, results):
@@ -1782,9 +1769,7 @@ def total_terms(query):
 
 def total_fields(query, ixreader):
     """ Calculate total number of fields matched by a complex query """
-    return len(
-        set([fieldname for fieldname, _ in query.iter_all_terms(ixreader)])
-    )
+    return len({fieldname for fieldname, _ in query.iter_all_terms(ixreader)})
 
 
 def min_score(query):
@@ -1830,12 +1815,9 @@ def iter_queries(query):
 
 
 def query_to_dict(q):
-    d = dict()
+    d = {}
     for t in q:
-        if isinstance(t[1], tuple):
-            d[t[0]] = query_to_dict(t[1])
-        else:
-            d[t[0]] = t[1]
+        d[t[0]] = query_to_dict(t[1]) if isinstance(t[1], tuple) else t[1]
     return d
 
 
@@ -1937,10 +1919,8 @@ class CylleneusHit(Hit):
         if isinstance(
             query, cylleneus.engine.query.positional.Collocation
         ) or any(
-            [
-                isinstance(sq, cylleneus.engine.query.positional.Collocation)
-                for sq in query
-            ]
+            isinstance(sq, cylleneus.engine.query.positional.Collocation)
+            for sq in query
         ):
             for fragment in fragments:
                 print_debug(DEBUG_HIGH, "- fragment: {}".format(fragment))
@@ -1964,28 +1944,22 @@ class CylleneusHit(Hit):
                     else:
                         semifinalists.add(match)
 
-                for uri in lemma_groups.keys():
-                    for lemma, grouping in lemma_groups[uri].items():
+                for uri, value_ in lemma_groups.items():
+                    for lemma, grouping in value_.items():
                         for group, annotations in grouping.items():
                             if len(annotations) >= len(
-                                set(
-                                    [
-                                        term
-                                        for terms in termlists
-                                        for term in terms
-                                        if term[0] == "annotation"
-                                    ]
-                                )
-                            ) and any(
-                                [
-                                    all(
-                                        [
-                                            ("annotation", annotation) in terms
-                                            for annotation in annotations
-                                        ]
-                                    )
+                                {
+                                    term
                                     for terms in termlists
-                                ]
+                                    for term in terms
+                                    if term[0] == "annotation"
+                                }
+                            ) and any(
+                                all(
+                                    ("annotation", annotation) in terms
+                                    for annotation in annotations
+                                )
+                                for terms in termlists
                             ):
                                 morphos.append((uri, lemma, group))
 
@@ -1994,7 +1968,7 @@ class CylleneusHit(Hit):
                     grouping = matches_by_lemma[uri][lemma][group]
 
                     group_meta = [t.meta for t in grouping]
-                    max_meta = max([group_meta.count(m) for m in group_meta])
+                    max_meta = max(group_meta.count(m) for m in group_meta)
                     for m in group_meta:
                         if group_meta.count(m) < max_meta:
                             group_meta.remove(m)
@@ -2012,23 +1986,18 @@ class CylleneusHit(Hit):
 
                 finalists = []
                 tt = sorted(
-                    set(
-                        [
-                            (
-                                semifinalist.fieldname,
-                                semifinalist.text.split("::")[0],
-                            )
-                            for semifinalist in semifinalists
-                        ]
-                    ),
+                    {
+                        (
+                            semifinalist.fieldname,
+                            semifinalist.text.split("::")[0],
+                        )
+                        for semifinalist in semifinalists
+                    },
                     key=lambda x: x[0],
                 )
 
                 if len(semifinalists) >= len(termlists[0]) and any(
-                    [
-                        all([item in terms for item in tt])
-                        for terms in termlists
-                    ]
+                    all(item in terms for item in tt) for terms in termlists
                 ):
                     lemmas = set()
                     uris = set()
@@ -2063,7 +2032,7 @@ class CylleneusHit(Hit):
                                 uris.update([lemma["uri"] for lemma in lemmas])
                     for semifinalist in semifinalists:
                         if semifinalist.fieldname == "annotation":
-                            if len(uris) > 0:
+                            if uris:
                                 if (
                                     semifinalist.text.split("::")[1].split(
                                         ":"
@@ -2109,10 +2078,7 @@ class CylleneusHit(Hit):
                             ]
                         )
                 if len(finalists) >= len(termlists[0]) and any(
-                    [
-                        all([item in terms for item in tt])
-                        for terms in termlists
-                    ]
+                    all(item in terms for item in tt) for terms in termlists
                 ):
                     meta_counts = Counter(
                         [
@@ -2139,32 +2105,26 @@ class CylleneusHit(Hit):
                                 }
                             )
                         ]
-                        >= len(termlists[0])
-                        and (finalist.fieldname, finalist.text.split("::")[0])
-                        in set(
-                            [
-                                term
-                                for termlist in termlists
-                                for term in termlist
-                            ]
-                        )
-                        and all(
-                            [
-                                field_counts_by_meta[
-                                    hdict(
-                                        {
-                                            k: v
-                                            for k, v in finalist.meta.items()
-                                            if k
-                                            not in ["sent_pos", "sect_pos"]
-                                        }
-                                    )
-                                ][field]
-                                >= term_field_counts[field]
-                                for field in term_field_counts
-                            ]
+                           >= len(termlists[0])
+                           and (finalist.fieldname, finalist.text.split("::")[0])
+                           in {
+                               term for termlist in termlists for term in termlist
+                           }
+                           and all(
+                            field_counts_by_meta[
+                                hdict(
+                                    {
+                                        k: v
+                                        for k, v in finalist.meta.items()
+                                        if k not in ["sent_pos", "sect_pos"]
+                                    }
+                                )
+                            ][field]
+                            >= term_field_counts[field]
+                            for field in term_field_counts
                         )
                     ]
+
                 fragment.matches = winners
                 print_debug(DEBUG_HIGH, "- winners: {}".format(len(winners)))
 
@@ -2383,17 +2343,14 @@ class CylleneusHit(Hit):
         scored = []
         for fragment in fragments:
             if len(fragment.matches) != 0:
-                fterms = set(
-                    [
-                        (match.fieldname, match.text.split("::")[0])
-                        for match in fragment.matches
-                    ]
-                )
+                fterms = {
+                    (match.fieldname, match.text.split("::")[0])
+                    for match in fragment.matches
+                }
+
                 if len(fterms) != 0 and any(
-                    [
-                        all([term in fterms for term in terms])
-                        for terms in termlists
-                    ]
+                    all(term in fterms for term in terms)
+                    for terms in termlists
                 ):
                     score = self.results.highlighter.scorer(query, fragment)
                     if score:
@@ -2403,7 +2360,7 @@ class CylleneusHit(Hit):
     def filter_fragments(self, query, minscore: int = 1):
         termlists = query_term_lists(query, self.reader)
 
-        fieldnames = set([term[0] for terms in termlists for term in terms])
+        fieldnames = {term[0] for terms in termlists for term in terms}
         results = [
             fragment
             for fieldname in fieldnames
@@ -2441,13 +2398,11 @@ class CylleneusHit(Hit):
         )
 
         finalists = list(
-            set(
-                [
-                    (score, fragment)
-                    for score, fragment in scored
-                    if score >= minscore
-                ]
-            )
+            {
+                (score, fragment)
+                for score, fragment in scored
+                if score >= minscore
+            }
         )
         print_debug(DEBUG_MEDIUM, "- Final count: {}".format(len(finalists)))
 
@@ -2462,11 +2417,7 @@ class CylleneusHit(Hit):
         # Attach collated meta data to fragments, if available
         if self.get("meta", False):
             tags = self["meta"].lower()
-            if tags != "-":
-                divs = [div for div in tags.split("-")]
-            else:
-                divs = []
-
+            divs = [div for div in tags.split("-")] if tags != "-" else []
             for score, fragment in filtered:
                 matches = natsorted(
                     fragment.matches,
@@ -2662,7 +2613,7 @@ class CylleneusSearcher(Searcher):
         if limit is not None and limit < 1:
             raise ValueError("limit must be >= 1")
 
-        if not scored and not sortedby:
+        if not (scored or sortedby):
             c = cylleneus.engine.collectors.CylleneusUnsortedCollector()
         elif sortedby:
             c = cylleneus.engine.collectors.CylleneusSortingCollector(

@@ -56,7 +56,7 @@ def fetch(work, meta, fragment):
     reference = (
         "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
     )
-    hlites = set(hlite["sent_pos"] for hlite in meta["hlites"])
+    hlites = {hlite["sent_pos"] for hlite in meta["hlites"]}
 
     # Collect text and context
     sentences = []

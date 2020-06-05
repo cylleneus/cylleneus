@@ -36,7 +36,7 @@ class Sequence(cylleneus.engine.query.compound.CylleneusCompoundQuery):
         for i, subq in enumerate(subqueries):
             subq.boost = self.boost
             subq.pos = i
-        if any([subq.meta for subq in subqueries]):
+        if any(subq.meta for subq in subqueries):
             self.meta = True
 
     def __eq__(self, other):
@@ -86,7 +86,7 @@ class Sequence(cylleneus.engine.query.compound.CylleneusCompoundQuery):
         # Tell the sub-queries this matcher will need the current match to get
         # spans
         context = context.set(needs_current=True)
-        m = self._tree_matcher(
+        return self._tree_matcher(
             subs,
             cylleneus.engine.query.spans.SpanNear.SpanNearMatcher,
             searcher,
@@ -95,7 +95,6 @@ class Sequence(cylleneus.engine.query.compound.CylleneusCompoundQuery):
             slop=self.slop,
             ordered=self.ordered,
         )
-        return m
 
 
 class Collocation(cylleneus.engine.query.compound.CylleneusCompoundQuery):
@@ -139,7 +138,7 @@ class Collocation(cylleneus.engine.query.compound.CylleneusCompoundQuery):
         for i, subq in enumerate(subqueries):
             subq.boost = self.boost
             subq.pos = i
-        if any([subq.meta for subq in subqueries]):
+        if any(subq.meta for subq in subqueries):
             self.meta = True
             self.slop = 2 if slop < 2 else slop
 
@@ -236,7 +235,7 @@ class Collocation(cylleneus.engine.query.compound.CylleneusCompoundQuery):
         if len(subqs) == 1:
             sub = subqs[0]
             sub_boost = getattr(sub, "boost", 1.0)
-            if not (self.boost == 1.0 and sub_boost == 1.0):
+            if self.boost != 1.0 or sub_boost != 1.0:
                 sub = sub.with_boost(sub_boost * self.boost)
             return sub
 
@@ -257,10 +256,9 @@ class Collocation(cylleneus.engine.query.compound.CylleneusCompoundQuery):
         # Tell the sub-queries this matcher will need the current match to get
         # spans
         context = context.set(needs_current=True)
-        m = cylleneus.engine.query.spans.SpanWith2(subs).matcher(
+        return cylleneus.engine.query.spans.SpanWith2(subs).matcher(
             searcher, context
         )
-        return m
 
 
 class Ordered(Sequence):
@@ -294,7 +292,7 @@ class Ordered(Sequence):
         for i, subq in enumerate(subqueries):
             subq.boost = self.boost
             subq.pos = i
-        if any([subq.meta for subq in subqueries]):
+        if any(subq.meta for subq in subqueries):
             self.meta = True
 
     def _matcher(self, subs, searcher, context):

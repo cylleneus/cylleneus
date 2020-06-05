@@ -56,10 +56,7 @@ class Preprocessor(BasePreprocessor):
                 if tag not in tags and tag not in EXCLUDED_TAGS:
                     tags.append(tag)
 
-        if tags:
-            meta = "-".join(tags)
-        else:
-            meta = "-"
+        meta = "-".join(tags) if tags else "-"
         data = {"text": doc, "meta": meta}
 
         return {
