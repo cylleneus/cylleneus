@@ -2061,7 +2061,8 @@ class CylleneusHit(Hit):
                 for finalist in finalists:
                     meta = hdict(finalist.meta)
                     for k in ["sent_pos", "sect_pos"]:
-                        meta.pop(k)
+                        if k in meta:
+                            meta.pop(k)
                     if meta not in field_counts_by_meta:
                         field_counts_by_meta[meta] = Counter(
                             [
@@ -2535,7 +2536,7 @@ class CylleneusHit(Hit):
                 endmeta = {}
 
                 hlites = [
-                    (match.startchar, match.endchar, match.pos)
+                    {"startchar": match.startchar, "endchar": match.endchar, "pos": match.pos}
                     for match in matches
                 ]
                 meta["hlites"] = hlites

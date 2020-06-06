@@ -36,8 +36,8 @@ def fetch(work, meta, fragment):
     end = ", ".join([f"{k}: {v}" for k, v in meta["end"].items() if v])
     reference = "-".join([start, end]) if end != start else start
 
-    hlite_starts = [startchar for startchar, endchar, pos in meta["hlites"]]
-    hlite_ends = [endchar for startchar, endchar, pos in meta["hlites"]]
+    hlite_starts = [hlite["startchar"] for hlite in meta["hlites"]]
+    hlite_ends = [hlite["endchar"] for hlite in meta["hlites"]]
 
     # Collect text and context
     pre_raw = content[
