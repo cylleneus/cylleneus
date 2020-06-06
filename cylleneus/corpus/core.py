@@ -94,7 +94,7 @@ class Corpus:
         manifest_file = self.path / Path("manifest.json")
         if not self.path.exists():
             self.path.mkdir(parents=True, exist_ok=True)
-        with safer.open(manifest_file, "w", encoding="utf8") as fp:
+        with safer.open(manifest_file, mode="w", encoding="utf8", temp_file=False) as fp:
             json.dump(self.manifest, fp, ensure_ascii=False)
 
     @property
