@@ -16,8 +16,8 @@ glob = "*.json"
 
 # Repo
 repo = {
-    "origin":   "https://github.com/cylleneus/perseus.git",
-    "raw":      "http://raw.github.com/cylleneus/perseus/master/",
+    "origin":   "https://git.exeter.ac.uk/cylleneus/perseus.git",
+    "raw":      "https://git.exeter.ac.uk/cylleneus/perseus/-/raw/master/",
     "location": "remote",
 }
 
