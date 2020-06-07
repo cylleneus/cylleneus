@@ -27,14 +27,11 @@ repo = {
 
 # Fetch text
 def fetch(work, meta, fragment):
-    filename = work.filename[0]
-    path = work.corpus.text_dir / filename
-
     urn = work.doc[0].get("urn", None)
 
+    # Reference and hlite values
     divs = meta["meta"].split("-")
 
-    # Reference and hlite values
     ref_start = ", ".join(
         [
             f"{item}: {meta['start'][item]}"
@@ -53,25 +50,32 @@ def fetch(work, meta, fragment):
         "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
     )
 
+    filename = work.filename[0]
+    path = work.corpus.text_dir / filename
+
     # Collect text and context
-    with codecs.open(path, "r", "utf8") as fp:
-        lines = fp.readlines()
+    if path.exists():
+        with codecs.open(path, "r", "utf8") as fp:
+            lines = fp.readlines()
 
-    start = meta["start"]["pos"]
-    end = meta["end"]["pos"]
+        start = meta["start"]["pos"]
+        end = meta["end"]["pos"]
 
-    match = []
-    match.append(
-        f"<match>{' '.join([re.sub(r' ?<.+?> ?', '', parse_bpn(line)['form']) for line in lines[start:end+1]])}</match>"
-    )
+        match = []
+        match.append(
+            f"<match>{' '.join([re.sub(r' ?<.+?> ?', '', parse_bpn(line)['form']) for line in lines[start:end+1]])}</match>"
+        )
 
-    if "poem" in divs or (len(divs) == 2 and divs[-1] in ["line", "verse"]):
-        joiner = "\n\n"
+        if "poem" in divs or (
+            len(divs) == 2 and divs[-1] in ["line", "verse"]
+        ):
+            joiner = "\n\n"
+        else:
+            joiner = " "
+        parts = match
+        text = f"{joiner}".join(parts)
     else:
-        joiner = " "
-    parts = match
-    text = f"{joiner}".join(parts)
-
+        text = ""
     return urn, reference, text
 
 
