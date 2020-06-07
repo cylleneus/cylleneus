@@ -79,7 +79,7 @@ def fetch(work, meta, fragment):
         i += 1
         current_sentence = current_sentence.getprevious()
 
-    hlites = set([hlite["sent_pos"] for hlite in meta["hlites"]])
+    hlites = {hlite["sent_pos"] for hlite in meta["hlites"]}
 
     match = []
     current_sentence = start_sentence

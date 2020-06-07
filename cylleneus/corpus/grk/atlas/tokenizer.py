@@ -117,10 +117,10 @@ class CachedTokenizer(Tokenizer):
                             t.stopped = False
                             if positions:
                                 t.pos = start_pos + pos
-                            original_len = len(form)
-
                             if chars:
                                 t.startchar = start_char
+                                original_len = len(form)
+
                                 t.endchar = start_char + original_len
                             if self.cached:
                                 self._cache.append(copy.copy(t))
