@@ -318,11 +318,7 @@ class IndexWriter(object):
         :returns: the number of documents deleted.
         """
 
-        if searcher:
-            s = searcher
-        else:
-            s = self.searcher()
-
+        s = searcher if searcher else self.searcher()
         try:
             count = 0
             for docnum in s.docs_for_query(q, for_deletion=True):
@@ -577,11 +573,7 @@ class SegmentWriter(IndexWriter):
         for fieldname, text, docnum, weight, vbytes in items:
             if fieldname not in schema:
                 continue
-            if docmap is not None:
-                newdoc = docmap[docnum]
-            else:
-                newdoc = startdoc + docnum
-
+            newdoc = docmap[docnum] if docmap is not None else startdoc + docnum
             yield (fieldname, text, newdoc, weight, vbytes)
 
     def temp_storage(self):
@@ -657,11 +649,7 @@ class SegmentWriter(IndexWriter):
         # TODO: fix this!
 
         schema = self.schema
-        if reader.has_deletions():
-            docmap = {}
-        else:
-            docmap = None
-
+        docmap = {} if reader.has_deletions() else None
         pdw = self.perdocwriter
         # Open all column readers
         cols = {}
@@ -703,11 +691,8 @@ class SegmentWriter(IndexWriter):
     def add_reader(self, reader):
         self._check_state()
         basedoc = self.docnum
-        ndxnames = set(
-            fname
-            for fname in reader.indexed_field_names()
-            if fname in self.schema
-        )
+        ndxnames = {fname for fname in reader.indexed_field_names()
+                    if fname in self.schema}
         fieldnames = set(self.schema.names()) | ndxnames
 
         docmap = self.write_per_doc(fieldnames, reader)
@@ -839,10 +824,7 @@ class SegmentWriter(IndexWriter):
 
     def _flush_segment(self):
         self.perdocwriter.close()
-        if self.codec.length_stats:
-            pdr = self.per_document_reader()
-        else:
-            pdr = None
+        pdr = self.per_document_reader() if self.codec.length_stats else None
         postings = self.pool.iter_postings()
         self.fieldwriter.add_postings(self.schema, pdr, postings)
         self.fieldwriter.close()
