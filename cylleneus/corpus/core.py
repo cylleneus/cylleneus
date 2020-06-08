@@ -94,7 +94,9 @@ class Corpus:
         manifest_file = self.path / Path("manifest.json")
         if not self.path.exists():
             self.path.mkdir(parents=True, exist_ok=True)
-        with safer.open(manifest_file, mode="w", encoding="utf8", temp_file=False) as fp:
+        with safer.open(
+            manifest_file, mode="w", encoding="utf8", temp_file=False
+        ) as fp:
             json.dump(self.manifest, fp, ensure_ascii=False)
 
     @property
@@ -556,53 +558,36 @@ class Work:
         author: str = None,
         title: str = None,
         doc: CylleneusHit = None,
-        language="lat",
+        language: str = None,
     ):
         self._corpus = corpus
         if doc:
             self._doc = [
                 doc,
             ]
-            if "author" in doc:
-                self._author = doc["author"]
-            if "title" in doc:
-                self._title = doc["title"]
-            if "docix" in doc:
-                self._docix = [
-                    doc["docix"],
-                ]
-            self._urn = doc["urn"] if "urn" in doc else None
-            self._filename = [doc["filename"]] if "filename" in doc else None
-            self._timestamp = doc["datetime"] if "datetime" in doc else None
-            if "language" in doc:
-                self._language = doc["language"]
+            self._author = doc["author"] if "author" in doc else None
+            self._title = doc["title"] if "title" in doc else None
+            self._docix = [doc["docix"], ] if "docix" in doc else None
+            self._urn = [(doc["docix"], doc["urn"]), ] if "urn" in doc else None
+            self._filename = (
+                [(doc["docix"], doc["filename"]), ]
+                if "filename" in doc
+                else None
+            )
+            self._timestamp = (
+                [(doc["docix"], doc["datetime"]), ]
+                if "datetime" in doc
+                else None
+            )
+            self._language = doc["language"] if "language" in doc else None
         else:
-            if author and title:
-                docs = [
-                    doc[1] for doc in indexer.docs_for(corpus, author, title)
-                ]
-                if docs:
-                    self._doc = docs
-                    self._docix = [doc["docix"] for doc in docs]
-                    self._author = self.doc[0]["author"]
-                    self._title = self.doc[0]["title"]
-                    self._urn = self.doc[0].get("urn", None)
-                    self._filename = [
-                        doc.get("filename", None) for doc in self.doc
-                    ]
-                    self._timestamp = self.doc[0].get("datetime", None)
-                else:
-                    self._doc = (
-                        self._urn
-                    ) = self._filename = self._timestamp = None
-                    self._author = author
-                    self._title = title
-            else:
-                self._doc = (
-                    self._author
-                ) = (
-                    self._title
-                ) = self._urn = self._filename = self._timestamp = None
+            self.__author = author
+            self.__title = title
+            self._doc = []
+            self._docix = []
+            self._author = (
+                self._title
+            ) = self._urn = self._filename = self._timestamp = None
         self._indexer = indexer.Indexer(corpus, self)
         self.fetch = self.corpus._fetch
         self._language = language
@@ -625,10 +610,14 @@ class Work:
 
     @property
     def author(self):
+        if not self._author and len(self.doc) != 0:
+            self._author = self.doc[0].get("author", None)
         return self._author
 
     @property
     def title(self):
+        if not self._title and len(self.doc) != 0:
+            self._title = self.doc[0].get("title", None)
         return self._title
 
     def delete(self):
@@ -640,12 +629,19 @@ class Work:
 
     @property
     def docix(self):
-        if not self.doc:
-            self._docix = [doc[1]["docix"] for doc in self.indexer.iter_docs()]
+        if not self._docix and len(self.doc) != 0:
+            self._docix = [doc.get("docix", None) for doc in self.doc]
         return self._docix
 
     @property
     def doc(self):
+        if len(self._doc) == 0:
+            self._doc = [
+                doc[1]
+                for doc in indexer.docs_for(
+                    self.corpus, self.__author, self.__title
+                )
+            ]
         return self._doc
 
     @property
@@ -659,14 +655,29 @@ class Work:
 
     @property
     def timestamp(self):
+        if not self._timestamp and len(self.doc) != 0:
+            self._timestamp = [
+                (doc.get("docix", None), doc.get("docix", None))
+                for doc in self.doc
+            ]
         return self._timestamp
 
     @property
     def urn(self):
+        if not self._urn and len(self.doc) != 0:
+            self._urn = [
+                (doc.get("docix", None), doc.get("urn", None))
+                for doc in self.doc
+            ]
         return self._urn
 
     @property
     def filename(self):
+        if not self._filename and len(self.doc) != 0:
+            self._filename = [
+                (doc.get("docix", None), doc.get("filename", None))
+                for doc in self.doc
+            ]
         return self._filename
 
     def __str__(self):
