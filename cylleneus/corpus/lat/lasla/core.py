@@ -27,7 +27,7 @@ repo = {
 
 # Fetch text
 def fetch(work, meta, fragment):
-    urn = work.doc[0].get("urn", None)
+    _, urn = work.urn[0]
 
     # Reference and hlite values
     divs = meta["meta"].split("-")
@@ -50,8 +50,8 @@ def fetch(work, meta, fragment):
         "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
     )
 
-    filename = work.filename[0]
-    path = work.corpus.text_dir / filename
+    _, file = work.filename[0]
+    path = work.corpus.text_dir / file
 
     # Collect text and context
     if path.exists():

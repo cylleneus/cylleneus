@@ -171,7 +171,7 @@ class DocumentSchema(BaseSchema):
 
 # Fetch function for plaintext corpora with content
 def fetch(work, meta, fragment):
-    content = work.doc["content"]
+    content = work.doc[0]["content"]
     content = re.sub(r"(\s)+", r"\1", content)
 
     # Reference and hlite values
@@ -212,9 +212,9 @@ def fetch(work, meta, fragment):
     match = f"<match>{hlite}</match>"
 
     text = f"".join([pre, match, post])
-    urn = work.urn
+    _, urn = work.urn[0]
 
     return urn, reference, text
 
 
-repo = {"origin": None, "location": "local"}
+repo = {"origin": None, "raw": None, "location": "local"}

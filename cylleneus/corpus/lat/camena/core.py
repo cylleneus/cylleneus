@@ -26,15 +26,16 @@ repo = {
 
 # Function to fetch text from corpus
 def fetch(work, meta, fragment):
+    _, file = work.filename[0]
     with codecs.open(
-        work.corpus.text_dir / Path(work.filename[0]), "rb"
+        work.corpus.text_dir / file, "rb"
     ) as fp:
         value = fp.read()
     parser = et.XMLParser(encoding="utf-8")
     doc = et.XML(value, parser=parser)
 
     # URN
-    urn = work.doc[0].get("urn", None)
+    _, urn = work.urn[0]
 
     divs = meta["meta"].split("-")
 

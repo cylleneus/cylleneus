@@ -164,7 +164,7 @@ class Corpus:
             passed = (
                 self.manifest[str(docix)]["author"] == work.author
                 and self.manifest[str(docix)]["title"] == work.title
-                and self.manifest[str(docix)]["filename"] == work.filename[0]
+                and self.manifest[str(docix)]["filename"] == work.filename[0][1]
                 and (
                     work.indexer.path
                     / Path(self.manifest[str(docix)]["index"][0])
@@ -179,7 +179,7 @@ class Corpus:
             meta = {
                 "author":   work.author,
                 "title":    work.title,
-                "filename": work.filename[0],
+                "filename": work.filename[0][1],
                 "path":     (
                     (
                         Path(self.index_dir)
@@ -200,7 +200,7 @@ class Corpus:
                 self.update_manifest(str(docix), meta)
             return (
                 ADDED,
-                (docix, work.author, work.title, work.filename[0], None),
+                (docix, work.author, work.title, work.filename[0][1], None),
             )
         else:
             indexname = work.indexer.index_for_docix(docix).indexname
@@ -209,10 +209,7 @@ class Corpus:
                 work.indexer.path
             )
             tocfiles = list(self.index_dir.glob(f"*/*/_{indexname}_*.toc"))
-            if len(tocfiles) > 1:
-                latest_toc = sorted(tocfiles)[-1]
-            else:
-                latest_toc = tocfiles[0]
+            latest_toc = sorted(tocfiles)[-1] if len(tocfiles) > 1 else tocfiles[0]
             gen = latest_toc.name.rsplit("_", maxsplit=1)[1].replace(
                 ".toc", ""
             )
@@ -242,7 +239,7 @@ class Corpus:
                         docix,
                         work.author,
                         work.title,
-                        work.filename[0],
+                        work.filename[0][1],
                         ", ".join([f"{fp.name}" for fp in extraneous]),
                     ),
                 )
@@ -254,7 +251,7 @@ class Corpus:
                             docix,
                             work.author,
                             work.title,
-                            work.filename[0],
+                            work.filename[0][1],
                             None,
                         ),
                     )
@@ -264,7 +261,7 @@ class Corpus:
                     meta = {
                         "author":   work.author,
                         "title":    work.title,
-                        "filename": work.filename[0],
+                        "filename": work.filename[0][1],
                         "path":     (
                             (
                                 Path(self.index_dir)
@@ -289,7 +286,7 @@ class Corpus:
                             docix,
                             work.author,
                             work.title,
-                            work.filename[0],
+                            work.filename[0][1],
                             None,
                         ),
                     )

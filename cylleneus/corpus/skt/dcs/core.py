@@ -23,10 +23,10 @@ repo = {
 
 # Fetch text
 def fetch(work, meta, fragment):
-    filename = work.filename[0]
-    path = work.corpus.text_dir / filename
+    _, file = work.filename[0]
+    path = work.corpus.text_dir / file
 
-    urn = work.doc[0].get("urn", None)
+    _, urn = work.urn[0]
 
     divs = meta["meta"].split("-")
 

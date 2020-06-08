@@ -24,8 +24,9 @@ repo = {
 
 # Fetch text
 def fetch(work, meta, fragment):
+    _, file = work.filename[0]
     with codecs.open(
-        work.corpus.text_dir / work.filename[0], "r", "utf8"
+        work.corpus.text_dir / file, "r", "utf8"
     ) as fp:
         doc = json.load(fp)
 
@@ -51,12 +52,10 @@ def fetch(work, meta, fragment):
     )
 
     hlites = sorted(
-        set(
-            [
-                tuple(v for k, v in hlite.items() if k in divs + ["sent_pos", ])
-                for hlite in meta["hlites"]
-            ]
-        )
+        {
+            tuple(v for k, v in hlite.items() if k in divs + ["sent_pos", ])
+            for hlite in meta["hlites"]
+        }
     )
 
     # Collect text and context
@@ -136,7 +135,7 @@ def fetch(work, meta, fragment):
         joiner = " "
     parts = pre + match + post
     text = f"{joiner}".join(parts)
-    urn = work.urn
+    _, urn = work.urn[0]
 
     return urn, reference, text
 

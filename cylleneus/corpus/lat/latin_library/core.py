@@ -24,8 +24,9 @@ repo = {
 
 # Fetch text
 def fetch(work, meta, fragment):
+    _, file = work.filename[0]
     with codecs.open(
-        work.corpus.text_dir / work.filename[0].replace("\\", "/")
+        work.corpus.text_dir / file.replace("\\", "/")
     ) as fp:
         content = fp.read()
 
@@ -70,7 +71,7 @@ def fetch(work, meta, fragment):
     match = f"<match>{hlite}</match>"
 
     text = f"".join([pre, match, post])
-    urn = work.urn
+    _, urn = work.urn[0]
 
     return urn, reference, text
 

@@ -25,13 +25,14 @@ repo = {
 
 # Fetch text
 def fetch(work, meta, fragment):
-    with codecs.open(work.corpus.text_dir / work.filename[0], "rb") as fp:
+    _, file = work.filename[0]
+    with codecs.open(work.corpus.text_dir / file, "rb") as fp:
         value = fp.read()
     parser = et.XMLParser(encoding="utf-8")
     doc = et.XML(value, parser=parser)
 
     # URN
-    urn = work.doc[0].get("urn", None)
+    _, urn = work.urn[0]
 
     divs = meta["meta"].split("-")
 
