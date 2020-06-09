@@ -39,6 +39,7 @@ class TestQueryTypes(unittest.TestCase):
         """Test permissible query types."""
 
         queries = [
+            "[=the Sustainer]",
             "(<gelidus> OR <gelida>) AND <pruina>",
             "(<gelidus> OR <gelida>) THEN <pruina>",
             "'sed'",
