@@ -66,7 +66,7 @@ class CachedLemmaFilter(Filter):
 
                     text = t.text
 
-                    if "#" in text:
+                    if "#" in text or text.startswith("="):
                         yield t
                     elif "?" in text:
                         language, word = text.split("?")
@@ -74,9 +74,9 @@ class CachedLemmaFilter(Filter):
                         t.text = word
                         yield t
                     else:
+                        keys = ["lemma", "pos"]
                         # </::love=VB>
                         if hasattr(t, "reltype"):
-                            keys = ["lemma", "pos"]
                             kwargs = {
                                 k: v
                                 for k, v in zip(
@@ -124,7 +124,6 @@ class CachedLemmaFilter(Filter):
                                             t.text = f"{relation['lemma']}={relation['morpho']}"
                                             yield t
                         else:
-                            keys = ["lemma", "pos"]
                             kwargs = {
                                 k: v
                                 for k, v in zip(

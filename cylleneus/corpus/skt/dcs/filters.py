@@ -10,6 +10,7 @@ from .core import (
     pos_mapping,
     xpos_mapping,
     lemma_synsets,
+    wn_mappings
 )
 
 from sanskritwordnet import SanskritWordNet, relation_types
@@ -95,11 +96,7 @@ class CachedLemmaFilter(Filter):
                         except KeyError:
                             continue
 
-                        if t.morpho is not None:
-                            annotation = t.morpho
-                        else:
-                            annotation = None
-
+                        annotation = t.morpho if t.morpho is not None else None
                         for i, morpho in enumerate(morphos.split()):
                             uri = lemma_id[lemma][morpho]
                             if annotation is not None:
@@ -142,7 +139,7 @@ class CachedLemmaFilter(Filter):
                         t.language = language
                         t.text = word
                         yield t
-                    elif "#" in text:
+                    elif "#" in text or text.startswith("="):
                         yield t
                     elif leipzig2wn(t.original) != "----------":
                         yield t
@@ -150,8 +147,8 @@ class CachedLemmaFilter(Filter):
                         yield t
                     else:
                         if hasattr(t, "reltype"):
+                            keys = ["transliteration", "uri", "morpho"]
                             if t.reltype in ["\\", "/", "+c", "-c"]:
-                                keys = ["transliteration", "uri", "morpho"]
                                 kwargs = {
                                     k: v
                                     for k, v in zip(
@@ -170,7 +167,6 @@ class CachedLemmaFilter(Filter):
                                     kwargs.pop("uri")
                                     results = SWN.lemmas(**kwargs).relations
                             else:
-                                keys = ["transliteration", "uri", "morpho"]
                                 kwargs = {
                                     k: v
                                     for k, v in zip(
@@ -271,23 +267,15 @@ class CachedSynsetFilter(Filter):
 
             for t in tokens:
                 if t.mode == "index":
-                    dcs_id = t.dcs_id
-                    if dcs_id:
-                        for synset_id in lemma_synsets.get(dcs_id, []):
-                            pos, offset = synset_id.split("#")
-                            synsets = SWN.synsets(pos=pos, offset=offset).get()
-                            if synsets:
-                                for synset in synsets:
-                                    t.code = " ".join(
-                                        [
-                                            semfield["code"]
-                                            for semfield in synset["semfield"]
-                                        ]
-                                    )
-                                    t.text = synset_id
-                                    if self.cached:
-                                        self._cache.append(copy.copy(t))
-                                    yield t
+                    sem = t.synset
+                    if sem:
+                        synset_id = wn_mappings.get(sem, None)
+
+                        if synset_id:
+                            t.text = synset_id
+                            if self.cached:
+                                self._cache.append(copy.copy(t))
+                            yield t
                 elif t.mode == "query":
                     if hasattr(t, "language"):
                         language = t.language
@@ -330,5 +318,58 @@ class CachedSynsetFilter(Filter):
                                     yield t
                         else:
                             yield t
+                    elif t.text.startswith("="):
+                        q = t.text[1:]
+                        synsets = SWN.synsets(gloss=q).search()
+                        for synset in synsets:
+                            t.text = f"{synset['pos']}#{synset['offset']}"
+                            yield t
                     else:
                         yield t
+
+
+class SemfieldFilter(Filter):
+    is_morph = True
+
+    def __init__(self, **kwargs):
+        super(SemfieldFilter, self).__init__()
+        self.__dict__.update(**kwargs)
+
+    def __eq__(self, other):
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.__dict__ == other.__dict__
+        )
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __call__(self, tokens, **kwargs):
+        for t in tokens:
+            if t.mode == "index":
+                synset_id = t.text
+                pos, offset = synset_id.split("#")
+                synsets = SWN.synsets(pos=pos, offset=offset).get()
+                if synsets:
+                    for synset in synsets:
+                        codes = [
+                            semfield["code"]
+                            for semfield in synset["semfield"]
+                        ]
+                        for code in codes:
+                            t.text = code
+                            yield t
+            elif t.mode == "query":
+                text = t.original
+                if text:
+                    if text.isnumeric():
+                        results = SWN.semfields(code=text)
+                    else:
+                        results = SWN.semfields(english=text).search()
+                    if results:
+                        for result in results:
+                            t.text = result["code"]
+                            yield t
+                else:
+                    yield t

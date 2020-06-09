@@ -33,6 +33,8 @@ def doc_for_docix(corpus, docix: int):
                     path, schema=corpus.schema, indexname=indexname
                 )
                 doc = ix.reader().stored_fields(0)
+            else:
+                doc = None
         except FileNotFoundError:
             return None
         else:

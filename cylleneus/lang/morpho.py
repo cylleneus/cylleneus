@@ -33,14 +33,14 @@ class Morph:
         pos = self.pos if (self.pos != "-" and other.pos == "-") else other.pos
         person = (
             self.person
-            if (self.person != "-" and other.person == "-")
+            if (hasattr(self, "person") and self.person != "-" and other.person == "-")
             else other.person
         )
         if pos in 'ar':
             degree = (
                 self.degree
-                if (self.degree != "-" and other.degree == "-")
-                else other.degree
+                if (hasattr(self, "degree") and self.degree != "-" and hasattr(other, "degree") and other.degree == "-")
+                else other.degree if hasattr(other, "degree") else "-"
             )
         number = (
             self.number
@@ -105,109 +105,109 @@ class Morph:
 
 
 def leipzig2wn(gloss: str):
-    if gloss:
-        pos = (
-            person
-        ) = number = tense = mood = voice = gender = case = group = stem = "-"
+    if not gloss:
+        return
+    pos = (
+        person
+    ) = number = tense = mood = voice = gender = case = group = stem = "-"
 
-        tags = [tag.strip() for tag in gloss.upper().split(".") if tag.strip()]
-        for tag in tags:
-            if tag[0].isdigit():
-                if len(tag) == 3 and tag[1:] in ["SG", "PL", "DU", "XX"]:
-                    person = _from_leipzig[tag[0]]
-                    number = _from_leipzig[tag[1:]]
-                elif len(tag) == 1 and tag in ["1", "2", "3", "4", "5"]:
-                    group = _from_leipzig[tag]
-            if tag in ["NN", "VB", "ADJ", "ADV"]:
-                pos = _from_leipzig[tag]
-            elif tag in ["SG", "PL", "DU", "XX"]:
-                number = _from_leipzig[tag]
-            elif tag in [
-                "PRS",
-                "IMPRF",
-                "FUT",
-                "PRF",
-                "PLPRF",
-                "FUTPRF",
-                "AOR",
-            ]:
-                tense = _from_leipzig[tag]
-                pos = "v"
-            elif tag in [
-                "IND",
-                "SBJV",
-                "IMP",
-                "PTCP",
-                "INF",
-                "GER",
-                "GERV",
-                "SUP",
-                "OPT",
-                "INJ",
-                "PREC",
-                "COND",
-                "PART",
-            ]:
-                mood = _from_leipzig[tag]
-                pos = "v"
-            elif tag in ["ACT", "PASS", "DEP", "MID"]:
-                voice = _from_leipzig[tag]
-                pos = "v"
-            elif tag in ["M", "F", "N"]:
-                gender = _from_leipzig[tag]
-            elif tag in ["POS", "COMP", "SUPL"]:
-                person = _from_leipzig[tag]
-                if pos == "-" and (
-                    gender != "-"
-                    or case != "-"
-                    or number != "-"
-                    or group != "-"
-                ):
-                    pos = "a"
-                else:
-                    pos = "r"
-            elif tag in [
-                "NOM",
-                "GEN",
-                "DAT",
-                "ACC",
-                "ABL",
-                "LOC",
-                "VOC",
-                "INS",
-                "CPD",
-            ]:
-                case = _from_leipzig[tag]
-                # if mood in 'pgds':
-                #     pos = 'v'
-                # elif person != '-':  # adjectives have degree
-                #     pos = 'a'
-                # else:
-                #     pos = 'n'
-        desc = f"{pos}{person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
-        return desc
+    tags = [tag.strip() for tag in gloss.upper().split(".") if tag.strip()]
+    for tag in tags:
+        if tag[0].isdigit():
+            if len(tag) == 3 and tag[1:] in ["SG", "PL", "DU", "XX"]:
+                person = _from_leipzig[tag[0]]
+                number = _from_leipzig[tag[1:]]
+            elif len(tag) == 1 and tag in ["1", "2", "3", "4", "5"]:
+                group = _from_leipzig[tag]
+        if tag in ["NN", "VB", "ADJ", "ADV"]:
+            pos = _from_leipzig[tag]
+        elif tag in ["SG", "PL", "DU", "XX"]:
+            number = _from_leipzig[tag]
+        elif tag in [
+            "PRS",
+            "IMPRF",
+            "FUT",
+            "PRF",
+            "PLPRF",
+            "FUTPRF",
+            "AOR",
+        ]:
+            tense = _from_leipzig[tag]
+            pos = "v"
+        elif tag in [
+            "IND",
+            "SBJV",
+            "IMP",
+            "PTCP",
+            "INF",
+            "GER",
+            "GERV",
+            "SUP",
+            "OPT",
+            "INJ",
+            "PREC",
+            "COND",
+            "PART",
+        ]:
+            mood = _from_leipzig[tag]
+            pos = "v"
+        elif tag in ["ACT", "PASS", "DEP", "MID"]:
+            voice = _from_leipzig[tag]
+            pos = "v"
+        elif tag in ["M", "F", "N"]:
+            gender = _from_leipzig[tag]
+        elif tag in ["POS", "COMP", "SUPL"]:
+            person = _from_leipzig[tag]
+            if pos == "-" and (
+                gender != "-"
+                or case != "-"
+                or number != "-"
+                or group != "-"
+            ):
+                pos = "a"
+            else:
+                pos = "r"
+        elif tag in [
+            "NOM",
+            "GEN",
+            "DAT",
+            "ACC",
+            "ABL",
+            "LOC",
+            "VOC",
+            "INS",
+            "CPD",
+        ]:
+            case = _from_leipzig[tag]
+            # if mood in 'pgds':
+            #     pos = 'v'
+            # elif person != '-':  # adjectives have degree
+            #     pos = 'a'
+            # else:
+            #     pos = 'n'
+    return f"{pos}{person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
 
 
 def apn2wn(gloss: str) -> str:
-    if gloss:
-        gender = stem = "-"
-        pos, group, case, number, degree, mood, tense, voice, person, _ = [
-            _from_apn[index][tag] if tag.strip() else "-"
-            for index, tag in enumerate(gloss)
-        ]
+    if not gloss:
+        return
+    gender = stem = "-"
+    pos, group, case, number, degree, mood, tense, voice, person, _ = [
+        _from_apn[index][tag] if tag.strip() else "-"
+        for index, tag in enumerate(gloss)
+    ]
 
-        if pos == "a" and group == "2":
-            group = "1"
-        if pos in ["a", "r"]:
-            person = degree
-        if mood == "s":
-            if gloss[5] == "8":
-                case = "n"
-            elif gloss[5] == "9":
-                case = "a"
+    if pos == "a" and group == "2":
+        group = "1"
+    if pos in ["a", "r"]:
+        person = degree
+    if mood == "s":
+        if gloss[5] == "8":
+            case = "n"
+        elif gloss[5] == "9":
+            case = "a"
 
-        desc = f"{pos}{person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
-        return desc
+    return f"{pos}{person}{number}{tense}{mood}{voice}{gender}{case}{group}{stem}"
 
 
 _from_apn = [

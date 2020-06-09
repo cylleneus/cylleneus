@@ -609,7 +609,7 @@ class CachedLemmaFilter(Filter):
                         t.language = language
                         t.text = word
                         yield t
-                    elif "#" in text:
+                    elif "#" in text or text.startswith("="):
                         yield t
                     elif leipzig2wn(t.original) != "----------":
                         yield t
@@ -905,6 +905,12 @@ class CachedSynsetFilter(Filter):
                                     t.text = f"{relation['pos']}#{relation['offset']}"
                                     yield t
                         else:
+                            yield t
+                    elif t.text.startswith("="):
+                        q = t.text[1:]
+                        synsets = LWN.synsets(gloss=q).search()
+                        for synset in synsets:
+                            t.text = f"{synset['pos']}#{synset['offset']}"
                             yield t
                     else:
                         yield t

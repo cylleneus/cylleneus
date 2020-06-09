@@ -52,6 +52,7 @@ import cylleneus.engine.query.positional
 import cylleneus.engine.scoring
 from cylleneus.engine.compat import iteritems, iterkeys, itervalues, xrange
 from cylleneus.lang import lat
+from cylleneus.settings import DEBUG
 from cylleneus.utils import *
 
 HitRef = namedtuple(
@@ -2664,14 +2665,16 @@ class CylleneusSearcher(Searcher):
         # Call the lower-level method to run the collector
         self.search_with_collector(q, c)
         results = c.results()
-        docixs = [hit["docix"] for hit in results]
-        print_debug(
-            DEBUG_LOW,
-            "Matched in docix{} {} in {} secs.".format(
-                "s" if len(docixs) > 1 else "",
-                ", ".join([str(docix) for docix in docixs]),
-                f"{results.runtime:.3f}",
-            ),
-        )
+
+        if DEBUG and results:
+            docixs = [hit["docix"] for hit in results]
+            print_debug(
+                DEBUG_LOW,
+                "Matched in docix{} {} in {} secs.".format(
+                    "s" if len(docixs) > 1 else "",
+                    ", ".join([str(docix) for docix in docixs]),
+                    f"{results.runtime:.3f}",
+                ),
+            )
         # Return the results object from the collector
         return c.results()

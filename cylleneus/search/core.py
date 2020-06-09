@@ -474,17 +474,13 @@ class Search:
                                     x["title"],
                                 ),
                             ):
-                                if (
-                                    hit["corpus"],
-                                    hit["docix"],
-                                ) in self.docixs:
-                                    self.results.extend(
-                                        hit.highlights(
-                                            fieldname="content",
-                                            top=self.top,
-                                            minscore=self.minscore,
-                                        )
+                                self.results.extend(
+                                    hit.highlights(
+                                        fieldname="content",
+                                        top=self.top,
+                                        minscore=self.minscore,
                                     )
+                                )
         self.end_dt = datetime.now()
         return self.count
 

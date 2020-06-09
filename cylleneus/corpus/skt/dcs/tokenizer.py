@@ -48,10 +48,9 @@ class CachedTokenizer(Tokenizer):
                     lines = []
                     for line in value["text"]:
                         line = re.sub(r"\t+", "\t", line.strip())
-                        if line:
-                            if line.startswith("# text_line"):
-                                text = line.split("# text_line: ")[1]
-                                lines.append(text)
+                        if line and line.startswith("# text_line"):
+                            text = line.split("# text_line: ")[1]
+                            lines.append(text)
                     t.original = t.text = "\n".join([line for line in lines])
                     t.boost = 1.0
                     if positions:
@@ -67,7 +66,7 @@ class CachedTokenizer(Tokenizer):
                     t.boost = 1.0
                     t.pos = t.startchar = t.endchar = 0
 
-                    _meta = {
+                    meta = {
                         "text":                 None,  # work title
                         "text_id":              None,
                         "chapter":              None,  # reference
@@ -90,15 +89,16 @@ class CachedTokenizer(Tokenizer):
                                     continue
                                 label = label.split(" ", maxsplit=1)[1].strip()
                                 value = value.strip()
-                                _meta[label] = (
+                                meta[label] = (
                                     value
                                     if not value.isnumeric()
                                     else int(value)
                                 )
 
-                                if label == "text_line_counter":
-                                    sent_pos = 0
-                                elif label == "text_line_subcounter":
+                                if label in [
+                                    "text_line_counter",
+                                    "text_line_subcounter",
+                                ]:
                                     sent_pos = 0
                             else:
                                 try:
@@ -156,8 +156,6 @@ class CachedTokenizer(Tokenizer):
                                             t.pos = sent_pos
                                             continue
                                     else:
-                                        # t.mode = "index"
-
                                         if FORM == "_":
                                             t.text = t.original
                                         else:
@@ -171,16 +169,17 @@ class CachedTokenizer(Tokenizer):
                                         t.dcs_id = LEMMA_ID
                                         t.morphosyntax = XPOS
                                         t.morpho = None
+                                        t.synset = None
 
                                         t.meta = {
                                             "meta":      "chapter-line",
-                                            "chapter":   _meta["chapter"],
-                                            "line":      _meta["text_line_counter"],
+                                            "chapter":   meta["chapter"],
+                                            "line":      meta["text_line_counter"],
                                             "sect_pos":  sect_pos,
-                                            "sect_sent": _meta[
+                                            "sect_sent": meta[
                                                              "text_line_counter"
                                                          ],
-                                            "sent_id":   _meta["text_line_id"],
+                                            "sent_id":   meta["text_line_id"],
                                             "sent_pos":  sent_pos,
                                         }
                                         t.startchar = start_char
@@ -196,8 +195,6 @@ class CachedTokenizer(Tokenizer):
 
                                         start_char += len(t.original) + 1
                                 else:
-                                    # t.mode = "index"
-
                                     if FORM == "_":
                                         t.text = t.original
                                     else:
@@ -210,28 +207,21 @@ class CachedTokenizer(Tokenizer):
                                     t.lemma = LEMMA
                                     t.dcs_id = LEMMA_ID
                                     t.morphosyntax = XPOS
-                                    if MORPHO == "_" or not MORPHO:
-                                        t.morpho = None
-                                    else:
-                                        t.morpho = parse_morpho(XPOS, MORPHO)
+                                    t.morpho = None if MORPHO == "_" or not MORPHO else parse_morpho(XPOS, MORPHO)
+                                    t.synset = None if SEM == "_" else SEM
                                     t.meta = {
                                         "meta":      "chapter-line",
-                                        "chapter":   _meta["chapter"],
-                                        "line":      _meta["text_line_counter"],
+                                        "chapter":   meta["chapter"],
+                                        "line":      meta["text_line_counter"],
                                         "sect_pos":  sect_pos,
-                                        "sect_sent": _meta[
+                                        "sect_sent": meta[
                                                          "text_line_counter"
                                                      ],
-                                        "sent_id":   _meta["text_line_id"],
+                                        "sent_id":   meta["text_line_id"],
                                         "sent_pos":  sent_pos,
                                     }
                                     t.startchar = start_char
                                     t.endchar = start_char + len(t.original)
                                     yield t
-
-                                    # # Emit Devanagari
-                                    # t.text = slp2deva(iast2slp(t.text))
-                                    # t.mode = "skip"
-                                    # yield t
 
                                     start_char += len(t.original) + 1

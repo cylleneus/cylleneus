@@ -231,7 +231,7 @@ class LemmaPlugin(whoosh.qparser.plugins.TaggingPlugin):
 class GlossPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify glosses by enclosing them in square brackets."""
 
-    expr = r"\[(?P<text>[\w?#=!@~#%msp=|+-rc\/*>^$&<]+?)\]"  # r'(^|(?<=\W))\[(?P<text>[\w#]+?)\](?=\s|\]|[)}]|:|"|$)'
+    expr = r"\[(?P<text>[\w\s?#=!@~#%msp=|+-rc\/*>^$&<]+?)\]"  # r'(^|(?<=\W))\[(?P<text>[\w#]+?)\](?=\s|\]|[)}]|:|"|$)'
     nodetype = GlossNode
 
 

@@ -59,7 +59,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Historiae",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Thucydidis historiae, 2 vols., ed. Powell, J.E., 1:1942 (1st edn. rev.); 2:1942 (2nd edn. "
                           "rev.)",
             },
@@ -78,7 +78,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Vitae philosophorum",
                 "genre":  ["Biogr.", "Doxogr."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Diogenis Laertii vitae philosophorum, 2 vols., ed. Long, H.S., 1964",
             },
         },
@@ -336,853 +336,853 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Theseus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.1, 4th edn., ed. Ziegler, K., 1969",
             },
             "tlg002": {
                 "title":  "Romulus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.1, 4th edn., ed. Ziegler, K., 1969",
             },
             "tlg003": {
                 "title":  "Comparatio Thesei et Romuli",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.1, 4th edn., ed. Ziegler, K., 1969",
             },
             "tlg004": {
                 "title":  "Lycurgus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarch's lives, vol. 1, ed. Perrin, B., 1914",
             },
             "tlg005": {
                 "title":  "Numa",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarch's lives, vol. 1, ed. Perrin, B., 1914",
             },
             "tlg006": {
                 "title":  "Comparatio Lycurgi et Numae",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarch's lives, vol. 1, ed. Perrin, B., 1914",
             },
             "tlg007": {
                 "title":  "Solon",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.1, 4th edn., ed. Ziegler, K., 1969",
             },
             "tlg008": {
                 "title":  "Publicola",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.1, 4th edn., ed. Ziegler, K., 1969",
             },
             "tlg009": {
                 "title":  "Comparatio Solonis et Publicolae",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.1, 4th edn., ed. Ziegler, K., 1969",
             },
             "tlg010": {
                 "title":  "Themistocles",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.1, 4th edn., ed. Ziegler, K., 1969",
             },
             "tlg011": {
                 "title":  "Camillus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.1, 4th edn., ed. Ziegler, K., 1969",
             },
             "tlg012": {
                 "title":  "Pericles",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.2, 3rd edn., ed. Ziegler, K., 1964",
             },
             "tlg013": {
                 "title":  "Fabius Maximus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.2, 3rd edn., ed. Ziegler, K., 1964",
             },
             "tlg014": {
                 "title":  "Comparatio Periclis et Fabii Maximi",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.2, 3rd edn., ed. Ziegler, K., 1964",
             },
             "tlg015": {
                 "title":  "Alcibiades",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.2, 3rd edn., ed. Ziegler, K., 1964",
             },
             "tlg016": {
                 "title":  "Marcius Coriolanus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.2, 3rd edn., ed. Ziegler, K., 1964",
             },
             "tlg017": {
                 "title":  "Comparatio Alcibiadis et Marcii Coriolani",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.2, 3rd edn., ed. Ziegler, K., 1964",
             },
             "tlg018": {
                 "title":  "Timoleon",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.1, 2nd edn., ed. Ziegler, K., 1964",
             },
             "tlg019": {
                 "title":  "Aemilius Paullus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.1, 2nd edn., ed. Ziegler, K., 1964",
             },
             "tlg020": {
                 "title":  "Comparatio Aemilii Paulli et Timoleontis",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.1, 2nd edn., ed. Ziegler, K., 1964",
             },
             "tlg021": {
                 "title":  "Pelopidas",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.2, 2nd edn., ed. Ziegler, K., 1968",
             },
             "tlg022": {
                 "title":  "Marcellus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.2, 2nd edn., ed. Ziegler, K., 1968",
             },
             "tlg023": {
                 "title":  "Comparatio Pelopidae et Marcelli",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.2, 2nd edn., ed. Ziegler, K., 1968",
             },
             "tlg024": {
                 "title":  "Aristides",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.1, 4th edn., ed. Ziegler, K., 1969",
             },
             "tlg025": {
                 "title":  "Cato Maior",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.1, 4th edn., ed. Ziegler, K., 1969",
             },
             "tlg026": {
                 "title":  "Comparatio Aristidis et Catonis",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.1, 4th edn., ed. Ziegler, K., 1969",
             },
             "tlg027": {
                 "title":  "tlglopoemen",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.2, 2nd edn., ed. Ziegler, K., 1968",
             },
             "tlg028": {
                 "title":  "Titus Flamininus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.2, 2nd edn., ed. Ziegler, K., 1968",
             },
             "tlg029": {
                 "title":  "Comparatio Philopoemenis et Titi Flaminini",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.2, 2nd edn., ed. Ziegler, K., 1968",
             },
             "tlg030": {
                 "title":  "Pyrrhus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 3.1, 2nd edn., ed. Ziegler, K., 1971",
             },
             "tlg031": {
                 "title":  "Marius",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 3.1, 2nd edn., ed. Ziegler, K., 1971",
             },
             "tlg032": {
                 "title":  "Lysander",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarch's lives, vol. 4, ed. Perrin, B., 1916",
             },
             "tlg033": {
                 "title":  "Sulla",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarch's lives, vol. 4, ed. Perrin, B., 1916",
             },
             "tlg034": {
                 "title":  "Comparatio Lysandri et Sullae",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarch's lives, vol. 4, ed. Perrin, B., 1916",
             },
             "tlg035": {
                 "title":  "Cimon",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.1, 4th edn., ed. Ziegler, K., 1969",
             },
             "tlg036": {
                 "title":  "Lucullus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.1, 4th edn., ed. Ziegler, K., 1969",
             },
             "tlg037": {
                 "title":  "Comparatio Cimonis et Luculli",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.1, 4th edn., ed. Ziegler, K., 1969",
             },
             "tlg038": {
                 "title":  "Nicias",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.2, 3rd edn., ed. Ziegler, K., 1964",
             },
             "tlg039": {
                 "title":  "Crassus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.2, 3rd edn., ed. Ziegler, K., 1964",
             },
             "tlg040": {
                 "title":  "Comparatio Niciae et Crassi",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.2, 3rd edn., ed. Ziegler, K., 1964",
             },
             "tlg041": {
                 "title":  "Eumenes",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.1, 2nd edn., ed. Ziegler, K., 1964",
             },
             "tlg042": {
                 "title":  "Sertorius",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.1, 2nd edn., ed. Ziegler, K., 1964",
             },
             "tlg043": {
                 "title":  "Comparatio Eumenis et Sertorii",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.1, 2nd edn., ed. Ziegler, K., 1964",
             },
             "tlg044": {
                 "title":  "Agesilaus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarch's lives, vol. 5, ed. Perrin, B., 1917",
             },
             "tlg045": {
                 "title":  "Pompeius",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarch's lives, vol. 5, ed. Perrin, B., 1917",
             },
             "tlg046": {
                 "title":  "Comparatio Agesilai et Pompeii",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarch's lives, vol. 5, ed. Perrin, B., 1917",
             },
             "tlg047": {
                 "title":  "Alexander",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.2, 2nd edn., ed. Ziegler, K., 1968",
             },
             "tlg048": {
                 "title":  "Caesar",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.2, 2nd edn., ed. Ziegler, K., 1968",
             },
             "tlg049": {
                 "title":  "Phocion",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.1, 2nd edn., ed. Ziegler, K., 1964",
             },
             "tlg050": {
                 "title":  "Cato Minor",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.1, 2nd edn., ed. Ziegler, K., 1964",
             },
             "tlg051": {
                 "title":  "Agis et Cleomenes",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 3.1, 2nd edn., ed. Ziegler, K., 1971",
             },
             "tlg052": {
                 "title":  "Tiberius et Gaius Gracchus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 3.1, 2nd edn., ed. Ziegler, K., 1971",
             },
             "tlg053": {
                 "title":  "Comparatio Agidis et Cleomenis cum Tiberio et Gaio Graccho",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 3.1, 2nd edn., ed. Ziegler, K., 1971",
             },
             "tlg054": {
                 "title":  "Demosthenes",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.2, 3rd edn., ed. Ziegler, K., 1964",
             },
             "tlg055": {
                 "title":  "Cicero",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.2, 3rd edn., ed. Ziegler, K., 1964",
             },
             "tlg056": {
                 "title":  "Comparatio Demosthenis et Ciceronis",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 1.2, 3rd edn., ed. Ziegler, K., 1964",
             },
             "tlg057": {
                 "title":  "Demetrius",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 3.1, 2nd edn., ed. Ziegler, K., 1971",
             },
             "tlg058": {
                 "title":  "Antonius",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 3.1, 2nd edn., ed. Ziegler, K., 1971",
             },
             "tlg059": {
                 "title":  "Comparatio Demetrii et Antonii",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 3.1, 2nd edn., ed. Ziegler, K., 1971",
             },
             "tlg060": {
                 "title":  "Dion",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.1, 2nd edn., ed. Ziegler, K., 1964",
             },
             "tlg061": {
                 "title":  "Brutus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.1, 2nd edn., ed. Ziegler, K., 1964",
             },
             "tlg062": {
                 "title":  "Comparatio Dionis et Bruti",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 2.1, 2nd edn., ed. Ziegler, K., 1964",
             },
             "tlg063": {
                 "title":  "Aratus",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 3.1, 2nd edn., ed. Ziegler, K., 1971",
             },
             "tlg064": {
                 "title":  "Artaxerxes",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarchi vitae parallelae, vol. 3.1, 2nd edn., ed. Ziegler, K., 1971",
             },
             "tlg065": {
                 "title":  "Galba",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarch's lives, vol. 11, ed. Perrin, B., 1926",
             },
             "tlg066": {
                 "title":  "Otho",
                 "genre":  ["Biogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Plutarch's lives, vol. 11, ed. Perrin, B., 1926",
             },
             "tlg067": {
                 "title":  "De liberis educandis [Sp.] (1a -`14c)",
                 "genre":  ["tlgl.", "Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 1, ed. Babbitt, F.C., 1927",
             },
             "tlg068": {
                 "title":  "Quomodo adolescens poetas audire debeat (14d -`37b)",
                 "genre":  ["tlgl.", "Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 1, ed. Babbitt, F.C., 1927",
             },
             "tlg069": {
                 "title":  "De recta ratione audiendi (37b -`48d)",
                 "genre":  ["tlgl.", "Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 1, ed. Babbitt, F.C., 1927",
             },
             "tlg070": {
                 "title":  "Quomodo adulator ab amico internoscatur (48e -`74e)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 1, ed. Babbitt, F.C., 1927",
             },
             "tlg071": {
                 "title":  "Quomodo quis suos in virtute sentiat profectus (75a -`86a)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 1, ed. Babbitt, F.C., 1927",
             },
             "tlg072": {
                 "title":  "De capienda ex inimicis utilitate (86b -`92f)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 2, ed. Babbitt, F.C., 1928",
             },
             "tlg073": {
                 "title":  "De amicorum multitudine (93a -`97b)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 2, ed. Babbitt, F.C., 1928",
             },
             "tlg074": {
                 "title":  "De fortuna (97c -`100a)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 2, ed. Babbitt, F.C., 1928",
             },
             "tlg075": {
                 "title":  "De virtute et vitio (100b -`101e)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 2, ed. Babbitt, F.C., 1928",
             },
             "tlg076": {
                 "title":  "Consolatio ad Apollonium [Sp.] (101f -`122a)",
                 "genre":  ["Epist.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 2, ed. Babbitt, F.C., 1928",
             },
             "tlg077": {
                 "title":  "De tuenda sanitate praecepta (122b -`137e)",
                 "genre":  ["Dialog.", "Med.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 2, ed. Babbitt, F.C., 1928",
             },
             "tlg078": {
                 "title":  "Conjugalia praecepta (138a -`146a)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 2, ed. Babbitt, F.C., 1928",
             },
             "tlg079": {
                 "title":  "Septem sapientium convivium (146b -`164d)",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 2, ed. Babbitt, F.C., 1928",
             },
             "tlg080": {
                 "title":  "De superstitione (164e -`171f)",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 2, ed. Babbitt, F.C., 1928",
             },
             "tlg081": {
                 "title":  "Regum et imperatorum apophthegmata [Sp.?] (172b -`208a)",
                 "genre":  ["Gnom.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 2.1, ed. Nachstaedt, W., 1935",
             },
             "tlg082": {
                 "title":  "Apophthegmata Laconica [Sp.?] (208b -`242d)",
                 "genre":  ["Gnom.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 2.1, ed. Nachstaedt, W., 1935",
             },
             "tlg083": {
                 "title":  "Mulierum virtutes (242e -`263c)",
                 "genre":  ["Hist.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 2.1, ed. Nachstaedt, W., 1935",
             },
             "tlg084": {
                 "title":  "Aetia Romana et Graeca (263d -`304f)",
                 "genre":  ["Polyhist."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 2.1, ed. Titchener, J.B., 1935",
             },
             "tlg085": {
                 "title":  "Parallela minora [Sp.] (305a -`316b)",
                 "genre":  ["Hist.", "Myth."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 2.2, ed. Nachstaedt, W., 1935",
             },
             "tlg086": {
                 "title":  "De fortuna Romanorum (316c -`326c)",
                 "genre":  ["Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 2.2, ed. Nachstaedt, W., 1935",
             },
             "tlg087": {
                 "title":  "De Alexandri magni fortuna aut virtute (326d -`345b)",
                 "genre":  ["Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 2.2, ed. Nachstaedt, W., 1935",
             },
             "tlg088": {
                 "title":  "De gloria Atheniensium (345c -`351b)",
                 "genre":  ["Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 2.2, ed. Nachstaedt, W., 1935",
             },
             "tlg089": {
                 "title":  "De Iside et Osiride (351c -`384c)",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 2.3, ed. Sieveking, W., 1935",
             },
             "tlg090": {
                 "title":  "De E apud Delphos (384d -`394c)",
                 "genre":  ["Dialog.", "tlgl.", "Theol."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Sieveking, W., 1929",
             },
             "tlg091": {
                 "title":  "De Pythiae oraculis (394d -`409d)",
                 "genre":  ["Dialog.", "tlgl.", "Theol."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Sieveking, W., 1929",
             },
             "tlg092": {
                 "title":  "De defectu oraculorum (409e -`438d)",
                 "genre":  ["Dialog.", "tlgl.", "Theol."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Sieveking, W., 1929",
             },
             "tlg093": {
                 "title":  "An virtus doceri possit (439a -`440c)",
                 "genre":  ["tlgl.", "Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg094": {
                 "title":  "De virtute morali (440d -`452d)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg095": {
                 "title":  "De cohibenda ira (452f -`464d)",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg096": {
                 "title":  "De tranquillitate animi (464e -`477f)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg097": {
                 "title":  "De fraterno amore (478a -`492d)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg098": {
                 "title":  "De amore prolis (493a -`497e)",
                 "genre":  ["tlgl.", "Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg099": {
                 "title":  "An vitiositas ad infelicitatem sufficiat (498a -`500a)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg100": {
                 "title":  "Animine an corporis affectiones sint peiores (500b -`502a)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg101": {
                 "title":  "De garrulitate (502b -`515a)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg102": {
                 "title":  "De curiositate (515b -`523b)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg103": {
                 "title":  "De cupiditate divitiarum (523c -`528b)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg104": {
                 "title":  "De vitioso pudore (528c -`536d)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg105": {
                 "title":  "De invidia et odio (536e -`538e)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg106": {
                 "title":  "De laude ipsius (539a -`547f)",
                 "genre":  ["tlgl.", "Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg107": {
                 "title":  "De sera numinis vindicta (548a -`568a)",
                 "genre":  ["Dialog.", "tlgl.", "Theol."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Pohlenz, M., 1929",
             },
             "tlg108": {
                 "title":  "De fato [Sp.] (568b -`574f)",
                 "genre":  ["tlgl.", "Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Sieveking, W., 1929",
             },
             "tlg109": {
                 "title":  "De genio Socratis (575a -`598f)",
                 "genre":  ["Dialog.", "tlgl.", "Theol."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Sieveking, W., 1929",
             },
             "tlg110": {
                 "title":  "De exilio (599a -`607f)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Sieveking, W., 1929",
             },
             "tlg111": {
                 "title":  "Consolatio ad uxorem (608a -`612b)",
                 "genre":  ["Epist.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 3, ed. Sieveking, W., 1929",
             },
             "tlg112": {
                 "title":  "Quaestiones convivales (612c -`748d)",
                 "genre":  ["Dialog.", "tlgl.", "Polyhist."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 4, ed. Hubert, C., 1938",
             },
             "tlg113": {
                 "title":  "Amatorius (748e -`771e)",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 4, ed. Hubert, C., 1938",
             },
             "tlg114": {
                 "title":  "Amatoriae narrationes [Sp.] (771e -`775e)",
                 "genre":  ["Narr. Fict."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 4, ed. Hubert, C., 1938",
             },
             "tlg115": {
                 "title":  "Maxime cum principibus philosopho esse disserendum (776a -`779c)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 10, ed. Fowler, H.N., 1936",
             },
             "tlg116": {
                 "title":  "Ad principem ineruditum (779d -`782f)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 10, ed. Fowler, H.N., 1936",
             },
             "tlg117": {
                 "title":  "An seni respublica gerenda sit (783b -`797f)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 10, ed. Fowler, H.N., 1936",
             },
             "tlg118": {
                 "title":  "Praecepta gerendae reipublicae (798a -`825f)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 10, ed. Fowler, H.N., 1936",
             },
             "tlg119": {
                 "title":  "De unius in republica dominatione, populari statu, et paucorum",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 10, ed. Fowler, H.N., 1936",
             },
             "tlg120": {
                 "title":  "De vitando aere alieno (827d -`832a)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 10, ed. Fowler, H.N., 1936",
             },
             "tlg121": {
                 "title":  "Vitae decem oratorum [Sp.] (832b -`852e)",
                 "genre":  ["Biogr."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 5.2.1, ed. Mau, J., 1971",
             },
             "tlg122": {
                 "title":  "Comparationis Aristophanis et Menandri compendium (853a -`854d)",
                 "genre":  ["Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 10, ed. Fowler, H.N., 1936",
             },
             "tlg123": {
                 "title":  "De Herodoti malignitate (854e -`874c)",
                 "genre":  ["Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarch's moralia, vol. 11, ed. Pearson, L., 1965",
             },
             "tlg125": {
                 "title":  "Aetia physica (911c -`919e)",
                 "genre":  ["Nat. Hist."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 5.3, 2nd edn., ed. Hubert, C., 1960",
             },
             "tlg126": {
                 "title":  "De facie in orbe lunae (920b -`945e)",
                 "genre":  ["Astron.", "Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 5.3, 2nd edn., ed. Pohlenz, M., 1960",
             },
             "tlg127": {
                 "title":  "De primo frigido (945f -`955c)",
                 "genre":  ["Nat. Hist.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 5.3, 2nd edn., ed. Hubert, C., 1960",
             },
             "tlg128": {
                 "title":  "Aquane an ignis sit utilior [Sp.] (955d -`958e)",
                 "genre":  ["Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.1, ed. Hubert, C., 1954",
             },
             "tlg129": {
                 "title":  "De sollertia animalium (959a -`985c)",
                 "genre":  ["Dialog.", "Nat. Hist.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.1, ed. Hubert, C., 1954",
             },
             "tlg130": {
                 "title":  "Bruta animalia ratione uti (985d -`992e)",
                 "genre":  ["Dialog.", "Nat. Hist.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.1, ed. Hubert, C., 1954",
             },
             "tlg131": {
                 "title":  "De esu carnium i (993a -`996c)",
                 "genre":  ["tlgl.", "Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.1, ed. Hubert, C., 1954",
             },
             "tlg132": {
                 "title":  "De esu carnium ii (996d -`999b)",
                 "genre":  ["tlgl.", "Rhet."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.1, ed. Hubert, C., 1954",
             },
             "tlg133": {
                 "title":  "Platonicae quaestiones (999c -`1011e)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.1, ed. Hubert, C., 1954",
             },
             "tlg134": {
                 "title":  "De animae procreatione in Timaeo (1012b -`1030c)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.1, ed. Hubert, C., 1954",
             },
             "tlg135": {
                 "title":  "Epitome libri de animae procreatione in Timaeo (1030d -`1032f)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.1, ed. Hubert, C., 1954",
             },
             "tlg136": {
                 "title":  "De Stoicorum repugnantiis (1033a -`1057b)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.2, 2nd edn., ed. Westman, R. (post M. Pohlenz), 1959",
             },
             "tlg137": {
                 "title":  "Stoicos absurdiora poetis dicere (1057c -`1058e)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.2, 2nd edn., ed. Westman, R. (post M. Pohlenz), 1959",
             },
             "tlg138": {
                 "title":  "De communibus notitiis adversus Stoicos (1058e -`1086b)",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.2, 2nd edn., ed. Westman, R. (post M. Pohlenz), 1959",
             },
             "tlg139": {
                 "title":  "Non posse suaviter vivi secundum Epicurum (1086c -`1107c)",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.2, 2nd edn., ed. Westman, R. (post M. Pohlenz), 1959",
             },
             "tlg140": {
                 "title":  "Adversus Colotem (1107d -`1127e)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.2, 2nd edn., ed. Westman, R. (post M. Pohlenz), 1959",
             },
             "tlg141": {
                 "title":  "De latenter vivendo (1128a -`1130e)",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.2, 2nd edn., ed. Westman, R. (post M. Pohlenz), 1959",
             },
             "tlg143": {
                 "title":  "De libidine et aegritudine",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Plutarchi moralia, vol. 6.3, 3rd edn., ed. Pohlenz, M., 1966",
             },
             "tlg144": {
                 "title":  "Parsne an facultas animi sit vita passiva",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Plutarchi moralia, vol. 6.3, 3rd edn., ed. Pohlenz, M., 1966",
             },
             "tlg145": {
@@ -1200,13 +1200,13 @@ AUTHOR_TAB = {
                 "source": "Plutarchi moralia, vol. 7, ed. Sandbach, F.H., 1967",
             },
             "tlg146": {
-                "title":  "$1*PAROIMI/AI AI(=S *)ALECANDREI=S E)XRW=NTO",
+                "title":  "*PAROIMI/AI AI(=S *)ALECANDREI=S E)XRW=NTO",
                 "genre":  ["Paroem."],
-                "meta":   "centuria-section-line",
+                "meta":   "centuria-section",
                 "source": "Corpus paroemiographorum Graecorum, vol. 1, ed. Schneidewin, F.G., 1839",
             },
             "tlg147": {
-                "title":  "$1*)EKLOGH\\ PERI\\ TW=N A)DUNA/TWN",
+                "title":  "*)EKLOGH\\ PERI\\ TW=N A)DUNA/TWN",
                 "genre":  ["Paroem."],
                 "meta":   "line",
                 "source": "Corpus paroemiographorum Graecorum, vol. 1, ed. Schneidewin, F.G., 1839",
@@ -1278,181 +1278,181 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "De bigis (orat. 16)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 1, ed. Bre/mond, E/., 1929",
             },
             "tlg001": {
                 "title":  "In Euthynum (orat. 21)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 1, ed. Bre/mond, E/., 1929",
             },
             "tlg002": {
                 "title":  "In Callimachum (orat. 18)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 1, ed. Bre/mond, E/., 1929",
             },
             "tlg003": {
                 "title":  "In Lochitem (orat. 20)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 1, ed. Bre/mond, E/., 1929",
             },
             "tlg005": {
                 "title":  "Trapeziticus (orat. 17)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 1, ed. Bre/mond, E/., 1929",
             },
             "tlg006": {
                 "title":  "Aegineticus (orat. 19)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 1, ed. Bre/mond, E/., 1929",
             },
             "tlg007": {
                 "title":  "Ad Demonicum (orat. 1)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 1, ed. Bre/mond, E/., 1929",
             },
             "tlg008": {
                 "title":  "In sophistas (orat. 13)",
                 "genre":  ["Orat.", "Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 1, ed. Bre/mond, E/., 1929",
             },
             "tlg009": {
                 "title":  "Helenae encomium (orat. 10)",
                 "genre":  ["Encom.", "Orat.", "Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 1, ed. Bre/mond, E/., 1929",
             },
             "tlg010": {
                 "title":  "Busiris (orat. 11)",
                 "genre":  ["Encom.", "Orat.", "Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 1, ed. Bre/mond, E/., 1929",
             },
             "tlg011": {
                 "title":  "Panegyricus (orat. 4)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 2, ed. Bre/mond, E/., 1938",
             },
             "tlg012": {
                 "title":  "Plataicus (orat. 14)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 2, ed. Bre/mond, E/., 1938",
             },
             "tlg013": {
                 "title":  "Ad Nicoclem (orat. 2)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 2, ed. Bre/mond, E/., 1938",
             },
             "tlg014": {
                 "title":  "Nicocles (orat. 3)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 2, ed. Bre/mond, E/., 1938",
             },
             "tlg015": {
                 "title":  "Evagoras (orat. 9)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 2, ed. Bre/mond, E/., 1938",
             },
             "tlg016": {
                 "title":  "Archidamus (orat. 6)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 2, ed. Bre/mond, E/., 1938",
             },
             "tlg017": {
                 "title":  "De pace (orat. 8)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 3, ed. Mathieu, G., 1942",
             },
             "tlg018": {
                 "title":  "Areopagiticus (orat. 7)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 3, ed. Mathieu, G., 1942",
             },
             "tlg019": {
                 "title":  "Antidosis (orat. 15)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 3, ed. Mathieu, G., 1942",
             },
             "tlg020": {
                 "title":  "tlglippus (orat. 5)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 4, ed. Bre/mond, E/., 1962",
             },
             "tlg021": {
                 "title":  "Panathenaicus (orat. 12)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 4, ed. Bre/mond, E/., 1962",
             },
             "tlg022": {
                 "title":  "Ad Dionysium (epist. 1)",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 4, ed. Bre/mond, E/., 1962",
             },
             "tlg023": {
                 "title":  "Ad filios Jasonis (epist. 6)",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 4, ed. Bre/mond, E/., 1962",
             },
             "tlg024": {
                 "title":  "Ad Archidamum (epist. 9)",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 4, ed. Bre/mond, E/., 1962",
             },
             "tlg025": {
                 "title":  "Ad reges Mytilenaeos (epist. 8)",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 4, ed. Bre/mond, E/., 1962",
             },
             "tlg026": {
                 "title":  "Ad Timotheum (epist. 7)",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 4, ed. Bre/mond, E/., 1962",
             },
             "tlg027": {
                 "title":  "Ad Philippum (epist. 2)",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 4, ed. Bre/mond, E/., 1962",
             },
             "tlg028": {
                 "title":  "Ad Alexandrum (epist. 5)",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 4, ed. Bre/mond, E/., 1962",
             },
             "tlg029": {
                 "title":  "Ad Antipatrum (epist. 4)",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 4, ed. Bre/mond, E/., 1962",
             },
             "tlg030": {
                 "title":  "Ad Philippum (epist. 3)",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Isocrate. Discours, vol. 4, ed. Bre/mond, E/., 1962",
             },
         },
@@ -1770,379 +1770,379 @@ AUTHOR_TAB = {
             "tlg034": {
                 "title":  "Contra Phormionem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.2, ed. Rennie, W., 1921",
             },
             "tlg001": {
                 "title":  "Olynthiaca 1",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg002": {
                 "title":  "Olynthiaca 2",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg003": {
                 "title":  "Olynthiaca 3",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg004": {
                 "title":  "tlglippica 1",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg005": {
                 "title":  "De pace",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg006": {
                 "title":  "tlglippica 2",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg007": {
                 "title":  "De Halonneso",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg008": {
                 "title":  "De Chersoneso",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg009": {
                 "title":  "tlglippica 3",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg010": {
                 "title":  "tlglippica 4 [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg011": {
                 "title":  "In epistulam Philippi [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg012": {
                 "title":  "[Philippi] epistula",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg013": {
-                "title":  "$1*PERI\\ SUNTA/CEWS [Sp.]",
+                "title":  "*PERI\\ SUNTA/CEWS [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg014": {
-                "title":  "$1*PERI\\ TW=N SUMMORIW=N",
+                "title":  "*PERI\\ TW=N SUMMORIW=N",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg015": {
                 "title":  "De Rhodiorum libertate",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg016": {
                 "title":  "Pro Megalopolitanis",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg017": {
-                "title":  "$1*PERI\\ TW=N PRO\\S *)ALE/CANDRON SUNQHKW=N [Sp.]",
+                "title":  "*PERI\\ TW=N PRO\\S *)ALE/CANDRON SUNQHKW=N [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg018": {
                 "title":  "De corona",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg019": {
                 "title":  "De falsa legatione",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 1, ed. Butcher, S.H., 1903",
             },
             "tlg020": {
                 "title":  "Adversus Leptinem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.1, ed. Butcher, S.H., 1907",
             },
             "tlg021": {
                 "title":  "In Midiam",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.1, ed. Butcher, S.H., 1907",
             },
             "tlg022": {
                 "title":  "Adversus Androtionem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.1, ed. Butcher, S.H., 1907",
             },
             "tlg023": {
                 "title":  "In Aristocratem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.1, ed. Butcher, S.H., 1907",
             },
             "tlg024": {
                 "title":  "In Timocratem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.1, ed. Butcher, S.H., 1907",
             },
             "tlg025": {
                 "title":  "In Aristogitonem 1",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.1, ed. Butcher, S.H., 1907",
             },
             "tlg026": {
                 "title":  "In Aristogitonem 2",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.1, ed. Butcher, S.H., 1907",
             },
             "tlg027": {
                 "title":  "In Aphobum 1",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.2, ed. Rennie, W., 1921",
             },
             "tlg028": {
                 "title":  "In Aphobum 2",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.2, ed. Rennie, W., 1921",
             },
             "tlg029": {
                 "title":  "Contra Aphobum",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.2, ed. Rennie, W., 1921",
             },
             "tlg030": {
                 "title":  "Contra Onetorem 1",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.2, ed. Rennie, W., 1921",
             },
             "tlg031": {
                 "title":  "Contra Onetorem 2",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.2, ed. Rennie, W., 1921",
             },
             "tlg032": {
                 "title":  "Contra Zenothemin",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.2, ed. Rennie, W., 1921",
             },
             "tlg033": {
                 "title":  "Contra Apatourium [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.2, ed. Rennie, W., 1921",
             },
             "tlg035": {
                 "title":  "Contra Lacritum [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.2, ed. Rennie, W., 1921",
             },
             "tlg036": {
                 "title":  "Pro Phormione",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.2, ed. Rennie, W., 1921",
             },
             "tlg037": {
                 "title":  "Contra Pantaenetum",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.2, ed. Rennie, W., 1921",
             },
             "tlg038": {
                 "title":  "Contra Nausimachum et Xenopeithea",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.2, ed. Rennie, W., 1921",
             },
             "tlg039": {
                 "title":  "Contra Boeotum 1",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.2, ed. Rennie, W., 1921",
             },
             "tlg040": {
                 "title":  "Contra Boeotum 2 [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 2.2, ed. Rennie, W., 1921",
             },
             "tlg041": {
                 "title":  "Contra Spudiam",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg042": {
                 "title":  "Contra Phaenippum [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg043": {
                 "title":  "Contra Macartatum [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg044": {
                 "title":  "Contra Leocharem [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg045": {
                 "title":  "In Stephanum 1",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg046": {
                 "title":  "In Stephanum 2 [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg047": {
                 "title":  "In Evergum et Mnesibulum [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg048": {
                 "title":  "In Olympiodorum [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg049": {
                 "title":  "Contra Timotheum [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg050": {
                 "title":  "Contra Polyclem [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg051": {
                 "title":  "De corona trierarchiae",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg052": {
                 "title":  "Contra Callippum [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg053": {
                 "title":  "Contra Nicostratum",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg054": {
                 "title":  "In Cononem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg055": {
                 "title":  "Contra Calliclem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg056": {
                 "title":  "In Dionysodorum [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg057": {
                 "title":  "Contra Eubulidem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg058": {
                 "title":  "In Theocrinem [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg059": {
                 "title":  "In Neaeram [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg060": {
                 "title":  "Epitaphius",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg061": {
                 "title":  "Eroticus [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg062": {
                 "title":  "Exordia",
                 "genre":  ["Orat."],
-                "meta":   "exordium-section-line",
+                "meta":   "exordium-section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
             "tlg063": {
                 "title":  "Epistulae",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Demosthenis orationes, vol. 3, ed. Rennie, W., 1931",
             },
         },
@@ -2170,7 +2170,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Ab excessu divi Marci",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Herodiani ab excessu divi Marci libri octo, ed. Stavenhagen, K., 1922",
             }
         },
@@ -2184,73 +2184,73 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De Cleonymo",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ise/e. Discours, 2nd edn., ed. Roussel, P., 1960",
             },
             "tlg002": {
                 "title":  "De Menecle",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ise/e. Discours, 2nd edn., ed. Roussel, P., 1960",
             },
             "tlg003": {
                 "title":  "De Pyrrho",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ise/e. Discours, 2nd edn., ed. Roussel, P., 1960",
             },
             "tlg004": {
                 "title":  "De Nicostrato",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ise/e. Discours, 2nd edn., ed. Roussel, P., 1960",
             },
             "tlg005": {
                 "title":  "De Dicaeogene",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ise/e. Discours, 2nd edn., ed. Roussel, P., 1960",
             },
             "tlg006": {
                 "title":  "De Philoctemone",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ise/e. Discours, 2nd edn., ed. Roussel, P., 1960",
             },
             "tlg007": {
                 "title":  "De Apollodoro",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ise/e. Discours, 2nd edn., ed. Roussel, P., 1960",
             },
             "tlg008": {
                 "title":  "De Cirone",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ise/e. Discours, 2nd edn., ed. Roussel, P., 1960",
             },
             "tlg009": {
                 "title":  "De Astyphilo",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ise/e. Discours, 2nd edn., ed. Roussel, P., 1960",
             },
             "tlg010": {
                 "title":  "De Aristarcho",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ise/e. Discours, 2nd edn., ed. Roussel, P., 1960",
             },
             "tlg011": {
                 "title":  "De Hagnia",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ise/e. Discours, 2nd edn., ed. Roussel, P., 1960",
             },
             "tlg012": {
                 "title":  "Pro Euphileto",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ise/e. Discours, 2nd edn., ed. Roussel, P., 1960",
             },
         },
@@ -2264,187 +2264,187 @@ AUTHOR_TAB = {
             "tlg013": {
                 "title":  "De confusione linguarum",
                 "genre":  ["Exeget.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 2, ed. Wendland, P., 1897",
             },
             "tlg001": {
                 "title":  "De opificio mundi",
                 "genre":  ["Exeget.", "tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 1, ed. Cohn, L., 1896",
             },
             "tlg002": {
                 "title":  "Legum allegoriarum libri i -iii",
                 "genre":  ["Exeget."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 1, ed. Cohn, L., 1896",
             },
             "tlg003": {
                 "title":  "De cherubim",
                 "genre":  ["Exeget.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 1, ed. Cohn, L., 1896",
             },
             "tlg004": {
                 "title":  "De sacrificiis Abelis et Caini",
                 "genre":  ["Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 1, ed. Cohn, L., 1896",
             },
             "tlg005": {
                 "title":  "Quod deterius potiori insidiari soleat",
                 "genre":  ["Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 1, ed. Cohn, L., 1896",
             },
             "tlg006": {
                 "title":  "De posteritate Caini",
                 "genre":  ["Exeget.", "tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 2, ed. Wendland, P., 1897",
             },
             "tlg007": {
                 "title":  "De gigantibus",
                 "genre":  ["Exeget.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 2, ed. Wendland, P., 1897",
             },
             "tlg008": {
                 "title":  "Quod deus sit immutabilis",
                 "genre":  ["Exeget.", "tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 2, ed. Wendland, P., 1897",
             },
             "tlg009": {
                 "title":  "De agricultura",
                 "genre":  ["Exeget.", "tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 2, ed. Wendland, P., 1897",
             },
             "tlg010": {
                 "title":  "De plantatione",
                 "genre":  ["Exeget.", "tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 2, ed. Wendland, P., 1897",
             },
             "tlg011": {
                 "title":  "De ebrietate",
                 "genre":  ["Exeget.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 2, ed. Wendland, P., 1897",
             },
             "tlg012": {
                 "title":  "De sobrietate",
                 "genre":  ["Exeget.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 2, ed. Wendland, P., 1897",
             },
             "tlg014": {
                 "title":  "De migratione Abrahami",
                 "genre":  ["Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 2, ed. Wendland, P., 1897",
             },
             "tlg015": {
                 "title":  "Quis rerum divinarum heres sit",
                 "genre":  ["Exeget.", "tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 3, ed. Wendland, P., 1898",
             },
             "tlg016": {
                 "title":  "De congressu eruditionis gratia",
                 "genre":  ["Exeget.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 3, ed. Wendland, P., 1898",
             },
             "tlg017": {
                 "title":  "De fuga et inventione",
                 "genre":  ["Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 3, ed. Wendland, P., 1898",
             },
             "tlg018": {
                 "title":  "De mutatione nominum",
                 "genre":  ["Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 3, ed. Wendland, P., 1898",
             },
             "tlg019": {
                 "title":  "De somniis (lib. i -ii)",
                 "genre":  ["Exeget.", "Onir."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 3, ed. Wendland, P., 1898",
             },
             "tlg020": {
                 "title":  "De Abrahamo",
                 "genre":  ["Exeget.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 4, ed. Cohn, L., 1902",
             },
             "tlg021": {
                 "title":  "De Josepho",
                 "genre":  ["Exeget.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 4, ed. Cohn, L., 1902",
             },
             "tlg022": {
                 "title":  "De vita Mosis (lib. i -ii)",
                 "genre":  ["Biogr.", "Exeget.", "tlgl."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 4, ed. Cohn, L., 1902",
             },
             "tlg023": {
                 "title":  "De decalogo",
                 "genre":  ["Exeget.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 4, ed. Cohn, L., 1902",
             },
             "tlg024": {
                 "title":  "De specialibus legibus (lib. i -iv)",
                 "genre":  ["Exeget.", "tlgl.", "Theol."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 5, ed. Cohn, L., 1906",
             },
             "tlg025": {
                 "title":  "De virtutibus",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 5, ed. Cohn, L., 1906",
             },
             "tlg026": {
                 "title":  "De praemiis et poenis %7 De exsecrationibus",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 5, ed. Cohn, L., 1906",
             },
             "tlg027": {
                 "title":  "Quod omnis probus liber sit",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 6, ed. Reiter, S., 1915",
             },
             "tlg028": {
                 "title":  "De vita contemplativa",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 6, ed. Reiter, S., 1915",
             },
             "tlg029": {
                 "title":  "De aeternitate mundi",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 6, ed. Reiter, S., 1915",
             },
             "tlg030": {
                 "title":  "In Flaccum",
                 "genre":  ["Apol.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 6, ed. Reiter, S., 1915",
             },
             "tlg031": {
                 "title":  "Legatio ad Gaium",
                 "genre":  ["Apol.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglonis Alexandrini opera quae supersunt, vol. 6, ed. Reiter, S., 1915",
             },
             "tlg032": {
@@ -2456,7 +2456,7 @@ AUTHOR_TAB = {
             "tlg033": {
                 "title":  "De providentia",
                 "genre":  ["Theol."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "tlglo, vol. 9, ed. Colson, F.H., 1941",
             },
             "tlg034": {
@@ -2478,7 +2478,7 @@ AUTHOR_TAB = {
                 "source": "Neu entdeckte Fragmente Philos nebst einer Untersuchung ueber, ed. Wendland, P., 1891",
             },
             "tlg038": {
-                "title":  "$1*PERI\\ A)RIQMW=N sive$1 *)ARIQMHTIKA/",
+                "title":  "*PERI\\ A)RIQMW=N sive *)ARIQMHTIKA/",
                 "genre":  ["Math.", "Metrolog.", "tlgl."],
                 "meta":   "fragment-line",
                 "source": "Die Zahlenmystik bei Philon von Alexandreia, ed. Staehle, K., 1931",
@@ -2746,19 +2746,19 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "In Timarchum",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Eschine. Discours, vol. 1, ed. de Bude/, G., 1927",
             },
             "tlg002": {
                 "title":  "De falsa legatione",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Eschine. Discours, vol. 1, ed. de Bude/, G., 1927",
             },
             "tlg003": {
                 "title":  "In Ctesiphontem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Eschine. Discours, vol. 2, ed. de Bude/, G., 1928",
             },
         },
@@ -2772,25 +2772,25 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "In Alcibiadem [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Andocide. Discours, ed. Dalmeyda, G., 1930",
             },
             "tlg001": {
                 "title":  "De mysteriis",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Andocide. Discours, ed. Dalmeyda, G., 1930",
             },
             "tlg002": {
                 "title":  "De reditu suo",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Andocide. Discours, ed. Dalmeyda, G., 1930",
             },
             "tlg003": {
                 "title":  "De pace",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Andocide. Discours, ed. Dalmeyda, G., 1930",
             },
         },
@@ -2804,37 +2804,37 @@ AUTHOR_TAB = {
             "tlg005": {
                 "title":  "De caede Herodis",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Antiphon. Discours, ed. Gernet, L., 1923",
             },
             "tlg001": {
                 "title":  "In novercam",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Antiphon. Discours, ed. Gernet, L., 1923",
             },
             "tlg002": {
                 "title":  "Tetralogia 1",
                 "genre":  ["Orat."],
-                "meta":   "tetralogy-section-line",
+                "meta":   "tetralogy-section",
                 "source": "Antiphon. Discours, ed. Gernet, L., 1923",
             },
             "tlg003": {
                 "title":  "Tetralogia 2",
                 "genre":  ["Orat."],
-                "meta":   "tetralogy-section-line",
+                "meta":   "tetralogy-section",
                 "source": "Antiphon. Discours, ed. Gernet, L., 1923",
             },
             "tlg004": {
                 "title":  "Tetralogia 3",
                 "genre":  ["Orat."],
-                "meta":   "tetralogy-section-line",
+                "meta":   "tetralogy-section",
                 "source": "Antiphon. Discours, ed. Gernet, L., 1923",
             },
             "tlg006": {
                 "title":  "De choreuta",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Antiphon. Discours, ed. Gernet, L., 1923",
             },
             "tlg007": {
@@ -2866,19 +2866,19 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "In Demosthenem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Dinarchi orationes cum fragmentis, ed. Conomis, N.C., 1975",
             },
             "tlg005": {
                 "title":  "In Aristogitonem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Dinarchi orationes cum fragmentis, ed. Conomis, N.C., 1975",
             },
             "tlg006": {
                 "title":  "In Philoclem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Dinarchi orationes cum fragmentis, ed. Conomis, N.C., 1975",
             },
             "tlg007": {
@@ -2946,157 +2946,157 @@ AUTHOR_TAB = {
             "tlg007": {
                 "title":  "Epistula Pauli ad Corinthios i",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg001": {
                 "title":  "Evangelium secundum Matthaeum",
                 "genre":  ["Evangel.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg002": {
                 "title":  "Evangelium secundum Marcum",
                 "genre":  ["Evangel.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg003": {
                 "title":  "Evangelium secundum Lucam",
                 "genre":  ["Evangel.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg004": {
                 "title":  "Evangelium secundum Joannem",
                 "genre":  ["Evangel.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg005": {
                 "title":  "Acta apostolorum",
                 "genre":  ["Acta", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg006": {
                 "title":  "Epistula Pauli ad Romanos",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg008": {
                 "title":  "Epistula Pauli ad Corinthios ii",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg009": {
                 "title":  "Epistula Pauli ad Galatas",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg010": {
                 "title":  "Epistula Pauli ad Ephesios",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg011": {
                 "title":  "Epistula Pauli ad Philippenses",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg012": {
                 "title":  "Epistula Pauli ad Colossenses",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg013": {
                 "title":  "Epistula Pauli ad Thessalonicenses i",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg014": {
                 "title":  "Epistula Pauli ad Thessalonicenses ii",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg015": {
                 "title":  "Epistula Pauli ad Timotheum i",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg016": {
                 "title":  "Epistula Pauli ad Timotheum ii",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg017": {
                 "title":  "Epistula Pauli ad Titum",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg018": {
                 "title":  "Epistula Pauli ad Philemonem",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg019": {
                 "title":  "Epistula Pauli ad Hebraeos",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg020": {
                 "title":  "Epistula Jacobi",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg021": {
                 "title":  "Epistula Petri i",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg022": {
                 "title":  "Epistula Petri ii",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg023": {
                 "title":  "Epistula Joannis i",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg024": {
                 "title":  "Epistula Joannis ii",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg025": {
                 "title":  "Epistula Joannis iii",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg026": {
                 "title":  "Epistula Juda",
                 "genre":  ["Epist.", "Relig."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
         },
@@ -3110,91 +3110,91 @@ AUTHOR_TAB = {
             "tlg027": {
                 "title":  "Apocalypsis Joannis",
                 "genre":  ["Apocalyp.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek New Testament, 2nd edn., ed. Wikgren, A., 1968",
             },
             "tlg001": {
                 "title":  "Hellenica",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Xenophontis opera omnia, vol. 1, ed. Marchant, E.C., 1900",
             },
             "tlg002": {
                 "title":  "Memorabilia",
                 "genre":  ["Biogr.", "Dialog.", "tlgl."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Xenophontis opera omnia, vol. 2, 2nd edn., ed. Marchant, E.C., 1921",
             },
             "tlg003": {
                 "title":  "Oeconomicus",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Xenophontis opera omnia, vol. 2, 2nd edn., ed. Marchant, E.C., 1921",
             },
             "tlg004": {
                 "title":  "Symposium",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Xenophontis opera omnia, vol. 2, 2nd edn., ed. Marchant, E.C., 1921",
             },
             "tlg005": {
                 "title":  "Apologia Socratis",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Xenophontis opera omnia, vol. 2, 2nd edn., ed. Marchant, E.C., 1921",
             },
             "tlg006": {
                 "title":  "Anabasis",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Xenophontis opera omnia, vol. 3, ed. Marchant, E.C., 1904",
             },
             "tlg007": {
                 "title":  "Cyropaedia",
                 "genre":  ["Biogr.", "Narr. Fict."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Xenophontis opera omnia, vol. 4, ed. Marchant, E.C., 1910",
             },
             "tlg008": {
                 "title":  "Hiero",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Xenophontis opera omnia, vol. 5, ed. Marchant, E.C., 1920",
             },
             "tlg009": {
                 "title":  "Agesilaus",
                 "genre":  ["Encom.", "Hist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Xenophontis opera omnia, vol. 5, ed. Marchant, E.C., 1920",
             },
             "tlg010": {
                 "title":  "De republica Lacedaemoniorum",
                 "genre":  ["Hist.", "tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Xenophontis opera omnia, vol. 5, ed. Marchant, E.C., 1920",
             },
             "tlg011": {
                 "title":  "De vectigalibus",
                 "genre":  ["Hist.", "tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Xenophontis opera omnia, vol. 5, ed. Marchant, E.C., 1920",
             },
             "tlg012": {
                 "title":  "Hipparchicus",
                 "genre":  ["Hist.", "Tact."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Xenophontis opera omnia, vol. 5, ed. Marchant, E.C., 1920",
             },
             "tlg013": {
                 "title":  "De re equestri",
                 "genre":  ["Nat. Hist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Xenophontis opera omnia, vol. 5, ed. Marchant, E.C., 1920",
             },
             "tlg014": {
                 "title":  "Cynegeticus",
                 "genre":  ["Nat. Hist.", "tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Xenophontis opera omnia, vol. 5, ed. Marchant, E.C., 1920",
             },
         },
@@ -3208,7 +3208,7 @@ AUTHOR_TAB = {
             "tlg015": {
                 "title":  "Atheniensium respublica [Sp.]",
                 "genre":  ["Hist.", "tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Xenophontis opera omnia, vol. 5, ed. Marchant, E.C., 1920",
             },
             "tlg001": {
@@ -3253,7 +3253,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Oratio in Leocratem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lycurgi oratio in Leocratem, ed. Conomis, N.C. (post C. Scheibe %9 F. Blass), 1970",
             },
         },
@@ -3364,7 +3364,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistula",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Epistolographi Graeci, ed. Hercher, R., 1873",
             }
         },
@@ -3388,7 +3388,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistulae",
                 "genre":  ["Epist.", "Narr. Fict."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Epistolographi Graeci, ed. Hercher, R., 1873",
             }
         },
@@ -3462,7 +3462,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistulae",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Epistolographi Graeci, ed. Hercher, R., 1873",
             }
         },
@@ -3533,7 +3533,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistulae",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Epistolographi Graeci, ed. Hercher, R., 1873",
             }
         },
@@ -3654,7 +3654,7 @@ AUTHOR_TAB = {
             "tlg015": {
                 "title":  "De instrumento odoratus",
                 "genre":  ["Med."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Galeni de instrumento odoratus, ed. Kollesch, J., 1964",
             },
             "tlg016": {
@@ -3678,7 +3678,7 @@ AUTHOR_TAB = {
             "tlg019": {
                 "title":  "De victu attenuante",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Galeni de victu attenuante, ed. Kalbfleisch, K., 1923",
             },
             "tlg020": {
@@ -3755,7 +3755,7 @@ AUTHOR_TAB = {
             "tlg032": {
                 "title":  "De placitis Hippocratis et Platonis",
                 "genre":  ["Comm.", "Med.", "tlgl."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Galen. On the doctrines of Hippocrates and Plato, ed. De Lacy, P., 1978",
             },
             "tlg033": {
@@ -3774,7 +3774,7 @@ AUTHOR_TAB = {
             "tlg035": {
                 "title":  "De venereis (ap. Oribasium)",
                 "genre":  ["Med."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Oribasii collectionum medicarum reliquiae, ed. Raeder, J., 1928",
             },
             "tlg036": {
@@ -4001,7 +4001,7 @@ AUTHOR_TAB = {
             "tlg073": {
                 "title":  "Quos quibus catharticis medicamentis et quando purgare oporteat (ap.",
                 "genre":  ["Med."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Oribasii collectionum medicarum reliquiae, ed. Raeder, J., 1928",
             },
             "tlg074": {
@@ -4049,7 +4049,7 @@ AUTHOR_TAB = {
             "tlg081": {
                 "title":  "Institutio logica",
                 "genre":  ["tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Galeni institutio logica, ed. Kalbfleisch, K., 1896",
             },
             "tlg082": {
@@ -4199,7 +4199,7 @@ AUTHOR_TAB = {
             "tlg107": {
                 "title":  "De experientia medica",
                 "genre":  ["Med."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Galen on medical experience, ed. Walzer, R., 1944",
             },
             "tlg111": {
@@ -4245,229 +4245,229 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Euthyphro",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 1, ed. Burnet, J., 1900",
             },
             "tlg002": {
                 "title":  "Apologia Socratis",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 1, ed. Burnet, J., 1900",
             },
             "tlg003": {
                 "title":  "Crito",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 1, ed. Burnet, J., 1900",
             },
             "tlg004": {
                 "title":  "Phaedo",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 1, ed. Burnet, J., 1900",
             },
             "tlg005": {
                 "title":  "Cratylus",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 1, ed. Burnet, J., 1900",
             },
             "tlg006": {
                 "title":  "Theaetetus",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 1, ed. Burnet, J., 1900",
             },
             "tlg007": {
                 "title":  "Sophista",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 1, ed. Burnet, J., 1900",
             },
             "tlg008": {
                 "title":  "Politicus",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 1, ed. Burnet, J., 1900",
             },
             "tlg009": {
                 "title":  "Parmenides",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 2, ed. Burnet, J., 1901",
             },
             "tlg010": {
                 "title":  "tlglebus",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 2, ed. Burnet, J., 1901",
             },
             "tlg011": {
                 "title":  "Symposium",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 2, ed. Burnet, J., 1901",
             },
             "tlg012": {
                 "title":  "Phaedrus",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 2, ed. Burnet, J., 1901",
             },
             "tlg013": {
                 "title":  "Alcibiades i [Sp.]",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 2, ed. Burnet, J., 1901",
             },
             "tlg014": {
                 "title":  "Alcibiades ii [Sp.]",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 2, ed. Burnet, J., 1901",
             },
             "tlg015": {
                 "title":  "Hipparchus [Sp.]",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 2, ed. Burnet, J., 1901",
             },
             "tlg016": {
                 "title":  "Amatores [Sp.]",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 2, ed. Burnet, J., 1901",
             },
             "tlg017": {
                 "title":  "Theages [Sp.]",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 3, ed. Burnet, J., 1903",
             },
             "tlg018": {
                 "title":  "Charmides",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 3, ed. Burnet, J., 1903",
             },
             "tlg019": {
                 "title":  "Laches",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 3, ed. Burnet, J., 1903",
             },
             "tlg020": {
                 "title":  "Lysis",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 3, ed. Burnet, J., 1903",
             },
             "tlg021": {
                 "title":  "Euthydemus",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 3, ed. Burnet, J., 1903",
             },
             "tlg022": {
                 "title":  "Protagoras",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 3, ed. Burnet, J., 1903",
             },
             "tlg023": {
                 "title":  "Gorgias",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 3, ed. Burnet, J., 1903",
             },
             "tlg024": {
                 "title":  "Meno",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 3, ed. Burnet, J., 1903",
             },
             "tlg025": {
                 "title":  "Hippias major [Dub.]",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 3, ed. Burnet, J., 1903",
             },
             "tlg026": {
                 "title":  "Hippias minor",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 3, ed. Burnet, J., 1903",
             },
             "tlg027": {
                 "title":  "Ion",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 3, ed. Burnet, J., 1903",
             },
             "tlg028": {
                 "title":  "Menexenus",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 3, ed. Burnet, J., 1903",
             },
             "tlg029": {
                 "title":  "Clitophon [Dub.]",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 4, ed. Burnet, J., 1902",
             },
             "tlg030": {
                 "title":  "Respublica",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 4, ed. Burnet, J., 1902",
             },
             "tlg031": {
                 "title":  "Timaeus",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 4, ed. Burnet, J., 1902",
             },
             "tlg032": {
                 "title":  "Critias",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 4, ed. Burnet, J., 1902",
             },
             "tlg033": {
                 "title":  "Minos [Sp.]",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 5, ed. Burnet, J., 1907",
             },
             "tlg034": {
                 "title":  "Leges",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 5, ed. Burnet, J., 1907",
             },
             "tlg035": {
                 "title":  "Epinomis [Dub.] (fort. auctore Philippo Opuntio)",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 5, ed. Burnet, J., 1907",
             },
             "tlg036": {
                 "title":  "Epistulae [Dub.]",
                 "genre":  ["Epist."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 5, ed. Burnet, J., 1907",
             },
             "tlg037": {
                 "title":  "Definitiones [Sp.]",
                 "genre":  ["tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 5, ed. Burnet, J., 1907",
             },
             "tlg038": {
                 "title":  "Spuria",
                 "genre":  ["Dialog.", "tlgl."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Platonis opera, vol. 5, ed. Burnet, J., 1907",
             },
             "tlg039": {
@@ -4499,7 +4499,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Bibliotheca historica (lib. 1 -`20)",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Diodori bibliotheca historica, `5 vols., 3rd edn., ed. Fischer, K.T. (post I. Bekker %9 L. "
                           "Dindorf), 1:1888; 2:1890; 3:1893; 4 -`5:1906",
             },
@@ -4519,25 +4519,25 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "Demosthenis encomium",
                 "genre":  ["Dialog.", "Encom.", "Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 8, ed. Macleod, M.D., 1967",
             },
             "tlg001": {
                 "title":  "Asinus",
                 "genre":  ["Narr. Fict."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 8, ed. Macleod, M.D., 1967",
             },
             "tlg002": {
                 "title":  "Amores",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 8, ed. Macleod, M.D., 1967",
             },
             "tlg004": {
                 "title":  "Halcyon",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 8, ed. Macleod, M.D., 1967",
             },
             "tlg005": {
@@ -4549,19 +4549,19 @@ AUTHOR_TAB = {
             "tlg006": {
                 "title":  "Cynicus",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 8, ed. Macleod, M.D., 1967",
             },
             "tlg007": {
                 "title":  "tlglopatris",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 8, ed. Macleod, M.D., 1967",
             },
             "tlg008": {
                 "title":  "Charidemus",
                 "genre":  ["Dialog.", "Encom.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 8, ed. Macleod, M.D., 1967",
             },
             "tlg009": {
@@ -4589,420 +4589,420 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Phalaris",
                 "genre":  ["Rhet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Lucian, vol. 1, ed. Harmon, A.M., 1913",
             },
             "tlg002": {
                 "title":  "Hippias",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 1, ed. Harmon, A.M., 1913",
             },
             "tlg003": {
                 "title":  "Bacchus",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 1, ed. Harmon, A.M., 1913",
             },
             "tlg004": {
                 "title":  "Hercules",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 1, ed. Harmon, A.M., 1913",
             },
             "tlg005": {
                 "title":  "Electrum",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 1, ed. Harmon, A.M., 1913",
             },
             "tlg006": {
                 "title":  "Muscae encomium",
                 "genre":  ["Encom.", "Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 1, ed. Harmon, A.M., 1913",
             },
             "tlg007": {
                 "title":  "Nigrinus",
                 "genre":  ["Epist.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Luciani opera, vol. 1, ed. Macleod, M.D., 1972",
             },
             "tlg008": {
                 "title":  "Demonax",
                 "genre":  ["Biogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 1, ed. Harmon, A.M., 1913",
             },
             "tlg009": {
                 "title":  "De domo",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 1, ed. Harmon, A.M., 1913",
             },
             "tlg010": {
                 "title":  "Patriae encomium",
                 "genre":  ["Encom.", "Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 1, ed. Harmon, A.M., 1913",
             },
             "tlg011": {
                 "title":  "Macrobii",
                 "genre":  ["Paradox."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 1, ed. Harmon, A.M., 1913",
             },
             "tlg012": {
                 "title":  "Verae historiae",
                 "genre":  ["Narr. Fict.", "Satura"],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Luciani opera, vol. 1, ed. Macleod, M.D., 1972",
             },
             "tlg013": {
                 "title":  "Calumniae non temere credendum",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 1, ed. Harmon, A.M., 1913",
             },
             "tlg014": {
                 "title":  "Lis consonantium (%6 Judicium vocalium)",
                 "genre":  ["Gramm.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 1, ed. Harmon, A.M., 1913",
             },
             "tlg015": {
                 "title":  "Symposium",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Luciani opera, vol. 1, ed. Macleod, M.D., 1972",
             },
             "tlg016": {
                 "title":  "Cataplus",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 2, ed. Harmon, A.M., 1915",
             },
             "tlg017": {
                 "title":  "Juppiter confutatus",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 2, ed. Harmon, A.M., 1915",
             },
             "tlg018": {
                 "title":  "Juppiter tragoedus",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 2, ed. Harmon, A.M., 1915",
             },
             "tlg019": {
                 "title":  "Gallus",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 2, ed. Harmon, A.M., 1915",
             },
             "tlg020": {
                 "title":  "Prometheus",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 2, ed. Harmon, A.M., 1915",
             },
             "tlg021": {
                 "title":  "Icaromenippus",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 2, ed. Harmon, A.M., 1915",
             },
             "tlg022": {
                 "title":  "Timon",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Luciani opera, vol. 1, ed. Macleod, M.D., 1972",
             },
             "tlg023": {
                 "title":  "Charon sive contemplantes",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 2, ed. Harmon, A.M., 1915",
             },
             "tlg024": {
                 "title":  "Vitarum auctio",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 2, ed. Harmon, A.M., 1915",
             },
             "tlg025": {
                 "title":  "Revivescentes sive piscator",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 3, ed. Harmon, A.M., 1921",
             },
             "tlg026": {
                 "title":  "Bis accusatus sive tribunalia",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 3, ed. Harmon, A.M., 1921",
             },
             "tlg027": {
                 "title":  "De sacrificiis",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 3, ed. Harmon, A.M., 1921",
             },
             "tlg028": {
                 "title":  "Adversus indoctum et libros multos ementem",
                 "genre":  ["Invectiv.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 3, ed. Harmon, A.M., 1921",
             },
             "tlg029": {
                 "title":  "Somnium sive vita Luciani",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 3, ed. Harmon, A.M., 1921",
             },
             "tlg030": {
                 "title":  "De parasito sive artem esse parasiticam",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 3, ed. Harmon, A.M., 1921",
             },
             "tlg031": {
                 "title":  "tlglopseudes sive incredulus",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 3, ed. Harmon, A.M., 1921",
             },
             "tlg032": {
                 "title":  "Dearum judicium",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 3, ed. Harmon, A.M., 1921",
             },
             "tlg033": {
                 "title":  "De mercede conductis potentium familiaribus",
                 "genre":  ["Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 3, ed. Harmon, A.M., 1921",
             },
             "tlg034": {
                 "title":  "Anacharsis",
                 "genre":  ["Dialog.", "Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 4, ed. Harmon, A.M., 1925",
             },
             "tlg035": {
                 "title":  "Menippus sive necyomantia",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 4, ed. Harmon, A.M., 1925",
             },
             "tlg036": {
                 "title":  "De luctu",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 4, ed. Harmon, A.M., 1925",
             },
             "tlg037": {
                 "title":  "Rhetorum praeceptor",
                 "genre":  ["Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 4, ed. Harmon, A.M., 1925",
             },
             "tlg038": {
                 "title":  "Alexander",
                 "genre":  ["Invectiv.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 4, ed. Harmon, A.M., 1925",
             },
             "tlg039": {
                 "title": "Imagines",
                 "genre": ["Dialog.", "Rhet."],
-                "meta":  "section-line",
+                "meta":  "section",
             },
             "tlg040": {
                 "title":  "Pro imaginibus",
                 "genre":  ["Dialog.", "Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 4, ed. Harmon, A.M., 1925",
             },
             "tlg041": {
                 "title":  "De Syria dea",
                 "genre":  ["Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 4, ed. Harmon, A.M., 1925",
             },
             "tlg042": {
                 "title":  "De morte Peregrini",
                 "genre":  ["Invectiv.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 5, ed. Harmon, A.M., 1936",
             },
             "tlg043": {
                 "title":  "Fugitivi",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 5, ed. Harmon, A.M., 1936",
             },
             "tlg044": {
                 "title":  "Toxaris vel amicitia",
                 "genre":  ["Dialog.", "Narr. Fict."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 5, ed. Harmon, A.M., 1936",
             },
             "tlg045": {
                 "title":  "De saltatione",
                 "genre":  ["Dialog.", "Encom."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 5, ed. Harmon, A.M., 1936",
             },
             "tlg046": {
                 "title":  "Lexiphanes",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 5, ed. Harmon, A.M., 1936",
             },
             "tlg047": {
                 "title":  "Eunuchus",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 5, ed. Harmon, A.M., 1936",
             },
             "tlg048": {
                 "title":  "De astrologia",
                 "genre":  ["Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 5, ed. Harmon, A.M., 1936",
             },
             "tlg049": {
                 "title":  "Pseudologista",
                 "genre":  ["Invectiv.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 5, ed. Harmon, A.M., 1936",
             },
             "tlg050": {
                 "title":  "Deorum concilium",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 5, ed. Harmon, A.M., 1936",
             },
             "tlg051": {
                 "title":  "Tyrannicida",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 5, ed. Harmon, A.M., 1936",
             },
             "tlg052": {
                 "title":  "Abdicatus",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 5, ed. Harmon, A.M., 1936",
             },
             "tlg053": {
                 "title":  "Quomodo historia conscribenda sit",
                 "genre":  ["Hist.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 6, ed. Kilburn, K., 1959",
             },
             "tlg054": {
                 "title":  "Dipsades",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 6, ed. Kilburn, K., 1959",
             },
             "tlg055": {
                 "title":  "Saturnalia",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 6, ed. Kilburn, K., 1959",
             },
             "tlg056": {
                 "title":  "Herodotus",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 6, ed. Kilburn, K., 1959",
             },
             "tlg057": {
                 "title":  "Zeuxis",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 6, ed. Kilburn, K., 1959",
             },
             "tlg058": {
                 "title":  "Pro lapsu inter salutandum",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 6, ed. Kilburn, K., 1959",
             },
             "tlg059": {
                 "title":  "Apologia",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 6, ed. Kilburn, K., 1959",
             },
             "tlg060": {
                 "title":  "Harmonides",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 6, ed. Kilburn, K., 1959",
             },
             "tlg061": {
                 "title":  "Hesiodus",
                 "genre":  ["Dialog.", "Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 6, ed. Kilburn, K., 1959",
             },
             "tlg062": {
                 "title":  "Scytha",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 6, ed. Kilburn, K., 1959",
             },
             "tlg063": {
                 "title":  "Hermotimus",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 6, ed. Kilburn, K., 1959",
             },
             "tlg064": {
                 "title":  "Prometheus es in verbis",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 6, ed. Kilburn, K., 1959",
             },
             "tlg065": {
                 "title":  "Navigium",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 6, ed. Kilburn, K., 1959",
             },
             "tlg066": {
                 "title":  "Dialogi mortuorum",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "dialogue-section-line",
+                "meta":   "dialogue-section",
                 "source": "Lucian, vol. 7, ed. Macleod, M.D., 1961",
             },
             "tlg067": {
                 "title":  "Dialogi marini",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "dialogue-section-line",
+                "meta":   "dialogue-section",
                 "source": "Lucian, vol. 7, ed. Macleod, M.D., 1961",
             },
             "tlg068": {
                 "title":  "Dialogi deorum",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "dialogue-section-line",
+                "meta":   "dialogue-section",
                 "source": "Lucian, vol. 7, ed. Macleod, M.D., 1961",
             },
             "tlg069": {
                 "title":  "Dialogi meretricii",
                 "genre":  ["Dialog.", "Satura"],
-                "meta":   "dialogue-section-line",
+                "meta":   "dialogue-section",
                 "source": "Lucian, vol. 7, ed. Macleod, M.D., 1961",
             },
             "tlg070": {
                 "title":  "Soloecista",
                 "genre":  ["Dialog.", "Rhet.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lucian, vol. 8, ed. Macleod, M.D., 1967",
             },
             "tlg071": {
@@ -5086,20 +5086,20 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "De musica (1131b -`1147a)",
                 "genre":  ["Dialog.", "Mus."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 6.3, 3rd edn., ed. Ziegler, K., 1966",
             },
             "tlg003": {
                 "title":  "Placita philosophorum (874d -`911c)",
                 "genre":  ["Doxogr."],
-                "meta":   "stephanus page-section-line",
+                "meta":   "stephanus page-section",
                 "source": "Plutarchi moralia, vol. 5.2.1, ed. Mau, J., 1971",
             },
             "X01":    {"title": "Stromata", "genre": ["tlgl."]},
             "tlg004": {
                 "title":  "De lapidibus (%6 fr. 2, Wimmer)",
                 "genre":  ["Nat. Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Theophrastus. De lapidibus, ed. Eichholz, D.E., 1965",
             },
             "tlg005": {
@@ -5123,35 +5123,35 @@ AUTHOR_TAB = {
             "tlg008": {
                 "title":  "Physicorum opiniones",
                 "genre":  ["Doxogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Doxographi Graeci, ed. Diels, H., 1879",
             },
             "tlg009": {
                 "title":  "Characteres",
                 "genre":  ["Rhet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Theophrast. Charaktere, vol. 1, ed. Steinmetz, P., 1960",
             },
             "tlg010": {
                 "title":  "Fragmenta",
                 "genre":  ["Nat. Hist.", "tlgl."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Theophrasti Eresii opera, quae supersunt, omnia, ed. Wimmer, F., 1866",
             },
             "tlg011": {
-                "title":  "$1*PERI\\ O)RQOGRAFI/AS",
+                "title":  "*PERI\\ O)RQOGRAFI/AS",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg012": {
-                "title":  "$1*PERI\\ O)NOMA/TWN",
+                "title":  "*PERI\\ O)NOMA/TWN",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg013": {
-                "title":  "$1*PERI\\ KLI/SEWS O)NOMA/TWN",
+                "title":  "*PERI\\ KLI/SEWS O)NOMA/TWN",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
@@ -5159,7 +5159,7 @@ AUTHOR_TAB = {
             "tlg014": {
                 "title":  "De causis plantarum (lib. 2 -`6)",
                 "genre":  ["Nat. Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Theophrasti Eresii opera, quae supersunt, omnia, ed. Wimmer, F., 1866",
             },
             "tlg015": {
@@ -5169,49 +5169,49 @@ AUTHOR_TAB = {
                 "source": "Fragmentum Vaticanum de eligendis magistratibus e codice bis rescripto, ed. Aly, W., 1943",
             },
             "tlg016": {
-                "title":  "$1*PERI\\ TOU= ZW/S",
+                "title":  "*PERI\\ TOU= ZW/S",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg017": {
-                "title":  "$1*PERI\\ SUZUGIW=N",
+                "title":  "*PERI\\ SUZUGIW=N",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg018": {
-                "title":  "$1*MONO/BIBLON PERI\\ TOU= MH\\ PA/NTA TA\\ R(H/MATA KLI/NESQAI EI)S",
+                "title":  "*MONO/BIBLON PERI\\ TOU= MH\\ PA/NTA TA\\ R(H/MATA KLI/NESQAI EI)S",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg019": {
-                "title":  "$1*PERI\\ METOXW=N",
+                "title":  "*PERI\\ METOXW=N",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg020": {
-                "title":  "$1*MONO/BIBLON PERI\\ TOU= H)=N",
+                "title":  "*MONO/BIBLON PERI\\ TOU= H)=N",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg021": {
-                "title":  "$1*PERI\\ R(HMA/TWN",
+                "title":  "*PERI\\ R(HMA/TWN",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg022": {
-                "title":  "$1*PERI\\ TW=N EI)S <MI>",
+                "title":  "*PERI\\ TW=N EI)S <MI>",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg023": {
-                "title":  "$1*PERI\\ A)NTWNUMIW=N",
+                "title":  "*PERI\\ A)NTWNUMIW=N",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
@@ -5223,79 +5223,79 @@ AUTHOR_TAB = {
             "X03":    {"title": "Vita Homeri", "genre": ["Biogr."]},
             "X04":    {"title": "De Homero", "genre": ["Biogr."]},
             "tlg024": {
-                "title":  "$1*PERI\\ E)PIRRHMA/TWN",
+                "title":  "*PERI\\ E)PIRRHMA/TWN",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg025": {
-                "title":  "De figuris (%6 $1*PERI\\ SXHMA/TWN)",
+                "title":  "De figuris (%6 *PERI\\ SXHMA/TWN)",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg026": {
-                "title":  "$1*PERI\\ PARWNU/MWN",
+                "title":  "*PERI\\ PARWNU/MWN",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg027": {
-                "title":  "$1*PERI\\ R(HMATIKW=N O)NOMA/TWN",
+                "title":  "*PERI\\ R(HMATIKW=N O)NOMA/TWN",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg028": {
-                "title":  "$1*PERI\\ MONOSULLA/BWN",
+                "title":  "*PERI\\ MONOSULLA/BWN",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg029": {
-                "title":  "$1*PERI\\ GA/MOU KAI\\ SUMBIW/SEWS",
+                "title":  "*PERI\\ GA/MOU KAI\\ SUMBIW/SEWS",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg030": {
-                "title":  "$1*SUMPO/SION",
+                "title":  "*SUMPO/SION",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg031": {
-                "title":  "$1*PROTA/SEIS",
+                "title":  "*PROTA/SEIS",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg032": {
-                "title":  "$1*EI)S TH\\N *)APOLLWNI/OU EI)SAGWGH/N",
+                "title":  "*EI)S TH\\N *)APOLLWNI/OU EI)SAGWGH/N",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg033": {
-                "title":  "$1*PERI\\ MONH/ROUS LE/CEWS",
+                "title":  "*PERI\\ MONH/ROUS LE/CEWS",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg034": {
-                "title":  "$1*PERI\\ PAQW=N (supplementum)",
+                "title":  "*PERI\\ PAQW=N (supplementum)",
                 "genre":  ["Gramm."],
                 "meta":   "part%7volume-page-line",
                 "source": "Grammatici Graeci, vol. 3.2, ed. Lentz, A., 1870",
             },
             "tlg035": {
-                "title":  "De figuris (%6 $1*PERI\\ SXHMA/TWN) [Sp.]",
+                "title":  "De figuris (%6 *PERI\\ SXHMA/TWN) [Sp.]",
                 "genre":  ["Rhet."],
                 "meta":   "page-line",
                 "source": "Rhetores Graeci, vol. 3, ed. Spengel, L., 1856",
             },
             "tlg036": {
-                "title":  "Partitiones (%6$1 *)EPIMERISMOI/) [Sp.?] (e codd. Paris. 2543 %7",
+                "title":  "Partitiones (%6 *)EPIMERISMOI/) [Sp.?] (e codd. Paris. 2543 %7",
                 "genre":  ["Gramm."],
                 "meta":   "page-line",
                 "source": "Herodiani partitiones, ed. Boissonade, J.F., 1819",
@@ -5303,7 +5303,7 @@ AUTHOR_TAB = {
             "tlg037": {
                 "title":  "tlgletaerus [Sp.?] (fort. auctore Corneliano) (e codd. Vat. gr. 2226",
                 "genre":  ["Gramm."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": 'Le "tlgle/taeros" attribue/ a\\ He/rodien, ed. Dain, A., 1954',
             },
             "tlg038": {
@@ -5321,28 +5321,28 @@ AUTHOR_TAB = {
             "tlg041": {
                 "title":  "Schematismi Homerici",
                 "genre":  ["Lexicogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Zu Herodianos technikos", ed. Egenolff, P., 1894',
             },
             "tlg042": {
-                "title": "$1*PERI\\ A)RIQMW=N (ap. Stephanum)",
+                "title": "*PERI\\ A)RIQMW=N (ap. Stephanum)",
                 "genre": ["Gramm."],
                 "meta":  "line",
             },
             "tlg043": {
-                "title":  "$1*PERI\\ AU)QUPOTA/KTWN KAI\\ A)NUPOTA/KTWN",
+                "title":  "*PERI\\ AU)QUPOTA/KTWN KAI\\ A)NUPOTA/KTWN",
                 "genre":  ["Gramm."],
                 "meta":   "page-line",
                 "source": "Anecdota Graeca, vol. 3, ed. Bekker, I., 1821",
             },
             "tlg044": {
-                "title":  "$1*PERI\\ SOLOIKISMOU= KAI\\ BARBARISMOU=",
+                "title":  "*PERI\\ SOLOIKISMOU= KAI\\ BARBARISMOU=",
                 "genre":  ["Rhet."],
                 "meta":   "page-line",
                 "source": "Lexicon Vindobonense, ed. Nauck, A., 1867",
             },
             "tlg045": {
-                "title":  "$1*PERI\\ PARAGWGW=N GENIKW=N A)PO\\ DIALE/KTWN (e cod. Barroc.",
+                "title":  "*PERI\\ PARAGWGW=N GENIKW=N A)PO\\ DIALE/KTWN (e cod. Barroc.",
                 "genre":  ["Gramm."],
                 "meta":   "page-line",
                 "source": "Anecdota Graeca e codd. manuscriptis bibliothecarum Oxoniensium,, ed. Cramer, J.A., 1836",
@@ -5366,13 +5366,13 @@ AUTHOR_TAB = {
                 "source": "Divisiones quae vulgo dicuntur Aristoteleae, ed. Mutschmann, H., 1906",
             },
             "tlg049": {
-                "title":  "$1*PERI\\ LE/CEWS TW=N STI/XWN",
+                "title":  "*PERI\\ LE/CEWS TW=N STI/XWN",
                 "genre":  ["Gramm.", "Rhet."],
                 "meta":   "line",
                 "source": "Appendix ad Draconem Stratonicensem, ed. de Furia, F., 1814",
             },
             "tlg050": {
-                "title":  "$1*PAREKBOLAI\\ TOU= MEGA/LOU R(H/MATOS",
+                "title":  "*PAREKBOLAI\\ TOU= MEGA/LOU R(H/MATOS",
                 "genre":  ["Gramm."],
                 "meta":   "page-line",
                 "source": "$3*PAREKBOLAI\\ TOU= MEGA/LOU R(H/MATOS E)K TW=N *(HRWDIANOU=, ed. La Roche, J., 1863",
@@ -5406,7 +5406,7 @@ AUTHOR_TAB = {
                 "source": "Aristotle. De anima, ed. Ross, W.D., 1961",
             },
             "tlg054": {
-                "title":  "Fragmentum grammaticum quod incipit a vocibus $1ZHTOU=MEN KAI\\ TH\\N",
+                "title":  "Fragmentum grammaticum quod incipit a vocibus ZHTOU=MEN KAI\\ TH\\N",
                 "genre":  ["Gramm."],
                 "meta":   "page-line",
                 "source": "Anecdota Graeca e codd. manuscriptis bibliothecarum Oxoniensium,, ed. Cramer, J.A., 1836",
@@ -5447,7 +5447,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Paroemiae",
                 "genre":  ["Paroem."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus paroemiographorum Graecorum, vol. 2, ed. von Leutsch, E.L., 1851",
             },
             "tlg003": {
@@ -5550,21 +5550,21 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Paroemiae (epitome operis sub nomine Diogeniani) (e cod. Mazarinco)",
                 "genre":  ["Paroem."],
-                "meta":   "centuria-section-line",
+                "meta":   "centuria-section",
                 "source": "Corpus paroemiographorum Graecorum, vol. 1, ed. Schneidewin, F.G., 1839",
             },
             "tlg002": {
                 "title":  "Paroemiae (epitome operis sub nomine Diogeniani) (e cod. Vindob.",
                 "genre":  ["Paroem."],
-                "meta":   "centuria-section-line",
+                "meta":   "centuria-section",
                 "source": "Corpus paroemiographorum Graecorum, vol. 2, ed. von Leutsch, E.L., 1851",
             },
             "X01":    {
-                "title": "$1*PANTODAPH\\ LE/CIS (epitome operis Pamphili et Zopyrionis)",
+                "title": "*PANTODAPH\\ LE/CIS (epitome operis Pamphili et Zopyrionis)",
                 "genre": ["Lexicogr."],
             },
             "X02":    {
-                "title": "$1*PERIERGOPE/NHTES (fort. epitome operis Pamphili et Zopyri)",
+                "title": "*PERIERGOPE/NHTES (fort. epitome operis Pamphili et Zopyri)",
                 "genre": ["Lexicogr."],
             },
         },
@@ -5575,7 +5575,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 2",
         "works":   {
             "X03": {
-                "title": "$1*PERI\\ POTAMW=N, LIMNW=N, KRHNW=N, O)RW=N, A)KRWREIW=N",
+                "title": "*PERI\\ POTAMW=N, LIMNW=N, KRHNW=N, O)RW=N, A)KRWREIW=N",
                 "genre": ["Lexicogr."],
             }
         },
@@ -5589,7 +5589,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Geographica",
                 "genre":  ["Geogr."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Strabonis geographica, 3 vols., ed. Meineke, A., 1877",
             },
             "tlg002": {
@@ -5786,7 +5786,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Catasterismi",
                 "genre":  ["Astron.", "Myth."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Pseudo -Eratosthenis catasterismi, ed. Olivieri, A., 1897",
             },
             "tlg002": {
@@ -6787,331 +6787,331 @@ AUTHOR_TAB = {
         "date":      "A.D. 2",
         "works":     {
             "tlg002": {
-                "title":  "$1*)AQHNA=",
+                "title":  "*)AQHNA=",
                 "genre":  ["Hymn."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg001": {
-                "title":  "$1*EI)S *DI/A",
+                "title":  "*EI)S *DI/A",
                 "genre":  ["Hymn."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg003": {
-                "title":  "$1*)ISQMIKO\\S EI)S *POSEIDW=NA",
+                "title":  "*)ISQMIKO\\S EI)S *POSEIDW=NA",
                 "genre":  ["Hymn."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg004": {
-                "title":  "$1*DIO/NUSOS",
+                "title":  "*DIO/NUSOS",
                 "genre":  ["Hymn."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg005": {
-                "title":  "$1*(HRAKLH=S",
+                "title":  "*(HRAKLH=S",
                 "genre":  ["Hymn."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg006": {
-                "title":  "$1*LALIA\\ EI)S *)ASKLHPIO/N",
+                "title":  "*LALIA\\ EI)S *)ASKLHPIO/N",
                 "genre":  ["Hymn."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg007": {
-                "title":  "$1*)ASKLHPIA/DAI",
+                "title":  "*)ASKLHPIA/DAI",
                 "genre":  ["Hymn."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg008": {
-                "title":  "$1*EI)S TO\\N *SA/RAPIN",
+                "title":  "*EI)S TO\\N *SA/RAPIN",
                 "genre":  ["Hymn."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg009": {
-                "title":  "$1*EI)S BASILE/A [Sp.]",
+                "title":  "*EI)S BASILE/A [Sp.]",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg010": {
-                "title":  "$1*)APELLA= GENEQLIAKO/S",
+                "title":  "*)APELLA= GENEQLIAKO/S",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg011": {
-                "title":  "$1*EI)S *)ETEWNE/A E)PIKH/DEIOS",
+                "title":  "*EI)S *)ETEWNE/A E)PIKH/DEIOS",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg012": {
-                "title":  "$1*)EPI\\ *)ALECA/NDRW| E)PITA/FIOS",
+                "title":  "*)EPI\\ *)ALECA/NDRW| E)PITA/FIOS",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg013": {
-                "title":  "$1*PANAQHNAIeKO/S",
+                "title":  "*PANAQHNAIeKO/S",
                 "genre":  ["Encom.", "Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg014": {
-                "title":  "$1*(RW/MHS E)GKW/MION",
+                "title":  "*(RW/MHS E)GKW/MION",
                 "genre":  ["Encom.", "Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg015": {
-                "title":  "$1*SMURNAIeKO\\S POLITIKO/S",
+                "title":  "*SMURNAIeKO\\S POLITIKO/S",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg016": {
-                "title":  "$1*PANHGURIKO\\S E)N *KUZI/KW| PERI\\ TOU= NAOU=",
+                "title":  "*PANHGURIKO\\S E)N *KUZI/KW| PERI\\ TOU= NAOU=",
                 "genre":  ["Encom.", "Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg017": {
-                "title":  "$1*EI)S TO\\ *AI)GAI=ON PE/LAGOS",
+                "title":  "*EI)S TO\\ *AI)GAI=ON PE/LAGOS",
                 "genre":  ["Hymn."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg018": {
-                "title":  "$1*EI)S TO\\ FRE/AR TOU= *)ASKLHPIOU=",
+                "title":  "*EI)S TO\\ FRE/AR TOU= *)ASKLHPIOU=",
                 "genre":  ["Hymn."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg019": {
-                "title":  "$1*)ELEUSI/NIOS",
+                "title":  "*)ELEUSI/NIOS",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg020": {
-                "title":  "$1*MONW|DI/A E)PI\\ *SMU/RNH|",
+                "title":  "*MONW|DI/A E)PI\\ *SMU/RNH|",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg021": {
-                "title":  "$1*PALINW|DI/A E)PI\\ *SMU/RNH| KAI\\ TW=| TAU/THS A)NOIKISMW=|",
+                "title":  "*PALINW|DI/A E)PI\\ *SMU/RNH| KAI\\ TW=| TAU/THS A)NOIKISMW=|",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg022": {
-                "title":  "$1*PROSFWNHTIKO/S *SMURNAIeKO/S",
+                "title":  "*PROSFWNHTIKO/S *SMURNAIeKO/S",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg023": {
-                "title":  "$1*(IEROI\\ LO/GOI A#",
+                "title":  "*(IEROI\\ LO/GOI A#",
                 "genre":  ["Biogr.", "Med.", "Onir."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg024": {
-                "title":  "$1*(IEROI\\ LO/GOI B#",
+                "title":  "*(IEROI\\ LO/GOI B#",
                 "genre":  ["Biogr.", "Med.", "Onir."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg025": {
-                "title":  "$1*(IEROI\\ LO/GOI G#",
+                "title":  "*(IEROI\\ LO/GOI G#",
                 "genre":  ["Biogr.", "Med.", "Onir."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg026": {
-                "title":  "$1*(IEROI\\ LO/GOI D#",
+                "title":  "*(IEROI\\ LO/GOI D#",
                 "genre":  ["Biogr.", "Med.", "Onir."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg027": {
-                "title":  "$1*(IEROI\\ LO/GOI E#",
+                "title":  "*(IEROI\\ LO/GOI E#",
                 "genre":  ["Biogr.", "Med.", "Onir."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg028": {
-                "title":  "$1*(IEROI\\ LO/GOI S#",
+                "title":  "*(IEROI\\ LO/GOI S#",
                 "genre":  ["Biogr.", "Med.", "Onir."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg029": {
-                "title":  "$1*PERI\\ TOU= PE/MPEIN BOH/QEIAN TOI=S E)N *SIKELI/A|",
+                "title":  "*PERI\\ TOU= PE/MPEIN BOH/QEIAN TOI=S E)N *SIKELI/A|",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg030": {
-                "title":  "$1*EI)S TO\\ E)NANTI/ON",
+                "title":  "*EI)S TO\\ E)NANTI/ON",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg031": {
-                "title":  "$1*(UPE\\R TH=S PRO\\S *LAKEDAIMONI/OUS EI)RH/NHS",
+                "title":  "*(UPE\\R TH=S PRO\\S *LAKEDAIMONI/OUS EI)RH/NHS",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg032": {
-                "title":  "$1*(UPE\\R TH=S PRO\\S *)AQHNAI/OUS EI)RH/NHS",
+                "title":  "*(UPE\\R TH=S PRO\\S *)AQHNAI/OUS EI)RH/NHS",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg033": {
-                "title":  "$1*LEUKTRIKO\\S A# ($1U(PE\\R *LAKEDAIMONI/WN PRW=TOS)",
+                "title":  "*LEUKTRIKO\\S A# (U(PE\\R *LAKEDAIMONI/WN PRW=TOS)",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg034": {
-                "title":  "$1*LEUKTRIKO\\S B# ($1U(PE\\R *QHBAI/WN PRW=TOS)",
+                "title":  "*LEUKTRIKO\\S B# (U(PE\\R *QHBAI/WN PRW=TOS)",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg035": {
-                "title":  "$1*LEUKTRIKO\\S G# ($1U(PE\\R *LAKEDAIMONI/WN DEU/TEROS)",
+                "title":  "*LEUKTRIKO\\S G# (U(PE\\R *LAKEDAIMONI/WN DEU/TEROS)",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg036": {
-                "title":  "$1*LEUKTRIKO\\S D# ($1U(PE\\R *QHBAI/WN DEU/TEROS)",
+                "title":  "*LEUKTRIKO\\S D# (U(PE\\R *QHBAI/WN DEU/TEROS)",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg037": {
-                "title":  "$1*LEUKTRIKO\\S E# ($1U(PE\\R MHDETE/ROIS BOHQEI=N)",
+                "title":  "*LEUKTRIKO\\S E# (U(PE\\R MHDETE/ROIS BOHQEI=N)",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg038": {
-                "title":  "$1*SUMMAXIKO\\S A#",
+                "title":  "*SUMMAXIKO\\S A#",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg039": {
-                "title":  "$1*SUMMAXIKO\\S B# ($1PRO\\S *QHBAI/OUS PERI\\ TH=S SUMMAXI/AS)",
+                "title":  "*SUMMAXIKO\\S B# (PRO\\S *QHBAI/OUS PERI\\ TH=S SUMMAXI/AS)",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg040": {
-                "title":  "$1*SUMBOULEUTIKO\\S PERI\\ TOU= MH\\ DEI=N KWMW|DEI=N",
+                "title":  "*SUMBOULEUTIKO\\S PERI\\ TOU= MH\\ DEI=N KWMW|DEI=N",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg041": {
-                "title":  "$1*)EPISTOLH\\ PERI\\ *SMU/RNHS",
+                "title":  "*)EPISTOLH\\ PERI\\ *SMU/RNHS",
                 "genre":  ["Epist."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg042": {
-                "title":  "$1*PERI\\ O(MONOI/AS TAI=S PO/LESIN",
+                "title":  "*PERI\\ O(MONOI/AS TAI=S PO/LESIN",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg043": {
-                "title":  "$1*(RODIAKO/S [Sp.]",
+                "title":  "*(RODIAKO/S [Sp.]",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg044": {
-                "title":  "$1*(RODI/OIS PERI\\ O(MONOI/AS",
+                "title":  "*(RODI/OIS PERI\\ O(MONOI/AS",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 1, ed. Dindorf, W., 1829",
             },
             "tlg045": {
-                "title":  "$1*PRO\\S *PLA/TWNA PERI\\ R(HTORIKH=S",
+                "title":  "*PRO\\S *PLA/TWNA PERI\\ R(HTORIKH=S",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 2, ed. Dindorf, W., 1829",
             },
             "tlg046": {
-                "title":  "$1*PRO\\S *PLA/TWNA U(PE\\R TW=N TETTA/RWN",
+                "title":  "*PRO\\S *PLA/TWNA U(PE\\R TW=N TETTA/RWN",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 2, ed. Dindorf, W., 1829",
             },
             "tlg047": {
-                "title":  "$1*PRO\\S *KAPI/TWNA",
+                "title":  "*PRO\\S *KAPI/TWNA",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 2, ed. Dindorf, W., 1829",
             },
             "tlg048": {
-                "title":  "$1*AI)GU/PTIOS",
+                "title":  "*AI)GU/PTIOS",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 2, ed. Dindorf, W., 1829",
             },
             "tlg049": {
-                "title":  "$1*PERI\\ TOU= PARAFQE/GMATOS",
+                "title":  "*PERI\\ TOU= PARAFQE/GMATOS",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 2, ed. Dindorf, W., 1829",
             },
             "tlg050": {
-                "title":  "$1*KATA\\ TW=N E)CORXOUME/NWN",
+                "title":  "*KATA\\ TW=N E)CORXOUME/NWN",
                 "genre":  ["Orat.", "Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 2, ed. Dindorf, W., 1829",
             },
             "tlg051": {
-                "title":  "$1*PRO\\S TOU\\S AI)TIWME/NOUS O(/TI MH\\ MELETW/|H",
+                "title":  "*PRO\\S TOU\\S AI)TIWME/NOUS O(/TI MH\\ MELETW/|H",
                 "genre":  ["Orat."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 2, ed. Dindorf, W., 1829",
             },
             "tlg052": {
-                "title":  "$1*PRESBEUTIKO\\S PRO\\S *)AXILLE/A",
+                "title":  "*PRESBEUTIKO\\S PRO\\S *)AXILLE/A",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 2, ed. Dindorf, W., 1829",
             },
             "tlg053": {
-                "title":  "$1*PRO\\S *DHMOSQE/NH PERI\\ A)TELEI/AS",
+                "title":  "*PRO\\S *DHMOSQE/NH PERI\\ A)TELEI/AS",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 2, ed. Dindorf, W., 1829",
             },
             "tlg054": {
-                "title":  "$1*PRO\\S *LEPTI/NHN U(PE\\R A)TELEI/AS",
+                "title":  "*PRO\\S *LEPTI/NHN U(PE\\R A)TELEI/AS",
                 "genre":  ["Rhet."],
                 "meta":   "jebb page-line",
                 "source": "Aristides, vol. 2, ed. Dindorf, W., 1829",
             },
             "tlg055": {
-                "title":  "$1*PANHGURIKO\\S E)PI\\ TW=| U(/DATI E)N *PERGA/MW|",
+                "title":  "*PANHGURIKO\\S E)PI\\ TW=| U(/DATI E)N *PERGA/MW|",
                 "genre":  ["Encom.", "Orat."],
                 "meta":   "line",
                 "source": "Aristides, vol. 2, ed. Dindorf, W., 1829",
@@ -7119,7 +7119,7 @@ AUTHOR_TAB = {
             "tlg056": {
                 "title":  "Ars rhetorica [Sp.]",
                 "genre":  ["Rhet."],
-                "meta":   "book-chapter-section-subsection-line",
+                "meta":   "book-chapter-section-subsection",
                 "source": "Rhetores Graeci, vol. 2, ed. Spengel, L., 1854",
             },
             "tlg057": {
@@ -7403,7 +7403,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Acta et martyrium Apollonii",
                 "genre":  ["Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The acts of the Christian martyrs, ed. Musurillo, H., 1972",
             }
         },
@@ -7601,7 +7601,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Acta Joannis",
                 "genre":  ["Acta", "Apocryph."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Acta apostolorum apocrypha, vol. 2.1, ed. Bonnet, M., 1898",
             }
         },
@@ -7614,7 +7614,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Acta Joannis (recensio)",
                 "genre":  ["Acta", "Apocryph."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Acta apostolorum apocrypha, vol. 2.1, ed. Bonnet, M., 1898",
             }
         },
@@ -7801,13 +7801,13 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Introductio arithmetica",
                 "genre":  ["Math."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Nicomachi Geraseni Pythagorei introductionis arithmeticae libri ii, ed. Hoche, R., 1866",
             },
             "tlg002": {
                 "title":  "Harmonicum enchiridion",
                 "genre":  ["Mus."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Musici scriptores Graeci, ed. Jan, K., 1895",
             },
             "tlg003": {
@@ -7826,7 +7826,7 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Excerpta",
                 "genre":  ["Mus."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Musici scriptores Graeci, ed. Jan, K., 1895",
             }
         },
@@ -7889,7 +7889,7 @@ AUTHOR_TAB = {
                 "source": "Claudii Ptolemaei opera quae exstant omnia, vol. 2, ed. Heiberg, J.L., 1907",
             },
             "tlg005": {
-                "title":  "$1*PROXEI/RWN KANO/NWN DIA/TACIS KAI\\ YHFOFORI/A",
+                "title":  "*PROXEI/RWN KANO/NWN DIA/TACIS KAI\\ YHFOFORI/A",
                 "genre":  ["Astron."],
                 "meta":   "volume-page-line",
                 "source": "Claudii Ptolemaei opera quae exstant omnia, vol. 2, ed. Heiberg, J.L., 1907",
@@ -7903,7 +7903,7 @@ AUTHOR_TAB = {
             "tlg007": {
                 "title":  "Apotelesmatica (%6 Tetrabiblos)",
                 "genre":  ["Astrol."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Claudii Ptolemaei opera quae exstant omnia, vol. 3.1, ed. Boer, E., 1940",
             },
             "tlg008": {
@@ -7915,19 +7915,19 @@ AUTHOR_TAB = {
             "tlg009": {
                 "title":  "Geographia (lib. 1 -`3)",
                 "genre":  ["Geogr."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Claudii Ptolemaei geographia, vol. 1.1, ed. Mueller, K., 1883",
             },
             "tlg010": {
                 "title":  "Harmonica",
                 "genre":  ["Mus."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Die Harmonielehre des Klaudios Ptolemaios, ed. Duering, I., 1930",
             },
             "tlg011": {
                 "title":  "Musica",
                 "genre":  ["Mus."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Musici scriptores Graeci, ed. Jan, K., 1895",
             },
             "tlg012": {
@@ -7939,7 +7939,7 @@ AUTHOR_TAB = {
             "tlg014": {
                 "title":  "Geographia (lib. 4 -`8)",
                 "genre":  ["Geogr."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Claudii Ptolemaei geographia, vols. 1 -`2, ed. Nobbe, C.F.A., 1:1843; 2:1845",
             },
         },
@@ -8263,13 +8263,13 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Acta Justini et septem sodalium (recensio A)",
                 "genre":  ["Hagiogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The acts of the Christian martyrs, ed. Musurillo, H., 1972",
             },
             "tlg002": {
                 "title":  "Acta Justini et septem sodalium (recensio B)",
                 "genre":  ["Hagiogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The acts of the Christian martyrs, ed. Musurillo, H., 1972",
             },
         },
@@ -8283,14 +8283,14 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "Historiae Romanae (versio 1 in volumine 2)",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Cassii Dionis Cocceiani historiarum Romanarum quae supersunt, vol. 2, ed. Boissevain, "
                           "U.P., 1898",
             },
             "tlg001": {
                 "title":  "Historiae Romanae",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Cassii Dionis Cocceiani historiarum Romanarum quae supersunt, `3, ed. Boissevain, U.P., "
                           "1:1895; 2:1898; 3:1901",
             },
@@ -8304,7 +8304,7 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Historiae Romanae (versio 1 in volumine 3)",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Cassii Dionis Cocceiani historiarum Romanarum quae supersunt, vol. 3, ed. Boissevain, "
                           "U.P., 1901",
             },
@@ -8318,14 +8318,14 @@ AUTHOR_TAB = {
             "tlg006": {
                 "title":  "Historiae Romanae (versio 2 in volumine 2)",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Cassii Dionis Cocceiani historiarum Romanarum quae supersunt, vol. 2, ed. Boissevain, "
                           "U.P., 1898",
             },
             "tlg007": {
                 "title":  "Historiae Romanae (versio 2 in volumine 3)",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Cassii Dionis Cocceiani historiarum Romanarum quae supersunt, vol. 3, ed. Boissevain, "
                           "U.P., 1901",
             },
@@ -8339,7 +8339,7 @@ AUTHOR_TAB = {
             "tlg009": {
                 "title":  "Reliquiae incertae sedis",
                 "genre":  ["Hist."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Cassii Dionis Cocceiani historiarum Romanarum quae supersunt, vol. 1, ed. Boissevain, "
                           "U.P., 1895",
             },
@@ -8424,7 +8424,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Martyrium Pauli",
                 "genre":  ["Acta", "Apocryph.", "Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Acta apostolorum apocrypha, vol. 1, ed. Lipsius, R.A., 1891",
             },
             "tlg001": {
@@ -8442,7 +8442,7 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Acta Pauli et Theclae",
                 "genre":  ["Acta", "Apocryph."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Acta apostolorum apocrypha, vol. 1, ed. Lipsius, R.A., 1891",
             },
         },
@@ -8466,7 +8466,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Martyrium Petri",
                 "genre":  ["Acta", "Apocryph.", "Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les actes de Pierre, ed. Vouaux, L., 1922",
             }
         },
@@ -8477,7 +8477,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Martyrium sanctorum Carpi, Papyli et Agathonicae",
                 "genre":  ["Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The acts of the Christian martyrs, ed. Musurillo, H., 1972",
             }
         },
@@ -10795,19 +10795,19 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Josephi vita",
                 "genre":  ["Apol.", "Biogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Flavii Iosephi opera, vol. 4, ed. Niese, B., 1890",
             },
             "tlg003": {
                 "title":  "Contra Apionem (%6 De Judaeorum vetustate)",
                 "genre":  ["Apol."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Flavii Iosephi opera, vol. 5, ed. Niese, B., 1889",
             },
             "tlg004": {
                 "title":  "De bello Judaico libri vii",
                 "genre":  ["Hist."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Flavii Iosephi opera, vol. 6, ed. Niese, B., 1895",
             },
         },
@@ -10823,349 +10823,349 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Genesis",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg002": {
                 "title":  "Exodus",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg003": {
                 "title":  "Leviticus",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg004": {
                 "title":  "Numeri",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg005": {
                 "title":  "Deuteronomium",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg006": {
                 "title":  "Josue (Cod. Vaticanus %7 Cod. Alexandrinus)",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg007": {
                 "title":  "Josue (Cod. Alexandrinus)",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg008": {
                 "title":  "Judices (Cod. Alexandrinus)",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg009": {
                 "title":  "Judices (Cod. Vaticanus)",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg010": {
                 "title":  "Ruth",
                 "genre":  ["Narr. Fict.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg011": {
                 "title":  "Regnorum i (Samuelis i in textu Masoretico)",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg012": {
                 "title":  "Regnorum ii (Samuelis ii in textu Masoretico)",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg013": {
                 "title":  "Regnorum iii (Regum i in textu Masoretico)",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg014": {
                 "title":  "Regnorum iv (Regum ii in textu Masoretico)",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg015": {
                 "title":  "Paralipomenon i sive Chronicon i",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg016": {
                 "title":  "Paralipomenon ii sive Chronicon ii",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg017": {
                 "title":  "Esdras i (liber apocryphus)",
                 "genre":  ["Apocryph.", "Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg018": {
                 "title":  "Esdras ii (Ezra et Nehemias in textu Masoretico)",
                 "genre":  ["Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg019": {
                 "title":  "Esther",
                 "genre":  ["Narr. Fict.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg020": {
                 "title":  "Judith",
                 "genre":  ["Apocryph.", "Narr. Fict.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg021": {
                 "title":  "Tobias (Cod. Vaticanus %7 Cod. Alexandrinus)",
                 "genre":  ["Apocryph.", "Narr. Fict.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg022": {
                 "title":  "Tobias (Cod. Sinaiticus)",
                 "genre":  ["Apocryph.", "Narr. Fict.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg023": {
                 "title":  "Machabaeorum i",
                 "genre":  ["Apocryph.", "Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg024": {
                 "title":  "Machabaeorum ii",
                 "genre":  ["Apocryph.", "Hist.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg025": {
                 "title":  "Machabaeorum iii",
                 "genre":  ["Apocryph.", "Narr. Fict.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg026": {
                 "title":  "Machabaeorum iv",
                 "genre":  ["Apocryph.", "Hagiogr.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 1, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg027": {
                 "title":  "Psalmi",
                 "genre":  ["Hymn.", "Poem.", "Relig."],
-                "meta":   "psalm-section-line",
+                "meta":   "psalm-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg028": {
                 "title":  "Odae",
                 "genre":  ["Hymn.", "Poem.", "Relig."],
-                "meta":   "ode-section-line",
+                "meta":   "ode-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg029": {
                 "title":  "Proverbia",
                 "genre":  ["Paroem.", "Relig."],
-                "meta":   "proverb-section-line",
+                "meta":   "proverb-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg030": {
                 "title":  "Ecclesiastes",
                 "genre":  ["Poem.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg031": {
                 "title":  "Canticum",
                 "genre":  ["Poem.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg032": {
                 "title":  "Job",
                 "genre":  ["Narr. Fict.", "Poem.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg033": {
                 "title":  "Sapientia Salomonis",
                 "genre":  ["Pseudepigr.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg034": {
                 "title":  "Ecclesiasticus sive Siracides (Sapientia Jesu filii",
                 "genre":  ["Apocryph.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg035": {
                 "title":  "Psalmi Salomonis",
                 "genre":  ["Poem.", "Pseudepigr.", "Relig."],
-                "meta":   "psalm-section-line",
+                "meta":   "psalm-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg036": {
                 "title":  "Osee",
                 "genre":  ["Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg037": {
                 "title":  "Amos",
                 "genre":  ["Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg038": {
                 "title":  "Michaeas",
                 "genre":  ["Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg039": {
                 "title":  "Joel",
                 "genre":  ["Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg040": {
                 "title":  "Abdias",
                 "genre":  ["Prophet.", "Relig."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg041": {
                 "title":  "Jonas",
                 "genre":  ["Narr. Fict.", "Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg042": {
                 "title":  "Nahum",
                 "genre":  ["Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg043": {
                 "title":  "Habacuc",
                 "genre":  ["Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg044": {
                 "title":  "Sophonias",
                 "genre":  ["Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg045": {
                 "title":  "Aggaeus",
                 "genre":  ["Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg046": {
                 "title":  "Zacharias",
                 "genre":  ["Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg047": {
                 "title":  "Malachias",
                 "genre":  ["Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg048": {
                 "title":  "Isaias",
                 "genre":  ["Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg049": {
                 "title":  "Jeremias",
                 "genre":  ["Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg050": {
                 "title":  "Baruch",
                 "genre":  ["Apocryph.", "Hymn.", "Poem.", "Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg051": {
                 "title":  "Threni seu Lamentationes",
                 "genre":  ["Poem.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg052": {
                 "title":  "Epistula Jeremiae",
                 "genre":  ["Apocryph.", "Epist.", "Relig."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg053": {
                 "title":  "Ezechiel",
                 "genre":  ["Prophet.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg054": {
                 "title":  "Susanna (translatio Graeca)",
                 "genre":  ["Apocryph.", "Narr. Fict.", "Relig."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg055": {
                 "title":  "Susanna (Theodotionis versio)",
                 "genre":  ["Apocryph.", "Narr. Fict.", "Relig."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg056": {
                 "title":  "Daniel (translatio Graeca)",
                 "genre":  ["Apocalyp.", "Narr. Fict.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg057": {
                 "title":  "Daniel (Theodotionis versio)",
                 "genre":  ["Apocalyp.", "Narr. Fict.", "Relig."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg058": {
                 "title":  "Bel et Draco (translatio Graeca)",
                 "genre":  ["Apocryph.", "Narr. Fict.", "Relig."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
         },
@@ -11178,7 +11178,7 @@ AUTHOR_TAB = {
             "tlg059": {
                 "title":  "Bel et Draco (Theodotionis versio)",
                 "genre":  ["Apocryph.", "Narr. Fict.", "Relig."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Septuaginta, vol. 2, 9th edn., ed. Rahlfs, A., 1935",
             },
             "tlg001": {
@@ -11230,7 +11230,7 @@ AUTHOR_TAB = {
                 "source": "Handschriftliche Studien zu Galen, ed. Helmreich, G., 1911",
             },
             "tlg003": {
-                "title":  "$1*LE/CEIS BOTANW=N",
+                "title":  "*LE/CEIS BOTANW=N",
                 "genre":  ["Lexicogr."],
                 "meta":   "page-line",
                 "source": "Anecdota Atheniensia et alia, vol. 2, ed. Delatte, A., 1939",
@@ -11244,7 +11244,7 @@ AUTHOR_TAB = {
             "tlg006": {
                 "title":  "Ad Gaurum quomodo animetur fetus",
                 "genre":  ["Med."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": '"Die neuplatonische, faelschlich dem Galen zugeschriebene Schrift, ed. Kalbfleisch, K., '
                           "1895",
             },
@@ -11263,12 +11263,12 @@ AUTHOR_TAB = {
             "tlg020": {
                 "title": "De partibus philosophiae",
                 "genre": ["tlgl."],
-                "meta":  "section-line",
+                "meta":  "section",
             },
             "tlg022": {
                 "title":  "De ponderibus et mensuris",
                 "genre":  ["Metrolog."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Metrologicorum scriptorum reliquiae, vol. 1, ed. Hultsch, F., 1864",
             },
             "tlg023": {
@@ -11346,7 +11346,7 @@ AUTHOR_TAB = {
             "tlg042": {
                 "title":  "De historia philosophica",
                 "genre":  ["Doxogr.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Doxographi Graeci, ed. Diels, H., 1879",
             },
             "tlg043": {
@@ -11383,7 +11383,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Irrisio gentilium philosophorum",
                 "genre":  ["Doxogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Doxographi Graeci, ed. Diels, H., 1879",
             }
         },
@@ -11397,7 +11397,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Leucippe et Clitophon",
                 "genre":  ["Narr. Fict."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Achilles Tatius. Leucippe and Clitophon, ed. Vilborg, E., 1955",
             },
             "tlg003": {
@@ -11594,25 +11594,25 @@ AUTHOR_TAB = {
             "tlg010": {
                 "title":  "Epistula ad Herodotum",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Epicuro. Opere, `2nd edn., ed. Arrighetti, G., 1973",
             },
             "tlg011": {
                 "title":  "Epistula ad Pythoclem",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Epicuro. Opere, `2nd edn., ed. Arrighetti, G., 1973",
             },
             "tlg012": {
                 "title":  "Epistula ad Menoeceum",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Epicuro. Opere, `2nd edn., ed. Arrighetti, G., 1973",
             },
             "tlg013": {
                 "title":  "Ratae sententiae",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Epicuro. Opere, `2nd edn., ed. Arrighetti, G., 1973",
             },
             "tlg014": {
@@ -11624,7 +11624,7 @@ AUTHOR_TAB = {
             "tlg015": {
                 "title":  "Deperditorum librorum reliquiae",
                 "genre":  ["tlgl."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Epicuro. Opere, 2nd edn., ed. Arrighetti, G., 1973",
             },
             "tlg016": {
@@ -11692,211 +11692,211 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "Contra Simonem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg001": {
                 "title":  "De caede Eratosthenis",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg002": {
                 "title":  "Epitaphius [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg004": {
-                "title":  "$1*PERI\\ TRAU/MATOS E)K PRONOI/AS U(PE\\R OU(= KAI\\ PRO\\S O(\\N$",
+                "title":  "*PERI\\ TRAU/MATOS E)K PRONOI/AS U(PE\\R OU(= KAI\\ PRO\\S O(\\N$",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg005": {
                 "title":  "Pro Callia",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg006": {
                 "title":  "In Andocidem [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg007": {
                 "title":  "Areopagiticus",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg008": {
-                "title":  "$1*KATHGORI/A PRO\\S TOU\\S SUNOUSIASTA\\S KAKOLOGIW=N [Sp.]",
+                "title":  "*KATHGORI/A PRO\\S TOU\\S SUNOUSIASTA\\S KAKOLOGIW=N [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg009": {
                 "title":  "Pro milite [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg010": {
                 "title":  "In Theomnestum 1",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg011": {
                 "title":  "In Theomnestum 2 [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg012": {
                 "title":  "In Eratosthenem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg013": {
                 "title":  "In Agoratum",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg014": {
                 "title":  "In Alcibiadem 1",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg015": {
                 "title":  "In Alcibiadem 2",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg016": {
                 "title":  "Pro Mantitheo",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg017": {
-                "title":  "$1*PRO\\S TO\\ DHMO/SION PERI\\ TW=N *)ERA/TWNOS XRHMA/TWN",
+                "title":  "*PRO\\S TO\\ DHMO/SION PERI\\ TW=N *)ERA/TWNOS XRHMA/TWN",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg018": {
-                "title":  "$1*PERI\\ TH=S DHMEU/SEWS [2TW=N]2 TOU= *NIKI/OU A)DELFOU=",
+                "title":  "*PERI\\ TH=S DHMEU/SEWS [2TW=N]2 TOU= *NIKI/OU A)DELFOU=",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg019": {
-                "title":  "$1*(UPE\\R TW=N *)ARISTOFA/NOUS XRHMA/TWN, PRO\\S TO\\ DHMO/SION",
+                "title":  "*(UPE\\R TW=N *)ARISTOFA/NOUS XRHMA/TWN, PRO\\S TO\\ DHMO/SION",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg020": {
                 "title":  "Pro Polystrato [Sp.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg021": {
-                "title":  "$1*)APOLOGI/A DWRODOKI/AS A)PARA/SHMOS",
+                "title":  "*)APOLOGI/A DWRODOKI/AS A)PARA/SHMOS",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg022": {
-                "title":  "$1*KATA\\ TW=N SITOPWLW=N",
+                "title":  "*KATA\\ TW=N SITOPWLW=N",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg023": {
                 "title":  "In Pancleonem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg024": {
-                "title":  "[2$1*(UPE\\R TOU= A)DUNA/TOU]2",
+                "title":  "[2*(UPE\\R TOU= A)DUNA/TOU]2",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg025": {
-                "title":  "[$1*DH/MOU KATALU/SEWS] A)POLOGI/A",
+                "title":  "[*DH/MOU KATALU/SEWS] A)POLOGI/A",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg026": {
-                "title":  "[2$1*PERI\\ TH=S *EU)A/NDROU DOKIMASI/AS]2",
+                "title":  "[2*PERI\\ TH=S *EU)A/NDROU DOKIMASI/AS]2",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg027": {
                 "title":  "In Epicratem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg028": {
                 "title":  "In Ergoclem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg029": {
                 "title":  "In Philocratem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg030": {
                 "title":  "In Nicomachum",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg031": {
                 "title":  "In Philonem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg032": {
                 "title":  "In Diogitonem",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg033": {
                 "title":  "Olympiacus",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg034": {
-                "title":  "$1*PERI\\ TOU= MH\\ KATALU=SAI TH\\N PA/TRION POLITEI/AN *)AQH/NHSI",
+                "title":  "*PERI\\ TOU= MH\\ KATALU=SAI TH\\N PA/TRION POLITEI/AN *)AQH/NHSI",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
             "tlg035": {
                 "title":  "Fragmenta",
                 "genre":  ["Orat."],
-                "meta":   "oration-section-line",
+                "meta":   "oration-section",
                 "source": "Lisia. I discorsi, ed. Albini, U., 1955",
             },
         },
@@ -12179,7 +12179,7 @@ AUTHOR_TAB = {
             "tlg047": {
                 "title":  "Sententiae",
                 "genre":  ["Gnom."],
-                "meta":   "sententia-section-line",
+                "meta":   "sententia-section",
                 "source": "Fragmenta comicorum Graecorum, vol. 4, ed. Meineke, A., 1841",
             },
             "tlg048": {
@@ -12205,7 +12205,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Onomasticon",
                 "genre":  ["Epist.", "Lexicogr.", "Rhet."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Pollucis onomasticon, 2 vols., ed. Bethe, E., 9.1:1900; 9.2:1931",
             },
         },
@@ -12223,7 +12223,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Historiae",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Polybii historiae, vols. 1 -`4, ed. Buettner -Wobst, T., 1:1905; 2:1889; 3:1893; 4:1904",
             },
             "tlg002": {
@@ -12247,7 +12247,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Pyrrhoniae hypotyposes",
                 "genre":  ["tlgl."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Sexti Empirici opera, vol. 1, ed. Mutschmann, H., 1912",
             },
         },
@@ -12260,13 +12260,13 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Varia historia",
                 "genre":  ["Nat. Hist.", "Paradox."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Claudii Aeliani de natura animalium libri xvii, varia historia,, ed. Hercher, R., 1866",
             },
             "tlg001": {
                 "title":  "De natura animalium",
                 "genre":  ["Nat. Hist.", "Paradox."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Claudii Aeliani de natura animalium libri xvii, varia historia,, ed. Hercher, R., 1864",
             },
             "tlg003": {
@@ -12305,7 +12305,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Ars rhetorica vulgo Rhetorica ad Alexandrum",
                 "genre":  ["Rhet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Anaximenis ars rhetorica, ed. Fuhrmann, M., 1966",
             },
             "tlg002": {
@@ -12336,7 +12336,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Bibliotheca (sub nomine Apollodori)",
                 "genre":  ["Myth."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Apollodori bibliotheca. Pediasimi libellus de duodecim Herculis, ed. Wagner, R., 1894",
             },
             "tlg003": {
@@ -12374,103 +12374,103 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Prooemium",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg002": {
                 "title":  "Basilica (fragmenta)",
                 "genre":  ["Hist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg003": {
                 "title":  "Italica (fragmenta)",
                 "genre":  ["Hist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg004": {
                 "title":  "Samnitica (fragmenta)",
                 "genre":  ["Hist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg005": {
                 "title":  "Celtica (fragmenta)",
                 "genre":  ["Hist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg006": {
                 "title":  "Sicelica (fragmenta)",
                 "genre":  ["Hist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg007": {
                 "title":  "Iberica",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg008": {
                 "title":  "Annibaica",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg009": {
                 "title":  "Libyca",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg010": {
                 "title":  "Numidica (fragmenta)",
                 "genre":  ["Hist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg011": {
                 "title":  "Macedonica (fragmenta)",
                 "genre":  ["Hist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg012": {
                 "title":  "Illyrica",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg013": {
                 "title":  "Syriaca",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg014": {
                 "title":  "Mithridatica",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg015": {
                 "title":  "Fragmenta historiae Romanae",
                 "genre":  ["Hist."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg016": {
                 "title":  "Appiani ad Frontonem epistula",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Appiani historia Romana, vol. 1, ed. Gabba, E., 1939",
             },
             "tlg017": {
                 "title":  "Bellum civile",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Appian's Roman history, vols. 3 -`4 (ed. H. White), ed. Viereck, P., 1913",
             },
         },
@@ -12588,7 +12588,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De Chaerea et Callirhoe",
                 "genre":  ["Narr. Fict."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Charitonis Aphrodisiensis de Chaerea et Callirhoe amatoriarum, ed. Blake, W.E., 1938",
             },
             "X01":    {
@@ -12610,13 +12610,13 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Protrepticus",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "chapter-section-subsection-line",
+                "meta":   "chapter-section-subsection",
                 "source": "Cle/ment d'Alexandrie. Le protreptique, `2nd edn., ed. Monde/sert, C., 1949",
             },
             "tlg002": {
                 "title":  "Paedagogus",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "book-chapter-subchapter-section-line",
+                "meta":   "book-chapter-subchapter-section",
                 "source": "Cle/ment d'Alexandrie. Le pe/dagogue, `3 vols., ed. Matray, C., 1:1960; 2:1965; 3:1970",
             },
             "tlg003": {
@@ -12628,19 +12628,19 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Stromata",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "book-chapter-section-subsection-line",
+                "meta":   "book-chapter-section-subsection",
                 "source": "Clemens Alexandrinus, vols. 2, 3rd edn. and 3, 2nd edn., ed. Treu, U., 2:1960; 3:1970",
             },
             "tlg005": {
                 "title":  "Eclogae propheticae",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Clemens Alexandrinus, vol. 3, 2nd edn., ed. Treu, U., 1970",
             },
             "tlg006": {
                 "title":  "Quis dives salvetur",
                 "genre":  ["Homilet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Clemens Alexandrinus, vol. 3, 2nd edn., ed. Treu, U., 1970",
             },
             "tlg007": {
@@ -12673,13 +12673,13 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Dissertationes ab Arriano digestae",
                 "genre":  ["tlgl."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Epicteti dissertationes ab Arriano digestae, ed. Schenkl, H., 1916",
             },
             "tlg002": {
                 "title":  "Enchiridion",
                 "genre":  ["tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Epicteti dissertationes ab Arriano digestae, ed. Schenkl, H., 1916",
             },
             "tlg003": {
@@ -12709,19 +12709,19 @@ AUTHOR_TAB = {
             "tlg006": {
                 "title":  "Arriani epistula ad Lucium Gellium",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Epicteti dissertationes ab Arriano digestae, ed. Schenkl, H., 1916",
             },
             "tlg001": {
                 "title":  "Fragmenta Florentina (PSI `13.1304)",
                 "genre":  ["Hist."],
-                "meta":   "fragment-column-section-line",
+                "meta":   "fragment-column-section",
                 "source": "Hellenica Oxyrhynchia, ed. Bartoletti, V., 1959",
             },
             "tlg002": {
                 "title":  "Fragmenta Londinensia (P. Oxy. 5.842)",
                 "genre":  ["Hist."],
-                "meta":   "fragment-column-section-line",
+                "meta":   "fragment-column-section",
                 "source": "Hellenica Oxyrhynchia, ed. Bartoletti, V., 1959",
             },
             "tlg003": {
@@ -12758,7 +12758,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "De automatis",
                 "genre":  ["Mech."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Heronis Alexandrini opera quae supersunt omnia, vol. 1, ed. Schmidt, W., 1899",
             },
             "tlg003": {
@@ -12782,55 +12782,55 @@ AUTHOR_TAB = {
             "tlg007": {
                 "title":  "Dioptra",
                 "genre":  ["Mech.", "Metrolog."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Heronis Alexandrini opera quae supersunt omnia, vol. 3, ed. Schoene, H., 1903",
             },
             "tlg008": {
                 "title":  "Definitiones",
                 "genre":  ["Math."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Heronis Alexandrini opera quae supersunt omnia, vol. 4, ed. Heiberg, J.L., 1903",
             },
             "tlg009": {
                 "title":  "Geometrica",
                 "genre":  ["Math."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Heronis Alexandrini opera quae supersunt omnia, vol. 4, ed. Heiberg, J.L., 1903",
             },
             "tlg010": {
                 "title":  "Stereometrica",
                 "genre":  ["Math.", "Metrolog."],
-                "meta":   "chapter-subchapter-section-line",
+                "meta":   "chapter-subchapter-section",
                 "source": "Heronis Alexandrini opera quae supersunt omnia, vol. 5, ed. Heiberg, J.L., 1914",
             },
             "tlg011": {
                 "title":  "De mensuris",
                 "genre":  ["Metrolog."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Heronis Alexandrini opera quae supersunt omnia, vol. 5, ed. Heiberg, J.L., 1914",
             },
             "tlg012": {
                 "title":  "Belopoeica",
                 "genre":  ["Mech."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Herons Belopoiika, ed. Schramm, E., 1918",
             },
             "tlg013": {
-                "title":  "$1*XEIROBALLI/STRAS KATASKEUH\\ KAI\\ SUMMETRI/A",
+                "title":  "*XEIROBALLI/STRAS KATASKEUH\\ KAI\\ SUMMETRI/A",
                 "genre":  ["Mech."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "La chirobaliste d'He/ron d'Alexandrie, ed. Prou, V., 1877",
             },
             "tlg014": {
                 "title":  "Fragmenta Heroniana",
                 "genre":  ["Metrolog."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Metrologicorum scriptorum reliquiae, vol. 1, ed. Hultsch, F., 1864",
             },
             "tlg015": {
                 "title":  "Geodaesia [Sp.]",
                 "genre":  ["Metrolog."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Heronis Alexandrini opera quae supersunt omnia, vol. 5, ed. Heiberg, J.L., 1914",
             },
         },
@@ -12843,7 +12843,7 @@ AUTHOR_TAB = {
             "tlg016": {
                 "title":  "Liber geeponicus [Sp.]",
                 "genre":  ["Metrolog."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Heronis Alexandrini geometricorum et stereometricorum reliquiae, ed. Hultsch, F., 1864",
             }
         },
@@ -12857,7 +12857,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De sublimitate",
                 "genre":  ["Rhet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": '"3Longinus"3. On the sublime, ed. Russell, D.A., 1964',
             }
         },
@@ -12870,7 +12870,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Daphnis et Chloe",
                 "genre":  ["Narr. Fict."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Longus. Pastorales (Daphnis et Chloe/), ed. Dalmeyda, G., 1934",
             }
         },
@@ -12882,9 +12882,9 @@ AUTHOR_TAB = {
         "date":      "A.D. 2",
         "works":     {
             "tlg001": {
-                "title":  "$1*TA\\ EI)S E(AUTO/N",
+                "title":  "*TA\\ EI)S E(AUTO/N",
                 "genre":  ["tlgl."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "The meditations of the emperor Marcus Aurelius, vol. 1, ed. Farquharson, A.S.L., 1944",
             }
         },
@@ -12898,43 +12898,43 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De renum et vesicae morbis",
                 "genre":  ["Med."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Oeuvres de Rufus d'E/phe\\se, ed. Ruelle, C.E/., 1879",
             },
             "tlg002": {
                 "title":  "De satyriasmo et gonorrhoea",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres de Rufus d'E/phe\\se, ed. Ruelle, C.E/., 1879",
             },
             "tlg003": {
                 "title":  "De corporis humani appellationibus",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres de Rufus d'E/phe\\se, ed. Ruelle, C.E/., 1879",
             },
             "tlg004": {
                 "title":  "De partibus corporis humani",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres de Rufus d'E/phe\\se, ed. Ruelle, C.E/., 1879",
             },
             "tlg005": {
                 "title":  "De ossibus",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres de Rufus d'E/phe\\se, ed. Ruelle, C.E/., 1879",
             },
             "tlg006": {
                 "title":  "Quaestiones medicinales",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Rufus von Ephesos. Die Fragen des Arztes an den Kranken, ed. Gaertner, H., 1962",
             },
             "tlg007": {
                 "title":  "Synopsis de pulsibus",
                 "genre":  ["Med."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Oeuvres de Rufus d'E/phe\\se, ed. Ruelle, C.E/., 1879",
             },
             "X01":    {"title": "Fragmenta ap. Galenum", "genre": ["Med."]},
@@ -12971,19 +12971,19 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Gynaeciorum libri iv",
                 "genre":  ["Med."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Sorani Gynaeciorum libri iv, de signis fracturarum, de fasciis, vita, ed. Ilberg, J., 1927",
             },
             "tlg002": {
                 "title":  "De signis fracturarum",
                 "genre":  ["Med."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Sorani Gynaeciorum libri iv, de signis fracturarum, de fasciis, vita, ed. Ilberg, J., 1927",
             },
             "tlg003": {
                 "title":  "De fasciis",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Sorani Gynaeciorum libri iv, de signis fracturarum, de fasciis, vita, ed. Ilberg, J., 1927",
             },
         },
@@ -12997,7 +12997,7 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Vita Hippocratis",
                 "genre":  ["Biogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Sorani Gynaeciorum libri iv, de signis fracturarum, de fasciis, vita, ed. Ilberg, J., 1927",
             },
             "tlg001": {
@@ -13028,7 +13028,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Historiarum mirabilium collectio",
                 "genre":  ["Paradox."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Paradoxographorum Graecorum reliquiae, ed. Giannini, A., 1965",
             },
             "tlg002": {
@@ -13070,7 +13070,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Historiae mirabiles",
                 "genre":  ["Paradox."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Paradoxographorum Graecorum reliquiae, ed. Giannini, A., 1965",
             },
             "tlg002": {
@@ -13203,13 +13203,13 @@ AUTHOR_TAB = {
                 "source": "Rhetores Graeci, vol. 7.1, ed. Walz, C., 1834",
             },
             "tlg009": {
-                "title":  "$1*SHMEIW=DES EI)S TA\\S EU(RE/SEIS",
+                "title":  "*SHMEIW=DES EI)S TA\\S EU(RE/SEIS",
                 "genre":  ["Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Rhetores Graeci, vol. 7.1, ed. Walz, C., 1834",
             },
             "tlg010": {
-                "title":  "In librum $1PERI\\ I)DEW=N",
+                "title":  "In librum PERI\\ I)DEW=N",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Rhetores Graeci, vol. 7.1, ed. Walz, C., 1834",
@@ -13223,11 +13223,11 @@ AUTHOR_TAB = {
             "tlg012": {
                 "title":  "Lithica kerygmata",
                 "genre":  ["Nat. Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les lapidaires grecs, ed. Schamp, J., 1985",
             },
             "tlg013": {
-                "title":  "$1*PERI\\ TW=N TESSA/RWN MERW=N TOU= TELEI/OU LO/GOU (e cod.",
+                "title":  "*PERI\\ TW=N TESSA/RWN MERW=N TOU= TELEI/OU LO/GOU (e cod.",
                 "genre":  ["Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Rhetores Graeci, vol. 3, ed. Walz, C., 1834",
@@ -13262,7 +13262,7 @@ AUTHOR_TAB = {
                 "meta":  "volume -jacoby%101 -t-fragment-line",
             },
             "tlg014": {
-                "title":  "$1*PERI\\ TW=N O)KTW\\ MERW=N TOU= R(HTORIKOU= LO/GOU (e cod.",
+                "title":  "*PERI\\ TW=N O)KTW\\ MERW=N TOU= R(HTORIKOU= LO/GOU (e cod.",
                 "genre":  ["Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Rhetores Graeci, vol. 3, ed. Walz, C., 1834",
@@ -13292,7 +13292,7 @@ AUTHOR_TAB = {
                 "source": "Rhetores Graeci, vol. 8, ed. Walz, C., 1835",
             },
             "tlg019": {
-                "title":  "$1*PERI\\ TW=N TOU= LO/GOU SXHMA/TWN",
+                "title":  "*PERI\\ TW=N TOU= LO/GOU SXHMA/TWN",
                 "genre":  ["Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Rhetores Graeci, vol. 3, ed. Spengel, L., 1856",
@@ -13310,13 +13310,13 @@ AUTHOR_TAB = {
                 "source": "Rhetores Graeci, vol. 3, ed. Spengel, L., 1856",
             },
             "tlg022": {
-                "title":  "$1*PERI\\ TW=N SXHMA/TWN TOU= LO/GOU",
+                "title":  "*PERI\\ TW=N SXHMA/TWN TOU= LO/GOU",
                 "genre":  ["Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Rhetores Graeci, vol. 3, ed. Spengel, L., 1856",
             },
             "tlg023": {
-                "title":  "$1*PERI\\ POIHTIKW=N TRO/PWN",
+                "title":  "*PERI\\ POIHTIKW=N TRO/PWN",
                 "genre":  ["Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Rhetores Graeci, vol. 3, ed. Spengel, L., 1856",
@@ -13358,15 +13358,15 @@ AUTHOR_TAB = {
         "works":     {
             "X01":    {"title": "Vita Sophoclis (fragmentum)"},
             "tlg001": {
-                "title":  "$1*PERI\\ TRO/PWN",
+                "title":  "*PERI\\ TRO/PWN",
                 "genre":  ["Rhet."],
                 "meta":   "page-line",
                 "source": "Rhetores Graeci, vol. 3, ed. Spengel, L., 1856",
             },
             "tlg002": {
-                "title":  "$1*PERI\\ PAQW=N",
+                "title":  "*PERI\\ PAQW=N",
                 "genre":  ["Rhet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Excerpta $3PERI\\ PAQW=N, ed. Schneider, R., 1895",
             },
             "tlg003": {
@@ -13397,7 +13397,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Fragmenta",
                 "genre":  ["Rhet."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Artium scriptores, ed. Radermacher, L., 1951",
             }
         },
@@ -13411,7 +13411,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Orationes",
                 "genre":  ["Orat.", "Rhet."],
-                "meta":   "oration-section-line",
+                "meta":   "oration-section",
                 "source": "Dionis Prusaensis quem vocant Chrysostomum quae exstant omnia, vols., ed. von Arnim, J., "
                           "1:1893; 2:1896",
             },
@@ -13446,7 +13446,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De elocutione",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demetrii Phalerei qui dicitur de elocutione libellus, ed. Radermacher, L., 1901",
             }
         },
@@ -13473,13 +13473,13 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Strategemata",
                 "genre":  ["Tact."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Polyaeni strategematon libri viii, ed. Melber, J., 1887",
             },
             "tlg002": {
                 "title":  "Excerpta Polyaeni",
                 "genre":  ["Tact."],
-                "meta":   "excerpt-section-line",
+                "meta":   "excerpt-section",
                 "source": "Polyaeni strategematon libri viii, ed. Melber, J., 1887",
             },
             "tlg003": {
@@ -13552,8 +13552,8 @@ AUTHOR_TAB = {
         "geography": ["Tarentinus"],
         "date":      "4 B.C.",
         "works":     {
-            "X03":    {
-                "title": "$1*NUXQH/MERON (fort. auctore Apollonio)",
+            "X03": {
+                "title": "*NUXQH/MERON (fort. auctore Apollonio)",
                 "genre": ["Apocalyp."],
             },
             "tlg001": {
@@ -13650,73 +13650,73 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "De aeere aquis et locis",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 2, ed. Littre/, E/., 1840",
             },
             "tlg001": {
                 "title":  "De prisca medicina",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 1, ed. Littre/, E/., 1839",
             },
             "tlg003": {
                 "title":  "Prognosticon",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 2, ed. Littre/, E/., 1840",
             },
             "tlg004": {
                 "title":  "De diaeta in morbis acutis",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 2, ed. Littre/, E/., 1840",
             },
             "tlg005": {
                 "title":  "De diaeta acutorum [Sp.]",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 2, ed. Littre/, E/., 1840",
             },
             "tlg006": {
                 "title":  "De morbis popularibus (%6 Epidemiae)",
                 "genre":  ["Med."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vols. 2 -`3, 5, ed. Littre/, E/., 2:1840; 3:1841; 5:1846",
             },
             "tlg007": {
                 "title":  "De capitis vulneribus",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 3, ed. Littre/, E/., 1841",
             },
             "tlg008": {
                 "title":  "De officina medici",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 3, ed. Littre/, E/., 1841",
             },
             "tlg009": {
                 "title":  "De fracturis",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 3, ed. Littre/, E/., 1841",
             },
             "tlg010": {
                 "title":  "De articulis",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 4, ed. Littre/, E/., 1844",
             },
             "tlg011": {
                 "title":  "Vectiarius",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 4, ed. Littre/, E/., 1844",
             },
             "tlg012": {
                 "title":  "Aphorismi",
                 "genre":  ["Med."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 4, ed. Littre/, E/., 1844",
             },
             "tlg013": {
@@ -13728,241 +13728,241 @@ AUTHOR_TAB = {
             "tlg014": {
                 "title":  "Lex",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 4, ed. Littre/, E/., 1844",
             },
             "tlg015": {
                 "title":  "De humoribus",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 5, ed. Littre/, E/., 1846",
             },
             "tlg016": {
                 "title":  "Prorrheticon",
                 "genre":  ["Med."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vols. 5 and 9, ed. Littre/, E/., 5:1846; 9:1861",
             },
             "tlg017": {
                 "title":  "Coa praesagia",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 5, ed. Littre/, E/., 1846",
             },
             "tlg018": {
                 "title":  "De arte",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 6, ed. Littre/, E/., 1849",
             },
             "tlg019": {
                 "title":  "De natura hominis",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 6, ed. Littre/, E/., 1849",
             },
             "tlg020": {
                 "title":  "De diaeta salubri",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 6, ed. Littre/, E/., 1849",
             },
             "tlg021": {
                 "title":  "De flatibus",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 6, ed. Littre/, E/., 1849",
             },
             "tlg022": {
                 "title":  "De humidorum usu",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 6, ed. Littre/, E/., 1849",
             },
             "tlg023": {
                 "title":  "De morbis i -iii",
                 "genre":  ["Med."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vols. 6 -`7, ed. Littre/, E/., 6:1849; 7:1851",
             },
             "tlg024": {
                 "title":  "De semine, de natura pueri, de morbis iv",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 7, ed. Littre/, E/., 1851",
             },
             "tlg025": {
                 "title":  "De affectionibus",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 6, ed. Littre/, E/., 1849",
             },
             "tlg026": {
                 "title":  "De locis in homine",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 6, ed. Littre/, E/., 1849",
             },
             "tlg027": {
                 "title":  "De morbo sacro",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 6, ed. Littre/, E/., 1849",
             },
             "tlg028": {
                 "title":  "De ulceribus",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 6, ed. Littre/, E/., 1849",
             },
             "tlg029": {
                 "title":  "De haemorrhoidibus",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 6, ed. Littre/, E/., 1849",
             },
             "tlg030": {
                 "title":  "De fistulis",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 6, ed. Littre/, E/., 1849",
             },
             "tlg031": {
                 "title":  "De diaeta i -iv",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 6, ed. Littre/, E/., 1849",
             },
             "tlg032": {
                 "title":  "De affectionibus interioribus",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 7, ed. Littre/, E/., 1851",
             },
             "tlg033": {
                 "title":  "De natura muliebri",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 7, ed. Littre/, E/., 1851",
             },
             "tlg034": {
                 "title":  "De septimestri partu",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 7, ed. Littre/, E/., 1851",
             },
             "tlg035": {
                 "title":  "De octimestri partu",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 7, ed. Littre/, E/., 1851",
             },
             "tlg036": {
                 "title":  "De mulierum affectibus i -iii",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 8, ed. Littre/, E/., 1853",
             },
             "tlg037": {
                 "title":  "De virginum morbis",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 8, ed. Littre/, E/., 1853",
             },
             "tlg038": {
                 "title":  "De superfetatione",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 8, ed. Littre/, E/., 1853",
             },
             "tlg039": {
                 "title":  "De exsectione foetus",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 8, ed. Littre/, E/., 1853",
             },
             "tlg040": {
                 "title":  "De anatome",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 8, ed. Littre/, E/., 1853",
             },
             "tlg041": {
                 "title":  "De dentitione",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 8, ed. Littre/, E/., 1853",
             },
             "tlg042": {
                 "title":  "De glandulis",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 8, ed. Littre/, E/., 1853",
             },
             "tlg043": {
                 "title":  "De carnibus",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 8, ed. Littre/, E/., 1853",
             },
             "tlg044": {
                 "title":  "De septimanis (%6 De hebdomadibus)",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die hippokratische Schrift von der Siebenzahl, ed. Roscher, W.H., 1913",
             },
             "tlg045": {
                 "title":  "De corde",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 9, ed. Littre/, E/., 1861",
             },
             "tlg046": {
                 "title":  "De alimento",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 9, ed. Littre/, E/., 1861",
             },
             "tlg047": {
                 "title":  "De visu",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 9, ed. Littre/, E/., 1861",
             },
             "tlg048": {
                 "title":  "De ossium natura",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 9, ed. Littre/, E/., 1861",
             },
             "tlg049": {
                 "title":  "De medico",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 9, ed. Littre/, E/., 1861",
             },
             "tlg050": {
                 "title":  "De decente habitu",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 9, ed. Littre/, E/., 1861",
             },
             "tlg051": {
                 "title":  "Praeceptiones",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 9, ed. Littre/, E/., 1861",
             },
             "tlg052": {
                 "title":  "De judicationibus",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 9, ed. Littre/, E/., 1861",
             },
             "tlg053": {
                 "title":  "De diebus judicatoriis",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Oeuvres comple\\tes d'Hippocrate, vol. 9, ed. Littre/, E/., 1861",
             },
             "tlg054": {
@@ -14012,7 +14012,7 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "Epistulae spuriae",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "C. Musonii Rufi reliquiae, ed. Hense, O., 1905",
             },
         },
@@ -14168,7 +14168,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistulae",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Epistolographi Graeci, ed. Hercher, R., 1873",
             }
         },
@@ -14182,7 +14182,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Vita Apollonii",
                 "genre":  ["Biogr.", "Narr. Fict."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Flavii Philostrati opera, vol. 1, ed. Kayser, C.L., 1870",
             },
             "tlg003": {
@@ -14212,7 +14212,7 @@ AUTHOR_TAB = {
             "tlg007": {
                 "title":  "De gymnastica",
                 "genre":  ["Hist.", "Physiognom."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Flavii Philostrati opera, vol. 2, ed. Kayser, C.L., 1871",
             },
         },
@@ -14252,7 +14252,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Ephesiaca",
                 "genre":  ["Narr. Fict."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Xe/nophon d'E/phe\\se. Les E/phe/siaques ou, ed. Dalmeyda, G., 1926",
             },
             "tlg002": {
@@ -14274,7 +14274,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Iatrica (fort. auctore Menone) (Brit. Mus. inv. 137)",
                 "genre":  ["Med.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Anonymi Londinensis ex Aristotelis iatricis Menoniis et aliis, ed. Diels, H., 1893",
             },
         },
@@ -14288,13 +14288,13 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Nomina aetatum (fragmentum Parisinum)",
                 "genre":  ["Gramm.", "Lexicogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Aristophanis Byzantii grammatici Alexandrini fragmenta, `2nd edn., ed. Nauck, A., 1848",
             },
             "tlg001": {
                 "title":  "Aristophanis historiae animalium epitome subjunctis Aeliani Timothei",
                 "genre":  ["Nat. Hist.", "Paradox."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Excerptorum Constantini de natura animalium libri duo. Aristophanis, ed. Lambros, S.P., "
                           "1885",
             },
@@ -14362,19 +14362,19 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Apologia",
                 "genre":  ["Apol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Die aeltesten Apologeten, ed. Goodspeed, E.J., 1915",
             },
             "tlg002": {
                 "title":  "Apologia secunda",
                 "genre":  ["Apol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Die aeltesten Apologeten, ed. Goodspeed, E.J., 1915",
             },
             "tlg003": {
                 "title":  "Dialogus cum Tryphone",
                 "genre":  ["Apol.", "Dialog."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Die aeltesten Apologeten, ed. Goodspeed, E.J., 1915",
             },
         },
@@ -14386,67 +14386,67 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Epistula ad Diognetum",
                 "genre":  ["Apol.", "Epist."],
-                "meta":   "morel page-section-line",
+                "meta":   "morel page-section",
                 "source": "Corpus apologetarum Christianorum saeculi secundi, vol. 3, 3rd edn., ed. Otto, J.C.T., 1879",
             },
             "tlg001": {
                 "title":  "Oratio ad gentiles",
                 "genre":  ["Apol.", "Orat."],
-                "meta":   "morel page-section-line",
+                "meta":   "morel page-section",
                 "source": "Corpus apologetarum Christianorum saeculi secundi, vol. 3, 3rd edn., ed. Otto, J.C.T., 1879",
             },
             "tlg002": {
                 "title":  "Cohortatio ad gentiles",
                 "genre":  ["Apol."],
-                "meta":   "morel page-section-line",
+                "meta":   "morel page-section",
                 "source": "Corpus apologetarum Christianorum saeculi secundi, vol. 3, 3rd edn., ed. Otto, J.C.T., 1879",
             },
             "tlg003": {
                 "title":  "De monarchia",
                 "genre":  ["Apol."],
-                "meta":   "morel page-section-line",
+                "meta":   "morel page-section",
                 "source": "Corpus apologetarum Christianorum saeculi secundi, vol. 3, 3rd edn., ed. Otto, J.C.T., 1879",
             },
             "tlg005": {
                 "title":  "De resurrectione",
                 "genre":  ["Apol."],
-                "meta":   "morel page-section-line",
+                "meta":   "morel page-section",
                 "source": "Corpus apologetarum Christianorum saeculi secundi, vol. 3, 3rd edn., ed. Otto, J.C.T., 1879",
             },
             "tlg006": {
                 "title":  "Expositio rectae fidei",
                 "genre":  ["Theol."],
-                "meta":   "morel page-section-line",
+                "meta":   "morel page-section",
                 "source": "Corpus apologetarum Christianorum saeculi secundi, vol. 4, 3rd edn., ed. Otto, J.C.T., 1880",
             },
             "tlg007": {
                 "title":  "Epistula ad Zenam et Serenum",
                 "genre":  ["Epist."],
-                "meta":   "morel page-section-line",
+                "meta":   "morel page-section",
                 "source": "Corpus apologetarum Christianorum saeculi secundi, vol. 4, 3rd edn., ed. Otto, J.C.T., 1880",
             },
             "tlg008": {
                 "title":  "Confutatio dogmatum quorundam Aristotelicorum",
                 "genre":  ["Apol."],
-                "meta":   "morel page-section-line",
+                "meta":   "morel page-section",
                 "source": "Corpus apologetarum Christianorum saeculi secundi, vol. 4, 3rd edn., ed. Otto, J.C.T., 1880",
             },
             "tlg009": {
                 "title":  "Quaestiones et responsiones ad orthodoxos",
                 "genre":  ["Apol."],
-                "meta":   "morel page-section-line",
+                "meta":   "morel page-section",
                 "source": "Corpus apologetarum Christianorum saeculi secundi, vol. 5, 3rd edn., ed. Otto, J.C.T., 1881",
             },
             "tlg010": {
                 "title":  "Quaestiones Christianorum ad gentiles",
                 "genre":  ["Apol."],
-                "meta":   "morel page-section-line",
+                "meta":   "morel page-section",
                 "source": "Corpus apologetarum Christianorum saeculi secundi, vol. 5, 3rd edn., ed. Otto, J.C.T., 1881",
             },
             "tlg011": {
                 "title":  "Quaestiones gentilium ad Christianos",
                 "genre":  ["Apol."],
-                "meta":   "morel page-section-line",
+                "meta":   "morel page-section",
                 "source": "Corpus apologetarum Christianorum saeculi secundi, vol. 5, 3rd edn., ed. Otto, J.C.T., 1881",
             },
         },
@@ -14471,7 +14471,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 1",
         "works":   {
             "tlg001": {
-                "title":  "$1*(/ALWSIS *)ILI/OU",
+                "title":  "*(/ALWSIS *)ILI/OU",
                 "genre":  ["Epic."],
                 "meta":   "line",
                 "source": "Oppian, Colluthus, Tryphiodorus, ed. Mair, A.W., 1928",
@@ -14484,15 +14484,15 @@ AUTHOR_TAB = {
         "date":    "A.D. 2",
         "works":   {
             "tlg001": {
-                "title":  "$1*POLITIKO/S",
+                "title":  "*POLITIKO/S",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lesbonactis sophistae quae supersunt, ed. Kiehr, F., 1906",
             },
             "tlg002": {
-                "title":  "$1*PROTREPTIKO\\S A",
+                "title":  "*PROTREPTIKO\\S A",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lesbonactis sophistae quae supersunt, ed. Kiehr, F., 1906",
             },
         },
@@ -14503,9 +14503,9 @@ AUTHOR_TAB = {
         "date":    "3 B.C.",
         "works":   {
             "tlg003": {
-                "title":  "$1*PROTREPTIKO\\S B",
+                "title":  "*PROTREPTIKO\\S B",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lesbonactis sophistae quae supersunt, ed. Kiehr, F., 1906",
             }
         },
@@ -14532,7 +14532,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Metamorphoseon synagoge",
                 "genre":  ["Myth."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Antoninus Liberalis. Metamorphoseon synagoge, ed. Cazzaniga, I., 1962",
             }
         },
@@ -14605,7 +14605,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Narrationes amatoriae",
                 "genre":  ["Myth.", "Narr. Fict."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Parthenii Nicaeni quae supersunt, ed. Martini, E., 1902",
             },
         },
@@ -14619,21 +14619,21 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "De materia medica (recensiones e codd. Vindob. med. gr. 1 %7 suppl.",
                 "genre":  ["Med."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Pedanii Dioscuridis Anazarbei de materia medica libri quinque, vols., ed. Wellmann, M., "
                           "1:1907; 2:1906",
             },
             "tlg001": {
                 "title":  "De materia medica",
                 "genre":  ["Med."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Pedanii Dioscuridis Anazarbei de materia medica libri quinque, `3, ed. Wellmann, M., "
                           "1:1907; 2:1906; 3:1914",
             },
             "tlg002": {
                 "title":  "Euporista vel De simplicibus medicinis",
                 "genre":  ["Med."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Pedanii Dioscuridis Anazarbei de materia medica libri quinque, vol., ed. Wellmann, M., 1914",
             },
         },
@@ -14644,7 +14644,7 @@ AUTHOR_TAB = {
         "date":    "2 -`1 B.C.",
         "works":   {
             "tlg004": {
-                "title":  "$1*PERI\\ PAIWNI/AS KAI\\ O(/SA POIEI=N DU/NATAI (e cod. Matrit.",
+                "title":  "*PERI\\ PAIWNI/AS KAI\\ O(/SA POIEI=N DU/NATAI (e cod. Matrit.",
                 "genre":  ["Astrol."],
                 "meta":   "volume-page-line",
                 "source": "Codices Hispanienses, ed. Zuretti, K.O., 1934",
@@ -14659,7 +14659,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Aethiopica",
                 "genre":  ["Narr. Fict."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "He/liodore. Les E/thiopiques (The/age\\ne et, ed. Maillon, J., 1960",
             }
         },
@@ -14789,13 +14789,13 @@ AUTHOR_TAB = {
                 "source": "Comicorum Graecorum fragmenta in papyris reperta, ed. Austin, C., 1973",
             },
             "tlg007": {
-                "title":  "$1*LE/CEIS KWMIKAI/",
+                "title":  "*LE/CEIS KWMIKAI/",
                 "genre":  ["Comic.", "Lexicogr."],
                 "meta":   "fragment-line",
                 "source": "Comicorum Graecorum fragmenta in papyris reperta, ed. Austin, C., 1973",
             },
             "tlg008": {
-                "title":  "$1*KWMW|DOU/MENOI",
+                "title":  "*KWMW|DOU/MENOI",
                 "genre":  ["Comic.", "Gramm."],
                 "meta":   "fragment-line",
                 "source": "Comicorum Graecorum fragmenta in papyris reperta, ed. Austin, C., 1973",
@@ -15021,9 +15021,9 @@ AUTHOR_TAB = {
         "date":      "A.D. 2",
         "works":     {
             "tlg001": {
-                "title":  "Epitome doctrinae Platonicae sive $1*DIDASKALIKO/S",
+                "title":  "Epitome doctrinae Platonicae sive *DIDASKALIKO/S",
                 "genre":  ["tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Albinos. E/pitome/, ed. Louis, P., 1945",
             }
         },
@@ -15037,7 +15037,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Introductio in Platonem",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Platonis dialogi secundum Thrasylli tetralogias dispositi, vol. 6, ed. Hermann, K.F., 1853",
             }
         },
@@ -15126,7 +15126,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Quaestiones medicae et problemata physica",
                 "genre":  ["Med.", "Nat. Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Physici et medici Graeci minores, vol. 1, ed. Ideler, J.L., 1841",
             },
             "X01":    {
@@ -15145,13 +15145,13 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Problemata (lib. 1 -`2) [Sp.]",
                 "genre":  ["Med.", "Nat. Hist."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Physici et medici Graeci minores, vol. 1, ed. Ideler, J.L., 1841",
             },
             "tlg003": {
                 "title":  "De febribus [Sp.]",
                 "genre":  ["Med."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Physici et medici Graeci minores, vol. 1, ed. Ideler, J.L., 1841",
             },
             "tlg004": {
@@ -15187,7 +15187,7 @@ AUTHOR_TAB = {
             "tlg009": {
                 "title":  "De diaeta",
                 "genre":  ["Med."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Physici et medici Graeci minores, vol. 2, ed. Ideler, J.L., 1842",
             },
             "tlg011": {
@@ -15197,13 +15197,13 @@ AUTHOR_TAB = {
                 "source": "Alexandri Aphrodisiensis praeter commentaria scripta minora, ed. Bruns, I., 1887",
             },
             "tlg012": {
-                "title":  "$1*)APORI/AI KAI\\ LU/SEIS [Sp.]",
+                "title":  "*)APORI/AI KAI\\ LU/SEIS [Sp.]",
                 "genre":  ["tlgl."],
                 "meta":   "page-line",
                 "source": "Alexandri Aphrodisiensis praeter commentaria scripta minora, ed. Bruns, I., 1892",
             },
             "tlg013": {
-                "title":  "$1*)HQIKA\\ PROBLH/MATA [Sp.]",
+                "title":  "*)HQIKA\\ PROBLH/MATA [Sp.]",
                 "genre":  ["tlgl."],
                 "meta":   "page-line",
                 "source": "Alexandri Aphrodisiensis praeter commentaria scripta minora, ed. Bruns, I., 1892",
@@ -15235,17 +15235,17 @@ AUTHOR_TAB = {
             "tlg017": {
                 "title":  "Problemata (lib. 3 -`4) [Sp.]",
                 "genre":  ["Med.", "tlgl."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Alexandri Aphrodisiensis quae feruntur problematorum liber iii et, ed. Usener, H., 1859",
             },
             "tlg020": {
-                "title":  "$1*PERI\\ TH=S TW=N PURETW=N DIAFORA=S",
+                "title":  "*PERI\\ TH=S TW=N PURETW=N DIAFORA=S",
                 "genre":  ["Med."],
                 "meta":   "page-line",
                 "source": "Oeuvres de Rufus d'E/phe\\se, ed. Ruelle, C.E/., 1879",
             },
             "tlg021": {
-                "title":  "$1*PERI\\ TROFW=N DUNA/MEWS",
+                "title":  "*PERI\\ TROFW=N DUNA/MEWS",
                 "genre":  ["Med."],
                 "meta":   "page-line",
                 "source": "Anecdota Atheniensia et alia, vol. 2, ed. Delatte, A., 1939",
@@ -15259,11 +15259,11 @@ AUTHOR_TAB = {
             "tlg023": {
                 "title":  "Physiognomonica",
                 "genre":  ["Med.", "Physiognom."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Scriptores physiognomonici Graeci et Latini, vol. 2, ed. Foerster, R., 1893",
             },
             "tlg024": {
-                "title":  "$1*)ONO/MATA TW=N I)ATRIKW=N E)RGALEI/WN KATA\\ STOIXEI=A OI(=S E)N TAI=S",
+                "title":  "*)ONO/MATA TW=N I)ATRIKW=N E)RGALEI/WN KATA\\ STOIXEI=A OI(=S E)N TAI=S",
                 "genre":  ["Med."],
                 "meta":   "page-line",
                 "source": "Severi iatrosophistae de clysteribus liber, ed. Dietz, F.R., 1836",
@@ -15271,13 +15271,13 @@ AUTHOR_TAB = {
             "tlg025": {
                 "title":  "Fragmenta varia",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Anecdota medica Graeca", ed. Fuchs, R., 1895',
             },
             "tlg026": {
-                "title":  "$1*DIA/GNWSIS PERI\\ TW=N O)CE/WN KAI\\ XRONI/WN NOSHMA/TWN",
+                "title":  "*DIA/GNWSIS PERI\\ TW=N O)CE/WN KAI\\ XRONI/WN NOSHMA/TWN",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Aus Themisons Werk ueber die acuten und chronischen Krankheiten", ed. Fuchs, R., 1903',
             },
         },
@@ -15289,9 +15289,9 @@ AUTHOR_TAB = {
         "date":      "A.D. 7",
         "works":     {
             "tlg001": {
-                "title":  "$1*SKEUASI/A A(LATI/OU",
+                "title":  "*SKEUASI/A A(LATI/OU",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Physici et medici Graeci minores, vol. 1, ed. Ideler, J.L., 1841",
             }
         },
@@ -15303,7 +15303,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "In Magni sophistae librum de urinis",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"In Magni sophistae librum de urinis", ed. Bussemaker, U.C., 1845',
             }
         },
@@ -15315,7 +15315,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Hippiatrica Berolinensia",
                 "genre":  ["Med."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Corpus hippiatricorum Graecorum, vol. 1, ed. Hoppe, K., 1924",
             },
             "tlg002": {
@@ -15327,43 +15327,43 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "Hippiatrica Parisina",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus hippiatricorum Graecorum, vol. 2, ed. Hoppe, K., 1927",
             },
             "tlg004": {
                 "title":  "Fragmenta Anatolii",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus hippiatricorum Graecorum, vol. 2, ed. Hoppe, K., 1927",
             },
             "tlg005": {
                 "title":  "Fragmenta Timothei Gazaei",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus hippiatricorum Graecorum, vol. 2, ed. Hoppe, K., 1927",
             },
             "tlg006": {
                 "title":  "Hippiatrica Cantabrigiensia",
                 "genre":  ["Med."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Corpus hippiatricorum Graecorum, vol. 2, ed. Hoppe, K., 1927",
             },
             "tlg007": {
                 "title":  "Additamenta Londinensia ad hippiatrica Cantabrigiensia",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus hippiatricorum Graecorum, vol. 2, ed. Hoppe, K., 1927",
             },
             "tlg008": {
                 "title":  "Excerpta Lugdunensia",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus hippiatricorum Graecorum, vol. 2, ed. Hoppe, K., 1927",
             },
             "tlg009": {
                 "title":  "Fragmenta Anatolii de equis",
                 "genre":  ["Med."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Corpus hippiatricorum Graecorum, vol. 2, ed. Hoppe, K., 1927",
             },
         },
@@ -15375,7 +15375,7 @@ AUTHOR_TAB = {
             "tlg010": {
                 "title":  "Fragmenta Anatolii de bubus",
                 "genre":  ["Med."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Corpus hippiatricorum Graecorum, vol. 2, ed. Hoppe, K., 1927",
             }
         },
@@ -15548,7 +15548,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De nutriendi methodo",
                 "genre":  ["Med."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Physici et medici Graeci minores, vol. 1, ed. Ideler, J.L., 1841",
             },
         },
@@ -15559,7 +15559,7 @@ AUTHOR_TAB = {
         "date":    "p. A.D. 9-`10",
         "works":   {
             "tlg002": {
-                "title":  "$1*PW=S O)FEI/LEI DIAITA=SQAI A)/NQRWPOS E)F' E(KA/STW| MHNI/",
+                "title":  "*PW=S O)FEI/LEI DIAITA=SQAI A)/NQRWPOS E)F' E(KA/STW| MHNI/",
                 "genre":  ["Med."],
                 "meta":   "page-line",
                 "source": "Anecdota Atheniensia et alia, vol. 2, ed. Delatte, A., 1939",
@@ -15586,7 +15586,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 2",
         "works":   {
             "tlg001": {
-                "title":  "$1*)EK TOU= PERI\\ KLUSMW=N O(/TI DIA\\ TREI=S AI)TI/AS",
+                "title":  "*)EK TOU= PERI\\ KLUSMW=N O(/TI DIA\\ TREI=S AI)TI/AS",
                 "genre":  ["Med."],
                 "meta":   "page-line",
                 "source": "Severi iatrosophistae de clysteribus liber, ed. Dietz, F.R., 1836",
@@ -15614,7 +15614,7 @@ AUTHOR_TAB = {
                 "genre": ["Med."],
             },
             "tlg001": {
-                "title":  "$1*)ITALIKA\\ QAU/MATA",
+                "title":  "*)ITALIKA\\ QAU/MATA",
                 "genre":  ["Hexametr.", "Med."],
                 "meta":   "line",
                 "source": "Commentationum miscellanearum fasciculus primus, ed. Meineke, A., 1822",
@@ -15639,13 +15639,13 @@ AUTHOR_TAB = {
                 "source": "Anecdota Graeca, vol. 3, ed. Boissonade, J.F., 1831",
             },
             "tlg003": {
-                "title":  "$1*PERI\\ DIAFO/RWN KAI\\ PANTOI/WN TROFW=N",
+                "title":  "*PERI\\ DIAFO/RWN KAI\\ PANTOI/WN TROFW=N",
                 "genre":  ["Med."],
                 "meta":   "page-line",
                 "source": "Anecdota Atheniensia et alia, vol. 2, ed. Delatte, A., 1939",
             },
             "tlg004": {
-                "title":  "$1*PERI\\ DIAFORA=S TROFW=N PRO\\S *PTOLEMAI=ON",
+                "title":  "*PERI\\ DIAFORA=S TROFW=N PRO\\S *PTOLEMAI=ON",
                 "genre":  ["Med."],
                 "meta":   "page-line",
                 "source": "Anecdota Atheniensia et alia, vol. 2, ed. Delatte, A., 1939",
@@ -15660,7 +15660,7 @@ AUTHOR_TAB = {
             "tlg005": {
                 "title":  "Paraphrasis in Oppiani halieutica (fort. auctore Eutecnio)",
                 "genre":  ["Comm.", "Nat. Hist."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "$3*)ANWNU/MOU PARA/FRASIS EI)S TA\\ *)OPPIANOU= *(ALIEUTIKA/, ed. Papathomopoulos, M., 1976",
             },
             "tlg001": {
@@ -15672,7 +15672,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Paraphrasis in Nicandri alexipharmaca",
                 "genre":  ["Comm.", "Med.", "Nat. Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Eutecnii paraphrasis in Nicandri alexipharmaca, ed. Geymonat, M., 1976",
             },
             "tlg003": {
@@ -15831,31 +15831,31 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De virtutibus herbarum (e cod. Paris. gr. 2502 %7 Vindob. med. gr.",
                 "genre":  ["Astrol.", "Med."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Thessalos von Tralles, ed. Friedrich, H. -V., 1968",
             },
             "tlg002": {
                 "title":  "De virtutibus herbarum (e cod. Matrit. Bibl. Nat. 4631 [olim 110])",
                 "genre":  ["Astrol.", "Epist.", "Med."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Thessalos von Tralles, ed. Friedrich, H. -V., 1968",
             },
             "tlg003": {
                 "title":  "De virtutibus herbarum (e cod. Monac. 542)",
                 "genre":  ["Astrol.", "Med."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Thessalos von Tralles, ed. Friedrich, H. -V., 1968",
             },
             "tlg004": {
                 "title":  "De virtutibus herbarum (e codd. Paris. gr. 2502 %7 Vindob. med. gr.",
                 "genre":  ["Astrol.", "Med."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Thessalos von Tralles, ed. Friedrich, H. -V., 1968",
             },
             "tlg005": {
                 "title":  "De virtutibus herbarum (e codd. Paris. gr. 2256 %7 Venet. App. cl. V",
                 "genre":  ["Astrol.", "Med."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Thessalos von Tralles, ed. Friedrich, H. -V., 1968",
             },
         },
@@ -15867,7 +15867,7 @@ AUTHOR_TAB = {
         "works":   {
             "X01":    {"title": "Fragmenta ap. Galenum", "genre": ["Med."]},
             "tlg001": {
-                "title":  "$1*)OSTA/NOU FILOSO/FOU PRO\\S *PETA/SION PERI\\ TH=S I(ERA=S TAU/THS KAI\\",
+                "title":  "*)OSTA/NOU FILOSO/FOU PRO\\S *PETA/SION PERI\\ TH=S I(ERA=S TAU/THS KAI\\",
                 "genre":  ["Alchem.", "Epist."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -15932,13 +15932,13 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "De iis, quae virus ejaculantur, animalibus libellus, in quo et de",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Pedanii Dioscoridis Anazarbei, vol. 2, ed. Sprengel, K., 1830",
             },
             "tlg001": {
                 "title":  "De venenis eorumque praecautione et medicatione (%6",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Pedanii Dioscoridis Anazarbei, vol. 2, ed. Sprengel, K., 1830",
             },
         },
@@ -15950,7 +15950,7 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "De lapidibus",
                 "genre":  ["Nat. Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les lapidaires de l'antiquite/ et du Moyen Age, vol. 2.1, ed. Ruelle, C.E/., 1898",
             }
         },
@@ -15978,13 +15978,13 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "De passionibus (lib. 2) [Sp.]",
                 "genre":  ["tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Andronici Rhodii qui fertur libelli $3PERI\\ PAQW=N, pt. 2 (De, ed. Schuchhardt, K., 1883",
             },
             "tlg001": {
                 "title":  "De passionibus (lib. 1) [Sp.]",
                 "genre":  ["tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Andronici qui fertur libelli $3PERI\\ PAQW=N, pt. 1 (De, ed. Kreuttner, X., 1884",
             },
         },
@@ -16020,7 +16020,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Anonyma de musica scripta Bellermanniana",
                 "genre":  ["Mus."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Anonyma de musica scripta Bellermanniana, ed. Najock, D., 1975",
             }
         },
@@ -16234,12 +16234,12 @@ AUTHOR_TAB = {
                 "meta":  "volume -jacoby%101 -f-fragment-line",
             },
             "tlg021": {
-                "title": "$1*EU)MOLPIDW=N PA/TRIA (testimonium)",
+                "title": "*EU)MOLPIDW=N PA/TRIA (testimonium)",
                 "genre": ["Test."],
                 "meta":  "volume -jacoby%101 -t-fragment-line",
             },
             "tlg022": {
-                "title": "$1*EU)PATRIDW=N PA/TRIA (fragmentum)",
+                "title": "*EU)PATRIDW=N PA/TRIA (fragmentum)",
                 "genre": ["Hist."],
                 "meta":  "volume -jacoby%101 -f-fragment-line",
             },
@@ -16536,9 +16536,9 @@ AUTHOR_TAB = {
         "date":   "a. A.D. 3",
         "works":  {
             "tlg001": {
-                "title":  "$1*NUXQH/MERON (fort. auctore Apollonio Tyanensi)",
+                "title":  "*NUXQH/MERON (fort. auctore Apollonio Tyanensi)",
                 "genre":  ["Apocalyp.", "Apocryph."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Texts and Studies `2.3, ed. Robinson, J.A., 1893",
             }
         },
@@ -16550,7 +16550,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Apocalypsis Baruchi Graece (iii Baruch)",
                 "genre":  ["Apocalyp.", "Pseudepigr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Apocalypsis Baruchi Graece, ed. Picard, J.C., 1967",
             }
         },
@@ -16586,13 +16586,13 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Apocalypsis apocrypha Joannis (versio altera)",
                 "genre":  ["Apocalyp.", "Apocryph."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Une deuxie\\me apocalypse apocryphe grecque de saint Jean", ed. Nau, F., 1914',
             },
             "tlg001": {
                 "title":  "Apocalypsis apocrypha Joannis",
                 "genre":  ["Apocalyp.", "Apocryph."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Apocalypses apocryphae, ed. Tischendorf, C., 1866",
             },
         },
@@ -16890,7 +16890,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De magnitudinibus et distantiis solis et lunae",
                 "genre":  ["Astron."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Aristarchus of Samos, the ancient Copernicus, ed. Heath, T., 1913",
             }
         },
@@ -16936,7 +16936,7 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "Fragmenta",
                 "genre":  ["Apol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "L'apologia di Aristide, ed. Vona, C., 1950",
             }
         },
@@ -17198,7 +17198,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Legatio sive Supplicatio pro Christianis",
                 "genre":  ["Apol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athenagoras. Legatio and De resurrectione, ed. Schoedel, W.R., 1972",
             }
         },
@@ -17212,7 +17212,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "De resurrectione",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athenagoras. Legatio and De resurrectione, ed. Schoedel, W.R., 1972",
             }
         },
@@ -17253,7 +17253,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De sphaera quae movetur",
                 "genre":  ["Astron."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Autolycus de Pitane, ed. Mogenet, J., 1950",
             }
         },
@@ -17266,7 +17266,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "De ortibus et occasibus",
                 "genre":  ["Astron."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Autolycus de Pitane, ed. Mogenet, J., 1950",
             }
         },
@@ -17305,7 +17305,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Barnabae epistula",
                 "genre":  ["Epist.", "Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "E/pi=tre de Barnabe/, ed. Kraft, R.A., 1971",
             },
         },
@@ -17423,9 +17423,9 @@ AUTHOR_TAB = {
         "date":      "2-`1 B.C.?",
         "works":     {
             "tlg001": {
-                "title":  "$1*KATASKEUAI\\ POLEMIKW=N O)RGA/NWN KAI\\ KATAPALTIKW=N",
+                "title":  "*KATASKEUAI\\ POLEMIKW=N O)RGA/NWN KAI\\ KATAPALTIKW=N",
                 "genre":  ["Mech."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Bitons Bau von Belagerungsmaschinen und Geschuetzen, ed. Schramm, E., 1929",
             }
         },
@@ -17538,7 +17538,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Canon librorum",
                 "genre":  ["Eccl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"A Hebrew -Aramaic list of books of the Old Testament in Greek, ed. Audet, J.P., 1950',
             },
         },
@@ -17571,7 +17571,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Cebetis tabula",
                 "genre":  ["tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Cebetis tabula, ed. Praechter, K., 1893",
             }
         },
@@ -17582,9 +17582,9 @@ AUTHOR_TAB = {
         "date":    "A.D. 2",
         "works":   {
             "tlg001": {
-                "title":  "$1*)ALHQH\\S LO/GOS",
+                "title":  "*)ALHQH\\S LO/GOS",
                 "genre":  ["tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Der $3*)ALHQH\\S LO/GOS des Kelsos, ed. Bader, R., 1940",
             }
         },
@@ -17884,43 +17884,43 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistula i ad Corinthios",
                 "genre":  ["Epist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Cle/ment de Rome. E/pi=tre aux Corinthiens, ed. Jaubert, A., 1971",
             },
             "tlg002": {
                 "title":  "Epistula ii ad Corinthios [Sp.]",
                 "genre":  ["Epist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Die apostolischen Vaeter, `3rd edn., ed. Schneemelcher, W. (post F.X. Funk), 1970",
             },
             "tlg003": {
                 "title":  "Epistula Petri ad Jacobum [Sp.]",
                 "genre":  ["Epist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Die Pseudoklementinen I. Homilien, 2nd edn., ed. Paschke, F., 1969",
             },
             "tlg004": {
                 "title":  "Contestatio [Sp.]",
                 "genre":  ["Narr. Fict."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Die Pseudoklementinen I. Homilien, `2nd edn., ed. Paschke, F., 1969",
             },
             "tlg005": {
                 "title":  "Epistula Clementis ad Jacobum [Sp.]",
                 "genre":  ["Epist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Die Pseudoklementinen I. Homilien, `2nd edn., ed. Paschke, F., 1969",
             },
             "tlg006": {
                 "title":  "Homiliae [Sp.]",
                 "genre":  ["Narr. Fict."],
-                "meta":   "homily-chapter-section-line",
+                "meta":   "homily-chapter-section",
                 "source": "Die Pseudoklementinen I. Homilien, `2nd edn., ed. Paschke, F., 1969",
             },
             "tlg007": {
                 "title":  "Recognitiones [Sp.]",
                 "genre":  ["Narr. Fict."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Die Pseudoklementinen II. Rekognitionen, ed. Paschke, F., 1965",
             },
             "tlg008": {
@@ -17938,13 +17938,13 @@ AUTHOR_TAB = {
             "tlg010": {
                 "title":  "Epistulae de virginitate [Sp.]",
                 "genre":  ["Epist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Patres apostolici, vol. 2, 3rd edn., ed. Diekamp, F., 1913",
             },
             "tlg011": {
                 "title":  "Pseudo -Clementina (epitome altera auctore Symeone Metaphrasta) [Sp.]",
                 "genre":  ["Narr. Fict."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Clementinorum epitomae duae, 2nd edn., ed. Dressel, A.R.M., 1873",
             },
         },
@@ -17957,7 +17957,7 @@ AUTHOR_TAB = {
             "tlg012": {
                 "title":  "Pseudo -Clementina (epitome de gestis Petri praemetaphrastica) [Sp.]",
                 "genre":  ["Narr. Fict."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Clementinorum epitomae duae, `2nd edn., ed. Dressel, A.R.M., 1873",
             }
         },
@@ -18111,115 +18111,115 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "Hieros logos",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 1, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg001": {
                 "title":  "Poimandres",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 1, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg002": {
                 "title":  "Dialogus (sine titulo)",
                 "genre":  ["Dialog.", "tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 1, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg004": {
-                "title":  "$1*PRO\\S *TA\\T O( KRATH\\R H)\\ MONA/S",
+                "title":  "*PRO\\S *TA\\T O( KRATH\\R H)\\ MONA/S",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 1, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg005": {
-                "title":  "$1*PRO\\S *TA\\T UI(O\\N O(/TI A)FANH\\S QEO\\S FANERW/TATO/S E)STIN",
+                "title":  "*PRO\\S *TA\\T UI(O\\N O(/TI A)FANH\\S QEO\\S FANERW/TATO/S E)STIN",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 1, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg006": {
-                "title":  "$1*(/OTI E)N MO/NW| TW=| QEW=| TO\\ A)GAQO/N E)STIN, A)LLAXO/QI DE\\",
+                "title":  "*(/OTI E)N MO/NW| TW=| QEW=| TO\\ A)GAQO/N E)STIN, A)LLAXO/QI DE\\",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 1, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg007": {
-                "title":  "$1*(/OTI ME/GISTON KAKO\\N E)N A)NQRW/POIS H( PERI\\ TOU= QEOU=",
+                "title":  "*(/OTI ME/GISTON KAKO\\N E)N A)NQRW/POIS H( PERI\\ TOU= QEOU=",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 1, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg008": {
-                "title":  "$1*(/OTI OU)DE\\N TW=N O)/NTWN A)PO/LLUTAI, A)LLA\\ TA\\S METABOLA\\S",
+                "title":  "*(/OTI OU)DE\\N TW=N O)/NTWN A)PO/LLUTAI, A)LLA\\ TA\\S METABOLA\\S",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 1, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg009": {
-                "title":  "$1*PERI\\ NOH/SEWS KAI\\ AI)SQH/SEWS. [O(/TI E)N MO/NW| TW=| QEW=| TO\\",
+                "title":  "*PERI\\ NOH/SEWS KAI\\ AI)SQH/SEWS. [O(/TI E)N MO/NW| TW=| QEW=| TO\\",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 1, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg010": {
-                "title":  "$1*KLEI/S",
+                "title":  "*KLEI/S",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 1, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg011": {
-                "title":  "$1*NOU=S PRO\\S *(ERMH=N",
+                "title":  "*NOU=S PRO\\S *(ERMH=N",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 1, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg012": {
-                "title":  "$1*PERI\\ NOU= KOINOU= PRO\\S *TA/T",
+                "title":  "*PERI\\ NOU= KOINOU= PRO\\S *TA/T",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 1, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg013": {
-                "title":  "$1*PRO\\S TO\\N UI(O\\N *TA\\T E)N O)/REI LO/GOS A)PO/KRUFOS, PERI\\",
+                "title":  "*PRO\\S TO\\N UI(O\\N *TA\\T E)N O)/REI LO/GOS A)PO/KRUFOS, PERI\\",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 2, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg014": {
-                "title":  "$1*)ASKLHPIW=| EU)= FRONEI=N",
+                "title":  "*)ASKLHPIW=| EU)= FRONEI=N",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 2, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg016": {
-                "title":  "$1*(/OROI *)ASKLHPIOU= PRO\\S *)/AMMWNA BASILE/A",
+                "title":  "*(/OROI *)ASKLHPIOU= PRO\\S *)/AMMWNA BASILE/A",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 2, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg017": {
                 "title":  "Dialogus (sine titulo)",
                 "genre":  ["Dialog.", "tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 2, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg018": {
-                "title":  "$1*PERI\\ TH=S U(PO\\ TOU= PA/QOUS TOU= SW/MATOS E)MPODIZOME/NHS",
+                "title":  "*PERI\\ TH=S U(PO\\ TOU= PA/QOUS TOU= SW/MATOS E)MPODIZOME/NHS",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 2, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg019": {
                 "title":  "Asclepius (verba Graeca solum)",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Corpus Hermeticum, vol. 2, ed. Festugie\\re, A. -J., 1946",
             },
             "tlg020": {
                 "title":  "Fragmenta",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Corpus Hermeticum, vols. 3 %9 4, ed. Festugie\\re, A. -J., 1954",
             },
             "tlg021": {
@@ -18229,7 +18229,7 @@ AUTHOR_TAB = {
                 "source": "Corpus Hermeticum, vol. 4, ed. Festugie\\re, A. -J., 1954",
             },
             "tlg022": {
-                "title":  "$1*)EK TOU= U(/MNOU PRO\\S TO\\N PANTOKRA/TORA (fragmentum)",
+                "title":  "*)EK TOU= U(/MNOU PRO\\S TO\\N PANTOKRA/TORA (fragmentum)",
                 "genre":  ["Hymn.", "tlgl.", "Theol."],
                 "meta":   "line",
                 "source": "Corpus Hermeticum, vol. 4, ed. Festugie\\re, A. -J., 1954",
@@ -18247,8 +18247,8 @@ AUTHOR_TAB = {
         "geography": ["Soleus"],
         "date":      "4 -`3 B.C.",
         "works":     {
-            "X03":    {
-                "title": "$1*(ERMOU= TRISMEGI/STOU O)/RGANON",
+            "X03": {
+                "title": "*(ERMOU= TRISMEGI/STOU O)/RGANON",
                 "genre": ["Alchem."],
             },
             "tlg001": {
@@ -18407,7 +18407,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Formae epistolicae",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demetrii et Libanii qui feruntur $3TU/POI E)PISTOLIKOI/ et, ed. Weichert, V., 1910",
             },
         },
@@ -18421,7 +18421,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Formae epistolicae (duo exempla spuria)",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Demetrii et Libanii qui feruntur $3TU/POI E)PISTOLIKOI/ et, ed. Weichert, V., 1910",
             }
         },
@@ -18473,9 +18473,9 @@ AUTHOR_TAB = {
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg001": {
-                "title":  "$1*PERI\\ SUMPAQEIW=N KAI\\ A)NTIPAQEIW=N (sub nomine Democriti)",
+                "title":  "*PERI\\ SUMPAQEIW=N KAI\\ A)NTIPAQEIW=N (sub nomine Democriti)",
                 "genre":  ["Magica", "Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Nepualii fragmentum $3PERI\\ TW=N KATA\\ A)NTIPA/QEIAN KAI\\ SUMPA/QEIAN, ed. Gemoll, W., "
                           "1884",
             },
@@ -18581,9 +18581,9 @@ AUTHOR_TAB = {
         "date":      "1 B.C.",
         "works":     {
             "tlg001": {
-                "title":  "$1*DIDAXAI\\ TW=N A)POSTOLW=N",
+                "title":  "*DIDAXAI\\ TW=N A)POSTOLW=N",
                 "genre":  ["Eccl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "La Didache\\. Instructions des Apo=tres, ed. Audet, J.P., 1958",
             },
             "tlg003": {
@@ -18744,7 +18744,7 @@ AUTHOR_TAB = {
         "date":      "4 -`3 B.C.?",
         "works":     {
             "tlg001": {
-                "title":  "$1*)ATTIKA\\ O)NO/MATA",
+                "title":  "*)ATTIKA\\ O)NO/MATA",
                 "genre":  ["Lexicogr."],
                 "meta":   "alphabetic letter-entry-line",
                 "source": "Untersuchungen zu den attizistischen Lexika, ed. Erbse, H., 1950",
@@ -18771,7 +18771,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistulae",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Epistolographi Graeci, ed. Hercher, R., 1873",
             }
         },
@@ -18855,9 +18855,9 @@ AUTHOR_TAB = {
                 "source": "Dorothei Sidonii carmen astrologicum, ed. Pingree, D., 1976",
             },
             "tlg002": {
-                "title":  "Fragmenta e Hephaestionis $1*)APOTELESMATIKW=N libris hausta",
+                "title":  "Fragmenta e Hephaestionis *)APOTELESMATIKW=N libris hausta",
                 "genre":  ["Astrol."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Dorothei Sidonii carmen astrologicum, ed. Pingree, D., 1976",
             },
         },
@@ -18910,7 +18910,7 @@ AUTHOR_TAB = {
         "date":      "4 B.C.?",
         "works":     {
             "tlg001": {
-                "title":  "$1*PERI\\ BASILEI/AS (fragmenta) [Sp.]",
+                "title":  "*PERI\\ BASILEI/AS (fragmenta) [Sp.]",
                 "genre":  ["tlgl."],
                 "meta":   "page-line",
                 "source": "The Pythagorean texts of the Hellenistic period, ed. Thesleff, H., 1965",
@@ -19043,7 +19043,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistula ad Diognetum",
                 "genre":  ["Apol.", "Epist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "A Diogne\\te, 2nd edn., ed. Marrou, H. -I., 1965",
             }
         },
@@ -19067,7 +19067,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistula ecclesiarum apud Lugdunum et Viennam",
                 "genre":  ["Epist.", "Hagiogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The acts of the Christian martyrs, ed. Musurillo, H., 1972",
             }
         },
@@ -19169,21 +19169,21 @@ AUTHOR_TAB = {
         "date":   "3 B.C.",
         "works":  {
             "tlg001": {
-                "title":  "$1*PERI\\ E)LAIW=N TOU= SW/MATOS PRO\\S *PTOLEMAI=ON BASILE/A",
+                "title":  "*PERI\\ E)LAIW=N TOU= SW/MATOS PRO\\S *PTOLEMAI=ON BASILE/A",
                 "genre":  ["Med.", "Physiognom."],
                 "meta":   "page-line",
                 "source": "Scriptores physiognomoniae veteres, ed. Franz, J.G.F., 1780",
             },
             "tlg002": {
-                "title":  "$1*PERI\\ PALMW=N A)RXOME/NOU A)PO\\ KEFALH=S E(/WS PODW=N (e cod.",
+                "title":  "*PERI\\ PALMW=N A)RXOME/NOU A)PO\\ KEFALH=S E(/WS PODW=N (e cod.",
                 "genre":  ["Med.", "Physiognom."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Anonyme Version des Phillippsianus", ed. Diels, H., 1908',
             },
             "tlg003": {
-                "title":  "$1*PERI\\ PALMW=N MANTIKH\\ PRO\\S *PTOLEMAI=ON BASILE/A (versio A)",
+                "title":  "*PERI\\ PALMW=N MANTIKH\\ PRO\\S *PTOLEMAI=ON BASILE/A (versio A)",
                 "genre":  ["Med.", "Physiognom."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Die griechischen Zuckungsbuecher (Melampus $PERI\\ PALMW=N)", ed. Diels, H., 1907',
             },
         },
@@ -19193,15 +19193,15 @@ AUTHOR_TAB = {
         "date":   "A.D. 3",
         "works":  {
             "tlg004": {
-                "title":  "$1*PERI\\ PALMW=N TI/ SHMAI/NOUSIN E)N E(KA/STW| ME/REI (versio",
+                "title":  "*PERI\\ PALMW=N TI/ SHMAI/NOUSIN E)N E(KA/STW| ME/REI (versio",
                 "genre":  ["Med.", "Physiognom."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Die griechischen Zuckungsbuecher (Melampus $PERI\\ PALMW=N)", ed. Diels, H., 1907',
             },
             "tlg001": {
                 "title":  "Evangelium Bartholomaei",
                 "genre":  ["Apocryph.", "Evangel."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": '"Die apokryphen Fragen des Bartholomaeus", ed. Bonwetsch, N., 1897',
             },
         },
@@ -19213,7 +19213,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Fragmenta evangelii Bartholomaei",
                 "genre":  ["Apocryph.", "Evangel."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": '"Fragments grecs et latins de l\'E/vangile de Barthe/lemy", ed. Tisserant, E., 1913',
             }
         },
@@ -19225,7 +19225,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistulae",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Epistolographi Graeci, ed. Hercher, R., 1873",
             }
         },
@@ -19237,7 +19237,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Evangelium Mariae",
                 "genre":  ["Apocryph.", "Evangel."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Antilegomena, `2nd edn., ed. Preuschen, E., 1905",
             }
         },
@@ -19249,7 +19249,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Evangelium Petri",
                 "genre":  ["Apocryph.", "Evangel."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "E/vangile de Pierre, ed. Mara, M.G., 1973",
             }
         },
@@ -19311,7 +19311,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 2",
         "works":     {
             "tlg001": {
-                "title":  "$1*PERI\\ LE/CEWN R(HTORIKW=N (excerpta)",
+                "title":  "*PERI\\ LE/CEWN R(HTORIKW=N (excerpta)",
                 "genre":  ["Lexicogr."],
                 "meta":   "folio-line",
                 "source": '"Excerpta ex Eudemi codice Parisino n. 2635", ed. Niese, B., 1922',
@@ -19373,97 +19373,97 @@ AUTHOR_TAB = {
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg008": {
-                "title":  "Lexicon alchemicum (%6 $1*LECIKO\\N KATA\\ STOIXEI=ON TH=S",
+                "title":  "Lexicon alchemicum (%6 *LECIKO\\N KATA\\ STOIXEI=ON TH=S",
                 "genre":  ["Alchem.", "Lexicogr."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg009": {
-                "title":  "$1*PERI\\ TOU= W)OU= OI( PALAIOI/ FASIN OU(/TWS (e cod. Venet.",
+                "title":  "*PERI\\ TOU= W)OU= OI( PALAIOI/ FASIN OU(/TWS (e cod. Venet.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg010": {
-                "title":  "$1*)ONOMATOPOII/A TOU= W)OU=: AU)TO\\ GA/R E)STIN TO\\ MUSTH/RION TH=S",
+                "title":  "*)ONOMATOPOII/A TOU= W)OU=: AU)TO\\ GA/R E)STIN TO\\ MUSTH/RION TH=S",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg011": {
-                "title":  "$1*(O OU)ROBO/ROS DRA/KWN (versio 1) (sine titulo) (e cod.",
+                "title":  "*(O OU)ROBO/ROS DRA/KWN (versio 1) (sine titulo) (e cod.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg012": {
-                "title":  "$1*(O OU)ROBO/ROS DRA/KWN (versio 2) (sine titulo) (e cod.",
+                "title":  "*(O OU)ROBO/ROS DRA/KWN (versio 2) (sine titulo) (e cod.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg013": {
-                "title":  "$1*(ERMOU= TRISMEGI/STOU O)/RGANON (e cod. Paris. B.N. gr. 2327,",
+                "title":  "*(ERMOU= TRISMEGI/STOU O)/RGANON (e cod. Paris. B.N. gr. 2327,",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg014": {
-                "title":  "$1*)EK TW=N METALLIKW=N (e cod. Paris. B.N. gr. 2327, fol. 280r)",
+                "title":  "*)EK TW=N METALLIKW=N (e cod. Paris. B.N. gr. 2327, fol. 280r)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg015": {
-                "title":  "$1*)ONO/MATA TW=N XRUSOPOIHTW=N (sine titulo) (e cod. Paris.",
+                "title":  "*)ONO/MATA TW=N XRUSOPOIHTW=N (sine titulo) (e cod. Paris.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg016": {
-                "title":  "$1*PERI\\ TOU= METALLIKOU= LIQOU= E)N OI(=S TOI=S TO/POIS E)KEI/NOIS",
+                "title":  "*PERI\\ TOU= METALLIKOU= LIQOU= E)N OI(=S TOI=S TO/POIS E)KEI/NOIS",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg017": {
-                "title":  "$1*(/ORKOS TOU= FILOSO/FOU (e cod. Venet. Marc. 299, fol. 128v)",
+                "title":  "*(/ORKOS TOU= FILOSO/FOU (e cod. Venet. Marc. 299, fol. 128v)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg021": {
-                "title":  "$1*POI=ON EI)=NAI XRH\\ TOI=S H)/QESI TO\\N METIO/NTA TH\\N",
+                "title":  "*POI=ON EI)=NAI XRH\\ TOI=S H)/QESI TO\\N METIO/NTA TH\\N",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg022": {
-                "title":  "$1*PERI\\ SUNA/CEWS TW=N FILOSO/FWN (e cod. Paris. B.N. gr. 2327,",
+                "title":  "*PERI\\ SUNA/CEWS TW=N FILOSO/FWN (e cod. Paris. B.N. gr. 2327,",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg023": {
-                "title":  "$1*PERI\\ POIH/SEWS A)SH/MOU (e cod. Venet. Marc. 299, fol. 106r)",
+                "title":  "*PERI\\ POIH/SEWS A)SH/MOU (e cod. Venet. Marc. 299, fol. 106r)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg024": {
-                "title":  "$1*PERI\\ POIH/SEWS KINNABA/REWS (e cod. Venet. Marc. 299, fol.",
+                "title":  "*PERI\\ POIH/SEWS KINNABA/REWS (e cod. Venet. Marc. 299, fol.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg025": {
-                "title":  "$1*LABU/RINQOS H(/NPER *SOLOMW\\N E)TEKTH/NATO (e cod. Venet.",
+                "title":  "*LABU/RINQOS H(/NPER *SOLOMW\\N E)TEKTH/NATO (e cod. Venet.",
                 "genre":  ["Alchem.", "Iamb."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg026": {
-                "title":  "$1*PERI\\ TH=S TIMIWTA/THS KAI\\ POLUFH/MOU XRUSOXOIeKH=S (e cod.",
+                "title":  "*PERI\\ TH=S TIMIWTA/THS KAI\\ POLUFH/MOU XRUSOXOIeKH=S (e cod.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -19475,31 +19475,31 @@ AUTHOR_TAB = {
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg028": {
-                "title":  "$1*PERI\\ BAFH=S SIDH/ROU (e cod. Venet. Marc. 299, fol. 104r)",
+                "title":  "*PERI\\ BAFH=S SIDH/ROU (e cod. Venet. Marc. 299, fol. 104r)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg029": {
-                "title":  "$1*BAFH\\ TOU= PARA\\ *PE/RSAIS E)CEURHME/NOU XALKOU= GRAFEI=SA A)PO\\",
+                "title":  "*BAFH\\ TOU= PARA\\ *PE/RSAIS E)CEURHME/NOU XALKOU= GRAFEI=SA A)PO\\",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg030": {
-                "title":  "$1*BAFH\\ TOU= I)NDIKOU= SIDH/ROU GRAFEI=SA A)PO\\ A)RXH=S",
+                "title":  "*BAFH\\ TOU= I)NDIKOU= SIDH/ROU GRAFEI=SA A)PO\\ A)RXH=S",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg031": {
-                "title":  "$1*POI/HSIS KRUSTALLI/WN (e cod. Venet. Marc. 299, fol. 116r)",
+                "title":  "*POI/HSIS KRUSTALLI/WN (e cod. Venet. Marc. 299, fol. 116r)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg032": {
-                "title":  "$1*KATABAFH\\ LI/QWN KAI\\ SMARA/GDWN KAI\\ LIXNITW=N KAI\\",
+                "title":  "*KATABAFH\\ LI/QWN KAI\\ SMARA/GDWN KAI\\ LIXNITW=N KAI\\",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -19511,61 +19511,61 @@ AUTHOR_TAB = {
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg035": {
-                "title":  "$1*PERI\\ ZU/QWN POIH/SEWS (e cod. Venet. Marc. 299, fol. 162r)",
+                "title":  "*PERI\\ ZU/QWN POIH/SEWS (e cod. Venet. Marc. 299, fol. 162r)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg036": {
-                "title":  "$1*STA/KTHS POI/HSIS (e cod. Venet. Marc. 299, fol. 162v)",
+                "title":  "*STA/KTHS POI/HSIS (e cod. Venet. Marc. 299, fol. 162v)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg037": {
-                "title":  "$1*PO/SOS O( TW=N BAPTOME/NWN E)RI/WN STAQMO\\S W)/FEILEN KAI\\ PO/SOS O(",
+                "title":  "*PO/SOS O( TW=N BAPTOME/NWN E)RI/WN STAQMO\\S W)/FEILEN KAI\\ PO/SOS O(",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg038": {
-                "title":  "$1*TI/S H( TOU= ME/LANOS CHRI/OU KATASKEUH/ (e cod. Venet. Marc.",
+                "title":  "*TI/S H( TOU= ME/LANOS CHRI/OU KATASKEUH/ (e cod. Venet. Marc.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg039": {
-                "title":  "$1*TI/S H( TH=S KOMA/REWS SU/NQESIS (e cod. Venet. Marc. 299,",
+                "title":  "*TI/S H( TH=S KOMA/REWS SU/NQESIS (e cod. Venet. Marc. 299,",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg040": {
-                "title":  "$1*TI/S H( META\\ TH\\N I)/WSIN OI)KONOMI/A (e cod. Venet. Marc.",
+                "title":  "*TI/S H( META\\ TH\\N I)/WSIN OI)KONOMI/A (e cod. Venet. Marc.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg041": {
-                "title":  "$1*EI) QE/LEIS POIH=SAI FOU/RMAS KAI\\ TU/LOUS A)PO\\ BRONTHSI/OU, POI/EI",
+                "title":  "*EI) QE/LEIS POIH=SAI FOU/RMAS KAI\\ TU/LOUS A)PO\\ BRONTHSI/OU, POI/EI",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg042": {
-                "title":  "$1*DIAFORAI\\ MOLI/BDOU KAI\\ XRUSOPETA/LOU (e cod. Venet. Marc.",
+                "title":  "*DIAFORAI\\ MOLI/BDOU KAI\\ XRUSOPETA/LOU (e cod. Venet. Marc.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg043": {
-                "title":  "$1*PERI\\ TOU= POIH=SAI TURO/KOLLAN (e cod. Paris. B.N. gr. 2327,",
+                "title":  "*PERI\\ TOU= POIH=SAI TURO/KOLLAN (e cod. Paris. B.N. gr. 2327,",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg044": {
-                "title":  "$1*PERI\\ TOU= POIH=SAI O)CUGGOSA/POUNON (e cod. Paris. B.N. gr.",
+                "title":  "*PERI\\ TOU= POIH=SAI O)CUGGOSA/POUNON (e cod. Paris. B.N. gr.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -19577,97 +19577,97 @@ AUTHOR_TAB = {
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg046": {
-                "title":  "$1*XRUSOU= POI/HSIS (e cod. Paris. B.N. gr. 2327, fol. 232r)",
+                "title":  "*XRUSOU= POI/HSIS (e cod. Paris. B.N. gr. 2327, fol. 232r)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg047": {
-                "title":  "$1*SKEUASI/A A)FRONI/TROU TOU= ZHTOUME/NOU EI)S TA\\S KOLLH/SEIS XRUSOU=",
+                "title":  "*SKEUASI/A A)FRONI/TROU TOU= ZHTOUME/NOU EI)S TA\\S KOLLH/SEIS XRUSOU=",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg048": {
-                "title":  "$1*KINNABA/REWS SKEUASI/A (e cod. Paris. B.N. gr. 2327, fol.",
+                "title":  "*KINNABA/REWS SKEUASI/A (e cod. Paris. B.N. gr. 2327, fol.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg049": {
-                "title":  "$1*XRH=SIS *)IOUSTINIANOU= BASILE/WS (sine titulo) (e cod.",
+                "title":  "*XRH=SIS *)IOUSTINIANOU= BASILE/WS (sine titulo) (e cod.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg050": {
-                "title":  "$1*DIA/GRAMMA TH=S MEGA/LHS H(LIOURGI/AS PARABALLO/MENON EI)S TH\\N",
+                "title":  "*DIA/GRAMMA TH=S MEGA/LHS H(LIOURGI/AS PARABALLO/MENON EI)S TH\\N",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg051": {
-                "title":  "$1*EU)XH\\ EI)S TO\\ MELI/SSION (e cod. Venet. Marc. 299, fol. 3r)",
+                "title":  "*EU)XH\\ EI)S TO\\ MELI/SSION (e cod. Venet. Marc. 299, fol. 3r)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg052": {
-                "title":  "$1*POI/HSIS A)RGU/ROU (e cod. Venet. Marc. 299, fol. 194v)",
+                "title":  "*POI/HSIS A)RGU/ROU (e cod. Venet. Marc. 299, fol. 194v)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg053": {
-                "title":  "$1*PERI\\ TOU= O)REIXA/LKOU (e cod. Paris. B.N. gr. 2329, fol.",
+                "title":  "*PERI\\ TOU= O)REIXA/LKOU (e cod. Paris. B.N. gr. 2329, fol.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg054": {
-                "title":  "$1*PERI\\ TOU= QEI/OU A)KAU/STOU (e cod. Paris. B.N. gr. 2327,",
+                "title":  "*PERI\\ TOU= QEI/OU A)KAU/STOU (e cod. Paris. B.N. gr. 2327,",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg055": {
-                "title":  "$1*LEU/KWSIS U(/DATOS, DI' OU(= LEUKAI/NETAI OI)KONOMOU/MENON TO\\",
+                "title":  "*LEU/KWSIS U(/DATOS, DI' OU(= LEUKAI/NETAI OI)KONOMOU/MENON TO\\",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg056": {
-                "title":  "$1*PERI\\ LEUKW/SEWS TOU= A)RSENIKOU= TOU= SXISTOU= (e cod.",
+                "title":  "*PERI\\ LEUKW/SEWS TOU= A)RSENIKOU= TOU= SXISTOU= (e cod.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg057": {
-                "title":  "$1*PERI\\ TOU= XRUSW=SAI SI/DHRON (e cod. Paris. B.N. gr. 2327,",
+                "title":  "*PERI\\ TOU= XRUSW=SAI SI/DHRON (e cod. Paris. B.N. gr. 2327,",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg058": {
-                "title":  "$1*(/OTI SU/NQETON KAI\\ OU)X A(PLOU=N TO\\ EI)=DOS KAI\\ TI/S H(",
+                "title":  "*(/OTI SU/NQETON KAI\\ OU)X A(PLOU=N TO\\ EI)=DOS KAI\\ TI/S H(",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg059": {
-                "title":  "$1*POI/HSIS MA=LLON TOU= PANTO/S (e cod. Venet. Marc. 299, fol.",
+                "title":  "*POI/HSIS MA=LLON TOU= PANTO/S (e cod. Venet. Marc. 299, fol.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg060": {
-                "title":  "$1*(H OI)KONOMI/A (e cod. Venet. Marc. 299, fol. 98v)",
+                "title":  "*(H OI)KONOMI/A (e cod. Venet. Marc. 299, fol. 98v)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg061": {
-                "title":  "$1*TI/S H( TW=N A)RXAI/WN A)/SBESTOS (e cod. Venet. Marc. 299,",
+                "title":  "*TI/S H( TW=N A)RXAI/WN A)/SBESTOS (e cod. Venet. Marc. 299,",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -19679,13 +19679,13 @@ AUTHOR_TAB = {
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg063": {
-                "title":  "$1*OI)KONOMI/A TH=S A)SBE/STOU (e cod. Venet. Marc. 299, fol.",
+                "title":  "*OI)KONOMI/A TH=S A)SBE/STOU (e cod. Venet. Marc. 299, fol.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg064": {
-                "title":  "$1*POI/HSIS A)SBE/STOU (e cod. Venet. Marc. 299, fol. 99v)",
+                "title":  "*POI/HSIS A)SBE/STOU (e cod. Venet. Marc. 299, fol. 99v)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -19709,37 +19709,37 @@ AUTHOR_TAB = {
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg068": {
-                "title":  "$1*(H POI/HSIS (e cod. Venet. Marc. 299, fol. 100v)",
+                "title":  "*(H POI/HSIS (e cod. Venet. Marc. 299, fol. 100v)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg069": {
-                "title":  "$1*(H A)GWGH/ (e cod. Venet. Marc. 299, 101r)",
+                "title":  "*(H A)GWGH/ (e cod. Venet. Marc. 299, 101r)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg070": {
-                "title":  "$1*SUMPE/RASMA TH=S POIH/SEWS (e cod. Venet. Marc. 299, fol.",
+                "title":  "*SUMPE/RASMA TH=S POIH/SEWS (e cod. Venet. Marc. 299, fol.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg071": {
-                "title":  "$1*PERI\\ TH=S QEI/AS KAI\\ I(ERA=S TE/XNHS TW=N FILOSO/FWN (e",
+                "title":  "*PERI\\ TH=S QEI/AS KAI\\ I(ERA=S TE/XNHS TW=N FILOSO/FWN (e",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg072": {
-                "title":  "Fragmentum $1PERI\\ LEUKW/SEWS ($1XALKOU=) (sine titulo) (e",
+                "title":  "Fragmentum PERI\\ LEUKW/SEWS (XALKOU=) (sine titulo) (e",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg073": {
-                "title":  "$1*(O LI/QOS TH=S FILOSOFI/AS (fort. auctore Zosimo) (e cod.",
+                "title":  "*(O LI/QOS TH=S FILOSOFI/AS (fort. auctore Zosimo) (e cod.",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -19751,7 +19751,7 @@ AUTHOR_TAB = {
         "date":   "A.D. 2",
         "works":  {
             "tlg074": {
-                "title":  "$1*PERI\\ TOU= LI/QOU TW=N FILOSO/FWN (e cod. B.N. gr. 2327, fol.",
+                "title":  "*PERI\\ TOU= LI/QOU TW=N FILOSO/FWN (e cod. B.N. gr. 2327, fol.",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -19778,7 +19778,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Elementa astronomiae",
                 "genre":  ["Astron."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Ge/minos. Introduction aux phe/nome\\nes, ed. Aujac, G., 1975",
             },
             "tlg002": {
@@ -19804,86 +19804,86 @@ AUTHOR_TAB = {
         "date":   "Varia",
         "works":  {
             "X02":    {
-                "title": "$1*PERI\\ TH=S TW=N MAQHMA/TWN TA/CEWS (vel",
+                "title": "*PERI\\ TH=S TW=N MAQHMA/TWN TA/CEWS (vel",
                 "genre": ["Math."],
             },
             "tlg001": {
-                "title":  "Recensio $1A sive Recensio vetusta",
+                "title":  "Recensio A sive Recensio vetusta",
                 "genre":  ["Narr. Fict."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Historia Alexandri Magni, vol. 1, ed. Kroll, W., 1926",
             },
             "tlg002": {
-                "title":  "Recensio $1B",
+                "title":  "Recensio B",
                 "genre":  ["Narr. Fict."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Der griechische Alexanderroman. Rezension $3B, ed. Bergson, L., 1965",
             },
             "tlg003": {
-                "title":  "Recensio $1G (lib. 1)",
+                "title":  "Recensio G (lib. 1)",
                 "genre":  ["Narr. Fict."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Der griechische Alexanderroman. Rezension $3G. Buch I, ed. von Lauenstein, U., 1962",
             },
             "tlg004": {
-                "title":  "Recensio $1G (lib. 2)",
+                "title":  "Recensio G (lib. 2)",
                 "genre":  ["Narr. Fict."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Der griechische Alexanderroman. Rezension $3G. Buch II, ed. Engelmann, H., 1963",
             },
             "tlg005": {
-                "title":  "Recensio $1G (lib. 3)",
+                "title":  "Recensio G (lib. 3)",
                 "genre":  ["Narr. Fict."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Der griechische Alexanderroman. Rezension $3G. Buch III, ed. Parthe, F., 1969",
             },
             "tlg006": {
-                "title":  "Recensio $1E",
+                "title":  "Recensio E",
                 "genre":  ["Narr. Fict."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Anonymi Byzantini vita Alexandri regis Macedonum, ed. Trumpf, J., 1974",
             },
             "tlg007": {
-                "title":  "Recensio $1L (lib. 3)",
+                "title":  "Recensio L (lib. 3)",
                 "genre":  ["Narr. Fict."],
                 "meta":   "page-line",
                 "source": "Die Rezension $3L des Pseudo -Kallisthenes, ed. van Thiel, H., 1959",
             },
             "tlg008": {
-                "title":  "Recensio $1L (Pseudo -Methodius, redactio 1)",
+                "title":  "Recensio L (Pseudo -Methodius, redactio 1)",
                 "genre":  ["Narr. Fict."],
                 "meta":   "page-line",
                 "source": "Die Rezension $3L des Pseudo -Kallisthenes, ed. van Thiel, H., 1959",
             },
             "tlg009": {
-                "title":  "Recensio $1L (Pseudo -Methodius, redactio 2)",
+                "title":  "Recensio L (Pseudo -Methodius, redactio 2)",
                 "genre":  ["Narr. Fict."],
                 "meta":   "page-line",
                 "source": "Die Rezension $3L des Pseudo -Kallisthenes, ed. van Thiel, H., 1959",
             },
             "tlg010": {
-                "title":  "Recensio $1B (e cod. Leidensi Vulc. 93)",
+                "title":  "Recensio B (e cod. Leidensi Vulc. 93)",
                 "genre":  ["Narr. Fict."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Der griechische Alexanderroman. Rezension $3B, ed. Bergson, L., 1965",
             },
             "tlg011": {
-                "title":  "Recensio $1B (e cod. Paris. gr. 1685 et cod. Messinensi 62)",
+                "title":  "Recensio B (e cod. Paris. gr. 1685 et cod. Messinensi 62)",
                 "genre":  ["Narr. Fict."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Der griechische Alexanderroman. Rezension $3B, ed. Bergson, L., 1965",
             },
             "tlg012": {
                 "title":  "Recensio F (cod. Flor. Laurentianus Ashburn 1444)",
                 "genre":  ["Narr. Fict."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Ps. -Kallisthenes. Zwei mittelgriechische Prosa -Fassungen des, ed. Konstantinopulos, "
                           "V.L., 1983",
             },
             "tlg013": {
                 "title":  "Recensio E (cod. Eton College 163)",
                 "genre":  ["Narr. Fict."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Ps. -Kallisthenes. Zwei mittelgriechische Prosa -Fassungen des, ed. Konstantinopulos, "
                           "V.L., 1983",
             },
@@ -19902,9 +19902,9 @@ AUTHOR_TAB = {
                           "1970",
             },
             "tlg016": {
-                "title":  "Recensio $1F",
+                "title":  "Recensio F",
                 "genre":  ["Narr. Fict."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "$3*(H FULLA/DA TOU= MEGALE/CANTROU. *DIH/GHSIS *)ALECA/NDROU TOU=, ed. Veloudis, G., 1977",
             },
             "tlg018": {
@@ -19927,7 +19927,7 @@ AUTHOR_TAB = {
         "date":    "4 B.C.",
         "works":   {
             "tlg020": {
-                "title":  "Recensio $1D (e cod. Vat. gr. 1700, 88v -`89r)",
+                "title":  "Recensio D (e cod. Vat. gr. 1700, 88v -`89r)",
                 "genre":  ["Narr. Fict."],
                 "meta":   "line",
                 "source": '"Frammenti inediti della perduta recensione $D del romanzo di, ed. Ballaira, G., 1965',
@@ -20162,7 +20162,7 @@ AUTHOR_TAB = {
         "date":    "3 -`2 B.C.",
         "works":   {
             "X01": {
-                "title": "$1*)EPITOMH\\ TW=N E)NNE/A ME/TRWN",
+                "title": "*)EPITOMH\\ TW=N E)NNE/A ME/TRWN",
                 "genre": ["Gramm."],
             }
         },
@@ -20176,7 +20176,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Descriptio Graeciae (sub auctore Dicaearcho vel Athenaeo)",
                 "genre":  ["Perieg."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Geographi Graeci minores, vol. 1, ed. Mueller, K., 1855",
             }
         },
@@ -20196,7 +20196,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Excerpta politiarum",
                 "genre":  ["Hist.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Heraclidis Lembi excerpta politiarum, ed. Dilts, M.R., 1971",
             },
         },
@@ -20227,7 +20227,7 @@ AUTHOR_TAB = {
         "date":      "4 B.C.",
         "works":     {
             "tlg002": {
-                "title":  "$1*PERI\\ DUSKLI/TWN R(HMA/TWN (fragmentum) (P. Rain.",
+                "title":  "*PERI\\ DUSKLI/TWN R(HMA/TWN (fragmentum) (P. Rain.",
                 "genre":  ["Gramm."],
                 "meta":   "line",
                 "source": "The grammatical papyri from Graeco -Roman Egypt. Contributions to the, ed. Wouters, A., "
@@ -20254,7 +20254,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistulae",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Epistolographi Graeci, ed. Hercher, R., 1873",
             }
         },
@@ -20267,7 +20267,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistulae",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Fragmenta pseudepigraphorum quae supersunt Graeca, ed. Denis, A. -M., 1970",
             }
         },
@@ -20280,7 +20280,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De incredibilibus",
                 "genre":  ["Paradox."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Palaephati $3PERI\\ A)PI/STWN, ed. Festa, N., 1902",
             }
         },
@@ -20355,18 +20355,18 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title": "Pastor",
                 "genre": ["Apocalyp."],
-                "meta":  "chapter-section-line",
+                "meta":  "chapter-section",
             },
             "tlg002": {
                 "title":  "Fragmenta (ap. Antiochum)",
                 "genre":  ["Apocalyp."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Die apostolischen Vaeter I. Der Hirt des Hermas, ed. Whittaker, M., 1967",
             },
             "tlg003": {
                 "title":  "Fragmenta (P. Oxy. 3.404)",
                 "genre":  ["Apocalyp."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Die apostolischen Vaeter I. Der Hirt des Hermas, ed. Whittaker, M., 1967",
             },
         },
@@ -20380,7 +20380,7 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Fragmentum in F (cod. Paris. gr. 1143)",
                 "genre":  ["Apocalyp."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Die apostolischen Vaeter I. Der Hirt des Hermas, ed. Whittaker, M., 1967",
             }
         },
@@ -20434,9 +20434,9 @@ AUTHOR_TAB = {
         "date":      "5 -`4 B.C.",
         "works":     {
             "tlg001": {
-                "title":  "$1*PERI\\ POLITEI/AS [Dub.]",
+                "title":  "*PERI\\ POLITEI/AS [Dub.]",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "[Erode Attico]. $3*PERI\\ POLITEI/AS, ed. Albini, U., 1968",
             }
         },
@@ -20466,7 +20466,7 @@ AUTHOR_TAB = {
                 "source": "Hierokles. Ethische Elementarlehre (Papyrus 9780), ed. von Arnim, J., 1906",
             },
             "tlg001": {
-                "title":  "$1*)HQIKH\\ STOIXEI/WSIS",
+                "title":  "*)HQIKH\\ STOIXEI/WSIS",
                 "genre":  ["tlgl."],
                 "meta":   "column-line",
                 "source": "Hierokles. Ethische Elementarlehre (Papyrus 9780), ed. von Arnim, J., 1906",
@@ -20515,7 +20515,7 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "In Arati et Eudoxi phaenomena commentariorum libri iii",
                 "genre":  ["Comm."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Hipparchi in Arati et Eudoxi phaenomena commentariorum libri iii, ed. Manitius, C., 1894",
             }
         },
@@ -20678,14 +20678,14 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistulae vii genuinae (recensio media)",
                 "genre":  ["Epist."],
-                "meta":   "epistle-chapter-section-line",
+                "meta":   "epistle-chapter-section",
                 "source": "Ignace d'Antioche. Polycarpe de Smyrne. Lettres. Martyre de Polycarpe,, ed. Camelot, P.T., "
                           "1969",
             },
             "tlg002": {
                 "title":  "Epistulae interpolatae et epistulae suppositiciae (recensio longior)",
                 "genre":  ["Epist."],
-                "meta":   "epistle-chapter-section-line",
+                "meta":   "epistle-chapter-section",
                 "source": "Patres apostolici, vol. 2, 3rd edn., ed. Diekamp, F., 1913",
             },
             "tlg003": {
@@ -20740,26 +20740,26 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Adversus haereses (liber 3)",
                 "genre":  ["Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ire/ne/e de Lyon. Contre les he/re/sies, livre, ed. Doutreleau, L., 1974",
             },
             "tlg001": {
                 "title":  "Adversus haereses (libri 1 -`2)",
                 "genre":  ["Theol."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Sancti Irenaei episcopi Lugdunensis libri quinque adversus haereses,, ed. Harvey, W.W., "
                           "1857",
             },
             "tlg003": {
                 "title":  "Adversus haereses 5.3 -`13 (P. Jena)",
                 "genre":  ["Theol."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Ire/ne/e de Lyon. Contre les he/re/sies, livre, ed. Mercier, C., 1969",
             },
             "tlg004": {
                 "title":  "Adversus haereses 3.9 (P. Oxy. 3.405)",
                 "genre":  ["Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ire/ne/e de Lyon. Contre les he/re/sies, livre, ed. Doutreleau, L., 1974",
             },
             "tlg005": {
@@ -20818,7 +20818,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Confessio et precatio Aseneth",
                 "genre":  ["Hagiogr.", "Narr. Fict.", "Pseudepigr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Joseph et Ase/neth, ed. Philonenko, M., 1968",
             },
             "tlg003": {
@@ -20883,7 +20883,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Apocalypsis Enochi",
                 "genre":  ["Apocalyp.", "Pseudepigr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Apocalypsis Henochi Graece, ed. Black, M., 1970",
             }
         },
@@ -20895,7 +20895,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Apocalypsis Enochi (recensio ap. Syncellum)",
                 "genre":  ["Apocalyp.", "Pseudepigr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Apocalypsis Henochi Graece, ed. Black, M., 1970",
             }
         },
@@ -20906,13 +20906,13 @@ AUTHOR_TAB = {
         "date":    "A.D. 2",
         "works":   {
             "tlg001": {
-                "title":  "$1*FOINIKIKA/ (fragmenta) (P. Colon. inv. 3328)",
+                "title":  "*FOINIKIKA/ (fragmenta) (P. Colon. inv. 3328)",
                 "genre":  ["Narr. Fict."],
                 "meta":   "fragment-line",
                 "source": "Die Phoinikika des Lollianos, ed. Henrichs, A., 1972",
             },
             "tlg002": {
-                "title":  "$1*FOINIKIKA/ (fragmenta) (P. Colon. inv. 3328)",
+                "title":  "*FOINIKIKA/ (fragmenta) (P. Colon. inv. 3328)",
                 "genre":  ["Narr. Fict."],
                 "meta":   "fragment-line",
                 "source": "Ancient Greek novels: the fragments, ed. Winkler, J., 1995",
@@ -20926,7 +20926,7 @@ AUTHOR_TAB = {
         "date":      "4 B.C.?",
         "works":     {
             "tlg003": {
-                "title":  "$1*FOINIKIKA/ (fragmentum) (P. Oxy. `11.1368)",
+                "title":  "*FOINIKIKA/ (fragmentum) (P. Oxy. `11.1368)",
                 "genre":  ["Narr. Fict."],
                 "meta":   "column-line",
                 "source": "Ancient Greek novels: the fragments, ed. Winkler, J., 1995",
@@ -21000,7 +21000,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Cyranides",
                 "genre":  ["Magica", "Nat. Hist."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Die Kyraniden, ed. Kaimakis, D., 1976",
             }
         },
@@ -21012,7 +21012,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Fragmenta",
                 "genre":  ["Hagiogr.", "Pseudepigr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Fragmenta pseudepigraphorum quae supersunt Graeca, ed. Denis, A. -M., 1970",
             }
         },
@@ -21024,7 +21024,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistula ecclesiae Smyrnensis de martyrio sancti Polycarpi",
                 "genre":  ["Epist.", "Hagiogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The acts of the Christian martyrs, ed. Musurillo, H., 1972",
             }
         },
@@ -21061,9 +21061,9 @@ AUTHOR_TAB = {
                 "source": "Supplementum Hellenisticum, ed. Parsons, P., 1983",
             },
             "tlg001": {
-                "title":  "$1*PERI\\ KATARXW=N",
+                "title":  "*PERI\\ KATARXW=N",
                 "genre":  ["Astrol.", "Hexametr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Maximi et Ammonis carminum de actionum auspiciis reliquiae, ed. Ludwich, A., 1877",
             },
         },
@@ -21074,9 +21074,9 @@ AUTHOR_TAB = {
         "date":    "A.D. 2",
         "works":   {
             "tlg002": {
-                "title":  "$1*PERI\\ KATARXW=N (epitome)",
+                "title":  "*PERI\\ KATARXW=N (epitome)",
                 "genre":  ["Astrol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Maximi et Ammonis carminum de actionum auspiciis reliquiae, ed. Ludwich, A., 1877",
             }
         },
@@ -21454,9 +21454,9 @@ AUTHOR_TAB = {
         "date":      "3-`1 B.C.",
         "works":     {
             "tlg001": {
-                "title":  "$1*PERI\\ TW=N KATA\\ A)NTIPA/QEIAN KAI\\ SUMPA/QEIAN",
+                "title":  "*PERI\\ TW=N KATA\\ A)NTIPA/QEIAN KAI\\ SUMPA/QEIAN",
                 "genre":  ["Magica", "Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Nepualii fragmentum $3PERI\\ TW=N KATA\\ A)NTIPA/QEIAN KAI\\ SUMPA/QEIAN, ed. Gemoll, W., "
                           "1884",
             }
@@ -21577,7 +21577,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De universi natura [Sp.]",
                 "genre":  ["tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Ocellus Lucanus, ed. Harder, R., 1926",
             },
             "tlg002": {
@@ -21659,7 +21659,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Oracula",
                 "genre":  ["Orac."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Oracula Sibyllina, ed. Geffcken, J., 1902",
             },
             "tlg002": {
@@ -21684,7 +21684,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De incredibilibus",
                 "genre":  ["Myth."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Palaephati $3PERI\\ A)PI/STWN, ed. Festa, N., 1902",
             }
         },
@@ -21777,7 +21777,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Fragmenta",
                 "genre":  ["Exeget."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Die apostolischen Vaeter, `3rd edn., ed. Schneemelcher, W. (post F.X. Funk), 1970",
             }
         },
@@ -21869,7 +21869,7 @@ AUTHOR_TAB = {
         "date":   "A.D. 2-`3",
         "works":  {
             "tlg001": {
-                "title":  "$1*)ATTIKW=N O)NOMA/TWN SUNAGWGH/",
+                "title":  "*)ATTIKW=N O)NOMA/TWN SUNAGWGH/",
                 "genre":  ["Lexicogr."],
                 "meta":   "alphabetic letter-entry-line",
                 "source": "Untersuchungen zu den attizistischen Lexika, ed. Erbse, H., 1950",
@@ -22093,7 +22093,7 @@ AUTHOR_TAB = {
         "date":      "5 B.C.",
         "works":     {
             "tlg107": {
-                "title":  "$1*PERI\\ EU)SEBEI/AS (pars i) (P. Herc. 229, 247-`242,",
+                "title":  "*PERI\\ EU)SEBEI/AS (pars i) (P. Herc. 229, 247-`242,",
                 "genre":  ["tlgl."],
                 "meta":   "fragment-line",
                 "source": "tlglodemus. On piety, part 1: critical text with commentary, ed. Obbink, D., 1996",
@@ -22154,7 +22154,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Imagines",
                 "genre":  ["Rhet."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "tlglostrati maioris imagines, ed. Schenkl, K., 1893",
             },
         },
@@ -22271,7 +22271,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Declamationes",
                 "genre":  ["Rhet."],
-                "meta":   "declamation-section-line",
+                "meta":   "declamation-section",
                 "source": "Polemonis declamationes quae exstant duae, ed. Hinck, H., 1873",
             },
             "tlg002": {
@@ -22329,7 +22329,7 @@ AUTHOR_TAB = {
         "date":      "3 B.C.",
         "works":     {
             "tlg001": {
-                "title":  "$1*PERI\\ A)LO/GOU KATAFRONH/SEWS (P. Herc. `336-`1150)",
+                "title":  "*PERI\\ A)LO/GOU KATAFRONH/SEWS (P. Herc. `336-`1150)",
                 "genre":  ["tlgl."],
                 "meta":   "fragment or column-line",
                 "source": "Polystrati Epicurei $3PERI\\ A)LO/GOU KATAFRONH/SEWS libellus, ed. Wilke, K., 1905",
@@ -22453,7 +22453,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Protevangelium Jacobi",
                 "genre":  ["Apocryph.", "Evangel."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "La forme la plus ancienne du prote/vangile de Jacques, ed. de Strycker, E/., 1961",
             }
         },
@@ -22490,7 +22490,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistula ad Floram",
                 "genre":  ["Epist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Ptole/me/e. Lettre a\\ Flora, 2nd edn., ed. Quispel, G., 1966",
             }
         },
@@ -22504,7 +22504,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Fructus sive centiloquium",
                 "genre":  ["Astrol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Claudii Ptolemaei opera quae exstant omnia, vol. 3.2, 2nd edn., ed. Boer, E., 1961",
             },
             "tlg003": {
@@ -22937,7 +22937,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistulae [Sp.]",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Epistolographi Graeci, ed. Hercher, R., 1873",
             },
             "tlg002": {
@@ -23015,43 +23015,43 @@ AUTHOR_TAB = {
         "date":      "3 B.C.",
         "works":     {
             "tlg003": {
-                "title":  "$1*PERI\\ FUGH=S",
+                "title":  "*PERI\\ FUGH=S",
                 "genre":  ["tlgl."],
                 "meta":   "page-line",
                 "source": "Teletis reliquiae, 2nd edn., ed. Hense, O., 1909",
             },
             "tlg001": {
-                "title":  "$1*PERI\\ TOU= DOKEI=N KAI\\ TOU= EI)=NAI",
+                "title":  "*PERI\\ TOU= DOKEI=N KAI\\ TOU= EI)=NAI",
                 "genre":  ["tlgl."],
                 "meta":   "page-line",
                 "source": "Teletis reliquiae, `2nd edn., ed. Hense, O., 1909",
             },
             "tlg002": {
-                "title":  "$1*PERI\\ AU)TARKEI/AS",
+                "title":  "*PERI\\ AU)TARKEI/AS",
                 "genre":  ["tlgl."],
                 "meta":   "page-line",
                 "source": "Teletis reliquiae, `2nd edn., ed. Hense, O., 1909",
             },
             "tlg004": {
-                "title":  "$1*PERI\\ SUGKRI/SEWS PENI/AS KAI\\ PLOU/TOU (ap. Stobaeum)",
+                "title":  "*PERI\\ SUGKRI/SEWS PENI/AS KAI\\ PLOU/TOU (ap. Stobaeum)",
                 "genre":  ["tlgl."],
                 "meta":   "page-line",
                 "source": "Teletis reliquiae, `2nd edn., ed. Hense, O., 1909",
             },
             "tlg005": {
-                "title":  "$1*PERI\\ SUGKRI/SEWS PENI/AS KAI\\ PLOU/TOU (ap. Stobaeum)",
+                "title":  "*PERI\\ SUGKRI/SEWS PENI/AS KAI\\ PLOU/TOU (ap. Stobaeum)",
                 "genre":  ["tlgl."],
                 "meta":   "page-line",
                 "source": "Teletis reliquiae, `2nd edn., ed. Hense, O., 1909",
             },
             "tlg006": {
-                "title":  "$1*PERI\\ TOU= MH\\ EI)=NAI TE/LOS H(DONH/N",
+                "title":  "*PERI\\ TOU= MH\\ EI)=NAI TE/LOS H(DONH/N",
                 "genre":  ["tlgl."],
                 "meta":   "page-line",
                 "source": "Teletis reliquiae, `2nd edn., ed. Hense, O., 1909",
             },
             "tlg007": {
-                "title":  "$1*PERI\\ PERISTA/SEWN",
+                "title":  "*PERI\\ PERISTA/SEWN",
                 "genre":  ["tlgl."],
                 "meta":   "page-line",
                 "source": "Teletis reliquiae, `2nd edn., ed. Hense, O., 1909",
@@ -23063,7 +23063,7 @@ AUTHOR_TAB = {
         "date":   "2 B.C.-A.D. 3",
         "works":  {
             "tlg008": {
-                "title":  "$1*PERI\\ A)PAQEI/AS",
+                "title":  "*PERI\\ A)PAQEI/AS",
                 "genre":  ["tlgl."],
                 "meta":   "page-line",
                 "source": "Teletis reliquiae, `2nd edn., ed. Hense, O., 1909",
@@ -23077,7 +23077,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Testamentum Abrahae (recensio A) (olim partim sub auctore Hesychio",
                 "genre":  ["Hagiogr.", "Pseudepigr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The testament of Abraham, ed. James, M.R., 1892",
             }
         },
@@ -23089,7 +23089,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Testamentum Abrahae (recensio B)",
                 "genre":  ["Hagiogr.", "Pseudepigr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The testament of Abraham, ed. James, M.R., 1892",
             }
         },
@@ -23271,13 +23271,13 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "De habitationibus",
                 "genre":  ["Astron.", "Math."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Theodosii de habitationibus liber, de diebus et noctibus libri duo, ed. Fecht, R., 1927",
             },
             "tlg001": {
                 "title":  "Sphaerica",
                 "genre":  ["Math."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Theodosius Tripolites. Sphaerica, ed. Heiberg, J.L., 1927",
             },
         },
@@ -23526,7 +23526,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Vita Adam et Evae (sub titulo Apocalypsis Mosis)",
                 "genre":  ["Apocalyp.", "Apocryph.", "Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Apocalypses apocryphae, ed. Tischendorf, C., 1866",
             }
         },
@@ -23673,9 +23673,9 @@ AUTHOR_TAB = {
                 "source": "The sentences of Sextus, ed. Chadwick, H., 1959",
             },
             "tlg001": {
-                "title":  "$1*PERI\\ BLASFHMIW=N KAI\\ PO/QEN E(KA/STH",
+                "title":  "*PERI\\ BLASFHMIW=N KAI\\ PO/QEN E(KA/STH",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Sue/tone. $3*PERI\\ BLASFHMIW=N. *PERI\\ PAIDIW=N, ed. Taillardat, J., 1967",
             },
         },
@@ -23686,15 +23686,15 @@ AUTHOR_TAB = {
         "date":    "1 B.C.?",
         "works":   {
             "tlg002": {
-                "title":  "$1*PERI\\ TW=N PAR' (/*ELLHSI PAIDIW=N",
+                "title":  "*PERI\\ TW=N PAR' (/*ELLHSI PAIDIW=N",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Sue/tone. $3*PERI\\ BLASFHMIW=N. *PERI\\ PAIDIW=N, ed. Taillardat, J., 1967",
             },
             "tlg001": {
                 "title":  "De tropis (olim sub auctore Gregorio Corinthio)",
                 "genre":  ["Rhet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": '"Tryphon. De tropis", ed. West, M.L., 1965',
             },
         },
@@ -23715,13 +23715,13 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Vita G (e cod. 397 Bibliothecae Pierponti Morgan) (recensio 3)",
                 "genre":  ["Narr. Fict."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Aesopica, vol. 1, ed. Perry, B.E., 1952",
             },
             "tlg002": {
                 "title":  "Vita W (vita Aesopi Westermanniana) (recensio 2)",
                 "genre":  ["Narr. Fict."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Aesopica, vol. 1, ed. Perry, B.E., 1952",
             },
             "tlg003": {
@@ -23745,7 +23745,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 2",
         "works":     {
             "tlg005": {
-                "title":  "$1*BIBLI/ON MUQIKO\\N TOU= *AI)SW/POU, EI)KONI/ZON A)PO\\ TW=N A)LO/GWN",
+                "title":  "*BIBLI/ON MUQIKO\\N TOU= *AI)SW/POU, EI)KONI/ZON A)PO\\ TW=N A)LO/GWN",
                 "genre":  ["Narr. Fict."],
                 "meta":   "page-line",
                 "source": "Fabulae romanenses Graece conscriptae, vol. 1, ed. Eberhard, A., 1872",
@@ -23753,7 +23753,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Oratio ad Graecos",
                 "genre":  ["Apol.", "Orat."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Die aeltesten Apologeten, ed. Goodspeed, E.J., 1915",
             },
         },
@@ -23801,7 +23801,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Paraleipomena Jeremiou",
                 "genre":  ["Pseudepigr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Texts and translations 1. Pseudepigrapha series 1, ed. Purintun, A. -E., 1972",
             }
         },
@@ -23988,7 +23988,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Comparatio Menandri et Philistionis",
                 "genre":  ["Gnom."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Menandri sententiae, ed. Jaekel, S., 1964",
             },
         },
@@ -24001,7 +24001,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Sententiae Menandri et Philistionis",
                 "genre":  ["Gnom."],
-                "meta":   "sententia-section-line",
+                "meta":   "sententia-section",
                 "source": "Fragmenta comicorum Graecorum, vol. 4, ed. Meineke, A., 1841",
             }
         },
@@ -24103,19 +24103,19 @@ AUTHOR_TAB = {
             "tlg007": {
                 "title":  "Data",
                 "genre":  ["Math."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Euclidis opera omnia, vol. 6, ed. Menge, H., 1896",
             },
             "tlg008": {
                 "title":  "Data (demonstrationes alterae)",
                 "genre":  ["Math."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Euclidis opera omnia, vol. 6, ed. Menge, H., 1896",
             },
             "tlg009": {
                 "title":  "Optica",
                 "genre":  ["Math."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Euclidis opera omnia, vol. 7, ed. Heiberg, J.L., 1895",
             },
             "tlg010": {
@@ -24127,31 +24127,31 @@ AUTHOR_TAB = {
             "tlg011": {
                 "title":  "Catoptrica (recensio Theonis?)",
                 "genre":  ["Math."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Euclidis opera omnia, vol. 7, ed. Heiberg, J.L., 1895",
             },
             "tlg012": {
                 "title":  "Phaenomena",
                 "genre":  ["Astron."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Euclidis opera omnia, vol. 8, ed. Menge, H., 1916",
             },
             "tlg013": {
                 "title":  "Phaenomena (recensio b)",
                 "genre":  ["Astron."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Euclidis opera omnia, vol. 8, ed. Menge, H., 1916",
             },
             "tlg014": {
                 "title":  "Phaenomena (demonstrationes alterae recensionis b)",
                 "genre":  ["Astron."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Euclidis opera omnia, vol. 8, ed. Menge, H., 1916",
             },
             "tlg015": {
                 "title":  "Sectio canonis [Sp.]",
                 "genre":  ["Mus."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Euclidis opera omnia, vol. 8, ed. Menge, H., 1916",
             },
             "tlg016": {
@@ -24447,7 +24447,7 @@ AUTHOR_TAB = {
                 "source": "Die griechischen Dichterfragmente der roemischen Kaiserzeit,, ed. Heitsch, E., 1963",
             },
             "tlg010": {
-                "title":  "$1*LO/GOS E)PIBATH/RIOS (P. Vindob. gr. 29788a)",
+                "title":  "*LO/GOS E)PIBATH/RIOS (P. Vindob. gr. 29788a)",
                 "genre":  ["Hexametr."],
                 "meta":   "fragment-line",
                 "source": "Die griechischen Dichterfragmente der roemischen Kaiserzeit,, ed. Heitsch, E., 1963",
@@ -24560,7 +24560,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Anonymorum iambica",
                 "genre":  ["Iamb."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Anthologia lyrica Graeca, fasc. 3, 3rd edn., ed. Diehl, E., 1952",
             }
         },
@@ -25157,219 +25157,219 @@ AUTHOR_TAB = {
         "date":      "A.D. 4",
         "works":     {
             "tlg001": {
-                "title":  "$1*PERI\\ FILANQRWPI/AS H)\\ *KWNSTA/NTIOS",
+                "title":  "*PERI\\ FILANQRWPI/AS H)\\ *KWNSTA/NTIOS",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg002": {
-                "title":  "$1*EI)S *KWNSTA/NTION TO\\N AU)TOKRA/TORA, O(/TI MA/LISTA FILO/SOFOS O(",
+                "title":  "*EI)S *KWNSTA/NTION TO\\N AU)TOKRA/TORA, O(/TI MA/LISTA FILO/SOFOS O(",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg003": {
-                "title":  "$1*PRESBEUTIKO\\S U(PE\\R *KWNSTANTINOUPO/LEWS R(HQEI\\S E)N",
+                "title":  "*PRESBEUTIKO\\S U(PE\\R *KWNSTANTINOUPO/LEWS R(HQEI\\S E)N",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg004": {
-                "title":  "$1*EI)S TO\\N AU)TOKRA/TORA *KWNSTA/NTION",
+                "title":  "*EI)S TO\\N AU)TOKRA/TORA *KWNSTA/NTION",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg005": {
-                "title":  "$1*(UPATIKO\\S EI)S TO\\N AU)TOKRA/TORA *)IOBIANO/N",
+                "title":  "*(UPATIKO\\S EI)S TO\\N AU)TOKRA/TORA *)IOBIANO/N",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg006": {
-                "title":  "$1*FILA/DELFOI H)\\ PERI\\ FILANQRWPI/AS",
+                "title":  "*FILA/DELFOI H)\\ PERI\\ FILANQRWPI/AS",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg007": {
-                "title":  "$1*PERI\\ TW=N H)TUXHKO/TWN E)PI\\ *OU)A/LENTOS",
+                "title":  "*PERI\\ TW=N H)TUXHKO/TWN E)PI\\ *OU)A/LENTOS",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg008": {
-                "title":  "$1*PENTAETHRIKO/S",
+                "title":  "*PENTAETHRIKO/S",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg009": {
-                "title":  "$1*PROTREPTIKO\\S *OU)ALENTINIANW=| NE/W|",
+                "title":  "*PROTREPTIKO\\S *OU)ALENTINIANW=| NE/W|",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg010": {
-                "title":  "$1*)EPI\\ TH=S EI)RH/NHS *OU)A/LENTI",
+                "title":  "*)EPI\\ TH=S EI)RH/NHS *OU)A/LENTI",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg011": {
-                "title":  "$1*DEKETHRIKO\\S H)\\ PERI\\ TW=N PREPO/NTWN LO/GWN TW=| BASILEI=",
+                "title":  "*DEKETHRIKO\\S H)\\ PERI\\ TW=N PREPO/NTWN LO/GWN TW=| BASILEI=",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg013": {
-                "title":  "$1*)ERWTIKO\\S H)\\ PERI\\ KA/LLOUS BASILIKOU=",
+                "title":  "*)ERWTIKO\\S H)\\ PERI\\ KA/LLOUS BASILIKOU=",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg014": {
-                "title":  "$1*PRESBEUTIKO\\S EI)S *QEODO/SION AU)TOKRA/TORA",
+                "title":  "*PRESBEUTIKO\\S EI)S *QEODO/SION AU)TOKRA/TORA",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg015": {
-                "title":  "$1*EI)S *QEODO/SION: TI/S H( BASILIKWTA/TH TW=N A)RETW=N",
+                "title":  "*EI)S *QEODO/SION: TI/S H( BASILIKWTA/TH TW=N A)RETW=N",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg016": {
-                "title":  "$1*XARISTH/RIOS TW=| AU)TOKRA/TORI U(PE\\R TH=S EI)RH/NHS KAI\\ TH=S",
+                "title":  "*XARISTH/RIOS TW=| AU)TOKRA/TORI U(PE\\R TH=S EI)RH/NHS KAI\\ TH=S",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg017": {
-                "title":  "$1*)EPI\\ TH=| XEIROTONI/A| TH=S POLIARXI/AS",
+                "title":  "*)EPI\\ TH=| XEIROTONI/A| TH=S POLIARXI/AS",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg018": {
-                "title":  "$1*PERI\\ TH=S TOU= BASILE/WS FILHKOI/eAS",
+                "title":  "*PERI\\ TH=S TOU= BASILE/WS FILHKOI/eAS",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg019": {
-                "title":  "$1*)EPI\\ TH=| FILANQRWPI/A| TOU= AU)TOKRA/TOROS *QEODOSI/OU",
+                "title":  "*)EPI\\ TH=| FILANQRWPI/A| TOU= AU)TOKRA/TOROS *QEODOSI/OU",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 1, ed. Downey, G., 1965",
             },
             "tlg020": {
-                "title":  "$1*)EPITA/FIOS E)PI\\ TW=| PATRI/",
+                "title":  "*)EPITA/FIOS E)PI\\ TW=| PATRI/",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg021": {
-                "title":  "$1*BASANISTH\\S H)\\ FILO/SOFOS",
+                "title":  "*BASANISTH\\S H)\\ FILO/SOFOS",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg022": {
-                "title":  "$1*PERI\\ FILI/AS",
+                "title":  "*PERI\\ FILI/AS",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg023": {
-                "title":  "$1*SOFISTH/S",
+                "title":  "*SOFISTH/S",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg024": {
-                "title":  "$1*PROTREPTIKO\\S *NIKOMHDEU=SIN EI)S FILOSOFI/AN",
+                "title":  "*PROTREPTIKO\\S *NIKOMHDEU=SIN EI)S FILOSOFI/AN",
                 "genre":  ["Orat.", "Rhet."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg025": {
-                "title":  "$1*PRO\\S TO\\N A)CIW/SANTA LE/GEIN E)K TOU= PARAXRH=MA",
+                "title":  "*PRO\\S TO\\N A)CIW/SANTA LE/GEIN E)K TOU= PARAXRH=MA",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg026": {
-                "title":  "[2$1*(UPE\\R TOU= LE/GEIN H)\\ PW=S TW=| FILOSO/FW| LEKTE/ON]2",
+                "title":  "[2*(UPE\\R TOU= LE/GEIN H)\\ PW=S TW=| FILOSO/FW| LEKTE/ON]2",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg027": {
-                "title":  "$1*PERI\\ TOU= MH\\ DEI=N TOI=S TO/POIS A)LLA\\ TOI=S A)NDRA/SI",
+                "title":  "*PERI\\ TOU= MH\\ DEI=N TOI=S TO/POIS A)LLA\\ TOI=S A)NDRA/SI",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg028": {
-                "title":  "$1*(H E)PI\\ TW=| LO/GW| DIA/LECIS",
+                "title":  "*(H E)PI\\ TW=| LO/GW| DIA/LECIS",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg029": {
-                "title":  "$1*PRO\\S TOU\\S OU)K O)RQW=S E)CHGOUME/NOUS TO\\N SOFISTH/N",
+                "title":  "*PRO\\S TOU\\S OU)K O)RQW=S E)CHGOUME/NOUS TO\\N SOFISTH/N",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg030": {
-                "title":  "$1*QE/SIS EI) GEWRGHTE/ON",
+                "title":  "*QE/SIS EI) GEWRGHTE/ON",
                 "genre":  ["Orat.", "Rhet."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg031": {
-                "title":  "$1*PERI\\ PROEDRI/AS EI)S TH\\N SU/GKLHTON",
+                "title":  "*PERI\\ PROEDRI/AS EI)S TH\\N SU/GKLHTON",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg032": {
-                "title":  "$1*METRIOPAQH\\S H)\\ FILO/TEKNOS",
+                "title":  "*METRIOPAQH\\S H)\\ FILO/TEKNOS",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg033": {
-                "title":  "[2$1*PERI\\ TW=N O)NOMA/TWN TOU= BASILE/WS KAI\\ TOU= U(PA/TOU]2",
+                "title":  "[2*PERI\\ TW=N O)NOMA/TWN TOU= BASILE/WS KAI\\ TOU= U(PA/TOU]2",
                 "genre":  ["Orat."],
-                "meta":   "harduin page-section-line",
+                "meta":   "harduin page-section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg034": {
-                "title":  "$1*PRO\\S TOU\\S AI)TIASAME/NOUS E)PI\\ TW=| DE/CASQAI TH\\N A)RXH/N",
+                "title":  "*PRO\\S TOU\\S AI)TIASAME/NOUS E)PI\\ TW=| DE/CASQAI TH\\N A)RXH/N",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Themistii orationes quae supersunt, vol. 2, ed. Norman, A.F., 1971",
             },
             "tlg035": {
-                "title":  "[2$1*F]2$1ILO/POLIS",
+                "title":  "[2*F]2ILO/POLIS",
                 "genre":  ["Orat.", "Rhet."],
                 "meta":   "line",
                 "source": "Themistii orationes quae supersunt, vol. 3, ed. Norman, A.F., 1974",
             },
             "tlg036": {
-                "title":  "$1*PERI\\ YUXH=S (fragmenta)",
+                "title":  "*PERI\\ YUXH=S (fragmenta)",
                 "genre":  ["tlgl."],
                 "meta":   "fragment-line",
                 "source": "Themistii orationes quae supersunt, vol. 3, ed. Norman, A.F., 1974",
             },
             "tlg037": {
-                "title":  "$1*PERI\\ FRONH/SEWS (fragmentum)",
+                "title":  "*PERI\\ FRONH/SEWS (fragmentum)",
                 "genre":  ["tlgl."],
-                "meta":   "dindorf page-section-line",
+                "meta":   "dindorf page-section",
                 "source": "Themistii orationes quae supersunt, vol. 3, ed. Norman, A.F., 1974",
             },
             "tlg038": {
@@ -25418,75 +25418,75 @@ AUTHOR_TAB = {
         "date":      "Incertum",
         "works":     {
             "tlg001": {
-                "title":  "$1*)EGKW/MION EI)S TO\\N AU)TOKRA/TORA *KWNSTA/NTION",
+                "title":  "*)EGKW/MION EI)S TO\\N AU)TOKRA/TORA *KWNSTA/NTION",
                 "genre":  ["Encom."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "L'empereur Julien. Oeuvres comple\\tes, vol. 1.1, ed. Bidez, J., 1932",
             },
             "tlg002": {
-                "title":  "$1*EU)SEBI/AS TH=S BASILI/DOS E)GKW/MION",
+                "title":  "*EU)SEBI/AS TH=S BASILI/DOS E)GKW/MION",
                 "genre":  ["Encom."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "L'empereur Julien. Oeuvres comple\\tes, vol. 1.1, ed. Bidez, J., 1932",
             },
             "tlg003": {
-                "title":  "$1*PERI\\ TW=N TOU= AU)TOKRA/TOROS PRA/CEWN H)\\ PERI\\ BASILEI/AS",
+                "title":  "*PERI\\ TW=N TOU= AU)TOKRA/TOROS PRA/CEWN H)\\ PERI\\ BASILEI/AS",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "L'empereur Julien. Oeuvres comple\\tes, vol. 1.1, ed. Bidez, J., 1932",
             },
             "tlg004": {
-                "title":  "$1*)EPI\\ TH=| E)CO/DW| TOU= A)GAQWTA/TOU *SALOUSTI/OU PARAMUQHTIKO\\S EI)S",
+                "title":  "*)EPI\\ TH=| E)CO/DW| TOU= A)GAQWTA/TOU *SALOUSTI/OU PARAMUQHTIKO\\S EI)S",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "L'empereur Julien. Oeuvres comple\\tes, vol. 1.1, ed. Bidez, J., 1932",
             },
             "tlg005": {
-                "title":  "$1*)AQHNAI/WN TH=| BOULH=| KAI\\ TW=| DH/MW|",
+                "title":  "*)AQHNAI/WN TH=| BOULH=| KAI\\ TW=| DH/MW|",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "L'empereur Julien. Oeuvres comple\\tes, vol. 1.1, ed. Bidez, J., 1932",
             },
             "tlg006": {
-                "title":  "$1*QEMISTI/W| FILOSO/FW|",
+                "title":  "*QEMISTI/W| FILOSO/FW|",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "L'empereur Julien. Oeuvres comple\\tes, vol. 2.1, ed. Rochefort, G., 1963",
             },
             "tlg007": {
-                "title":  "$1*PRO\\S *(HRA/KLEION KUNIKO\\N PERI\\ TOU= PW=S KUNISTE/ON KAI\\ EI)",
+                "title":  "*PRO\\S *(HRA/KLEION KUNIKO\\N PERI\\ TOU= PW=S KUNISTE/ON KAI\\ EI)",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "L'empereur Julien. Oeuvres comple\\tes, vol. 2.1, ed. Rochefort, G., 1963",
             },
             "tlg008": {
-                "title":  "$1*EI)S TH\\N MHTE/RA TW=N QEW=N",
+                "title":  "*EI)S TH\\N MHTE/RA TW=N QEW=N",
                 "genre":  ["Orat.", "tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "L'empereur Julien. Oeuvres comple\\tes, vol. 2.1, ed. Rochefort, G., 1963",
             },
             "tlg009": {
-                "title":  "$1*EI)S TOU\\S A)PAIDEU/TOUS KU/NAS",
+                "title":  "*EI)S TOU\\S A)PAIDEU/TOUS KU/NAS",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "L'empereur Julien. Oeuvres comple\\tes, vol. 2.1, ed. Rochefort, G., 1963",
             },
             "tlg010": {
-                "title":  "$1*SUMPO/SION H)\\ *KRO/NIA sive Caesares",
+                "title":  "*SUMPO/SION H)\\ *KRO/NIA sive Caesares",
                 "genre":  ["Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "L'empereur Julien. Oeuvres comple\\tes, vol. 2.2, ed. Lacombrade, C., 1964",
             },
             "tlg011": {
-                "title":  "$1*EI)S TO\\N BASILE/A *(/HLION PRO\\S *SALOU/STION",
+                "title":  "*EI)S TO\\N BASILE/A *(/HLION PRO\\S *SALOU/STION",
                 "genre":  ["Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "L'empereur Julien. Oeuvres comple\\tes, vol. 2.2, ed. Lacombrade, C., 1964",
             },
             "tlg012": {
-                "title":  "Misopogon (sc.$1 *)ANTIOXIKO\\S H)\\ *MISOPW/GWN)",
+                "title":  "Misopogon (sc. *)ANTIOXIKO\\S H)\\ *MISOPW/GWN)",
                 "genre":  ["Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "L'empereur Julien. Oeuvres comple\\tes, vol. 2.2, ed. Lacombrade, C., 1964",
             },
             "tlg013": {
@@ -25566,37 +25566,37 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Oratio de regno",
                 "genre":  ["Orat.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Synesii Cyrenensis opuscula, ed. Terzaghi, N., 1944",
             },
             "tlg003": {
                 "title":  "Aegyptii sive de providentia",
                 "genre":  ["tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Synesii Cyrenensis opuscula, ed. Terzaghi, N., 1944",
             },
             "tlg004": {
                 "title":  "Ad Paeonium de dono astrolabii",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Synesii Cyrenensis opuscula, ed. Terzaghi, N., 1944",
             },
             "tlg005": {
                 "title":  "De insomniis",
                 "genre":  ["Onir."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Synesii Cyrenensis opuscula, ed. Terzaghi, N., 1944",
             },
             "tlg006": {
                 "title":  "Calvitii encomium",
                 "genre":  ["Encom.", "Satura"],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Synesii Cyrenensis opuscula, ed. Terzaghi, N., 1944",
             },
             "tlg007": {
                 "title":  "Dion",
                 "genre":  ["tlgl.", "Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Synesii Cyrenensis opuscula, ed. Terzaghi, N., 1944",
             },
             "tlg008": {
@@ -25608,7 +25608,7 @@ AUTHOR_TAB = {
             "tlg009": {
                 "title":  "Catastases",
                 "genre":  ["Orat.", "Rhet."],
-                "meta":   "oration-section-line",
+                "meta":   "oration-section",
                 "source": "Synesii Cyrenensis opuscula, ed. Terzaghi, N., 1944",
             },
             "tlg010": {
@@ -25635,7 +25635,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Martyrium Potamiaenae et Basilidis",
                 "genre":  ["Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The acts of the Christian martyrs, ed. Musurillo, H., 1972",
             }
         },
@@ -25647,7 +25647,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Martyrium Cononis",
                 "genre":  ["Hagiogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The acts of the Christian martyrs, ed. Musurillo, H., 1972",
             }
         },
@@ -25659,7 +25659,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Martyrium Marini",
                 "genre":  ["Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The acts of the Christian martyrs, ed. Musurillo, H., 1972",
             }
         },
@@ -25671,7 +25671,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Martyrium Dasii",
                 "genre":  ["Hagiogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The acts of the Christian martyrs, ed. Musurillo, H., 1972",
             }
         },
@@ -25683,7 +25683,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Acta Eupli",
                 "genre":  ["Hagiogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The acts of the Christian martyrs, ed. Musurillo, H., 1972",
             }
         },
@@ -25707,7 +25707,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Testamentum xl martyrum",
                 "genre":  ["Hagiogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The acts of the Christian martyrs, ed. Musurillo, H., 1972",
             }
         },
@@ -25895,7 +25895,7 @@ AUTHOR_TAB = {
             "tlg030": {
                 "title":  "Contra Eunomium",
                 "genre":  ["Apol.", "Theol."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Gregorii Nysseni opera, vols. 1.1 %9 2.2, ed. Jaeger, W., 1960",
             },
             "tlg031": {
@@ -25912,7 +25912,7 @@ AUTHOR_TAB = {
             "tlg033": {
                 "title":  "Epistulae",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Gregorii Nysseni opera, vol. 8.2, 2nd edn., ed. Pasquali, G., 1959",
             },
             "tlg034": {
@@ -25960,31 +25960,31 @@ AUTHOR_TAB = {
             "tlg041": {
                 "title":  "Vita sanctae Macrinae",
                 "genre":  ["Epist.", "Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Gre/goire de Nysse. Vie de sainte Macrine, ed. Maraval, P., 1971",
             },
             "tlg042": {
                 "title":  "De vita Mosis",
                 "genre":  ["Exeget.", "Hagiogr.", "tlgl.", "Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Gre/goire de Nysse. La vie de Moiese, `3rd edn., ed. Danie/lou, J., 1968",
             },
             "tlg043": {
                 "title":  "De virginitate",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Gre/goire de Nysse. Traite/ de la virginite/, ed. Aubineau, M., 1966",
             },
             "tlg044": {
                 "title":  "De virginitate (recensio altera)",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Gre/goire de Nysse. Traite/ de la virginite/, ed. Aubineau, M., 1966",
             },
             "tlg046": {
                 "title":  "Oratio catechetica magna",
                 "genre":  ["Apol.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The catechetical oration of Gregory of Nyssa, ed. Srawley, J., 1903",
             },
             "tlg047": {
@@ -25997,7 +25997,7 @@ AUTHOR_TAB = {
             "tlg048": {
                 "title":  "In Basilium fratrem",
                 "genre":  ["Encom.", "Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Encomium of Saint Gregory Bishop of Nyssa on his brother Saint Basil, ed. Stein, J., 1928",
             },
             "tlg049": {
@@ -26015,7 +26015,7 @@ AUTHOR_TAB = {
             "tlg052": {
                 "title":  "Inventio imaginis in Camulianis [Sp.]",
                 "genre":  ["Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Christusbilder. Untersuchungen zur christlichen Legende, ed. Dobschuetz, E., 1899",
             },
             "tlg053": {
@@ -26129,7 +26129,7 @@ AUTHOR_TAB = {
                 "meta":  "volume-page-line",
             },
             "tlg077": {
-                "title": "Liber de cognitione dei (%6 $1*QEOGNWSI/A) (fragmenta ap.",
+                "title": "Liber de cognitione dei (%6 *QEOGNWSI/A) (fragmenta ap.",
                 "genre": ["Theol."],
                 "meta":  "volume-page-line",
             },
@@ -26188,31 +26188,31 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Praeparatio evangelica",
                 "genre":  ["Apol."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Eusebius Werke, Band 8: Die Praeparatio evangelica, ed. Mras, K., 43.1:1954; 43.2:1956",
             },
             "tlg002": {
                 "title":  "Historia ecclesiastica",
                 "genre":  ["Eccl.", "Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Euse\\be de Ce/sare/e. Histoire, ed. Bardy, G., 1:1952; 2:1955; 3:1958",
             },
             "tlg003": {
                 "title":  "De martyribus Palaestinae (recensio brevior)",
                 "genre":  ["Hagiogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Euse\\be de Ce/sare/e. Histoire, ed. Bardy, G., 1958",
             },
             "tlg004": {
                 "title":  "De martyribus Palaestinae (recensio prolixior)",
                 "genre":  ["Hagiogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Euse\\be de Ce/sare/e. Histoire, ed. Bardy, G., 1958",
             },
             "tlg005": {
                 "title":  "Demonstratio evangelica",
                 "genre":  ["Apol."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Eusebius Werke, Band 6: Die Demonstratio evangelica, ed. Heikel, I.A., 1913",
             },
             "tlg006": {
@@ -26224,7 +26224,7 @@ AUTHOR_TAB = {
             "tlg007": {
                 "title":  "Contra Marcellum",
                 "genre":  ["Theol."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Eusebius Werke, Band 4: Gegen Marcell. Ueber die kirchliche, ed. Hansen, G.C., 1972",
             },
             "tlg008": {
@@ -26236,7 +26236,7 @@ AUTHOR_TAB = {
             "tlg009": {
                 "title":  "De ecclesiastica theologia",
                 "genre":  ["Theol."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Eusebius Werke, Band 4: Gegen Marcell. Ueber die kirchliche, ed. Hansen, G.C., 1972",
             },
             "tlg010": {
@@ -26266,19 +26266,19 @@ AUTHOR_TAB = {
             "tlg014": {
                 "title":  "Epistula ad Caesarienses",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Athanasius Werke, vol. 2.1, ed. Opitz, H.G., 1940",
             },
             "tlg015": {
                 "title":  "Epistula ad Alexandrum Alexandrinum",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Athanasius Werke, vol. 3.1, ed. Opitz, H.G., 1934",
             },
             "tlg016": {
                 "title":  "Epistula ad Euphrationem",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Athanasius Werke, vol. 3.1, ed. Opitz, H.G., 1934",
             },
             "tlg017": {
@@ -26290,31 +26290,31 @@ AUTHOR_TAB = {
             "tlg018": {
                 "title":  "De mensuris et ponderibus (fragmenta)",
                 "genre":  ["Metrolog."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Metrologicorum scriptorum reliquiae, vol. 1, ed. Hultsch, F., 1864",
             },
             "tlg019": {
                 "title":  "Commentarius in Isaiam",
                 "genre":  ["Exeget."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Eusebius Werke, Band 9: Der Jesajakommentar, ed. Ziegler, J., 1975",
             },
             "tlg020": {
                 "title":  "Vita Constantini",
                 "genre":  ["Biogr.", "Encom."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Eusebius Werke, Band 1.1: Ueber das Leben des Kaisers Konstantin, ed. Winkelmann, F., 1975",
             },
             "tlg021": {
                 "title":  "Constantini imperatoris oratio ad coetum sanctorum",
                 "genre":  ["Apol.", "Exeget.", "Hexametr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Eusebius Werke, Band 1: Ueber das Leben Constantins. Constantins, ed. Heikel, I.A., 1902",
             },
             "tlg022": {
                 "title":  "De laudibus Constantini",
                 "genre":  ["Apol.", "Encom."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Eusebius Werke, vol. 1, ed. Heikel, I.A., 1902",
             },
             "tlg023": {
@@ -26412,7 +26412,7 @@ AUTHOR_TAB = {
                 "meta":  "volume-page-line",
             },
             "tlg001": {
-                "title":  "$1*PELAGI/OU FILOSO/FOU PERI\\ TH=S QEI/AS TAU/THS KAI\\ I(ERA=S TE/XNHS",
+                "title":  "*PELAGI/OU FILOSO/FOU PERI\\ TH=S QEI/AS TAU/THS KAI\\ I(ERA=S TE/XNHS",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -26446,13 +26446,13 @@ AUTHOR_TAB = {
                 "source": "Grammatici Graeci, vol. 4.1, ed. Hilgard, A., 1894",
             },
             "tlg003": {
-                "title":  "$1*PERI\\ GRAMMATIKH=S [Sp.] (fort. auctore Theodoro Prodromo)",
+                "title":  "*PERI\\ GRAMMATIKH=S [Sp.] (fort. auctore Theodoro Prodromo)",
                 "genre":  ["Gramm."],
                 "meta":   "page-line",
                 "source": "Theodosii Alexandrini grammatica, ed. Goettling, K., 1822",
             },
             "tlg004": {
-                "title":  "$1*PERI\\ TO/NOU [Sp.] (fort. auctore Theodoro Prodromo)",
+                "title":  "*PERI\\ TO/NOU [Sp.] (fort. auctore Theodoro Prodromo)",
                 "genre":  ["Gramm."],
                 "meta":   "page-line",
                 "source": "Theodosii Alexandrini grammatica, ed. Goettling, K., 1822",
@@ -26464,13 +26464,13 @@ AUTHOR_TAB = {
                 "source": "Theodosii Alexandrini grammatica, ed. Goettling, K., 1822",
             },
             "tlg006": {
-                "title":  "$1*PERI\\ KLI/SEWS TW=N EI)S <WN> BARUTO/NWN (e cod. Haun.",
+                "title":  "*PERI\\ KLI/SEWS TW=N EI)S <WN> BARUTO/NWN (e cod. Haun.",
                 "genre":  ["Gramm."],
                 "meta":   "page-line",
                 "source": "Excerpta ex libris Herodiani technici, ed. Hilgard, A., 1887",
             },
             "tlg007": {
-                "title":  "$1*PERI\\ KLI/SEWS TW=N EI)S <WN> O)CUTO/NWN (e cod. Haun.",
+                "title":  "*PERI\\ KLI/SEWS TW=N EI)S <WN> O)CUTO/NWN (e cod. Haun.",
                 "genre":  ["Gramm."],
                 "meta":   "page-line",
                 "source": "Excerpta ex libris Herodiani technici, ed. Hilgard, A., 1887",
@@ -26492,7 +26492,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Ancoratus",
                 "genre":  ["Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Epiphanius, Band 1: Ancoratus und Panarion, ed. Holl, K., 1915",
             },
             "tlg002": {
@@ -26510,7 +26510,7 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "De xii gemmis",
                 "genre":  ["Eccl.", "Exeget.", "Med.", "Nat. Hist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Les lapidaires de l'antiquite/ et du Moyen Age, vol. 2.1, ed. Ruelle, C.E/., 1898",
             },
             "tlg005": {
@@ -26627,7 +26627,7 @@ AUTHOR_TAB = {
             "tlg026": {
                 "title":  "Testimonia ex divinis et sacris scripturis (%6 De divina",
                 "genre":  ["Eccl."],
-                "meta":   "section-subsection-line",
+                "meta":   "section-subsection",
                 "source": "A Pseudo -Epiphanius testimony book, ed. Hotchkiss, R.V., 1974",
             },
             "tlg027": {
@@ -26656,7 +26656,7 @@ AUTHOR_TAB = {
             "tlg031": {
                 "title":  "Liturgia praesanctificatorum",
                 "genre":  ["Liturg."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "$3*(H LEITOURGI/A TW=N PROHGIASME/NWN, ed. Moraites, D.N., 1955",
             },
             "tlg032": {
@@ -26688,13 +26688,13 @@ AUTHOR_TAB = {
             "tlg038": {
                 "title":  "De mensuris et ponderibus (excerptum Graecum 4)",
                 "genre":  ["Metrolog."],
-                "meta":   "excerpt-section-line",
+                "meta":   "excerpt-section",
                 "source": "Metrologicorum scriptorum reliquiae, vol. 1, ed. Hultsch, F., 1864",
             },
             "tlg039": {
                 "title":  "De mensuris et ponderibus (ap. Cosmam) (excerptum Graecum 6)",
                 "genre":  ["Metrolog."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Cosmas Indicopleuste\\s. Topographie chre/tienne, vol. 3, ed. Wolska -Conus, W., 1973",
             },
             "tlg040": {
@@ -26711,7 +26711,7 @@ AUTHOR_TAB = {
             "tlg042": {
                 "title":  "Homilia in Christi resurrectionem (inc. $*NU=N TO\\ PE/NQOS)",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Le dossier d'Hippolyte et de Me/liton, ed. Nautin, P., 1953",
             },
             "tlg043": {
@@ -26736,13 +26736,13 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Epistulae",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Saint Gre/goire de Nazianze. Lettres, `2 vols., ed. Gallay, P., 1:1964; 2:1967",
             },
             "tlg002": {
                 "title":  "Epistulae theologicae",
                 "genre":  ["Epist.", "Theol."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Gre/goire de Nazianze. Lettres the/ologiques, ed. Gallay, P., 1974",
             },
             "tlg003": {
@@ -26760,43 +26760,43 @@ AUTHOR_TAB = {
             "tlg005": {
                 "title":  "Funebris in laudem Caesarii fratris oratio (orat. 7)",
                 "genre":  ["Encom.", "Orat."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Gre/goire de Nazianze. Discours fune\\bres en l'honneur de, ed. Boulenger, F., 1908",
             },
             "tlg006": {
                 "title":  "Funebris oratio in laudem Basilii Magni Caesareae in Cappadocia",
                 "genre":  ["Encom.", "Orat."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Gre/goire de Nazianze. Discours fune\\bres en l'honneur de, ed. Boulenger, F., 1908",
             },
             "tlg007": {
                 "title":  "Adversus Eunomianos (orat. 27)",
                 "genre":  ["Orat.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Gregor von Nazianz. Die fuenf theologischen Reden, ed. Barbel, J., 1963",
             },
             "tlg008": {
                 "title":  "De theologia (orat. 28)",
                 "genre":  ["Orat.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Gregor von Nazianz. Die fuenf theologischen Reden, ed. Barbel, J., 1963",
             },
             "tlg009": {
                 "title":  "De filio (orat. 29)",
                 "genre":  ["Orat.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Gregor von Nazianz. Die fuenf theologischen Reden, ed. Barbel, J., 1963",
             },
             "tlg010": {
                 "title":  "De filio (orat. 30)",
                 "genre":  ["Orat.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Gregor von Nazianz. Die fuenf theologischen Reden, ed. Barbel, J., 1963",
             },
             "tlg011": {
                 "title":  "De spiritu sancto (orat. 31)",
                 "genre":  ["Orat.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Gregor von Nazianz. Die fuenf theologischen Reden, ed. Barbel, J., 1963",
             },
             "tlg012": {
@@ -27023,9 +27023,9 @@ AUTHOR_TAB = {
                 "meta":  "volume-page-line",
             },
             "tlg056": {
-                "title":  "$1*(ALA/TION SKEUASQE\\N U(PO\\ TH=S E)NERGEI/AS TOIA/SDE",
+                "title":  "*(ALA/TION SKEUASQE\\N U(PO\\ TH=S E)NERGEI/AS TOIA/SDE",
                 "genre":  ["Med."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Physici et medici Graeci minores, vol. 1, ed. Ideler, J.L., 1841",
             },
             "tlg057": {
@@ -27081,7 +27081,7 @@ AUTHOR_TAB = {
                 "source": '"Handschriftliches zu Ignatius Diaconus", ed. Mueller, C., 1894',
             },
             "tlg066": {
-                "title":  "$1*(O PROTREPTIKO\\S EI)S U(POMONH\\N H)\\ PRO\\S TOU\\S NEWSTI\\",
+                "title":  "*(O PROTREPTIKO\\S EI)S U(POMONH\\N H)\\ PRO\\S TOU\\S NEWSTI\\",
                 "genre":  ["Homilet."],
                 "meta":   "line",
                 "source": '"Un nuovo testo di Gregorio Nazianzeno", ed. Guida, A., 1976',
@@ -27106,7 +27106,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De vita Pythagorica",
                 "genre":  ["Biogr.", "tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Iamblichi de vita Pythagorica liber, ed. Klein, U. (post L. Deubner), 1937",
             },
             "tlg002": {
@@ -27118,7 +27118,7 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "De communi mathematica scientia",
                 "genre":  ["Math.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Iamblichi de communi mathematica scientia liber, ed. Klein, U. (post N. Festa), 1891",
             },
             "tlg004": {
@@ -27145,7 +27145,7 @@ AUTHOR_TAB = {
             "tlg006": {
                 "title":  "De mysteriis",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Jamblique. Les myste\\res d'E/gypte, ed. des Places, E/., 1966",
             }
         },
@@ -27157,7 +27157,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 3",
         "works":     {
             "tlg002": {
-                "title":  "$1*PERI\\ TW=N A)LU/TWN A)NTIQE/SEWN (fort. auctore Maximo",
+                "title":  "*PERI\\ TW=N A)LU/TWN A)NTIQE/SEWN (fort. auctore Maximo",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
@@ -27175,7 +27175,7 @@ AUTHOR_TAB = {
         "date":   "p. A.D. 2",
         "works":  {
             "tlg002": {
-                "title":  "$1*PERI\\ TW=N E)SXHMATISME/NWN PROBLHMA/TWN",
+                "title":  "*PERI\\ TW=N E)SXHMATISME/NWN PROBLHMA/TWN",
                 "genre":  ["Rhet."],
                 "meta":   "page-line",
                 "source": "Rhetores Graeci, vol. 1, ed. Spengel, L., 1856",
@@ -27189,7 +27189,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Anonymi summaria ratio geographiae in sphaera intelligendae",
                 "genre":  ["Geogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Geographi Graeci minores, vol. 2, ed. Mueller, K., 1861",
             }
         },
@@ -27201,7 +27201,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 4",
         "works":     {
             "tlg001": {
-                "title":  "$1*DIAI/RESIS ZHTHMA/TWN",
+                "title":  "*DIAI/RESIS ZHTHMA/TWN",
                 "genre":  ["Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Rhetores Graeci, vol. 8, ed. Walz, C., 1835",
@@ -27255,7 +27255,7 @@ AUTHOR_TAB = {
                 "source": "Commentaires de Pappus et de The/on d'Alexandrie sur, ed. Rome, A., 2:1936; 3:1943",
             },
             "tlg002": {
-                "title":  "$1*EI)S TOU\\S PROXEI/ROUS KANO/NAS (commentarium parvum)",
+                "title":  "*EI)S TOU\\S PROXEI/ROUS KANO/NAS (commentarium parvum)",
                 "genre":  ["Comm.", "Math."],
                 "meta":   "page-line",
                 "source": 'Le "3petit commentaire"3 de The/on d\'Alexandrie aux tables faciles, ed. Tihon, A., 1978',
@@ -27271,7 +27271,7 @@ AUTHOR_TAB = {
                 "meta":  "book-epigram-line",
             },
             "tlg009": {
-                "title":  "$1*(UPO/MNHMA EI)S TOU\\S PROXEI/ROUS *PTOLEMAI/OU KANO/NAS",
+                "title":  "*(UPO/MNHMA EI)S TOU\\S PROXEI/ROUS *PTOLEMAI/OU KANO/NAS",
                 "genre":  ["Comm.", "Math."],
                 "meta":   "st number-page-line",
                 "source": 'Le "3grand commentaire"3 de The/on d\'Alexandrie aux tables faciles, ed. Tihon, A., '
@@ -27306,31 +27306,31 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Vita Plotini",
                 "genre":  ["Biogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Plotini opera, vol. 1, ed. Schwyzer, H. -R., 1951",
             },
             "tlg002": {
                 "title":  "Vita Pythagorae",
                 "genre":  ["Biogr.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Porphyrii philosophi Platonici opuscula selecta, `2nd edn., ed. Nauck, A., 1886",
             },
             "tlg003": {
                 "title":  "De abstinentia",
                 "genre":  ["tlgl."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Porphyrii philosophi Platonici opuscula selecta, `2nd edn., ed. Nauck, A., 1886",
             },
             "tlg004": {
                 "title":  "De antro nympharum",
                 "genre":  ["Comm."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Porphyry. The cave of the nymphs in the Odyssey, ed. Seminar Classics 609, 1969",
             },
             "tlg005": {
                 "title":  "Ad Marcellam",
                 "genre":  ["Epist.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Porphyrios.$3 *PRO\\S *MARKE/LLAN, ed. Poetscher, W., 1969",
             },
             "tlg006": {
@@ -27360,7 +27360,7 @@ AUTHOR_TAB = {
             "tlg010": {
                 "title": "Chronica",
                 "genre": ["Chronogr.", "Hist."],
-                "meta":  "fragment-section-line",
+                "meta":  "fragment-section",
             },
             "tlg011": {
                 "title":  "De philosophia ex oraculis",
@@ -27369,21 +27369,21 @@ AUTHOR_TAB = {
                 "source": "Porphyrii de philosophia ex oraculis haurienda, ed. Wolff, G., 1856",
             },
             "tlg012": {
-                "title":  "$1*PERI\\ A)GALMA/TWN",
+                "title":  "*PERI\\ A)GALMA/TWN",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Vie de Porphyre le philosophe ne/o -platonicien, ed. Bidez, J., 1913",
             },
             "tlg013": {
                 "title":  "Epistula ad Anebonem",
                 "genre":  ["Epist.", "tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Porfirio. Lettera ad Anebo, ed. Sodano, A.R., 1958",
             },
             "tlg014": {
                 "title":  "Quaestionum Homericarum ad Iliadem pertinentium reliquiae",
                 "genre":  ["Comm."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Porphyrii quaestionum Homericarum ad Iliadem pertinentium reliquiae,, ed. Schrader, H., "
                           "1:1880; 2:1882",
             },
@@ -27397,20 +27397,20 @@ AUTHOR_TAB = {
             "tlg016": {
                 "title":  "Quaestionum Homericarum ad Odysseam pertinentium reliquiae",
                 "genre":  ["Comm."],
-                "meta":   "odyssey book-section-line",
+                "meta":   "odyssey book-section",
                 "source": "Porphyrii quaestionum Homericarum ad Odysseam pertinentium reliquiae, ed. Schrader, H., "
                           "1890",
             },
             "tlg017": {
                 "title":  "Quaestionum Homericarum liber i (recensio V)",
                 "genre":  ["Comm."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Porphyrii quaestionum Homericarum liber i, ed. Sodano, A.R., 1970",
             },
             "tlg018": {
                 "title":  "Quaestionum Homericarum liber i (recensio $*X)",
                 "genre":  ["Comm."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Porphyrii quaestionum Homericarum liber i, ed. Sodano, A.R., 1970",
             },
             "tlg019": {
@@ -27426,7 +27426,7 @@ AUTHOR_TAB = {
                 "source": "Porphyrii quaestionum Homericarum liber i, ed. Sodano, A.R., 1970",
             },
             "tlg021": {
-                "title":  "$1*EI)S TA\\ A(RMONIKA\\ *PTOLEMAI/OU U(PO/MNHMA",
+                "title":  "*EI)S TA\\ A(RMONIKA\\ *PTOLEMAI/OU U(PO/MNHMA",
                 "genre":  ["Comm.", "Mus."],
                 "meta":   "page-line",
                 "source": "Porphyrios. Kommentar zur Harmonielehre des Ptolemaios, ed. Duering, I., 1932",
@@ -27462,7 +27462,7 @@ AUTHOR_TAB = {
             "tlg029": {
                 "title":  "In Platonis Parmenidem commentaria (fragmenta)",
                 "genre":  ["Comm.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Porphyre et Victorinus, vol. 2, ed. Hadot, P., 1968",
             },
         },
@@ -27480,74 +27480,74 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Contra gentes",
                 "genre":  ["Apol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Athanasius. Contra gentes and de incarnatione, ed. Thomson, R.W., 1971",
             },
             "tlg002": {
                 "title":  "De incarnatione verbi",
                 "genre":  ["Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Sur l'incarnation du verbe, ed. Kannengiesser, C., 1973",
             },
             "tlg003": {
                 "title":  "De decretis Nicaenae synodi",
                 "genre":  ["Concil.", "Epist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athanasius Werke, vol. 2.1, ed. Opitz, H.G., 1940",
             },
             "tlg004": {
                 "title":  "De sententia Dionysii",
                 "genre":  ["Epist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athanasius Werke, vol. 2.1, ed. Opitz, H.G., 1940",
             },
             "tlg005": {
                 "title":  "Apologia contra Arianos sive Apologia secunda",
                 "genre":  ["Concil.", "Eccl.", "Epist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athanasius Werke, vol. 2.1, ed. Opitz, H.G., 1940",
             },
             "tlg006": {
                 "title":  "Epistula encyclica",
                 "genre":  ["Epist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athanasius Werke, vol. 2.1, ed. Opitz, H.G., 1940",
             },
             "tlg007": {
                 "title":  "Epistula ad Serapionem de morte Arii",
                 "genre":  ["Epist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athanasius Werke, vol. 2.1, ed. Opitz, H.G., 1940",
             },
             "tlg008": {
                 "title":  "Epistula ad monachos",
                 "genre":  ["Epist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athanasius Werke, vol. 2.1, ed. Opitz, H.G., 1940",
             },
             "tlg009": {
                 "title":  "Historia Arianorum",
                 "genre":  ["Eccl.", "Epist.", "Hist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athanasius Werke, vol. 2.1, ed. Opitz, H.G., 1940",
             },
             "tlg010": {
                 "title":  "De synodis Arimini in Italia et Seleuciae in Isauria",
                 "genre":  ["Epist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athanasius Werke, vol. 2.1, ed. Opitz, H.G., 1940",
             },
             "tlg011": {
                 "title":  "Apologia ad Constantium imperatorem",
                 "genre":  ["Apol.", "Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Athanase d'Alexandrie. Apologie a\\ l'empereur Constance. Apologie, ed. Szymusiak, J. -M., "
                           "1958",
             },
             "tlg012": {
                 "title":  "Apologia de fuga sua",
                 "genre":  ["Apol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Athanase d'Alexandrie. Apologie a\\ l'empereur Constance. Apologie, ed. Szymusiak, J. -M., "
                           "1958",
             },
@@ -27574,13 +27574,13 @@ AUTHOR_TAB = {
             "tlg017": {
                 "title":  "In illud: Profecti in pagum invenietis pullum alligatum [Sp.]",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athanasiana I, ed. Nordberg, H., 1962",
             },
             "tlg018": {
                 "title":  "Homilia in illud: Ite in castellum [Sp.]",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athanasiana I, ed. Nordberg, H., 1962",
             },
             "tlg019": {
@@ -27591,7 +27591,7 @@ AUTHOR_TAB = {
             "tlg020": {
                 "title":  "Sermo in ramos palmarum [Sp.]",
                 "genre":  ["Homilet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athanasiana I, ed. Nordberg, H., 1962",
             },
             "tlg021": {
@@ -27621,7 +27621,7 @@ AUTHOR_TAB = {
             "tlg026": {
                 "title":  "Doctrina ad Antiochum ducem [Sp.]",
                 "genre":  ["Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athanasii Alexandrini praecepta ad Antiochum, ed. Dindorf, W., 1857",
             },
             "tlg027": {
@@ -27639,7 +27639,7 @@ AUTHOR_TAB = {
             "tlg029": {
                 "title":  "De virginitate [Sp.]",
                 "genre":  ["Eccl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "$3*LO/GOS SWTHRI/AS PRO\\S TH\\N PARQE/NON, ed. von der Goltz, E.F., 1905",
             },
             "tlg030": {
@@ -27669,7 +27669,7 @@ AUTHOR_TAB = {
             "tlg034": {
                 "title":  "Dialogus Athanasii et Zacchaei [Sp.]",
                 "genre":  ["Dialog.", "Eccl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The dialogues of Athanasius and Zacchaeus and of Timothy and Aquila, ed. Conybeare, F.C., "
                           "1898",
             },
@@ -27682,19 +27682,19 @@ AUTHOR_TAB = {
             "tlg036": {
                 "title":  "Oratio in resurrectionem et in recens baptizatos [Sp.]",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Une home/lie pascale attribue/e a\\ S. Athanase, ed. Aubineau, M., 1973',
             },
             "tlg037": {
                 "title":  "De fallacia diaboli (%6 Homilia in diabolum) [Sp.]",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"An early homily on the devil ascribed to Athanasius of Alexandria", ed. Casey, R.P., 1935',
             },
             "tlg038": {
                 "title":  "Sermo exhortatorius [Sp.] (e cod. Paris. gr. 769)",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Notes sur diverses home/lies pseude/pigraphiques, sur les, ed. Nau, F., 1908',
             },
             "tlg039": {
@@ -28015,7 +28015,7 @@ AUTHOR_TAB = {
             "tlg110": {
                 "title":  "Epistula ad Epictetum",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Athanasii epistula ad Epictetum, ed. Ludwig, G., 1911",
             },
             "tlg111": {
@@ -28037,14 +28037,14 @@ AUTHOR_TAB = {
             "tlg117": {
                 "title":  "Oratio quarta contra Arianos [Sp.]",
                 "genre":  ["Orat.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": 'Die pseudoathanasianische "3IVte Rede gegen die Arianer"3 als $3"3KATA\\, ed. Stegmann, '
                           "A., 1917",
             },
             "tlg118": {
                 "title":  "Syntagma ad monachos (e cod. Vossiano gr., fol. 46) [Sp.]",
                 "genre":  ["Eccl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Studia patristica. E/tudes d'ancienne litte/rature, ed. Batiffol, P., 1890",
             },
             "tlg119": {
@@ -28055,7 +28055,7 @@ AUTHOR_TAB = {
             "tlg120": {
                 "title":  "Epistula ad monachos",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "\"La vraie teneur d'un texte de saint Athanase re/tablie par, ed. de Jerphanion, G., 1930",
             },
             "tlg121": {
@@ -28164,7 +28164,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Acta Thomae",
                 "genre":  ["Acta", "Apocryph.", "Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Acta apostolorum apocrypha, vol. 2.2, ed. Bonnet, M., 1903",
             },
             "tlg002": {
@@ -28182,7 +28182,7 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Acta Thomae (recensio)",
                 "genre":  ["Acta", "Apocryph.", "Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Acta apostolorum apocrypha, vol. 2.2, ed. Bonnet, M., 1903",
             },
         },
@@ -28235,25 +28235,25 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Homiliae in hexaemeron",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "homily-section-line",
+                "meta":   "homily-section",
                 "source": "Basile de Ce/sare/e. Home/lies sur, ed. Giet, S., 1968",
             },
             "tlg002": {
                 "title":  "De legendis gentilium libris",
                 "genre":  ["Eccl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Saint Basile. Aux jeunes gens sur la manie\\re de tirer profit des, ed. Boulenger, F., 1935",
             },
             "tlg003": {
                 "title":  "De spiritu sancto",
                 "genre":  ["Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Basile de Ce/sare/e. Sur le Saint -Esprit, `2nd edn., ed. Pruche, B., 1968",
             },
             "tlg004": {
                 "title":  "Epistulae",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Saint Basile. Lettres, `3 vols., ed. Courtonne, Y., 1:1957; 2:1961; 3:1966",
             },
             "tlg005": {
@@ -28271,19 +28271,19 @@ AUTHOR_TAB = {
             "tlg007": {
                 "title":  "Homilia in illud: Destruam horrea mea",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Saint Basile. Home/lies sur la richesse, ed. Courtonne, Y., 1935",
             },
             "tlg008": {
                 "title":  "Homilia in divites",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Saint Basile. Home/lies sur la richesse, ed. Courtonne, Y., 1935",
             },
             "tlg009": {
                 "title":  "Enarratio in prophetam Isaiam [Dub.]",
                 "genre":  ["Exeget."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "San Basilio. Commento al profeta Isaia, `2 vols., ed. Trevisan, P., 1939",
             },
             "tlg010": {
@@ -28301,7 +28301,7 @@ AUTHOR_TAB = {
             "tlg012": {
                 "title":  "Homilia de virginitate [Sp.]",
                 "genre":  ["Homilet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": '"Une curieuse home/lie grecque ine/dite sur la virginite/, ed. Moons, M.C., 1953',
             },
             "tlg013": {
@@ -28691,7 +28691,7 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Expositio fidei",
                 "genre":  ["Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Athanasiana I, ed. Nordberg, H., 1962",
             },
             "tlg005": {
@@ -28715,13 +28715,13 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Contra Celsum",
                 "genre":  ["Apol."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Orige\\ne. Contre Celse, `4 vols., ed. Borret, M., 1:1967; 2:1968; 3 -`4:1969",
             },
             "tlg002": {
                 "title":  "De principiis",
                 "genre":  ["Theol."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Origenes vier Buecher von den Prinzipien, ed. Karpp, H., 1976",
             },
             "tlg003": {
@@ -28739,7 +28739,7 @@ AUTHOR_TAB = {
             "tlg005": {
                 "title":  "Commentarii in evangelium Joannis (lib. 1, 2, 4, 5, 6, 10, 13)",
                 "genre":  ["Exeget."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Orige\\ne. Commentaire sur saint Jean, `3 vols., ed. Blanc, C., 1:1966; 2:1970; 3:1975",
             },
             "tlg006": {
@@ -28751,19 +28751,19 @@ AUTHOR_TAB = {
             "tlg007": {
                 "title":  "Exhortatio ad martyrium",
                 "genre":  ["Eccl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Origenes Werke, vol. 1, ed. Koetschau, P., 1899",
             },
             "tlg008": {
                 "title":  "De oratione",
                 "genre":  ["Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Origenes Werke, vol. 2, ed. Koetschau, P., 1899",
             },
             "tlg009": {
                 "title":  "In Jeremiam (homiliae 1 -`11)",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "homily-section-line",
+                "meta":   "homily-section",
                 "source": "Orige\\ne. Home/lies sur Je/re/mie, vol. 1, ed. Nautin, P., 1976",
             },
             "tlg010": {
@@ -28787,7 +28787,7 @@ AUTHOR_TAB = {
             "tlg013": {
                 "title":  "De engastrimytho (%6 Homilia in i Reg. [i Sam.] 28.3 -`25)",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Origenes Werke, vol. 3, ed. Klostermann, E., 1901",
             },
             "tlg014": {
@@ -28817,25 +28817,25 @@ AUTHOR_TAB = {
             "tlg018": {
                 "title":  "Dialogus cum Heraclide",
                 "genre":  ["Dialog.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Entretien d'Orige\\ne avec He/raclide, ed. Scherer, J., 1960",
             },
             "tlg019": {
                 "title":  "tlglocalia sive Ecloga de operibus Origenis a Basilio et",
                 "genre":  ["Exeget."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The philocalia of Origen, ed. Robinson, J.A., 1893",
             },
             "tlg020": {
                 "title":  "tlglocalia sive Ecloga de operibus Origenis a Basilio et",
                 "genre":  ["Exeget."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Orige\\ne. Philocalie 21 -`27: sur le libre arbitre, ed. Junod, E/., 1976",
             },
             "tlg021": {
                 "title":  "In Jeremiam (homiliae 12 -`20)",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "homily-section-line",
+                "meta":   "homily-section",
                 "source": "Origenes Werke, vol. 3, ed. Klostermann, E., 1901",
             },
             "tlg022": {
@@ -28883,7 +28883,7 @@ AUTHOR_TAB = {
             "tlg029": {
                 "title":  "Commentarium in evangelium Matthaei (lib. 10 -`11)",
                 "genre":  ["Exeget."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Orige\\ne. Commentaire sur l'e/vangile selon Matthieu,, ed. Girod, R., 1970",
             },
             "tlg030": {
@@ -28907,26 +28907,26 @@ AUTHOR_TAB = {
             "tlg033": {
                 "title":  "Epistula ad Gregorium Thaumaturgum (e Philocalia)",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Des Gregorios Thaumaturgos Dankrede an Origenes, ed. Koetschau, P., 1894",
             },
             "tlg034": {
                 "title":  "Fragmenta ex commentariis in epistulam i ad Corinthios (in catenis)",
                 "genre":  ["Caten.", "Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Documents: Origen on I Corinthians", ed. Jenkins, C., 1908',
             },
             "tlg035": {
                 "title":  "Fragmenta ex commentariis in epistulam ad Ephesios (in catenis)",
                 "genre":  ["Caten.", "Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Documents: The commentary of Origen upon the epistle to the Ephesians", ed. Gregg, '
                           "J.A.F., 1902",
             },
             "tlg036": {
                 "title":  "Commentarii in epistulam ad Romanos (I.1 -XII.21) (in catenis)",
                 "genre":  ["Caten.", "Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Documents: The commentary of Origen on the epistle to the Romans", ed. Ramsbotham, A., '
                           "1912",
             },
@@ -28945,7 +28945,7 @@ AUTHOR_TAB = {
             "tlg039": {
                 "title":  "Commentarii in Romanos (cod. Athon. Laura 184 B64)",
                 "genre":  ["Exeget."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Der Roemerbrieftext des Origenes nach dem codex von der Goltz, ed. Bauernfeind, O., 1923",
             },
             "tlg040": {
@@ -29151,13 +29151,13 @@ AUTHOR_TAB = {
             "tlg079": {
                 "title":  "Commentarii in evangelium Joannis (lib. 19, 20, 28, 32)",
                 "genre":  ["Exeget."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Origenes Werke, vol. 4, ed. Preuschen, E., 1903",
             },
             "tlg084": {
                 "title":  "Fragmenta in Jeremiam (e Philocalia)",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Origenes Werke, vol. 3, ed. Klostermann, E., 1901",
             },
             "tlg086": {
@@ -29286,7 +29286,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 5",
         "works":     {
             "tlg001": {
-                "title":  "Scholia ad Hermogenis librum $1PERI\\ STA/SEWN",
+                "title":  "Scholia ad Hermogenis librum PERI\\ STA/SEWN",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Rhetores Graeci, vol. 4, ed. Walz, C., 1833",
@@ -29302,7 +29302,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Historia ecclesiastica",
                 "genre":  ["Eccl.", "Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Sozomenus. Kirchengeschichte, ed. Hansen, G.C., 1960",
             }
         },
@@ -29316,7 +29316,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Vitae sophistarum",
                 "genre":  ["Biogr."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Eunapii vitae sophistarum, ed. Giangrande, J., 1956",
             }
         },
@@ -29356,7 +29356,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Hieroglyphica (translatio Philippi)",
                 "genre":  ["Comm."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Hori Apollinis hieroglyphica, ed. Sbordone, F., 1940",
             },
         },
@@ -29464,7 +29464,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Homiliae 1 -`14",
                 "genre":  ["Encom.", "Homilet."],
-                "meta":   "homily-chapter-section-line",
+                "meta":   "homily-chapter-section",
                 "source": "Asterius of Amasea. Homilies i -xiv, ed. Datema, C., 1970",
             }
         },
@@ -29484,7 +29484,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Commentarii in Psalmos (homiliae 31)",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "homily-section-line",
+                "meta":   "homily-section",
                 "source": "Asterii sophistae commentariorum in Psalmos quae supersunt, ed. Richard, M., 1956",
             },
         },
@@ -29498,13 +29498,13 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Ad Theodorum lapsum (lib. 1)",
                 "genre":  ["Eccl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Jean Chrysostome. A The/odore, ed. Dumortier, J., 1966",
             },
             "tlg001": {
                 "title":  "Ad Theodorum lapsum (lib. 2) (%6 Epistula ad Theodorum",
                 "genre":  ["Eccl.", "Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Jean Chrysostome. A The/odore, ed. Dumortier, J., 1966",
             },
             "tlg003": {
@@ -29530,19 +29530,19 @@ AUTHOR_TAB = {
             "tlg007": {
                 "title":  "Contra eos qui subintroductas habent virgines",
                 "genre":  ["Eccl.", "Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Saint Jean Chrysostome. Les cohabitations suspectes, ed. Dumortier, J., 1955",
             },
             "tlg008": {
                 "title":  "Quod regulares feminae viris cohabitare non debeant",
                 "genre":  ["Eccl.", "Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Saint Jean Chrysostome. Les cohabitations suspectes, ed. Dumortier, J., 1955",
             },
             "tlg009": {
                 "title":  "De virginitate",
                 "genre":  ["Eccl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Jean Chrysostome. La virginite/, ed. Grillet, B., 1966",
             },
             "tlg010": {
@@ -29916,25 +29916,25 @@ AUTHOR_TAB = {
             "tlg085": {
                 "title":  "De sacerdotio (lib. 1 -`6)",
                 "genre":  ["Eccl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Jean Chrysostome. Sur le sacerdoce, ed. Malingrey, A. -M., 1980",
             },
             "tlg086": {
                 "title":  "Quod nemo laeditur nisi a se ipso",
                 "genre":  ["Eccl.", "Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Lettre d'exil a\\ Olympias et a\\ tous les fide\\les, ed. Malingrey, A. -M., 1964",
             },
             "tlg087": {
                 "title":  "Ad eos qui scandalizati sunt",
                 "genre":  ["Eccl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Jean Chrysostome. Sur la providence de Dieu, ed. Malingrey, A. -M., 1961",
             },
             "tlg088": {
                 "title":  "Epistulae ad Olympiadem (epist. 1 -`17)",
                 "genre":  ["Eccl.", "Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Jean Chrysostome. Lettres a\\ Olympias, `2nd edn., ed. Malingrey, A. -M., 1968",
             },
             "tlg089": {
@@ -30700,19 +30700,19 @@ AUTHOR_TAB = {
             "tlg260": {
                 "title":  "In sanctum pascha (sermo 1) [Sp.] (fort. auctore Apollinare",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Home/lies pascales, vol. 2, ed. Nautin, P., 1953",
             },
             "tlg261": {
                 "title":  "In sanctum pascha (sermo 2) [Sp.] (fort. auctore Apollinare",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Home/lies pascales, vol. 2, ed. Nautin, P., 1953",
             },
             "tlg262": {
                 "title":  "In sanctum pascha (sermo 3) [Sp.] (fort. auctore Apollinare",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Home/lies pascales, vol. 2, ed. Nautin, P., 1953",
             },
             "tlg263": {
@@ -30728,13 +30728,13 @@ AUTHOR_TAB = {
             "tlg265": {
                 "title":  "In sanctum pascha (sermo 6) [Sp.]",
                 "genre":  ["Homilet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Home/lies pascales, vol. 1, ed. Nautin, P., 1950",
             },
             "tlg266": {
                 "title":  "In sanctum pascha (sermo 7) [Sp.]",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Home/lies pascales, vol. 3, ed. Nautin, P., 1957",
             },
             "tlg267": {
@@ -31242,14 +31242,14 @@ AUTHOR_TAB = {
             "tlg373": {
                 "title":  "De Babyla contra Julianum et gentiles",
                 "genre":  ["Apol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Critical edition of, and introduction to, St. John Chrysostom's \"De, ed. Schatkin, M., "
                           "1967",
             },
             "tlg374": {
                 "title":  "De regressu",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"L\'home/lie de saint Jean Chrysostome "3a\\ son retour d"3Asie\'", ed. Wenger, A., 1961',
             },
             "tlg376": {
@@ -31267,7 +31267,7 @@ AUTHOR_TAB = {
             "tlg379": {
                 "title":  "In illud: Apparuit gratia dei omnibus hominibus",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Une home/lie ine/dite de Jean Chrysostome sur, ed. Wenger, A., 1971',
             },
             "tlg380": {
@@ -31285,7 +31285,7 @@ AUTHOR_TAB = {
             "tlg382": {
                 "title":  "Catecheses ad illuminandos 1 -`8 (series tertia)",
                 "genre":  ["Homilet."],
-                "meta":   "catechesis-section-line",
+                "meta":   "catechesis-section",
                 "source": "Jean Chrysostome. Huit cate/che\\ses baptismales, `2nd, ed. Wenger, A., 1970",
             },
             "tlg384": {
@@ -31304,7 +31304,7 @@ AUTHOR_TAB = {
             "tlg413": {
                 "title":  "In natale domini et in sanctam Mariam genitricem [Sp.]",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Une nouvelle home/lie acrostiche sur la nativite/", ed. Leroy, F.J., 1964',
             },
             "tlg414": {
@@ -31316,7 +31316,7 @@ AUTHOR_TAB = {
             "tlg415": {
                 "title":  "De cruce et latrone [Sp.] (fort. auctore Severiano)",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Le sermon lxxx de la collection augustinienne de Mai restitue/, ed. Wenger, A., 1954',
             },
             "tlg417": {
@@ -31353,7 +31353,7 @@ AUTHOR_TAB = {
             "tlg423": {
                 "title":  "In nativitatem Joannis Baptistae [Sp.]",
                 "genre":  ["Hagiogr.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ine/dits byzantins d'Ochrida, Candie et Moscou, ed. Halkin, F., 1963",
             },
             "tlg424": {
@@ -31365,7 +31365,7 @@ AUTHOR_TAB = {
             "tlg425": {
                 "title":  "In illud: Dominus regnavit et in illud: Dies diei dicit",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Le texte grec de trois home/lies de Nestorius, et une home/lie, ed. Nau, F., 1910',
             },
             "tlg426": {
@@ -31377,7 +31377,7 @@ AUTHOR_TAB = {
             "tlg427": {
                 "title":  "In resurrectionem domini [Sp.]",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Home/lies pascales, ed. Aubineau, M., 1972",
             },
             "tlg428": {
@@ -31389,7 +31389,7 @@ AUTHOR_TAB = {
             "tlg429": {
                 "title":  "Epitimia lxxiii [Sp.]",
                 "genre":  ["Eccl.", "Jurisprud."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Spicilegium Solesmense, vol. 4, ed. Pitra, J.B., 1858",
             },
             "tlg430": {
@@ -31402,7 +31402,7 @@ AUTHOR_TAB = {
             "tlg432": {
                 "title":  "In catenas sancti Petri [Sp.]",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Discours ine/dit sur les chai=nes de S. Pierre attribue/, ed. Batareikh, E., 1908',
             },
             "tlg433": {
@@ -31428,7 +31428,7 @@ AUTHOR_TAB = {
             "tlg436": {
                 "title":  "In synaxim incorporalium [Sp.]",
                 "genre":  ["Hagiogr.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ine/dits byzantins d'Ochrida, Candie et Moscou, ed. Halkin, F., 1963",
             },
             "tlg437": {
@@ -31478,7 +31478,7 @@ AUTHOR_TAB = {
             "tlg452": {
                 "title":  "Oratio de epiphania [Sp.]",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Une home/lie ine/dite (de Se/ve/rien de Gabala?), ed. Wenger, A., 1977',
             },
             "tlg463": {
@@ -31503,7 +31503,7 @@ AUTHOR_TAB = {
             "tlg486": {
                 "title":  "De laudibus sancti Pauli apostoli (homiliae 1 -`7)",
                 "genre":  ["Encom.", "Hagiogr.", "Homilet."],
-                "meta":   "homily-section-line",
+                "meta":   "homily-section",
                 "source": "Jean Chrysostome. Pane/gyriques de S. Paul, ed. Pie/dagnel, A., 1982",
             },
             "tlg488": {
@@ -31547,7 +31547,7 @@ AUTHOR_TAB = {
             "tlg495": {
                 "title":  "In Ecclesiasten [Sp.]",
                 "genre":  ["Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Procopii Gazaei catena in Ecclesiasten necnon Pseudochrysostomi, ed. Leanza, S., 1978",
             },
             "tlg496": {
@@ -31559,13 +31559,13 @@ AUTHOR_TAB = {
             "tlg497": {
                 "title":  "In Isaiam",
                 "genre":  ["Exeget."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Jean Chrysostome. Commentaire sur Isaiee, ed. Dumortier, J., 1983",
             },
             "tlg498": {
                 "title":  "In illud: Vidi dominum (homiliae 1 -`6)",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "homily-section-line",
+                "meta":   "homily-section",
                 "source": "Jean Chrysostome. Home/lies sur Ozias, ed. Dumortier, J., 1981",
             },
             "tlg499": {
@@ -31577,7 +31577,7 @@ AUTHOR_TAB = {
             "tlg500": {
                 "title":  "In Psalmum 50 (homilia 1) [Sp.] (P. Berol. 6788 A)",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Ein Berliner Chrysostomos -Papyrus (P. 6788 A)", ed. Treu, K., 1975',
             },
             "tlg502": {
@@ -31693,13 +31693,13 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "In Origenem oratio panegyrica",
                 "genre":  ["Encom.", "Orat."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Gre/goire le Thaumaturge. Remerciement a\\ Orige\\ne, ed. Crouzel, H., 1969",
             },
             "tlg005": {
                 "title": "Epistula canonica",
                 "genre": ["Epist."],
-                "meta":  "section-line",
+                "meta":  "section",
             },
             "tlg006": {
                 "title": "Metaphrasis in Ecclesiasten Salamonis",
@@ -31739,7 +31739,7 @@ AUTHOR_TAB = {
                 "source": "Gregorius Thaumaturgus. Sein Leben und seine Schriften, ed. Ryssel, V., 1880",
             },
             "tlg022": {
-                "title":  "$1*EI)S TO\\ OU)DE\\N EI)/DWLON E)N KO/SMW| (fragmentum)",
+                "title":  "*EI)S TO\\ OU)DE\\N EI)/DWLON E)N KO/SMW| (fragmentum)",
                 "genre":  ["Theol."],
                 "meta":   "fragment-line",
                 "source": "Fragmente vornicaenischer Kirchenvaeter aus den Sacra parallela, ed. Holl, K., 1899",
@@ -31886,19 +31886,19 @@ AUTHOR_TAB = {
             "tlg008": {
                 "title":  "De trinitate (lib. 1) [Sp.]",
                 "genre":  ["Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Didymus der Blinde. De trinitate, Buch 1, ed. Hoenscheid, J., 1975",
             },
             "tlg009": {
                 "title":  "De trinitate (lib. 2.1 -`7) [Sp.]",
                 "genre":  ["Theol."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Didymus der Blinde. De trinitate, Buch 2, Kapitel 1 -`7, ed. Seiler, I., 1975",
             },
             "tlg010": {
                 "title":  "Commentarii in Zacchariam",
                 "genre":  ["Exeget."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Didyme l'Aveugle sur Zacharie, `3 vols., ed. Doutreleau, L., 1962",
             },
             "tlg011": {
@@ -32062,7 +32062,7 @@ AUTHOR_TAB = {
                           "M., 1982",
             },
             "X01":    {
-                "title": "$1*SUMBOULH\\ H)QIKH/ (fragmentum ap. Socratem)",
+                "title": "*SUMBOULH\\ H)QIKH/ (fragmentum ap. Socratem)",
                 "genre": ["Eccl."],
             },
             "X03":    {
@@ -32096,7 +32096,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Sermones 64 (collectio B)",
                 "genre":  ["Homilet."],
-                "meta":   "homily-chapter-section-line",
+                "meta":   "homily-chapter-section",
                 "source": "Makarios-Symeon Reden und Briefe, `2 vols., ed. Berthold, H., 1973",
             },
             "tlg002": {
@@ -32108,13 +32108,13 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "Sermones 1 -`22, 24 -`27",
                 "genre":  ["Homilet."],
-                "meta":   "homily-section-line",
+                "meta":   "homily-section",
                 "source": "Neue Homilien des Makarius-Symeon, ed. Berthold, H., 1961",
             },
             "tlg004": {
                 "title":  "Homiliae 7 (collectio HA)",
                 "genre":  ["Homilet."],
-                "meta":   "homily-section-line",
+                "meta":   "homily-section",
                 "source": "Macarii anecdota, ed. Marriott, G.L., 1918",
             },
             "tlg005": {
@@ -32180,7 +32180,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Procatechesis",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Cyrilli Hierosolymorum archiepiscopi opera quae supersunt omnia,, ed. Rupp, J., 1848",
             },
             "tlg002": {
@@ -32205,19 +32205,19 @@ AUTHOR_TAB = {
             "tlg005": {
                 "title":  "Tituli catechesium",
                 "genre":  ["Homilet."],
-                "meta":   "section-subsection-line",
+                "meta":   "section-subsection",
                 "source": "Cyrilli Hierosolymorum archiepiscopi opera quae supersunt omnia,, ed. Rupp, J., 1860",
             },
             "tlg006": {
                 "title":  "Homilia in paralyticum juxta piscinam jacentem",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Cyrilli Hierosolymorum archiepiscopi opera quae supersunt omnia,, ed. Rupp, J., 1860",
             },
             "tlg007": {
                 "title":  "Homilia in occursum domini [Sp.]",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Cyrilli Hierosolymorum archiepiscopi opera quae supersunt omnia,, ed. Rupp, J., 1860",
             },
             "tlg008": {
@@ -32245,7 +32245,7 @@ AUTHOR_TAB = {
             "tlg012": {
                 "title":  "Catechesis ad illuminandos 2 (recensio e cod. Paris. 409)",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Iuris ecclesiastici Graecorum historia et monumenta, vol. 2, ed. Pitra, J.B., 1868",
             },
         },
@@ -32259,13 +32259,13 @@ AUTHOR_TAB = {
             "tlg013": {
                 "title":  "Epistula ad Constantium imperatorem",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "\"L'e/pi=tre de Cyrille de Je/rusalem a\\ Constance, ed. Bihain, E., 1973",
             },
             "tlg001": {
                 "title":  "Historia Lausiaca (recensio G)",
                 "genre":  ["Hagiogr.", "Hist."],
-                "meta":   "vita-section-line",
+                "meta":   "vita-section",
                 "source": "Palladio. La storia Lausiaca, ed. Bartelink, G.J.M., 1974",
             },
             "tlg002": {
@@ -32309,13 +32309,13 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Contra haeresin Noeti",
                 "genre":  ["Homilet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Hippolytus of Rome. Contra Noetum, ed. Butterworth, R., 1977",
             },
             "tlg003": {
                 "title":  "De antichristo",
                 "genre":  ["Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Hippolyt's kleinere exegetische und homiletische Schriften, ed. Achelis, H., 1897",
             },
             "tlg004": {
@@ -32446,7 +32446,7 @@ AUTHOR_TAB = {
             "tlg026": {
                 "title":  "De theophania [Dub.]",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Hippolyt's kleinere exegetische und homiletische Schriften, ed. Achelis, H., 1897",
             },
             "tlg027": {
@@ -32464,13 +32464,13 @@ AUTHOR_TAB = {
             "tlg029": {
                 "title":  "De consummatione mundi [Sp.]",
                 "genre":  ["Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Hippolyt's kleinere exegetische und homiletische Schriften, ed. Achelis, H., 1897",
             },
             "tlg030": {
                 "title":  "Commentarium in Danielem",
                 "genre":  ["Exeget."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Hippolyte. Commentaire sur Daniel, ed. Lefe\\vre, M., 1947",
             },
             "tlg031": {
@@ -32482,7 +32482,7 @@ AUTHOR_TAB = {
             "tlg032": {
                 "title":  "Commentarium in Danielem 1.18",
                 "genre":  ["Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "\"Les difficulte/s d'une e/dition du commentaire de S. Hippolyte, ed. Richard, M., 1972",
             },
             "tlg033": {
@@ -32506,7 +32506,7 @@ AUTHOR_TAB = {
             "tlg036": {
                 "title":  "Chronicon",
                 "genre":  ["Chronogr.", "Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Hippolytus Werke, vol. 4, 2nd edn., ed. Helm, R. (post A. Bauer), 1955",
             },
             "tlg037": {
@@ -32576,7 +32576,7 @@ AUTHOR_TAB = {
             "tlg049": {
                 "title":  "In Canticum canticorum (paraphrasis)",
                 "genre":  ["Exeget."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "\"Une paraphrase grecque re/sume/e du commentaire d'Hippolyte, ed. Richard, M., 1964",
             },
             "tlg050": {
@@ -32595,13 +32595,13 @@ AUTHOR_TAB = {
             "tlg052": {
                 "title":  "Fragmenta in Psalmos",
                 "genre":  ["Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Le dossier d'Hippolyte et de Me/liton, ed. Nautin, P., 1953",
             },
             "tlg053": {
                 "title":  "Fragmenta in Proverbia",
                 "genre":  ["Exeget."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": '"Les fragments du commentaire de S. Hippolyte sur les proverbes de Salomon", '
                           "ed. Richard, M., 1965",
             },
@@ -32637,7 +32637,7 @@ AUTHOR_TAB = {
             "tlg060": {
                 "title":  "Refutatio omnium haeresium (%6 Philosophumena)",
                 "genre":  ["Hist.", "tlgl.", "Theol."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Hippolytus. Refutatio omnium haeresium, ed. Marcovich, M., 1986",
             },
             "X01":    {
@@ -32741,7 +32741,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Isagoga excerpta",
                 "genre":  ["Astron."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Commentariorum in Aratum reliquiae, ed. Maass, E., 1898",
             },
             "tlg004": {
@@ -32791,7 +32791,7 @@ AUTHOR_TAB = {
                 "genre": ["Biogr."],
             },
             "X02":    {
-                "title": "$1*PERI\\ E)CHGH/SEWS (olim sub auctore Achille Tatio)",
+                "title": "*PERI\\ E)CHGH/SEWS (olim sub auctore Achille Tatio)",
                 "genre": ["Astron.", "Comm."],
             },
             "X03":    {"title": "Scholia in Platonem", "genre": ["Schol."]},
@@ -33006,7 +33006,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Excerpta",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Rhetores Graeci, vol. 1, ed. Spengel, L., 1853",
             },
             "tlg001": {
@@ -33025,11 +33025,11 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Fragmenta",
                 "genre":  ["Gramm."],
-                "meta":   "treatise-section-line",
+                "meta":   "treatise-section",
                 "source": "Hephaestionis enchiridion cum commentariis veteribus, ed. Consbruch, M., 1906",
             },
             "tlg001": {
-                "title":  "$1*MWSE/WS DI/PLWSIS (e cod. Venet. Marc. 299, fol. 185r)",
+                "title":  "*MWSE/WS DI/PLWSIS (e cod. Venet. Marc. 299, fol. 185r)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -33043,7 +33043,7 @@ AUTHOR_TAB = {
         "date":      "a. 2 B.C.",
         "works":     {
             "tlg002": {
-                "title":  "$1*EU)POI/A KAI\\ EU)TUXI/A TOU= KTISAME/NOU KAI\\ E)PITUXI/A KAMA/TOU KAI\\",
+                "title":  "*EU)POI/A KAI\\ EU)TUXI/A TOU= KTISAME/NOU KAI\\ E)PITUXI/A KAMA/TOU KAI\\",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -33201,55 +33201,55 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Epistulae pseudepigraphae",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Libanii opera, vol. 11, ed. Foerster, R., 1922",
             },
             "tlg001": {
                 "title":  "Epistulae 1 -`1544",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Libanii opera, vols. 10 -`11, ed. Foerster, R., 10:1921; 11:1922",
             },
             "tlg003": {
                 "title":  "Epistularum Basilii et Libanii quod fertur commercium",
                 "genre":  ["Epist."],
-                "meta":   "epistle-section-line",
+                "meta":   "epistle-section",
                 "source": "Libanii opera, vol. 11, ed. Foerster, R., 1922",
             },
             "tlg004": {
                 "title":  "Orationes 1 -`64",
                 "genre":  ["Orat."],
-                "meta":   "oration-section-line",
+                "meta":   "oration-section",
                 "source": "Libanii opera, vols. 1 -`4, ed. Foerster, R., 1.1 -`1.2:1903; 2:1904; 3:1906; 4:1908",
             },
             "tlg005": {
                 "title":  "Declamationes 1 -`51",
                 "genre":  ["Rhet."],
-                "meta":   "declamation-(subdivision)-section-line",
+                "meta":   "declamation-(subdivision)-section",
                 "source": "Libanii opera, vols. 5 -`7, ed. Foerster, R., 5:1909; 6:1911; 7:1913",
             },
             "tlg006": {
                 "title":  "Progymnasmata",
                 "genre":  ["Rhet."],
-                "meta":   "progymnasma-section-subsection-line",
+                "meta":   "progymnasma-section-subsection",
                 "source": "Libanii opera, vol. 8, ed. Foerster, R., 1915",
             },
             "tlg007": {
                 "title":  "Argumenta orationum Demosthenicarum",
                 "genre":  ["Hypoth."],
-                "meta":   "oration-section-line",
+                "meta":   "oration-section",
                 "source": "Libanii opera, vol. 8, ed. Foerster, R., 1915",
             },
             "tlg008": {
                 "title":  "Characteres epistolici [Sp.]",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Libanii opera, vol. 9, ed. Foerster, R., 1927",
             },
             "tlg009": {
                 "title":  "Fragmenta de declamationibus",
                 "genre":  ["Rhet."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Libanii opera, vol. 11, ed. Foerster, R., 1922",
             },
             "tlg011": {
@@ -33260,7 +33260,7 @@ AUTHOR_TAB = {
             "tlg012": {
                 "title":  "Declamatio 3 (Legatio Menelai, Theorema)",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Libanii opera, vol. 5, ed. Foerster, R., 1909",
             },
         },
@@ -33569,7 +33569,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Physiognomonica",
                 "genre":  ["Physiognom."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Scriptores physiognomonici Graeci et Latini, vol. 1, ed. Foerster, R., 1893",
             }
         },
@@ -33691,7 +33691,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Apocalypsis Sedrach",
                 "genre":  ["Apocalyp.", "Apocryph."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Apocrypha anecdota, ed. James, M.R., 1893",
             }
         },
@@ -33796,13 +33796,13 @@ AUTHOR_TAB = {
             "tlg005": {
                 "title":  "Patria Constantinopoleos (%6 liber vi operis Historia Romana atque",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Scriptores originum Constantinopolitanarum, pt. 1, ed. Preger, T., 1901",
             },
             "tlg006": {
                 "title":  "Patria Constantinopoleos (%6 liber vi operis Historia Romana atque",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Scriptores originum Constantinopolitanarum, pt. 1, ed. Preger, T., 1901",
             },
         },
@@ -34557,7 +34557,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "tlglogelos sive Facetiae (sub auctoribus Hierocle et",
                 "genre":  ["Anthol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "tlglogelos der Lachfreund von Hierokles und Philagrios, ed. Thierfelder, A., 1968",
             },
             "tlg003": {
@@ -34712,11 +34712,11 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "Excerpta ex libris de animalibus (e cod. Paris. gr. 2422)",
                 "genre":  ["Nat. Hist.", "Paradox."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Excerpta ex Timothei Gazaei libris de animalibus", ed. Haupt, M., 1869',
             },
             "tlg002": {
-                "title":  "$1*KANO/NES KAQOLIKOI\\ PERI\\ SUNTA/CEWS (e cod. Coislin. 387)",
+                "title":  "*KANO/NES KAQOLIKOI\\ PERI\\ SUNTA/CEWS (e cod. Coislin. 387)",
                 "genre":  ["Gramm."],
                 "meta":   "page-line",
                 "source": "Anecdota Graeca e codd. manuscriptis bibliothecae regiae, ed. Cramer, J.A., 1841",
@@ -35157,7 +35157,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "In aureum carmen",
                 "genre":  ["Comm."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Hieroclis in aureum Pythagoreorum carmen commentarius, ed. Koehler, F.G., 1974",
             },
         },
@@ -35184,7 +35184,7 @@ AUTHOR_TAB = {
                 "source": "FHG `4, ed. Mueller, K., 1841 -`1870",
             },
             "tlg001": {
-                "title":  "$1*PERI\\ DEKA/DOS KAI\\ TW=N E)NTO\\S AU)TH=S A)RIQMW=N",
+                "title":  "*PERI\\ DEKA/DOS KAI\\ TW=N E)NTO\\S AU)TH=S A)RIQMW=N",
                 "genre":  ["Math."],
                 "meta":   "page-line",
                 "source": "Anatolius. Sur les dix premiers nombres, ed. Heiberg, J.L., 1901",
@@ -35202,9 +35202,9 @@ AUTHOR_TAB = {
                 "genre": ["Astron.", "Eccl."],
             },
             "tlg001": {
-                "title":  "$1*)/EKFRASIS TOU= KOSMIKOU= PI/NAKOS",
+                "title":  "*)/EKFRASIS TOU= KOSMIKOU= PI/NAKOS",
                 "genre":  ["Epic.", "Iamb."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Johannes von Gaza und Paulus Silentiarius. Kunstbeschreibungen, ed. Friedlaender, P., 1912",
             },
         },
@@ -35218,7 +35218,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "De mensibus",
                 "genre":  ["Hist."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Ioannis Lydi liber de mensibus, ed. Wuensch, R., 1898",
             },
             "tlg001": {
@@ -35237,7 +35237,7 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "De ostentis",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Ioannis Laurentii Lydi liber de ostentis et calendaria Graeca omnia, ed. Wachsmuth, C., "
                           "1897",
             }
@@ -35263,7 +35263,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 3-`4",
         "works":     {
             "tlg001": {
-                "title":  "$1*DIAI/RESIS TW=N E)PIDEIKTIKW=N (olim sub auctore Genethlio)",
+                "title":  "*DIAI/RESIS TW=N E)PIDEIKTIKW=N (olim sub auctore Genethlio)",
                 "genre":  ["Rhet."],
                 "meta":   "spengel page-line",
                 "source": "Menander rhetor, ed. Wilson, N.G., 1981",
@@ -35277,7 +35277,7 @@ AUTHOR_TAB = {
         "date":      "3-`2 B.C.",
         "works":     {
             "tlg002": {
-                "title":  "$1*PERI\\ E)PIDEIKTIKW=N",
+                "title":  "*PERI\\ E)PIDEIKTIKW=N",
                 "genre":  ["Rhet."],
                 "meta":   "spengel page-line",
                 "source": "Menander rhetor, ed. Wilson, N.G., 1981",
@@ -35290,7 +35290,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 5-`6?",
         "works":   {
             "tlg001": {
-                "title":  "$1*EI)S TO\\ KAT' E)NE/RGEIAN ZWSI/MOU O(/SA A)PO\\ *(ERMOU= KAI\\ TW=N",
+                "title":  "*EI)S TO\\ KAT' E)NE/RGEIAN ZWSI/MOU O(/SA A)PO\\ *(ERMOU= KAI\\ TW=N",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -35391,7 +35391,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De figuris (fort. auctore Phoebammone alio)",
                 "genre":  ["Rhet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Rhetores Graeci, vol. 3, ed. Spengel, L., 1856",
             },
             "X01":    {
@@ -35407,7 +35407,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 5 -`6",
         "works":     {
             "X04":    {
-                "title": "Prolegomena in Hermogenis librum $1PERI\\ I)DEW=N (fort. auctore",
+                "title": "Prolegomena in Hermogenis librum PERI\\ I)DEW=N (fort. auctore",
                 "genre": ["Comm.", "Rhet."],
             },
             "tlg002": {
@@ -35418,7 +35418,7 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "Catena in Ecclesiasten (e cod. Marc. gr. 22)",
                 "genre":  ["Caten."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Procopii Gazaei catena in Ecclesiasten necnon Pseudochrysostomi, ed. Leanza, S., 1978",
             },
             "tlg004": {
@@ -35447,7 +35447,7 @@ AUTHOR_TAB = {
             "tlg009": {
                 "title":  "Descriptio imaginis",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Spaetantiker Gemaeldezyklus in Gaza, ed. Friedlaender, P., 1939",
             },
             "tlg010": {
@@ -35481,7 +35481,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De forma et delectu equorum",
                 "genre":  ["Nat. Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "$3*CENOFW=NTOS PERI\\ I(PPIKH=S, ed. Widdra, K., 1964",
             },
         },
@@ -35507,7 +35507,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De figuris Demosthenicis",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Tiberii de figuris Demosthenicis, ed. Ballaira, G., 1968",
             }
         },
@@ -35848,8 +35848,8 @@ AUTHOR_TAB = {
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
-            "X01":    {
-                "title": "$1*PERI\\ TH=S QEI/AS KAI\\ I(ERA=S TE/XNHS TW=N FILOSO/FWN (e",
+            "X01": {
+                "title": "*PERI\\ TH=S QEI/AS KAI\\ I(ERA=S TE/XNHS TW=N FILOSO/FWN (e",
                 "genre": ["Alchem."],
             },
         },
@@ -35951,17 +35951,17 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Oracula",
                 "genre":  ["Epist.", "Orac."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Astrampsychi oraculorum decades ciii, ed. Hercher, R., 1863",
             },
             "tlg004": {
                 "title":  "Sortes",
                 "genre":  ["Orac."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Sortes Astrampsychi, vol. 1 [Ecdosis prior], ed. Browne, G.M., 1983",
             },
             "X01":    {
-                "title": "$1*FILTROKATA/DESMOS (Brit. Mus. inv. 122)",
+                "title": "*FILTROKATA/DESMOS (Brit. Mus. inv. 122)",
                 "genre": ["Magica"],
             },
         },
@@ -36114,7 +36114,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Physiologus (redactio prima)",
                 "genre":  ["Nat. Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Physiologus, ed. Sbordone, F., 1936",
             }
         },
@@ -36132,7 +36132,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Martyrium Ignatii Antiocheni (martyrium Antiochenum)",
                 "genre":  ["Hagiogr."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Patres apostolici, vol. 2, 3rd edn., ed. Diekamp, F., 1913",
             },
         },
@@ -36272,13 +36272,13 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Vita Marciana (post epitomen Ptolemaeeae vitae) (cod. Marc. gr. 257)",
                 "genre":  ["Biogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Aristotle in the ancient biographical tradition, ed. Duering, I., 1957",
             },
             "tlg002": {
                 "title":  "Vita vulgata (post epitomen Ptolemaeeae vitae)",
                 "genre":  ["Biogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Aristotle in the ancient biographical tradition, ed. Duering, I., 1957",
             },
         },
@@ -36336,7 +36336,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "De expeditione Persica",
                 "genre":  ["Encom.", "Poem."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Giorgio di Pisidia. Poemi. I. Panegirici epici, ed. Pertusi, A., 1959",
             },
             "tlg003": {
@@ -36360,7 +36360,7 @@ AUTHOR_TAB = {
             "tlg006": {
                 "title":  "Heraclias",
                 "genre":  ["Encom.", "Poem."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Giorgio di Pisidia. Poemi. I. Panegirici epici, ed. Pertusi, A., 1959",
             },
             "tlg007": {
@@ -36381,7 +36381,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Chronographia",
                 "genre":  ["Hist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Michel Psellos. Chronographie ou histoire d'un sie\\cle de Byzance, ed. Renauld, E/., "
                           "1:1926; 2:1928",
             },
@@ -36463,7 +36463,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Alexias",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Anna Comne\\ne. Alexiade, `3 vols., ed. Leib, B., 1:1937; 2:1943; 3:1945",
             },
         },
@@ -36537,8 +36537,8 @@ AUTHOR_TAB = {
                 "meta":   "line",
                 "source": "Nice/phore Bryennios. Histoire, ed. Gautier, P., 1975",
             },
-            "X04":    {
-                "title": "$1*PERI\\ GRAMMATIKH=S (fort. auctore Theodoro Prodromo)",
+            "X04": {
+                "title": "*PERI\\ GRAMMATIKH=S (fort. auctore Theodoro Prodromo)",
                 "genre": ["Gramm."],
             },
         },
@@ -36550,7 +36550,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 5 -`6?",
         "works":     {
             "X05": {
-                "title": "$1*PERI\\ TO/NOU (fort. auctore Theodoro Prodromo)",
+                "title": "*PERI\\ TO/NOU (fort. auctore Theodoro Prodromo)",
                 "genre": ["Gramm."],
             }
         },
@@ -36592,14 +36592,14 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Contra monophysitas",
                 "genre":  ["Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Drei dogmatische Schriften Iustinians, `2nd edn., ed. Migliardi, L. (post E. Schwartz), "
                           "1973",
             },
             "tlg004": {
                 "title":  "Epistula contra tria capitula",
                 "genre":  ["Epist.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Drei dogmatische Schriften Iustinians, 2nd edn., ed. Migliardi, L. (post E. Schwartz), 1973",
             },
             "tlg005": {
@@ -36708,8 +36708,8 @@ AUTHOR_TAB = {
         "author": "Chronographiae Anonymae",
         "date":   "Varia",
         "works":  {
-            "X04":    {
-                "title": "$1*XRH=SIS *)IOUSTINIANOU= BASILE/WS [Sp.]",
+            "X04": {
+                "title": "*XRH=SIS *)IOUSTINIANOU= BASILE/WS [Sp.]",
                 "genre": ["Alchem."],
             },
             "tlg002": {
@@ -36763,7 +36763,7 @@ AUTHOR_TAB = {
             "tlg006": {
                 "title":  "De meditationibus duodecim anachoretarum",
                 "genre":  ["Eccl.", "Gnom."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"La collation des douze anachore\\tes", ed. Guy, J. -C., 1958',
             },
             "tlg007": {
@@ -36856,91 +36856,91 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Vita sancti Hypatii",
                 "genre":  ["Hagiogr."],
-                "meta":   "dedication -prologue -chapter-section-line",
+                "meta":   "dedication -prologue -chapter-section",
                 "source": "Callinicos. Vie d'Hypatios, ed. Bartelink, G.J.M., 1971",
             },
             "tlg028": {
                 "title":  "Homilia i de Hypapante (homilia 1)",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1978",
             },
             "tlg029": {
                 "title":  "Homilia ii de Hypapante (homilia 2)",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1978",
             },
             "tlg030": {
                 "title":  "Homilia i in sanctum pascha (homilia 3) (e cod. Sinaitico gr. 492)",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1978",
             },
             "tlg031": {
                 "title":  "Homilia ii in sanctum pascha (homilia 4) (e cod. Sinaitico gr. 492)",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1978",
             },
             "tlg032": {
                 "title":  "Homilia i de sancta Maria deipara (homilia 5)",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1978",
             },
             "tlg033": {
                 "title":  "Homilia ii de sancta Maria deipara (homilia 6)",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1978",
             },
             "tlg034": {
                 "title":  "In sanctum Andream (homilia 7)",
                 "genre":  ["Encom.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1978",
             },
             "tlg035": {
                 "title":  "In sanctum Antonium (homilia 8)",
                 "genre":  ["Encom.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1978",
             },
             "tlg036": {
                 "title":  "In sanctum Stephanum (homilia 9)",
                 "genre":  ["Encom.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1978",
             },
             "tlg037": {
                 "title":  "In sanctos Jacobum et David (homilia 10) (e Photii",
                 "genre":  ["Encom.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1978",
             },
             "tlg038": {
                 "title":  "Homilia i in sanctum Lazarum (homilia 11)",
                 "genre":  ["Encom.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1978",
             },
             "tlg039": {
                 "title":  "Homilia ii in sanctum Lazarum (homilia 12)",
                 "genre":  ["Encom.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1978",
             },
             "tlg040": {
                 "title":  "In sanctos Petrum et Paulum (homilia 13)",
                 "genre":  ["Encom.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1978",
             },
             "tlg041": {
                 "title":  "In sanctum Procopium (homilia 14)",
                 "genre":  ["Encom.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1978",
             },
             "tlg042": {
@@ -36951,37 +36951,37 @@ AUTHOR_TAB = {
             "tlg048": {
                 "title":  "In conceptionem venerabilis praecursoris (homilia 16)",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1980",
             },
             "tlg049": {
                 "title":  "In sanctos martyres (fragmentum) (homilia 17) [Dub.]",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1980",
             },
             "tlg050": {
                 "title":  "In Lazarum et in ramos palmarum (homilia 18) (olim sub nomine Titi",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1980",
             },
             "tlg051": {
                 "title":  "Homilia i in sanctum Longinum centurionem (homilia 19) [Dub.]",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1980",
             },
             "tlg052": {
                 "title":  "Homilia ii in sanctum Longinum centurionem (homilia 20) [Dub.]",
                 "genre":  ["Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1980",
             },
             "tlg053": {
                 "title":  "In sanctum Lucam (homilia 21) [Dub.]",
                 "genre":  ["Encom.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Les home/lies festales d'He/sychius de Je/rusalem,, ed. Aubineau, M., 1980",
             },
             "X01":    {
@@ -37083,7 +37083,7 @@ AUTHOR_TAB = {
             "tlg018": {
                 "title":  "De vita et miraculis sanctae Theclae libri ii [Sp.]",
                 "genre":  ["Hagiogr."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Vie et miracles de sainte The\\cle, ed. Dagron, G., 1978",
             }
         },
@@ -37402,7 +37402,7 @@ AUTHOR_TAB = {
             "tlg008": {
                 "title":  "Capita de caritate",
                 "genre":  ["Eccl."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Massimo confessore. Capitoli sulla carita, ed. Ceresa -Gastaldo, A., 1963",
             },
             "tlg001": {
@@ -37414,19 +37414,19 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Quaestiones et dubia",
                 "genre":  ["Exeget.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Maximi confessoris quaestiones et dubia, ed. Declerck, J.H., 1982",
             },
             "tlg003": {
                 "title":  "Cantica dubia",
                 "genre":  ["Hymn."],
-                "meta":   "hymn-proem -strophe-section-line",
+                "meta":   "hymn-proem -strophe-section",
                 "source": "Sancti Romani Melodi cantica: cantica dubia, ed. Trypanis, C.A., 1970",
             },
             "tlg005": {
-                "title":  "$1*)AKA/QISTOS U(/MNOS [Dub.]",
+                "title":  "*)AKA/QISTOS U(/MNOS [Dub.]",
                 "genre":  ["Hymn."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Fourteen early Byzantine cantica, ed. Trypanis, C.A., 1968",
             },
             "tlg049": {
@@ -37438,7 +37438,7 @@ AUTHOR_TAB = {
             "tlg097": {
                 "title":  "Scholia in Ecclesiasten (in catenis: catena trium patrum)",
                 "genre":  ["Caten.", "Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Anonymus in Ecclesiasten commentarius qui dicitur catena trium, ed. Luca\\, S., 1983",
             },
             "tlg110": {
@@ -37456,13 +37456,13 @@ AUTHOR_TAB = {
             "tlg112": {
                 "title":  "Liber asceticus",
                 "genre":  ["Dialog.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "S. Massimo Confessore. La mistagogia ed altri scritti, ed. Cantarella, R., 1931",
             },
             "tlg113": {
                 "title":  "Opusculum de anima [Sp.]",
                 "genre":  ["Dialog.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "S. Massimo Confessore. La mistagogia ed altri scritti, ed. Cantarella, R., 1931",
             },
             "tlg114": {
@@ -37658,85 +37658,85 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Institutio elementaris",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 1, ed. Kotter, B., 1969",
             },
             "tlg002": {
                 "title":  "Dialectica sive Capita philosophica (recensio fusior)",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 1, ed. Kotter, B., 1969",
             },
             "tlg003": {
                 "title":  "Fragmenta philosophica (e cod. Oxon. Bodl. Auct. T.1.6)",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 1, ed. Kotter, B., 1969",
             },
             "tlg004": {
                 "title":  "Expositio fidei",
                 "genre":  ["Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 2, ed. Kotter, B., 1973",
             },
             "tlg005": {
                 "title":  "Orationes de imaginibus tres",
                 "genre":  ["Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 3, ed. Kotter, B., 1975",
             },
             "tlg006": {
                 "title":  "De haeresibus",
                 "genre":  ["Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 4, ed. Kotter, B., 1981",
             },
             "tlg007": {
                 "title":  "Contra Jacobitas",
                 "genre":  ["Exeget.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 4, ed. Kotter, B., 1981",
             },
             "tlg008": {
                 "title":  "De duabus in Christo voluntatibus",
                 "genre":  ["Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 4, ed. Kotter, B., 1981",
             },
             "tlg009": {
                 "title":  "De fide contra Nestorianos",
                 "genre":  ["Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 4, ed. Kotter, B., 1981",
             },
             "tlg010": {
                 "title":  "Contra Nestorianos",
                 "genre":  ["Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 4, ed. Kotter, B., 1981",
             },
             "tlg011": {
                 "title":  "Epistula de hymno trisagio",
                 "genre":  ["Epist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 4, ed. Kotter, B., 1981",
             },
             "tlg012": {
                 "title":  "Contra Manichaeos",
                 "genre":  ["Dialog.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 4, ed. Kotter, B., 1981",
             },
             "tlg013": {
                 "title":  "De natura composita sive Contra acephalos",
                 "genre":  ["Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 4, ed. Kotter, B., 1981",
             },
             "tlg014": {
                 "title":  "Disputatio Christiani et Saraceni [Dub.]",
                 "genre":  ["Dialog.", "tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 4, ed. Kotter, B., 1981",
             },
             "tlg018": {
@@ -37898,13 +37898,13 @@ AUTHOR_TAB = {
             "tlg067": {
                 "title":  "Dialectica sive Capita philosophica (recensio brevior)",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 1, ed. Kotter, B., 1969",
             },
             "tlg068": {
                 "title":  "Dialectica sive Capita philosophica (recensio brevior, $E(/TERON",
                 "genre":  ["tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die Schriften des Johannes von Damaskos, vol. 1, ed. Kotter, B., 1969",
             },
             "X01":    {
@@ -37966,19 +37966,19 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Acta Philippi (recensio)",
                 "genre":  ["Acta", "Apocryph.", "Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Acta apostolorum apocrypha, vol. 2.2, ed. Bonnet, M., 1903",
             },
             "tlg001": {
                 "title":  "Acta Philippi",
                 "genre":  ["Acta", "Apocryph.", "Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Acta apostolorum apocrypha, vol. 2.2, ed. Bonnet, M., 1903",
             },
             "tlg003": {
                 "title":  "Acta Philippi (recensio)",
                 "genre":  ["Acta", "Apocryph.", "Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Acta apostolorum apocrypha, vol. 2.2, ed. Bonnet, M., 1903",
             },
         },
@@ -37990,7 +37990,7 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Acta Philippi (epitome)",
                 "genre":  ["Acta", "Apocryph.", "Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Acta apostolorum apocrypha, vol. 2.2, ed. Bonnet, M., 1903",
             }
         },
@@ -38003,7 +38003,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Acta Barnabae",
                 "genre":  ["Acta", "Apocryph.", "Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Acta apostolorum apocrypha, vol. 2.2, ed. Bonnet, M., 1903",
             }
         },
@@ -38093,7 +38093,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Epistula ad Thmuitanos (ap. Eusebium)",
                 "genre":  ["Epist.", "Hagiogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The acts of the Christian martyrs, ed. Musurillo, H., 1972",
             }
         },
@@ -38145,7 +38145,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 4 -`5?",
         "works":   {
             "tlg001": {
-                "title":  "$1*PERI\\ YUXH=S (fragmentum)",
+                "title":  "*PERI\\ YUXH=S (fragmentum)",
                 "genre":  ["tlgl."],
                 "meta":   "page%7column-line",
                 "source": "Fragmenta philosophorum Graecorum, vol. 3, ed. Mullach, F.W.A., 1881",
@@ -38259,7 +38259,7 @@ AUTHOR_TAB = {
             "tlg012": {
                 "title":  "De metro comico",
                 "genre":  ["Gramm."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Prolegomena de comoedia. Scholia in Acharnenses, Equites, Nubes, ed. Koster, W.J.W., 1975",
             },
             "tlg013": {
@@ -38287,7 +38287,7 @@ AUTHOR_TAB = {
                 "source": "Prolegomena de comoedia. Scholia in Acharnenses, Equites, Nubes, ed. Koster, W.J.W., 1975",
             },
             "tlg018": {
-                "title":  "$1E)K TOU= *(HFAISTI/WNOS E)PITOMH\\ TW=N E)NNE/A ME/TRWN",
+                "title":  "E)K TOU= *(HFAISTI/WNOS E)PITOMH\\ TW=N E)NNE/A ME/TRWN",
                 "genre":  ["Gramm."],
                 "meta":   "line",
                 "source": "Prolegomena de comoedia. Scholia in Acharnenses, Equites, Nubes, ed. Koster, W.J.W., 1975",
@@ -38295,7 +38295,7 @@ AUTHOR_TAB = {
             "tlg019": {
                 "title":  "Tractatus Coislinianus (e cod. Paris. Coislin. 120)",
                 "genre":  ["Gramm."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Aristotle on comedy: towards a reconstruction of Poetics ii, ed. Janko, R., 1984",
             },
             "X01":    {
@@ -38334,13 +38334,13 @@ AUTHOR_TAB = {
                 "source": "Glossen und Scholien zur hesiodischen Theogonie, ed. Flach, H., 1876",
             },
             "tlg003": {
-                "title":  "Prolegomena in Hermogenis librum $1PERI\\ EU(RE/SEWS",
+                "title":  "Prolegomena in Hermogenis librum PERI\\ EU(RE/SEWS",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
             },
             "tlg004": {
-                "title":  "Prolegomena in Hermogenis librum $1PERI\\ I)DEW=N",
+                "title":  "Prolegomena in Hermogenis librum PERI\\ I)DEW=N",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
@@ -38354,7 +38354,7 @@ AUTHOR_TAB = {
             "tlg006": {
                 "title":  "De contionibus militaribus",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": '"Zum historischen Exzerptenwerke des Konstantinos Porphyrogennetos", ed. Va/ri, R., 1908',
             },
             "tlg008": {
@@ -38385,7 +38385,7 @@ AUTHOR_TAB = {
             "tlg013": {
                 "title":  "Narratio de imagine Edessena",
                 "genre":  ["Eccl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Christusbilder. Untersuchungen zur christlichen Legende, ed. von Dobschuetz, E., 1899",
             },
             "tlg014": {
@@ -38409,9 +38409,9 @@ AUTHOR_TAB = {
                 "title": "Excerpta de arte rhetorica (olim sub auctore Joanne Doxapatre)",
                 "genre": ["Comm.", "Rhet."],
             },
-            "X04":    {"title": "$1*BASILEI=AI", "genre": ["Chronogr.", "Hist."]},
+            "X04":    {"title": "*BASILEI=AI", "genre": ["Chronogr.", "Hist."]},
             "X05":    {
-                "title": "$1*TA\\ BASILIKA\\ TACEI/DIA",
+                "title": "*TA\\ BASILIKA\\ TACEI/DIA",
                 "genre": ["Hist."],
             },
             "X06":    {
@@ -38466,12 +38466,12 @@ AUTHOR_TAB = {
                 "title": "Chronicon breve (lib. 7 -`8) (redactio recentior)",
                 "genre": ["Chronogr.", "Hist."],
             },
-            "X02":    {
-                "title": "$1*PERI\\ PRE/SBEWN *(RWMAI/WN PRO\\S E)QNIKOU/S (ap. Constantinum",
+            "X02": {
+                "title": "*PERI\\ PRE/SBEWN *(RWMAI/WN PRO\\S E)QNIKOU/S (ap. Constantinum",
                 "genre": ["%2Hist."],
             },
-            "X03":    {
-                "title": "$1*PERI\\ E)PIBOULH=S KATA\\ BASILE/WN GEGONUI/AS (ap.",
+            "X03": {
+                "title": "*PERI\\ E)PIBOULH=S KATA\\ BASILE/WN GEGONUI/AS (ap.",
                 "genre": ["%2Hist."],
             },
         },
@@ -38483,7 +38483,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 8 -`9",
         "works":     {
             "X04": {
-                "title": "$1*PERI\\ A)RETH=S KAI\\ KAKI/AS (ap. Constantinum",
+                "title": "*PERI\\ A)RETH=S KAI\\ KAKI/AS (ap. Constantinum",
                 "genre": ["%2Hist."],
             }
         },
@@ -38539,7 +38539,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Synopsis historiarum",
                 "genre":  ["Chronogr.", "Hist."],
-                "meta":   "emperor life-section-line",
+                "meta":   "emperor life-section",
                 "source": "Ioannis Scylitzae synopsis historiarum, ed. Thurn, J., 1973",
             }
         },
@@ -38613,7 +38613,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Strategicon (sub nomine Mauricii Imperatoris vel Urbicii)",
                 "genre":  ["Tact."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Mauricius. Arta militara$3%27, ed. Miha$%27escu, H., 1970",
             }
         },
@@ -38662,7 +38662,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Historiae",
                 "genre":  ["Hist."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Nice/phore Bryennios. Histoire, ed. Gautier, P., 1975",
             }
         },
@@ -38690,7 +38690,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Opuscula diversa",
                 "genre":  ["Eccl.", "Encom.", "Epist.", "Hymn."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Nicholas I, Patriarch of Constantinople, Miscellaneous Writings, ed. Westerink, L.G., 1981",
             },
             "tlg001": {
@@ -38709,21 +38709,21 @@ AUTHOR_TAB = {
                 "genre": ["Hist."],
             },
             "tlg001": {
-                "title":  "$1*PARASTA/SEIS SU/NTOMOI XRONIKAI/",
+                "title":  "*PARASTA/SEIS SU/NTOMOI XRONIKAI/",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Scriptores originum Constantinopolitanarum, pt. 1, ed. Preger, T., 1901",
             },
             "tlg002": {
-                "title":  "$1*DIH/GHSIS PERI\\ TH=S *(AGI/AS *SOFI/AS",
+                "title":  "*DIH/GHSIS PERI\\ TH=S *(AGI/AS *SOFI/AS",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Scriptores originum Constantinopolitanarum, pt. 1, ed. Preger, T., 1901",
             },
             "tlg003": {
-                "title":  "$1*DIH/GHSIS PERI\\ TH=S *(AGI/AS *SOFI/AS (variae lectiones)",
+                "title":  "*DIH/GHSIS PERI\\ TH=S *(AGI/AS *SOFI/AS (variae lectiones)",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Scriptores originum Constantinopolitanarum, pt. 1, ed. Preger, T., 1901",
             },
             "tlg004": {
@@ -38788,7 +38788,7 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "Historiae",
                 "genre":  ["Dialog.", "Hist."],
-                "meta":   "book -dialogue -index-chapter-section-line",
+                "meta":   "book -dialogue -index-chapter-section",
                 "source": "Theophylacti Simocattae historiae, ed. de Boor, C., 1887",
             },
             "tlg007": {
@@ -38800,7 +38800,7 @@ AUTHOR_TAB = {
             "tlg009": {
                 "title":  "De vitae termino",
                 "genre":  ["Nat. Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Teofilatto Simocatta. De vitae termino, ed. Zanetto, G., 1979",
             },
             "X01":    {
@@ -38884,7 +38884,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 13 -`14",
         "works":     {
             "tlg001": {
-                "title":  "$1*SUGGRAFIKAI\\ I(STORI/AI (libri vi de Michaele Palaeologo)",
+                "title":  "*SUGGRAFIKAI\\ I(STORI/AI (libri vi de Michaele Palaeologo)",
                 "genre":  ["Hist."],
                 "meta":   "page-line",
                 "source": "Georges Pachyme/re\\s. Relations historiques, 2 vols., ed. Laurent, V., 1984",
@@ -38892,13 +38892,13 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Annales",
                 "genre":  ["Chronogr.", "Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Georgii Acropolitae opera, vol. 1, ed. Heisenberg, A., 1903",
             },
             "tlg003": {
                 "title":  "Historia in brevius redacta",
                 "genre":  ["Chronogr.", "Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Georgii Acropolitae opera, vol. 1, ed. Heisenberg, A., 1903",
             },
             "tlg005": {
@@ -38928,13 +38928,13 @@ AUTHOR_TAB = {
             "tlg009": {
                 "title":  "Epitaphius in Joannem Ducam",
                 "genre":  ["Encom."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Georgii Acropolitae opera, vol. 2, ed. Heisenberg, A., 1903",
             },
             "tlg010": {
                 "title":  "Contra Latinos",
                 "genre":  ["Orat."],
-                "meta":   "oration-section-line",
+                "meta":   "oration-section",
                 "source": "Georgii Acropolitae opera, vol. 2, ed. Heisenberg, A., 1903",
             },
             "tlg011": {
@@ -38946,13 +38946,13 @@ AUTHOR_TAB = {
             "tlg012": {
                 "title":  "In Gregorii Nazianzeni sententias",
                 "genre":  ["Comm.", "tlgl.", "Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Georgii Acropolitae opera, vol. 2, ed. Heisenberg, A., 1903",
             },
             "tlg013": {
                 "title":  "Laudatio Petri et Pauli",
                 "genre":  ["Encom."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Georgii Acropolitae opera, vol. 2, ed. Heisenberg, A., 1903",
             },
             "X01":    {
@@ -38968,7 +38968,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 15",
         "works":     {
             "tlg002": {
-                "title":  "$1*SUGGRAFIKAI\\ I(STORI/AI (libri vii de Andronico Palaeologo)",
+                "title":  "*SUGGRAFIKAI\\ I(STORI/AI (libri vii de Andronico Palaeologo)",
                 "genre":  ["Hist."],
                 "meta":   "page-line",
                 "source": "Georgii Pachymeris de Michaele et Andronico Palaeologis libri, ed. Bekker, I., 1835",
@@ -38984,7 +38984,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Chronicon sive Minus [Sp.]",
                 "genre":  ["Chronogr.", "Hist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Georgios Sphrantzes. Memorii 1401 -`1477, ed. Grecu, V., 1966",
             }
         },
@@ -38998,7 +38998,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De extremo Thessalonicensi excidio narratio",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "$3*)IWA/NNOU *)ANAGNW/STOU *DIH/GHSIS PERI\\ TH=S TELEUTAI/AS A(LW/SEWS, ed. Tsaras, G., "
                           "1958",
             }
@@ -39040,13 +39040,13 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "Epistula ad Mechemet II",
                 "genre":  ["Epist."],
-                "meta":   "codex-section-line",
+                "meta":   "codex-section",
                 "source": "Critobuli Imbriotae historiae, ed. Reinsch, D.R., 1983",
             },
             "tlg004": {
                 "title":  "Historiae",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Critobuli Imbriotae historiae, ed. Reinsch, D.R., 1983",
             },
         },
@@ -39056,7 +39056,7 @@ AUTHOR_TAB = {
         "date":   "a. A.D. 15",
         "works":  {
             "tlg001": {
-                "title":  "$1*)ECH/GHSIS FUSIKH\\ TW=N H(MERW=N *(HSIO/DOU",
+                "title":  "*)ECH/GHSIS FUSIKH\\ TW=N H(MERW=N *(HSIO/DOU",
                 "genre":  ["Schol."],
                 "meta":   "page-line",
                 "source": "Poetae minores Graeci, vol. 2 [Scholia ad Hesiodum], ed. Gaisford, T., 1823",
@@ -39132,25 +39132,25 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "De annis ab orbe condito",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Die byzantinischen Kleinchroniken, vol. 1, ed. Schreiner, P., 1975",
             },
             "tlg005": {
                 "title":  "Patria Constantinopoleos",
                 "genre":  ["Hist."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Scriptores originum Constantinopolitanarum, pt. 2, ed. Preger, T., 1907",
             },
             "tlg006": {
                 "title":  "Patria Constantinopoleos (variae lectiones)",
                 "genre":  ["Hist."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Scriptores originum Constantinopolitanarum, pt. 2, ed. Preger, T., 1907",
             },
             "tlg007": {
                 "title":  "Patria Constantinopoleos (ordo et tituli paragraphorum, quem",
                 "genre":  ["Hist.", "Iamb."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Scriptores originum Constantinopolitanarum, pt. 2, ed. Preger, T., 1907",
             },
         },
@@ -39163,7 +39163,7 @@ AUTHOR_TAB = {
             "tlg008": {
                 "title":  "Patria Constantinopoleos (ordo et tituli paragraphorum, quem",
                 "genre":  ["Hist."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Scriptores originum Constantinopolitanarum, pt. 2, ed. Preger, T., 1907",
             }
         },
@@ -39259,7 +39259,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 10",
         "works":     {
             "tlg001": {
-                "title":  "$1*(RHTORIKAI\\ LE/CEIS",
+                "title":  "*(RHTORIKAI\\ LE/CEIS",
                 "genre":  ["Lexicogr.", "Schol."],
                 "meta":   "entry-line",
                 "source": "$3*(RHTORIKAI\\ LE/CEIS. Editio princeps, ed. Naoumides, M.N., 1975",
@@ -39275,7 +39275,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De velitatione bellica (sub nomine Nicephori II Phocae)",
                 "genre":  ["Tact."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Le traite/ sur la gue/rilla (de velitatione) de l'empereur, ed. Miha$%27escu, H., 1986",
             }
         },
@@ -39333,7 +39333,7 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "De urinis",
                 "genre":  ["Med."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Physici et medici Graeci minores, vol. 2, ed. Ideler, J.L., 1842",
             },
         },
@@ -39375,13 +39375,13 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Menippi periplus maris interni (epitome Marciani)",
                 "genre":  ["Perieg."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Geographi Graeci minores, vol. 1, ed. Mueller, K., 1855",
             },
             "tlg001": {
                 "title":  "Periplus maris exteri",
                 "genre":  ["Perieg."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Geographi Graeci minores, vol. 1, ed. Mueller, K., 1855",
             },
         },
@@ -39615,13 +39615,13 @@ AUTHOR_TAB = {
                 "source": "Syriani in metaphysica commentaria, ed. Kroll, W., 1902",
             },
             "tlg002": {
-                "title":  "Commentarium in Hermogenis librum $1PERI\\ I)DEW=N",
+                "title":  "Commentarium in Hermogenis librum PERI\\ I)DEW=N",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "page-line",
                 "source": "Syriani in Hermogenem commentaria, vol. 1, ed. Rabe, H., 1892",
             },
             "tlg003": {
-                "title":  "Praefatio in Hermogenis librum $1PERI\\ I)DEW=N [Sp.] (fort.",
+                "title":  "Praefatio in Hermogenis librum PERI\\ I)DEW=N [Sp.] (fort.",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "page-line",
                 "source": "Syriani in Hermogenem commentaria, vol. 1, ed. Rabe, H., 1892",
@@ -39634,7 +39634,7 @@ AUTHOR_TAB = {
         "geography": ["Trallianus"],
         "works":     {
             "tlg004": {
-                "title":  "Commentarium in Hermogenis librum $1PERI\\ STA/SEWN",
+                "title":  "Commentarium in Hermogenis librum PERI\\ STA/SEWN",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "page-line",
                 "source": "Syriani in Hermogenem commentaria, vol. 2, ed. Rabe, H., 1893",
@@ -39674,19 +39674,19 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "In Platonis Alcibiadem commentarii",
                 "genre":  ["Comm.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Olympiodorus. Commentary on the first Alcibiades of Plato, ed. Westerink, L.G., 1956",
             },
             "tlg005": {
                 "title":  "In Platonis Gorgiam commentaria",
                 "genre":  ["Comm.", "tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Olympiodori in Platonis Gorgiam commentaria, ed. Westerink, L.G., 1970",
             },
             "tlg006": {
                 "title":  "In Platonis Phaedonem commentaria",
                 "genre":  ["Comm.", "tlgl."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "The Greek commentaries on Plato's Phaedo, vol. 1, ed. Westerink, L.G., 1976",
             },
             "tlg008": {
@@ -39713,8 +39713,8 @@ AUTHOR_TAB = {
         "geography": ["Alexandrinus"],
         "date":      "A.D. 6",
         "works":     {
-            "X05":    {
-                "title": "$1*EI)S TO\\ KAT' E)NE/RGEIAN ZOSI/MOU O(/SA A)PO\\ *(ERMOU= KAI\\ TW=N",
+            "X05": {
+                "title": "*EI)S TO\\ KAT' E)NE/RGEIAN ZOSI/MOU O(/SA A)PO\\ *(ERMOU= KAI\\ TW=N",
                 "genre": ["Alchem.", "Comm."],
             },
             "tlg001": {
@@ -39792,8 +39792,8 @@ AUTHOR_TAB = {
         "epithet": "Rhet.",
         "date":    "Varia",
         "works":   {
-            "X02":    {
-                "title": "$1*PERI\\ PRE/SBEWN (ap. Constantinum Porphyrogenitum, De",
+            "X02": {
+                "title": "*PERI\\ PRE/SBEWN (ap. Constantinum Porphyrogenitum, De",
                 "genre": ["%2Hist."],
             },
             "tlg001": {
@@ -39846,13 +39846,13 @@ AUTHOR_TAB = {
             "tlg002": {
                 "title":  "Historia arcana (%6 Anecdota)",
                 "genre":  ["Hist."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Procopii Caesariensis opera omnia, vol. 3, ed. Wirth, G. (post J. Haury), 1963",
             },
             "tlg001": {
                 "title":  "De bellis",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Procopii Caesariensis opera omnia, vols. 1 -`2, ed. Wirth, G. (post J. Haury), "
                           "1:1962; 2:1963",
             },
@@ -39866,7 +39866,7 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "De aedificiis (lib. 1 -`6)",
                 "genre":  ["Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Procopii Caesariensis opera omnia, vol. 4, ed. Wirth, G. (post J. Haury), 1964",
             },
             "tlg001": {
@@ -39939,7 +39939,7 @@ AUTHOR_TAB = {
         "date":      "Varia",
         "works":     {
             "tlg003": {
-                "title":  "$1*TI/NES OI)=KOI A)NA/STATOI DIA\\ GUNAI=KAS E)GE/NONTO",
+                "title":  "*TI/NES OI)=KOI A)NA/STATOI DIA\\ GUNAI=KAS E)GE/NONTO",
                 "genre":  ["Paradox."],
                 "meta":   "line",
                 "source": "Scriptores rerum mirabilium Graeci, ed. Westermann, A., 1839",
@@ -39947,13 +39947,13 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De incredibilibus (excerpta Vaticana)",
                 "genre":  ["Paradox."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Palaephati $3PERI\\ A)PI/STWN, ed. Festa, N., 1902",
             },
             "tlg002": {
                 "title":  "Tractatus de mulieribus",
                 "genre":  ["Paradox."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Scriptores rerum mirabilium Graeci, ed. Westermann, A., 1839",
             },
             "tlg004": {
@@ -39983,7 +39983,7 @@ AUTHOR_TAB = {
             "tlg009": {
                 "title":  "In Platonis Cratylum commentaria",
                 "genre":  ["Comm.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Procli Diadochi in Platonis Cratylum commentaria, ed. Pasquali, G., 1908",
             },
             "tlg007": {
@@ -40008,19 +40008,19 @@ AUTHOR_TAB = {
             "tlg012": {
                 "title":  "De decem dubitationibus circa providentiam",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Procli Diadochi tria opuscula, ed. Boese, H., 1960",
             },
             "tlg013": {
                 "title":  "De providentia et fato et eo quod in nobis ad Theodorum mechanicum",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Procli Diadochi tria opuscula, ed. Boese, H., 1960",
             },
             "tlg014": {
                 "title":  "De malorum subsistentia",
                 "genre":  ["tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Procli Diadochi tria opuscula, ed. Boese, H., 1960",
             },
             "tlg015": {
@@ -40253,13 +40253,13 @@ AUTHOR_TAB = {
             "tlg005": {
                 "title":  "In Phaedonem (versio 1)",
                 "genre":  ["Comm.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The Greek commentaries on Plato's Phaedo, vol. 2 [Damascius], ed. Westerink, L.G., 1977",
             },
             "tlg006": {
                 "title":  "In Philebum",
                 "genre":  ["Comm.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Damascius. Lectures on the Philebus wrongly attributed to, ed. Westerink, L.G., 1959",
             },
             "tlg007": {
@@ -40271,7 +40271,7 @@ AUTHOR_TAB = {
             "tlg008": {
                 "title":  "In Phaedonem (versio 2)",
                 "genre":  ["Comm.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The Greek commentaries on Plato's Phaedo, vol. 2 [Damascius], ed. Westerink, L.G., 1977",
             },
             "X01":    {"title": "Paradoxa", "genre": ["Paradox."]},
@@ -40283,8 +40283,8 @@ AUTHOR_TAB = {
         "geography": ["Ascalonius"],
         "date":      "A.D. 5 -`6",
         "works":     {
-            "X02":    {
-                "title": "$1*PERI\\ A)RIQMOU= KAI\\ TO/POU KAI\\ XRO/NOU",
+            "X02": {
+                "title": "*PERI\\ A)RIQMOU= KAI\\ TO/POU KAI\\ XRO/NOU",
                 "genre": ["tlgl."],
             },
             "tlg001": {
@@ -40336,21 +40336,21 @@ AUTHOR_TAB = {
             "tlg003": {
                 "title":  "De legationibus Romanorum ad gentes (fragmenta ap. Constantinum",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Excerpta historica iussu imp. Constantini Porphyrogeniti confecta, vol., ed. de Boor, C., "
                           "1903",
             },
             "tlg004": {
                 "title":  "De legationibus gentium ad Romanos (fragmenta ap. Constantinum",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Excerpta historica iussu imp. Constantini Porphyrogeniti confecta, vol., ed. de Boor, C., "
                           "1903",
             },
             "tlg005": {
                 "title":  "De sententiis (ap. Constantinum Porphyrogenitum, De",
                 "genre":  ["Hist."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Excerpta historica iussu imp. Constantini Porphyrogeniti confecta,, ed. Boissevain, U.P., "
                           "1906",
             },
@@ -40377,7 +40377,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Geoponica",
                 "genre":  ["Nat. Hist."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Geoponica, ed. Beckh, H., 1895",
             }
         },
@@ -40424,7 +40424,7 @@ AUTHOR_TAB = {
             "tlg006": {
                 "title":  "Commentarium in Dionysii periegetae orbis descriptionem",
                 "genre":  ["Comm."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Geographi Graeci minores, vol. 2, ed. Mueller, K., 1861",
             },
         },
@@ -40479,7 +40479,7 @@ AUTHOR_TAB = {
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg002": {
-                "title":  "$1*)AGAQODAI/MWN EI)S TO\\N XRHSMO/N:$1 *)ORFE/WS SUNAGWGH\\ KAI\\",
+                "title":  "*)AGAQODAI/MWN EI)S TO\\N XRHSMO/N: *)ORFE/WS SUNAGWGH\\ KAI\\",
                 "genre":  ["Alchem.", "Epist."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -40493,11 +40493,11 @@ AUTHOR_TAB = {
         "date":      "A.D. 5 -`6",
         "works":     {
             "X01":    {
-                "title": "$1*AI)/NIGMA TOU= FILOSOFIKOU= LI/QOU *(ERMOU= KAI\\",
+                "title": "*AI)/NIGMA TOU= FILOSOFIKOU= LI/QOU *(ERMOU= KAI\\",
                 "genre": ["Alchem.", "Hexametr."],
             },
             "tlg003": {
-                "title":  "$1*PERI\\ PARADO/CWN MHXANHMA/TWN",
+                "title":  "*PERI\\ PARADO/CWN MHXANHMA/TWN",
                 "genre":  ["Math.", "Mech."],
                 "meta":   "page-line",
                 "source": "Anthemius of Tralles. A study in later Greek geometry, ed. Huxley, G.L., 1959",
@@ -40519,7 +40519,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Graecarum affectionum curatio",
                 "genre":  ["Apol."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "The/odoret de Cyr. The/rapeutique des maladies, ed. Canivet, P., 1958",
             },
             "tlg002": {
@@ -40537,7 +40537,7 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Historia religiosa (%6 Philotheus)",
                 "genre":  ["Eccl.", "Hagiogr.", "Hist.", "Orat."],
-                "meta":   "vita-section-line",
+                "meta":   "vita-section",
                 "source": "The/odoret de Cyr. L'histoire des moines de Syrie, `2 vols., ed. Leroy -Molinghen, A., "
                           "1:1977; 2:1979",
             },
@@ -40556,7 +40556,7 @@ AUTHOR_TAB = {
             "tlg008": {
                 "title":  "Commentaria in Isaiam",
                 "genre":  ["Exeget."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "The/odoret de Cyr. Commentaire sur Isaiee, vols. 1 -`3, ed. Guinot, J. -N., "
                           "1:1980; 2:1982; 3:1984",
             },
@@ -41089,7 +41089,7 @@ AUTHOR_TAB = {
             "tlg176": {
                 "title":  "Contra Julianum (lib. 1 -`2)",
                 "genre":  ["Apol."],
-                "meta":   "book-section-line",
+                "meta":   "book-section",
                 "source": "Cyrille d'Alexandrie. Contre Julien, tome 1: livres 1 et 2, ed. E/vieux, P., 1985",
             },
             "X01":    {
@@ -41500,7 +41500,7 @@ AUTHOR_TAB = {
                 "source": "Ammonius. De differentia adfinium vocabulorum, 2nd edn., ed. Valckenaer, L.C., 1822",
             },
             "tlg010": {
-                "title":  "$1*PERI\\ TRO/PWN POIHTIKW=N [Dub.]",
+                "title":  "*PERI\\ TRO/PWN POIHTIKW=N [Dub.]",
                 "genre":  ["Gramm."],
                 "meta":   "page-line",
                 "source": "Rhetores Graeci, vol. 3, ed. Spengel, L., 1856",
@@ -41528,8 +41528,8 @@ AUTHOR_TAB = {
         "geography": ["Gazaeus"],
         "date":      "A.D. 6",
         "works":     {
-            "X03":    {
-                "title": "$1*PERI\\ PROSW|DIW=N [Dub.] (sub nominibus Georgii Choerobosci",
+            "X03": {
+                "title": "*PERI\\ PROSW|DIW=N [Dub.] (sub nominibus Georgii Choerobosci",
                 "genre": ["Comm.", "Gramm."],
             },
             "tlg001": {
@@ -42039,7 +42039,7 @@ AUTHOR_TAB = {
                 "source": "E/vagre le Pontique. Scholies a\\ l'Eccle/siaste, ed. Ge/hin, P., 1993",
             },
             "tlg040": {
-                "title":  "$1*EI)S TO\\ PIPI [Sp.]",
+                "title":  "*EI)S TO\\ PIPI [Sp.]",
                 "genre":  ["Eccl."],
                 "meta":   "line",
                 "source": "Onomastica sacra, 2nd edn., ed. de Lagarde, P., 1887",
@@ -42101,7 +42101,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De engastrimytho contra Origenem",
                 "genre":  ["Exeget."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Origene, Eustazio, Gregorio di Nissa: La maga di Endor, ed. Simonetti, M., 1989",
             },
             "tlg002": {
@@ -42190,7 +42190,7 @@ AUTHOR_TAB = {
                 "source": "Recherches sur les e/crits d'Eustathe d'Antioche avec une, ed. Spanneut, M., 1948",
             },
             "tlg016": {
-                "title":  "$1*)EK TOU= PANEKKLHSIASTOU= (fragmenta)",
+                "title":  "*)EK TOU= PANEKKLHSIASTOU= (fragmenta)",
                 "genre":  ["Exeget."],
                 "meta":   "line",
                 "source": '"Quelques nouveaux fragments des pe\\res ante/nice/ens et, ed. Richard, M., 1976',
@@ -42233,7 +42233,7 @@ AUTHOR_TAB = {
             "tlg023": {
                 "title":  "Homilia christologica in Lazarum, Mariam et Martham [Sp.]",
                 "genre":  ["Exeget.", "Homilet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "S. Eustathii episcopi Antiocheni in Lazarum, Mariam et Martham homilia, ed. Cavallera, F., "
                           "1905",
             },
@@ -42351,7 +42351,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Sermo de virtutibus et vitiis",
                 "genre":  ["Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Sancti patris nostri Ephraem Syri opera omnia, vol. 1, ed. Phrantzoles, Konstantinos G., "
                           "1988",
             },
@@ -42484,7 +42484,7 @@ AUTHOR_TAB = {
             "tlg024": {
                 "title":  "De virtute, ad novitium monachum (capita quattuor)",
                 "genre":  ["Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "$3*(OSI/OU *)EFRAI/M TOU= *SU/ROU E)/RGA, vol. 2, ed. Phrantzoles, Konstantinos G., 1989",
             },
             "tlg025": {
@@ -43125,7 +43125,7 @@ AUTHOR_TAB = {
             "tlg131": {
                 "title":  "Fragmenta paraenetica",
                 "genre":  ["Theol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "$3*(OSI/OU *)EFRAI/M TOU= *SU/ROU E)/RGA, vol. 6, ed. Phrantzoles, Konstantinos G., 1995",
             },
             "tlg132": {
@@ -43520,7 +43520,7 @@ AUTHOR_TAB = {
             "tlg006": {
                 "title":  "Prolegomena in Aratum (e cod. Paris. suppl. gr. 607A)",
                 "genre":  ["Astron."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Scholia in Aratum vetera, ed. Martin, J., 1974",
             },
             "tlg007": {
@@ -43544,31 +43544,31 @@ AUTHOR_TAB = {
             "tlg010": {
                 "title":  "Excerpta varia de phaenomenis Arati",
                 "genre":  ["Astron.", "Comm."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Scholia in Aratum vetera, ed. Martin, J., 1974",
             },
             "tlg011": {
                 "title":  "Astronomica (in appendice cod. Scorialensis $*S III 3)",
                 "genre":  ["Astron."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Scholia in Aratum vetera, ed. Martin, J., 1974",
             },
             "tlg012": {
-                "title":  "$1*)EC E(TE/RWN SXOLI/WN EI)SAGWGH/ (%6 Anonymus I) (e cod. Vat.",
+                "title":  "*)EC E(TE/RWN SXOLI/WN EI)SAGWGH/ (%6 Anonymus I) (e cod. Vat.",
                 "genre":  ["Astron."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Commentariorum in Aratum reliquiae, ed. Maass, E., 1898",
             },
             "tlg013": {
                 "title":  "Prooemium in Arati phaenomena",
                 "genre":  ["Astron.", "Comm."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Commentariorum in Aratum reliquiae, ed. Maass, E., 1898",
             },
             "tlg014": {
                 "title":  "Sphaera (olim sub auctore Empedocle)",
                 "genre":  ["Astron."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Commentariorum in Aratum reliquiae, ed. Maass, E., 1898",
             },
         },
@@ -43593,7 +43593,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De sphaerae Arateae constructione",
                 "genre":  ["Astron.", "Mech."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Commentariorum in Aratum reliquiae, ed. Maass, E., 1898",
             },
             "X01":    {
@@ -43609,7 +43609,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "In Dionysii periegetae orbis descriptionem",
                 "genre":  ["Comm.", "Geogr."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Geographi Graeci minores, vol. 2, ed. Mueller, K., 1861",
             },
             "X01":    {"title": "Vita Dionysii", "genre": ["Biogr."]},
@@ -43756,7 +43756,7 @@ AUTHOR_TAB = {
             "tlg012": {
                 "title":  "In Aristotelis sophisticos elenchos paraphrasis",
                 "genre":  ["Comm.", "tlgl."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Anonymi in Aristotelis sophisticos elenchos paraphrasis, ed. Hayduck, M., 1884",
             }
         },
@@ -43783,7 +43783,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 11",
         "works":     {
             "tlg001": {
-                "title":  "Prolegomena in Hermogenis librum $1PERI\\ I)DEW=N",
+                "title":  "Prolegomena in Hermogenis librum PERI\\ I)DEW=N",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
@@ -43796,7 +43796,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 6",
         "works":   {
             "tlg002": {
-                "title":  "Commentarium in Hermogenis librum $1PERI\\ I)DEW=N",
+                "title":  "Commentarium in Hermogenis librum PERI\\ I)DEW=N",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "page-line",
                 "source": "Rhetores Graeci, vol. 6, ed. Walz, C., 1834",
@@ -43829,7 +43829,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 4 -`5",
         "works":     {
             "tlg001": {
-                "title":  "Prolegomena in Hermogenis librum $1PERI\\ STA/SEWN (epitome)",
+                "title":  "Prolegomena in Hermogenis librum PERI\\ STA/SEWN (epitome)",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
@@ -43856,7 +43856,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Narrationes et ethopoeiae",
                 "genre":  ["Rhet."],
-                "meta":   "chapter-section-line",
+                "meta":   "chapter-section",
                 "source": "Rhetores Graeci, vol. 1, ed. Walz, C., 1832",
             }
         },
@@ -43868,9 +43868,9 @@ AUTHOR_TAB = {
         "date":      "A.D. 4",
         "works":     {
             "tlg001": {
-                "title":  "$1*PERI\\ DIAFORA=S STA/SEWS",
+                "title":  "*PERI\\ DIAFORA=S STA/SEWS",
                 "genre":  ["Rhet."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Rhetores Graeci, vol. 8, ed. Walz, C., 1835",
             }
         },
@@ -43946,7 +43946,7 @@ AUTHOR_TAB = {
                 "source": "Anecdota Graeca, vol. 1, ed. Bekker, I., 1814",
             },
             "tlg003": {
-                "title":  "$1*DIKW=N O)NO/MATA (e cod. Coislin. 345)",
+                "title":  "*DIKW=N O)NO/MATA (e cod. Coislin. 345)",
                 "genre":  ["Lexicogr."],
                 "meta":   "alphabetic entry-page-line",
                 "source": "Anecdota Graeca, vol. 1, ed. Bekker, I., 1814",
@@ -44147,198 +44147,198 @@ AUTHOR_TAB = {
         "date":      "A.D. 3 -`4",
         "works":     {
             "tlg001": {
-                "title":  "$1*PERI\\ O)RGA/NWN KAI\\ KAMI/NWN GNH/SIA U(POMNH/MATA PERI\\ TOU= W",
+                "title":  "*PERI\\ O)RGA/NWN KAI\\ KAMI/NWN GNH/SIA U(POMNH/MATA PERI\\ TOU= W",
                 "genre":  ["Alchem."],
                 "meta":   "line",
                 "source": "Les alchimistes grecs, vol. 4.1 [Zosime de Panopolis., ed. Mertens, M., 1995",
             },
             "tlg002": {
-                "title":  "$1*ZWSI/MOU TOU= QEI/OU PERI\\ A)RETH=S [2PRA=CIS A#]2 (e cod.",
+                "title":  "*ZWSI/MOU TOU= QEI/OU PERI\\ A)RETH=S [2PRA=CIS A#]2 (e cod.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg003": {
-                "title":  "$1*ZW/SIMOS LE/GEI PERI\\ TH=S A)SBE/STOU (e codd. Venet. Marc.",
+                "title":  "*ZW/SIMOS LE/GEI PERI\\ TH=S A)SBE/STOU (e codd. Venet. Marc.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg004": {
-                "title":  "$1*ZWSI/MOU PRA=CIS B# (e cod. Paris. B.N. gr. 2327, fol. 87v)",
+                "title":  "*ZWSI/MOU PRA=CIS B# (e cod. Paris. B.N. gr. 2327, fol. 87v)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg005": {
-                "title":  "$1*POI/HMA *ZWSI/MOU ($1PRA=CIS G#) (e cod. Paris. B.N. gr.",
+                "title":  "*POI/HMA *ZWSI/MOU (PRA=CIS G#) (e cod. Paris. B.N. gr.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg006": {
-                "title":  "$1*ZWSI/MOU TOU= QEI/OU PERI\\ A)RETH=S KAI\\ E(RMHNEI/AS (e cod.",
+                "title":  "*ZWSI/MOU TOU= QEI/OU PERI\\ A)RETH=S KAI\\ E(RMHNEI/AS (e cod.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg007": {
-                "title":  "$1*PERI\\ TH=S E)CATMI/SEWS U(/DATOS QEI/OU (e cod. Venet. Marc.",
+                "title":  "*PERI\\ TH=S E)CATMI/SEWS U(/DATOS QEI/OU (e cod. Venet. Marc.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg008": {
-                "title":  "$1*PERI\\ TOU= QEI/OU U(/DATOS (e cod. Venet. Marc. 299, fol.",
+                "title":  "*PERI\\ TOU= QEI/OU U(/DATOS (e cod. Venet. Marc. 299, fol.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg009": {
-                "title":  "$1*PERI\\ TOU= QEI/OU U(/DATOS (%6 $*ZWSI/MOU TOU= *PANOPOLI/TOU",
+                "title":  "*PERI\\ TOU= QEI/OU U(/DATOS (%6 $*ZWSI/MOU TOU= *PANOPOLI/TOU",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg010": {
-                "title":  "$1*PARAINE/SEIS SUSTATIKAI\\ TW=N E)GXEIROU/NTWN TH\\N TE/XNHN (e",
+                "title":  "*PARAINE/SEIS SUSTATIKAI\\ TW=N E)GXEIROU/NTWN TH\\N TE/XNHN (e",
                 "genre":  ["Alchem."],
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg011": {
-                "title":  "$1*ZWSI/MOU TOU= *PANOPOLI/TOU GNHSI/A GRAFH\\ PERI\\ TH=S I(ERA=S KAI\\",
+                "title":  "*ZWSI/MOU TOU= *PANOPOLI/TOU GNHSI/A GRAFH\\ PERI\\ TH=S I(ERA=S KAI\\",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg012": {
-                "title":  "$1*PERI\\ TW=N U(POSTA/TWN KAI\\ TW=N D# SWMA/TWN KATA\\ TO\\N *DHMO/KRITON",
+                "title":  "*PERI\\ TW=N U(POSTA/TWN KAI\\ TW=N D# SWMA/TWN KATA\\ TO\\N *DHMO/KRITON",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg013": {
-                "title":  "$1*PERI\\ DIAFORA=S XALKOU= KEKAUME/NOU (fort. pars operis",
+                "title":  "*PERI\\ DIAFORA=S XALKOU= KEKAUME/NOU (fort. pars operis",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg014": {
-                "title":  "$1*PERI\\ TOU= O(/TI PA/NTWN TW=N U(GRW=N TO\\ QEI=ON U(/DWR KALOU=SIN:",
+                "title":  "*PERI\\ TOU= O(/TI PA/NTWN TW=N U(GRW=N TO\\ QEI=ON U(/DWR KALOU=SIN:",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg015": {
-                "title":  "$1*PERI\\ TOU= E)N PANTI\\ KAIRW=| A)RKTE/ON TO\\ E)/RGON (fort.",
+                "title":  "*PERI\\ TOU= E)N PANTI\\ KAIRW=| A)RKTE/ON TO\\ E)/RGON (fort.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg016": {
-                "title":  "$1*PERI\\ TH=S KATA\\ PLA/TOS E)KDO/SEWS TO\\ E)/RGON (fort. pars",
+                "title":  "*PERI\\ TH=S KATA\\ PLA/TOS E)KDO/SEWS TO\\ E)/RGON (fort. pars",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg017": {
-                "title":  "$1*PERI\\ TOU= TI/ E)STIN KATA\\ TH\\N TE/XNHN, OU)SI/A KAI\\ A)NOUSI/A",
+                "title":  "*PERI\\ TOU= TI/ E)STIN KATA\\ TH\\N TE/XNHN, OU)SI/A KAI\\ A)NOUSI/A",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg018": {
-                "title":  "$1*PERI\\ TOU= O(/TI PA/NTA PERI\\ MIA=S BAFH=S H( TE/XNH LELA/LHKEN",
+                "title":  "*PERI\\ TOU= O(/TI PA/NTA PERI\\ MIA=S BAFH=S H( TE/XNH LELA/LHKEN",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg019": {
-                "title":  "$1*PERI\\ TOU= TROFH\\N EI)=NAI TA\\ D' SW/MATA TW=N BAFW=N: EI)SI\\N DE/",
+                "title":  "*PERI\\ TOU= TROFH\\N EI)=NAI TA\\ D' SW/MATA TW=N BAFW=N: EI)SI\\N DE/",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg020": {
-                "title":  "$1*PERI\\ TOU= XRHSTE/ON STUPTHRI/A| STROGGU/LH| A)NTI/LOGOS",
+                "title":  "*PERI\\ TOU= XRHSTE/ON STUPTHRI/A| STROGGU/LH| A)NTI/LOGOS",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg021": {
-                "title":  "$1*PERI\\ QEI/WN (fort. pars operis $*XEIRO/MHKTA) (e cod.",
+                "title":  "*PERI\\ QEI/WN (fort. pars operis $*XEIRO/MHKTA) (e cod.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg022": {
-                "title":  "$1*PERI\\ STAQMW=N (fort. pars operis $*XEIRO/MHKTA) (e cod.",
+                "title":  "*PERI\\ STAQMW=N (fort. pars operis $*XEIRO/MHKTA) (e cod.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg023": {
-                "title":  "$1*PERI\\ KAU/SEWS SWMA/TWN (fort. pars operis",
+                "title":  "*PERI\\ KAU/SEWS SWMA/TWN (fort. pars operis",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg024": {
-                "title":  "$1*PERI\\ STAQMOU= CANQW/SEWS",
+                "title":  "*PERI\\ STAQMOU= CANQW/SEWS",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg025": {
-                "title":  "$1*PERI\\ QEI/OU U(/DATOS (fort. pars operis $*XEIRO/MHKTA)",
+                "title":  "*PERI\\ QEI/OU U(/DATOS (fort. pars operis $*XEIRO/MHKTA)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg026": {
-                "title":  "$1*PERI\\ SKEUASI/AS W)/XRAS (fort. pars operis",
+                "title":  "*PERI\\ SKEUASI/AS W)/XRAS (fort. pars operis",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg027": {
-                "title":  "$1*PERI\\ OI)KONOMI/AS TOU= TH=S MAGNHSI/AS SW/MATOS (fort. pars",
+                "title":  "*PERI\\ OI)KONOMI/AS TOU= TH=S MAGNHSI/AS SW/MATOS (fort. pars",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg028": {
-                "title":  "$1*PERI\\ SW/MATOS MAGNHSI/AS KAI\\ OI)KONOMI/AS (fort. pars",
+                "title":  "*PERI\\ SW/MATOS MAGNHSI/AS KAI\\ OI)KONOMI/AS (fort. pars",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg029": {
-                "title":  "$1*PERI\\ TOU= LI/QOU TH=S FILOSOFI/AS (fort. pars operis",
+                "title":  "*PERI\\ TOU= LI/QOU TH=S FILOSOFI/AS (fort. pars operis",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg030": {
-                "title":  "$1*PERI\\ A)FORMW=N SUNQE/SEWS (fort. pars operis",
+                "title":  "*PERI\\ A)FORMW=N SUNQE/SEWS (fort. pars operis",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg031": {
-                "title":  "$1*PERI\\ CHRI/OU (fort. pars operis $*XEIRO/MHKTA) (e cod.",
+                "title":  "*PERI\\ CHRI/OU (fort. pars operis $*XEIRO/MHKTA) (e cod.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg032": {
-                "title":  "$1*PERI\\ I)OU= (fort. pars operis $*XEIRO/MHKTA) (e cod.",
+                "title":  "*PERI\\ I)OU= (fort. pars operis $*XEIRO/MHKTA) (e cod.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg033": {
-                "title":  "[2$1*PERI\\ AI)TIW=N]2 (fort. pars operis $*XEIRO/MHKTA) (e",
+                "title":  "[2*PERI\\ AI)TIW=N]2 (fort. pars operis $*XEIRO/MHKTA) (e",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -44350,55 +44350,55 @@ AUTHOR_TAB = {
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg035": {
-                "title":  "Excerptum $1PERI\\ XALKANQRW/PWN (sine titulo) (fort. pars operis",
+                "title":  "Excerptum PERI\\ XALKANQRW/PWN (sine titulo) (fort. pars operis",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg036": {
-                "title":  "$1*KADMI/AS PLU/SIS (fort. pars operis $*XEIRO/MHKTA) (e",
+                "title":  "*KADMI/AS PLU/SIS (fort. pars operis $*XEIRO/MHKTA) (e",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg037": {
-                "title":  "$1*PERI\\ BAFH=S (fort. pars operis $*XEIRO/MHKTA) (e cod.",
+                "title":  "*PERI\\ BAFH=S (fort. pars operis $*XEIRO/MHKTA) (e cod.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg038": {
-                "title":  "$1*PERI\\ CANQW/SEWS (fort. pars operis $*XEIRO/MHKTA) (e",
+                "title":  "*PERI\\ CANQW/SEWS (fort. pars operis $*XEIRO/MHKTA) (e",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg039": {
-                "title":  "$1*TO\\ A)E/RION U(/DWR (fort. pars operis $*XEIRO/MHKTA) (e",
+                "title":  "*TO\\ A)E/RION U(/DWR (fort. pars operis $*XEIRO/MHKTA) (e",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg040": {
-                "title":  "$1*PERI\\ LEUKW/SEWS (fort. pars operis $*XEIRO/MHKTA) (e",
+                "title":  "*PERI\\ LEUKW/SEWS (fort. pars operis $*XEIRO/MHKTA) (e",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg041": {
-                "title":  "$1*BI/BLOS A)LHQH\\S *SOFE\\ *AI)GUPTI/OU KAI\\ QEI/OU *(EBRAI/WN KURI/OU",
+                "title":  "*BI/BLOS A)LHQH\\S *SOFE\\ *AI)GUPTI/OU KAI\\ QEI/OU *(EBRAI/WN KURI/OU",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg042": {
-                "title":  "$1*BI/BLOS A)LHQH\\S *SOFE\\ *AI)GUPTI/OU KAI\\ QEI/OU *(EBRAI/WN KURI/OU",
+                "title":  "*BI/BLOS A)LHQH\\S *SOFE\\ *AI)GUPTI/OU KAI\\ QEI/OU *(EBRAI/WN KURI/OU",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg043": {
-                "title":  "$1*ZWSI/MOU PRO\\S *QEO/DWRON KEFA/LAIA (e cod. Venet. Marc. 299,",
+                "title":  "*ZWSI/MOU PRO\\S *QEO/DWRON KEFA/LAIA (e cod. Venet. Marc. 299,",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -44410,49 +44410,49 @@ AUTHOR_TAB = {
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg045": {
-                "title":  "$1*(UDRARGU/ROU POI/HSIS (e cod. Venet. Marc. 299, fol. 107r)",
+                "title":  "*(UDRARGU/ROU POI/HSIS (e cod. Venet. Marc. 299, fol. 107r)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg046": {
-                "title":  "$1*PERI\\ DIAFORA=S XALKOU= KEKAUME/NOU (e cod. Paris. B.N. gr.",
+                "title":  "*PERI\\ DIAFORA=S XALKOU= KEKAUME/NOU (e cod. Paris. B.N. gr.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg047": {
-                "title":  "$1*ZWSI/MOU PERI\\ O)RGA/NWN KAI\\ KAMI/NWN (e cod. Venet. Marc.",
+                "title":  "*ZWSI/MOU PERI\\ O)RGA/NWN KAI\\ KAMI/NWN (e cod. Venet. Marc.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg048": {
-                "title":  "$1*POI/HSIS E)K TOUTI/AS A)RGU/ROU (e cod. Venet. Marc. 299,",
+                "title":  "*POI/HSIS E)K TOUTI/AS A)RGU/ROU (e cod. Venet. Marc. 299,",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg049": {
-                "title":  "$1*ZWSI/MOU PERI\\ O)RGA/NWN KAI\\ KAMI/NWN GNH/SIA U(POMNH/MATA PERI\\ TOU=",
+                "title":  "*ZWSI/MOU PERI\\ O)RGA/NWN KAI\\ KAMI/NWN GNH/SIA U(POMNH/MATA PERI\\ TOU=",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg050": {
-                "title":  "$1*PERI\\ TOU= TRIBI/KOU KAI\\ TOU= SWLH=NOS (e cod. Venet. Marc.",
+                "title":  "*PERI\\ TOU= TRIBI/KOU KAI\\ TOU= SWLH=NOS (e cod. Venet. Marc.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg051": {
-                "title":  "$1*TO\\ PRW=TON BIBLI/ON TH=S TELEUTAI/AS A)POXH=S *ZWSI/MOU *QHBAI/OU",
+                "title":  "*TO\\ PRW=TON BIBLI/ON TH=S TELEUTAI/AS A)POXH=S *ZWSI/MOU *QHBAI/OU",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg052": {
-                "title":  "$1*(ERMHNEI/A PERI\\ PA/NTWN A(PLW=S KAI\\ PERI\\ TW=N FW/TWN (e",
+                "title":  "*(ERMHNEI/A PERI\\ PA/NTWN A(PLW=S KAI\\ PERI\\ TW=N FW/TWN (e",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -44464,19 +44464,19 @@ AUTHOR_TAB = {
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg054": {
-                "title":  "$1*PERI\\ LEUKW/SEWS (e cod. Paris. B.N. gr. 2327, fol. 265)",
+                "title":  "*PERI\\ LEUKW/SEWS (e cod. Paris. B.N. gr. 2327, fol. 265)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg055": {
-                "title":  "$1*(ERMHNEI/A PERI\\ TW=N FW/TWN (e cod. Paris. B.N. gr. 2327,",
+                "title":  "*(ERMHNEI/A PERI\\ TW=N FW/TWN (e cod. Paris. B.N. gr. 2327,",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg056": {
-                "title":  "$1*PERI\\ AI)QALW=N (e cod. Venet. Marc. 299, fol. 116v)",
+                "title":  "*PERI\\ AI)QALW=N (e cod. Venet. Marc. 299, fol. 116v)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -44488,7 +44488,7 @@ AUTHOR_TAB = {
                 "source": "Les alchimistes grecs, vol. 4.1 [Zosime de Panopolis., ed. Mertens, M., 1995",
             },
             "tlg058": {
-                "title":  "$1*PERI\\ TOU TRIBI/KOU KAI\\ TOU= SWLH=NOS (e codd. Venet. Marc.",
+                "title":  "*PERI\\ TOU TRIBI/KOU KAI\\ TOU= SWLH=NOS (e codd. Venet. Marc.",
                 "genre":  ["Alchem."],
                 "meta":   "line",
                 "source": "Les alchimistes grecs, vol. 4.1 [Zosime de Panopolis., ed. Mertens, M., 1995",
@@ -44500,7 +44500,7 @@ AUTHOR_TAB = {
                 "source": "Les alchimistes grecs, vol. 4.1 [Zosime de Panopolis., ed. Mertens, M., 1995",
             },
             "tlg060": {
-                "title":  "$1*PERI\\ TOU= QEI/OU U(/DATOS (e codd. Venet. Marc. 299, fol.",
+                "title":  "*PERI\\ TOU= QEI/OU U(/DATOS (e codd. Venet. Marc. 299, fol.",
                 "genre":  ["Alchem."],
                 "meta":   "line",
                 "source": "Les alchimistes grecs, vol. 4.1 [Zosime de Panopolis., ed. Mertens, M., 1995",
@@ -44512,43 +44512,43 @@ AUTHOR_TAB = {
                 "source": "Les alchimistes grecs, vol. 4.1 [Zosime de Panopolis., ed. Mertens, M., 1995",
             },
             "tlg062": {
-                "title":  "$1*ZWSI/MOU PERI\\ O)RGA/NWN KAI\\ KAMI/NWN (e codd. Venet. Marc.",
+                "title":  "*ZWSI/MOU PERI\\ O)RGA/NWN KAI\\ KAMI/NWN (e codd. Venet. Marc.",
                 "genre":  ["Alchem."],
                 "meta":   "line",
                 "source": "Les alchimistes grecs, vol. 4.1 [Zosime de Panopolis., ed. Mertens, M., 1995",
             },
             "tlg063": {
-                "title":  "$1*PERI\\ TH=S E)CATMI/SEWS TOU= QEI/OU U(/DATOS TOU= PH/SSONTOS TH\\N",
+                "title":  "*PERI\\ TH=S E)CATMI/SEWS TOU= QEI/OU U(/DATOS TOU= PH/SSONTOS TH\\N",
                 "genre":  ["Alchem."],
                 "meta":   "line",
                 "source": "Les alchimistes grecs, vol. 4.1 [Zosime de Panopolis., ed. Mertens, M., 1995",
             },
             "tlg064": {
-                "title":  "$1*PERI\\ TOU= QEI/OU U(/DATOS (e codd. Venet. Marc. 299, fol.",
+                "title":  "*PERI\\ TOU= QEI/OU U(/DATOS (e codd. Venet. Marc. 299, fol.",
                 "genre":  ["Alchem."],
                 "meta":   "line",
                 "source": "Les alchimistes grecs, vol. 4.1 [Zosime de Panopolis., ed. Mertens, M., 1995",
             },
             "tlg065": {
-                "title":  "$1*ZWSI/MOU TOU= QEI/OU PERI\\ A)RETH=S:PERI\\ SUNQE/SEWS U(DA/TWN",
+                "title":  "*ZWSI/MOU TOU= QEI/OU PERI\\ A)RETH=S:PERI\\ SUNQE/SEWS U(DA/TWN",
                 "genre":  ["Alchem."],
                 "meta":   "line",
                 "source": "Les alchimistes grecs, vol. 4.1 [Zosime de Panopolis., ed. Mertens, M., 1995",
             },
             "tlg066": {
-                "title":  "$1*ZWSI/MOU PRA=CIS B# (e codd. Paris. B.N. gr. 2327, fol. 87v %7",
+                "title":  "*ZWSI/MOU PRA=CIS B# (e codd. Paris. B.N. gr. 2327, fol. 87v %7",
                 "genre":  ["Alchem."],
                 "meta":   "line",
                 "source": "Les alchimistes grecs, vol. 4.1 [Zosime de Panopolis., ed. Mertens, M., 1995",
             },
             "tlg067": {
-                "title":  "$1*POI/HMA TOU= *ZWSI/MOU ($1PRA=CIS G#) (e codd. Paris.",
+                "title":  "*POI/HMA TOU= *ZWSI/MOU (PRA=CIS G#) (e codd. Paris.",
                 "genre":  ["Alchem."],
                 "meta":   "line",
                 "source": "Les alchimistes grecs, vol. 4.1 [Zosime de Panopolis., ed. Mertens, M., 1995",
             },
             "tlg068": {
-                "title":  "$1*ZW/SIMOS LE/GEI PERI\\ TH=S A)SBE/STOU (e codd. Venet. Marc.",
+                "title":  "*ZW/SIMOS LE/GEI PERI\\ TH=S A)SBE/STOU (e codd. Venet. Marc.",
                 "genre":  ["Alchem."],
                 "meta":   "line",
                 "source": "Les alchimistes grecs, vol. 4.1 [Zosime de Panopolis., ed. Mertens, M., 1995",
@@ -44561,7 +44561,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 1-`3",
         "works":   {
             "X01": {
-                "title": "$1*(O LI/QOS TH=S FILOSOFI/AS (fort. auctore Zosimo)",
+                "title": "*(O LI/QOS TH=S FILOSOFI/AS (fort. auctore Zosimo)",
                 "genre": ["Alchem.", "Comm."],
             }
         },
@@ -44572,7 +44572,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 4",
         "works":   {
             "tlg001": {
-                "title":  "$1*EU)GENI/OU [2DI/PLWSIS]2 (e cod. Venet. Marc. 299, fol. 185r)",
+                "title":  "*EU)GENI/OU [2DI/PLWSIS]2 (e cod. Venet. Marc. 299, fol. 185r)",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -44591,7 +44591,7 @@ AUTHOR_TAB = {
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg002": {
-                "title":  "$1*AI)/NIGMA TOU= FILOSOFIKOU= LI/QOU *(ERMOU= KAI\\ *)AGAQODAI/MONOS",
+                "title":  "*AI)/NIGMA TOU= FILOSOFIKOU= LI/QOU *(ERMOU= KAI\\ *)AGAQODAI/MONOS",
                 "genre":  ["Alchem.", "Hexametr."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -44604,7 +44604,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 7-`8",
         "works":   {
             "X01": {
-                "title": "$1*(ERMOU= TRISMEGI/STOU O)/RGANON",
+                "title": "*(ERMOU= TRISMEGI/STOU O)/RGANON",
                 "genre": ["Alchem."],
             }
         },
@@ -44615,7 +44615,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 5?",
         "works":   {
             "tlg001": {
-                "title":  "$1*PA/PPOU FILOSO/FOU [2O(/RKOS]2 (e cod. Venet. Marc. 299, fol.",
+                "title":  "*PA/PPOU FILOSO/FOU [2O(/RKOS]2 (e cod. Venet. Marc. 299, fol.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -44629,67 +44629,67 @@ AUTHOR_TAB = {
         "date":      "A.D. 6",
         "works":     {
             "tlg001": {
-                "title":  "$1*TOU= *XRISTIANOU= PERI\\ EU)STAQEI/AS TOU= XRUSOU= (e cod.",
+                "title":  "*TOU= *XRISTIANOU= PERI\\ EU)STAQEI/AS TOU= XRUSOU= (e cod.",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg002": {
-                "title":  "$1*TOU= *XRISTIANOU= PERI\\ TOU= QEI/OU U(/DATOS (e cod. Venet.",
+                "title":  "*TOU= *XRISTIANOU= PERI\\ TOU= QEI/OU U(/DATOS (e cod. Venet.",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg003": {
-                "title":  "$1*TI/S H( TW=N A)RXAI/WN DIAFWNI/A (e cod. Venet. Marc. 299,",
+                "title":  "*TI/S H( TW=N A)RXAI/WN DIAFWNI/A (e cod. Venet. Marc. 299,",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg004": {
-                "title":  "$1*TI/S H( KAQO/LOU TOU= U(/DATOS OI)KONOMI/A (e cod. Venet.",
+                "title":  "*TI/S H( KAQO/LOU TOU= U(/DATOS OI)KONOMI/A (e cod. Venet.",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg005": {
-                "title":  "$1*(H TOU= MUQIKOU= U(/DATOS POI/HSIS (e cod. Venet. Marc. 299,",
+                "title":  "*(H TOU= MUQIKOU= U(/DATOS POI/HSIS (e cod. Venet. Marc. 299,",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg006": {
-                "title":  "$1*)ANTI/QESIS LE/GOUSA O(/TI TO\\ QEI=ON U(/DWR E(/N E)STI TW=| EI)/DEI",
+                "title":  "*)ANTI/QESIS LE/GOUSA O(/TI TO\\ QEI=ON U(/DWR E(/N E)STI TW=| EI)/DEI",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg007": {
-                "title":  "$1*)APORI/A. *TO\\ E(\\N A)BU/SSAION U(/DWR E)N TW=| A)RIQMW=| DEIKNU/EIN",
+                "title":  "*)APORI/A. *TO\\ E(\\N A)BU/SSAION U(/DWR E)N TW=| A)RIQMW=| DEIKNU/EIN",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg008": {
-                "title":  "$1*TOU= *XRISTIANOU= SU/NOYIS. TI/S H( AI)TI/A TH=S PROKEIME/NHS",
+                "title":  "*TOU= *XRISTIANOU= SU/NOYIS. TI/S H( AI)TI/A TH=S PROKEIME/NHS",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg009": {
-                "title":  "$1*(/OTI TETRAXW=S DIAIROUME/NHS TH=S U(/LHS, DIA/FOROI A)POGI/NONTAI",
+                "title":  "*(/OTI TETRAXW=S DIAIROUME/NHS TH=S U(/LHS, DIA/FOROI A)POGI/NONTAI",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg010": {
-                "title":  "$1*PO/SAI EI)SI\\N AI( KAT' EI)=DOS KAI\\ GE/NOS DIAFORAI\\ TW=N POIH/SEWN",
+                "title":  "*PO/SAI EI)SI\\N AI( KAT' EI)=DOS KAI\\ GE/NOS DIAFORAI\\ TW=N POIH/SEWN",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg011": {
-                "title":  "$1*PW=S DEI= NOEI=N DIAFORA\\S TW=N POIH/SEWN KAI\\ SXH/MASI GEWMETRIKOI=S",
+                "title":  "*PW=S DEI= NOEI=N DIAFORA\\S TW=N POIH/SEWN KAI\\ SXH/MASI GEWMETRIKOI=S",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -44702,19 +44702,19 @@ AUTHOR_TAB = {
         "date":    "A.D. 7-`8",
         "works":   {
             "tlg012": {
-                "title":  "$1*TI/S H( E)N A)POKRU/FOIS TW=N PALAIW=N E)KDIDOME/NH TA/CIS (e",
+                "title":  "*TI/S H( E)N A)POKRU/FOIS TW=N PALAIW=N E)KDIDOME/NH TA/CIS (e",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg001": {
-                "title":  "$1*)ANEPIGRA/FOU FILOSO/FOU PERI\\ QEI/OU U(/DATOS TH=S LEUKW/SEWS",
+                "title":  "*)ANEPIGRA/FOU FILOSO/FOU PERI\\ QEI/OU U(/DATOS TH=S LEUKW/SEWS",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg002": {
-                "title":  "$1*)ANEPIGRA/FOU FILOSO/FOU KATA\\ A)KOLOUQI/AN XRH/SEWS E)MFAI=NON TO\\",
+                "title":  "*)ANEPIGRA/FOU FILOSO/FOU KATA\\ A)KOLOUQI/AN XRH/SEWS E)MFAI=NON TO\\",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -44727,7 +44727,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 11",
         "works":   {
             "tlg003": {
-                "title":  "$1*)ANEPIGRA/FOU FILOSO/FOU PERI\\ TH=S QEI/AS KAI\\ I(ERA=S TE/XNHS",
+                "title":  "*)ANEPIGRA/FOU FILOSO/FOU PERI\\ TH=S QEI/AS KAI\\ I(ERA=S TE/XNHS",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -44740,7 +44740,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 8 -`9?",
         "works":   {
             "tlg001": {
-                "title":  "$1*(ERMHNEI/A TH=S E)PISTH/MHS TH=S XRUSOPOII/AS I(EROMONA/XOU TOU=",
+                "title":  "*(ERMHNEI/A TH=S E)PISTH/MHS TH=S XRUSOPOII/AS I(EROMONA/XOU TOU=",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Berthelot, M., 1888",
@@ -44753,7 +44753,7 @@ AUTHOR_TAB = {
         "date":    "a. A.D. 8",
         "works":   {
             "tlg001": {
-                "title":  "$1*(IEROQE/OU PERI\\ TH=S I(ERA=S TE/XNHS (e cod. Paris. B.N. gr.",
+                "title":  "*(IEROQE/OU PERI\\ TH=S I(ERA=S TE/XNHS (e cod. Paris. B.N. gr.",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -44767,7 +44767,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 13",
         "works":     {
             "tlg001": {
-                "title":  "$1*NIKHFO/ROU TOU= *BLEMMU/DOU PERI\\ TH=S XRUSOPOII/AS (fort.",
+                "title":  "*NIKHFO/ROU TOU= *BLEMMU/DOU PERI\\ TH=S XRUSOPOII/AS (fort.",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -44780,13 +44780,13 @@ AUTHOR_TAB = {
         "date":    "A.D. 1?",
         "works":   {
             "tlg002": {
-                "title":  "$1*(/APER XRH/|ZEI H( PAROU=SA KATASKEUH/ (fort. auctore",
+                "title":  "*(/APER XRH/|ZEI H( PAROU=SA KATASKEUH/ (fort. auctore",
                 "genre":  ["Alchem.", "Comm."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
             },
             "tlg001": {
-                "title":  "$1*)/ISIS PROFH=TIS TW=| UI(W=| (/*WRW| (redactio prima) (e cod.",
+                "title":  "*)/ISIS PROFH=TIS TW=| UI(W=| (/*WRW| (redactio prima) (e cod.",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -44799,7 +44799,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 1",
         "works":   {
             "tlg002": {
-                "title":  "$1*)/ISIS PROFH=TIS TW=| UI(W=| (/*WRW| (redactio secunda) (e",
+                "title":  "*)/ISIS PROFH=TIS TW=| UI(W=| (/*WRW| (redactio secunda) (e",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -44807,7 +44807,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "De ponderibus et mensuris",
                 "genre":  ["Alchem.", "Metrolog."],
-                "meta":   "fragment-section-line",
+                "meta":   "fragment-section",
                 "source": "Metrologicorum scriptorum reliquiae, vol. 1, ed. Hultsch, F., 1864",
             },
         },
@@ -44818,7 +44818,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 4?",
         "works":   {
             "X01": {
-                "title": "De lapide philosophorum (%6 $1*DIA/LOGOS FILOSO/FWN KAI\\",
+                "title": "De lapide philosophorum (%6 *DIA/LOGOS FILOSO/FWN KAI\\",
                 "genre": ["Alchem.", "Dialog."],
             }
         },
@@ -44829,7 +44829,7 @@ AUTHOR_TAB = {
         "date":    "A.D. 7?",
         "works":   {
             "tlg001": {
-                "title":  "$1*(HLIODW/ROU FILOSO/FOU PRO\\S *QEODO/SION TO\\N ME/GAN BASILE/A PERI\\",
+                "title":  "*(HLIODW/ROU FILOSO/FOU PRO\\S *QEODO/SION TO\\N ME/GAN BASILE/A PERI\\",
                 "genre":  ["Alchem.", "Iamb."],
                 "meta":   "line",
                 "source": "Heliodori carmina quattuor ad fidem codicis Casselani, ed. Goldschmidt, G., 1923",
@@ -44842,7 +44842,7 @@ AUTHOR_TAB = {
         "date":    "a. A.D. 8",
         "works":   {
             "tlg001": {
-                "title":  "$1*QEOFRA/STOU FILOSO/FOU PERI\\ TH=S QEI/AS TE/XNHS DIA\\ STI/XWN I)A/MBWN",
+                "title":  "*QEOFRA/STOU FILOSO/FOU PERI\\ TH=S QEI/AS TE/XNHS DIA\\ STI/XWN I)A/MBWN",
                 "genre":  ["Alchem.", "Iamb."],
                 "meta":   "line",
                 "source": "Heliodori carmina quattuor ad fidem codicis Casselani, ed. Goldschmidt, G., 1923",
@@ -44856,7 +44856,7 @@ AUTHOR_TAB = {
         "date":      "A.D. 9 -`10",
         "works":     {
             "tlg001": {
-                "title":  "$1*)ARXELA/OU FILOSO/FOU PERI\\ TH=S QEI/AS TE/XNHS DIA\\ STI/XWN I)A/MBWN",
+                "title":  "*)ARXELA/OU FILOSO/FOU PERI\\ TH=S QEI/AS TE/XNHS DIA\\ STI/XWN I)A/MBWN",
                 "genre":  ["Alchem.", "Iamb."],
                 "meta":   "line",
                 "source": "Heliodori carmina quattuor ad fidem codicis Casselani, ed. Goldschmidt, G., 1923",
@@ -44870,7 +44870,7 @@ AUTHOR_TAB = {
         "date":      "4 B.C.",
         "works":     {
             "tlg001": {
-                "title":  "$1*ME/QODOS DI' H(=S A)POTELEI=TAI H( SFAIROEIDH\\S XA/LAZA",
+                "title":  "*ME/QODOS DI' H(=S A)POTELEI=TAI H( SFAIROEIDH\\S XA/LAZA",
                 "genre":  ["Alchem."],
                 "meta":   "volume-page-line",
                 "source": "Collection des anciens alchimistes grecs, vol. 2, ed. Ruelle, C.E/., 1888",
@@ -45445,7 +45445,7 @@ AUTHOR_TAB = {
             "tlg005": {
                 "title":  "Scholia in Aratum (scholia vetera) (e cod. Perusino A 35)",
                 "genre":  ["Schol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Scholia in Aratum vetera, ed. Martin, J., 1974",
             },
         },
@@ -45765,7 +45765,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Scholia in Demosthenem (scholia vetera) (fort. auctore Ulpiano)",
                 "genre":  ["Hypoth.", "Schol."],
-                "meta":   "oration-section-line",
+                "meta":   "oration-section",
                 "source": "Scholia Demosthenica, 2 vols., ed. Dilts, M.R., 1:1983; 2:1986",
             }
         },
@@ -45850,7 +45850,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Scholia in Euripidem (scholia vetera)",
                 "genre":  ["Biogr.", "Hypoth.", "Schol."],
-                "meta":   "vita -argumentum -scholion-section-line",
+                "meta":   "vita -argumentum -scholion-section",
                 "source": "Scholia in Euripidem, `2 vols., ed. Schwartz, E., 1:1887; 2:1891",
             },
             "tlg003": {
@@ -45862,13 +45862,13 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Glossae codicis Vaticani 909 in Euripidis Rhesum (scholia vetera)",
                 "genre":  ["Schol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Scholia in Euripidem, vol. 2, ed. Schwartz, E., 1891",
             },
             "tlg005": {
                 "title":  "Glossae codicis C in Euripidis Rhesum (scholia vetera)",
                 "genre":  ["Schol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Scholia in Euripidem, vol. 2, ed. Schwartz, E., 1891",
             },
         },
@@ -45879,25 +45879,25 @@ AUTHOR_TAB = {
         "date":    "Varia",
         "works":   {
             "tlg006": {
-                "title":  "Excerpta e prolegomenis in librum $1PERI\\ STA/SEWN (e cod.",
+                "title":  "Excerpta e prolegomenis in librum PERI\\ STA/SEWN (e cod.",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
             },
             "tlg002": {
-                "title":  "Prolegomena in librum $1PERI\\ STA/SEWN",
+                "title":  "Prolegomena in librum PERI\\ STA/SEWN",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
             },
             "tlg003": {
-                "title":  "Excerpta e prolegomenis in librum $1PERI\\ STA/SEWN (e cod.",
+                "title":  "Excerpta e prolegomenis in librum PERI\\ STA/SEWN (e cod.",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
             },
             "tlg004": {
-                "title":  "Prolegomena in librum $1PERI\\ STA/SEWN",
+                "title":  "Prolegomena in librum PERI\\ STA/SEWN",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
@@ -45915,13 +45915,13 @@ AUTHOR_TAB = {
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
             },
             "tlg008": {
-                "title":  "Prolegomena in librum $1PERI\\ STA/SEWN",
+                "title":  "Prolegomena in librum PERI\\ STA/SEWN",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
             },
             "tlg009": {
-                "title":  "Prolegomena in librum $1PERI\\ STA/SEWN",
+                "title":  "Prolegomena in librum PERI\\ STA/SEWN",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
@@ -45945,55 +45945,55 @@ AUTHOR_TAB = {
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
             },
             "tlg013": {
-                "title":  "Prolegomena in librum $1PERI\\ I)DEW=N",
+                "title":  "Prolegomena in librum PERI\\ I)DEW=N",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
             },
             "tlg014": {
-                "title":  "$1*PERI\\ TH=S TA/CEWS TW=N I)DEW=N",
+                "title":  "*PERI\\ TH=S TA/CEWS TW=N I)DEW=N",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
             },
             "tlg015": {
-                "title":  "Prolegomena in librum $1PERI\\ I)DEW=N (fragmentum e cod. Ambros.",
+                "title":  "Prolegomena in librum PERI\\ I)DEW=N (fragmentum e cod. Ambros.",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
             },
             "tlg016": {
-                "title":  "Prolegomena in librum $1PERI\\ STA/SEWN",
+                "title":  "Prolegomena in librum PERI\\ STA/SEWN",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Prolegomenon sylloge, ed. Rabe, H., 1931",
             },
             "tlg017": {
-                "title":  "Prolegomena in librum $1PERI\\ EU(RE/SEWS",
+                "title":  "Prolegomena in librum PERI\\ EU(RE/SEWS",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Rhetores Graeci, vol. 7.1, ed. Walz, C., 1834",
             },
             "tlg018": {
-                "title":  "Commentarium in librum $1PERI\\ STA/SEWN",
+                "title":  "Commentarium in librum PERI\\ STA/SEWN",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Rhetores Graeci, vol. 7.1, ed. Walz, C., 1834",
             },
             "tlg019": {
-                "title":  "Commentarium in librum $1PERI\\ EU(RE/SEWS",
+                "title":  "Commentarium in librum PERI\\ EU(RE/SEWS",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Rhetores Graeci, vol. 7.2, ed. Walz, C., 1834",
             },
             "tlg020": {
-                "title":  "Commentarium in librum $1PERI\\ I)DEW=N",
+                "title":  "Commentarium in librum PERI\\ I)DEW=N",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Rhetores Graeci, vol. 7.2, ed. Walz, C., 1834",
             },
             "tlg021": {
-                "title":  "De figuris in libris $1PERI\\ EU(RE/SEWN et $1PERI\\ I)DEW=N",
+                "title":  "De figuris in libris PERI\\ EU(RE/SEWN et PERI\\ I)DEW=N",
                 "genre":  ["Comm.", "Rhet."],
                 "meta":   "volume-page-line",
                 "source": "Rhetores Graeci, vol. 3, ed. Walz, C., 1834",
@@ -46112,7 +46112,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Scholia in Lucianum (scholia vetera et recentiora Arethae)",
                 "genre":  ["Schol."],
-                "meta":   "lucianic work-section-line",
+                "meta":   "lucianic work-section",
                 "source": "Scholia in Lucianum, ed. Rabe, H., 1906",
             }
         },
@@ -46197,7 +46197,7 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Scholia et glossae in Olympia et Pythia (scholia recentiora",
                 "genre":  ["Schol."],
-                "meta":   "ode -treatise-scholion -section-line",
+                "meta":   "ode -treatise-scholion -section",
                 "source": "Scholia recentia in Pindari epinicia, vol. 1, ed. Abel, E., 1891",
             },
             "tlg005": {
@@ -46309,7 +46309,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Scholia in Thucydidem (scholia vetera et recentiora)",
                 "genre":  ["Epigr.", "Schol."],
-                "meta":   "book-chapter-section-line",
+                "meta":   "book-chapter-section",
                 "source": "Scholia in Thucydidem ad optimos codices collata, ed. Hude, K., 1927",
             }
         },
@@ -46359,7 +46359,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Scholia",
                 "genre":  ["Schol."],
-                "meta":   "section-line",
+                "meta":   "section",
                 "source": "Maximi confessoris quaestiones ad Thalassium, 2 vols., ed. Steel, C., 1980; 1990",
             }
         },
@@ -46440,19 +46440,19 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Paroemiae",
                 "genre":  ["Paroem."],
-                "meta":   "centuria-section-line",
+                "meta":   "centuria-section",
                 "source": "Corpus paroemiographorum Graecorum, vol. 1, ed. Schneidewin, F.G., 1839",
             },
             "tlg002": {
                 "title":  "Paroemiae (e cod. Leidense)",
                 "genre":  ["Paroem."],
-                "meta":   "centuria-section-line",
+                "meta":   "centuria-section",
                 "source": "Corpus paroemiographorum Graecorum, vol. 2, ed. von Leutsch, E.L., 1851",
             },
             "tlg003": {
                 "title":  "Paroemiae (e cod. Mosq.)",
                 "genre":  ["Paroem."],
-                "meta":   "centuria-section-line",
+                "meta":   "centuria-section",
                 "source": "Corpus paroemiographorum Graecorum, vol. 2, ed. von Leutsch, E.L., 1851",
             },
         },
@@ -46464,7 +46464,7 @@ AUTHOR_TAB = {
             "tlg004": {
                 "title":  "Paroemiae (e cod. Vat.)",
                 "genre":  ["Paroem."],
-                "meta":   "centuria-section-line",
+                "meta":   "centuria-section",
                 "source": "Corpus paroemiographorum Graecorum, vol. 2, ed. von Leutsch, E.L., 1851",
             }
         },
@@ -46478,7 +46478,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Appendix proverbiorum",
                 "genre":  ["Paroem."],
-                "meta":   "centuria-section-line",
+                "meta":   "centuria-section",
                 "source": "Corpus paroemiographorum Graecorum, vol. 1, ed. Schneidewin, F.G., 1839",
             }
         },
@@ -46492,7 +46492,7 @@ AUTHOR_TAB = {
             "tlg001": {
                 "title":  "Paroemiae",
                 "genre":  ["Paroem."],
-                "meta":   "centuria-section-line",
+                "meta":   "centuria-section",
                 "source": "Corpus paroemiographorum Graecorum, vol. 2, ed. von Leutsch, E.L., 1851",
             }
         },

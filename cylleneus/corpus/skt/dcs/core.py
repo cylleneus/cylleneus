@@ -126,6 +126,9 @@ with codecs.open(dir / Path("dcs_lemma_morpho.json"), "r", "utf8") as fp:
 with codecs.open(dir / Path("dcs_lemma_synsets.json"), "r", "utf8") as fp:
     lemma_synsets = json.load(fp)
 
+with codecs.open(dir / Path("dcs_wn_mappings.json"), "r", "utf8") as fp:
+    wn_mappings = json.load(fp)
+
 xpos_mapping = {
     "CAD":  ("adverb", "ADV"),
     "CADA": ("preverbs (abhi)", "ADP"),
