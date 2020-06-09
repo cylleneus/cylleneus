@@ -15,8 +15,8 @@ glob = "*.conllu"
 
 # Repo
 repo = {
-    "origin":   "https://git.exeter.ac.uk/cylleneus/dcs.git",
-    "raw":      "https://git.exeter.ac.uk/cylleneus/dcs/-/raw/master/",
+    "origin":   "https://github.com/cylleneus/dcs.git",
+    "raw":      "https://raw.github.com/cylleneus/dcs/master/",
     "location": "remote",
 }
 
