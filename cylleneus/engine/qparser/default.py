@@ -37,7 +37,7 @@ import whoosh.query
 from cylleneus.engine.compat import text_type
 from whoosh.qparser import syntax
 from whoosh.qparser.common import QueryParserError
-from cylleneus.utils import print_debug
+from cylleneus.utils import Debug
 
 
 # Query parser object
@@ -285,7 +285,7 @@ class QueryParser(object):
 
         return self._priorized("filters")
 
-    def tag(self, text, pos=0, debug=settings.DEBUG):
+    def tag(self, text, pos=0, debug=settings.DEBUG_LEVEL):
         """Returns a group of syntax nodes corresponding to the given text,
         created by matching the Taggers provided by the parser's plugins.
 
@@ -299,7 +299,7 @@ class QueryParser(object):
         prev = pos
         # Priorized list of taggers provided by the parser's plugins
         taggers = self.taggers()
-        print_debug(debug, "Taggers: %r" % taggers)
+        Debug.print(debug, "Taggers: %r" % taggers)
 
         # Define a function that will make a WordNode from the "interstitial"
         # text between matches
@@ -322,10 +322,10 @@ class QueryParser(object):
                         )
                     if prev < pos:
                         tween = inter(prev, pos)
-                        print_debug(debug, "Tween: %r" % tween)
+                        Debug.print(debug, "Tween: %r" % tween)
                         stack.append(tween)
 
-                    print_debug(
+                    Debug.print(
                         debug, "Tagger: %r at %s: %r" % (tagger, pos, node)
                     )
                     stack.append(node)
@@ -342,25 +342,25 @@ class QueryParser(object):
 
         # Wrap the list of nodes in a group node
         group = self.group(stack)
-        print_debug(debug, "Tagged group: %r" % group)
+        Debug.print(debug, "Tagged group: %r" % group)
         return group
 
-    def filterize(self, nodes, debug=settings.DEBUG):
+    def filterize(self, nodes, debug=settings.DEBUG_LEVEL):
         """Takes a group of nodes and runs the filters provided by the parser's
         plugins.
         """
 
         # Call each filter in the priorized list of plugin filters
-        print_debug(debug, "Pre-filtered group: %r" % nodes)
+        Debug.print(debug, "Pre-filtered group: %r" % nodes)
         for f in self.filters():
-            print_debug(debug, "..Applying: %r" % f)
+            Debug.print(debug, "..Applying: %r" % f)
             nodes = f(self, nodes)
-            print_debug(debug, "..Result: %r" % nodes)
+            Debug.print(debug, "..Result: %r" % nodes)
             if nodes is None:
                 raise Exception("Filter %r did not return anything" % f)
         return nodes
 
-    def process(self, text, pos=0, debug=settings.DEBUG):
+    def process(self, text, pos=0, debug=settings.DEBUG_LEVEL):
         """Returns a group of syntax nodes corresponding to the given text,
         tagged by the plugin Taggers and filtered by the plugin filters.
 
@@ -372,7 +372,7 @@ class QueryParser(object):
         nodes = self.filterize(nodes, debug=debug)
         return nodes
 
-    def parse(self, text, normalize=True, debug=settings.DEBUG):
+    def parse(self, text, normalize=True, debug=settings.DEBUG_LEVEL):
         """Parses the input string and returns a :class:`whoosh.query.Query`
         object/tree.
 
@@ -387,16 +387,16 @@ class QueryParser(object):
             text = text.decode("latin1")
 
         nodes = self.process(text, debug=debug)
-        print_debug(debug, "Syntax tree: %r" % nodes)
+        Debug.print(debug, "Syntax tree: %r" % nodes)
 
         q = nodes.query(self)
         if not q:
             q = whoosh.query.NullQuery
-        print_debug(debug, "Pre-normalized query: %r" % q)
+        Debug.print(debug, "Pre-normalized query: %r" % q)
 
         if normalize:
             q = q.normalize()
-            print_debug(debug, "Normalized query: %r" % q)
+            Debug.print(debug, "Normalized query: %r" % q)
         return q
 
     def parse_(self, text, normalize=True):
@@ -627,7 +627,7 @@ class CylleneusQueryParser(QueryParser):
             fieldname, text, boost=boost, annotation=annotation, meta=meta
         )
 
-    def parse(self, text, normalize=True, debug=settings.DEBUG):
+    def parse(self, text, normalize=True, debug=settings.DEBUG_LEVEL):
         """Parses the input string and returns a :class:`whoosh.query.Query`
         object/tree.
         :param debug:
@@ -642,17 +642,17 @@ class CylleneusQueryParser(QueryParser):
             text = text.decode("latin1")
 
         nodes = self.process(text, debug=debug)
-        print_debug(debug, "Syntax tree: %r" % nodes)
+        Debug.print(debug, "Syntax tree: %r" % nodes)
 
         q = nodes.query(self)
 
         if not q:
             q = whoosh.query.NullQuery
-        print_debug(debug, "Pre-normalized query: %r" % q)
+        Debug.print(debug, "Pre-normalized query: %r" % q)
 
         if normalize:
             q = q.normalize()
-            print_debug(debug, "Normalized query: %r" % q)
+            Debug.print(debug, "Normalized query: %r" % q)
         return q
 
     def parse_(self, text, normalize=True):

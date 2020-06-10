@@ -111,7 +111,7 @@ def verify(corpus, verbose, dry_run):
                     )
                     msg += ", missing index files!"
                     missing[item] = manifest[item]
-                if info is not None and cylleneus.settings.DEBUG:
+                if info is not None and cylleneus.settings.DEBUG_LEVEL:
                     msg += f" (= {info})"
                 verified.append((docix, msg))
         if verbose and len(verified) != 0:
@@ -313,8 +313,7 @@ def create(corpus, destructive, optimize):
 
     with click_spinner.spinner():
         c = Corpus(corpus)
-        if destructive:
-            c.destroy()
+
         for file in c.text_dir.glob(c.glob):
             w = Work(corpus=c)
             _ = w.indexer.from_file(

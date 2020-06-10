@@ -652,15 +652,13 @@ class SpanNear(SpanQuery):
                                 elif v.isalpha():
                                     adivs.append(v)
                                 else:
-                                    adivs.extend(
-                                        [
-                                            int(m) if m.isnumeric() else m
-                                            for m in re.match(
+                                    adivs += [
+                                        int(m) if m.isnumeric() else m
+                                        for m in re.match(
                                             r"(\d+)([A-Za-z]+)?(\d+)?", v,
                                         ).groups()
-                                            if m
-                                        ]
-                                    )
+                                        if m
+                                    ]
                         bmeta = bspan.divs[0][0][0].split("-")
                         bdivs = []
                         for div in bspan.divs[0][0]:
@@ -671,17 +669,14 @@ class SpanNear(SpanQuery):
                                 elif v.isalpha():
                                     bdivs.append(v)
                                 else:
-                                    bdivs.extend(
-                                        [
-                                            int(m) if m.isnumeric() else m
-                                            for m in re.match(
+                                    bdivs += [
+                                        int(m) if m.isnumeric() else m
+                                        for m in re.match(
                                             r"(\d+)([A-Za-z]+)?(" r"\d+)?",
                                             v,
                                         ).groups()
-                                            if m
-                                        ]
-                                    )
-
+                                        if m
+                                    ]
                         diffs = []
                         for a, b in zip(adivs, bdivs):
                             if isinstance(a, int) and isinstance(b, int):

@@ -69,7 +69,7 @@ class CompositeAnalyzer(Analyzer):
 
         for comp in composables:
             if isinstance(comp, CompositeAnalyzer):
-                self.items.extend(comp.items)
+                self.items += comp.items
             else:
                 self.items.append(comp)
 

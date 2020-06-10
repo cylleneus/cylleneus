@@ -1,26 +1,30 @@
-from datetime import datetime
 import math
-import unicodedata
 import re
 import sys
+import unicodedata
 from collections.abc import Iterable, Mapping
-from itertools import chain, zip_longest
+from datetime import datetime
+from enum import IntEnum
 from functools import total_ordering
+from itertools import chain, zip_longest
 from numbers import Number
 
-# Debug settings values
-DEBUG_OFF = 0
-DEBUG_LOW = 1
-DEBUG_MEDIUM = 2
-DEBUG_HIGH = 3
-DEBUG_ON = DEBUG_HIGH + 1
 
-# Debug helper function
-def print_debug(level, msg, out=sys.stderr):
-    from cylleneus.settings import DEBUG
+# Debugging settings values
+class Debug(IntEnum):
+    OFF = 0
+    LOW = 1
+    MEDIUM = 2
+    HIGH = 3
+    ON = HIGH + 1
 
-    if level <= DEBUG:
-        out.write("%s%s\n" % ("  " * level, msg))
+    # Debugging helper function
+    @classmethod
+    def print(cls, level, msg, out=sys.stderr):
+        from cylleneus.settings import DEBUG_LEVEL
+
+        if DEBUG_LEVEL >= level > Debug.OFF:
+            out.write("%s%s\n" % ("  " * level, msg))
 
 
 @total_ordering
@@ -44,9 +48,8 @@ class alnum:
                     items.pop(0)
                 n = items[0]
                 for item in items[1:]:
-                    if isinstance(item, Number) or item.isnumeric():
-                        if item > n:
-                            n = item
+                    if (isinstance(item, Number) or item.isnumeric()) and item > n:
+                        n = item
                 return n
             else:
                 if default:
@@ -169,11 +172,7 @@ def autotrim(s, left=True, right=True):
         if lastspace > 0:
             endchar = lastspace
 
-    if endchar:
-        ss = s[startchar:endchar]
-    else:
-        ss = s[startchar:]
-    return ss
+    return s[startchar:endchar] if endchar else s[startchar:]
 
 
 def stringify(node):
@@ -240,15 +239,15 @@ def dtformat(dt):
     if days >= 365:
         years = days // 365
         datelets.append("%d year%s" % (years, plural(years)))
-        days = days % 365
+        days %= 365
     if 30 <= days < 365:
         months = days // 30
         datelets.append("%d month%s" % (months, plural(months)))
-        days = days % 30
+        days %= 30
     if not years and 0 < days < 30:
         xdays = days
         datelets.append("%d day%s" % (xdays, plural(xdays)))
-    if not (months or years) and hours != 0:
+    if not ((months or years) or hours == 0):
         datelets.append("%d hour%s" % (hours, plural(hours)))
     if not (xdays or months or years):
         datelets.append("%d minute%s" % (minutes, plural(minutes)))
@@ -264,13 +263,10 @@ def depth(l):
 
 
 def flatten(l, max_depth=math.inf):
-    if isinstance(l, dict):
-        if max_depth > 0:
+    if max_depth > 0:
+        if isinstance(l, dict):
             yield from flatten(l.values(), max_depth - 1)
         else:
-            yield l
-    else:
-        if max_depth > 0:
             for el in l:
                 if isinstance(el, Iterable) and not isinstance(
                     el, (str, bytes)
@@ -278,8 +274,8 @@ def flatten(l, max_depth=math.inf):
                     yield from flatten(el, max_depth - 1)
                 else:
                     yield el
-        else:
-            yield l
+    else:
+        yield l
 
 
 def nrange(start, end, zero=True, negative=True):

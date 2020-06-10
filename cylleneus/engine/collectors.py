@@ -81,7 +81,7 @@ from cylleneus.engine.compat import (
 from whoosh.util import now
 
 import cylleneus.engine.searching
-from cylleneus.utils import print_debug
+from cylleneus.utils import Debug
 from cylleneus import settings
 
 

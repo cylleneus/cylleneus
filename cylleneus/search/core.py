@@ -19,12 +19,7 @@ from cylleneus.engine.highlight import (
 )
 from cylleneus.engine.qparser.default import CylleneusQueryParser
 from cylleneus.engine.searching import CylleneusSearcher, HitRef
-from cylleneus.utils import (
-    DEBUG_HIGH,
-    DEBUG_LOW,
-    print_debug,
-    slugify,
-)
+from cylleneus.utils import Debug, slugify
 
 
 class Collection:
@@ -115,10 +110,10 @@ class Searcher:
     def collection(self, c):
         self._collection = c
 
-    def search(self, spec: str, minscore=None, debug=settings.DEBUG):
+    def search(self, spec: str, minscore=None):
         """ Execute the specified search specification """
 
-        search = Search(spec, self.collection, minscore=minscore, debug=debug)
+        search = Search(spec, self.collection, minscore=minscore)
         _ = search.run()
         self.searches.append(search)
         return search
@@ -138,8 +133,7 @@ class Search:
         spec: str,
         collection: Collection,
         minscore=None,
-        top=1000000,
-        debug=False,
+        top=1000000
     ):
         self._spec = spec
         self._collection = collection
@@ -437,15 +431,15 @@ class Search:
     def top(self):
         return self._top
 
-    def run(self, debug=DEBUG_HIGH):
+    def run(self):
         self.start_dt = datetime.now()
         self.results = []
 
         for work in self.collection:
             if work.searchable:
                 parser = CylleneusQueryParser("form", work.corpus.schema)
-                self.query = parser.parse(self.spec, debug=debug)
-                print_debug(DEBUG_LOW, "Query: {}".format(self.query))
+                self.query = parser.parse(self.spec)
+                Debug.print(Debug.LOW, "Query: {}".format(self.query))
 
                 for ix in work.indexes:
                     reader = ix.reader()
@@ -474,12 +468,10 @@ class Search:
                                     x["title"],
                                 ),
                             ):
-                                self.results.extend(
-                                    hit.highlights(
-                                        fieldname="content",
-                                        top=self.top,
-                                        minscore=self.minscore,
-                                    )
+                                self.results += hit.highlights(
+                                    fieldname="content",
+                                    top=self.top,
+                                    minscore=self.minscore,
                                 )
         self.end_dt = datetime.now()
         return self.count

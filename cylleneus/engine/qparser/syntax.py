@@ -285,7 +285,7 @@ class CylleneusGroupNode(CylleneusSyntaxNode):
         self.nodes.append(v)
 
     def extend(self, vs):
-        self.nodes.extend(vs)
+        self.nodes += vs
 
     def pop(self, *args, **kwargs):
         return self.nodes.pop(*args, **kwargs)

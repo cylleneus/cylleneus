@@ -3,11 +3,11 @@
 import os
 import sys
 from appdirs import user_data_dir
-from .utils import DEBUG_HIGH, DEBUG_MEDIUM, DEBUG_LOW, DEBUG_OFF, DEBUG_ON
+from .utils import Debug
 from . import __path__
 
 # Debugging settings
-DEBUG = DEBUG_OFF
+DEBUG_LEVEL = Debug.OFF
 
 # Package settings
 ROOT_DIR = os.path.dirname(os.path.abspath(__path__[0]))

@@ -30,8 +30,9 @@ from cylleneus.engine.qparser.syntax import *
 import cylleneus.engine.query
 import cylleneus.engine.query.positional
 import whoosh.qparser
-from cylleneus.engine.compat import u, xrange
+from cylleneus.engine.compat import u, xrange, iteritems
 from whoosh.qparser.taggers import FnTagger, RegexTagger
+from whoosh.util.text import rcompile
 
 
 class WhitespacePlugin(whoosh.qparser.plugins.TaggingPlugin):
@@ -129,7 +130,6 @@ class SequencePlugin(whoosh.qparser.plugins.Plugin):
         # just add the buffered nodes directly to newgroup
         if seq is not None:
             newgroup.extend(seq)
-
         return newgroup
 
 
@@ -239,7 +239,7 @@ class GlossPlugin(whoosh.qparser.plugins.TaggingPlugin):
 class SemfieldPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify semfields by enclosing them in curly brackets."""
 
-    expr = r"{(?P<text>[\w\d ]+?)}"  # r'(^|(?<=\W)){(?P<text>[\w\d ]+?)}(?=\s|\]|[)}]|:|"|$)'
+    expr = r"{(?P<text>[?=\w\d&, ]+)}"  # r'(^|(?<=\W)){(?P<text>[\w\d ]+?)}(?=\s|\]|[)}]|:|"|$)'
     nodetype = SemfieldNode
 
 
@@ -384,7 +384,7 @@ class GroupPlugin(whoosh.qparser.plugins.Plugin):
         # the end of the top-level
         if len(stack) > 1:
             for ls in stack[1:]:
-                top.extend(ls)
+                top += ls
 
         if len(top) == 1 and isinstance(top[0], CylleneusGroupNode):
             boost = top.boost

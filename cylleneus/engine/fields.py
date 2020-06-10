@@ -38,21 +38,18 @@ from array import array
 from decimal import Decimal
 
 import whoosh.columns
-import cylleneus.engine.query.terms
-import cylleneus.engine.query.positional
-import cylleneus.engine.query.compound
-from cylleneus.engine.compat import bytes_type, string_type, text_type
-from cylleneus.engine.compat import itervalues, xrange
-from cylleneus.engine.compat import with_metaclass
-from whoosh.system import emptybytes
-from whoosh.system import pack_byte
-from whoosh.util.numeric import to_sortable, from_sortable
-from whoosh.util.numeric import typecode_max, NaN
-from whoosh.util.text import utf8encode, utf8decode
+from lxml.etree import _Element
+from whoosh.system import emptybytes, pack_byte
+from whoosh.util.numeric import NaN, from_sortable, to_sortable, typecode_max
+from whoosh.util.text import utf8decode, utf8encode
 from whoosh.util.times import datetime_to_long, long_to_datetime
 
 import cylleneus.engine.analysis
 import cylleneus.engine.formats
+import cylleneus.engine.query.compound
+import cylleneus.engine.query.positional
+import cylleneus.engine.query.terms
+from cylleneus.engine.compat import bytes_type, itervalues, string_type, text_type, with_metaclass, xrange
 
 
 # Exceptions
@@ -170,7 +167,8 @@ class FieldType(object):
                 "%s field %r cannot index without a format"
                 % (self.__class__.__name__, self)
             )
-        if not isinstance(value, (text_type, list, tuple, dict, bytes)):
+
+        if not isinstance(value, (text_type, list, tuple, dict, bytes, _Element)):
             raise ValueError("%r is not unicode or sequence" % value)
         assert isinstance(self.format, cylleneus.engine.formats.Format)
 
@@ -203,7 +201,7 @@ class FieldType(object):
 
         if not self.format:
             raise Exception("%s field has no format" % self)
-        return (t.text for t in self.tokenize(qstring, mode=mode, **kwargs))
+        return (t.text for t in self.tokenize(qstring, mode=mode, fieldname=self.__class__.__name__.lower(), **kwargs))
 
     # Conversion
 
@@ -650,10 +648,7 @@ class NUMERIC(FieldType):
 
         # Column configuration
         if default is None:
-            if numtype is int:
-                default = typecode_max[self.sortable_typecode]
-            else:
-                default = NaN
+            default = typecode_max[self.sortable_typecode] if numtype is int else NaN
         elif not self.is_valid(default):
             raise Exception(
                 "The default %r is not a valid number for this "
@@ -705,8 +700,7 @@ class NUMERIC(FieldType):
         # If the user gave us a list of numbers, recurse on the list
         if isinstance(num, (list, tuple)):
             for n in num:
-                for item in self.index(n):
-                    yield item
+                yield from self.index(n)
             return
 
         # word, freq, weight, valuestring
@@ -1014,14 +1008,10 @@ class BOOLEAN(FieldType):
             x = x.lower() in self.trues
         else:
             x = bool(x)
-        bs = self.bytestrings[int(x)]
-        return bs
+        return self.bytestrings[int(x)]
 
     def index(self, bit, **kwargs):
-        if isinstance(bit, string_type):
-            bit = bit.lower() in self.trues
-        else:
-            bit = bool(bit)
+        bit = bit.lower() in self.trues if isinstance(bit, string_type) else bool(bit)
         # word, freq, weight, valuestring
         return [(self.bytestrings[int(bit)], 1, 1.0, emptybytes)]
 

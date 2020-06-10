@@ -12,9 +12,10 @@ from cylleneus import settings
 import cylleneus.engine.index
 from cylleneus.engine.fields import Schema
 from cylleneus.engine.searching import CylleneusHit, CylleneusSearcher
-from cylleneus.utils import slugify, print_debug, DEBUG_HIGH, DEBUG_MEDIUM
+from cylleneus.utils import slugify
 from . import indexer
 from .meta import manifest
+from enum import IntEnum
 
 
 class DefaultProgressPrinter:
@@ -148,17 +149,18 @@ class Corpus:
             ixr.optimize()
 
     def verify_by_docix(self, docix, dry_run: bool = True):
-        PASSED = 0
-        FIXED = 1
-        ADDED = 2
-        ORPHANS = 3
-        MISSING = 4
+        class VerificationResult(IntEnum):
+            PASSED = 0
+            FIXED = 1
+            ADDED = 2
+            ORPHANS = 3
+            MISSING = 4
 
         docix = int(docix)
         work = self.work_by_docix(docix)
 
         if work is None:
-            return MISSING, (docix, None, None, None, None)
+            return VerificationResult.MISSING, (docix, None, None, None, None)
 
         try:
             passed = (
@@ -199,7 +201,7 @@ class Corpus:
             if not dry_run:
                 self.update_manifest(str(docix), meta)
             return (
-                ADDED,
+                VerificationResult.ADDED,
                 (docix, work.author, work.title, work.filename[0][1], None),
             )
         else:
@@ -234,7 +236,7 @@ class Corpus:
                     if not dry_run:
                         fp.unlink()
                 return (
-                    ORPHANS,
+                    VerificationResult.ORPHANS,
                     (
                         docix,
                         work.author,
@@ -246,7 +248,7 @@ class Corpus:
             else:
                 if passed and work.searchable:
                     return (
-                        PASSED,
+                        VerificationResult.PASSED,
                         (
                             docix,
                             work.author,
@@ -281,7 +283,7 @@ class Corpus:
                     if not dry_run:
                         self.update_manifest(str(docix), meta)
                     return (
-                        FIXED,
+                        VerificationResult.FIXED,
                         (
                             docix,
                             work.author,
@@ -340,7 +342,7 @@ class Corpus:
         docixs = []
         for ixr in self.indexers:
             for ix in ixr.indexes:
-                docixs.extend(ix.reader().all_doc_ixs())
+                docixs += ix.reader().all_doc_ixs()
         return docixs
 
     def clear(self):

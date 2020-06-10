@@ -775,17 +775,17 @@ class SemfieldFilter(Filter):
                     yield t
             elif t.mode == "query":
                 text = t.original
+
                 if text:
                     if text.isnumeric():
                         results = LWN.semfields(code=text)
                     else:
-                        results = LWN.semfields(english=text).search()
+                        q = text[1:]
+                        results = LWN.semfields(english=q).search()
                     if results:
                         for result in results:
                             t.text = result["code"]
                             yield t
-                else:
-                    yield t
 
 
 class CachedSynsetFilter(Filter):
@@ -907,11 +907,14 @@ class CachedSynsetFilter(Filter):
                         else:
                             yield t
                     elif t.text.startswith("="):
-                        q = t.text[1:]
-                        synsets = LWN.synsets(gloss=q).search()
-                        for synset in synsets:
-                            t.text = f"{synset['pos']}#{synset['offset']}"
+                        if t.fieldname == "semfield":
                             yield t
+                        elif t.fieldname == "synset":
+                            q = t.text[1:]
+                            synsets = LWN.synsets(gloss=q).search()
+                            for synset in synsets:
+                                t.text = f"{synset['pos']}#{synset['offset']}"
+                                yield t
                     else:
                         yield t
 

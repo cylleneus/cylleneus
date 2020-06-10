@@ -369,7 +369,7 @@ class FileStorage(Storage):
     supports_mmap = True
 
     def __init__(
-        self, path, supports_mmap=True, readonly=False, debug=settings.DEBUG
+        self, path, supports_mmap=True, readonly=False, debug=settings.DEBUG_LEVEL
     ):
         """
         :param path: a path to a directory.

@@ -38,7 +38,7 @@ from cylleneus.engine.compat import iteritems, dumps, loads, b
 from whoosh.system import _INT_SIZE, _FLOAT_SIZE
 from whoosh.system import emptybytes
 from whoosh.system import pack_uint, unpack_uint, pack_float, unpack_float
-from cylleneus.utils import print_debug
+from cylleneus.utils import Debug
 from cylleneus import settings
 
 
