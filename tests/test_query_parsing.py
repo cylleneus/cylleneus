@@ -39,6 +39,7 @@ class TestQueryTypes(unittest.TestCase):
         """Test permissible query types."""
 
         queries = [
+            "{=Anatomy}",
             "[=the Sustainer]",
             "(<gelidus> OR <gelida>) AND <pruina>",
             "(<gelidus> OR <gelida>) THEN <pruina>",
@@ -75,5 +76,5 @@ class TestQueryTypes(unittest.TestCase):
 
         for q in queries:
             parser = CylleneusQueryParser("form", DocumentSchema())
-            query = parser.parse(q, debug=settings.DEBUG)
+            query = parser.parse(q, debug=settings.DEBUG_LEVEL)
             assert query
