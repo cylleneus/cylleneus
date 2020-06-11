@@ -82,7 +82,7 @@ class CachedLemmaFilter(Filter):
                         t.language = language
                         t.text = word
                         yield t
-                    elif "#" in text:
+                    elif "#" in text or text.startswith("="):
                         yield t
                     elif leipzig2wn(t.original) != "----------":
                         yield t
