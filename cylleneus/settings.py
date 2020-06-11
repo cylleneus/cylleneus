@@ -14,7 +14,6 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__path__[0]))
 
 # Corpus settings
 CORPUS_DIR = user_data_dir("corpus", "Cylleneus")
-DEFAULT_CORPUS = "lasla"
 
 # Search settings
 LINES_OF_CONTEXT = 2
