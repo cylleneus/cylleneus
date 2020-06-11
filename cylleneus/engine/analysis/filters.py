@@ -768,11 +768,9 @@ class SemfieldFilter(Filter):
                     codes = t.code.split(" ")
                     if codes:
                         for code in codes:
-                            t.text = code
-                            yield t
-                else:
-                    t.text = ""
-                    yield t
+                            if code:
+                                t.text = code
+                                yield t
             elif t.mode == "query":
                 text = t.original
 
@@ -871,10 +869,7 @@ class CachedSynsetFilter(Filter):
 
                         if hasattr(t, "reltype"):
                             for lemma in WordNet(iso_639[language]).get(text):
-                                if t.reltype in ["\\", "/", "+c", "-c"]:
-                                    lexical = True
-                                else:
-                                    lexical = False
+                                lexical = True if t.reltype in ["\\", "/", "+c", "-c"] else False
                                 for relation in WordNet(
                                     iso_639[language]
                                 ).get_relations(
