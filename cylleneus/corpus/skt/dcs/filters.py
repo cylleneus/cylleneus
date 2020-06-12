@@ -1,20 +1,14 @@
 import copy
 import re
+
+from multiwordnet.wordnet import WordNet
+from sanskritwordnet import SanskritWordNet, relation_types
+
 from cylleneus.engine.analysis.filters import Filter
 from cylleneus.lang import iso_639
-from cylleneus.lang.morpho import leipzig2wn, Morph
-from cylleneus.lang.skt import iast2slp, slp2deva
-from .core import (
-    lemma_morpho,
-    lemma_id,
-    pos_mapping,
-    xpos_mapping,
-    lemma_synsets,
-    wn_mappings
-)
-
-from sanskritwordnet import SanskritWordNet, relation_types
-from multiwordnet.wordnet import WordNet
+from cylleneus.lang.morpho import Morph, leipzig2wn
+# from cylleneus.lang.skt import iast2slp, slp2deva
+from .core import (lemma_id, lemma_morpho, pos_mapping, wn_mappings, xpos_mapping)
 
 SWN = SanskritWordNet()
 

@@ -14,7 +14,7 @@ Cylleneus
 .. image:: https://readthedocs.org/projects/cylleneus/badge/?version=latest
         :target: https://cylleneus.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
-        
+
 .. image:: https://mybinder.org/badge_logo.svg
         :target: https://mybinder.org/v2/gh/cylleneus/cylleneus/master?filepath=notebooks/quick_search.ipynb
 
@@ -38,7 +38,7 @@ Features
 * Morphological search: find words, or filter the results of other queries, based on morphological properties
 * Fast: once a corpus is indexed, most query types produce results nearly instantaneously
 * Sophisticated: query types can be combined into complex search patterns
-* Extensible: indexing pipelines can be created for any corpus type 
+* Extensible: indexing pipelines can be created for any corpus type
 * Currently supports: Atlas, AGLDT, LASLA, Perseus (XML or JSON format), CAMENA, PROIEL and any plaintext source (e.g. Digital Latin Library); Digital Corpus of Sanskrit; Ramses. Diorisis support in development.
 * Free: completely open-source and redistributable
 
@@ -67,7 +67,7 @@ Linux:
 To enable gloss-based searches, Cylleneus relies on the MultiWordNet. The setup process should install the latest version of the ``multiwordnet`` library, and also compile the necessary databases, but in case this step has been omitted you can do it manually. To do so, launch the Python REPL and enter the following commands.
 
 >>> from multiwordnet.db import compile
->>> for language in ['common', 'english', 'latin', 'french', 'spanish', 'italian', 'hebrew']:
+>>> for language in ['common', 'english', 'latin', 'french', 'spanish', 'italian', 'portuguese', 'hebrew']:
 ...     compile(language)
 
 To test that everything is working properly, run the battery of query tests in ``tests/test_query_types.py`` over the packaged subcorpora.

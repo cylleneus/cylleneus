@@ -5,4 +5,5 @@ iso_639 = {
     "he": "hebrew",
     "it": "italian",
     "fr": "french",
+    "pt": "portuguese"
 }
