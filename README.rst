@@ -75,7 +75,7 @@ To test that everything is working properly, run the battery of query tests in `
 Working with corpora
 --------------------
 
-New `documentation <https://mybinder.org/v2/gh/cylleneus/cylleneus/master?filepath=notebooks/corpus_integration.ipynb>` is available (in the form of an interactive Jupyter Notebook) for integrating new corpus types into Cylleneus.
+New `documentation <https://mybinder.org/v2/gh/cylleneus/cylleneus/master?filepath=notebooks/corpus_integration.ipynb>`_ is available (in the form of an interactive Jupyter Notebook) for integrating new corpus types into Cylleneus.
 
 Indexing
 --------
