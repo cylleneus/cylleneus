@@ -89,8 +89,8 @@ class CachedTokenizer(Tokenizer):
 
                             meta["sent_id"] = sent_id
                             meta["sent_pos"] = word.get("id")
-                            meta["sect_pos"] = sect_pos
-                            meta["sect_sent"] = sect_sent
+                            meta["sect_pos"] = str(sect_pos)
+                            meta["sect_sent"] = str(sect_sent)
                             t.meta = copy.copy(meta)
 
                             beta = word.get("form").upper()

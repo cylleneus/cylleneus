@@ -47,32 +47,17 @@ class CachedTokenizer(Tokenizer):
                 self._cache = []
                 self._docix = kwargs.get("docix", None)
 
-                if not tokenize:
-                    t.original = ""
-                    for token in data.iter("token"):
-                        form = token.get("form")
-                        if not form:
-                            continue
-                        t.original += f"{form}"
-                    t.text = t.original
-                    t.boost = 1.0
-                    if positions:
-                        t.pos = start_pos
-                    if chars:
-                        t.startchar = start_char
-                        t.endchar = start_char + len(t.original)
-                    yield t
-                else:
+                if tokenize:
                     for sentence in data["text"].iter("sentence"):
                         for pos, token in enumerate(sentence.iter("word")):
                             if token.get("artificial", False):
                                 continue
                             form = token.get("form")
-                            if not form:
-                                continue
-                            else:
+                            if form:
                                 form = form.replace(" ", " ").replace(" ", " ")
                                 form = re.sub(r"\.([^ ]|^$)", r". \1", form)
+                            else:
+                                continue
                             lemma = token.get("lemma", None)
                             if not lemma or lemma in (
                                 ".",
@@ -90,7 +75,7 @@ class CachedTokenizer(Tokenizer):
                             meta = {"meta": data["meta"].lower()}
                             divs = data["meta"].split("-")
                             for i, div in enumerate(divs):
-                                if not (len(divs) > 2 and div == "line"):
+                                if len(divs) <= 2 or div != "line":
                                     meta[div] = sentence.get("subdoc").split(
                                         "."
                                     )[i]
@@ -102,7 +87,7 @@ class CachedTokenizer(Tokenizer):
                                 t.original = f"{form}"
                             t.stopped = False
                             if positions:
-                                t.pos = start_pos + pos
+                                t.pos = copy.copy(start_pos + pos)
                             original_len = len(form)
 
                             if (
@@ -113,10 +98,10 @@ class CachedTokenizer(Tokenizer):
                                 form = form.lower()
                             t.text = form
                             if chars:
-                                t.startchar = start_char
-                                t.endchar = start_char + original_len
+                                t.startchar = copy.copy(start_char)
+                                t.endchar = copy.copy(start_char + original_len)
                             if self.cached:
-                                self._cache.append(copy.copy(t))
+                                self._cache.append(copy.deepcopy(t))
                             yield t
 
                             if form in editorial:
@@ -125,3 +110,18 @@ class CachedTokenizer(Tokenizer):
                                     self._cache.append(copy.copy(t))
                                 yield t
                             start_char += len(form)
+                else:
+                    t.original = ""
+                    for token in data.iter("token"):
+                        form = token.get("form")
+                        if not form:
+                            continue
+                        t.original += f"{form}"
+                    t.text = t.original
+                    t.boost = 1.0
+                    if positions:
+                        t.pos = start_pos
+                    if chars:
+                        t.startchar = start_char
+                        t.endchar = start_char + len(t.original)
+                    yield t
