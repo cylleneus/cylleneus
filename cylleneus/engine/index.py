@@ -366,7 +366,7 @@ def clean_files(storage, indexname, gen, segments):
     # open, they may not be deleted immediately (i.e. on Windows) but will
     # probably be deleted eventually by a later call to clean_files.
 
-    current_segment_names = set(s.segment_id() for s in segments)
+    current_segment_names = {s.segment_id() for s in segments}
     tocpattern = TOC._pattern(indexname)
     segpattern = TOC._segment_pattern(indexname)
 

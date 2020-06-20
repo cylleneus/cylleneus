@@ -460,8 +460,7 @@ class FileStorage(Storage):
         else:
             fileobj = open(path, mode)
 
-        f = StructFile(fileobj, name=name, **kwargs)
-        return f
+        return StructFile(fileobj, name=name, **kwargs)
 
     def open_file(self, name, **kwargs):
         """Opens an existing file in this storage.
@@ -471,8 +470,7 @@ class FileStorage(Storage):
         :return: a :class:`whoosh.filedb.structfile.StructFile` instance.
         """
 
-        f = StructFile(open(self._fpath(name), "rb"), name=name, **kwargs)
-        return f
+        return StructFile(open(self._fpath(name), "rb"), name=name, **kwargs)
 
     def _fpath(self, fname):
         return os.path.abspath(os.path.join(self.folder, fname))

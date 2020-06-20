@@ -179,11 +179,7 @@ class FieldWriter(object):
         finish_term = self.finish_term
         finish_field = self.finish_field
 
-        if lengths:
-            dfl = lengths.doc_field_length
-        else:
-            dfl = lambda docnum, fieldname: 0
-
+        dfl = lengths.doc_field_length if lengths else (lambda docnum, fieldname: 0)
         # The fieldname of the previous posting
         lastfn = None
         # The bytes text of the previous posting
@@ -208,7 +204,7 @@ class FieldWriter(object):
             if fieldname != lastfn:
                 if lasttext is not None:
                     finish_term()
-                if lastfn is not None and fieldname != lastfn:
+                if lastfn is not None:
                     finish_field()
                 fieldobj = schema[fieldname]
                 start_field(fieldname, fieldobj)

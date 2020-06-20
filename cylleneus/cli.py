@@ -24,7 +24,7 @@ REMOTE_CORPORA = {
 
 @click.group()
 def main():
-    """Indexing commands for Cylleneus."""
+    """Corpus management commands for Cylleneus."""
 
 
 @main.command()
