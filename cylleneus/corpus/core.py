@@ -1,6 +1,7 @@
 import codecs
 from collections import defaultdict
 import json
+import shutil
 import sys
 from pathlib import Path
 
@@ -505,7 +506,7 @@ class Corpus:
                                 progress.update(cur_count)
             self.update_manifest(docix, manifest)
 
-    def download(self, branch: str = "master"):
+    def download(self, branch: str = "master", destructive=False):
         if self.meta.repo["location"] != "remote":
             return
         git_uri = self.meta.repo["origin"]
@@ -526,13 +527,29 @@ class Corpus:
             except Exception as e:
                 raise e
         else:
-            try:
-                repo = Repo(self.path)
-                if not repo.bare:
-                    git_origin = repo.remotes.origin
-                    git_origin.pull()
-            except Exception as e:
-                raise e
+            if destructive:
+                shutil.rmtree(self.path)
+                self.path.mkdir(exist_ok=True, parents=True)
+                try:
+                    repo = Repo.clone_from(
+                        git_uri,
+                        self.path,
+                        branch=branch,
+                        depth=1,
+                        progress=ProgressPrinter(
+                            default_message=f"'{self.name}', origin/{branch}: {self.meta.repo['origin']}"
+                        ),
+                    )
+                except Exception as e:
+                    raise e
+            else:
+                try:
+                    repo = Repo(self.path)
+                    if not repo.bare:
+                        git_origin = repo.remotes.origin
+                        git_origin.pull()
+                except Exception as e:
+                    raise e
         manifest_file = self.path / Path("manifest.json")
         if manifest_file.exists():
             with codecs.open(manifest_file, "r", "utf8") as fp:
