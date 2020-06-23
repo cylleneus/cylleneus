@@ -113,10 +113,7 @@ def read_qsafe_array(typecode, size, dbfile):
 def make_array(typecode, size=0, default=None):
     if typecode.lower() == "q":
         # Python does not support arrays of long long see Issue 1172711
-        if default is not None and size:
-            arry = [default] * size
-        else:
-            arry = []
+        arry = [default] * size if default is not None and size else []
     else:
         if default is not None and size:
             arry = array(typecode, (default for _ in xrange(size)))
@@ -621,7 +618,7 @@ class RefBytesColumn(Column):
             length = fixedlen
             uniques = []
             for _ in xrange(ucount):
-                if not fixedlen:
+                if not length:
                     length = dbfile.read_varint()
                 uniques.append(dbfile.read(length))
             return uniques
@@ -1159,8 +1156,7 @@ class MultiColumnReader(ColumnReader):
 
     def __iter__(self):
         for r in self._readers:
-            for v in r:
-                yield v
+            yield from r
 
 
 class TranslatingColumnReader(ColumnReader):
@@ -1294,10 +1290,7 @@ class PickleColumn(WrappedColumn):
             return "<PickleWriter>"
 
         def add(self, docnum, v):
-            if v is None:
-                v = emptybytes
-            else:
-                v = dumps(v, 2)
+            v = emptybytes if v is None else dumps(v, 2)
             self._child.add(docnum, v)
 
     class Reader(WrappedColumnReader):
@@ -1400,8 +1393,7 @@ class FixedBytesListColumn(ListColumn):
             v = self._child[docnum]
             if not v:
                 return []
-            ls = [v[i: i + fixedlen] for i in xrange(0, len(v), fixedlen)]
-            return ls
+            return [v[i: i + fixedlen] for i in xrange(0, len(v), fixedlen)]
 
 # class RefListColumn(Column):
 #    def __init__(self, fixedlen=0):
