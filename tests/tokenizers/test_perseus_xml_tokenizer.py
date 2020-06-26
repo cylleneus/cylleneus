@@ -21,11 +21,16 @@ class TestPerseusXMLTokenizer(unittest.TestCase):
 
     def test_perseus_xml_tokenizer(self):
         """Test the Perseus XML tokenizer."""
-        # pass
-        from corpus.perseus_xml.tokenizer import CachedTokenizer
+        from cylleneus.corpus import Corpus
+        from cylleneus.corpus.lat.perseus_xml.tokenizer import CachedTokenizer
 
-        perseus = pathlib.Path("../../corpus/perseus_xml/text/")
-        files = list(perseus.glob("*lat*.xml"))
+        perseus = Corpus("perseus_xml")
+        if not perseus.searchable:
+            perseus.download()
+        dir = perseus.text_dir
+        files = list(dir.glob('*.txt'))
+
+        files = list(dir.glob("*lat*.xml"))
 
         with codecs.open(choice(files), "rb") as f:
             value = f.read()
@@ -46,4 +51,4 @@ class TestPerseusXMLTokenizer(unittest.TestCase):
         T = CachedTokenizer()
 
         for t in T({"text": doc, "meta": meta}, docix=0, mode="index"):
-            print(t)
+            assert t

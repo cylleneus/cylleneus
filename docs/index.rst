@@ -9,7 +9,7 @@ Welcome to Cylleneus's documentation!
    installation
    usage
    about
-   modules
+   cli
    contributing
    authors
    history
