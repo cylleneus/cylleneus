@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Cylleneus &mdash; Cylleneus 0.7.6 documentation</title>
+
+
+    <link href="_static/css/theme.css" rel="stylesheet" type="text/css"/>
+    <link href="_static/pygments.css" rel="stylesheet" type="text/css"/>
+
+
+    <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+    <![endif]-->
+
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"
+            type="text/javascript"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+
+    <script src="_static/js/theme.js" type="text/javascript"></script>
+
+
+    <link href="about.html" rel="author" title="About these documents"/>
+    <link href="genindex.html" rel="index" title="Index"/>
+    <link href="search.html" rel="search" title="Search"/>
+    <link href="contributing.html" rel="next" title="Contributing"/>
+    <link href="about.html" rel="prev" title="About"/>
+</head>
+
+<body class="wy-body-for-nav">
+
+
+<div class="wy-grid-for-nav">
+
+    <nav class="wy-nav-side" data-toggle="wy-nav-shift">
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
+
+
+                <a alt="Documentation Home" class="icon icon-home" href="index.html"> Cylleneus
+
+
+                </a>
+
+
+                <div class="version">
+                    0.7.6
+                </div>
+
+
+                <div role="search">
+                    <form action="search.html" class="wy-form" id="rtd-search-form" method="get">
+                        <input name="q" placeholder="Search docs" type="text"/>
+                        <input name="check_keywords" type="hidden" value="yes"/>
+                        <input name="area" type="hidden" value="default"/>
+                    </form>
+                </div>
+
+
+            </div>
+
+
+            <div aria-label="main navigation" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+
+
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="readme.html">Cylleneus</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+                    <li class="toctree-l1 current"><a class="current reference internal" href="#">Cylleneus</a>
+                        <ul>
+                            <li class="toctree-l2"><a class="reference internal" href="#corpus-management">Corpus
+                                management</a>
+                                <ul>
+                                    <li class="toctree-l3"><a class="reference internal" href="#cylleneus">cylleneus</a>
+                                        <ul>
+                                            <li class="toctree-l4"><a class="reference internal" href="#cylleneus-add">add</a>
+                                            </li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-clear">clear</a></li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-create">create</a></li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-delete">delete</a></li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-delete-by">delete-by</a></li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-destroy">destroy</a></li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-download">download</a></li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-download-by">download-by</a></li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-download-by-docix">download-by-docix</a>
+                                            </li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-index">index</a></li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-lexicon">lexicon</a></li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-optimize">optimize</a></li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-update">update</a></li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-update-by">update-by</a></li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-verify">verify</a></li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-version">version</a></li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#cylleneus-where">where</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+                </ul>
+
+
+            </div>
+
+        </div>
+    </nav>
+
+    <section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+
+
+        <nav aria-label="top navigation" class="wy-nav-top">
+
+            <i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+            <a href="index.html">Cylleneus</a>
+
+        </nav>
+
+
+        <div class="wy-nav-content">
+
+            <div class="rst-content">
+
+
+                <div aria-label="breadcrumbs navigation" role="navigation">
+
+                    <ul class="wy-breadcrumbs">
+
+                        <li><a class="icon icon-home" href="index.html"></a> &raquo;</li>
+
+                        <li>Cylleneus</li>
+
+
+                        <li class="wy-breadcrumbs-aside">
+
+
+                            <a href="_sources/cli.rst.txt" rel="nofollow"> View page source</a>
+
+
+                        </li>
+
+                    </ul>
+
+
+                    <hr/>
+                </div>
+                <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+                    <div itemprop="articleBody">
+
+
+                        <style>
+                            /* CSS overrides for sphinx_rtd_theme */
+
+                            /* 24px margin */
+                            .nbinput.nblast.container,
+                            .nboutput.nblast.container {
+                                margin-bottom: 19px; /* padding has already 5px */
+                            }
+
+                            /* ... except between code cells! */
+                            .nblast.container + .nbinput.container {
+                                margin-top: -19px;
+                            }
+
+                            .admonition > p:before {
+                                margin-right: 4px; /* make room for the exclamation icon */
+                            }
+
+                            /* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+                            .math {
+                                text-align: unset;
+                            }
+                        </style>
+                        <div class="section" id="cylleneus">
+                            <h1>Cylleneus<a class="headerlink" href="#cylleneus"
+                                            title="Permalink to this headline">¶</a></h1>
+                            <div class="section" id="corpus-management">
+                                <h2>Corpus management<a class="headerlink" href="#corpus-management"
+                                                        title="Permalink to this headline">¶</a></h2>
+                                <div class="section" id="cylleneus">
+                                    <h3>cylleneus<a class="headerlink" href="#cylleneus"
+                                                    title="Permalink to this headline">¶</a></h3>
+                                    <p>Indexing commands for Cylleneus.</p>
+                                    <div class="highlight-shell notranslate">
+                                        <div class="highlight"><pre><span></span>cylleneus <span class="o">[</span>OPTIONS<span
+                                            class="o">]</span> COMMAND <span class="o">[</span>ARGS<span
+                                            class="o">]</span>...
+</pre>
+                                        </div>
+                                    </div>
+                                    <div class="section" id="cylleneus-add">
+                                        <h4>add<a class="headerlink" href="#cylleneus-add"
+                                                  title="Permalink to this headline">¶</a></h4>
+                                        <p>Index a specific file.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus add <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-add-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-add-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-add-p">
+                                                <code class="sig-name descname">-p</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--path</code><code
+                                                class="sig-prename descclassname"> &lt;path&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-add-p"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-add-a">
+                                                <code class="sig-name descname">-a</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--author</code><code
+                                                class="sig-prename descclassname"> &lt;author&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-add-a"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-add-t">
+                                                <code class="sig-name descname">-t</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--title</code><code
+                                                class="sig-prename descclassname"> &lt;title&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-add-t"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-clear">
+                                        <h4>clear<a class="headerlink" href="#cylleneus-clear"
+                                                    title="Permalink to this headline">¶</a></h4>
+                                        <p>Clear the indexes of a corpus without deleting them.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus clear <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-clear-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-clear-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-create">
+                                        <h4>create<a class="headerlink" href="#cylleneus-create"
+                                                     title="Permalink to this headline">¶</a></h4>
+                                        <p>Create all corpus indexes from source files.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus create <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-create-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-create-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-create-d">
+                                                <code class="sig-name descname">-d</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--destructive</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">-D</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--not-destructive</code><code
+                                                class="sig-prename descclassname"></code><a class="headerlink"
+                                                                                            href="#cmdoption-cylleneus-create-d"
+                                                                                            title="Permalink to this definition">¶</a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-create-o">
+                                                <code class="sig-name descname">-o</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--optimize</code><code
+                                                class="sig-prename descclassname"></code><a class="headerlink"
+                                                                                            href="#cmdoption-cylleneus-create-o"
+                                                                                            title="Permalink to this definition">¶</a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-delete">
+                                        <h4>delete<a class="headerlink" href="#cylleneus-delete"
+                                                     title="Permalink to this headline">¶</a></h4>
+                                        <p>Delete a document in a corpus by index number.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus delete <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-delete-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-delete-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-delete-d">
+                                                <code class="sig-name descname">-d</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--docix</code><code
+                                                class="sig-prename descclassname"> &lt;docix&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-delete-d"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-delete-by">
+                                        <h4>delete-by<a class="headerlink" href="#cylleneus-delete-by"
+                                                        title="Permalink to this headline">¶</a></h4>
+                                        <p>Delete documents in a corpus by author name and/or title.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus delete-by <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-delete-by-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-delete-by-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-delete-by-a">
+                                                <code class="sig-name descname">-a</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--author</code><code
+                                                class="sig-prename descclassname"> &lt;author&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-delete-by-a"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-delete-by-t">
+                                                <code class="sig-name descname">-t</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--title</code><code
+                                                class="sig-prename descclassname"> &lt;title&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-delete-by-t"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-destroy">
+                                        <h4>destroy<a class="headerlink" href="#cylleneus-destroy"
+                                                      title="Permalink to this headline">¶</a></h4>
+                                        <p>Destroy the indexes and manifest of a corpus.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus destroy <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-destroy-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-destroy-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-download">
+                                        <h4>download<a class="headerlink" href="#cylleneus-download"
+                                                       title="Permalink to this headline">¶</a></h4>
+                                        <p>Download a remote corpus repository.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus download <span class="o">[</span>OPTIONS<span
+                                                class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-download-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-download-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-download-b">
+                                                <code class="sig-name descname">-b</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--branch</code><code
+                                                class="sig-prename descclassname"> &lt;branch&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-download-b"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-download-by">
+                                        <h4>download-by<a class="headerlink" href="#cylleneus-download-by"
+                                                          title="Permalink to this headline">¶</a></h4>
+                                        <p>Download documents by author and title from a remote corpus.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus download-by <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-download-by-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-download-by-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-download-by-a">
+                                                <code class="sig-name descname">-a</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--author</code><code
+                                                class="sig-prename descclassname"> &lt;author&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-download-by-a"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-download-by-t">
+                                                <code class="sig-name descname">-t</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--title</code><code
+                                                class="sig-prename descclassname"> &lt;title&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-download-by-t"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-download-by-docix">
+                                        <h4>download-by-docix<a class="headerlink" href="#cylleneus-download-by-docix"
+                                                                title="Permalink to this headline">¶</a></h4>
+                                        <p>Download a document by number from a remote corpus.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus download-by-docix <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-download-by-docix-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-download-by-docix-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-download-by-docix-i">
+                                                <code class="sig-name descname">-i</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--docix</code><code
+                                                class="sig-prename descclassname"> &lt;docix&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-download-by-docix-i"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-index">
+                                        <h4>index<a class="headerlink" href="#cylleneus-index"
+                                                    title="Permalink to this headline">¶</a></h4>
+                                        <p>List indexed works in a corpus.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus index <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-index-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-index-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-lexicon">
+                                        <h4>lexicon<a class="headerlink" href="#cylleneus-lexicon"
+                                                      title="Permalink to this headline">¶</a></h4>
+                                        <p>List the contents of an index by field name.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus lexicon <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-lexicon-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-lexicon-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-lexicon-f">
+                                                <code class="sig-name descname">-f</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--fieldname</code><code
+                                                class="sig-prename descclassname"> &lt;fieldname&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-lexicon-f"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-optimize">
+                                        <h4>optimize<a class="headerlink" href="#cylleneus-optimize"
+                                                       title="Permalink to this headline">¶</a></h4>
+                                        <p>Optimize the indexes of a corpus.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus optimize <span class="o">[</span>OPTIONS<span
+                                                class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-optimize-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-optimize-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-update">
+                                        <h4>update<a class="headerlink" href="#cylleneus-update"
+                                                     title="Permalink to this headline">¶</a></h4>
+                                        <p>Reindex a document by index number.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus update <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-update-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-update-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-update-d">
+                                                <code class="sig-name descname">-d</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--docix</code><code
+                                                class="sig-prename descclassname"> &lt;docix&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-update-d"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-update-p">
+                                                <code class="sig-name descname">-p</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--path</code><code
+                                                class="sig-prename descclassname"> &lt;path&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-update-p"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-update-by">
+                                        <h4>update-by<a class="headerlink" href="#cylleneus-update-by"
+                                                        title="Permalink to this headline">¶</a></h4>
+                                        <p>Reindex a document by author name and/or title.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus update-by <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-update-by-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-update-by-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-update-by-a">
+                                                <code class="sig-name descname">-a</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--author</code><code
+                                                class="sig-prename descclassname"> &lt;author&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-update-by-a"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-update-by-t">
+                                                <code class="sig-name descname">-t</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--title</code><code
+                                                class="sig-prename descclassname"> &lt;title&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-update-by-t"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-update-by-p">
+                                                <code class="sig-name descname">-p</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--path</code><code
+                                                class="sig-prename descclassname"> &lt;path&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-update-by-p"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-verify">
+                                        <h4>verify<a class="headerlink" href="#cylleneus-verify"
+                                                     title="Permalink to this headline">¶</a></h4>
+                                        <p>Verify the integrity of corpus indexes and manifest.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus verify <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <p class="rubric">Options</p>
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-verify-c">
+                                                <code class="sig-name descname">-c</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--corpus</code><code
+                                                class="sig-prename descclassname"> &lt;corpus&gt;</code><a
+                                                class="headerlink" href="#cmdoption-cylleneus-verify-c"
+                                                title="Permalink to this definition">¶</a></dt>
+                                            <dd><p>[required]</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-verify-v">
+                                                <code class="sig-name descname">-v</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--verbose</code><code
+                                                class="sig-prename descclassname"></code><a class="headerlink"
+                                                                                            href="#cmdoption-cylleneus-verify-v"
+                                                                                            title="Permalink to this definition">¶</a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="std option">
+                                            <dt id="cmdoption-cylleneus-verify-d">
+                                                <code class="sig-name descname">-d</code><code
+                                                class="sig-prename descclassname"></code><code
+                                                class="sig-prename descclassname">, </code><code
+                                                class="sig-name descname">--dry-run</code><code
+                                                class="sig-prename descclassname"></code><a class="headerlink"
+                                                                                            href="#cmdoption-cylleneus-verify-d"
+                                                                                            title="Permalink to this definition">¶</a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </div>
+                                    <div class="section" id="cylleneus-version">
+                                        <h4>version<a class="headerlink" href="#cylleneus-version"
+                                                      title="Permalink to this headline">¶</a></h4>
+                                        <p>Display the current engine version number.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus version <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="section" id="cylleneus-where">
+                                        <h4>where<a class="headerlink" href="#cylleneus-where"
+                                                    title="Permalink to this headline">¶</a></h4>
+                                        <p>Display location of corpus directory.</p>
+                                        <div class="highlight-shell notranslate">
+                                            <div class="highlight"><pre><span></span>cylleneus where <span
+                                                class="o">[</span>OPTIONS<span class="o">]</span>
+</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <footer>
+
+                    <div aria-label="footer navigation" class="rst-footer-buttons" role="navigation">
+
+                        <a accesskey="n" class="btn btn-neutral float-right" href="contributing.html" rel="next"
+                           title="Contributing">Next <span class="fa fa-arrow-circle-right"></span></a>
+
+
+                        <a accesskey="p" class="btn btn-neutral float-left" href="about.html" rel="prev"
+                           title="About"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+
+                    </div>
+
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>
+
+                            &copy; Copyright 2019, William Michael Short
+
+                        </p>
+                    </div>
+
+
+                    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+
+                    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+
+                    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+                </footer>
+
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+
+<script type="text/javascript">
+    jQuery(function () {
+        SphinxRtdTheme.Navigation.enable(true);
+    });
+</script>
+
+
+</body>
+</html>

@@ -4,7 +4,7 @@
  *
  * Sphinx JavaScript utilities for the full-text search.
  *
- * :copyright: Copyright 2007-2018 by the Sphinx team, see AUTHORS.
+ * :copyright: Copyright 2007-2020 by the Sphinx team, see AUTHORS.
  * :license: BSD, see LICENSE for details.
  *
  */
@@ -26,18 +26,22 @@ if (!Scorer) {
     // query matches the full name of an object
     objNameMatch: 11,
     // or matches in the last dotted part of the object name
-    objPartialMatch: 6,
-    // Additive scores depending on the priority of the object
-    objPrio: {0:  15,   // used to be importantResults
-              1:  5,   // used to be objectResults
-              2: -5},  // used to be unimportantResults
-    //  Used when the priority is not in the mapping.
-    objPrioDefault: 0,
+      objPartialMatch: 6,
+      // Additive scores depending on the priority of the object
+      objPrio: {
+          0: 15,   // used to be importantResults
+          1: 5,   // used to be objectResults
+          2: -5
+      },  // used to be unimportantResults
+      //  Used when the priority is not in the mapping.
+      objPrioDefault: 0,
 
-    // query found in title
-    title: 15,
-    // query found in terms
-    term: 5
+      // query found in title
+      title: 15,
+      partialTitle: 7,
+      // query found in terms
+      term: 5,
+      partialTerm: 2
   };
 }
 
@@ -52,18 +56,31 @@ if (!splitQuery) {
  */
 var Search = {
 
-  _index : null,
-  _queued_query : null,
-  _pulse_status : -1,
+    _index: null,
+    _queued_query: null,
+    _pulse_status: -1,
 
-  init : function() {
-      var params = $.getQueryParameters();
-      if (params.q) {
-          var query = params.q[0];
-          $('input[name="q"]')[0].value = query;
-          this.performSearch(query);
-      }
-  },
+    htmlToText: function (htmlString) {
+        var htmlElement = document.createElement('span');
+        htmlElement.innerHTML = htmlString;
+        $(htmlElement).find('.headerlink').remove();
+        docContent = $(htmlElement).find('[role=main]')[0];
+        if (docContent === undefined) {
+            console.warn("Content block not found. Sphinx search tries to obtain it " +
+                "via '[role=main]'. Could you check your theme or template.");
+            return "";
+        }
+        return docContent.textContent || docContent.innerText;
+    },
+
+    init: function () {
+        var params = $.getQueryParameters();
+        if (params.q) {
+            var query = params.q[0];
+            $('input[name="q"]')[0].value = query;
+            this.performSearch(query);
+        }
+    },
 
   loadIndex : function(url) {
     $.ajax({type: "GET", url: url, data: null,
@@ -119,9 +136,9 @@ var Search = {
     // create the required interface elements
     this.out = $('#search-results');
     this.title = $('<h2>' + _('Searching') + '</h2>').appendTo(this.out);
-    this.dots = $('<span></span>').appendTo(this.title);
-    this.status = $('<p style="display: none"></p>').appendTo(this.out);
-    this.output = $('<ul class="search"/>').appendTo(this.out);
+      this.dots = $('<span></span>').appendTo(this.title);
+      this.status = $('<p class="search-summary">&nbsp;</p>').appendTo(this.out);
+      this.output = $('<ul class="search"/>').appendTo(this.out);
 
     $('#search-progress').text(_('Preparing search...'));
     this.startPulse();
@@ -138,7 +155,6 @@ var Search = {
    */
   query : function(query) {
     var i;
-    var stopwords = DOCUMENTATION_OPTIONS.SEARCH_LANGUAGE_STOP_WORDS;
 
     // stem the searchterms and add them to the correct list
     var stemmer = new Stemmer();
@@ -234,47 +250,48 @@ var Search = {
     function displayNextItem() {
       // results left, load the summary and display it
       if (results.length) {
-        var item = results.pop();
-        var listItem = $('<li style="display:none"></li>');
-        if (DOCUMENTATION_OPTIONS.FILE_SUFFIX === '') {
-          // dirhtml builder
-          var dirname = item[0] + '/';
-          if (dirname.match(/\/index\/$/)) {
-            dirname = dirname.substring(0, dirname.length-6);
-          } else if (dirname == 'index/') {
-            dirname = '';
+          var item = results.pop();
+          var listItem = $('<li style="display:none"></li>');
+          var requestUrl = "";
+          var linkUrl = "";
+          if (DOCUMENTATION_OPTIONS.BUILDER === 'dirhtml') {
+              // dirhtml builder
+              var dirname = item[0] + '/';
+              if (dirname.match(/\/index\/$/)) {
+                  dirname = dirname.substring(0, dirname.length - 6);
+              } else if (dirname == 'index/') {
+                  dirname = '';
+              }
+              requestUrl = DOCUMENTATION_OPTIONS.URL_ROOT + dirname;
+              linkUrl = requestUrl;
+
+          } else {
+              // normal html builders
+              requestUrl = DOCUMENTATION_OPTIONS.URL_ROOT + item[0] + DOCUMENTATION_OPTIONS.FILE_SUFFIX;
+              linkUrl = item[0] + DOCUMENTATION_OPTIONS.LINK_SUFFIX;
           }
           listItem.append($('<a/>').attr('href',
-            DOCUMENTATION_OPTIONS.URL_ROOT + dirname +
-            highlightstring + item[2]).html(item[1]));
-        } else {
-          // normal html builders
-          listItem.append($('<a/>').attr('href',
-            item[0] + DOCUMENTATION_OPTIONS.FILE_SUFFIX +
-            highlightstring + item[2]).html(item[1]));
-        }
-        if (item[3]) {
-          listItem.append($('<span> (' + item[3] + ')</span>'));
-          Search.output.append(listItem);
-          listItem.slideDown(5, function() {
-            displayNextItem();
-          });
-        } else if (DOCUMENTATION_OPTIONS.HAS_SOURCE) {
-          var suffix = DOCUMENTATION_OPTIONS.SOURCELINK_SUFFIX;
-          if (suffix === undefined) {
-            suffix = '.txt';
-          }
-          $.ajax({url: DOCUMENTATION_OPTIONS.URL_ROOT + '_sources/' + item[5] + (item[5].slice(-suffix.length) === suffix ? '' : suffix),
+              linkUrl +
+              highlightstring + item[2]).html(item[1]));
+          if (item[3]) {
+              listItem.append($('<span> (' + item[3] + ')</span>'));
+              Search.output.append(listItem);
+              listItem.slideDown(5, function () {
+                  displayNextItem();
+              });
+          } else if (DOCUMENTATION_OPTIONS.HAS_SOURCE) {
+              $.ajax({
+                  url: requestUrl,
                   dataType: "text",
-                  complete: function(jqxhr, textstatus) {
-                    var data = jqxhr.responseText;
-                    if (data !== '' && data !== undefined) {
-                      listItem.append(Search.makeSearchSummary(data, searchterms, hlterms));
-                    }
-                    Search.output.append(listItem);
-                    listItem.slideDown(5, function() {
-                      displayNextItem();
-                    });
+                  complete: function (jqxhr, textstatus) {
+                      var data = jqxhr.responseText;
+                      if (data !== '' && data !== undefined) {
+                          listItem.append(Search.makeSearchSummary(data, searchterms, hlterms));
+                      }
+                      Search.output.append(listItem);
+                      listItem.slideDown(5, function () {
+                          displayNextItem();
+                      });
                   }});
         } else {
           // no source available, just display title
@@ -313,18 +330,19 @@ var Search = {
 
     for (var prefix in objects) {
       for (var name in objects[prefix]) {
-        var fullname = (prefix ? prefix + '.' : '') + name;
-        if (fullname.toLowerCase().indexOf(object) > -1) {
-          var score = 0;
-          var parts = fullname.split('.');
-          // check for different match types: exact matches of full name or
-          // "last name" (i.e. last dotted part)
-          if (fullname == object || parts[parts.length - 1] == object) {
-            score += Scorer.objNameMatch;
-          // matches in last name
-          } else if (parts[parts.length - 1].indexOf(object) > -1) {
-            score += Scorer.objPartialMatch;
-          }
+          var fullname = (prefix ? prefix + '.' : '') + name;
+          var fullnameLower = fullname.toLowerCase()
+          if (fullnameLower.indexOf(object) > -1) {
+              var score = 0;
+              var parts = fullnameLower.split('.');
+              // check for different match types: exact matches of full name or
+              // "last name" (i.e. last dotted part)
+              if (fullnameLower == object || parts[parts.length - 1] == object) {
+                  score += Scorer.objNameMatch;
+                  // matches in last name
+              } else if (parts[parts.length - 1].indexOf(object) > -1) {
+                  score += Scorer.objPartialMatch;
+              }
           var match = objects[prefix][name];
           var objname = objnames[match[1]][2];
           var title = titles[match[0]];
@@ -380,22 +398,37 @@ var Search = {
 
     // perform the search on the required terms
     for (i = 0; i < searchterms.length; i++) {
-      var word = searchterms[i];
-      var files = [];
-      var _o = [
-        {files: terms[word], score: Scorer.term},
-        {files: titleterms[word], score: Scorer.title}
-      ];
+        var word = searchterms[i];
+        var files = [];
+        var _o = [
+            {files: terms[word], score: Scorer.term},
+            {files: titleterms[word], score: Scorer.title}
+        ];
+        // add support for partial matches
+        if (word.length > 2) {
+            for (var w in terms) {
+                if (w.match(word) && !terms[word]) {
+                    _o.push({files: terms[w], score: Scorer.partialTerm})
+                }
+            }
+            for (var w in titleterms) {
+                if (w.match(word) && !titleterms[word]) {
+                    _o.push({files: titleterms[w], score: Scorer.partialTitle})
+                }
+            }
+        }
 
-      // no match but word was a required one
-      if ($u.every(_o, function(o){return o.files === undefined;})) {
-        break;
-      }
-      // found search word in contents
-      $u.each(_o, function(o) {
-        var _files = o.files;
-        if (_files === undefined)
-          return
+        // no match but word was a required one
+        if ($u.every(_o, function (o) {
+            return o.files === undefined;
+        })) {
+            break;
+        }
+        // found search word in contents
+        $u.each(_o, function (o) {
+            var _files = o.files;
+            if (_files === undefined)
+                return
 
         if (_files.length === undefined)
           _files = [_files];
@@ -405,7 +438,7 @@ var Search = {
         for (j = 0; j < _files.length; j++) {
           file = _files[j];
           if (!(file in scoreMap))
-            scoreMap[file] = {}
+              scoreMap[file] = {};
           scoreMap[file][word] = o.score;
         }
       });
@@ -413,30 +446,36 @@ var Search = {
       // create the mapping
       for (j = 0; j < files.length; j++) {
         file = files[j];
-        if (file in fileMap)
-          fileMap[file].push(word);
-        else
-          fileMap[file] = [word];
+          if (file in fileMap && fileMap[file].indexOf(word) === -1)
+              fileMap[file].push(word);
+          else
+              fileMap[file] = [word];
       }
     }
 
     // now check if the files don't contain excluded terms
     for (file in fileMap) {
-      var valid = true;
+        var valid = true;
 
-      // check if all requirements are matched
-      if (fileMap[file].length != searchterms.length)
-          continue;
+        // check if all requirements are matched
+        var filteredTermCount = // as search terms with length < 3 are discarded: ignore
+            searchterms.filter(function (term) {
+                return term.length > 2
+            }).length
+        if (
+            fileMap[file].length != searchterms.length &&
+            fileMap[file].length != filteredTermCount
+        ) continue;
 
-      // ensure that none of the excluded terms is in the search result
-      for (i = 0; i < excluded.length; i++) {
-        if (terms[excluded[i]] == file ||
-            titleterms[excluded[i]] == file ||
-            $u.contains(terms[excluded[i]] || [], file) ||
-            $u.contains(titleterms[excluded[i]] || [], file)) {
-          valid = false;
-          break;
-        }
+        // ensure that none of the excluded terms is in the search result
+        for (i = 0; i < excluded.length; i++) {
+            if (terms[excluded[i]] == file ||
+                titleterms[excluded[i]] == file ||
+                $u.contains(terms[excluded[i]] || [], file) ||
+                $u.contains(titleterms[excluded[i]] || [], file)) {
+                valid = false;
+                break;
+            }
       }
 
       // if we have still a valid result we can add it to the result list
@@ -450,24 +489,25 @@ var Search = {
     return results;
   },
 
-  /**
-   * helper function to return a node containing the
-   * search summary for a given text. keywords is a list
-   * of stemmed words, hlwords is the list of normal, unstemmed
-   * words. the first one is used to find the occurrence, the
-   * latter for highlighting it.
-   */
-  makeSearchSummary : function(text, keywords, hlwords) {
-    var textLower = text.toLowerCase();
-    var start = 0;
-    $.each(keywords, function() {
-      var i = textLower.indexOf(this.toLowerCase());
-      if (i > -1)
-        start = i;
-    });
-    start = Math.max(start - 120, 0);
-    var excerpt = ((start > 0) ? '...' : '') +
-      $.trim(text.substr(start, 240)) +
+    /**
+     * helper function to return a node containing the
+     * search summary for a given text. keywords is a list
+     * of stemmed words, hlwords is the list of normal, unstemmed
+     * words. the first one is used to find the occurrence, the
+     * latter for highlighting it.
+     */
+    makeSearchSummary: function (htmlText, keywords, hlwords) {
+        var text = Search.htmlToText(htmlText);
+        var textLower = text.toLowerCase();
+        var start = 0;
+        $.each(keywords, function () {
+            var i = textLower.indexOf(this.toLowerCase());
+            if (i > -1)
+                start = i;
+        });
+        start = Math.max(start - 120, 0);
+        var excerpt = ((start > 0) ? '...' : '') +
+            $.trim(text.substr(start, 240)) +
       ((start + 240 - text.length) ? '...' : '');
     var rv = $('<div class="context"></div>').text(excerpt);
     $.each(hlwords, function() {
