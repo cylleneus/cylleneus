@@ -49,7 +49,7 @@ master_doc = "index"
 
 # General information about the project.
 project = u"Cylleneus"
-copyright = u"2019, William Michael Short"
+copyright = u"2020, William Michael Short"
 author = u"William Michael Short"
 
 # The version info for the project you're documenting, acts as replacement
@@ -157,7 +157,7 @@ texinfo_documents = [
         u"Cylleneus Documentation",
         author,
         "cylleneus",
-        "Next-gen search engine for electronic corpora of Greek and Latin.",
+        "Next-gen search engine for electronic corpora of ancient languages.",
         "Miscellaneous",
     ),
 ]
