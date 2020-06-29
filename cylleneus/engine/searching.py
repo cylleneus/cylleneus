@@ -1843,7 +1843,7 @@ def query_term_lists(query, ixreader):
         and_terms = []
         or_terms = []
         if isinstance(
-            q, cylleneus.engine.query.compound.CylleneusCompoundQuery
+            q, (cylleneus.engine.query.compound.CylleneusCompoundQuery, cylleneus.engine.query.terms.MultiTerm)
         ):
             if isinstance(q, cylleneus.engine.query.compound.Or):
                 or_terms.append(all_terms)
