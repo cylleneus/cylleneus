@@ -23,9 +23,12 @@ from cylleneus.utils import Debug, slugify
 
 
 class Collection:
-    def __init__(self, name: str = None, works: Iterable[Work] = None):
+    def __init__(self, works: Iterable[Work] = None, name: str = None):
         self._works = list(works) if works else []
         self._name = name
+
+        if self.name:
+            self.load()
 
     @property
     def name(self):
@@ -44,6 +47,9 @@ class Collection:
             self._works.remove(work)
 
     def save(self, name: str = None):
+        if not name:
+            name = self.name
+
         file = Path(".collections")
 
         if file.exists():
@@ -56,7 +62,10 @@ class Collection:
         with safer.open(".collections", "w", encoding="utf8") as fp:
             json.dump(collections, fp)
 
-    def load(self, name: str):
+    def load(self, name: str = None):
+        if not name:
+            name = self.name
+
         file = Path(".collections")
         if file.exists():
             with codecs.open(file, "r", "utf8") as fp:
@@ -64,12 +73,13 @@ class Collection:
         else:
             collections = {name: []}
 
-        self.works = [
-            Corpus(corpus).work_by_docix(docix)
-            for corpus, docixs in collections[name]
-            for docix in docixs
-        ]
-        self.name = name
+        if name in collections:
+            self.works = [
+                Corpus(corpus).work_by_docix(docix)
+                for corpus, docixs in collections[name]
+                for docix in docixs
+            ]
+            self.name = name
 
     @property
     def count(self):
