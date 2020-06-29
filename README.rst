@@ -72,6 +72,10 @@ To enable gloss-based searches, Cylleneus relies on the MultiWordNet. The setup 
 
 To test that everything is working properly, run the battery of query tests in ``tests/test_query_types.py`` over the packaged subcorpora.
 
+Working with corpora
+--------------------
+
+New `documentation <https://mybinder.org/v2/gh/cylleneus/cylleneus/master?filepath=notebooks/corpus_integration.ipynb>`_ is available (in the form of an interactive Jupyter Notebook) for integrating new corpus types into Cylleneus.
 
 Indexing
 --------
