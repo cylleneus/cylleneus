@@ -3,11 +3,10 @@
 
 """Tests for `cylleneus` package."""
 
-
 import unittest
 
 
-class TestQueryParsing(unittest.TestCase):
+class TestSearchTypes(unittest.TestCase):
     """Tests for `cylleneus` package."""
 
     def setUp(self):
@@ -28,11 +27,11 @@ class TestQueryParsing(unittest.TestCase):
     def tearDown(self):
         """Tear down test fixtures, if any."""
 
-    def test_query_parsing(self):
-        """Test query parsing."""
+    def test_search_types(self):
+        """Test search types."""
 
         from cylleneus.corpus import Corpus
-        from cylleneus.engine.qparser.default import CylleneusQueryParser
+        from cylleneus.search import Collection, Searcher
 
         queries = [
             ("perseus", "{=Anatomy}"),
@@ -51,9 +50,9 @@ class TestQueryParsing(unittest.TestCase):
             ("perseus", '"cum magno" <calor>'),
             ("lasla", '":VB. milites"'),
             ("lasla", '":VB. <miles>"'),
-            ("proiel", "</::bellum>"),
+            ("latin_library", "</::bellum>"),
             ("latin_library", "[!::en?cowardice]"),
-            ("perseus_xml", "[en?courage]|ABL.PL."),
+            ("latin_library", "[en?courage]|ABL.PL."),
             ("perseus", "[@::n#04478900]"),
             ("latin_library", "opt*"),
             ("atlas", "<τεύχω>"),
@@ -69,6 +68,8 @@ class TestQueryParsing(unittest.TestCase):
 
         for corpus, query in queries:
             c = Corpus(corpus)
-            p = CylleneusQueryParser("form", c.schema)
-            q = p.parse(query)
-            assert q
+            if not c.searchable:
+                c.download()
+            s = Searcher(collection=Collection(works=c.works))
+            r = s.search(query)
+            assert r
