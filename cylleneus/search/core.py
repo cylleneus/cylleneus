@@ -49,6 +49,8 @@ class Collection:
     def save(self, name: str = None):
         if not name:
             name = self.name
+        else:
+            self.name = name
 
         file = Path(".collections")
 
@@ -415,7 +417,7 @@ class Search:
                 results = [(hit, meta) for hit, meta, _ in self.results]
 
                 corpora = len({hit["corpus"] for hit, _ in results})
-                docs = len({hit["docix"] for hit, _ in results})
+                docs = len({(hit["corpus"], hit["docix"]) for hit, _ in results})
                 matches = ceil(
                     sum(
                         len(
