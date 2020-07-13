@@ -323,11 +323,14 @@ class Search:
 
     def to_docx(self, filename: str = None):
         if not filename:
-            filename = slugify(self.query, allow_unicode=False)
+            filename = slugify(self.spec, allow_unicode=False)
+        else:
+            if not filename.endswith(".docx"):
+                filename += ".docx"
 
         if self.results:
             doc = docx.Document()
-            doc.add_heading(filename, 0)
+            doc.add_heading(self.spec, 0)
             doc.add_heading(
                 f"{self.start_dt.strftime(settings.LONG_DATE_FORMAT)} (Cylleneus v{__version__})",
                 2,
@@ -363,7 +366,7 @@ class Search:
                                 r.font.bold = None
                     else:
                         p.add_run(run.group(2))
-            doc.save(f"{filename}.docx")
+            doc.save(filename)
 
     @property
     def spec(self):
