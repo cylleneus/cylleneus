@@ -57,7 +57,7 @@ requirements = [
     "LinkHeader>=0.4.3",
     "lxml>=4.4.2",
     "multiwordnet>=0.1.3",
-    "MyCapytain>=3.0.0",
+    "MyCapytain",
     "natsort>=7.0.0",
     "nltk>=3.4.5",
     "PyLD>=1.0.5",
@@ -101,7 +101,7 @@ setup(
     setup_requires=setup_requirements,
     test_suite="tests",
     tests_require=test_requirements,
-    url="https://github.com/cy/cylleneus",
+    url="https://github.com/cylleneus/cylleneus",
     version=version,
     zip_safe=False,
 )

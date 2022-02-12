@@ -360,7 +360,12 @@ def download(corpus, branch):
 
     if not corpus:
         for name, meta in REMOTE_CORPORA.items():
-            click.echo(f"[-] '{name}' [{meta.repo['origin']}]")
+            # click.echo(f"[-] '{name}' [{meta.repo['origin']}]")
+            c = Corpus(name)
+            try:
+                c.download(branch)
+            except Exception as e:
+                click.echo("[-] failed", e)
     else:
         if corpus not in REMOTE_CORPORA:
             click.echo(f"[-] no remote location for '{corpus}'")
