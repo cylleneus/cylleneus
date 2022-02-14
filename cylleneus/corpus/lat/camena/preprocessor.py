@@ -11,8 +11,12 @@ class Preprocessor(BasePreprocessor):
     def parse(self, file: Path):
         with codecs.open(file, "rb") as f:
             value = f.read()
-        parser = et.XMLParser(encoding="utf-8")
-        doc = et.XML(value, parser=parser)
+        parser_utf8 = et.XMLParser(encoding="utf-8")
+        parser_iso8859 = et.XMLParser(encoding="iso-8859-1")
+        try:
+            doc = et.XML(value, parser=parser_utf8)
+        except:
+            doc = et.XML(value, parser=parser_iso8859)
 
         urn = doc.xpath(
             "teiHeader/fileDesc/publicationStmt/address/addrLine/anchor"

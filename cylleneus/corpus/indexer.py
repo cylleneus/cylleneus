@@ -1,6 +1,7 @@
 import queue
 import shutil
 from pathlib import Path
+import codecs
 
 import cylleneus.engine.index
 from cylleneus.engine.writing import CLEAR
@@ -194,13 +195,13 @@ class Indexer:
         if not path.exists():
             return
         kwargs = self.corpus.preprocessor.parse(path)
-
+        
         if "author" not in kwargs and self.work.author:
             kwargs["author"] = self.work.author
         if "title" not in kwargs and self.work.title:
             kwargs["title"] = self.work.title
         kwargs["corpus"] = self.corpus.name
-
+        
         # Check if docix exists
         existing = None
         for docix_, doc in self.corpus.manifest.items():
@@ -210,7 +211,7 @@ class Indexer:
                 and doc["filename"] == kwargs["filename"]
             ):
                 existing = int(docix_)
-
+        
         if existing is not None:
             if not destructive:
                 Debug.print(
@@ -227,15 +228,18 @@ class Indexer:
             docix = self.corpus.doc_count_all
 
         kwargs["docix"] = docix
-
+        
         self.path = Path(
             self.corpus.index_dir
             / slugify(kwargs["author"])
             / slugify(kwargs["title"])
         )
+        
+        self.path.mkdir(exist_ok=True, parents=True)
+        
         indexname = f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}"
         ix = self.open(indexname=indexname)
-
+        
         writer = ix.writer(limitmb=4096, procs=1)
         try:
             writer.add_document(**kwargs)
@@ -255,88 +259,10 @@ class Indexer:
                 writer.newsegment.make_filename(".seg"),
             ],
         }
+        
         self.corpus.update_manifest(docix, work_manifest)
         Debug.print(
             Debug.MEDIUM,
             f"- Indexed '{self.corpus.name}' docix {docix}: {kwargs['author']}, {kwargs['title']} ({path})",
         )
-        return docix
-
-    def from_string(
-        self,
-        content,
-        destructive: bool = False,
-        optimize: bool = False,
-        **kwargs,
-    ):
-        if not content:
-            return
-        parsed = self.corpus.preprocessor.parse(content)
-        kwargs.update(parsed)
-
-        # Check if docix exists
-        existing = None
-        for docix_, doc in self.corpus.manifest.items():
-            if (
-                doc["author"] == kwargs["author"]
-                and doc["title"] == kwargs["title"]
-                and doc["filename"] == kwargs["filename"]
-            ):
-                existing = docix_
-
-        if existing is not None:
-            if not destructive:
-                Debug.print(
-                    Debug.HIGH, f"- Docix {existing} already exists, skipping",
-                )
-                return existing
-            else:
-                Debug.print(
-                    Debug.HIGH, f"- Docix {existing} already exists, deleting",
-                )
-                self.destroy(existing)
-                docix = existing
-        else:
-            docix = self.corpus.doc_count_all
-
-        kwargs["docix"] = docix
-
-        self.path = Path(
-            self.corpus.index_dir
-            / slugify(kwargs["author"])
-            / slugify(kwargs["title"])
-        )
-        indexname = f"{self.corpus.name}_{slugify(kwargs['author'])}_{slugify(kwargs['title'])}_{docix}"
-        ix = self.open(indexname=indexname)
-
-        writer = ix.writer(limitmb=4096, procs=1, multisegment=True)
-        try:
-            Debug.print(
-                Debug.MEDIUM,
-                "Add document: {}, {} to '{}' [{}]".format(
-                    kwargs["author"], kwargs["title"], self.corpus.name, docix,
-                ),
-            )
-            writer.add_document(**kwargs)
-            writer.commit(optimize=optimize)
-        except queue.Empty as e:
-            pass
-        work_manifest = {
-            "author":   kwargs["author"],
-            "title":    kwargs["title"],
-            "filename": None,
-            "path":     str(self.path.relative_to(CORPUS_DIR)),
-            "index":    [
-                cylleneus.engine.index.TOC._filename(
-                    indexname, ix.latest_generation()
-                ),
-                writer.newsegment.make_filename(".seg"),
-            ],
-        }
-        Debug.print(
-            Debug.MEDIUM,
-            f"- Indexed '{self.corpus.name}' docix {docix}: {kwargs['author']}, {kwargs['title']} (\"{content[:24]}"
-            f'...")',
-        )
-        self.corpus.update_manifest(docix, work_manifest)
         return docix

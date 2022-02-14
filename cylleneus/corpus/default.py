@@ -39,12 +39,11 @@ class Preprocessor(BasePreprocessor):
     def parse(self, file: Path):
         with codecs.open(file, "r", "utf8") as fp:
             doc = fp.read()
-
+        
         # Basic text cleaning
         doc = re.sub(r"(\s)+", r"\1", doc)
-
+        
         return {
-            "content":    doc,
             "form":       doc,
             "lemma":      doc,
             "synset":     doc,
@@ -87,7 +86,7 @@ class CachedTokenizer(Tokenizer):
                 positions, chars, removestops=removestops, mode=mode, **kwargs
             )
 
-            stopchars = '!"#$%()*+,-—./:;<=>?@[\]^_`{|}~'
+            stopchars = string.punctuation
             punctuation = str.maketrans("", "", stopchars)
 
             if t.mode == "query":
@@ -157,7 +156,6 @@ Semfields = SemfieldFilter()
 
 
 class DocumentSchema(BaseSchema):
-    content = STORED()
     form = FORM(analyzer=Tokens, vector=True)
     lemma = LEMMA(analyzer=Tokens | Lemmas, vector=True)
     annotation = ANNOTATION(
@@ -169,9 +167,14 @@ class DocumentSchema(BaseSchema):
     )
 
 
-# Fetch function for plaintext corpora with content
+# Fetch function for plaintext corpora
 def fetch(work, meta, fragment):
-    content = work.doc[0]["content"]
+    _, file = work.filename[0]
+    with codecs.open(
+        work.corpus.text_dir / file.replace("\\", "/")
+    ) as fp:
+        content = fp.read()
+
     content = re.sub(r"(\s)+", r"\1", content)
 
     # Reference and hlite values
@@ -179,8 +182,8 @@ def fetch(work, meta, fragment):
     end = ", ".join([f"{k}: {v}" for k, v in meta["end"].items() if v])
     reference = "-".join([start, end]) if end != start else start
 
-    hlite_starts = [startchar for startchar, endchar, pos in meta["hlites"]]
-    hlite_ends = [endchar for startchar, endchar, pos in meta["hlites"]]
+    hlite_starts = [hlite["startchar"] for hlite in meta["hlites"]]
+    hlite_ends = [hlite["endchar"] for hlite in meta["hlites"]]
 
     # Collect text and context
     pre_raw = content[
@@ -194,10 +197,11 @@ def fetch(work, meta, fragment):
     post = f"<post>{autotrim(post_raw, left=False)}</post>"
 
     match_raw = content[hlite_starts[0]: hlite_ends[-1] + 1]
-    hlite = ""
     if len(hlite_starts) == 1 and len(hlite_ends) == 1:
         hlite = f"<em>{match_raw}</em>"
     else:
+        hlite = ""
+
         cursor = hlite_starts[0]
         for c in match_raw:
             if cursor in hlite_starts:

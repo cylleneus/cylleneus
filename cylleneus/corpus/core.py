@@ -581,8 +581,8 @@ class Work:
             self._doc = [
                 doc,
             ]
-            self._author = doc["author"] if "author" in doc else None
-            self._title = doc["title"] if "title" in doc else None
+            self._author = doc["author"] if "author" in doc else author
+            self._title = doc["title"] if "title" in doc else title
             self._docix = [doc["docix"], ] if "docix" in doc else None
             self._urn = [(doc["docix"], doc["urn"]), ] if "urn" in doc else None
             self._filename = (
