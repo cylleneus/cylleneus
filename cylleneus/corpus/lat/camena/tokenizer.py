@@ -75,7 +75,7 @@ class CachedTokenizer(Tokenizer):
                             else:
                                 text = "".join(
                                     [
-                                        subel.text + subel.tail
+                                        (subel.text or "") + (subel.tail or "")
                                         for subel in el.iter()
                                         if subel.tag != el.tag
                                     ]

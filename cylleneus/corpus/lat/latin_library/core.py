@@ -72,7 +72,7 @@ def fetch(work, meta, fragment):
 
     text = f"".join([pre, match, post])
     _, urn = work.urn[0]
-
+    
     return urn, reference, text
 
 
