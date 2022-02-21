@@ -200,7 +200,7 @@ def stringify(node):
     return unescape(s)
 
 
-def slugify(value, allow_unicode=False):
+def slugify(value, allow_unicode=False, truncate: bool=True):
     """
     Convert to ASCII if 'allow_unicode' is False. Convert spaces to hyphens.
     Remove characters that aren't alphanumerics, underscores, or hyphens.
@@ -218,7 +218,11 @@ def slugify(value, allow_unicode=False):
     value = re.sub(
         r"[^\w\s-]", "", re.sub(r"[:=]", "-", value).strip().lower()
     )
-    return re.sub(r"[\s]+", "-", value)
+    value = re.sub(r"[\s]+", "-", value)
+
+    if truncate and len(value) > 128:
+        value = '-'.join((value[:128].rsplit('-', maxsplit=1)))
+    return value
 
 
 def dtformat(dt):

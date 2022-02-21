@@ -31,8 +31,12 @@ def fetch(work, meta, fragment):
         work.corpus.text_dir / file, "rb"
     ) as fp:
         value = fp.read()
-    parser = et.XMLParser(encoding="utf-8")
-    doc = et.XML(value, parser=parser)
+    parser_utf8 = et.XMLParser(encoding="utf-8")
+    parser_iso8859 = et.XMLParser(encoding="iso-8859-1")
+    try:
+        doc = et.XML(value, parser=parser_utf8)
+    except:
+        doc = et.XML(value, parser=parser_iso8859)
 
     # URN
     _, urn = work.urn[0]
@@ -57,8 +61,8 @@ def fetch(work, meta, fragment):
     reference = (
         "-".join([ref_start, ref_end]) if ref_end != ref_start else ref_start
     )
-    hlites = {hlite["sent_pos"] for hlite in meta["hlites"]}
-
+    hlites = {(hlite["sent_id"], hlite["sent_pos"]) for hlite in meta["hlites"]}
+    
     # Collect text and context
     sentences = []
     for el in doc.find("text").find("body").iter():
@@ -66,7 +70,7 @@ def fetch(work, meta, fragment):
             if not el.text:
                 text = "".join(
                     [
-                        subel.text + subel.tail
+                        (subel.text or "") + (subel.tail or "")
                         for subel in el.iter()
                         if subel.tag != el.tag
                     ]
@@ -77,19 +81,20 @@ def fetch(work, meta, fragment):
 
     start = int(meta["start"]["sent_id"]) - 1
     end = int(meta["end"]["sent_id"]) - 1
-
+    
     pre = [
         f"<pre>{sentence}</pre>"
         for sentence in sentences[start - LINES_OF_CONTEXT: start]
     ]
     match = [
         f"<match>"
-        f'{"".join([f"<em>{token}</em>" if str(i) in hlites else token for sentence in sentences[start:end + 1] for i, token in enumerate(word_tokenizer.word_tokenize(sentence))])}'
+        f'''{"".join([f"{' ' if i == 0 else ''}<em>{token}</em>" if (str(j + start + 1), str(i)) in hlites else token for j, sentence in enumerate(sentences[start:end + 1]) for i, token in enumerate(word_tokenizer.word_tokenize(sentence))])}'''
         f"</match>",
     ]
+    
     post = [
         f"<post>{sentence}</post>"
-        for sentence in sentences[start + 1: start + LINES_OF_CONTEXT]
+        for sentence in sentences[start + (end - start) + 1: start + LINES_OF_CONTEXT]
     ]
 
     if "poem" in divs or (len(divs) == 2 and divs[-1] in ["line", "verse"]):

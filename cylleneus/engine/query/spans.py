@@ -1229,7 +1229,6 @@ class SpanWith2(SpanQuery):
                     while j < len(bspans):
                         bspan = bspans[j]
                         j += 1
-
                         if (
                             bspan.startchar == aspan.startchar
                             and bspan.endchar == aspan.endchar

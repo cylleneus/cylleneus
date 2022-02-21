@@ -41,7 +41,10 @@ class CachedTokenizer(Tokenizer):
 
             if t.mode == "query":
                 t.original = data
-                t.text = data.translate(jvmap)
+                if t.fieldname in ["form", "lemma"]:
+                    t.text = data.translate(jvmap)
+                else:
+                    t.text = data
                 yield t
             else:
                 self._cache = []
