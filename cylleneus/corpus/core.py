@@ -704,3 +704,6 @@ class Work:
 
     def __eq__(self, other):
         return self.docix == other.docix and self.corpus == other.corpus
+
+    def __hash__(self):
+        return hash((self.corpus.name, *self.docix))
