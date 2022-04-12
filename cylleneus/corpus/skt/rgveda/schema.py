@@ -1,0 +1,29 @@
+from cylleneus.engine.fields import *
+from cylleneus.engine.schemas import BaseSchema
+from cylleneus.engine.analysis.filters import AnnotationFilter
+
+from .tokenizer import CachedTokenizer
+from .filters import CachedLemmaFilter, MorphosyntaxFilter, CachedSynsetFilter, SemfieldFilter, DependencyRelationFilter
+
+Tokens = CachedTokenizer(chars=True)
+Lemmas = CachedLemmaFilter(chars=True)
+Synsets = CachedSynsetFilter()
+Annotations = AnnotationFilter()
+Semfields = SemfieldFilter()
+Morphosyntax = MorphosyntaxFilter()
+DependencyRelations = DependencyRelationFilter()
+
+class DocumentSchema(BaseSchema):
+    urn = STORED()
+    meta = STORED()
+    form = FORM(analyzer=Tokens, vector=True)
+    deprel = DEPREL(analyzer=Tokens | DependencyRelations, vector=True)
+    lemma = LEMMA(analyzer=Tokens | Lemmas, vector=True)
+    annotation = ANNOTATION(
+        analyzer=Tokens | Lemmas | Annotations, vector=True
+    )
+    synset = SYNSET(analyzer=Tokens | Lemmas | Synsets, vector=True)
+    semfield = SEMFIELD(
+        analyzer=Tokens | Lemmas | Synsets | Semfields, vector=True
+    )
+    morphosyntax = MORPHOSYNTAX(analyzer=Tokens | Morphosyntax, vector=True)
