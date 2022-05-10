@@ -34,7 +34,7 @@ class DependencyRelationFilter(Filter):
     def __call__(self, tokens, **kwargs):
         for t in tokens:
             if t.mode == "index":
-                text = t.head_lemma
+                text = t.meta["head_lemma"]
                 if text:
                     t.text = text
                     yield t
@@ -114,7 +114,7 @@ class CachedLemmaFilter(Filter):
                             morphos = lemma_morpho[dcs_id]
                         except KeyError:
                             continue
-
+                        
                         annotation = t.morpho if t.morpho is not None else None
                         for i, morpho in enumerate(morphos.split()):
                             uri = lemma_id[lemma][morpho]
@@ -124,27 +124,24 @@ class CachedLemmaFilter(Filter):
                                 ]
                                 for desc in annotations:
                                     annotation = str(
-                                        Morph(morpho) + Morph(desc[:10])
+                                        Morph(morpho) + Morph(desc)
                                     )
                                     t.morpho = (
                                         f"{morpho}::{uri}:{i}>{annotation}"
                                     )
                                     t.text = f"{lemma}:{uri}={morpho}"
+                                    
                                     if self.cached:
-                                        self._cache.append(copy.copy(t))
-                                    yield t
-
-                                    # # Emit Devanagari
-                                    # t.text = f"{slp2deva(iast2slp(lemma))}:{uri}={morpho}"
-                                    # t.mode = "skip"
-                                    # yield t
-
+                                        self._cache.append(copy.deepcopy(t))
+                                    yield copy.deepcopy(t)
                             else:
                                 t.morpho = f"{morpho}::{uri}:{i}>{morpho}"
                                 t.text = f"{lemma}:{uri}={morpho}"
+                                
                                 if self.cached:
-                                    self._cache.append(copy.copy(t))
-                                yield t
+                                    self._cache.append(copy.deepcopy(t))
+                                yield copy.deepcopy(t)
+                    
                 elif t.mode == "query":
                     # Lexical relation
                     if "::" in t.text:
@@ -243,14 +240,15 @@ class CachedLemmaFilter(Filter):
                                 if kwargs["uri"] is not None:
                                     results = SWN.lemmas_by_uri(kwargs["uri"])
                                 else:
-                                    kwargs.pop("uri")
+                                    kwargs = {k: v for k, v in kwargs.items() if v is not None}
                                     results = SWN.lemmas(**kwargs)
 
                                 if results:
                                     for result in results:
                                         if result["uri"] is not None:
-                                            t.text = f"{result['transliteration']}:{result['uri']}={result['morpho']}"
-                                            yield t
+                                            for morpho in result['morpho'].split():
+                                                t.text = f"{result['transliteration']}:{result['uri']}={morpho}"
+                                                yield t
 
 
 class CachedSynsetFilter(Filter):

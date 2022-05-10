@@ -34,8 +34,9 @@ import copy
 import weakref
 from collections import Counter, defaultdict, namedtuple
 from itertools import product
+from operator import itemgetter
 from math import ceil
-
+from deepdiff import DeepDiff
 import whoosh.classify
 from greekwordnet import greekwordnet
 from latinwordnet import latinwordnet
@@ -1887,7 +1888,7 @@ def query_term_lists(query, ixreader):
     else:
         term_lists += product(*or_terms)
     return sorted(
-        [sorted(term_list, key=lambda x: x[0]) for term_list in term_lists]
+        [set(term_list) for term_list in term_lists]
     )
 
 
@@ -2059,7 +2060,7 @@ class CylleneusHit(Hit):
                 field_counts_by_meta = {}
                 for finalist in finalists:
                     meta = hdict(finalist.meta)
-                    for k in ["sent_pos", "sect_pos"]:
+                    for k in ["sent_pos", "sect_pos", "head_pos", "head_lemma"]:
                         if k in meta:
                             meta.pop(k)
                     if meta not in field_counts_by_meta:
@@ -2071,7 +2072,7 @@ class CylleneusHit(Hit):
                                     {
                                         k: v
                                         for k, v in f.meta.items()
-                                        if k not in ["sent_pos", "sect_pos"]
+                                        if k not in ["sent_pos", "sect_pos", "head_pos", "head_lemma"]
                                     }
                                 )
                                 == meta
@@ -2086,7 +2087,7 @@ class CylleneusHit(Hit):
                                 {
                                     k: v
                                     for k, v in finalist.meta.items()
-                                    if k not in ["sent_pos", "sect_pos"]
+                                    if k not in ["sent_pos", "sect_pos", "head_pos", "head_lemma"]
                                 }
                             )
                             for finalist in finalists
@@ -2101,7 +2102,7 @@ class CylleneusHit(Hit):
                                 {
                                     k: v
                                     for k, v in finalist.meta.items()
-                                    if k not in ["sent_pos", "sect_pos"]
+                                    if k not in ["sent_pos", "sect_pos", "head_pos", "head_lemma"]
                                 }
                             )
                         ]
@@ -2116,7 +2117,7 @@ class CylleneusHit(Hit):
                                     {
                                         k: v
                                         for k, v in finalist.meta.items()
-                                        if k not in ["sent_pos", "sect_pos"]
+                                        if k not in ["sent_pos", "sect_pos", "head_pos", "head_lemma"]
                                     }
                                 )
                             ][field]
@@ -2134,20 +2135,91 @@ class CylleneusHit(Hit):
                 filtered.append(fragment)
         return filtered
 
+    def filter_by_head(self, query, termlists, fragments):
+        """ For head relation queries, preserve only relevant heads and deps """
+
+        if isinstance(
+            query, cylleneus.engine.query.compound.HeadRelation
+        ):
+            head, dep = tuple(query.children())
+            head_terms = [term[1] for term in head.iter_all_terms(self.reader)]
+            
+            if isinstance(
+                dep, cylleneus.engine.query.positional.Collocation
+            ):
+                dep, deprel = tuple(dep.children())
+                deprel_terms = [term[1] for term in deprel.iter_all_terms(self.reader)]
+            else:
+                deprel = None
+                deprel_terms = None
+            dep_terms = [term[1] for term in dep.iter_all_terms(self.reader)]
+            
+            for fragment in fragments:
+                Debug.print(Debug.HIGH, "- fragment: {}".format(fragment))
+                
+                fragment_terms = [
+                    (match.fieldname, match.text)
+                    for match in fragment.matches
+                    ]
+                
+                if any(
+                    all(term in fragment_terms for term in termlist)
+                    for termlist in termlists
+                ):
+                    matches = []
+                    for match in fragment.matches:
+                        head_lemma = match.meta["head_lemma"]
+                        head_pos = match.meta["head_pos"]
+                        
+                        if deprel is not None:
+                            if (head_lemma in head_terms and match.text in dep_terms) or match.text in head_terms or match.text in deprel_terms:
+                                matches.append(match)
+                        else:
+                            if (head_lemma in head_terms and match.text in dep_terms) or match.text in head_terms:
+                                matches.append(match)
+                    fragment.matches = matches
+
+        filtered = []
+        for fragment in fragments:
+            if len(fragment.matches) >= query.nterms():
+                filtered.append(fragment)
+        return filtered
+
     @staticmethod
     def merge_fragments(fragments):
-        """ Merge overlapping, adjacent, and same-passage fragments together """
-
+        """ Merge overlapping fragments """
+    
         fragment = None
 
         for other in fragments:
+            merge_keys = other.matches[0].meta.get("merge_on", None)
+            if merge_keys:
+                merge_on = merge_keys.split("-")
+                merge_getter = itemgetter(*merge_on)
+
             if fragment is None:
                 fragment = copy.deepcopy(other)
-            elif (
-                fragment.is_adjacent(other)
-                or fragment.overlaps(other)
-                or fragment.has_same_divs(other)
-            ):
+            elif merge_keys is not None:
+                if not {
+                    merge_getter(match.meta) for match in fragment.matches
+                }.difference(
+                    {merge_getter(match.meta) for match in other.matches}
+                ):
+                    fragment.matches += other.matches
+                    fragment.matches.sort(key=lambda x: (x.startchar, x.fieldname))
+                    fragment.matched_terms.update(other.matched_terms)
+
+                    if other.startchar < fragment.startchar:
+                        fragment.startchar = other.startchar
+
+                    fragment.endchar = max(fragment.endchar, other.endchar)
+
+                    i = other.text.find(fragment.text)
+                    fragment.text += other.text[i:]
+                else:
+                    yield fragment
+                    fragment = copy.deepcopy(other)
+            elif fragment.overlaps(other) or fragment.has_same_divs(other):
                 fragment.matches += other.matches
                 fragment.matches.sort(key=lambda x: (x.startchar, x.fieldname))
                 fragment.matched_terms.update(other.matched_terms)
@@ -2155,8 +2227,7 @@ class CylleneusHit(Hit):
                 if other.startchar < fragment.startchar:
                     fragment.startchar = other.startchar
 
-                if fragment.endchar < other.endchar:
-                    fragment.endchar = other.endchar
+                fragment.endchar = max(fragment.endchar, other.endchar)
 
                 i = other.text.find(fragment.text)
                 fragment.text += other.text[i:]
@@ -2168,72 +2239,30 @@ class CylleneusHit(Hit):
             yield fragment
 
     def filter_by_sequence(self, query, fragments):
-        def _ordering_diff(a, b):
-            return tuple(x - y for x, y in zip(a, b))
-
-        def _filter_matches_by_order(matches, ordering):
+        def _filter_matches_by_order(matches, orderings, sequence_id):
             matches = sorted(
                 matches, key=lambda x: (x.startchar, field_order[x.fieldname]),
             )
+            ordering = orderings[sequence_id]
             ordered = set()
             other = None
             for match in matches:
                 if other is None:
-                    if (
-                        match.fieldname,
-                        match.text.split("::")[0],
-                    ) not in ordering:
-                        ordered.add(match)
                     other = match
                     continue
                 else:
                     if (
-                        (match.fieldname, match.text.split("::")[0])
-                        in ordering
-                        and (other.fieldname, other.text.split("::")[0])
-                        in ordering
+                            (other.fieldname, other.text.split("::")[0])
+                            in ordering
+                            and
+                            (match.fieldname, match.text.split("::")[0])
+                            in ordering
                     ):
                         if (
-                            (
                                 match.fieldname == "annotation"
                                 and match.startchar == other.startchar
-                            )
-                            or (
-                                match.pos - other.pos == 0
-                                and match.text in lat.enclitics
-                                and (0, 0)
-                                <= _ordering_diff(
-                                    ordering[
-                                        (
-                                            match.fieldname,
-                                            match.text.split("::")[0],
-                                        )
-                                    ],
-                                    ordering[
-                                        (
-                                            other.fieldname,
-                                            other.text.split("::")[0],
-                                        )
-                                    ],
-                                )
-                                <= (1, 0)
-                            )
-                            or (
-                                ordering[
-                                    (
-                                        match.fieldname,
-                                        match.text.split("::")[0],
-                                    )
-                                ]
-                                == ordering[
-                                    (
-                                        other.fieldname,
-                                        other.text.split("::")[0],
-                                    )
-                                ]
-                                and match.has_same_divs(other)
-                            )
-                        ):
+                                and not DeepDiff(match.meta, other.meta)
+                            ):
                             ordered.add(other)
                             ordered.add(match)
                         else:
@@ -2241,78 +2270,85 @@ class CylleneusHit(Hit):
                                 ordering[
                                     (
                                         match.fieldname,
-                                        match.text.split("::")[0],
+                                        match.text.split("::")[0]
                                     )
                                 ]
                                 > ordering[
                                     (
                                         other.fieldname,
-                                        other.text.split("::")[0],
+                                        other.text.split("::")[0]
                                     )
                                 ]
                             ):
-                                # For strict sequences, matches must be adjacent;
+                                # For strict sequences, tokens must be adjacent;
                                 # ordered queries have a slop tolerance
                                 if (
                                     0
                                     < match.pos - other.pos
-                                    < (
+                                    <= (
                                         query.slop
                                         if hasattr(query, "slop")
                                         else 1
                                     )
-                                    + 1
                                 ):
                                     ordered.add(other)
                                     ordered.add(match)
-                    else:
-                        # If the match is unrelated to the ordering...
-                        if (
-                            match.fieldname,
-                            match.text.split("::")[0],
-                        ) not in ordering:
-                            ordered.add(match)
-                other = match
-            return sorted(ordered, key=lambda x: x.startchar)
+                    other = match
+            yield from sorted(ordered, key=lambda x: x.startchar)
 
-        def _ordering_for_query(q, seq: int = 0):
-            for i, sq in enumerate(q):
+        def _ordering_for_terms(query, n: int = None):
+            for i, sq in enumerate(query):
                 if isinstance(
+                    sq, cylleneus.engine.query.positional.Collocation
+                ):
+                    yield from _ordering_for_terms(sq, i)
+                elif isinstance(
                     sq, cylleneus.engine.query.compound.CylleneusCompoundQuery
                 ):
-                    yield from _ordering_for_query(sq, i)
-                else:
-                    if seq == 0:
-                        yield (sq.fieldname, sq.text.split("::")[0]), (i, 0)
+                    if isinstance(
+                        sq, cylleneus.engine.query.compound.Or
+                    ):
+                        for sqq in sq:
+                            yield (sqq.fieldname, sqq.text.split("::")[0]), i
                     else:
-                        yield (sq.fieldname, sq.text.split("::")[0]), (seq, i)
+                        yield from _ordering_for_terms(sq, i)
+                else:
+                    yield (sq.fieldname, sq.text.split("::")[0]), n if n is not None else i
 
-        if isinstance(query, cylleneus.engine.query.positional.Sequence):
-            ordering = {k: v for k, v in _ordering_for_query(query)}
+        if isinstance(
+                query, cylleneus.engine.query.positional.Sequence
+            ):
+            orderings = defaultdict(dict)
+            for k, v in _ordering_for_terms(query):
+                orderings[0][k] = v
 
             for fragment in fragments:
                 fragment.matches = _filter_matches_by_order(
-                    fragment.matches, ordering
+                    fragment.matches, orderings, 0
                 )
         else:
             for fragment in fragments:
                 matches = set()
+                orderings = defaultdict(dict)
+                sequence_id = 0
                 for i, subquery in enumerate(query):
                     if isinstance(
                         subquery, cylleneus.engine.query.positional.Sequence
                     ):
-                        ordering = {
-                            k: v for k, v in _ordering_for_query(subquery, i)
-                        }
+                        for k, v in _ordering_for_terms(subquery):
+                            orderings[sequence_id][k] = v
+
                         matches.update(
                             set(
                                 _filter_matches_by_order(
-                                    fragment.matches, ordering
+                                    fragment.matches, orderings, sequence_id
                                 )
                             )
                         )
+
+                        sequence_id += 1
                     else:
-                        termlists = query_term_lists(subquery, self.reader)
+                        termsets = query_term_lists(subquery, self.reader)
                         matches.update(
                             set(
                                 [
@@ -2324,20 +2360,21 @@ class CylleneusHit(Hit):
                                                 match.fieldname,
                                                 match.text.split("::")[0],
                                             )
-                                            in termlist
-                                            for termlist in termlists
+                                            in termset
+                                            for termset in termsets
                                         ]
                                     )
                                 ]
                             )
                         )
-                fragment.matches = list(matches)
+                fragment.matches = matches
         nterms = query.nterms()
-        newfragments = []
+
         for fragment in fragments:
+            fragment.matches = list(fragment.matches)
+
             if len(fragment.matches) >= nterms:
-                newfragments.append(fragment)
-        return newfragments
+                yield fragment
 
     def filter_by_score(self, query, termlists, fragments):
         scored = []
@@ -2378,19 +2415,25 @@ class CylleneusHit(Hit):
         # Merge overlapping and adjacent unique-field fragments
         merged = list(self.merge_fragments(results))
         Debug.print(Debug.MEDIUM, "- Merged fragments: {}".format(len(merged)))
-
+        
         # Preserve same-analysis groupings in compound queries
         filtered = self.filter_by_annotation(query, termlists, merged)
         Debug.print(
             Debug.MEDIUM, "- Filtered by annotation: {}".format(len(filtered))
         )
 
+        # Preserve only heads and deps that go together
+        filtered = self.filter_by_head(query, termlists, merged)
+        Debug.print(
+            Debug.MEDIUM, "- Filtered by head: {}".format(len(filtered))
+        )
+
         # Preserve ordering in sequential (adjacency) queries
-        filtered = self.filter_by_sequence(query, filtered)
+        filtered = list(self.filter_by_sequence(query, filtered))
         Debug.print(
             Debug.MEDIUM, "- Filtered by sequence: {}".format(len(filtered))
         )
-
+        
         # Keep only fragments that reach the minimum score threshold
         scored = self.filter_by_score(query, termlists, filtered)
         Debug.print(

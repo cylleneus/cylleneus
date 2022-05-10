@@ -68,7 +68,7 @@ class CylleneusFragment(object):
             tuple(
                 v
                 for k, v in match.meta.items()
-                if k not in ["sent_pos", "sect_pos", "pos"]
+                if k not in ["sent_pos", "sect_pos", "pos", "head"]
             )
             for match in self.matches
         }
@@ -340,7 +340,7 @@ class CylleneusHighlighter(object):
                         boost=boost,
                         fieldname=field.__class__.__name__.lower(),
                     )
-                    t.meta = dict([item.split("=") for item in meta[0]])
+                    t.meta = dict([item.split("=", maxsplit=1) for item in meta[0]])
                     tokens.append(t)
 
             # Sort tokens by position in text

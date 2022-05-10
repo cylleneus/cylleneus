@@ -305,6 +305,34 @@ class And(CylleneusCompoundQuery):
         )
 
 
+class HeadRelation(CylleneusCompoundQuery):
+    """Matches documents that match ALL of the subqueries. """
+
+    # This is used by the superclass's __unicode__ method.
+    JOINT = " HEAD OF "
+    intersect_merge = True
+
+    def requires(self):
+        s = set()
+        for q in self.subqueries:
+            s |= q.requires()
+        return s
+
+    def estimate_size(self, ixreader):
+        return min(q.estimate_size(ixreader) for q in self.subqueries)
+
+    def _matcher(self, subs, searcher, context):
+        r = searcher.reader()
+        q_weight_fn = lambda q: 0 - q.estimate_size(r)
+        return self._tree_matcher(
+            subs,
+            cylleneus.engine.matching.binary.IntersectionMatcher,
+            searcher,
+            context,
+            q_weight_fn,
+        )
+
+
 class Or(CylleneusCompoundQuery):
     """Matches documents that match ANY of the subqueries."""
 

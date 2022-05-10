@@ -548,6 +548,53 @@ class MappingNode(TextNode):
     def r(self):
         return repr(self)
 
+class HeadNode(WordNetNode):
+    qclass = cylleneus.engine.query.terms.Lemma
+    tokenize = True
+    removestops = False
+
+    def __init__(self, text):
+        self.fieldname = "deprel"
+        self.text = text
+        self.boost = 1.0
+
+    def __repr__(self):
+        r = "<"
+        if self.has_fieldname:
+            r += "%r:" % self.fieldname
+        r += f"{self.text}"
+        if self.has_boost and self.boost != 1.0:
+            r += " ^%s" % self.boost
+        r += ">"
+        return r
+
+    def r(self):
+        return repr(self)
+
+
+class DependencyRelationNode(TextNode):
+    qclass = cylleneus.engine.query.terms.DependencyRelation
+    tokenize = True
+    removestops = False
+
+    def __init__(self, text):
+        self.fieldname = "morphosyntax"
+        self.text = text
+        self.boost = 1.0
+
+    def __repr__(self):
+        r = "<"
+        if self.has_fieldname:
+            r += "%r:" % self.fieldname
+        r += f"{self.text}"
+        if self.has_boost and self.boost != 1.0:
+            r += " ^%s" % self.boost
+        r += ">"
+        return r
+
+    def r(self):
+        return repr(self)
+
 
 class Whitespace(MarkerNode):
     """Abstract syntax tree node for ignorable whitespace.
@@ -733,10 +780,16 @@ class RangeNode(CylleneusSyntaxNode):
 
 class CollocationGroup(CylleneusGroupNode):
     qclass = cylleneus.engine.query.positional.Collocation
+    merging = True
+
+
+class HeadGroup(CylleneusGroupNode):
+    merging = False
+    qclass = cylleneus.engine.query.compound.HeadRelation
 
 
 class SequenceGroup(CylleneusGroupNode):
-    merging = True
+    merging = False
     qclass = cylleneus.engine.query.positional.Sequence
 
 # CylleneusSyntaxNode = CylleneusSyntaxNode

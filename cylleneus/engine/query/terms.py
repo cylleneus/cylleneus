@@ -852,6 +852,143 @@ class Morphosyntax(CylleneusTerm):
         return iter([self,])
 
 
+class DependencyRelation(CylleneusTerm):
+    """Matches documents containing the given term (fieldname+annotation)."""
+
+    fieldname = "morphosyntax"
+
+    __inittypes__ = dict(
+        fieldname=str,
+        text=cylleneus.engine.compat.text_type,
+        boost=float,
+        annotation=qcore.Query,
+        meta=bool,
+    )
+
+    def __init__(
+        self,
+        fieldname,
+        text,
+        boost=1.0,
+        minquality=None,
+        annotation=None,
+        meta=False,
+    ):
+        super(DependencyRelation, self).__init__(
+            fieldname, text, boost=1.0, minquality=None
+        )
+        self.fieldname = fieldname
+        self.text = text
+        self.boost = boost
+        self.minquality = minquality
+        self.annotation = annotation
+        self.meta = meta
+
+    def __eq__(self, other):
+        return (
+            other
+            and self.__class__ is other.__class__
+            and self.fieldname == other.fieldname
+            and self.text == other.text
+            and self.boost == other.boost
+        )
+
+    def __repr__(self):
+        r = "%s(%r, %r" % (self.__class__.__name__, self.fieldname, self.text)
+        if self.boost != 1.0:
+            r += ", boost=%s" % self.boost
+        r += ")"
+        return r
+
+    def __unicode__(self):
+        text = self.text
+        if isinstance(text, cylleneus.engine.compat.bytes_type):
+            try:
+                text = text.decode("ascii")
+            except UnicodeDecodeError:
+                text = repr(text)
+
+        t = cylleneus.engine.compat.u("%s:%s") % (self.fieldname, text)
+        if self.boost != 1:
+            t += cylleneus.engine.compat.u(
+                "^"
+            ) + cylleneus.engine.compat.text_type(self.boost)
+        return t
+
+    __str__ = __unicode__
+
+    def __hash__(self):
+        return hash(self.fieldname) ^ hash(self.text) ^ hash(self.boost)
+
+    def has_terms(self):
+        return True
+
+    def tokens(self, boost=1.0):
+        yield CylleneusToken(
+            fieldname=self.fieldname,
+            text=self.text,
+            boost=boost * self.boost,
+            startchar=self.startchar,
+            endchar=self.endchar,
+            chars=True,
+        )
+
+    def terms(self, phrases=False):
+        if self.field():
+            yield (self.field(), self.text)
+
+    def replace(self, fieldname, oldtext, newtext):
+        q = copy.copy(self)
+        if q.fieldname == fieldname and q.text == oldtext:
+            q.text = newtext
+        return q
+
+    def estimate_size(self, ixreader):
+        fieldname = self.fieldname
+        if fieldname not in ixreader.schema:
+            return 0
+
+        field = ixreader.schema[fieldname]
+        try:
+            text = field.to_bytes(self.text)
+        except ValueError:
+            return 0
+
+        return ixreader.doc_frequency(fieldname, text)
+
+    def matcher(self, searcher, context=None):
+        fieldname = self.fieldname
+        text = self.text
+        if fieldname not in searcher.schema:
+            return cylleneus.engine.matching.mcore.NullMatcher()
+
+        field = searcher.schema[fieldname]
+        try:
+            text = field.to_bytes(text)
+        except ValueError:
+            return cylleneus.engine.matching.mcore.NullMatcher()
+
+        if (self.fieldname, text) in searcher.reader():
+            if context is None:
+                w = searcher.weighting
+            else:
+                w = context.weighting
+
+            m = searcher.postings(self.fieldname, text, weighting=w)
+            if self.minquality:
+                m.set_min_quality(self.minquality)
+            if self.boost != 1.0:
+                m = cylleneus.engine.matching.wrappers.WrappingMatcher(
+                    m, boost=self.boost
+                )
+            return m
+        else:
+            return cylleneus.engine.matching.mcore.NullMatcher()
+
+    def __iter__(self):
+        return iter([self,])
+        
+
 class MultiTerm(qcore.Query):
     """Abstract base class for queries that operate on multiple terms in the
     same field.

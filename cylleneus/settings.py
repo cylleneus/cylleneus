@@ -7,7 +7,7 @@ from .utils import Debug
 from . import __path__
 
 # Debugging settings
-DEBUG_LEVEL = Debug.HIGH
+DEBUG_LEVEL = Debug.MEDIUM
 
 # Package settings
 ROOT_DIR = os.path.dirname(os.path.abspath(__path__[0]))

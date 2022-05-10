@@ -495,6 +495,7 @@ class CylleneusQueryParser(QueryParser):
         self.replace_plugin(
             cylleneus.engine.qparser.plugins.OperatorsPlugin(
                 [
+                    (cylleneus.engine.qparser.plugins.HeadTagger, 0),
                     (cylleneus.engine.qparser.plugins.SequenceTagger, 0),
                     (cylleneus.engine.qparser.plugins.CollocationTagger, 0),
                 ]
@@ -513,6 +514,7 @@ class CylleneusQueryParser(QueryParser):
             cylleneus.engine.qparser.plugins.AnnotationPlugin(),
             cylleneus.engine.qparser.plugins.AnnotationFilterPlugin(),
             cylleneus.engine.qparser.plugins.MorphosyntaxPlugin(),
+            cylleneus.engine.qparser.plugins.DependencyRelationPlugin(),
             cylleneus.engine.qparser.plugins.SequencePlugin(),
             whoosh.qparser.plugins.FieldsPlugin(),
             cylleneus.engine.qparser.plugins.OperatorsPlugin(),

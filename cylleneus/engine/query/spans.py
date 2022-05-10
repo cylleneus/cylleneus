@@ -90,7 +90,7 @@ class Span(object):
         self.divs = divs
         if self.divs:
             self.meta = dict(
-                [tuple(item.split("=")) for item in self.divs[0][0]]
+                [tuple(item.split("=", maxsplit=1)) for item in self.divs[0][0]]
             )
         else:
             self.meta = {}

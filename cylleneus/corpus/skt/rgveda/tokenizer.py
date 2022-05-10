@@ -4,8 +4,7 @@ import re
 from cylleneus.engine.analysis.acore import CylleneusToken
 from cylleneus.engine.analysis.tokenizers import Tokenizer
 from cylleneus.lang.skt import slp2deva, iast2slp
-
-from .core import parse_morpho
+from .core import lemma_id, parse_morpho, lemma_morpho
 
 
 class CachedTokenizer(Tokenizer):
@@ -68,6 +67,7 @@ class CachedTokenizer(Tokenizer):
 
                     meta = {
                         "meta": value["meta"],
+                        "merge_on": value["merge_on"],
                         "layer":              None,
                         "sent_id":            None,
                         "sent_pos":           None,
@@ -81,10 +81,7 @@ class CachedTokenizer(Tokenizer):
                         line = line.strip()
                         if line:
                             if line.startswith("#"):
-                                try:
-                                    label, value = line.split("=", maxsplit=1)
-                                except ValueError:
-                                    continue
+                                label, value = line.split("=", maxsplit=1)
                                 label = label.strip('#').strip()
                                 value = value.strip()
                                 
@@ -96,7 +93,7 @@ class CachedTokenizer(Tokenizer):
                                         refs, value.split("_")[1:]
                                         ):
                                         meta[k] = v 
-                                elif label != "text":
+                                elif label == "layer":
                                     meta[label] = value
                             else:
                                 (
@@ -126,22 +123,37 @@ class CachedTokenizer(Tokenizer):
                                 t.lemma = LEMMA
                                 t.dcs_id = LEMMA_ID
                 
-                                if HEAD != "_":
-                                    meta["head"] = int(HEAD)
+                                if HEAD != "_" and int(HEAD) != 0:
+                                    meta["head_pos"] = int(HEAD)
+                                else:
+                                    meta["head_pos"] = None
                                 t.morphosyntax = None if DEPREL == "_" else DEPREL
                                 t.morpho = None if MORPHO == "_" else parse_morpho(UPOS, MORPHO)
                                 t.synset = None if SEM == "_" else SEM.split(":")[0]
-
-                                t.meta = copy.deepcopy(meta)
+                                
+                                t.meta = meta
+                                
                                 t.startchar = start_char
                                 t.endchar = start_char + len(t.original)
 
-                                if HEAD != "_":
-                                    for head_lemma in relations_heads[current_sent_id][int(HEAD)]:
-                                        t.head_lemma = head_lemma
-                                        yield t
+                                if HEAD == "_" or int(HEAD) == 0 or relations_heads[current_sent_id][int(ID)] is None:
+                                    t.meta["head_lemma"] = None
+                                    self._cache.append(copy.deepcopy(t))
+                                    yield copy.deepcopy(t)
                                 else:
-                                    t.head_lemma = None
-                                    yield t
-
+                                    head_lemma, head_id, head_pos = relations_heads[current_sent_id][int(ID)]
+                                    head_pos = {"NOUN": "n", "VERB": "v", "ADJ": "a", "ADV": "r"}[head_pos] if head_pos in ["NOUN", "VERB", "ADJ", "ADV"] else None
+                                    if head_pos is not None:
+                                        try:
+                                            head_morphos = lemma_morpho[head_id]
+                                        except KeyError:
+                                            t.meta["head_lemma"] = None
+                                            self._cache.append(copy.deepcopy(t))
+                                            yield copy.deepcopy(t)
+                                        else:
+                                            for annotation in head_morphos.split():
+                                                t.meta["head_lemma"] = f"{head_lemma}:{head_id}={annotation}"
+                                                self._cache.append(copy.deepcopy(t))
+                                                yield copy.deepcopy(t)               
+                                    
                                 start_char += len(t.original) + 1

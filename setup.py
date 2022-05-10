@@ -46,6 +46,7 @@ requirements = [
     "chardet>=3.0.4",
     "Click>=7.0",
     "click-spinner>=0.1.8",
+    "deepdiff",
     "future>=0.18.2",
     "gitpython>=3.1.0",
     "greekwordnet>=0.0.7",

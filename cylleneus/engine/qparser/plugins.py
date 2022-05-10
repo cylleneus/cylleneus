@@ -226,6 +226,7 @@ class LemmaPlugin(whoosh.qparser.plugins.TaggingPlugin):
     expr = r"<(?P<text>[\u0370-\u03FF\u0900-\u097F\w\d=:!@~#%msp|+-rc\/*>^$&<]+?)>"
     # r'(^|(?<=\W))<(?P<text>[\w]+?)>(?=\s|\]|[)}]|:|"|$)'
     nodetype = LemmaNode
+    priority = 200
 
 
 # []
@@ -250,7 +251,7 @@ class SemfieldPlugin(whoosh.qparser.plugins.TaggingPlugin):
 class MorphosyntaxPlugin(whoosh.qparser.plugins.TaggingPlugin):
     """Adds the ability to specify morphosyntax queries by enclosing them in forward slashes."""
 
-    expr = r"/(?P<text>[\w\d ]+?)/"  # r'(^|(?<=\W))/(?P<text>[\w\d ]+?)/(?=\s|\]|[)}]|:|"|$)'
+    expr = r"/(?P<text>[\w\d: ]+?)/"  # r'(^|(?<=\W))/(?P<text>[\w\d ]+?)/(?=\s|\]|[)}]|:|"|$)'
     nodetype = MorphosyntaxNode
 
 
@@ -317,6 +318,32 @@ class AnnotationFilterPlugin(whoosh.qparser.plugins.TaggingPlugin):
                         newgroup.append(node)
                 else:
                     newgroup.append(node)
+            else:
+                newgroup.append(node)
+        return newgroup
+
+
+class DependencyRelationPlugin(whoosh.qparser.plugins.TaggingPlugin):
+    """Adds the ability to specify dependency relation filters for WordNet nodes following a slash."""
+
+    expr = r"@(?P<text>\w+)"
+    nodetype = DependencyRelationNode
+
+    def filters(self, parser):
+        return [(self.do_dependency, 300)]
+
+    def do_dependency(self, parser, group):
+        newgroup = group.empty_copy()
+        for node in group:
+            if isinstance(node, DependencyRelationNode):
+                if newgroup and newgroup[-1]:
+                    if isinstance(
+                        newgroup[-1], (FormNode, LemmaNode, GlossNode, SemfieldNode)
+                    ):
+                        prev = newgroup.pop()
+                        collocation = CollocationGroup()
+                        collocation.extend([prev, node])
+                        newgroup.append(collocation)
             else:
                 newgroup.append(node)
         return newgroup
@@ -659,10 +686,13 @@ class PlusMinusPlugin(whoosh.qparser.plugins.Plugin):
             group = AndNotGroup([group, banned])
         return group
 
-
+HeadTagger = OperatorsPlugin.OpTagger(
+    r"(?<=\s)\\(?=\s)", HeadGroup, whoosh.qparser.syntax.InfixOperator
+)
 CollocationTagger = OperatorsPlugin.OpTagger(
     r"(?<=\s)WITH(?=\s)", CollocationGroup, whoosh.qparser.syntax.InfixOperator
 )
 SequenceTagger = OperatorsPlugin.OpTagger(
     r"(?<=\s)THEN(?=\s)", SequenceGroup, whoosh.qparser.syntax.InfixOperator
 )
+

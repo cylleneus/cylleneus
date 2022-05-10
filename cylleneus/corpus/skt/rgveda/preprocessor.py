@@ -6,6 +6,7 @@ from collections import defaultdict
 from cylleneus.corpus.preprocessing import BasePreprocessor
 from .core import lemma_id, lemma_morpho
 
+
 class Preprocessor(BasePreprocessor):
     def parse(self, file: Path):
         filename = file.name
@@ -19,8 +20,8 @@ class Preprocessor(BasePreprocessor):
             doc = fp.readlines()
         
         # Gather dependency relations
-        positions_lemmas = defaultdict(lambda: defaultdict(list))
-        relations_heads = defaultdict(lambda: defaultdict(list))
+        positions_lemmas = defaultdict(dict)
+        relations_heads = defaultdict(dict)
         current_sent_id = None
         for line in doc:
             line = line.strip()
@@ -40,7 +41,7 @@ class Preprocessor(BasePreprocessor):
                         ID,
                         _,
                         LEMMA,
-                        _,
+                        UPOS,
                         _,
                         _,
                         _,
@@ -54,23 +55,14 @@ class Preprocessor(BasePreprocessor):
                         _,
                         _,
                     ) = line.split("\t")
-                    
-                    try:
-                        morphos = lemma_morpho[LEMMA_ID]
-                        for morpho in morphos.split():
-                            positions_lemmas[current_sent_id][int(ID)].append((LEMMA, lemma_id[LEMMA][morpho], morpho))
-                    except:
-                        pass
+                    positions_lemmas[current_sent_id][int(ID)] = (LEMMA, LEMMA_ID, UPOS)
 
         current_sent_id = None
         for line in doc:
             line = line.strip()
             if line:
                 if line.startswith("#"):
-                    try:
-                        label, value = line.split("=", maxsplit=1)
-                    except ValueError:
-                        continue
+                    label, value = line.split("=", maxsplit=1)
                     label = label.strip('#').strip()
                     value = value.strip()
                     
@@ -95,10 +87,13 @@ class Preprocessor(BasePreprocessor):
                         _,
                         _,
                     ) = line.split("\t")
-                    
-                    for lemma, uri, morpho in positions_lemmas[current_sent_id][int(HEAD)]:
-                        relations_heads[current_sent_id][int(ID)].append(f"{lemma}:{uri}={morpho}")
-        data = {"text": doc, "meta": meta, "deprel": relations_heads}
+                    if HEAD != "_" and int(HEAD) != 0:
+                        relations_heads[current_sent_id][int(ID)] = positions_lemmas[current_sent_id][int(HEAD)]
+                    else:
+                        relations_heads[current_sent_id][int(ID)] = None
+        
+        merge_on = "-".join(["hymn", "verse"])
+        data = {"text": doc, "meta": meta, "merge_on": merge_on, "deprel": relations_heads}
 
         return {
             "author":       author,
